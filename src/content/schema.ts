@@ -175,3 +175,6 @@ export type GameTime = z.infer<typeof timeSchema>
 export type Condition = z.infer<typeof conditionSchema>
 export type Effect = z.infer<typeof effectSchema>
 export type Event = z.infer<typeof eventSchema>
+export type GameConfig = z.infer<typeof gameConfigSchema>
+export type Ending = z.infer<(typeof endingListSchema)['element']>
+export type StateEffect = z.infer<typeof stateEffectSchema>

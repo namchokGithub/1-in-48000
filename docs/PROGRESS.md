@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 3   | Engine                    | Todo   | 2          |
 | 4   | Save                      | Todo   | 2, 3       |
 | 5   | Player UI                 | Todo   | 3, 4       |
 | 6   | Assets + audio            | Todo   | 2, 5       |
@@ -59,7 +58,7 @@ Completed 2026-10-26. Rules are in `docs/GAME-RULES.md`; content and save schema
 
 ## 3. Engine
 
-**Status:** Todo
+**Status:** Done
 
 - Condition evaluation (year, stats, flags, past events).
 - Effect application (stats, flags, next event, delayed effects).
@@ -68,6 +67,8 @@ Completed 2026-10-26. Rules are in `docs/GAME-RULES.md`; content and save schema
 - Ending resolution and life summary.
 
 **Done when:** a full run works headless (no UI) with unit tests.
+
+Completed 2026-10-26. The pure TypeScript engine supports conditions, effects, period progression, event priority, one seeded random event per period, endings, and a life summary. Headless tests cover a full four-year run.
 
 ## 4. Save
 

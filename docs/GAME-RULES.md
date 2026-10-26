@@ -38,7 +38,15 @@ Choices contain an ordered list of effects:
 - `goToEvent`: direct the next event by ID.
 - `schedule`: defer a `statDelta` or `setFlag` effect until entering a specified period (`atPeriod`) or resolving a specified event (`afterEvent`). Scheduled effects cannot contain another schedule or a story jump.
 
-The engine will apply immediate effects in choice order and store scheduled effects in the save until their trigger occurs. A scheduled `atPeriod` trigger must point to a future period when the choice is taken. Runtime application and checking that links point to existing content are later steps.
+The engine applies immediate effects in choice order and stores scheduled effects in the save until their trigger occurs. A scheduled `atPeriod` trigger must point to a future period when the choice is taken. Static cross-file link validation remains for BO work.
+
+## Headless progression
+
+The engine starts at `config.startingEventId`. After a choice, an explicit `goToEvent` link takes precedence. Otherwise it selects eligible, unvisited events in this order: `main`, `holiday`, `conditional`, then one uniformly chosen `random` event per period. Events within the same kind follow their order in `events.json`. A holiday is placed by its authored period; there is no real-calendar lookup. When no event remains, the engine advances to the next period and applies effects due on entry. It skips empty periods and resolves an ending after Year 4 summer.
+
+Endings are checked in file order; the first whose conditions all hold wins. Authors can place an unconditional fallback last. If no ending matches, the engine reports an error. The summary includes the ending text, final stats, and counts of events and choices.
+
+Random selection uses the saved `rngState` and updates it after each roll, so continuing from the same save produces the same result. The engine rejects a save whose `contentVersion` differs from the loaded config. Save migration and persistence are Step 4.
 
 ## Content and saves
 
