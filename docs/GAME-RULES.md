@@ -40,7 +40,7 @@ Choices contain an ordered list of effects:
 - `goToEvent`: direct the next event by ID.
 - `schedule`: defer a `statDelta` or `setFlag` effect until entering a specified period (`atPeriod`) or resolving a specified event (`afterEvent`). Scheduled effects cannot contain another schedule or a story jump.
 
-The engine applies immediate effects in choice order and stores scheduled effects in the save until their trigger occurs. A scheduled `atPeriod` trigger must point to a future period when the choice is taken. Static cross-file link validation remains for BO work.
+The engine applies immediate effects in choice order and stores scheduled effects in the save until their trigger occurs. A scheduled `atPeriod` trigger must point to a future period when the choice is taken. BO uses the same Zod schemas, then checks duplicate IDs, event links, character and Asset ID references, and asset files before saving content.
 
 ## Headless progression
 

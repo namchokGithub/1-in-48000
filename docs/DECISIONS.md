@@ -27,3 +27,7 @@ Use small original PNG placeholders for the sample campus scene and Mali portrai
 ## 2026-10-26 — Year 1 slice ending at the break
 
 Author the vertical slice before BO core so the Player has a complete short story to preview. Keep ten main first-term events, optional friend and club follow-ups, and one random event before a break reflection. At a period boundary, allow an ending with a matching explicit true flag condition; unconditional fallbacks still wait until the end of Year 4. This reuses the existing ending schema and prevents the demo from silently jumping through unwritten years. Migrate compatible older saves to content version `0.3.0` without changing their save version or RNG state.
+
+## 2026-10-26 — BO writes validated content in local development
+
+Keep BO at `bo.html` on the loopback Vite dev server, with no BO entry in the Player production build. Its write endpoint accepts same-origin JSON requests only for `events.json` and `endings.json`. Re-read current content, validate it with the shared Zod schemas and cross-file checks, verify referenced asset files, then atomically replace the requested file. Config, characters, and the asset manifest remain read-only in this core editor. Preview starts from a synthetic initial save at the selected event and uses the shared engine to resolve one choice; it does not write a player save.

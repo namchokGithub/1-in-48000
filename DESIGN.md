@@ -43,6 +43,10 @@ The Player reads like a personal field guide to one student's years at ม.บ�
 
 The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. The content width is at most 76rem. Thai-capable system fallbacks avoid a late web-font shift. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
 
+BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list, editor, and preview sit in three columns on wide screens, then stack into two or one column as space narrows. The item list shows authored file order, and simple up/down controls move items until the timeline editor exists.
+
+BO uses native select controls for event types, condition operators, references, and Asset IDs; the browser owns each popup's keyboard and positioning behavior. The long dialogue and ending fields grow with their content. `premium-ui.json` records the native select ownership for static audit.
+
 ## Visual language
 
 Pale teal canvas, white surfaces, dark blue-green ink, and a teal action color evoke campus notebooks without imitating paper texture. The scene placeholder is a geometric campus silhouette until asset IDs point to real art. One warm accent highlights progress. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
@@ -50,3 +54,5 @@ Pale teal canvas, white surfaces, dark blue-green ink, and a teal action color e
 ## Interaction states
 
 Buttons have visible hover, pressed, disabled, and keyboard focus states. Form errors appear beside the relevant field. Loading and content errors keep a stable panel footprint. Restart requires an explicit second action before replacing a save. Motion is brief and removed when reduced motion is requested. Scrollbars remain visible and inherit the global theme.
+
+BO changes stay in a draft until Save is pressed. The header marks unsaved edits, and validation errors name their content path. The preview is a separate panel and never persists a save. Deleting an item removes it from the draft; cross-file validation blocks broken references when saving.

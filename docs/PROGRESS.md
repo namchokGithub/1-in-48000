@@ -10,17 +10,12 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 8   | BO core                   | Todo   | 2, 3       |
 | 9   | BO timeline + MVP content | Todo   | 7, 8       |
 | 10  | Test + release            | Todo   | 9          |
 
 ## Open decisions
 
-| Topic          | Proposal                                                                                   | Status |
-| -------------- | ------------------------------------------------------------------------------------------ | ------ |
-| BO file saving | Vite dev-server plugin writes directly to `public/content/*.json` (no Import/Export flow). | Open   |
-
-Record each resolved decision in `docs/DECISIONS.md`.
+None. Resolved choices are recorded in `docs/DECISIONS.md`.
 
 ## 1. Scaffold
 
@@ -120,7 +115,7 @@ Completed 2026-10-26. Fourteen authored Year 1 first-term events lead to a break
 
 ## 8. BO core
 
-**Status:** Todo
+**Status:** Done
 
 - Local-only BO page.
 - Load and save content JSON directly to files.
@@ -131,6 +126,8 @@ Completed 2026-10-26. Fourteen authored Year 1 first-term events lead to a break
 - Event preview with playable choices (shared engine).
 
 **Done when:** new story content can be added through BO and plays in the Player page.
+
+Completed 2026-10-26. The local BO edits event details, dialogue, choices, conditions, effects, and endings, with simple up/down ordering. Asset dropdowns use the shared manifest. The shared Zod schemas and cross-file validator report duplicate IDs, broken event links, invalid asset references, and missing asset files before a dev-only Vite endpoint atomically writes `events.json` or `endings.json`. Event preview applies choices through the shared engine. A focused integration test saves a new event and loads it through the Player content loader and engine. Timeline dragging remains Step 9.
 
 ## 9. BO timeline + MVP content
 

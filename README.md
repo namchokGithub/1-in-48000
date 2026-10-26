@@ -36,12 +36,14 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 A content authoring and testing tool that runs **only on the author's machine**, separate from the public game.
 
 - Add, edit, and delete events, choices, and endings.
-- Drag-and-drop timeline editor.
+- A timeline editor is planned for the next step.
 - Conditions (e.g. academic year, money, past events) and effects (change stats, set flags, go to the next event).
 - Bind images, music, and sounds by Asset ID.
 - Preview events and try choices.
 - Validate JSON: duplicate IDs, broken event links, and missing assets.
 - Save JSON directly to the content files — no manual import/export.
+
+The current BO edits `events.json` and `endings.json`; config, characters, and the asset manifest are read-only. Up/down controls change authored order, which affects event and ending precedence. Preview starts from a sample game state at the selected event, so it is useful for checking one choice and its effects. Review `contentVersion` and save migration before publishing content changes. Timeline dragging follows in Step 9.
 
 ## Tech Stack
 
@@ -103,7 +105,7 @@ pnpm install
 pnpm dev
 ```
 
-Open the Player at `http://127.0.0.1:5173/` and BO at `http://127.0.0.1:5173/bo.html`. BO is available only in development; the production build includes only the Player.
+Open the Player at `http://127.0.0.1:5173/` and BO at `http://127.0.0.1:5173/bo.html`. BO is available only in development; the production build includes only the Player. In BO, edit a draft, inspect validation messages, then use **บันทึกเหตุการณ์** or **บันทึกตอนจบ** to write the matching JSON file.
 
 Check the scaffold with:
 
@@ -113,7 +115,7 @@ pnpm test
 pnpm build
 ```
 
-Vitest includes focused tests for content, engine, saves, and audio settings.
+Vitest includes focused tests for content, engine, saves, audio settings, BO validation, and local file saving.
 
 ## Roadmap
 
