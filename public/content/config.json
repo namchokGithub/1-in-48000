@@ -1,0 +1,17 @@
+{
+  "contentVersion": "0.1.0",
+  "title": "1 ใน 48,000",
+  "startingTime": { "year": 1, "period": "term1" },
+  "startingEventId": "orientation",
+  "initialStats": {
+    "study": 50,
+    "money": 1200,
+    "health": 80,
+    "stress": 20,
+    "relationships": 50
+  },
+  "timeModel": {
+    "years": 4,
+    "periods": ["term1", "break", "term2", "summer"]
+  }
+}

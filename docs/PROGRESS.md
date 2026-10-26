@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 2   | Game rules + schema       | Todo   | 1          |
 | 3   | Engine                    | Todo   | 2          |
 | 4   | Save                      | Todo   | 2, 3       |
 | 5   | Player UI                 | Todo   | 3, 4       |
@@ -46,7 +45,7 @@ Completed 2026-10-26. Player is the production entry; BO is available at `/bo.ht
 
 ## 2. Game rules + schema
 
-**Status:** Todo
+**Status:** Done
 
 - Define stats: study, money, health, stress, relationships.
 - Define the time model: Year 1–4, terms, semester breaks, summer sessions.
@@ -55,6 +54,8 @@ Completed 2026-10-26. Player is the production entry; BO is available at `/bo.ht
 - Sample content JSON.
 
 **Done when:** sample JSON passes schema validation with tests.
+
+Completed 2026-10-26. Rules are in `docs/GAME-RULES.md`; content and save schemas plus sample JSON are in place. Focused schema tests validate the sample and reject invalid values and delayed effects.
 
 ## 3. Engine
 

@@ -1,0 +1,8 @@
+[
+  {
+    "id": "graduation",
+    "title": "ก้าวต่อไป",
+    "summary": "สี่ปีที่ ม.บารพู กลายเป็นเรื่องราวของคุณ",
+    "conditions": [{ "type": "year", "operator": "eq", "value": 4 }]
+  }
+]

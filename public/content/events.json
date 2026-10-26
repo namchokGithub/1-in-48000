@@ -1,0 +1,43 @@
+[
+  {
+    "id": "orientation",
+    "kind": "main",
+    "time": { "year": 1, "period": "term1" },
+    "title": "วันปฐมนิเทศ",
+    "conditions": [],
+    "lines": [
+      {
+        "speakerId": "mali",
+        "text": "ยินดีต้อนรับสู่ ม.บารพู มานั่งด้วยกันไหม?"
+      }
+    ],
+    "choices": [
+      {
+        "id": "join_group",
+        "text": "เข้าไปทำความรู้จักเพื่อนใหม่",
+        "conditions": [],
+        "effects": [
+          { "type": "setFlag", "flagId": "met_mali", "value": true },
+          {
+            "type": "schedule",
+            "trigger": {
+              "type": "atPeriod",
+              "time": { "year": 1, "period": "term2" }
+            },
+            "effect": {
+              "type": "statDelta",
+              "stat": "relationships",
+              "amount": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": "explore_campus",
+        "text": "เดินสำรวจมหาวิทยาลัยก่อน",
+        "conditions": [],
+        "effects": [{ "type": "statDelta", "stat": "study", "amount": 2 }]
+      }
+    ]
+  }
+]

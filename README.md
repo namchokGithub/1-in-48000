@@ -74,6 +74,8 @@ Game content and player saves are separate from day one.
 
 Saves include `saveVersion` and `contentVersion` so older saves can be handled when content changes. Random results are stored (as a seed or rolled values) so reloading never changes an outcome.
 
+The initial stat scales, four-year time sequence, conditions, effects, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The schemas and sample content are in place; engine behavior and BO editing follow in later steps.
+
 ## Content Publishing
 
 ```
