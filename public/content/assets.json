@@ -20,6 +20,21 @@
     "path": "/assets/scene/campus-library.png"
   },
   {
+    "id": "canteen",
+    "kind": "scene",
+    "path": "/assets/scene/canteen.png"
+  },
+  {
+    "id": "bus_stop",
+    "kind": "scene",
+    "path": "/assets/scene/bus-stop.png"
+  },
+  {
+    "id": "graduation_stage",
+    "kind": "scene",
+    "path": "/assets/scene/graduation-stage.png"
+  },
+  {
     "id": "mali_portrait",
     "kind": "portrait",
     "path": "/assets/portrait/mali.png"

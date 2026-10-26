@@ -31,3 +31,7 @@ Author the vertical slice before BO core so the Player has a complete short stor
 ## 2026-10-26 — BO writes validated content in local development
 
 Keep BO at `bo.html` on the loopback Vite dev server, with no BO entry in the Player production build. Its write endpoint accepts same-origin JSON requests only for `events.json` and `endings.json`. Re-read current content, validate it with the shared Zod schemas and cross-file checks, verify referenced asset files, then atomically replace the requested file. Config, characters, and the asset manifest remain read-only in this core editor. Preview starts from a synthetic initial save at the selected event and uses the shared engine to resolve one choice; it does not write a player save.
+
+## 2026-10-26 — Four-year MVP and timeline ordering
+
+Extend the shared main line to graduation with 35 events and seven scene assets. Use conditional money, club, and mentor events as short branches that merge into later main events. Keep three reachable Year 4 endings ordered by academic focus, community focus, then general graduation; preserve the two first-term demo ending IDs only for completed older saves. New runs stop setting `slice_complete` and continue into Year 1 term 2. Migrate compatible saves to content version `0.4.0` without changing save version, history, pending effects, or RNG state. In BO, native drag and drop moves an event within or across time slots; the form time fields and up/down controls remain the keyboard and touch alternatives. No drag dependency is added.

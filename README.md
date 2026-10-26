@@ -25,7 +25,7 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 - **Events** — main events, conditional events, Thai holiday events, and random events.
 - **Choices** — immediate effects, delayed effects (good or bad), or dialogue-only changes.
 - **Story memory** — the game remembers decisions such as helping a friend, joining a club, or taking a part-time job. They do not always pay off.
-- **Graphics** — pixel-art scenes (campus, classroom, dorm, restaurant) and characters with poses.
+- **Graphics** — seven pixel-art scenes and character portraits referenced by Asset ID.
 - **Sound** — background music, ambience, and click sounds, with volume controls.
 - **Save** — auto-save, continue, and restart.
 - **Ending** — a life summary covering grades, relationships, and your path after graduation.
@@ -36,14 +36,14 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 A content authoring and testing tool that runs **only on the author's machine**, separate from the public game.
 
 - Add, edit, and delete events, choices, and endings.
-- A timeline editor is planned for the next step.
+- Drag events within or across the four-year timeline; use the form and up/down controls on touch or keyboard.
 - Conditions (e.g. academic year, money, past events) and effects (change stats, set flags, go to the next event).
 - Bind images, music, and sounds by Asset ID.
 - Preview events and try choices.
 - Validate JSON: duplicate IDs, broken event links, and missing assets.
 - Save JSON directly to the content files — no manual import/export.
 
-The current BO edits `events.json` and `endings.json`; config, characters, and the asset manifest are read-only. Up/down controls change authored order, which affects event and ending precedence. Preview starts from a sample game state at the selected event, so it is useful for checking one choice and its effects. Review `contentVersion` and save migration before publishing content changes. Timeline dragging follows in Step 9.
+The current BO edits `events.json` and `endings.json`; config, characters, and the asset manifest are read-only. The timeline moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event, so it is useful for checking one choice and its effects. Review `contentVersion` and save migration before publishing content changes.
 
 ## Tech Stack
 
@@ -76,9 +76,9 @@ Game content and player saves are separate from day one.
 
 Saves include `saveVersion` and `contentVersion` so older saves can be handled when content changes. Random results are stored (as a seed or rolled values) so reloading never changes an outcome.
 
-The initial stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Year 1 slice is playable through its first-term break in the Player UI; BO editing follows in a later step.
+The stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The slice contains 14 authored first-term events plus a break reflection. Choices affect stats and later events, optional friend and club moments depend on earlier choices, and one of two random events appears per run. The break reflection leads to one of two demo endings. Four placeholder pixel scenes and background music accompany the story. The Player starts music after a play action and offers separate volume controls for music, ambience, and effects. Ambience and effect audio files have not been added yet.
+Content version `0.4.0` contains 35 events across Years 1–4, seven pixel scenes, and three reachable graduation endings. Shared events carry every run from enrollment to graduation; optional money, club, and mentor events merge back into the main line. Two earlier first-term demo endings remain so completed old saves still display their summaries. The Player starts music after a play action and offers separate volume controls for music, ambience, and effects. Ambience and effect audio files have not been added yet.
 
 ## Audio Credits
 
@@ -124,7 +124,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 | 1 — Rules             | Define tone, stats, time, and ending types               | Game rules and initial JSON schema             |
 | 2 — One slice of life | Year 1, first term, about 10–15 events                   | Short playable slice with images, sound, saves |
 | 3 — BO                | Content editing forms and preview                        | New story content added through BO             |
-| 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches      | Game playable to several endings               |
+| 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches      | Complete: 35 events and 3 reachable endings    |
 | 5 — Test and release  | Check story paths, effects, old saves, mobile, and audio | Ready to deploy                                |
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.

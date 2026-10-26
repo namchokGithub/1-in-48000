@@ -21,17 +21,24 @@ const content = {
 const assets = assetListSchema.parse(assetsJson)
 const characters = characterListSchema.parse(charactersJson)
 
-function play(seed: number, preferred: Record<string, string>) {
+function playFirstTerm(seed: number, preferred: Record<string, string>) {
   let save = createGame(content, 'ฟ้า', seed)
   const visited: string[] = []
-  for (let step = 0; step < 20 && !save.endingId; step += 1) {
+  for (
+    let step = 0;
+    step < 20 &&
+    save.currentTime.year === 1 &&
+    save.currentTime.period !== 'term2';
+    step += 1
+  ) {
     const event = getCurrentEvent(content, save)
     if (!event) throw new Error('Missing event before ending')
     visited.push(event.id)
     const choice = preferred[event.id] ?? event.choices[0].id
     save = choose(content, save, choice)
   }
-  if (!save.endingId) throw new Error('Slice did not end')
+  if (save.currentTime.period !== 'term2')
+    throw new Error('First term did not advance')
   return { save, visited }
 }
 
@@ -52,35 +59,33 @@ describe('Year 1 vertical slice', () => {
     }
   })
 
-  it('offers 14 first-term events and reaches a break ending without skipping years', () => {
+  it('offers 14 first-term events and advances past the break without ending', () => {
     expect(
       content.events.filter(
         (event) => event.time.year === 1 && event.time.period === 'term1',
       ),
     ).toHaveLength(14)
-    const { save, visited } = play(12345, {})
+    const { save, visited } = playFirstTerm(12345, {})
     expect(visited).toContain('term_reflection')
-    expect(save.currentTime).toEqual({ year: 1, period: 'break' })
-    expect(save.endingId).toMatch(/^first_term_/)
+    expect(save.currentTime).toEqual({ year: 1, period: 'term2' })
+    expect(save.endingId).toBeNull()
     expect(visited.length).toBeGreaterThanOrEqual(12)
     expect(visited.length).toBeLessThanOrEqual(14)
   })
 
   it('merges optional friend and club branches before one random event', () => {
-    const joined = play(12345, {
+    const joined = playFirstTerm(12345, {
       orientation: 'join_group',
       club_fair: 'join_club',
     })
-    const independent = play(12345, {
+    const independent = playFirstTerm(12345, {
       orientation: 'explore_campus',
       club_fair: 'keep_schedule',
     })
     expect(joined.visited).toContain('mali_checkin')
     expect(joined.visited).toContain('club_invitation')
-    expect(joined.save.endingId).toBe('first_term_connected')
     expect(independent.visited).not.toContain('mali_checkin')
     expect(independent.visited).not.toContain('club_invitation')
-    expect(independent.save.endingId).toBe('first_term_steady')
     for (const result of [joined, independent]) {
       expect(result.visited).toContain('midterm_exam')
       expect(

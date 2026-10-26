@@ -5,6 +5,8 @@ import type { Ending, Event } from '../../content/schema'
 import { EndingEditor } from './EndingEditor'
 import { EventEditor } from './EventEditor'
 import { PreviewPane } from './PreviewPane'
+import { TimelineBoard } from './TimelineBoard'
+import { moveEvent } from './timeline'
 
 type Section = 'events' | 'endings'
 
@@ -40,6 +42,7 @@ export function BoApp() {
   const [loadError, setLoadError] = useState(false)
   const [retry, setRetry] = useState(0)
   const [section, setSection] = useState<Section>('events')
+  const [eventView, setEventView] = useState<'editor' | 'timeline'>('editor')
   const [eventIndex, setEventIndex] = useState(0)
   const [endingIndex, setEndingIndex] = useState(0)
   const [saving, setSaving] = useState(false)
@@ -154,6 +157,7 @@ export function BoApp() {
     setEventIndex(currentDraft.events.length)
     setDraft({ ...currentDraft, events: [...currentDraft.events, newEvent] })
     setSection('events')
+    setEventView('editor')
     setNotice('')
   }
 
@@ -194,6 +198,14 @@ export function BoApp() {
       setEndingIndex(target)
     }
     setNotice('')
+  }
+
+  function moveOnTimeline(id: string, time: Event['time'], index: number) {
+    const events = moveEvent(currentDraft.events, id, time, index)
+    setDraft({ ...currentDraft, events })
+    setEventIndex(events.findIndex((event) => event.id === id))
+    setNotice('')
+    setServerIssues([])
   }
 
   async function saveFile(file: Section) {
@@ -279,6 +291,26 @@ export function BoApp() {
             {dirtyEndings ? ' •' : ''}
           </button>
         </nav>
+        {section === 'events' && (
+          <div className="bo-view-switch" aria-label="มุมมองเหตุการณ์">
+            <button
+              type="button"
+              className="button button-secondary"
+              aria-pressed={eventView === 'editor'}
+              onClick={() => setEventView('editor')}
+            >
+              ฟอร์มแก้ไข
+            </button>
+            <button
+              type="button"
+              className="button button-secondary"
+              aria-pressed={eventView === 'timeline'}
+              onClick={() => setEventView('timeline')}
+            >
+              Timeline
+            </button>
+          </div>
+        )}
         {notice && (
           <p
             className="bo-notice"
@@ -301,136 +333,149 @@ export function BoApp() {
             </ul>
           </section>
         )}
-        <div className="bo-layout">
-          <aside
-            className="panel bo-sidebar"
-            aria-label={
-              section === 'events' ? 'รายการเหตุการณ์' : 'รายการตอนจบ'
-            }
-          >
-            <div className="bo-section-heading">
-              <h2 className="font-extrabold">
-                {section === 'events' ? 'เหตุการณ์' : 'ตอนจบ'}
-              </h2>
-              <button
-                type="button"
-                className="bo-text-button"
-                onClick={section === 'events' ? addEvent : addEnding}
-              >
-                + เพิ่ม
-              </button>
-            </div>
-            <div className="bo-item-list">
-              {section === 'events'
-                ? draft.events.map((item, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      data-selected={index === eventIndex}
-                      aria-current={index === eventIndex ? 'true' : undefined}
-                      onClick={() => setEventIndex(index)}
-                    >
-                      <strong>{item.title || 'ไม่มีชื่อ'}</strong>
-                      <small>
-                        {item.id} · ปี {item.time.year} {item.time.period}
-                      </small>
-                    </button>
-                  ))
-                : draft.endings.map((item, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      data-selected={index === endingIndex}
-                      aria-current={index === endingIndex ? 'true' : undefined}
-                      onClick={() => setEndingIndex(index)}
-                    >
-                      <strong>{item.title || 'ไม่มีชื่อ'}</strong>
-                      <small>{item.id}</small>
-                    </button>
-                  ))}
-            </div>
-          </aside>
-          <section className="panel bo-editor" aria-label="แก้เนื้อหา">
-            {((event && section === 'events') ||
-              (ending && section === 'endings')) && (
-              <div className="bo-order-actions" aria-label="ลำดับในไฟล์">
-                <span className="muted text-xs">
-                  ลำดับในไฟล์กำหนดการเลือกเหตุการณ์และตอนจบ
-                </span>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    className="button button-secondary"
-                    disabled={
-                      (section === 'events' ? eventIndex : endingIndex) === 0
-                    }
-                    onClick={() => moveSelected(-1)}
-                  >
-                    ↑ ก่อนหน้า
-                  </button>
-                  <button
-                    type="button"
-                    className="button button-secondary"
-                    disabled={
-                      section === 'events'
-                        ? eventIndex === draft.events.length - 1
-                        : endingIndex === draft.endings.length - 1
-                    }
-                    onClick={() => moveSelected(1)}
-                  >
-                    ↓ ถัดไป
-                  </button>
-                </div>
+        {section === 'events' && eventView === 'timeline' ? (
+          <TimelineBoard
+            events={draft.events}
+            onSelect={(index) => {
+              setEventIndex(index)
+              setEventView('editor')
+            }}
+            onMove={moveOnTimeline}
+          />
+        ) : (
+          <div className="bo-layout">
+            <aside
+              className="panel bo-sidebar"
+              aria-label={
+                section === 'events' ? 'รายการเหตุการณ์' : 'รายการตอนจบ'
+              }
+            >
+              <div className="bo-section-heading">
+                <h2 className="font-extrabold">
+                  {section === 'events' ? 'เหตุการณ์' : 'ตอนจบ'}
+                </h2>
+                <button
+                  type="button"
+                  className="bo-text-button"
+                  onClick={section === 'events' ? addEvent : addEnding}
+                >
+                  + เพิ่ม
+                </button>
               </div>
-            )}
-            {section === 'events' ? (
-              event ? (
-                <EventEditor
-                  event={event}
-                  assets={draft.assets}
-                  characters={draft.characters}
+              <div className="bo-item-list">
+                {section === 'events'
+                  ? draft.events.map((item, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        data-selected={index === eventIndex}
+                        aria-current={index === eventIndex ? 'true' : undefined}
+                        onClick={() => setEventIndex(index)}
+                      >
+                        <strong>{item.title || 'ไม่มีชื่อ'}</strong>
+                        <small>
+                          {item.id} · ปี {item.time.year} {item.time.period}
+                        </small>
+                      </button>
+                    ))
+                  : draft.endings.map((item, index) => (
+                      <button
+                        key={index}
+                        type="button"
+                        data-selected={index === endingIndex}
+                        aria-current={
+                          index === endingIndex ? 'true' : undefined
+                        }
+                        onClick={() => setEndingIndex(index)}
+                      >
+                        <strong>{item.title || 'ไม่มีชื่อ'}</strong>
+                        <small>{item.id}</small>
+                      </button>
+                    ))}
+              </div>
+            </aside>
+            <section className="panel bo-editor" aria-label="แก้เนื้อหา">
+              {((event && section === 'events') ||
+                (ending && section === 'endings')) && (
+                <div className="bo-order-actions" aria-label="ลำดับในไฟล์">
+                  <span className="muted text-xs">
+                    ลำดับในไฟล์กำหนดการเลือกเหตุการณ์และตอนจบ
+                  </span>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      disabled={
+                        (section === 'events' ? eventIndex : endingIndex) === 0
+                      }
+                      onClick={() => moveSelected(-1)}
+                    >
+                      ↑ ก่อนหน้า
+                    </button>
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      disabled={
+                        section === 'events'
+                          ? eventIndex === draft.events.length - 1
+                          : endingIndex === draft.endings.length - 1
+                      }
+                      onClick={() => moveSelected(1)}
+                    >
+                      ↓ ถัดไป
+                    </button>
+                  </div>
+                </div>
+              )}
+              {section === 'events' ? (
+                event ? (
+                  <EventEditor
+                    event={event}
+                    assets={draft.assets}
+                    characters={draft.characters}
+                    eventIds={eventIds}
+                    onChange={updateEvent}
+                    onDelete={() => {
+                      setDraft({
+                        ...draft,
+                        events: draft.events.filter(
+                          (_, index) => index !== eventIndex,
+                        ),
+                      })
+                      setEventIndex(Math.max(0, eventIndex - 1))
+                      setNotice('')
+                    }}
+                  />
+                ) : (
+                  <p className="muted">
+                    ยังไม่มีเหตุการณ์ กดเพิ่มเพื่อเริ่มเขียน
+                  </p>
+                )
+              ) : ending ? (
+                <EndingEditor
+                  ending={ending}
                   eventIds={eventIds}
-                  onChange={updateEvent}
+                  onChange={updateEnding}
                   onDelete={() => {
                     setDraft({
                       ...draft,
-                      events: draft.events.filter(
-                        (_, index) => index !== eventIndex,
+                      endings: draft.endings.filter(
+                        (_, index) => index !== endingIndex,
                       ),
                     })
-                    setEventIndex(Math.max(0, eventIndex - 1))
+                    setEndingIndex(Math.max(0, endingIndex - 1))
                     setNotice('')
                   }}
                 />
               ) : (
-                <p className="muted">
-                  ยังไม่มีเหตุการณ์ กดเพิ่มเพื่อเริ่มเขียน
-                </p>
-              )
-            ) : ending ? (
-              <EndingEditor
-                ending={ending}
-                eventIds={eventIds}
-                onChange={updateEnding}
-                onDelete={() => {
-                  setDraft({
-                    ...draft,
-                    endings: draft.endings.filter(
-                      (_, index) => index !== endingIndex,
-                    ),
-                  })
-                  setEndingIndex(Math.max(0, endingIndex - 1))
-                  setNotice('')
-                }}
-              />
-            ) : (
-              <p className="muted">ยังไม่มีตอนจบ กดเพิ่มเพื่อเริ่มเขียน</p>
+                <p className="muted">ยังไม่มีตอนจบ กดเพิ่มเพื่อเริ่มเขียน</p>
+              )}
+            </section>
+            {section === 'events' && event && (
+              <PreviewPane key={eventIndex} content={draft} event={event} />
             )}
-          </section>
-          {section === 'events' && event && (
-            <PreviewPane key={eventIndex} content={draft} event={event} />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </main>
   )

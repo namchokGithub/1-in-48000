@@ -30,9 +30,65 @@
     ]
   },
   {
+    "id": "academic_path",
+    "title": "เส้นทางที่ยังอยากค้นคว้า",
+    "summary": "สี่ปีที่ ม.บารพู ทำให้คุณชอบตั้งคำถามและค้นหาคำตอบต่อไป หลังวันรับใบจบ คุณเลือกใช้สิ่งที่เรียนรู้เดินไปสู่งานที่อยากศึกษาให้ลึกขึ้น",
+    "conditions": [
+      {
+        "type": "year",
+        "operator": "eq",
+        "value": 4
+      },
+      {
+        "type": "pastEvent",
+        "eventId": "graduation_day",
+        "visited": true
+      },
+      {
+        "type": "flag",
+        "flagId": "research_focus",
+        "value": true
+      },
+      {
+        "type": "stat",
+        "stat": "study",
+        "operator": "gte",
+        "value": 70
+      }
+    ]
+  },
+  {
+    "id": "community_path",
+    "title": "เส้นทางที่เดินกับผู้คน",
+    "summary": "จากโต๊ะอาหารวันแรกถึงงานภาคสนาม คุณพบว่าความสัมพันธ์ทำให้หลายเรื่องเป็นไปได้ หลังเรียนจบ คุณเลือกงานที่ได้ฟังและลงมือร่วมกับคนอื่น",
+    "conditions": [
+      {
+        "type": "year",
+        "operator": "eq",
+        "value": 4
+      },
+      {
+        "type": "pastEvent",
+        "eventId": "graduation_day",
+        "visited": true
+      },
+      {
+        "type": "flag",
+        "flagId": "community_focus",
+        "value": true
+      },
+      {
+        "type": "stat",
+        "stat": "relationships",
+        "operator": "gte",
+        "value": 65
+      }
+    ]
+  },
+  {
     "id": "graduation",
-    "title": "ก้าวต่อไป",
-    "summary": "สี่ปีที่ ม.บารพู กลายเป็นเรื่องราวของคุณ",
+    "title": "ก้าวต่อไปในแบบของคุณ",
+    "summary": "สี่ปีที่ ม.บารพู มีทั้งทางที่เลือกเองและเรื่องที่ไม่คาดคิด คุณถือใบจบพร้อมความมั่นใจว่าจะค่อย ๆ หาคำตอบของบทต่อไป",
     "conditions": [
       {
         "type": "year",

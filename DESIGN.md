@@ -43,7 +43,7 @@ The Player reads like a personal field guide to one student's years at ม.บ�
 
 The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. The content width is at most 76rem. Thai-capable system fallbacks avoid a late web-font shift. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
 
-BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list, editor, and preview sit in three columns on wide screens, then stack into two or one column as space narrows. The item list shows authored file order, and simple up/down controls move items until the timeline editor exists.
+BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list, editor, and preview sit in three columns on wide screens, then stack into two or one column as space narrows. The event view can switch to a four-year timeline, with one card per event and a column for each period. Columns wrap to two or one across narrower widths. Native drag and drop moves cards within and across periods; selecting a card opens its form. The form's year/period fields and up/down controls remain available for touch and keyboard use.
 
 BO uses native select controls for event types, condition operators, references, and Asset IDs; the browser owns each popup's keyboard and positioning behavior. The long dialogue and ending fields grow with their content. `premium-ui.json` records the native select ownership for static audit.
 

@@ -8,10 +8,9 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this table whenever an item's status changes.
 
-| #   | Step                      | Status | Depends on |
-| --- | ------------------------- | ------ | ---------- |
-| 9   | BO timeline + MVP content | Todo   | 7, 8       |
-| 10  | Test + release            | Todo   | 9          |
+| #   | Step           | Status | Depends on |
+| --- | -------------- | ------ | ---------- |
+| 10  | Test + release | Todo   | 9          |
 
 ## Open decisions
 
@@ -127,17 +126,19 @@ Completed 2026-10-26. Fourteen authored Year 1 first-term events lead to a break
 
 **Done when:** new story content can be added through BO and plays in the Player page.
 
-Completed 2026-10-26. The local BO edits event details, dialogue, choices, conditions, effects, and endings, with simple up/down ordering. Asset dropdowns use the shared manifest. The shared Zod schemas and cross-file validator report duplicate IDs, broken event links, invalid asset references, and missing asset files before a dev-only Vite endpoint atomically writes `events.json` or `endings.json`. Event preview applies choices through the shared engine. A focused integration test saves a new event and loads it through the Player content loader and engine. Timeline dragging remains Step 9.
+Completed 2026-10-26. The local BO edits event details, dialogue, choices, conditions, effects, and endings, with simple up/down ordering. Asset dropdowns use the shared manifest. The shared Zod schemas and cross-file validator report duplicate IDs, broken event links, invalid asset references, and missing asset files before a dev-only Vite endpoint atomically writes `events.json` or `endings.json`. Event preview applies choices through the shared engine. A focused integration test saves a new event and loads it through the Player content loader and engine. Step 9 added timeline dragging.
 
 ## 9. BO timeline + MVP content
 
-**Status:** Todo
+**Status:** Done
 
 - Drag-and-drop timeline editor.
 - Expand content to Year 1–4: 30–40 events, 3–5 endings, 5–8 scenes.
 - Shared main line with branches that merge back.
 
 **Done when:** the game is playable to several different endings.
+
+Completed 2026-10-26. The BO has a four-year timeline with native drag and drop within and across periods; the existing form and up/down controls remain available when dragging is inconvenient. Content version 0.4.0 has 35 events, seven pixel scenes, and three reachable Year 4 endings. The main line spans enrollment to graduation, with optional money, club, and mentor events that merge back. New runs continue past the first-term break; the two demo endings remain in content for completed older saves. Compatible v1/0.1.0 and v2/0.2.0–0.3.0 saves migrate without changing their history or RNG state. Focused tests cover timeline moves, branches, delayed effects, endings, and save migration.
 
 ## 10. Test + release
 
