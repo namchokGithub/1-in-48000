@@ -23,3 +23,7 @@ Keep three starting presets in versioned game config so family situation, person
 ## 2026-10-26 — Asset-backed sample and separate audio settings
 
 Use small original PNG placeholders for the sample campus scene and Mali portrait until final art is available. Keep media paths in `assets.json`; the orientation event and character refer to Asset IDs. Play music only after a player action, fade looping tracks when the event changes or the player leaves, and store per-channel volume settings under a separate localStorage key so changing sound preferences never changes a game save.
+
+## 2026-10-26 — Year 1 slice ending at the break
+
+Author the vertical slice before BO core so the Player has a complete short story to preview. Keep ten main first-term events, optional friend and club follow-ups, and one random event before a break reflection. At a period boundary, allow an ending with a matching explicit true flag condition; unconditional fallbacks still wait until the end of Year 4. This reuses the existing ending schema and prevents the demo from silently jumping through unwritten years. Migrate compatible older saves to content version `0.3.0` without changing their save version or RNG state.

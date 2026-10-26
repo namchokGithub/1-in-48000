@@ -5,6 +5,21 @@
     "path": "/assets/scene/campus-orientation.png"
   },
   {
+    "id": "classroom",
+    "kind": "scene",
+    "path": "/assets/scene/classroom.png"
+  },
+  {
+    "id": "dorm_room",
+    "kind": "scene",
+    "path": "/assets/scene/dorm-room.png"
+  },
+  {
+    "id": "campus_library",
+    "kind": "scene",
+    "path": "/assets/scene/campus-library.png"
+  },
+  {
     "id": "mali_portrait",
     "kind": "portrait",
     "path": "/assets/portrait/mali.png"

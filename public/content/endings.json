@@ -1,8 +1,44 @@
 [
   {
+    "id": "first_term_connected",
+    "title": "เทอมแรกที่มีเพื่อนร่วมทาง",
+    "summary": "คุณผ่านเทอมแรกที่ ม.บารพู พร้อมคนที่คอยแบ่งปันทั้งงานและความกังวล เรื่องราวยังไม่จบ แต่ก้าวแรกนี้ไม่ต้องเดินคนเดียว",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "slice_complete",
+        "value": true
+      },
+      {
+        "type": "stat",
+        "stat": "relationships",
+        "operator": "gte",
+        "value": 65
+      }
+    ]
+  },
+  {
+    "id": "first_term_steady",
+    "title": "ก้าวแรกของคุณ",
+    "summary": "เทอมแรกที่ ม.บารพู มีทั้งวันที่มั่นใจและวันที่ต้องค่อย ๆ ตั้งหลัก คุณได้เห็นแล้วว่าตัวเองเลือกทางต่อไปได้",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "slice_complete",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "graduation",
     "title": "ก้าวต่อไป",
     "summary": "สี่ปีที่ ม.บารพู กลายเป็นเรื่องราวของคุณ",
-    "conditions": [{ "type": "year", "operator": "eq", "value": 4 }]
+    "conditions": [
+      {
+        "type": "year",
+        "operator": "eq",
+        "value": 4
+      }
+    ]
   }
 ]

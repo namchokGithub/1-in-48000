@@ -1,7 +1,10 @@
 {
-  "contentVersion": "0.2.0",
+  "contentVersion": "0.3.0",
   "title": "1 ใน 48,000",
-  "startingTime": { "year": 1, "period": "term1" },
+  "startingTime": {
+    "year": 1,
+    "period": "term1"
+  },
   "startingEventId": "orientation",
   "initialStats": {
     "study": 50,

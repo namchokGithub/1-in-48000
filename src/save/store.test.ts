@@ -67,7 +67,8 @@ describe('game save store', () => {
 
     const afterChoice = store.getState().choose('join_group')
     expect(storage.writes).toHaveLength(2)
-    expect(afterChoice.endingId).toBe('graduation')
+    expect(afterChoice.currentEventId).toBe('first_class')
+    expect(afterChoice.endingId).toBeNull()
     expect(playerSaveSchema.parse(JSON.parse(storage.writes[1]))).toEqual(
       afterChoice,
     )

@@ -74,9 +74,9 @@ Game content and player saves are separate from day one.
 
 Saves include `saveVersion` and `contentVersion` so older saves can be handled when content changes. Random results are stored (as a seed or rolled values) so reloading never changes an outcome.
 
-The initial stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The sample content is playable end to end in the Player UI; BO editing follows in a later step.
+The initial stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Year 1 slice is playable through its first-term break in the Player UI; BO editing follows in a later step.
 
-The sample orientation scene uses placeholder pixel art and background music. The Player starts music after a play action and offers separate volume controls for music, ambience, and effects. Ambience and effect audio files have not been added yet.
+The slice contains 14 authored first-term events plus a break reflection. Choices affect stats and later events, optional friend and club moments depend on earlier choices, and one of two random events appears per run. The break reflection leads to one of two demo endings. Four placeholder pixel scenes and background music accompany the story. The Player starts music after a play action and offers separate volume controls for music, ambience, and effects. Ambience and effect audio files have not been added yet.
 
 ## Audio Credits
 

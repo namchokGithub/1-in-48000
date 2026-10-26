@@ -194,6 +194,19 @@ function resolveEnding(content: GameContent, save: PlayerSave): void {
   save.endingId = ending.id
 }
 
+function resolveEarlyEnding(content: GameContent, save: PlayerSave): boolean {
+  const ending = content.endings.find(
+    (candidate) =>
+      candidate.conditions.some(
+        (condition) => condition.type === 'flag' && condition.value === true,
+      ) && matchesAllConditions(candidate.conditions, save),
+  )
+  if (!ending) return false
+  save.currentEventId = null
+  save.endingId = ending.id
+  return true
+}
+
 function selectNext(content: GameContent, save: PlayerSave): void {
   while (true) {
     const event = pickAtCurrentTime(content, save)
@@ -201,6 +214,7 @@ function selectNext(content: GameContent, save: PlayerSave): void {
       save.currentEventId = event.id
       return
     }
+    if (resolveEarlyEnding(content, save)) return
     const next = nextTime(save.currentTime)
     if (!next) {
       resolveEnding(content, save)

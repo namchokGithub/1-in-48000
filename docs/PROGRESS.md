@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 7   | Vertical slice            | Todo   | 5, 6       |
 | 8   | BO core                   | Todo   | 2, 3       |
 | 9   | BO timeline + MVP content | Todo   | 7, 8       |
 | 10  | Test + release            | Todo   | 9          |
@@ -20,7 +19,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 | Topic          | Proposal                                                                                   | Status |
 | -------------- | ------------------------------------------------------------------------------------------ | ------ |
 | BO file saving | Vite dev-server plugin writes directly to `public/content/*.json` (no Import/Export flow). | Open   |
-| Step order     | Vertical slice (7) before BO core (8).                                                     | Open   |
 
 Record each resolved decision in `docs/DECISIONS.md`.
 
@@ -111,12 +109,14 @@ Completed 2026-10-26. The orientation event resolves a pixel campus scene, Mali 
 
 ## 7. Vertical slice
 
-**Status:** Todo
+**Status:** Done
 
 - Write Year 1, first term: about 10–15 events.
 - Include at least one conditional event, one delayed effect, and one random event.
 
 **Done when:** the slice is playable to its end with images, sound, and saves (requirement phase 2).
+
+Completed 2026-10-26. Fourteen authored Year 1 first-term events lead to a break reflection event and one of two slice endings. Shared main events include a midterm exam; friend and club conditions add optional follow-ups, one of two random events appears, and choices schedule effects that resolve later. Four pixel scene assets and the credited BGM are referenced through Asset IDs. A true flag condition permits an ending at the current period boundary. Content version 0.3.0 accepts earlier 0.1.0/v1 and 0.2.0/v2 saves through migration.
 
 ## 8. BO core
 

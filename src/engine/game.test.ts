@@ -61,6 +61,25 @@ function content(events: Event[]): GameContent {
 }
 
 describe('headless game', () => {
+  it('ends at the current term boundary when an explicit completion flag matches', () => {
+    const game = content([
+      event('start', 'main', { year: 1, period: 'term1' }, [
+        { type: 'setFlag', flagId: 'slice_complete', value: true },
+      ]),
+    ])
+    game.endings.unshift({
+      id: 'term_complete',
+      title: 'จบเทอมแรก',
+      summary: 'เดินทางต่อในภายหลัง',
+      conditions: [{ type: 'flag', flagId: 'slice_complete', value: true }],
+    })
+
+    const finished = choose(game, createGame(game, 'ฟ้า', 7), 'continue')
+    expect(finished.endingId).toBe('term_complete')
+    expect(finished.currentTime).toEqual({ year: 1, period: 'term1' })
+    expect(finished.currentEventId).toBeNull()
+  })
+
   it('applies the selected starting background and stores its ID', () => {
     const game = content([event('start', 'main', { year: 1, period: 'term1' })])
     const save = createGame(game, 'ฟ้า', 7, 'supported')

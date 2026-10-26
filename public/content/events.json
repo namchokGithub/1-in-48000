@@ -2,15 +2,21 @@
   {
     "id": "orientation",
     "kind": "main",
-    "time": { "year": 1, "period": "term1" },
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
     "title": "วันปฐมนิเทศ",
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [
       {
-        "speakerId": "mali",
-        "text": "ยินดีต้อนรับสู่ ม.บารพู มานั่งด้วยกันไหม?"
+        "text": "กระเป๋ายังหนักอยู่บนบ่า ลานหน้าอาคารเต็มไปด้วยคนที่เพิ่งมาถึงเหมือนกัน"
+      },
+      {
+        "text": "ยินดีต้อนรับสู่ ม.บารพู มานั่งด้วยกันไหม?",
+        "speakerId": "mali"
       }
     ],
     "choices": [
@@ -19,12 +25,21 @@
         "text": "เข้าไปทำความรู้จักเพื่อนใหม่",
         "conditions": [],
         "effects": [
-          { "type": "setFlag", "flagId": "met_mali", "value": true },
+          {
+            "type": "setFlag",
+            "flagId": "met_mali",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
           {
             "type": "schedule",
             "trigger": {
-              "type": "atPeriod",
-              "time": { "year": 1, "period": "term2" }
+              "type": "afterEvent",
+              "eventId": "group_project"
             },
             "effect": {
               "type": "statDelta",
@@ -38,7 +53,815 @@
         "id": "explore_campus",
         "text": "เดินสำรวจมหาวิทยาลัยก่อน",
         "conditions": [],
-        "effects": [{ "type": "statDelta", "stat": "study", "amount": 2 }]
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "first_class",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "คาบเรียนแรก",
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "อาจารย์เขียนหัวข้อยาวเต็มกระดาน เสียงเปิดสมุดดังทั่วห้อง"
+      },
+      {
+        "text": "บางเรื่องยังไม่เข้าใจ แต่วันนี้ยังเป็นแค่วันแรก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "take_notes",
+        "text": "จดประเด็นที่ยังสงสัยไว้",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "schedule",
+            "trigger": {
+              "type": "afterEvent",
+              "eventId": "midterm_exam"
+            },
+            "effect": {
+              "type": "statDelta",
+              "stat": "study",
+              "amount": 4
+            }
+          }
+        ]
+      },
+      {
+        "id": "ask_friend",
+        "text": "หันไปถามคนข้าง ๆ หลังเลิกคาบ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dorm_evening",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "คืนแรกที่หอ",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เมื่อปิดประตูห้อง เสียงในมหาวิทยาลัยค่อย ๆ เบาลง"
+      },
+      {
+        "text": "คืนนี้จะจัดห้องให้เป็นระเบียบ หรือพักก่อนเพื่อรับวันพรุ่งนี้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "unpack",
+        "text": "จัดของและซื้อของใช้ที่ขาด",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -80
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "id": "rest",
+        "text": "วางกระเป๋าแล้วพักให้เต็มที่",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 5
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cafeteria_budget",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "มื้อกลางวันที่โรงอาหาร",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "กลิ่นข้าวผัดลอยมาถึงโต๊ะ เงินในกระเป๋าต้องพอถึงปลายสัปดาห์"
+      },
+      {
+        "text": "มะลิโบกมือจากอีกฝั่งของโรงอาหาร",
+        "speakerId": "mali"
+      }
+    ],
+    "choices": [
+      {
+        "id": "simple_meal",
+        "text": "เลือกมื้อประหยัดและนั่งคุย",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -50
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "treat_friend",
+        "text": "เลี้ยงขนมเพื่อนร่วมโต๊ะ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -130
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "club_fair",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "บูธชมรมใต้ต้นไม้",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างทางกลับหอ มีเสียงชวนสมัครกิจกรรมจากหลายบูธ"
+      },
+      {
+        "text": "ตารางเรียนยังใหม่ แต่การลองทำสิ่งอื่นก็น่าสนใจ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "join_club",
+        "text": "ลงชื่อเข้าชมรมหนึ่งแห่ง",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "joined_club",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "keep_schedule",
+        "text": "ขอดูตารางเรียนให้ชัดก่อน",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "library_study",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "บ่ายเงียบในห้องสมุด",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ชั้นหนังสือทอดยาวจนเกือบถึงหน้าต่าง ที่นั่งว่างเหลือไม่มาก"
+      },
+      {
+        "text": "อีกไม่กี่สัปดาห์จะมีงานกลุ่มชิ้นแรก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "study_together",
+        "text": "หาคนช่วยกันทบทวน",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "id": "solo_notes",
+        "text": "สรุปบทเรียนด้วยตัวเอง",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "group_project",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "งานกลุ่มชิ้นแรก",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "สมาชิกในกลุ่มส่งข้อความมาคนละเวลา ไฟล์งานยังมีช่องว่าง"
+      },
+      {
+        "text": "คุณเลือกได้ว่าจะชวนทุกคนแบ่งงานใหม่ หรือปิดงานส่วนที่เหลือเอง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "share_work",
+        "text": "ชวนทุกคนแบ่งงานให้ชัด",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 4
+          }
+        ]
+      },
+      {
+        "id": "finish_alone",
+        "text": "ทำส่วนที่ค้างเองให้ทันกำหนด",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rainy_commute",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "ฝนหลังเลิกเรียน",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ฝนตกลงมาก่อนถึงทางเดินมีหลังคา รถรับส่งคันถัดไปยังไม่มา"
+      },
+      {
+        "text": "สมุดอยู่ในกระเป๋า แต่ตัวคุณเริ่มเปียก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "walk_in_rain",
+        "text": "รีบเดินกลับหอ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -5
+          }
+        ]
+      },
+      {
+        "id": "wait_bus",
+        "text": "รอรถรับส่งและซื้อเครื่องดื่มอุ่น ๆ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -25
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "midterm_prep",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "คืนก่อนสอบกลางภาค",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "กระดาษสรุปวางเต็มโต๊ะ เวลาเหลือพออ่านได้อีกไม่กี่หัวข้อ"
+      },
+      {
+        "text": "มะลิส่งข้อความถามว่าอยากทบทวนด้วยกันไหม",
+        "speakerId": "mali"
+      }
+    ],
+    "choices": [
+      {
+        "id": "review_alone",
+        "text": "อ่านหัวข้อที่ยังไม่แม่นด้วยตัวเอง",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "review_with_mali",
+        "text": "โทรทบทวนกับมะลิ",
+        "conditions": [
+          {
+            "type": "flag",
+            "flagId": "met_mali",
+            "value": true
+          }
+        ],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 5
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "midterm_exam",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "ข้อสอบกลางภาค",
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "กระดาษข้อสอบถูกส่งต่อมาถึงโต๊ะ ข้อแรกคุ้นตาแต่คำตอบต้องคิดให้ดี"
+      },
+      {
+        "text": "เสียงนาฬิกาเดินไปเรื่อย ๆ คุณเลือกวิธีใช้เวลาที่เหลือ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "trust_preparation",
+        "text": "ทำข้อที่มั่นใจก่อนแล้วค่อยย้อนกลับ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "last_minute",
+        "text": "ไล่ทำจากต้นจนจบให้เร็วที่สุด",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mali_checkin",
+    "kind": "conditional",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "หลังสอบกับมะลิ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "met_mali",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "มะลิเดินมานั่งข้าง ๆ ใต้ร่มไม้ หลังสอบเสร็จทั้งคู่เงียบไปพักหนึ่ง"
+      },
+      {
+        "text": "เป็นไงบ้าง อยากเล่าไหม?",
+        "speakerId": "mali"
+      }
+    ],
+    "choices": [
+      {
+        "id": "share_worry",
+        "text": "เล่าเรื่องที่กังวล",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "id": "keep_to_self",
+        "text": "บอกว่าอยากพักเงียบ ๆ ก่อน",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "club_invitation",
+    "kind": "conditional",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "ข้อความจากชมรม",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "ชมรมส่งข้อความชวนไปช่วยงานเล็ก ๆ หลังสอบ"
+      },
+      {
+        "text": "เวลาว่างเริ่มกลับมา แต่คุณก็ยังเหนื่อยจากหลายสัปดาห์ที่ผ่านมา"
+      }
+    ],
+    "choices": [
+      {
+        "id": "join_activity",
+        "text": "ไปช่วยงานกับคนในชมรม",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "skip_activity",
+        "text": "ขอพักและทบทวนบทเรียนก่อน",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lost_student_card",
+    "kind": "random",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "บัตรนักศึกษาหาย",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างเก็บกระเป๋าหลังสอบ คุณไม่เห็นบัตรนักศึกษาในช่องเดิม"
+      },
+      {
+        "text": "นึกย้อนกลับไปว่าหยิบมันออกครั้งสุดท้ายที่ไหน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "retrace_steps",
+        "text": "เดินย้อนเส้นทางที่เพิ่งผ่านมา",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "replace_card",
+        "text": "ไปติดต่อทำบัตรใหม่",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -100
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "quiet_courtyard",
+    "kind": "random",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "ลานเงียบหลังสอบ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ลานที่เคยคนแน่นกลับว่างลง มีลมพัดผ่านต้นไม้เบา ๆ"
+      },
+      {
+        "text": "คุณมีเวลาอยู่กับตัวเองก่อนกลับหอ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "stop_and_breathe",
+        "text": "นั่งพักและหายใจช้า ๆ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "hurry_back",
+        "text": "กลับไปจัดสมุดสำหรับเทอมหน้า",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "term_reflection",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "ปิดเทอมแรก",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หน้าปฏิทินพลิกมาถึงช่วงพักเทอม สมุดเล่มแรกมีทั้งรอยขีดฆ่าและเรื่องที่อยากจำ"
+      },
+      {
+        "text": "ชีวิตที่ ม.บารพู ยังอีกยาวไกล แต่วันนี้คุณเดินมาถึงปลายเทอมแรกแล้ว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "keep_journal",
+        "text": "เขียนเรื่องที่อยากเก็บไว้",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "slice_complete",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "plan_next_term",
+        "text": "วางแผนสิ่งที่อยากลองในเทอมถัดไป",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "slice_complete",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
       }
     ]
   }
