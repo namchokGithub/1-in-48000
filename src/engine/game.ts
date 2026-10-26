@@ -29,6 +29,7 @@ export function createGame(
   content: GameContent,
   playerName: string,
   rngSeed: number,
+  backgroundId: string = content.config.backgrounds[0].id,
 ): PlayerSave {
   const name = playerName.trim()
   if (!name) throw new Error('Player name is required')
@@ -36,18 +37,57 @@ export function createGame(
     throw new Error('RNG seed must be a uint32 integer')
   }
   const start = findEvent(content, content.config.startingEventId)
+  const background = content.config.backgrounds.find(
+    (candidate) => candidate.id === backgroundId,
+  )
+  if (!background) throw new Error(`Unknown background: ${backgroundId}`)
   if (compareTime(start.time, content.config.startingTime) !== 0) {
     throw new Error('Starting event time does not match config')
   }
 
   const save: PlayerSave = {
-    saveVersion: 1,
+    saveVersion: 2,
     contentVersion: content.config.contentVersion,
     playerName: name,
+    backgroundId,
     currentTime: { ...content.config.startingTime },
     currentEventId: start.id,
     endingId: null,
-    stats: { ...content.config.initialStats },
+    stats: {
+      study: Math.max(
+        0,
+        Math.min(
+          100,
+          content.config.initialStats.study + background.statDeltas.study,
+        ),
+      ),
+      money: Math.max(
+        0,
+        content.config.initialStats.money + background.statDeltas.money,
+      ),
+      health: Math.max(
+        0,
+        Math.min(
+          100,
+          content.config.initialStats.health + background.statDeltas.health,
+        ),
+      ),
+      stress: Math.max(
+        0,
+        Math.min(
+          100,
+          content.config.initialStats.stress + background.statDeltas.stress,
+        ),
+      ),
+      relationships: Math.max(
+        0,
+        Math.min(
+          100,
+          content.config.initialStats.relationships +
+            background.statDeltas.relationships,
+        ),
+      ),
+    },
     flags: {},
     history: [],
     pendingEffects: [],

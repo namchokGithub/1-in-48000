@@ -10,9 +10,10 @@ import {
 const uint32Schema = z.int().min(0).max(4_294_967_295)
 
 export const playerSaveSchema = z.object({
-  saveVersion: z.literal(1),
+  saveVersion: z.literal(2),
   contentVersion: z.string().trim().min(1),
   playerName: z.string().trim().min(1),
+  backgroundId: idSchema.nullable(),
   currentTime: timeSchema,
   currentEventId: idSchema.nullable(),
   endingId: idSchema.nullable(),

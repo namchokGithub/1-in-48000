@@ -96,4 +96,18 @@ describe('content schemas', () => {
       ]).success,
     ).toBe(false)
   })
+
+  it('rejects a background with an incomplete stat adjustment', () => {
+    expect(
+      gameConfigSchema.safeParse({
+        ...config,
+        backgrounds: [
+          {
+            ...config.backgrounds[0],
+            statDeltas: { study: 5 },
+          },
+        ],
+      }).success,
+    ).toBe(false)
+  })
 })

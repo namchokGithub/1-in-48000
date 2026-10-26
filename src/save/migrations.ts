@@ -1,6 +1,12 @@
+import { z } from 'zod'
 import { playerSaveSchema, type PlayerSave } from './schema'
 
-export const CURRENT_SAVE_VERSION = 1
+export const CURRENT_SAVE_VERSION = 2
+const LEGACY_CONTENT_VERSION = '0.1.0'
+const CURRENT_CONTENT_VERSION = '0.2.0'
+const v1SaveSchema = playerSaveSchema
+  .omit({ saveVersion: true, backgroundId: true })
+  .extend({ saveVersion: z.literal(1) })
 
 export function loadStoredSave(
   raw: string,
@@ -13,6 +19,21 @@ export function loadStoredSave(
       : undefined
 
   switch (version) {
+    case 1: {
+      const oldSave = v1SaveSchema.parse(data)
+      if (
+        oldSave.contentVersion !== LEGACY_CONTENT_VERSION ||
+        expectedContentVersion !== CURRENT_CONTENT_VERSION
+      ) {
+        throw new Error('Content version mismatch')
+      }
+      return playerSaveSchema.parse({
+        ...oldSave,
+        saveVersion: CURRENT_SAVE_VERSION,
+        contentVersion: CURRENT_CONTENT_VERSION,
+        backgroundId: null,
+      })
+    }
     case CURRENT_SAVE_VERSION: {
       const save = playerSaveSchema.parse(data)
       if (save.contentVersion !== expectedContentVersion) {

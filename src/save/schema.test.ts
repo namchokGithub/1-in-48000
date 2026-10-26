@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { playerSaveSchema } from './schema'
 
 const validSave = {
-  saveVersion: 1,
-  contentVersion: '0.1.0',
+  saveVersion: 2,
+  contentVersion: '0.2.0',
+  backgroundId: 'balanced',
   playerName: 'ฟ้า',
   currentTime: { year: 1, period: 'term1' },
   currentEventId: 'orientation',

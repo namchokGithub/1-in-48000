@@ -74,7 +74,7 @@ Game content and player saves are separate from day one.
 
 Saves include `saveVersion` and `contentVersion` so older saves can be handled when content changes. Random results are stored (as a seed or rolled values) so reloading never changes an outcome.
 
-The initial stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The schemas, sample content, headless engine, and single-slot save store are in place; the Player UI and BO editing follow in later steps.
+The initial stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The sample content is playable end to end in the Player UI; BO editing follows in a later step.
 
 ## Content Publishing
 
@@ -86,7 +86,7 @@ Edit in BO → Save JSON → git push → Cloudflare Pages auto-deploys → Play
 
 All player data lives in the browser (localStorage). Clearing site data deletes the save, and saves do not sync across devices. Export your save to keep a backup.
 
-The save store exposes a JSON export; the Player UI will add the download control in Step 5. Invalid or incompatible stored saves are preserved so the player can recover the raw data instead of losing it silently.
+The Player can download a save backup. Invalid or incompatible stored saves are preserved so the player can recover the raw data instead of losing it silently.
 
 ## Getting Started
 

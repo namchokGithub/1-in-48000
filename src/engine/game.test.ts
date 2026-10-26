@@ -61,6 +61,16 @@ function content(events: Event[]): GameContent {
 }
 
 describe('headless game', () => {
+  it('applies the selected starting background and stores its ID', () => {
+    const game = content([event('start', 'main', { year: 1, period: 'term1' })])
+    const save = createGame(game, 'ฟ้า', 7, 'supported')
+
+    expect(save.backgroundId).toBe('supported')
+    expect(save.stats.study).toBe(55)
+    expect(save.stats.money).toBe(2000)
+    expect(() => createGame(game, 'ฟ้า', 7, 'missing')).toThrow()
+  })
+
   it('applies effects in order, clamps stats, and triggers a scheduled period effect', () => {
     const game = content([
       event('start', 'main', { year: 1, period: 'term1' }, [

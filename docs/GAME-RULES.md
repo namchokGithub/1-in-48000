@@ -14,6 +14,8 @@ This document defines the initial data model for "1 ใน 48,000". The content 
 
 The engine will clamp bounded stats to 0–100 and money to a minimum of 0 after applying effects. Negative `statDelta` values are allowed so choices can reduce a stat. The schema validates stored values; it does not apply effects.
 
+Starting backgrounds are authored in `config.json`. Each preset names a family situation, personality, and skill, and supplies integer deltas for all five starting stats. The Player may pick one or randomize. The engine applies its deltas to `initialStats`, then clamps the result using the same stat bounds. New saves reference the selected preset by ID.
+
 ## Time
 
 The game spans Years 1–4. Each year follows `term1 → break → term2 → summer`; the last phase leads to graduation. `break` is the semester break, while `summer` represents the summer period and may contain summer-session events. An event has one `{ year, period }` placement. The config declares the same four-year sequence.
@@ -52,6 +54,6 @@ Random selection uses the saved `rngState` and updates it after each roll, so co
 
 Content is versioned JSON in `public/content/`: `config.json`, `events.json`, `characters.json`, `assets.json`, and `endings.json`. Events and characters refer to media by Asset ID; paths appear only in `assets.json`. The Step 2 sample has no media assets yet.
 
-The player save is separate from content and has `saveVersion: 1`, `contentVersion`, current time/event, stats, boolean flags, choice history, pending effects, and both `rngSeed` and `rngState`. Storing the current RNG state lets the engine resume without changing future rolls.
+The player save is separate from content and has `saveVersion: 2`, `contentVersion`, selected `backgroundId`, current time/event, stats, boolean flags, choice history, pending effects, and both `rngSeed` and `rngState`. Storing the current RNG state lets the engine resume without changing future rolls.
 
-The save store writes one localStorage slot when a game starts or restarts and after a choice resolves. Event and term transitions, delayed effects, and endings occur inside that resolved choice before the checkpoint is written. Loading and exporting do not write. Export returns the versioned save as JSON for the Player UI to offer as a backup download; if loading fails, it returns the untouched stored text for recovery. The loader validates `saveVersion: 1` and the content version before continuing; unsupported versions or invalid data leave the stored slot untouched. No earlier save format has shipped, so the migration switch currently has only the version 1 case.
+The save store writes one localStorage slot when a game starts or restarts and after a choice resolves. Event and term transitions, delayed effects, and endings occur inside that resolved choice before the checkpoint is written. Loading and exporting do not write. Export returns the versioned save as JSON for the Player UI to offer as a backup download; if loading fails, it returns the untouched stored text for recovery. The loader validates the save and content version before continuing; unsupported versions or invalid data leave the stored slot untouched. A v1 save from content version `0.1.0` migrates to v2 for content version `0.2.0` with `backgroundId: null`, preserving stats, pending effects, and RNG state.

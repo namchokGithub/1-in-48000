@@ -27,6 +27,23 @@ export const timeSchema = z.object({
   period: periodSchema,
 })
 
+const statDeltasSchema = z.object({
+  study: z.int(),
+  money: z.int(),
+  health: z.int(),
+  stress: z.int(),
+  relationships: z.int(),
+})
+
+export const backgroundSchema = z.object({
+  id: idSchema,
+  title: nonEmptyTextSchema,
+  family: nonEmptyTextSchema,
+  personality: nonEmptyTextSchema,
+  skill: nonEmptyTextSchema,
+  statDeltas: statDeltasSchema,
+})
+
 export const conditionSchema = z.discriminatedUnion('type', [
   z.object({
     type: z.literal('year'),
@@ -98,6 +115,7 @@ export const gameConfigSchema = z.object({
   startingTime: timeSchema,
   startingEventId: idSchema,
   initialStats: statsSchema,
+  backgrounds: z.array(backgroundSchema).min(1),
   timeModel: z.object({
     years: z.literal(4),
     periods: z.tuple([
@@ -178,3 +196,6 @@ export type Event = z.infer<typeof eventSchema>
 export type GameConfig = z.infer<typeof gameConfigSchema>
 export type Ending = z.infer<(typeof endingListSchema)['element']>
 export type StateEffect = z.infer<typeof stateEffectSchema>
+export type Background = z.infer<typeof backgroundSchema>
+export type Character = z.infer<typeof characterListSchema>[number]
+export type Asset = z.infer<typeof assetListSchema>[number]

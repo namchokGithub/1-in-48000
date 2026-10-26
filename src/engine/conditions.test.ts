@@ -3,9 +3,10 @@ import { playerSaveSchema } from '../save/schema'
 import { matchesAllConditions } from './conditions'
 
 const save = playerSaveSchema.parse({
-  saveVersion: 1,
-  contentVersion: '0.1.0',
+  saveVersion: 2,
+  contentVersion: '0.2.0',
   playerName: 'ฟ้า',
+  backgroundId: 'balanced',
   currentTime: { year: 2, period: 'term1' },
   currentEventId: 'exam',
   endingId: null,

@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 5   | Player UI                 | Todo   | 3, 4       |
 | 6   | Assets + audio            | Todo   | 2, 5       |
 | 7   | Vertical slice            | Todo   | 5, 6       |
 | 8   | BO core                   | Todo   | 2, 3       |
@@ -86,7 +85,7 @@ Completed 2026-10-26. A vanilla Zustand store writes one localStorage slot at ch
 
 ## 5. Player UI
 
-**Status:** Todo
+**Status:** Done
 
 - Start screen: new game, continue, restart.
 - Character creation: name, pick or randomize background.
@@ -96,6 +95,8 @@ Completed 2026-10-26. A vanilla Zustand store writes one localStorage slot at ch
 - Mobile and desktop layouts.
 
 **Done when:** sample content is playable end to end.
+
+Completed 2026-10-26. The Thai Player runs from start and character creation through scene choices to an ending, with responsive stats, save resume/restart, and backup download. Three starting backgrounds were added to config and v1 saves migrate to v2. Scene and portrait slots resolve Asset IDs when assets are added in Step 6.
 
 ## 6. Assets + audio
 

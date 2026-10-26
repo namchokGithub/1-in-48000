@@ -6,17 +6,29 @@ import type { SaveStorage } from './storage'
 
 export type GameStore = {
   save: PlayerSave | null
-  startGame(playerName: string, rngSeed: number): PlayerSave
+  startGame(
+    playerName: string,
+    rngSeed: number,
+    backgroundId?: string,
+  ): PlayerSave
   continueGame(): PlayerSave | null
   choose(choiceId: string): PlayerSave
-  restartGame(playerName: string, rngSeed: number): PlayerSave
+  restartGame(
+    playerName: string,
+    rngSeed: number,
+    backgroundId?: string,
+  ): PlayerSave
   exportSave(): string | null
 }
 
 export function createGameStore(content: GameContent, storage: SaveStorage) {
   return createStore<GameStore>()((set, get) => {
-    const begin = (playerName: string, rngSeed: number): PlayerSave => {
-      const save = createGame(content, playerName, rngSeed)
+    const begin = (
+      playerName: string,
+      rngSeed: number,
+      backgroundId?: string,
+    ): PlayerSave => {
+      const save = createGame(content, playerName, rngSeed, backgroundId)
       storage.write(JSON.stringify(save))
       set({ save })
       return save
