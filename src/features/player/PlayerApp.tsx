@@ -4,7 +4,10 @@ import { loadPlayerContent, type PlayerContent } from '../../content/loader'
 import { getCurrentEvent, summarizeLife } from '../../engine/game'
 import { createGameStore } from '../../save/store'
 import { createLocalStorageAdapter } from '../../save/storage'
+import { createAudioSettingsStore } from '../../save/audioSettings'
 import type { PlayerSave } from '../../save/schema'
+import { createAudioController } from '../../shared/audio'
+import { AudioControls } from './AudioControls'
 import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
 import { formatGameTime } from './labels'
@@ -58,10 +61,30 @@ function PlayerShell({ content }: { content: PlayerContent }) {
     return { store, loadFailed }
   })
   const { store } = session
+  const [audio] = useState(createAudioController)
+  const [audioSettings] = useState(createAudioSettingsStore)
+  const volumes = useStore(audioSettings, (state) => state.volumes)
   const save = useStore(store, (state) => state.save)
   const [view, setView] = useState<View>('home')
   const [saveError, setSaveError] = useState(session.loadFailed)
   const [actionError, setActionError] = useState<string | null>(null)
+
+  useEffect(() => {
+    audio.setVolumes(volumes)
+  }, [audio, volumes])
+
+  useEffect(() => () => audio.stop(), [audio])
+
+  function playEvent(current: PlayerSave) {
+    const event = currentEventOrNull(content, current)
+    if (event) audio.sync(event, content.assets)
+    else audio.stop()
+  }
+
+  function goHome() {
+    audio.stop()
+    setView('home')
+  }
 
   function start(name: string, backgroundId: string) {
     const seed = crypto.getRandomValues(new Uint32Array(1))[0]
@@ -69,6 +92,8 @@ function PlayerShell({ content }: { content: PlayerContent }) {
       ? store.getState().restartGame
       : store.getState().startGame
     action(name, seed, backgroundId)
+    const started = store.getState().save
+    if (started) playEvent(started)
     setSaveError(false)
     setActionError(null)
     setView('play')
@@ -77,6 +102,8 @@ function PlayerShell({ content }: { content: PlayerContent }) {
   function choose(choiceId: string) {
     try {
       const next = store.getState().choose(choiceId)
+      if (next.endingId) audio.stop()
+      else playEvent(next)
       setActionError(null)
       setView(next.endingId ? 'ending' : 'play')
     } catch {
@@ -122,7 +149,7 @@ function PlayerShell({ content }: { content: PlayerContent }) {
         characters={content.characters}
         error={actionError}
         onChoose={choose}
-        onHome={() => setView('home')}
+        onHome={goHome}
       />
     ) : null
   } else if (view === 'ending' && save?.endingId) {
@@ -130,8 +157,11 @@ function PlayerShell({ content }: { content: PlayerContent }) {
     body = summary ? (
       <EndingView
         summary={summary}
-        onHome={() => setView('home')}
-        onRestart={() => setView('create')}
+        onHome={goHome}
+        onRestart={() => {
+          audio.stop()
+          setView('create')
+        }}
         onExport={exportBackup}
       />
     ) : null
@@ -182,7 +212,10 @@ function PlayerShell({ content }: { content: PlayerContent }) {
                 <button
                   type="button"
                   className="button button-primary"
-                  onClick={() => setView(save.endingId ? 'ending' : 'play')}
+                  onClick={() => {
+                    if (!save.endingId) playEvent(save)
+                    setView(save.endingId ? 'ending' : 'play')
+                  }}
                 >
                   เล่นต่อ
                 </button>
@@ -232,11 +265,16 @@ function PlayerShell({ content }: { content: PlayerContent }) {
   return (
     <div className="app-shell">
       <div className="app-wrap">
-        <header className="mb-6 flex items-center justify-between gap-3">
+        <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <span className="text-sm font-extrabold tracking-wide">
             ม.บารพู <span className="muted font-normal">/ 1 ใน 48,000</span>
           </span>
-          <span className="eyebrow">เรื่องราวของหนึ่งคน</span>
+          <AudioControls
+            volumes={volumes}
+            onChange={(channel, volume) =>
+              audioSettings.getState().setVolume(channel, volume)
+            }
+          />
         </header>
         {body}
         <footer className="muted mt-8 text-center text-xs">

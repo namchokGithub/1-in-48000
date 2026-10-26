@@ -4,6 +4,8 @@
     "kind": "main",
     "time": { "year": 1, "period": "term1" },
     "title": "วันปฐมนิเทศ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [
       {

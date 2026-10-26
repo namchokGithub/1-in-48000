@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "campus_orientation",
+    "kind": "scene",
+    "path": "/assets/scene/campus-orientation.png"
+  },
+  {
+    "id": "mali_portrait",
+    "kind": "portrait",
+    "path": "/assets/portrait/mali.png"
+  },
+  {
+    "id": "kanto_daydream",
+    "kind": "bgm",
+    "path": "/assets/sound/turning_pages-kanto-daydream-569855.mp3"
+  }
+]

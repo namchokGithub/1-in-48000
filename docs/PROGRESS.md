@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 6   | Assets + audio            | Todo   | 2, 5       |
 | 7   | Vertical slice            | Todo   | 5, 6       |
 | 8   | BO core                   | Todo   | 2, 3       |
 | 9   | BO timeline + MVP content | Todo   | 7, 8       |
@@ -18,11 +17,10 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 ## Open decisions
 
-| Topic            | Proposal                                                                                   | Status |
-| ---------------- | ------------------------------------------------------------------------------------------ | ------ |
-| BO file saving   | Vite dev-server plugin writes directly to `public/content/*.json` (no Import/Export flow). | Open   |
-| Pixel art source | Use placeholder images until final art is provided.                                        | Open   |
-| Step order       | Vertical slice (7) before BO core (8).                                                     | Open   |
+| Topic          | Proposal                                                                                   | Status |
+| -------------- | ------------------------------------------------------------------------------------------ | ------ |
+| BO file saving | Vite dev-server plugin writes directly to `public/content/*.json` (no Import/Export flow). | Open   |
+| Step order     | Vertical slice (7) before BO core (8).                                                     | Open   |
 
 Record each resolved decision in `docs/DECISIONS.md`.
 
@@ -100,7 +98,7 @@ Completed 2026-10-26. The Thai Player runs from start and character creation thr
 
 ## 6. Assets + audio
 
-**Status:** Todo
+**Status:** Done
 
 - Asset manifest; all images and sounds referenced by Asset ID.
 - Howler.js wrapper: looping BGM, ambience, SFX, fade.
@@ -108,6 +106,8 @@ Completed 2026-10-26. The Thai Player runs from start and character creation thr
 - Placeholder pixel art for scenes and characters.
 
 **Done when:** events show images and play sound through Asset IDs.
+
+Completed 2026-10-26. The orientation event resolves a pixel campus scene, Mali portrait, and Turning_Pages BGM through the asset manifest. Howler.js manages looping BGM/ambience, SFX playback by ID, and fades. Separate persisted settings control each channel's volume. Ambience and SFX files can be added later through the same manifest.
 
 ## 7. Vertical slice
 

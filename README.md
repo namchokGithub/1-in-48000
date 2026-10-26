@@ -76,6 +76,12 @@ Saves include `saveVersion` and `contentVersion` so older saves can be handled w
 
 The initial stat scales, four-year time sequence, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The sample content is playable end to end in the Player UI; BO editing follows in a later step.
 
+The sample orientation scene uses placeholder pixel art and background music. The Player starts music after a play action and offers separate volume controls for music, ambience, and effects. Ambience and effect audio files have not been added yet.
+
+## Audio Credits
+
+- **Kanto Daydream** — [Turning_Pages](https://pixabay.com/users/turning_pages-50915814/) (Pixabay), used as the sample background music.
+
 ## Content Publishing
 
 ```
@@ -107,7 +113,7 @@ pnpm test
 pnpm build
 ```
 
-Vitest currently has no test files; logic tests begin with later steps.
+Vitest includes focused tests for content, engine, saves, and audio settings.
 
 ## Roadmap
 

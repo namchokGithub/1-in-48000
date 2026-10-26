@@ -52,7 +52,7 @@ Random selection uses the saved `rngState` and updates it after each roll, so co
 
 ## Content and saves
 
-Content is versioned JSON in `public/content/`: `config.json`, `events.json`, `characters.json`, `assets.json`, and `endings.json`. Events and characters refer to media by Asset ID; paths appear only in `assets.json`. The Step 2 sample has no media assets yet.
+Content is versioned JSON in `public/content/`: `config.json`, `events.json`, `characters.json`, `assets.json`, and `endings.json`. Events and characters refer to media by Asset ID; paths appear only in `assets.json`. The sample orientation event references a pixel campus scene, Mali portrait, and BGM through the manifest. Audio volume settings live under a separate localStorage key and are not part of the player save.
 
 The player save is separate from content and has `saveVersion: 2`, `contentVersion`, selected `backgroundId`, current time/event, stats, boolean flags, choice history, pending effects, and both `rngSeed` and `rngState`. Storing the current RNG state lets the engine resume without changing future rolls.
 

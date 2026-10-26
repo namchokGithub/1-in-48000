@@ -19,3 +19,7 @@ Use one versioned localStorage slot behind a `SaveStorage` interface and a vanil
 ## 2026-10-26 — Starting background presets and save v2
 
 Keep three starting presets in versioned game config so family situation, personality, skill, and stat deltas travel with content. Store only the selected preset ID in new saves. Migrate a v1 save from content `0.1.0` to v2/content `0.2.0` with a null background ID and unchanged stats, pending effects, and RNG state; the old run continues without retroactive modifiers. BO authoring for presets follows the BO core step because no BO editor exists yet.
+
+## 2026-10-26 — Asset-backed sample and separate audio settings
+
+Use small original PNG placeholders for the sample campus scene and Mali portrait until final art is available. Keep media paths in `assets.json`; the orientation event and character refer to Asset IDs. Play music only after a player action, fade looping tracks when the event changes or the player leaves, and store per-channel volume settings under a separate localStorage key so changing sound preferences never changes a game save.
