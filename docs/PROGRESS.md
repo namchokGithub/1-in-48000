@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                      | Status | Depends on |
 | --- | ------------------------- | ------ | ---------- |
-| 4   | Save                      | Todo   | 2, 3       |
 | 5   | Player UI                 | Todo   | 3, 4       |
 | 6   | Assets + audio            | Todo   | 2, 5       |
 | 7   | Vertical slice            | Todo   | 5, 6       |
@@ -72,7 +71,7 @@ Completed 2026-10-26. The pure TypeScript engine supports conditions, effects, p
 
 ## 4. Save
 
-**Status:** Todo
+**Status:** Done
 
 - Zustand game store.
 - Storage interface + localStorage adapter.
@@ -82,6 +81,8 @@ Completed 2026-10-26. The pure TypeScript engine supports conditions, effects, p
 - Migration skeleton keyed on `saveVersion`.
 
 **Done when:** save/load tests pass and reloading never changes an outcome.
+
+Completed 2026-10-26. A vanilla Zustand store writes one localStorage slot at checkpoints, resumes and restarts runs, exports JSON, and validates saves through a versioned loader. Focused tests cover storage failures and deterministic RNG after reload.
 
 ## 5. Player UI
 

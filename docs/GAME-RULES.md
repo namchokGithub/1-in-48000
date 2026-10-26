@@ -46,10 +46,12 @@ The engine starts at `config.startingEventId`. After a choice, an explicit `goTo
 
 Endings are checked in file order; the first whose conditions all hold wins. Authors can place an unconditional fallback last. If no ending matches, the engine reports an error. The summary includes the ending text, final stats, and counts of events and choices.
 
-Random selection uses the saved `rngState` and updates it after each roll, so continuing from the same save produces the same result. The engine rejects a save whose `contentVersion` differs from the loaded config. Save migration and persistence are Step 4.
+Random selection uses the saved `rngState` and updates it after each roll, so continuing from the same save produces the same result. The engine rejects a save whose `contentVersion` differs from the loaded config.
 
 ## Content and saves
 
 Content is versioned JSON in `public/content/`: `config.json`, `events.json`, `characters.json`, `assets.json`, and `endings.json`. Events and characters refer to media by Asset ID; paths appear only in `assets.json`. The Step 2 sample has no media assets yet.
 
-The player save is separate from content and has `saveVersion: 1`, `contentVersion`, current time/event, stats, boolean flags, choice history, pending effects, and both `rngSeed` and `rngState`. Storing the current RNG state lets a later engine resume without changing future rolls. Only checkpoints will be persisted when Step 4 adds storage. Older save versions will be handled by migrations in Step 4.
+The player save is separate from content and has `saveVersion: 1`, `contentVersion`, current time/event, stats, boolean flags, choice history, pending effects, and both `rngSeed` and `rngState`. Storing the current RNG state lets the engine resume without changing future rolls.
+
+The save store writes one localStorage slot when a game starts or restarts and after a choice resolves. Event and term transitions, delayed effects, and endings occur inside that resolved choice before the checkpoint is written. Loading and exporting do not write. Export returns the versioned save as JSON for the Player UI to offer as a backup download; if loading fails, it returns the untouched stored text for recovery. The loader validates `saveVersion: 1` and the content version before continuing; unsupported versions or invalid data leave the stored slot untouched. No earlier save format has shipped, so the migration switch currently has only the version 1 case.

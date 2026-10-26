@@ -11,3 +11,7 @@ Use 0–100 integer scales for study, health, stress, and relationships; store m
 ## 2026-10-26 — Event selection and ending precedence
 
 After an explicit event link, select eligible unvisited events by `main`, `holiday`, then `conditional`; choose at most one random event per period. Preserve authored array order within each fixed-priority kind. Resolve the first matching ending in file order, allowing a final unconditional fallback. This gives authors a predictable main line while retaining controlled variation.
+
+## 2026-10-26 — Single-slot save checkpoints
+
+Use one versioned localStorage slot behind a `SaveStorage` interface and a vanilla Zustand store. Write after game start/restart or a resolved choice, including any event, term, delayed-effect, or ending transition in that choice. Load and export are read-only. Reject incompatible or invalid saves without deleting the stored data; no earlier save format exists yet, so the migration switch starts at version 1.
