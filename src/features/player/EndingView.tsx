@@ -69,7 +69,7 @@ export function EndingView({
             ))}
           </ol>
         </section>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap justify-end gap-3">
           <button
             type="button"
             className="button button-primary"

@@ -12,6 +12,22 @@ colors:
   accent: '#e8a36b'
   line: '#c8dad8'
   danger: '#a63d42'
+playerLight:
+  canvas: '#FFFDF7'
+  card: '#FFF9EE'
+  border: '#E7DDBD'
+  primary: '#D9B85F'
+  primarySoft: '#F4E6B0'
+  text: '#4A4436'
+  textSecondary: '#756C58'
+playerDark:
+  canvas: '#1D1C1A'
+  card: '#2B2925'
+  border: '#4A4438'
+  primary: '#D2B15C'
+  primarySoft: '#4B4128'
+  text: '#F3EBD7'
+  textSecondary: '#D1C5A8'
 typography:
   body:
     fontFamily: 'Noto Sans Thai, Sarabun, Thonburi, Leelawadee UI, system-ui, sans-serif'
@@ -37,11 +53,11 @@ The Player reads like a personal field guide to one student's years at ม.บ�
 
 ## Runtime ownership
 
-`src/shared/styles.css` owns the CSS variables. The values above mirror those variables; this file records their intent. Tailwind handles layout utilities. Shared `.button`, `.panel`, and `.stat-*` classes consume CSS variables so the screens do not repeat raw colors.
+`src/shared/styles.css` owns the CSS variables. The flat `colors` values above remain the BO/base palette. `playerLight` and `playerDark` map to `.player-shell` and `.player-shell[data-theme='dark']` overrides in that stylesheet; this file records their intent. Tailwind handles layout utilities. Shared `.button`, `.panel`, and `.stat-*` classes consume CSS variables so the screens do not repeat raw colors.
 
 ## Layout and type
 
-The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. The content width is at most 76rem. Thai-capable system fallbacks avoid a late web-font shift. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
+The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. Player content and header share the same width of at most 76rem, including the start form and home card. Actions align right where space allows. The scene name appears in the title above the image. Thai-capable system fallbacks avoid a late web-font shift. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
 
 BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list and editor sit in two columns on wide screens and stack on phones. The event view can switch to an eight-year timeline, with one card per event and a column for each period. Columns wrap to two or one across narrower widths. Native drag and drop moves cards within and across periods; selecting a card opens its form. The form's year/period fields and up/down controls remain available for touch and keyboard use.
 
@@ -53,11 +69,11 @@ The V2 story form uses compact ordered cards for dialogue and choices. Speaker p
 
 ## Visual language
 
-Pale teal canvas, white surfaces, dark blue-green ink, and a teal action color evoke campus notebooks without imitating paper texture. The scene placeholder is a geometric campus silhouette until asset IDs point to real art. One warm accent highlights progress. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
+The Player uses a Cozy campus palette: ivory canvas and cream cards in light mode, charcoal canvas and gray cards in dark mode. Soft gold marks primary actions, selected states, and study progress; large neutral areas keep both themes calm. The scene placeholder keeps its geometric campus silhouette in theme-aware tones until asset IDs point to real art. The BO retains its teal palette. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
 
 ## Interaction states
 
-Buttons have visible hover, pressed, disabled, and keyboard focus states. Form errors appear beside the relevant field. Loading and content errors keep a stable panel footprint. New life submission replaces the single save slot without a second confirmation. The background randomizer hides the selected card in the creation form. During a scene, a compact study timeline marks the current year and extends to six or eight years when necessary. Choice information includes stat changes and chance; the ending lists saved decisions in chronological order. Motion is brief and removed when reduced motion is requested. Scrollbars remain visible and inherit the global theme.
+Buttons have visible hover, pressed, disabled, and keyboard focus states. Form errors appear beside the relevant field. Loading and content errors keep a stable panel footprint. New life submission replaces the single save slot without a second confirmation. The background randomizer hides the selected card in the creation form. During a scene, a compact study timeline marks the current year and extends to six or eight years when necessary. Choice information includes stat changes and chance; the ending lists saved decisions in chronological order. The theme switch persists separately from the save. A single music button switches BGM on or off; browser playback begins after an interaction and continues across Player pages. Motion is brief and removed when reduced motion is requested. Scrollbars remain visible and inherit the active Player palette.
 
 BO changes stay in a draft until Save is pressed. The header marks unsaved edits, and validation errors name their content path. The preview is a modal and never persists a save. Deleting an item removes it from the draft; cross-file validation blocks broken references when saving.
 

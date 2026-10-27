@@ -67,9 +67,6 @@ export function SceneView({
           {sceneAsset && (
             <img className="scene-image" src={sceneAsset.path} alt="" />
           )}
-          <span className="scene-caption">
-            {sceneAsset ? event.title : 'ม.บารพู · ฉากตัวอย่าง'}
-          </span>
           {portraitAsset && (
             <img
               className="portrait-image"
@@ -79,7 +76,7 @@ export function SceneView({
           )}
         </div>
         <div
-          className="mt-4 rounded-2xl border border-[var(--color-line)] bg-[#f8fbfa] p-5 sm:p-6"
+          className="player-dialogue mt-4 rounded-2xl border border-[var(--color-line)] p-5 sm:p-6"
           aria-live="polite"
         >
           <p className="eyebrow">{speaker?.name ?? 'เรื่องราว'}</p>
@@ -93,7 +90,7 @@ export function SceneView({
             {error}
           </p>
         )}
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 flex flex-col items-end gap-3">
           {!lastLine ? (
             <button
               type="button"
@@ -104,14 +101,14 @@ export function SceneView({
             </button>
           ) : choices.length ? (
             <>
-              <p className="font-bold">คุณจะทำอย่างไร?</p>
+              <p className="w-full font-bold">คุณจะทำอย่างไร?</p>
               {choices.map((choice) => {
                 const effects = describeChoiceEffects(choice, save.stats)
                 return (
                   <button
                     key={choice.id}
                     type="button"
-                    className="button button-secondary w-full flex-col items-start text-left"
+                    className="button button-secondary w-full flex-col items-start text-left sm:max-w-[38rem]"
                     onClick={() => onChoose(choice.id)}
                   >
                     <span>{choice.text}</span>

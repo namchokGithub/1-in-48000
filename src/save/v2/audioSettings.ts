@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { createStore } from 'zustand/vanilla'
+import { AUDIO_SETTINGS_KEY } from '../audioSettings'
 
 const musicSchema = z.object({
   musicEnabled: z.boolean(),
@@ -30,4 +32,33 @@ export function readV2AudioSettings(raw: string | null): V2AudioSettings {
     return defaults
   }
   return defaults
+}
+
+type SettingsStorage = Pick<Storage, 'getItem' | 'setItem'>
+
+export function createV2AudioSettingsStore(
+  storage: SettingsStorage = window.localStorage,
+) {
+  let initial: V2AudioSettings
+  try {
+    initial = readV2AudioSettings(storage.getItem(AUDIO_SETTINGS_KEY))
+  } catch {
+    initial = readV2AudioSettings(null)
+  }
+
+  return createStore<{
+    settings: V2AudioSettings
+    setMusicEnabled: (enabled: boolean) => void
+  }>((set, get) => ({
+    settings: initial,
+    setMusicEnabled: (enabled) => {
+      const settings = { ...get().settings, musicEnabled: enabled }
+      set({ settings })
+      try {
+        storage.setItem(AUDIO_SETTINGS_KEY, JSON.stringify(settings))
+      } catch {
+        // Keep the control responsive when browser storage is unavailable.
+      }
+    },
+  }))
 }

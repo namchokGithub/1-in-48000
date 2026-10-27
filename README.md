@@ -26,7 +26,7 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 - **Choices** — immediate effects, delayed effects (good or bad), or dialogue-only changes.
 - **Story memory** — the game remembers decisions such as helping a friend, joining a club, or taking a part-time job. They do not always pay off.
 - **Graphics** — seven pixel-art scenes and character portraits referenced by Asset ID.
-- **Sound** — background music, ambience, and click sounds, with volume controls.
+- **Sound** — looping background music with a simple on/off control.
 - **Save** — auto-save, continue, and restart.
 - **Ending** — a life summary covering grades, relationships, and your path after graduation.
 - **Devices** — mobile and desktop.
@@ -78,7 +78,7 @@ Saves include `saveVersion` and `contentVersion` so older saves can be handled w
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO now use V2 content version `0.5.0` in `public/content-v2`. It carries the 35 existing events, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The earlier V1 content stays in `public/content` for migration checks. The Player starts music after a play action; the simplified V2 audio and gameplay presentation remain in later steps.
+The Player and BO now use V2 content version `0.5.0` in `public/content-v2`. It carries the 35 existing events, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The earlier V1 content stays in `public/content` for migration checks. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 
@@ -129,7 +129,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 
-**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player starts with a random name, shows background and choice stat effects, tracks four to eight study years, and ends with a decision timeline. Player visual theming and authored Years 5–8 story content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player starts with a random name, shows background and choice stat effects, tracks four to eight study years, and ends with a decision timeline. The light/dark Player themes and music-only control are implemented pending a mobile, desktop, and audio check. Authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

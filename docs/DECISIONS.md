@@ -63,3 +63,7 @@ Count the more-than-ten-main-event warning from all active events in a year/peri
 ## 2026-10-27 — Player gameplay information
 
 Sample a new player's name from the versioned names file and keep the field editable. Sampling a background hides its selection in the creation form while retaining its ID for the new save. Show stat deltas and the engine's effective chance percentage before a choice; `statsOnly` reveals direction without amount. Extend the visible study timeline from four to six or eight years according to the current year, and render the saved choice history in the ending summary. A new game replaces the single save slot immediately after the player submits the creation form; the separate overwrite warning is removed.
+
+## 2026-10-27 — Scoped Player themes and continuous music
+
+Keep the existing shared teal tokens as the BO/base palette and override them only inside the Player shell for the approved cream/gold light and charcoal/gold dark themes. Persist the Player theme separately from the game save. Use the existing audio controller with the V2 music-only setting: migrate prior BGM volume, default new settings to 20%, and show one on/off button. Start music after a user action to respect browser autoplay rules, use an event BGM when present and the manifest's BGM otherwise, and continue music on home, creation, and ending pages until switched off.

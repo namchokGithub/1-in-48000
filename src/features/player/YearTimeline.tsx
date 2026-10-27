@@ -16,12 +16,12 @@ export function YearTimeline({ currentYear }: { currentYear: number }) {
             <li
               key={year}
               aria-current={year === currentYear ? 'step' : undefined}
-              className={`rounded-lg border px-1 py-2 text-center text-xs font-bold sm:text-sm ${
+              className={`year-step rounded-lg border px-1 py-2 text-center text-xs font-bold sm:text-sm ${
                 year === currentYear
-                  ? 'border-[var(--color-primary)] bg-[#e7f5f2] text-[var(--color-ink)]'
+                  ? 'year-step-current'
                   : year < currentYear
-                    ? 'border-[var(--color-line)] bg-[#f2f8f6] text-[var(--color-muted)]'
-                    : 'border-[var(--color-line)] text-[var(--color-muted)]'
+                    ? 'year-step-complete'
+                    : 'year-step-future'
               }`}
             >
               ปี {year}

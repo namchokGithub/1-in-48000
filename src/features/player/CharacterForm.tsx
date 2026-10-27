@@ -50,7 +50,7 @@ export function CharacterForm({
   }
 
   return (
-    <section className="panel mx-auto max-w-4xl p-5 sm:p-8">
+    <section className="panel w-full p-5 sm:p-8 lg:p-10">
       <p className="eyebrow">สร้างตัวละคร</p>
       <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
         ชีวิตนี้เริ่มที่คุณ
@@ -181,7 +181,7 @@ export function CharacterForm({
             {actionError}
           </p>
         )}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap justify-end gap-3">
           <button className="button button-primary" type="submit">
             เริ่มชีวิตนี้
           </button>

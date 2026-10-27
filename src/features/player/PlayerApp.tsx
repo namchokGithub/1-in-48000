@@ -5,7 +5,8 @@ import type { V2Content } from '../../content/v2/schema'
 import { getV2CurrentEvent, summarizeV2Life } from '../../engine/v2/game'
 import { createV2GameStore } from '../../save/v2/store'
 import { createLocalStorageAdapter } from '../../save/storage'
-import { createAudioSettingsStore } from '../../save/audioSettings'
+import { createV2AudioSettingsStore } from '../../save/v2/audioSettings'
+import { createPlayerThemeStore } from '../../save/v2/themeSettings'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { createAudioController } from '../../shared/audio'
 import { AudioControls } from './AudioControls'
@@ -50,7 +51,13 @@ function downloadSave(text: string) {
   URL.revokeObjectURL(url)
 }
 
-function PlayerShell({ content }: { content: V2Content }) {
+function PlayerShell({
+  content,
+  themeSettings,
+}: {
+  content: V2Content
+  themeSettings: ReturnType<typeof createPlayerThemeStore>
+}) {
   const [session] = useState(() => {
     const store = createV2GameStore(content, createLocalStorageAdapter())
     let loadFailed = false
@@ -63,27 +70,43 @@ function PlayerShell({ content }: { content: V2Content }) {
   })
   const { store } = session
   const [audio] = useState(createAudioController)
-  const [audioSettings] = useState(createAudioSettingsStore)
-  const volumes = useStore(audioSettings, (state) => state.volumes)
+  const [audioSettings] = useState(createV2AudioSettingsStore)
+  const musicSettings = useStore(audioSettings, (state) => state.settings)
+  const theme = useStore(themeSettings, (state) => state.theme)
   const save = useStore(store, (state) => state.save)
   const [view, setView] = useState<View>('home')
   const [saveError, setSaveError] = useState(session.loadFailed)
   const [actionError, setActionError] = useState<string | null>(null)
 
   useEffect(() => {
-    audio.setVolumes(volumes)
-  }, [audio, volumes])
+    audio.setVolumes({
+      bgm: musicSettings.musicEnabled ? musicSettings.musicVolume : 0,
+      ambience: 0,
+      sfx: 0,
+    })
+  }, [audio, musicSettings])
 
   useEffect(() => () => audio.stop(), [audio])
 
-  function playEvent(current: V2PlayerSave) {
-    const event = currentEventOrNull(content, current)
-    if (event) audio.sync(event, content.assets)
-    else audio.stop()
+  function syncMusic(
+    current: V2PlayerSave | null,
+    enabled = musicSettings.musicEnabled,
+  ) {
+    if (!enabled) {
+      audio.stop()
+      return
+    }
+    audio.setVolumes({ bgm: musicSettings.musicVolume, ambience: 0, sfx: 0 })
+    const event =
+      current && !current.endingId ? currentEventOrNull(content, current) : null
+    const bgmAssetId =
+      event?.bgmAssetId ??
+      content.assets.find((asset) => asset.kind === 'bgm')?.id
+    audio.sync({ bgmAssetId }, content.assets)
   }
 
   function goHome() {
-    audio.stop()
+    syncMusic(null)
     setView('home')
   }
 
@@ -94,7 +117,7 @@ function PlayerShell({ content }: { content: V2Content }) {
       : store.getState().startGame
     action(name, seed, backgroundId)
     const started = store.getState().save
-    if (started) playEvent(started)
+    if (started) syncMusic(started)
     setSaveError(false)
     setActionError(null)
     setView('play')
@@ -103,8 +126,7 @@ function PlayerShell({ content }: { content: V2Content }) {
   function choose(choiceId: string) {
     try {
       const next = store.getState().choose(choiceId)
-      if (next.endingId) audio.stop()
-      else playEvent(next)
+      syncMusic(next.endingId ? null : next)
       setActionError(null)
       setView(next.endingId ? 'ending' : 'play')
     } catch {
@@ -114,6 +136,7 @@ function PlayerShell({ content }: { content: V2Content }) {
 
   function exportBackup() {
     try {
+      syncMusic(view === 'play' ? save : null)
       const raw = store.getState().exportSave()
       if (raw) downloadSave(raw)
     } catch {
@@ -160,7 +183,7 @@ function PlayerShell({ content }: { content: V2Content }) {
         summary={summary}
         onHome={goHome}
         onRestart={() => {
-          audio.stop()
+          syncMusic(null)
           setView('create')
         }}
         onExport={exportBackup}
@@ -170,7 +193,7 @@ function PlayerShell({ content }: { content: V2Content }) {
 
   if (!body) {
     body = (
-      <section className="panel mx-auto max-w-4xl overflow-hidden">
+      <section className="panel overflow-hidden">
         <div className="grid md:grid-cols-[1.1fr_.9fr]">
           <div className="p-7 sm:p-10">
             <p className="eyebrow">ชีวิตมหาวิทยาลัยหนึ่งครั้ง</p>
@@ -182,7 +205,7 @@ function PlayerShell({ content }: { content: V2Content }) {
               ทุกคำตอบจะกลายเป็นเรื่องราวของคุณ
             </p>
             {save && (
-              <div className="mt-6 rounded-xl border border-[var(--color-line)] bg-[#f4faf8] p-4">
+              <div className="player-save-card mt-6 rounded-xl border border-[var(--color-line)] p-4">
                 <p className="font-bold">เซฟของ {save.playerName}</p>
                 <p className="muted mt-1 text-sm">
                   {save.endingId
@@ -193,7 +216,7 @@ function PlayerShell({ content }: { content: V2Content }) {
             )}
             {saveError && (
               <p
-                className="mt-5 rounded-xl border border-[#e1b5b7] bg-[#fff4f2] p-4 text-sm"
+                className="player-error-panel mt-5 rounded-xl border p-4 text-sm"
                 role="alert"
               >
                 โหลดเซฟไม่ได้ ข้อมูลเดิมยังอยู่
@@ -208,13 +231,13 @@ function PlayerShell({ content }: { content: V2Content }) {
                 {actionError}
               </p>
             )}
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-end gap-3">
               {save && (
                 <button
                   type="button"
                   className="button button-primary"
                   onClick={() => {
-                    if (!save.endingId) playEvent(save)
+                    syncMusic(save.endingId ? null : save)
                     setView(save.endingId ? 'ending' : 'play')
                   }}
                 >
@@ -226,7 +249,10 @@ function PlayerShell({ content }: { content: V2Content }) {
                 className={
                   save ? 'button button-secondary' : 'button button-primary'
                 }
-                onClick={() => setView('create')}
+                onClick={() => {
+                  syncMusic(null)
+                  setView('create')
+                }}
               >
                 {save ? 'เริ่มชีวิตใหม่' : 'เริ่มเกม'}
               </button>
@@ -241,16 +267,8 @@ function PlayerShell({ content }: { content: V2Content }) {
               )}
             </div>
           </div>
-          <div className="relative flex min-h-64 items-end overflow-hidden bg-[#a8d2ce] p-7 sm:p-10">
-            <div
-              className="absolute inset-0 opacity-60"
-              style={{
-                background:
-                  'linear-gradient(160deg, transparent 50%, #6eaaa7 50% 64%, #3b8184 64% 80%, #215f69 80%)',
-              }}
-              aria-hidden="true"
-            />
-            <p className="relative max-w-xs text-2xl font-extrabold leading-snug text-white drop-shadow-sm">
+          <div className="player-home-art relative flex min-h-64 items-end overflow-hidden p-7 sm:p-10">
+            <p className="relative max-w-xs text-2xl font-extrabold leading-snug">
               หนึ่งชีวิต
               <br />
               หลายทางเลือก
@@ -264,20 +282,41 @@ function PlayerShell({ content }: { content: V2Content }) {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app-shell player-shell" data-theme={theme}>
       <div className="app-wrap">
-        <header className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <header className="player-header mb-6 flex flex-wrap items-center justify-between gap-3">
           <span className="text-sm font-extrabold tracking-wide">
             ม.บารพู <span className="muted font-normal">/ 1 ใน 48,000</span>
           </span>
-          <AudioControls
-            volumes={volumes}
-            onChange={(channel, volume) =>
-              audioSettings.getState().setVolume(channel, volume)
-            }
-          />
+          <div className="player-header-actions flex flex-wrap gap-2">
+            <button
+              type="button"
+              className="button button-secondary player-header-button"
+              aria-pressed={theme === 'dark'}
+              aria-label={
+                theme === 'dark' ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด'
+              }
+              onClick={() => {
+                syncMusic(view === 'play' ? save : null)
+                themeSettings
+                  .getState()
+                  .setTheme(theme === 'dark' ? 'light' : 'dark')
+              }}
+            >
+              <span aria-hidden="true">{theme === 'dark' ? '☾' : '☀'}</span>
+              ธีม{theme === 'dark' ? 'มืด' : 'สว่าง'}
+            </button>
+            <AudioControls
+              enabled={musicSettings.musicEnabled}
+              onToggle={() => {
+                const enabled = !musicSettings.musicEnabled
+                syncMusic(view === 'play' ? save : null, enabled)
+                audioSettings.getState().setMusicEnabled(enabled)
+              }}
+            />
+          </div>
         </header>
-        {body}
+        <main id="player-content">{body}</main>
         <footer className="muted mt-8 text-center text-xs">
           เรื่องราวตัวอย่าง · เนื้อหาและภาพเพิ่มเติมจะตามมา
         </footer>
@@ -287,6 +326,8 @@ function PlayerShell({ content }: { content: V2Content }) {
 }
 
 export function PlayerApp() {
+  const [themeSettings] = useState(createPlayerThemeStore)
+  const theme = useStore(themeSettings, (state) => state.theme)
   const [content, setContent] = useState<V2Content | null>(null)
   const [error, setError] = useState(false)
   const [retry, setRetry] = useState(0)
@@ -310,7 +351,10 @@ export function PlayerApp() {
 
   if (error) {
     return (
-      <main className="app-shell flex items-center justify-center">
+      <main
+        className="app-shell player-shell flex items-center justify-center"
+        data-theme={theme}
+      >
         <div className="panel max-w-lg p-8" role="alert">
           <p className="eyebrow">1 ใน 48,000</p>
           <h1 className="mt-3 text-2xl font-extrabold">โหลดเนื้อหาเกมไม่ได้</h1>
@@ -328,12 +372,15 @@ export function PlayerApp() {
   }
   if (!content) {
     return (
-      <main className="app-shell flex items-center justify-center">
+      <main
+        className="app-shell player-shell flex items-center justify-center"
+        data-theme={theme}
+      >
         <div className="panel min-w-64 p-8" role="status">
           กำลังเปิดเรื่องราว…
         </div>
       </main>
     )
   }
-  return <PlayerShell content={content} />
+  return <PlayerShell content={content} themeSettings={themeSettings} />
 }

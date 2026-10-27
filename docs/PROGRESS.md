@@ -8,10 +8,10 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this table whenever an item's status changes.
 
-| #   | Step              | Status | Depends on |
-| --- | ----------------- | ------ | ---------- |
-| 18  | Player UX/UI      | Todo   | 17         |
-| 19  | V2 test + release | Todo   | 16, 18     |
+| #   | Step              | Status      | Depends on |
+| --- | ----------------- | ----------- | ---------- |
+| 18  | Player UX/UI      | In progress | 17         |
+| 19  | V2 test + release | Todo        | 16, 18     |
 
 V2 order: rules and engine first (11–12), then BO (13–16), then Player (17–18). Requirements source: `docs/REQUIREMENT-V2.md`.
 
@@ -278,7 +278,7 @@ Completed 2026-10-27. New runs receive an editable name selected from `names.jso
 
 ## 18. Player UX/UI
 
-**Status:** Todo
+**Status:** In progress
 
 Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
 
@@ -331,6 +331,8 @@ Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
 - Music-only sound control: an on/off button, default volume 20%, no settings panel.
 
 **Done when:** the user checks the layout, themes, and music by eye on mobile and desktop.
+
+Implemented 2026-10-27; awaiting the author's visual and audio check. Player content now spans the same width as its header, actions align right, and the scene image has no duplicate title caption. Scoped light/dark tokens follow the Cozy campus palette without changing BO colors, and the selected theme persists. V2 music settings provide a single on/off control, default to 20% for new settings, migrate prior music volume, and keep music across Player pages after a user action. Focused settings tests, touched-file lint, and scoped type checking pass; no build, full test suite, dev server, or browser check was run.
 
 ## 19. V2 test + release
 
