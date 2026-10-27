@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import names from '../../../public/content/random-names.json'
+import names from '../../../public/content-v2/names.json'
 import sample from './sample-content.json'
 import {
   v2ContentSchema,

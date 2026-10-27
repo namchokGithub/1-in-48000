@@ -1,5 +1,5 @@
 import { useState, type DragEvent } from 'react'
-import type { GameTime } from '../../content/schema'
+import type { V2Event } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import {
   filterTimelineStories,
@@ -12,8 +12,10 @@ type TimelineEvent = {
   id: string
   title: string
   kind: 'main' | 'conditional' | 'holiday' | 'random'
-  time: GameTime
+  time: V2Event['time']
 }
+
+type GameTime = V2Event['time']
 
 const periods: { id: GameTime['period']; label: string }[] = [
   { id: 'term1', label: 'เทอม 1' },

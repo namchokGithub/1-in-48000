@@ -5,7 +5,6 @@ import {
   type V2GameContent,
 } from '../../engine/v2/game'
 import type { SaveStorage } from '../storage'
-import { loadV2Save } from './migrations'
 import type { V2PlayerSave } from './schema'
 
 export type V2GameStore = {
@@ -15,7 +14,6 @@ export type V2GameStore = {
     rngSeed: number,
     backgroundId?: string,
   ): V2PlayerSave
-  continueGame(): V2PlayerSave | null
   choose(choiceId: string): V2PlayerSave
   restartGame(
     playerName: string,
@@ -45,16 +43,6 @@ export function createV2GameStore(
       save: null,
       startGame: begin,
       restartGame: begin,
-      continueGame: () => {
-        const raw = storage.read()
-        if (raw === null) {
-          set({ save: null })
-          return null
-        }
-        const save = loadV2Save(raw, content.config.contentVersion)
-        set({ save })
-        return save
-      },
       choose: (choiceId) => {
         const current = get().save
         if (!current) throw new Error('No active game')
@@ -65,7 +53,7 @@ export function createV2GameStore(
       },
       exportSave: () => {
         const save = get().save
-        return save ? JSON.stringify(save, null, 2) : storage.read()
+        return save ? JSON.stringify(save, null, 2) : null
       },
     }
   })

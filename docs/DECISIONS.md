@@ -71,3 +71,7 @@ Keep the existing shared teal tokens as the BO/base palette and override them on
 ## 2026-10-27 — Noto Sans Thai Light across Player and BO
 
 Load the same Google Fonts 300-weight stylesheet in the Player entry and the local BO HTML response. Apply Noto Sans Thai Light 300 from the shared stylesheet to all UI text, overriding older utility and BO-specific weight rules so those classes do not synthesize heavier glyphs from the single loaded weight. The font request has `display=swap`; sans-serif remains the fallback when it is unavailable.
+
+## 2026-10-27 — Retire V1 runtime after V2 adoption
+
+Remove the unused V1 engine, content schema/loader/validator, save store, BO editors, and V1-only tests. BO accepts only the V2 content-write route, and the audio controller uses V2 music assets. The Player no longer loads saved games of any version when a page opens; it keeps a game in memory for the current page session while continuing to write localStorage checkpoints and allowing a current-session JSON download. Remove save migration code, legacy audio-settings conversion, and the old-load recovery UI. Preserve `public/content` JSON as an archive because this cleanup concerns code, not historical content; Player and BO never read it.

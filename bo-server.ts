@@ -4,17 +4,12 @@ import { readFile, rename, unlink, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
-import { assetListSchema } from './src/content/schema.ts'
-import {
-  validateContent,
-  type ValidationIssue,
-} from './src/content/validate.ts'
-import { v2ContentSchema } from './src/content/v2/schema.ts'
+import { v2AssetListSchema, v2ContentSchema } from './src/content/v2/schema.ts'
 
 type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
-const files = ['config', 'events', 'characters', 'assets', 'endings'] as const
+type ValidationIssue = { path: string; message: string }
 const MAX_BODY_BYTES = 2 * 1024 * 1024
-const v2Files = [
+const files = [
   'config',
   'events',
   'characters',
@@ -37,50 +32,9 @@ export async function saveBoContent(
   file: EditableFile,
   value: unknown,
 ): Promise<void> {
-  const contentDir = join(root, 'public', 'content')
-  const entries = await Promise.all(
-    files.map(async (name) => {
-      const text = await readFile(join(contentDir, `${name}.json`), 'utf8')
-      return [name, JSON.parse(text) as unknown] as const
-    }),
-  )
-  const content = Object.fromEntries(entries)
-  content[file] = value
-  const issues = validateContent(content)
-  const manifest = assetListSchema.safeParse(content.assets)
-  if (manifest.success) {
-    for (const [index, asset] of manifest.data.entries()) {
-      if (!existsSync(join(root, 'public', asset.path.slice(1)))) {
-        issues.push({
-          path: `assets.${index}.path`,
-          message: `ไม่พบไฟล์ Asset: ${asset.path}`,
-        })
-      }
-    }
-  }
-  if (issues.length) throw new BoValidationError(issues)
-
-  const target = join(contentDir, `${file}.json`)
-  const temporary = `${target}.${randomUUID()}.tmp`
-  try {
-    await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`, {
-      flag: 'wx',
-    })
-    await rename(temporary, target)
-  } catch (error) {
-    await unlink(temporary).catch(() => undefined)
-    throw error
-  }
-}
-
-export async function saveBoV2Content(
-  root: string,
-  file: EditableFile,
-  value: unknown,
-): Promise<void> {
   const contentDir = join(root, 'public', 'content-v2')
   const entries = await Promise.all(
-    v2Files.map(async (name) => {
+    files.map(async (name) => {
       const text = await readFile(join(contentDir, `${name}.json`), 'utf8')
       return [name, JSON.parse(text) as unknown] as const
     }),
@@ -94,7 +48,7 @@ export async function saveBoV2Content(
         path: issue.path.join('.'),
         message: issue.message,
       }))
-  const manifest = assetListSchema.safeParse(content.assets)
+  const manifest = v2AssetListSchema.safeParse(content.assets)
   if (manifest.success) {
     for (const [index, asset] of manifest.data.entries()) {
       if (!existsSync(join(root, 'public', asset.path.slice(1)))) {
@@ -183,9 +137,9 @@ export function boContentPlugin(): Plugin {
           return
         }
         const match = path?.match(
-          /^\/__bo\/(v2\/)?content\/(events|endings|characters|assets)$/,
+          /^\/__bo\/v2\/content\/(events|endings|characters|assets)$/,
         )
-        const file = match?.[2] as EditableFile | undefined
+        const file = match?.[1] as EditableFile | undefined
         if (!file) {
           next()
           return
@@ -205,8 +159,7 @@ export function boContentPlugin(): Plugin {
         }
         try {
           const value = await readBody(req)
-          if (match?.[1]) await saveBoV2Content(server.config.root, file, value)
-          else await saveBoContent(server.config.root, file, value)
+          await saveBoContent(server.config.root, file, value)
           respond(res, 200, { ok: true })
         } catch (error) {
           if (error instanceof BoValidationError) {

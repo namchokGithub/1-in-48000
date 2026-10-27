@@ -27,7 +27,7 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 - **Story memory** — the game remembers decisions such as helping a friend, joining a club, or taking a part-time job. They do not always pay off.
 - **Graphics** — seven pixel-art scenes and character portraits referenced by Asset ID.
 - **Sound** — looping background music with a simple on/off control.
-- **Save** — auto-save, continue, and restart.
+- **Save** — checkpoint each choice, continue within the current page session, and restart.
 - **Ending** — a life summary covering grades, relationships, and your path after graduation.
 - **Devices** — mobile and desktop.
 
@@ -43,7 +43,7 @@ A content authoring and testing tool that runs **only on the author's machine**,
 - Validate JSON: duplicate IDs, broken event links, and missing assets.
 - Save JSON directly to the content files — no manual import/export.
 
-The current BO edits `events.json`, `endings.json`, `characters.json`, and `assets.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The timeline covers Years 1–8, filters by kind, and warns when a period has more than ten active main events without blocking additions. It moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` and save migration before publishing content changes.
+The current BO edits `events.json`, `endings.json`, `characters.json`, and `assets.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The timeline covers Years 1–8, filters by kind, and warns when a period has more than ten active main events without blocking additions. It moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` before publishing content changes.
 
 ## Tech Stack
 
@@ -74,11 +74,11 @@ Game content and player saves are separate from day one.
 | Endings     | Ending conditions and summary text                          |
 | Player save | Current state, choice history, flags, content version, seed |
 
-Saves include `saveVersion` and `contentVersion` so older saves can be handled when content changes. Random results are stored (as a seed or rolled values) so reloading never changes an outcome.
+Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Player does not reload stored checkpoints when a page opens.
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO now use V2 content version `0.5.0` in `public/content-v2`. It carries the 35 existing events, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The earlier V1 content stays in `public/content` for migration checks. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The Player and BO use V2 content version `0.5.0` in `public/content-v2`. It carries the 35 existing events, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The old JSON in `public/content` remains as a historical archive; Player and BO no longer load it. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 
@@ -92,9 +92,7 @@ Edit in BO → Save JSON → git push → Cloudflare Pages auto-deploys → Play
 
 ## Saves and Backups
 
-All player data lives in the browser (localStorage). Clearing site data deletes the save, and saves do not sync across devices. Export your save to keep a backup.
-
-The Player can download a save backup. Invalid or incompatible stored saves are preserved so the player can recover the raw data instead of losing it silently.
+The Player writes checkpoints to localStorage after starting and resolving choices, but does not load them after a page refresh or a new visit. Progress continues only while the current page stays open. The Player can download the current session state as JSON during play or at an ending; there is no import or resume flow.
 
 ## Getting Started
 
@@ -119,13 +117,13 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 ## Roadmap
 
-| Phase                 | Work                                                     | Outcome                                        |
-| --------------------- | -------------------------------------------------------- | ---------------------------------------------- |
-| 1 — Rules             | Define tone, stats, time, and ending types               | Game rules and initial JSON schema             |
-| 2 — One slice of life | Year 1, first term, about 10–15 events                   | Short playable slice with images, sound, saves |
-| 3 — BO                | Content editing forms and preview                        | New story content added through BO             |
-| 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches      | Complete: 35 events and 3 reachable endings    |
-| 5 — Test and release  | Check story paths, effects, old saves, mobile, and audio | Ready to deploy                                |
+| Phase                 | Work                                                | Outcome                                        |
+| --------------------- | --------------------------------------------------- | ---------------------------------------------- |
+| 1 — Rules             | Define tone, stats, time, and ending types          | Game rules and initial JSON schema             |
+| 2 — One slice of life | Year 1, first term, about 10–15 events              | Short playable slice with images, sound, saves |
+| 3 — BO                | Content editing forms and preview                   | New story content added through BO             |
+| 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches | Complete: 35 events and 3 reachable endings    |
+| 5 — Test and release  | Check story paths, effects, mobile, and audio       | Ready to deploy                                |
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 

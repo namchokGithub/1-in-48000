@@ -180,6 +180,18 @@ export const v2NamesSchema = z
     message: 'Names must be unique',
   })
 
+export const v2AssetListSchema = z.array(
+  z.strictObject({
+    id: idSchema,
+    kind: z.enum(['scene', 'portrait', 'bgm', 'sfx']),
+    path: z
+      .string()
+      .regex(
+        /^\/assets\/(?:[a-z0-9_-]+\/)*[a-z0-9_-]+\.(?:webp|png|mp3|ogg|wav)$/i,
+      ),
+  }),
+)
+
 export const v2ContentSchema = z
   .object({
     config: v2GameConfigSchema,
@@ -191,17 +203,7 @@ export const v2ContentSchema = z
         portraitAssetId: idSchema.optional(),
       }),
     ),
-    assets: z.array(
-      z.strictObject({
-        id: idSchema,
-        kind: z.enum(['scene', 'portrait', 'bgm', 'sfx']),
-        path: z
-          .string()
-          .regex(
-            /^\/assets\/(?:[a-z0-9_-]+\/)*[a-z0-9_-]+\.(?:webp|png|mp3|ogg|wav)$/i,
-          ),
-      }),
-    ),
+    assets: v2AssetListSchema,
     endings: z.array(
       z.object({
         id: idSchema,

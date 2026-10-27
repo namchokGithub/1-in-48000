@@ -1,6 +1,6 @@
 # Game rules and data contract
 
-This document records the initial data model and the active V2 rules for "1 ใน 48,000". The V1 contract below remains for migration reference. Player and BO now share `src/content/v2/schema.ts`, `src/engine/v2/game.ts`, and save v3 in `src/save/v2/schema.ts`.
+This document records the initial data model and the active V2 rules for "1 ใน 48,000". The V1 contract below remains as historical reference; its runtime code has been removed. Player and BO share `src/content/v2/schema.ts`, `src/engine/v2/game.ts`, and save v3 in `src/save/v2/schema.ts`.
 
 ## Stats
 
@@ -60,7 +60,7 @@ The save store writes one localStorage slot when a game starts or restarts and a
 
 ## V2 data contract (Step 11)
 
-`src/content/v2/schema.ts` defines the active Player and BO contract; `src/content/v2/sample-content.json` remains a small test sample. Version `0.5.0` is authored in `public/content-v2`. The V1 content in `public/content` remains for migration fixtures.
+`src/content/v2/schema.ts` defines the active Player and BO contract; `src/content/v2/sample-content.json` remains a small test sample. Version `0.5.0` is authored in `public/content-v2`. The V1 JSON in `public/content` remains only as an archive; active tests use V2 content.
 
 All seven stats are integers and can be negative. `study`, `health`, `stress`, `relationships`, and `lucky` retain a maximum of 100; `money` and the single `debt` balance have no upper bound. Debt covers student loans (กยศ./กรอ.), borrowing from friends, and gambling debt. Background presets provide deltas for all seven stats.
 
@@ -68,6 +68,6 @@ Time retains `term1 → break → term2 → summer`. A standard run spans four y
 
 A `chance` effect holds `successPercent` from 0 to 100, `successEffects`, `failureEffects`, and `displayMode`. Its outcome arrays can change stats or flags, but cannot nest another chance or schedule an effect. `amounts` discloses affected stat amounts; `statsOnly` discloses affected stats without amounts. The Player shows the effective success percentage in either mode. The engine computes `effectivePercent = clamp(successPercent + lucky ÷ 10, 0, 100)`, consumes one seeded roll, and saves both RNG state and outcome in the choice history. Random names are versioned content in `public/content-v2/names.json`, initially ฟ้า, มายด์, and อิม.
 
-V2 events have no `ambienceAssetId`, and V2 assets allow scene, portrait, BGM, and SFX only. V2 audio settings contain only `musicEnabled` and `musicVolume`: absent or invalid settings default to enabled at 20%; valid legacy BGM volume is preserved, while ambience and SFX settings are discarded. The Player exposes a single on/off music button and starts playback after a user action. V2 complete-content validation rejects duplicate IDs and broken Event, character, and Asset ID references.
+V2 events have no `ambienceAssetId`, and V2 assets allow scene, portrait, BGM, and SFX only. V2 audio settings contain only `musicEnabled` and `musicVolume`; absent or invalid settings default to enabled at 20%. The Player exposes a single on/off music button and starts playback after a user action. V2 complete-content validation rejects duplicate IDs and broken Event, character, and Asset ID references.
 
-The V2 player save has `saveVersion: 3`, the seven stats, decision history with `{ eventId, choiceId, time, chanceOutcomes }`, pending effects, and RNG seed/state. The loader accepts a valid v3 save for the expected content version or migrates v2 saves from content `0.2.0`–`0.4.0` through the existing content migration, then adds zero debt and lucky while retaining all existing progress. Earlier history has `time: null` and no recorded chance outcomes because the older save did not contain that information. Loading does not write; the V2 store writes at game start/restart and after a resolved choice. Version `0.5.0` retains completed older ending IDs for migrated saves. The active V2 content has no authored Years 5–8 story yet; the engine tests use synthetic events there.
+The V2 player checkpoint has `saveVersion: 3`, the seven stats, decision history with `{ eventId, choiceId, time, chanceOutcomes }`, pending effects, and RNG seed/state. The V2 store writes a checkpoint at game start/restart and after each resolved choice. The Player keeps progress in memory for the current page session and does not read stored checkpoints on a new visit. The JSON download exports only the current session state. The active V2 content has no authored Years 5–8 story yet; the engine tests use synthetic events there.

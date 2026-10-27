@@ -1,19 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { AUDIO_SETTINGS_KEY } from '../audioSettings'
 import {
+  AUDIO_SETTINGS_KEY,
   createV2AudioSettingsStore,
   readV2AudioSettings,
 } from './audioSettings'
 
-describe('V2 audio setting migration', () => {
-  it('drops ambience and effects while preserving the old music volume', () => {
-    expect(
-      readV2AudioSettings(
-        JSON.stringify({ bgm: 0.55, ambience: 0.5, sfx: 0.7 }),
-      ),
-    ).toEqual({ musicEnabled: true, musicVolume: 0.55 })
-  })
-
+describe('V2 audio settings', () => {
   it('defaults to music enabled at 20% when settings are absent or invalid', () => {
     expect(readV2AudioSettings(null)).toEqual({
       musicEnabled: true,
@@ -25,17 +17,11 @@ describe('V2 audio setting migration', () => {
     })
   })
 
-  it('accepts already migrated settings and preserves a muted track', () => {
+  it('accepts current settings and preserves a muted track', () => {
     expect(
       readV2AudioSettings(
         JSON.stringify({ musicEnabled: false, musicVolume: 0.2 }),
       ),
-    ).toEqual({
-      musicEnabled: false,
-      musicVolume: 0.2,
-    })
-    expect(
-      readV2AudioSettings(JSON.stringify({ bgm: 0, ambience: 0.5, sfx: 0.7 })),
     ).toEqual({
       musicEnabled: false,
       musicVolume: 0.2,
@@ -46,7 +32,7 @@ describe('V2 audio setting migration', () => {
     const saved = new Map<string, string>([
       [
         AUDIO_SETTINGS_KEY,
-        JSON.stringify({ bgm: 0.55, ambience: 0.5, sfx: 0.7 }),
+        JSON.stringify({ musicEnabled: true, musicVolume: 0.55 }),
       ],
     ])
     const storage = {

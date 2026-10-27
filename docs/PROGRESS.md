@@ -343,3 +343,5 @@ Completed 2026-10-27; the author confirmed the layout, themes, and music passed 
 **Done when:** V2 is ready to deploy.
 
 Accepted by the author on 2026-10-27. V2 checks passed; production deployment has not happened and is intentionally deferred while further adjustments are made. Do not create a release or push until the author explicitly requests it.
+
+Post-V2 cleanup on 2026-10-27: Removed unused V1 runtime, schema, save store, BO editor and writer route. The Player now starts with a fresh in-memory game on every page visit while continuing to write checkpoints to localStorage during play; stored games of any version are not loaded. Historical V1 JSON remains archived in `public/content`.

@@ -15,18 +15,18 @@ Instructions for AI coding agents working in the 1-in-48000 ("1 ใน 48,000") 
 
 ## Tech Stack (quick reference)
 
-| Area               | Choice                                                        |
-| ------------------ | ------------------------------------------------------------- |
-| Frontend           | React + Vite + TypeScript                                     |
-| Styling            | Tailwind CSS                                                  |
-| State / Save       | Zustand + localStorage (save slot and settings)               |
-| Game logic         | Plain TypeScript, separate from UI                            |
-| Content validation | Zod (shared schema for Player and BO)                         |
-| Graphics           | Pixel art as WebP/PNG + CSS animation                         |
-| Audio              | Howler.js (looping BGM, ambience, SFX, fade, volume settings) |
-| Tests              | Vitest                                                        |
-| Package manager    | pnpm                                                          |
-| Hosting            | Cloudflare Pages (auto-deploy from GitHub on push)            |
+| Area               | Choice                                               |
+| ------------------ | ---------------------------------------------------- |
+| Frontend           | React + Vite + TypeScript                            |
+| Styling            | Tailwind CSS                                         |
+| State / Save       | Zustand + localStorage (save slot and settings)      |
+| Game logic         | Plain TypeScript, separate from UI                   |
+| Content validation | Zod (shared schema for Player and BO)                |
+| Graphics           | Pixel art as WebP/PNG + CSS animation                |
+| Audio              | Howler.js (looping BGM, fade, music on/off settings) |
+| Tests              | Vitest                                               |
+| Package manager    | pnpm                                                 |
+| Hosting            | Cloudflare Pages (auto-deploy from GitHub on push)   |
 
 No game engine. React is enough for scene images that change per event.
 
@@ -36,7 +36,7 @@ No game engine. React is enough for scene images that change per event.
 pnpm install       # install dependencies
 pnpm dev           # run Player at / and BO at /content-manage locally
 pnpm build         # production build (Player only)
-pnpm test          # run Vitest (currently no test files)
+pnpm test          # run Vitest
 pnpm lint          # run ESLint
 pnpm exec prettier --write <files>
 ```
@@ -46,11 +46,12 @@ pnpm exec prettier --write <files>
 Layout established by Step 1 scaffold.
 
 ```
-public/content/      # Game content JSON (config, events, characters, assets, endings)
+public/content-v2/   # Active game content JSON
+public/content/      # Archived V1 JSON; Player and BO do not load it
 public/assets/       # Images, music, sound files referenced by Asset ID
 src/engine/          # Pure TS game logic: conditions, effects, progression, RNG, endings
 src/content/         # Zod schemas, content types, loader, validators
-src/save/            # Save model, storage interface, localStorage adapter, migrations
+src/save/            # Save model, checkpoint writer, and settings stores
 src/features/player/ # Player page UI
 src/features/bo/     # BO page UI (local only, excluded from production build)
 src/shared/          # Shared UI components, audio wrapper, utilities
@@ -66,8 +67,8 @@ Hard rules:
 - UI components never access localStorage directly. They go through the save store/interface in `src/save/`.
 - Keep in-progress UI state (current dialogue line, open menus, animations) in client state, not in the save.
 - Persist the save only at meaningful checkpoints (after a choice resolves, at an event or term boundary, at an ending) — not per render or per keystroke.
-- Every save must include `saveVersion` and `contentVersion`. Changing the save shape requires a migration and a test for loading older saves.
-- Store the RNG seed or the rolled results in the save, so reloading a game never changes an outcome.
+- Every save must include `saveVersion` and `contentVersion`. The Player writes checkpoints but does not load stored saves on a new page session.
+- Store the RNG seed or rolled results in the save so outcomes stay stable during the current session.
 - Reference images, music, and sounds only by Asset ID through the asset manifest. Never hard-code file paths in events or components.
 - BO runs locally only. It saves JSON directly to the content files (no Import/Export flow). It must not ship in the production build or be reachable from the public site.
 - BO validation must catch duplicate IDs, broken event links, and missing Asset IDs before content is published.

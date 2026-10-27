@@ -58,32 +58,19 @@ function PlayerShell({
   content: V2Content
   themeSettings: ReturnType<typeof createPlayerThemeStore>
 }) {
-  const [session] = useState(() => {
-    const store = createV2GameStore(content, createLocalStorageAdapter())
-    let loadFailed = false
-    try {
-      store.getState().continueGame()
-    } catch {
-      loadFailed = true
-    }
-    return { store, loadFailed }
-  })
-  const { store } = session
+  const [store] = useState(() =>
+    createV2GameStore(content, createLocalStorageAdapter()),
+  )
   const [audio] = useState(createAudioController)
   const [audioSettings] = useState(createV2AudioSettingsStore)
   const musicSettings = useStore(audioSettings, (state) => state.settings)
   const theme = useStore(themeSettings, (state) => state.theme)
   const save = useStore(store, (state) => state.save)
   const [view, setView] = useState<View>('home')
-  const [saveError, setSaveError] = useState(session.loadFailed)
   const [actionError, setActionError] = useState<string | null>(null)
 
   useEffect(() => {
-    audio.setVolumes({
-      bgm: musicSettings.musicEnabled ? musicSettings.musicVolume : 0,
-      ambience: 0,
-      sfx: 0,
-    })
+    audio.setVolume(musicSettings.musicEnabled ? musicSettings.musicVolume : 0)
   }, [audio, musicSettings])
 
   useEffect(() => () => audio.stop(), [audio])
@@ -96,13 +83,13 @@ function PlayerShell({
       audio.stop()
       return
     }
-    audio.setVolumes({ bgm: musicSettings.musicVolume, ambience: 0, sfx: 0 })
+    audio.setVolume(musicSettings.musicVolume)
     const event =
       current && !current.endingId ? currentEventOrNull(content, current) : null
     const bgmAssetId =
       event?.bgmAssetId ??
       content.assets.find((asset) => asset.kind === 'bgm')?.id
-    audio.sync({ bgmAssetId }, content.assets)
+    audio.sync(bgmAssetId, content.assets)
   }
 
   function goHome() {
@@ -118,7 +105,6 @@ function PlayerShell({
     action(name, seed, backgroundId)
     const started = store.getState().save
     if (started) syncMusic(started)
-    setSaveError(false)
     setActionError(null)
     setView('play')
   }
@@ -141,14 +127,6 @@ function PlayerShell({
       if (raw) downloadSave(raw)
     } catch {
       setActionError('ดาวน์โหลดเซฟไม่ได้ โปรดลองอีกครั้ง')
-    }
-  }
-
-  function hasStoredSave() {
-    try {
-      return Boolean(store.getState().exportSave())
-    } catch {
-      return false
     }
   }
 
@@ -214,15 +192,6 @@ function PlayerShell({
                 </p>
               </div>
             )}
-            {saveError && (
-              <p
-                className="player-error-panel mt-5 rounded-xl border p-4 text-sm"
-                role="alert"
-              >
-                โหลดเซฟไม่ได้ ข้อมูลเดิมยังอยู่
-                คุณสามารถดาวน์โหลดไว้สำรองก่อนเริ่มใหม่
-              </p>
-            )}
             {actionError && (
               <p
                 className="mt-4 text-sm text-[var(--color-danger)]"
@@ -256,7 +225,7 @@ function PlayerShell({
               >
                 {save ? 'เริ่มชีวิตใหม่' : 'เริ่มเกม'}
               </button>
-              {hasStoredSave() && (
+              {save && (
                 <button
                   type="button"
                   className="button button-secondary"

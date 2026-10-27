@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import eventsJson from '../../../public/content/events.json'
-import { eventListSchema, eventSchema } from '../../content/schema'
+import eventsJson from '../../../public/content-v2/events.json'
+import { v2EventSchema } from '../../content/v2/schema'
 import { moveEvent } from './timeline'
 
-const events = eventListSchema.parse(eventsJson)
+const events = v2EventSchema.array().parse(eventsJson)
 
 describe('BO timeline moves', () => {
   it('reorders an event inside its period without mutating the original list', () => {
@@ -24,7 +24,7 @@ describe('BO timeline moves', () => {
   it('moves an event into an empty period and updates its time', () => {
     const withYearTwo = [
       ...events,
-      eventSchema.parse({
+      v2EventSchema.parse({
         ...events[0],
         id: 'year_two',
         time: { year: 2, period: 'term2' },
@@ -85,7 +85,7 @@ describe('BO timeline moves', () => {
   it('never drops other draft cards when duplicate IDs are present', () => {
     const draft = [
       ...events,
-      eventSchema.parse({ ...events[0], title: 'ร่างซ้ำ' }),
+      v2EventSchema.parse({ ...events[0], title: 'ร่างซ้ำ' }),
     ]
     expect(
       moveEvent(draft, 'orientation', { year: 1, period: 'break' }, 0),

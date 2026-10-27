@@ -1,4 +1,6 @@
-import type { GameTime } from '../../content/schema'
+import type { V2Event } from '../../content/v2/schema'
+
+type GameTime = V2Event['time']
 
 const periodLabels: Record<GameTime['period'], string> = {
   term1: 'เทอม 1',

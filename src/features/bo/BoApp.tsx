@@ -5,7 +5,6 @@ import {
   type V2Content,
   type V2Event,
 } from '../../content/v2/schema'
-import type { ValidationIssue } from '../../content/validate'
 import { V2EndingEditor } from './V2EndingEditor'
 import { V2EventEditor } from './V2EventEditor'
 import { PreviewDialog } from './PreviewDialog'
@@ -25,6 +24,7 @@ import { DataEditor, type DataSection } from './DataEditor'
 
 type Section = 'events' | 'endings' | DataSection
 type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
+type ValidationIssue = { path: string; message: string }
 
 function sectionFromUrl(): Section {
   const tab = new URLSearchParams(window.location.search).get('tab')

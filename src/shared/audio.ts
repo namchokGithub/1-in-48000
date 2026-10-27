@@ -1,6 +1,5 @@
 import { Howl } from 'howler'
-import type { Asset, Event } from '../content/schema'
-import type { AudioChannel, AudioVolumes } from '../save/audioSettings'
+import type { V2Content } from '../content/v2/schema'
 
 type SoundOptions = { src: string[]; loop: boolean; volume: number }
 type Sound = {
@@ -12,22 +11,20 @@ type Sound = {
   unload: () => unknown
 }
 type SoundFactory = (options: SoundOptions) => Sound
-type TrackChannel = Extract<AudioChannel, 'bgm' | 'ambience'>
+type Asset = V2Content['assets'][number]
 
 const FADE_MS = 350
-const defaultVolumes: AudioVolumes = { bgm: 0.55, ambience: 0.5, sfx: 0.7 }
 
 export function createAudioController(
   createSound: SoundFactory = (options) => new Howl(options),
 ) {
-  let volumes = { ...defaultVolumes }
-  const tracks: Partial<Record<TrackChannel, { id: string; sound: Sound }>> = {}
+  let volume = 0.2
+  let track: { id: string; sound: Sound } | null = null
 
-  function fadeOut(channel: TrackChannel) {
-    const current = tracks[channel]
-    if (!current) return
-    delete tracks[channel]
-    const { sound } = current
+  function fadeOut() {
+    if (!track) return
+    const { sound } = track
+    track = null
     sound.once('fade', () => {
       sound.stop()
       sound.unload()
@@ -35,54 +32,25 @@ export function createAudioController(
     sound.fade(sound.volume() as number, 0, FADE_MS)
   }
 
-  function syncChannel(
-    channel: TrackChannel,
-    id: string | undefined,
-    assets: Asset[],
-  ) {
+  function sync(id: string | undefined, assets: Asset[]) {
     const asset = assets.find(
-      (entry) => entry.id === id && entry.kind === channel,
+      (entry) => entry.id === id && entry.kind === 'bgm',
     )
-    if (tracks[channel]?.id === asset?.id) return
-    fadeOut(channel)
+    if (track?.id === asset?.id) return
+    fadeOut()
     if (!asset) return
     const sound = createSound({ src: [asset.path], loop: true, volume: 0 })
-    tracks[channel] = { id: asset.id, sound }
+    track = { id: asset.id, sound }
     sound.play()
-    sound.fade(0, volumes[channel], FADE_MS)
+    sound.fade(0, volume, FADE_MS)
   }
 
   return {
-    sync(
-      event: Pick<Event, 'bgmAssetId' | 'ambienceAssetId'>,
-      assets: Asset[],
-    ) {
-      syncChannel('bgm', event.bgmAssetId, assets)
-      syncChannel('ambience', event.ambienceAssetId, assets)
+    sync,
+    setVolume(next: number) {
+      volume = Math.max(0, Math.min(1, next))
+      track?.sound.volume(volume)
     },
-    setVolumes(next: AudioVolumes) {
-      volumes = { ...next }
-      for (const channel of ['bgm', 'ambience'] as const) {
-        tracks[channel]?.sound.volume(volumes[channel])
-      }
-    },
-    playSfx(id: string, assets: Asset[]) {
-      const asset = assets.find(
-        (entry) => entry.id === id && entry.kind === 'sfx',
-      )
-      if (!asset) return false
-      const sound = createSound({
-        src: [asset.path],
-        loop: false,
-        volume: volumes.sfx,
-      })
-      sound.once('end', () => sound.unload())
-      sound.play()
-      return true
-    },
-    stop() {
-      fadeOut('bgm')
-      fadeOut('ambience')
-    },
+    stop: fadeOut,
   }
 }

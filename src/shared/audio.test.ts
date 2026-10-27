@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { createAudioController } from './audio'
-import type { Asset } from '../content/schema'
+import type { V2Content } from '../content/v2/schema'
 
-const assets: Asset[] = [
+const assets: V2Content['assets'] = [
   { id: 'campus_music', kind: 'bgm', path: '/assets/sound/music.mp3' },
-  { id: 'rain', kind: 'ambience', path: '/assets/sound/rain.mp3' },
   { id: 'click', kind: 'sfx', path: '/assets/sound/click.mp3' },
 ]
 
@@ -16,8 +15,8 @@ describe('audio controller', () => {
       created.push(sound)
       return sound
     })
-    controller.sync({ bgmAssetId: 'campus_music' }, assets)
-    controller.sync({ bgmAssetId: 'campus_music' }, assets)
+    controller.sync('campus_music', assets)
+    controller.sync('campus_music', assets)
 
     expect(created).toHaveLength(1)
     expect(created[0].source).toBe('/assets/sound/music.mp3')
@@ -25,37 +24,32 @@ describe('audio controller', () => {
     expect(created[0].plays).toBe(1)
   })
 
-  it('fades out missing tracks and applies changed volumes', () => {
+  it('fades out the current track and applies a changed music volume', () => {
     const created: FakeSound[] = []
     const controller = createAudioController((options) => {
       const sound = new FakeSound(options)
       created.push(sound)
       return sound
     })
-    controller.sync(
-      { bgmAssetId: 'campus_music', ambienceAssetId: 'rain' },
-      assets,
-    )
-    controller.setVolumes({ bgm: 0.3, ambience: 0.2, sfx: 0.8 })
-    expect(created.map((sound) => sound.level)).toEqual([0.3, 0.2])
-    controller.sync({}, assets)
+    controller.sync('campus_music', assets)
+    controller.setVolume(0.3)
+    expect(created[0].level).toBe(0.3)
+    controller.sync(undefined, assets)
     expect(created.every((sound) => sound.stopped)).toBe(true)
     expect(
       created.every((sound) => sound.fades.some(([, to]) => to === 0)),
     ).toBe(true)
   })
 
-  it('plays SFX only when an ID resolves to an SFX asset', () => {
+  it('does not play a non-music asset', () => {
     const created: FakeSound[] = []
     const controller = createAudioController((options) => {
       const sound = new FakeSound(options)
       created.push(sound)
       return sound
     })
-    expect(controller.playSfx('campus_music', assets)).toBe(false)
-    expect(controller.playSfx('click', assets)).toBe(true)
-    expect(created[0].loop).toBe(false)
-    expect(created[0].plays).toBe(1)
+    controller.sync('click', assets)
+    expect(created).toHaveLength(0)
   })
 })
 

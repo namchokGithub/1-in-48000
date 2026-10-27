@@ -1,5 +1,7 @@
-import type { GameTime } from '../../content/schema'
+import type { V2Event } from '../../content/v2/schema'
 import { compareTime } from '../../engine/time'
+
+type GameTime = V2Event['time']
 
 export function moveEvent<T extends { id: string; time: GameTime }>(
   events: T[],

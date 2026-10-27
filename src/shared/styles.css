@@ -23,8 +23,6 @@
   --color-dialogue: #f8fbfa;
   --color-save-card: #f4faf8;
   --color-track: #dcebe8;
-  --color-error-surface: #fff4f2;
-  --color-error-line: #e1b5b7;
   --color-shadow: rgba(23, 53, 68, 0.045);
   --scene-sky-a: #9acbc9;
   --scene-sky-b: #cfe8dd;
@@ -128,8 +126,6 @@ html {
   --color-dialogue: #fffdf7;
   --color-save-card: #fbf0d4;
   --color-track: #eadfbe;
-  --color-error-surface: #fff0ec;
-  --color-error-line: #e3b6aa;
   --color-shadow: rgba(91, 69, 30, 0.09);
   --scene-sky-a: #e6d9b8;
   --scene-sky-b: #f5e9ca;
@@ -160,8 +156,6 @@ html {
   --color-dialogue: #34312b;
   --color-save-card: #393327;
   --color-track: #4b4435;
-  --color-error-surface: #402e2b;
-  --color-error-line: #92665d;
   --color-shadow: rgba(0, 0, 0, 0.2);
   --scene-sky-a: #3d3b32;
   --scene-sky-b: #5a513c;
@@ -185,10 +179,6 @@ html {
 }
 .player-save-card {
   background: var(--color-save-card);
-}
-.player-error-panel {
-  border-color: var(--color-error-line);
-  background: var(--color-error-surface);
 }
 .player-dialogue {
   background: var(--color-dialogue);
