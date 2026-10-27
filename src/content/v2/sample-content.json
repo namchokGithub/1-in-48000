@@ -130,6 +130,12 @@
       "title": "เรียนจบ",
       "summary": "คุณมองย้อนชีวิตในมหาวิทยาลัย",
       "conditions": []
+    },
+    {
+      "id": "dismissal",
+      "title": "พ้นสภาพนักศึกษา",
+      "summary": "การเรียนจบลง แต่เส้นทางชีวิตยังดำเนินต่อ",
+      "conditions": [{ "type": "year", "operator": "eq", "value": 8 }]
     }
   ]
 }

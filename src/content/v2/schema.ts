@@ -91,16 +91,18 @@ const chanceSchema = z.strictObject({
   failureEffects: z.array(v2StateEffectSchema),
 })
 
+export const v2DelayedTriggerSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('atPeriod'), time: v2TimeSchema }),
+  z.object({ type: z.literal('afterEvent'), eventId: storyIdSchema }),
+])
+
 export const v2EffectSchema = z.union([
   statDeltaSchema,
   setFlagSchema,
   z.object({ type: z.literal('goToEvent'), eventId: storyIdSchema }),
   z.object({
     type: z.literal('schedule'),
-    trigger: z.discriminatedUnion('type', [
-      z.object({ type: z.literal('atPeriod'), time: v2TimeSchema }),
-      z.object({ type: z.literal('afterEvent'), eventId: storyIdSchema }),
-    ]),
+    trigger: v2DelayedTriggerSchema,
     effect: v2StateEffectSchema,
   }),
   chanceSchema,

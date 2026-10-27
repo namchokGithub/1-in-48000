@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                  | Status | Depends on |
 | --- | --------------------- | ------ | ---------- |
-| 12  | V2 engine + save      | Todo   | 11         |
 | 13  | BO shell              | Todo   | 11         |
 | 14  | BO data tabs          | Todo   | 13         |
 | 15  | BO story editor       | Todo   | 12, 14     |
@@ -23,12 +22,9 @@ V2 order: rules and engine first (11–12), then BO (13–16), then Player (17�
 
 ## Open decisions
 
-| Topic                  | Proposal / known input                                                                                                              | Status |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Extended study trigger | Based mainly on `study`, with a small `stress` weight, checked at the end of Year 4 (and Year 6). Exact formula and thresholds TBD. | Open   |
-| Year 8 outcome         | Ending when the player still fails after Year 8 (e.g. dismissal).                                                                   | Open   |
-| Years 5–8 content      | Reuse existing events, add new events, or a mix.                                                                                    | Open   |
-| Lucky in chance rolls  | How `lucky` shifts a chance effect's success percentage (e.g. additive bonus, capped).                                              | Open   |
+| Topic             | Proposal / known input                           | Status |
+| ----------------- | ------------------------------------------------ | ------ |
+| Years 5–8 content | Reuse existing events, add new events, or a mix. | Open   |
 
 Resolved choices are recorded in `docs/DECISIONS.md`.
 
@@ -190,7 +186,7 @@ Completed 2026-10-27. The isolated `src/content/v2/schema.ts` contract and sampl
 
 ## 12. V2 engine + save
 
-**Status:** Todo
+**Status:** Done
 
 - Apply negative stat values and the new stat bounds.
 - Resolve `chance` effects with the saved RNG state, adjusted by `lucky`.
@@ -199,6 +195,8 @@ Completed 2026-10-27. The isolated `src/content/v2/schema.ts` contract and sampl
 - Save v3 with migration from v2 (new stats, removed ambience setting).
 
 **Done when:** focused tests cover chance rolls, negative stats, debt, extended years, endings, and v2 → v3 migration.
+
+Completed 2026-10-27. The isolated V2 engine applies signed stats and debt, resolves chance effects with saved RNG and a `lucky` adjustment, and checks study at the end of Years 4, 6, and 8. Failed students continue through Years 5–8; failing at Year 8 selects the `dismissal` ending. Save v3 records choice time and chance outcomes for the life-summary timeline. A V2 store checkpoints after start and choice, and migration from v2/content `0.2.0`–`0.4.0` preserves progress and RNG while adding debt and lucky. A separate audio-settings converter drops ambience and SFX from the V2 settings shape. Focused tests use synthetic Years 5–8 events; authored story content and Player/BO integration remain later steps. Existing completed ending IDs need matching V2 content when the Player switches over.
 
 ## 13. BO shell
 
