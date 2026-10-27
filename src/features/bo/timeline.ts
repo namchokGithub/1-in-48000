@@ -1,12 +1,12 @@
-import type { Event, GameTime } from '../../content/schema'
+import type { GameTime } from '../../content/schema'
 import { compareTime } from '../../engine/time'
 
-export function moveEvent(
-  events: Event[],
+export function moveEvent<T extends { id: string; time: GameTime }>(
+  events: T[],
   id: string,
   targetTime: GameTime,
   targetIndex: number,
-): Event[] {
+): T[] {
   const sourceIndex = events.findIndex((event) => event.id === id)
   if (sourceIndex < 0) throw new Error(`Unknown event: ${id}`)
   const source = events[sourceIndex]

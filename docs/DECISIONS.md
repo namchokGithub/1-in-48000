@@ -51,3 +51,7 @@ Serve BO HTML through a Vite development middleware at `/content-manage` and rem
 ## 2026-10-27 — BO data files and story IDs
 
 Treat the BO background tab as scene assets, alongside speaker records and BGM/SFX assets. Write speakers to `characters.json` and scene/sound entries to `assets.json` through the same local validator and atomic writer used by story files. Require the V2 `snake_case` convention for Event and Choice IDs in the active V1 schema so the current BO cannot author incompatible IDs; keep other existing ID rules until the V2 story editor migrates. Asset paths remain manifest references to files placed manually in `public/assets`, and Save checks their existence.
+
+## 2026-10-27 — Shared V2 authoring and Player content
+
+Keep the published V1 JSON under `public/content` for migration fixtures while authoring V2 in `public/content-v2`. BO and Player both load the V2 directory and use its schema and engine; the local BO writer validates the whole V2 content set before replacing one JSON file. Content version `0.5.0` retains existing event and ending IDs so the v2-to-v3 save migration can preserve progress. The optional `active` event flag defaults to enabled; inactive events are omitted from selection and cannot be direct-link targets. Move the Player's V2 runtime connection into Step 15 so a chance effect authored in BO can play, while later Player steps finish its presentation and audio controls.

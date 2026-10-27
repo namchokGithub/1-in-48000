@@ -1,8 +1,8 @@
 import { useRef, useState, type FormEvent } from 'react'
-import type { Background } from '../../content/schema'
+import type { V2Content } from '../../content/v2/schema'
 
 type Props = {
-  backgrounds: Background[]
+  backgrounds: V2Content['config']['backgrounds']
   hasPreviousSave: boolean
   onStart: (name: string, backgroundId: string) => void
   onCancel: () => void

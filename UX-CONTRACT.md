@@ -4,15 +4,17 @@ The Player and local BO share the controls and colors in `src/shared/styles.css`
 
 ## Canonical UI Map
 
-| Capability     | Canonical owner                             | Source of truth                                | Allowed variants                                      | Verification                                    |
-| -------------- | ------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------- |
-| Select/Listbox | Shared BO `Select` component                | `src/features/bo/Select.tsx` and `DESIGN.md`   | Optional Asset ID, required event type and references | Manual keyboard, popup, and narrow-screen check |
-| Form           | BO editor components and shared Zod schemas | `src/features/bo/` and `src/content/schema.ts` | Story, speaker, scene, and sound fields               | Focused validation tests and manual form check  |
-| Scrollbar      | Global application stylesheet               | `src/shared/styles.css`                        | BO list and preview overflow regions                  | Manual narrow-screen check                      |
-| CRUD           | BO draft state and dev-only writer          | `src/features/bo/BoApp.tsx` and `bo-server.ts` | Events, endings, speakers, and assets                 | Focused file-write test and manual save check   |
-| Timeline       | BO timeline board and event draft           | `src/features/bo/TimelineBoard.tsx`            | Native drag and drop; form and up/down fallback       | Focused move tests and manual width check       |
+| Capability     | Canonical owner                           | Source of truth                                   | Allowed variants                                      | Verification                                    |
+| -------------- | ----------------------------------------- | ------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------- |
+| Select/Listbox | Shared BO `Select` component              | `src/features/bo/Select.tsx` and `DESIGN.md`      | Optional Asset ID, required event type and references | Manual keyboard, popup, and narrow-screen check |
+| Form           | BO editor components and shared V2 schema | `src/features/bo/` and `src/content/v2/schema.ts` | Story, speaker, scene, and sound fields               | Focused validation tests and manual form check  |
+| Scrollbar      | Global application stylesheet             | `src/shared/styles.css`                           | BO list and preview overflow regions                  | Manual narrow-screen check                      |
+| CRUD           | BO draft state and dev-only writer        | `src/features/bo/BoApp.tsx` and `bo-server.ts`    | Events, endings, speakers, and assets                 | Focused file-write test and manual save check   |
+| Timeline       | BO timeline board and event draft         | `src/features/bo/TimelineBoard.tsx`               | Native drag and drop; form and up/down fallback       | Focused move tests and manual width check       |
 
 BO Save writes only after client and server validation. A failed save keeps the draft visible and leaves the content file intact. The author reviews `contentVersion` and save migration before publishing edited content.
+
+BO and Player use `public/content-v2`. The story editor keeps line and choice order in the JSON arrays; drag and up/down actions produce the same order. Inactive events remain editable but are skipped by the V2 engine. A chance effect stores its percentage, display mode, and separate success/failure state effects. The inline preview continues to use the shared V2 engine until Step 16 moves it into a modal.
 
 Speakers write `characters.json`; scene images and BGM/SFX write `assets.json`. Deletion is confirmed and remains reversible in the draft. Broken references or missing files block Save. Story IDs use `snake_case`; the editor gives field-level feedback and can generate unique IDs.
 

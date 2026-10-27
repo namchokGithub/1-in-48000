@@ -1,0 +1,83 @@
+{
+  "contentVersion": "0.5.0",
+  "title": "1 ใน 48,000",
+  "startingTime": {
+    "year": 1,
+    "period": "term1"
+  },
+  "startingEventId": "orientation",
+  "initialStats": {
+    "study": 50,
+    "money": 1200,
+    "health": 80,
+    "stress": 20,
+    "relationships": 50,
+    "debt": 0,
+    "lucky": 0
+  },
+  "backgrounds": [
+    {
+      "id": "balanced",
+      "title": "ค่อย ๆ หาทางของตัวเอง",
+      "family": "ครอบครัวพอประมาณ",
+      "personality": "รอบคอบ",
+      "skill": "จัดเวลา",
+      "statDeltas": {
+        "study": 0,
+        "money": 0,
+        "health": 0,
+        "stress": 0,
+        "relationships": 0,
+        "debt": 0,
+        "lucky": 0
+      }
+    },
+    {
+      "id": "supported",
+      "title": "ทุนพร้อม เรียนเต็มที่",
+      "family": "มีเงินช่วยจากบ้าน",
+      "personality": "มุ่งมั่น",
+      "skill": "เรียนรู้ไว",
+      "statDeltas": {
+        "study": 5,
+        "money": 800,
+        "health": 0,
+        "stress": 5,
+        "relationships": 0,
+        "debt": 0,
+        "lucky": 0
+      }
+    },
+    {
+      "id": "outgoing",
+      "title": "เริ่มจากเพื่อนใหม่",
+      "family": "พี่น้องใกล้ชิด",
+      "personality": "เข้ากับคนง่าย",
+      "skill": "ชวนคนร่วมมือ",
+      "statDeltas": {
+        "study": -5,
+        "money": 0,
+        "health": 0,
+        "stress": 0,
+        "relationships": 10,
+        "debt": 0,
+        "lucky": 0
+      }
+    }
+  ],
+  "timeModel": {
+    "standardYears": 4,
+    "maximumYears": 8,
+    "reviewYears": [
+      4,
+      6,
+      8
+    ],
+    "periods": [
+      "term1",
+      "break",
+      "term2",
+      "summer"
+    ]
+  }
+}

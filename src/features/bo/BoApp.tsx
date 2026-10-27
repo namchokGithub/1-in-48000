@@ -1,9 +1,13 @@
 import { useEffect, useState, type SetStateAction } from 'react'
-import { loadPlayerContent, type PlayerContent } from '../../content/loader'
-import { validateContent, type ValidationIssue } from '../../content/validate'
-import type { Ending, Event } from '../../content/schema'
-import { EndingEditor } from './EndingEditor'
-import { EventEditor } from './EventEditor'
+import { loadV2Content } from '../../content/v2/loader'
+import {
+  v2ContentSchema,
+  type V2Content,
+  type V2Event,
+} from '../../content/v2/schema'
+import type { ValidationIssue } from '../../content/validate'
+import { V2EndingEditor } from './V2EndingEditor'
+import { V2EventEditor } from './V2EventEditor'
 import { PreviewPane } from './PreviewPane'
 import { TimelineBoard } from './TimelineBoard'
 import { ConfirmationDialog } from './ConfirmationDialog'
@@ -15,6 +19,7 @@ import {
   type DraftHistory,
 } from './draftHistory'
 import { moveEvent } from './timeline'
+import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
 import { DataEditor, type DataSection } from './DataEditor'
 
 type Section = 'events' | 'endings' | DataSection
@@ -66,10 +71,8 @@ function responseIssues(body: unknown): ValidationIssue[] {
 }
 
 export function BoApp() {
-  const [saved, setSaved] = useState<PlayerContent | null>(null)
-  const [history, setHistory] = useState<DraftHistory<PlayerContent> | null>(
-    null,
-  )
+  const [saved, setSaved] = useState<V2Content | null>(null)
+  const [history, setHistory] = useState<DraftHistory<V2Content> | null>(null)
   const draft = history?.present ?? null
   const [loadError, setLoadError] = useState(false)
   const [retry, setRetry] = useState(0)
@@ -95,7 +98,7 @@ export function BoApp() {
   } | null>(null)
   const [previewRequest, setPreviewRequest] = useState(0)
 
-  function setDraft(change: SetStateAction<PlayerContent | null>) {
+  function setDraft(change: SetStateAction<V2Content | null>) {
     setHistory((current) => {
       const previous = current?.present ?? null
       const next = typeof change === 'function' ? change(previous) : change
@@ -114,7 +117,7 @@ export function BoApp() {
 
   useEffect(() => {
     let active = true
-    loadPlayerContent()
+    loadV2Content()
       .then((content) => {
         if (!active) return
         setSaved(content)
@@ -171,7 +174,13 @@ export function BoApp() {
 
   const currentDraft = draft
 
-  const issues = validateContent(draft)
+  const checked = v2ContentSchema.safeParse(draft)
+  const issues: ValidationIssue[] = checked.success
+    ? []
+    : checked.error.issues.map((issue) => ({
+        path: issue.path.join('.'),
+        message: issue.message,
+      }))
   const visibleIssues = serverIssues.length
     ? serverIssues
     : showIssues
@@ -198,7 +207,7 @@ export function BoApp() {
   const ending = draft.endings[endingIndex]
   const eventIds = draft.events.map((item) => item.id)
 
-  function updateEvent(next: Event) {
+  function updateEvent(next: V2Event) {
     setDraft(
       (current) =>
         current && {
@@ -212,7 +221,7 @@ export function BoApp() {
     setServerIssues([])
   }
 
-  function updateEnding(next: Ending) {
+  function updateEnding(next: V2Content['endings'][number]) {
     setDraft(
       (current) =>
         current && {
@@ -227,7 +236,7 @@ export function BoApp() {
   }
 
   function addEvent() {
-    const newEvent: Event = {
+    const newEvent: V2Event = {
       id: nextId('new_event', eventIds),
       kind: 'main',
       time: { year: 1, period: 'term1' },
@@ -247,7 +256,7 @@ export function BoApp() {
   }
 
   function addEnding() {
-    const newEnding: Ending = {
+    const newEnding: V2Content['endings'][number] = {
       id: nextId(
         'new_ending',
         currentDraft.endings.map((item) => item.id),
@@ -264,8 +273,12 @@ export function BoApp() {
 
   function moveSelected(direction: -1 | 1) {
     if (section === 'events') {
-      const target = eventIndex + direction
-      if (target < 0 || target >= currentDraft.events.length) return
+      const target = neighboringStoryIndex(
+        currentDraft.events,
+        eventIndex,
+        direction,
+      )
+      if (target < 0) return
       const events = [...currentDraft.events]
       const selected = events[eventIndex]
       events[eventIndex] = events[target]
@@ -285,7 +298,7 @@ export function BoApp() {
     setNotice('')
   }
 
-  function moveOnTimeline(id: string, time: Event['time'], index: number) {
+  function moveOnTimeline(id: string, time: V2Event['time'], index: number) {
     const events = moveEvent(currentDraft.events, id, time, index)
     setDraft({ ...currentDraft, events })
     setEventIndex(events.findIndex((event) => event.id === id))
@@ -312,7 +325,7 @@ export function BoApp() {
     if (issues.length) return
     setSaving(true)
     try {
-      const response = await fetch(`/__bo/content/${file}`, {
+      const response = await fetch(`/__bo/v2/content/${file}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(currentDraft[file]),
@@ -547,20 +560,25 @@ export function BoApp() {
               </div>
               <div className="bo-item-list">
                 {section === 'events'
-                  ? draft.events.map((item, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        data-selected={index === eventIndex}
-                        aria-current={index === eventIndex ? 'true' : undefined}
-                        onClick={() => setEventIndex(index)}
-                      >
-                        <strong>{item.title || 'ไม่มีชื่อ'}</strong>
-                        <small>
-                          {item.id} · ปี {item.time.year} {item.time.period}
-                        </small>
-                      </button>
-                    ))
+                  ? orderedStoryEntries(draft.events).map(
+                      ({ event: item, index }) => (
+                        <button
+                          key={index}
+                          type="button"
+                          data-selected={index === eventIndex}
+                          aria-current={
+                            index === eventIndex ? 'true' : undefined
+                          }
+                          onClick={() => setEventIndex(index)}
+                        >
+                          <strong>{item.title || 'ไม่มีชื่อ'}</strong>
+                          <small>
+                            {item.id} · ปี {item.time.year} {item.time.period}
+                            {item.active === false ? ' · Inactive' : ''}
+                          </small>
+                        </button>
+                      ),
+                    )
                   : draft.endings.map((item, index) => (
                       <button
                         key={index}
@@ -589,7 +607,13 @@ export function BoApp() {
                       type="button"
                       className="button button-secondary"
                       disabled={
-                        (section === 'events' ? eventIndex : endingIndex) === 0
+                        section === 'events'
+                          ? neighboringStoryIndex(
+                              draft.events,
+                              eventIndex,
+                              -1,
+                            ) < 0
+                          : endingIndex === 0
                       }
                       onClick={() => moveSelected(-1)}
                     >
@@ -600,7 +624,8 @@ export function BoApp() {
                       className="button button-secondary"
                       disabled={
                         section === 'events'
-                          ? eventIndex === draft.events.length - 1
+                          ? neighboringStoryIndex(draft.events, eventIndex, 1) <
+                            0
                           : endingIndex === draft.endings.length - 1
                       }
                       onClick={() => moveSelected(1)}
@@ -612,7 +637,7 @@ export function BoApp() {
               )}
               {section === 'events' ? (
                 event ? (
-                  <EventEditor
+                  <V2EventEditor
                     event={event}
                     assets={draft.assets}
                     characters={draft.characters}
@@ -642,7 +667,7 @@ export function BoApp() {
                   </p>
                 )
               ) : ending ? (
-                <EndingEditor
+                <V2EndingEditor
                   ending={ending}
                   eventIds={eventIds}
                   onChange={updateEnding}

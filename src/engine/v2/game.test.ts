@@ -58,6 +58,20 @@ function game(
 }
 
 describe('V2 headless engine', () => {
+  it('skips inactive stories during progression', () => {
+    const content = game([
+      event('start', 1),
+      { ...event('hidden_event', 1), active: false },
+      event('next_event', 1),
+    ])
+    const next = chooseV2(
+      content,
+      createV2Game(content, 'ฟ้า', 1),
+      'continue_story',
+    )
+    expect(next.currentEventId).toBe('next_event')
+  })
+
   it('allows negative stats and debt while keeping bounded upper limits', () => {
     const content = game(
       [

@@ -1,8 +1,8 @@
-import type { LifeSummary } from '../../engine/game'
+import type { V2LifeSummary } from '../../engine/v2/game'
 import { StatPanel } from './StatPanel'
 
 type Props = {
-  summary: LifeSummary
+  summary: V2LifeSummary
   onHome: () => void
   onRestart: () => void
   onExport: () => void

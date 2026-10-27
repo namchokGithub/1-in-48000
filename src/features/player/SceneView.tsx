@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import type { Asset, Character, Event } from '../../content/schema'
-import { getAvailableChoices } from '../../engine/game'
-import type { PlayerSave } from '../../save/schema'
+import type { V2Content, V2Event } from '../../content/v2/schema'
+import { getV2AvailableChoices } from '../../engine/v2/game'
+import type { V2PlayerSave } from '../../save/v2/schema'
 import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
 
 type Props = {
-  event: Event
-  save: PlayerSave
-  assets: Asset[]
-  characters: Character[]
+  event: V2Event
+  save: V2PlayerSave
+  assets: V2Content['assets']
+  characters: V2Content['characters']
   error: string | null
   onChoose: (choiceId: string) => void
   onHome: () => void
@@ -36,7 +36,7 @@ export function SceneView({
   const portraitAsset = assets.find(
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )
-  const choices = getAvailableChoices(event, save)
+  const choices = getV2AvailableChoices(event, save)
   const lastLine = lineIndex === event.lines.length - 1
 
   return (

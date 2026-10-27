@@ -1,5 +1,14 @@
 import { useState, type DragEvent } from 'react'
-import type { Event, GameTime } from '../../content/schema'
+import type { GameTime } from '../../content/schema'
+import { timelineStories } from './storyVisibility'
+
+type TimelineEvent = {
+  active?: boolean
+  id: string
+  title: string
+  kind: 'main' | 'conditional' | 'holiday' | 'random'
+  time: GameTime
+}
 
 const periods: { id: GameTime['period']; label: string }[] = [
   { id: 'term1', label: 'เทอม 1' },
@@ -13,7 +22,7 @@ export function TimelineBoard({
   onSelect,
   onMove,
 }: {
-  events: Event[]
+  events: TimelineEvent[]
   onSelect: (index: number) => void
   onMove: (id: string, time: GameTime, index: number) => void
 }) {
@@ -49,7 +58,7 @@ export function TimelineBoard({
           <div className="bo-timeline-periods">
             {periods.map(({ id: period, label }) => {
               const time: GameTime = { year, period }
-              const slot = events.filter(
+              const slot = timelineStories(events).filter(
                 (entry) =>
                   entry.time.year === year && entry.time.period === period,
               )

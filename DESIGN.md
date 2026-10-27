@@ -49,6 +49,8 @@ BO uses one authored Select for event types, condition operators, references, an
 
 The BO data tabs reuse the list and editor layout for speakers, scene images, and BGM/SFX. Tabs scroll horizontally on narrow screens. Asset paths are entered as manifest paths and checked against local files on Save; scene images have a preview. ID generators sit beside the corresponding fields, while Event and Choice IDs show `snake_case` feedback in place.
 
+The V2 story form uses compact ordered cards for dialogue and choices. Speaker portraits and names lead each line; IDs and unused portrait overrides sit in Advanced details. Choices show effect summary badges while their editing controls stay collapsed until selected. Sentence-style conditions and nested delayed/chance editors keep complex rules readable without placing every input on screen at once. Drag handles indicate reordering, with adjacent up/down buttons for keyboard and touch use.
+
 ## Visual language
 
 Pale teal canvas, white surfaces, dark blue-green ink, and a teal action color evoke campus notebooks without imitating paper texture. The scene placeholder is a geometric campus silhouette until asset IDs point to real art. One warm accent highlights progress. Rounded panels and fine borders carry hierarchy; shadows stay subtle.

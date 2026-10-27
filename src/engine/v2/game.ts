@@ -21,6 +21,7 @@ export type V2GameContent = Pick<V2Content, 'config' | 'events' | 'endings'>
 function findEvent(content: V2GameContent, id: string): V2Event {
   const event = content.events.find((candidate) => candidate.id === id)
   if (!event) throw new Error(`Unknown event: ${id}`)
+  if (event.active === false) throw new Error(`Inactive event: ${id}`)
   return event
 }
 
@@ -234,6 +235,7 @@ function pickAtCurrentTime(
   const visited = new Set(save.history.map((entry) => entry.eventId))
   const eligible = content.events.filter(
     (event) =>
+      event.active !== false &&
       compareTime(event.time, save.currentTime) === 0 &&
       !visited.has(event.id) &&
       matches(event.conditions, save),

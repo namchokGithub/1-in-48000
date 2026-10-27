@@ -1,0 +1,47 @@
+[
+  {
+    "id": "campus_orientation",
+    "kind": "scene",
+    "path": "/assets/scene/campus-orientation.png"
+  },
+  {
+    "id": "classroom",
+    "kind": "scene",
+    "path": "/assets/scene/classroom.png"
+  },
+  {
+    "id": "dorm_room",
+    "kind": "scene",
+    "path": "/assets/scene/dorm-room.png"
+  },
+  {
+    "id": "campus_library",
+    "kind": "scene",
+    "path": "/assets/scene/campus-library.png"
+  },
+  {
+    "id": "canteen",
+    "kind": "scene",
+    "path": "/assets/scene/canteen.png"
+  },
+  {
+    "id": "bus_stop",
+    "kind": "scene",
+    "path": "/assets/scene/bus-stop.png"
+  },
+  {
+    "id": "graduation_stage",
+    "kind": "scene",
+    "path": "/assets/scene/graduation-stage.png"
+  },
+  {
+    "id": "mali_portrait",
+    "kind": "portrait",
+    "path": "/assets/portrait/mali.png"
+  },
+  {
+    "id": "kanto_daydream",
+    "kind": "bgm",
+    "path": "/assets/sound/turning_pages-kanto-daydream-569855.mp3"
+  }
+]

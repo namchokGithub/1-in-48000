@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import type { PlayerContent } from '../../content/loader'
-import type { Asset, Character } from '../../content/schema'
+import type { V2Content } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { randomId } from './randomId'
 
@@ -19,8 +18,8 @@ export function DataEditor({
   onDelete,
 }: {
   section: DataSection
-  content: PlayerContent
-  onChange: (next: PlayerContent) => void
+  content: V2Content
+  onChange: (next: V2Content) => void
   onDelete: (title: string, description: string, action: () => void) => void
 }) {
   const [storedIndex, setIndex] = useState(0)
@@ -36,12 +35,16 @@ export function DataEditor({
   const selected = items[index]
   const file = section === 'speakers' ? 'characters' : 'assets'
 
-  function replace(value: Character | Asset) {
+  function replace(
+    value: V2Content['characters'][number] | V2Content['assets'][number],
+  ) {
     const next = structuredClone(content)
     if (file === 'characters') {
-      next.characters[index] = value as Character
+      next.characters[index] = value as V2Content['characters'][number]
     } else {
-      next.assets[content.assets.indexOf(selected as Asset)] = value as Asset
+      next.assets[
+        content.assets.indexOf(selected as V2Content['assets'][number])
+      ] = value as V2Content['assets'][number]
     }
     onChange(next)
   }
@@ -79,16 +82,25 @@ export function DataEditor({
       () => {
         const next = structuredClone(content)
         if (file === 'characters') next.characters.splice(index, 1)
-        else next.assets.splice(content.assets.indexOf(selected as Asset), 1)
+        else
+          next.assets.splice(
+            content.assets.indexOf(selected as V2Content['assets'][number]),
+            1,
+          )
         setIndex(Math.max(0, index - 1))
         onChange(next)
       },
     )
   }
 
-  const asset = file === 'assets' ? (selected as Asset | undefined) : undefined
+  const asset =
+    file === 'assets'
+      ? (selected as V2Content['assets'][number] | undefined)
+      : undefined
   const speaker =
-    file === 'characters' ? (selected as Character | undefined) : undefined
+    file === 'characters'
+      ? (selected as V2Content['characters'][number] | undefined)
+      : undefined
 
   return (
     <div className="bo-layout bo-data-layout">

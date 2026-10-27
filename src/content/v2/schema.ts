@@ -1,7 +1,11 @@
 import { z } from 'zod'
 
-const idSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/)
-const storyIdSchema = z.string().regex(/^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/)
+export const v2IdSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/)
+export const v2StoryIdSchema = z
+  .string()
+  .regex(/^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/)
+const idSchema = v2IdSchema
+const storyIdSchema = v2StoryIdSchema
 const textSchema = z.string().trim().min(1)
 const boundedStatSchema = z.int().max(100)
 
@@ -141,6 +145,7 @@ export const v2GameConfigSchema = z.object({
 
 export const v2EventSchema = z.strictObject({
   id: storyIdSchema,
+  active: z.boolean().optional(),
   kind: z.enum(['main', 'conditional', 'holiday', 'random']),
   time: v2TimeSchema,
   title: textSchema,
@@ -226,12 +231,18 @@ export const v2ContentSchema = z
     uniqueIds(content.config.backgrounds, ['config', 'backgrounds'])
 
     const eventIds = new Set(content.events.map((event) => event.id))
+    const inactiveEventIds = new Set(
+      content.events
+        .filter((event) => event.active === false)
+        .map((event) => event.id),
+    )
     const characterIds = new Set(content.characters.map((item) => item.id))
     const assets = new Map(
       content.assets.map((asset) => [asset.id, asset.kind]),
     )
     const checkEvent = (id: string, path: (string | number)[]) => {
       if (!eventIds.has(id)) report(path, `Unknown event: ${id}`)
+      else if (inactiveEventIds.has(id)) report(path, `Inactive event: ${id}`)
     }
     const checkAsset = (
       id: string | undefined,

@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                  | Status | Depends on |
 | --- | --------------------- | ------ | ---------- |
-| 15  | BO story editor       | Todo   | 12, 14     |
 | 16  | BO timeline + preview | Todo   | 12, 15     |
 | 17  | Player gameplay       | Todo   | 12         |
 | 18  | Player UX/UI          | Todo   | 17         |
@@ -224,7 +223,7 @@ Completed 2026-10-27. BO now edits `characters.json` and scene/BGM/SFX records i
 
 ## 15. BO story editor
 
-**Status:** Todo
+**Status:** Done
 
 Redesign the event edit form (reference: `docs/image/REQUIREMENT-V2/1793071073186.png`).
 
@@ -240,8 +239,11 @@ Redesign the event edit form (reference: `docs/image/REQUIREMENT-V2/179307107318
 - Collapse / expand choices and effects not being edited.
 - Drag and drop to reorder dialogue lines and choices.
 - Inline validation for Flag IDs, Event IDs, and incomplete data.
+- Add disable or Inactive story, If disable or inactive set to the bottom of list and story not show in timeline
 
 **Done when:** an event with dialogue, choices, conditions, delayed effects, and a chance effect can be authored through the new form and plays in the Player page.
+
+Completed 2026-10-27. The BO story form now uses compact dialogue and choice cards, automatic speaker portraits, Advanced ID/portrait controls, sentence-style conditions, effect badges, nested delayed/chance editors, duplicate/delete menus, drag and keyboard order controls, inline field feedback, and an Inactive event toggle. Inactive events appear at the bottom of the BO list and are hidden from its timeline without changing JSON order. BO and Player now load the same `public/content-v2` files; the Player uses the V2 engine and save v3 store. The V2 local writer validates and saves authored chance effects, and focused tests cover a saved chance choice resolving in the Player engine, an end-to-end path through the migrated story, inactive event selection, and loading a V1 save. The Player's remaining V2 presentation and gameplay controls stay in Step 17; the author should check the new BO form and Player manually in dev.
 
 ## 16. BO timeline + preview
 
@@ -259,6 +261,8 @@ Redesign the event edit form (reference: `docs/image/REQUIREMENT-V2/179307107318
 ## 17. Player gameplay
 
 **Status:** Todo
+
+The V2 content loader, engine, and save store were connected to the Player during Step 15 so authored chance effects can run. The items below remain for this step.
 
 - Random player name from the names file.
 - Show stat effects on each starting background.

@@ -1,20 +1,19 @@
 import { useState } from 'react'
-import type { Event } from '../../content/schema'
-import type { PlayerContent } from '../../content/loader'
-import { choose, getAvailableChoices } from '../../engine/game'
-import type { PlayerSave } from '../../save/schema'
-import { createPreviewSave } from './preview'
-import { statOptions } from './statOptions'
+import type { V2Content, V2Event } from '../../content/v2/schema'
+import { chooseV2, getV2AvailableChoices } from '../../engine/v2/game'
+import type { V2PlayerSave } from '../../save/v2/schema'
+import { createV2PreviewSave } from './preview'
+import { v2StatOptions } from './v2StatOptions'
 
 export function PreviewPane({
   content,
   event,
 }: {
-  content: PlayerContent
-  event: Event
+  content: V2Content
+  event: V2Event
 }) {
-  const [save, setSave] = useState<PlayerSave | null>(null)
-  const [result, setResult] = useState<PlayerSave | null>(null)
+  const [save, setSave] = useState<V2PlayerSave | null>(null)
+  const [result, setResult] = useState<V2PlayerSave | null>(null)
   const [error, setError] = useState<string | null>(null)
   const scene = content.assets.find(
     (asset) => asset.id === event.sceneAssetId && asset.kind === 'scene',
@@ -27,11 +26,11 @@ export function PreviewPane({
   const portrait = content.assets.find(
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )
-  const choices = save ? getAvailableChoices(event, save) : []
+  const choices = save ? getV2AvailableChoices(event, save) : []
 
   function start() {
     try {
-      setSave(createPreviewSave(content, event.id))
+      setSave(createV2PreviewSave(content, event.id))
       setResult(null)
       setError(null)
     } catch (cause) {
@@ -42,7 +41,7 @@ export function PreviewPane({
   function pick(choiceId: string) {
     if (!save) return
     try {
-      setResult(choose(content, save, choiceId))
+      setResult(chooseV2(content, save, choiceId))
       setError(null)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'ทดลองตัวเลือกไม่ได้')
@@ -119,7 +118,7 @@ export function PreviewPane({
         <div className="bo-preview-result" aria-live="polite">
           <h3 className="font-extrabold">ผลจากการเลือก</h3>
           <dl>
-            {statOptions.map(({ id, label }) => (
+            {v2StatOptions.map(({ id, label }) => (
               <div key={id}>
                 <dt>{label}</dt>
                 <dd>

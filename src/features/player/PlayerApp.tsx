@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useStore } from 'zustand'
-import { loadPlayerContent, type PlayerContent } from '../../content/loader'
-import { getCurrentEvent, summarizeLife } from '../../engine/game'
-import { createGameStore } from '../../save/store'
+import { loadV2Content } from '../../content/v2/loader'
+import type { V2Content } from '../../content/v2/schema'
+import { getV2CurrentEvent, summarizeV2Life } from '../../engine/v2/game'
+import { createV2GameStore } from '../../save/v2/store'
 import { createLocalStorageAdapter } from '../../save/storage'
 import { createAudioSettingsStore } from '../../save/audioSettings'
-import type { PlayerSave } from '../../save/schema'
+import type { V2PlayerSave } from '../../save/v2/schema'
 import { createAudioController } from '../../shared/audio'
 import { AudioControls } from './AudioControls'
 import { CharacterForm } from './CharacterForm'
@@ -15,17 +16,17 @@ import { SceneView } from './SceneView'
 
 type View = 'home' | 'create' | 'play' | 'ending'
 
-function currentEventOrNull(content: PlayerContent, save: PlayerSave) {
+function currentEventOrNull(content: V2Content, save: V2PlayerSave) {
   try {
-    return getCurrentEvent(content, save)
+    return getV2CurrentEvent(content, save)
   } catch {
     return null
   }
 }
 
-function summaryOrNull(content: PlayerContent, save: PlayerSave) {
+function summaryOrNull(content: V2Content, save: V2PlayerSave) {
   try {
-    return summarizeLife(content, save)
+    return summarizeV2Life(content, save)
   } catch {
     return null
   }
@@ -49,9 +50,9 @@ function downloadSave(text: string) {
   URL.revokeObjectURL(url)
 }
 
-function PlayerShell({ content }: { content: PlayerContent }) {
+function PlayerShell({ content }: { content: V2Content }) {
   const [session] = useState(() => {
-    const store = createGameStore(content, createLocalStorageAdapter())
+    const store = createV2GameStore(content, createLocalStorageAdapter())
     let loadFailed = false
     try {
       store.getState().continueGame()
@@ -75,7 +76,7 @@ function PlayerShell({ content }: { content: PlayerContent }) {
 
   useEffect(() => () => audio.stop(), [audio])
 
-  function playEvent(current: PlayerSave) {
+  function playEvent(current: V2PlayerSave) {
     const event = currentEventOrNull(content, current)
     if (event) audio.sync(event, content.assets)
     else audio.stop()
@@ -286,13 +287,13 @@ function PlayerShell({ content }: { content: PlayerContent }) {
 }
 
 export function PlayerApp() {
-  const [content, setContent] = useState<PlayerContent | null>(null)
+  const [content, setContent] = useState<V2Content | null>(null)
   const [error, setError] = useState(false)
   const [retry, setRetry] = useState(0)
 
   useEffect(() => {
     let active = true
-    loadPlayerContent()
+    loadV2Content()
       .then((loaded) => {
         if (active) {
           setContent(loaded)

@@ -59,6 +59,17 @@ describe('V2 content contract', () => {
     ).toBe(true)
   })
 
+  it('allows inactive stories but rejects links to them', () => {
+    const content = v2ContentSchema.parse({ ...sample, names })
+    content.events[1].active = false
+    expect(v2ContentSchema.safeParse(content).success).toBe(true)
+    content.events[0].choices[0].effects.push({
+      type: 'goToEvent',
+      eventId: content.events[1].id,
+    })
+    expect(v2ContentSchema.safeParse(content).success).toBe(false)
+  })
+
   it('requires a chance percentage and one of two disclosure modes', () => {
     const event = sample.events[2]
     const choice = event.choices[0]
