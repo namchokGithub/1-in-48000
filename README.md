@@ -129,7 +129,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 
-**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player can resolve those choices and migrate a V1 save. Player presentation and authored Years 5–8 story content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player starts with a random name, shows background and choice stat effects, tracks four to eight study years, and ends with a decision timeline. Player visual theming and authored Years 5–8 story content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

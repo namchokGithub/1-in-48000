@@ -1,30 +1,34 @@
 import { useRef, useState, type FormEvent } from 'react'
 import type { V2Content } from '../../content/v2/schema'
+import { pickV2StartOption } from '../../engine/v2/game'
+import { formatStatChange } from './choicePreview'
 
 type Props = {
   backgrounds: V2Content['config']['backgrounds']
-  hasPreviousSave: boolean
+  names: V2Content['names']
   onStart: (name: string, backgroundId: string) => void
   onCancel: () => void
 }
 
 export function CharacterForm({
   backgrounds,
-  hasPreviousSave,
+  names,
   onStart,
   onCancel,
 }: Props) {
-  const [name, setName] = useState('')
+  const [name, setName] = useState(() =>
+    pickV2StartOption(names, crypto.getRandomValues(new Uint32Array(1))[0]),
+  )
   const nameRef = useRef<HTMLInputElement>(null)
   const [backgroundId, setBackgroundId] = useState(backgrounds[0].id)
+  const [randomBackground, setRandomBackground] = useState(false)
   const [nameError, setNameError] = useState('')
   const [actionError, setActionError] = useState('')
-  const [confirmReplace, setConfirmReplace] = useState(false)
 
   function randomize() {
     const random = crypto.getRandomValues(new Uint32Array(1))[0]
-    setBackgroundId(backgrounds[random % backgrounds.length].id)
-    setConfirmReplace(false)
+    setBackgroundId(pickV2StartOption(backgrounds, random).id)
+    setRandomBackground(true)
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -36,10 +40,6 @@ export function CharacterForm({
       return
     }
     setNameError('')
-    if (hasPreviousSave && !confirmReplace) {
-      setConfirmReplace(true)
-      return
-    }
     try {
       onStart(trimmed, backgroundId)
     } catch {
@@ -60,9 +60,29 @@ export function CharacterForm({
       </p>
       <form className="mt-7 space-y-7" onSubmit={submit} noValidate>
         <div>
-          <label htmlFor="player-name" className="mb-2 block font-bold">
-            ชื่อของคุณ
-          </label>
+          <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
+            <label htmlFor="player-name" className="font-bold">
+              ชื่อของคุณ
+            </label>
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={() => {
+                const alternatives = names.filter(
+                  (candidate) => candidate !== name,
+                )
+                setName(
+                  pickV2StartOption(
+                    alternatives.length ? alternatives : names,
+                    crypto.getRandomValues(new Uint32Array(1))[0],
+                  ),
+                )
+                setNameError('')
+              }}
+            >
+              สุ่มชื่อ
+            </button>
+          </div>
           <input
             ref={nameRef}
             id="player-name"
@@ -75,9 +95,7 @@ export function CharacterForm({
             onChange={(event) => {
               setName(event.target.value)
               setNameError('')
-              setConfirmReplace(false)
             }}
-            placeholder="เช่น ฟ้า"
           />
           {nameError && (
             <p
@@ -111,17 +129,19 @@ export function CharacterForm({
               <label
                 key={background.id}
                 className="background-card"
-                data-selected={background.id === backgroundId}
+                data-selected={
+                  !randomBackground && background.id === backgroundId
+                }
               >
                 <input
                   className="sr-only"
                   type="radio"
                   name="background"
                   value={background.id}
-                  checked={background.id === backgroundId}
+                  checked={!randomBackground && background.id === backgroundId}
                   onChange={() => {
                     setBackgroundId(background.id)
-                    setConfirmReplace(false)
+                    setRandomBackground(false)
                   }}
                 />
                 <span className="block text-lg font-extrabold">
@@ -136,21 +156,26 @@ export function CharacterForm({
                 <span className="muted block text-sm">
                   ทักษะ: {background.skill}
                 </span>
+                <span className="mt-3 block text-sm font-semibold">
+                  {Object.entries(background.statDeltas)
+                    .filter(([, amount]) => amount !== 0)
+                    .map(([stat, amount]) =>
+                      formatStatChange(
+                        stat as keyof typeof background.statDeltas,
+                        amount,
+                      ),
+                    )
+                    .join(' · ') || 'ค่าสถานะเริ่มต้นไม่เปลี่ยน'}
+                </span>
               </label>
             ))}
           </div>
-        </div>
-        {confirmReplace && (
-          <div
-            className="rounded-xl border border-[#e1b5b7] bg-[#fff4f2] p-4"
-            role="status"
-          >
-            <p className="font-bold">เซฟเดิมจะถูกแทนที่</p>
-            <p className="mt-1 text-sm">
-              ดาวน์โหลดเซฟสำรองจากหน้าแรกได้ก่อนเริ่มชีวิตใหม่
+          {randomBackground && (
+            <p className="muted mt-3 text-sm" role="status">
+              สุ่มพื้นฐานไว้แล้ว จะรู้ว่าได้แบบไหนหลังเริ่มชีวิตนี้
             </p>
-          </div>
-        )}
+          )}
+        </div>
         {actionError && (
           <p className="text-sm text-[var(--color-danger)]" role="alert">
             {actionError}
@@ -158,7 +183,7 @@ export function CharacterForm({
         )}
         <div className="flex flex-wrap gap-3">
           <button className="button button-primary" type="submit">
-            {confirmReplace ? 'ยืนยันเริ่มชีวิตใหม่' : 'เริ่มชีวิตนี้'}
+            เริ่มชีวิตนี้
           </button>
           <button
             className="button button-secondary"

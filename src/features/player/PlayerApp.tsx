@@ -134,7 +134,7 @@ function PlayerShell({ content }: { content: V2Content }) {
     body = (
       <CharacterForm
         backgrounds={content.config.backgrounds}
-        hasPreviousSave={hasStoredSave()}
+        names={content.names}
         onStart={start}
         onCancel={() => setView('home')}
       />

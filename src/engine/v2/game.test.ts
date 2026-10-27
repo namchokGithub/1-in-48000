@@ -8,6 +8,8 @@ import {
 import {
   chooseV2,
   createV2Game,
+  getV2EffectiveChancePercent,
+  pickV2StartOption,
   getV2CurrentEvent,
   summarizeV2Life,
   type V2GameContent,
@@ -58,6 +60,10 @@ function game(
 }
 
 describe('V2 headless engine', () => {
+  it('picks a start option from a supplied random value', () => {
+    expect(pickV2StartOption(['ฟ้า', 'มายด์', 'อิม'], 4)).toBe('มายด์')
+    expect(() => pickV2StartOption([], 0)).toThrow('No starting options')
+  })
   it('skips inactive stories during progression', () => {
     const content = game([
       event('start', 1),
@@ -100,6 +106,9 @@ describe('V2 headless engine', () => {
   })
 
   it('uses lucky in a saved chance roll and replays the same outcome', () => {
+    expect(getV2EffectiveChancePercent(3, 10)).toBe(4)
+    expect(getV2EffectiveChancePercent(99, 20)).toBe(100)
+    expect(getV2EffectiveChancePercent(1, -20)).toBe(0)
     const chance = {
       type: 'chance' as const,
       successPercent: 3,

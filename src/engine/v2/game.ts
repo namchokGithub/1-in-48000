@@ -18,6 +18,14 @@ type V2Choice = V2Event['choices'][number]
 
 export type V2GameContent = Pick<V2Content, 'config' | 'events' | 'endings'>
 
+export function pickV2StartOption<T>(options: readonly T[], roll: number): T {
+  if (!options.length) throw new Error('No starting options')
+  if (!Number.isInteger(roll) || roll < 0 || roll > 4_294_967_295) {
+    throw new Error('Starting option roll must be a uint32 integer')
+  }
+  return options[roll % options.length]
+}
+
 function findEvent(content: V2GameContent, id: string): V2Event {
   const event = content.events.find((candidate) => candidate.id === id)
   if (!event) throw new Error(`Unknown event: ${id}`)
@@ -135,6 +143,13 @@ export function getV2AvailableChoices(
   save: V2PlayerSave,
 ): V2Choice[] {
   return event.choices.filter((choice) => matches(choice.conditions, save))
+}
+
+export function getV2EffectiveChancePercent(
+  successPercent: number,
+  lucky: number,
+): number {
+  return Math.max(0, Math.min(100, successPercent + lucky / 10))
 }
 
 function applyStateEffect(save: V2PlayerSave, effect: V2StateEffect): void {
@@ -338,9 +353,9 @@ export function chooseV2(
     } else if (effect.type === 'goToEvent') {
       nextEventId = effect.eventId
     } else if (effect.type === 'chance') {
-      const effectivePercent = Math.max(
-        0,
-        Math.min(100, effect.successPercent + save.stats.lucky / 10),
+      const effectivePercent = getV2EffectiveChancePercent(
+        effect.successPercent,
+        save.stats.lucky,
       )
       const roll = rollIndex(save.rngState, 4_294_967_296)
       save.rngState = roll.nextState

@@ -14,10 +14,12 @@ The Player and local BO share the controls and colors in `src/shared/styles.css`
 
 BO Save writes only after client and server validation. A failed save keeps the draft visible and leaves the content file intact. The author reviews `contentVersion` and save migration before publishing edited content.
 
-BO and Player use `public/content-v2`. The story editor keeps line and choice order in the JSON arrays; drag and up/down actions produce the same order. Inactive events remain editable but are skipped by the V2 engine. A chance effect stores its percentage, display mode, and separate success/failure state effects. The inline preview continues to use the shared V2 engine until Step 16 moves it into a modal.
+BO and Player use `public/content-v2`. The story editor keeps line and choice order in the JSON arrays; drag and up/down actions produce the same order. Inactive events remain editable but are skipped by the V2 engine. A chance effect stores its percentage, display mode, and separate success/failure state effects. Preview uses the Player scene and shared V2 engine in a modal without writing a save.
 
 Speakers write `characters.json`; scene images and BGM/SFX write `assets.json`. Deletion is confirmed and remains reversible in the draft. Broken references or missing files block Save. Story IDs use `snake_case`; the editor gives field-level feedback and can generate unique IDs.
 
-The BO toolbar owns Save, Undo, Redo, and Preview. `draftHistory.ts` owns reversible draft snapshots; the shared confirmation dialog owns delete confirmation. Preview focuses the current preview panel until Step 16 replaces it with a modal.
+The BO toolbar owns Save, Undo, Redo, and Preview. `draftHistory.ts` owns reversible draft snapshots; the shared confirmation dialog owns delete confirmation. Preview opens the modal from the toolbar or a timeline card.
+
+The Player picks an editable starting name from `names.json`. Selecting a random background hides which card was chosen in the creation form; manually choosing a card restores the visible selection. Choice buttons show stat effects and the engine's effective chance percentage, respecting each chance effect's display mode. The scene's study timeline extends from four to six or eight years according to the current year. The ending lists saved event choices, times, and chance outcomes. Submitting a new life replaces the single save slot without a second overwrite prompt.
 
 The selected BO tab is reflected in the `/content-manage` URL so a development reload after saving content returns the author to the same tab.

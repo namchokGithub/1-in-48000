@@ -59,3 +59,7 @@ Keep the published V1 JSON under `public/content` for migration fixtures while a
 ## 2026-10-27 — BO timeline search and isolated preview
 
 Count the more-than-ten-main-event warning from all active events in a year/period, independent of search and kind filters. When dragging a filtered card, map its drop position back to the full authored slot so hidden events retain their order. Preview uses the shared V2 engine and Player scene view inside a native modal. It activates the selected event only in an in-memory content copy and creates a sample save; preview choices never touch the Player save store.
+
+## 2026-10-27 — Player gameplay information
+
+Sample a new player's name from the versioned names file and keep the field editable. Sampling a background hides its selection in the creation form while retaining its ID for the new save. Show stat deltas and the engine's effective chance percentage before a choice; `statsOnly` reveals direction without amount. Extend the visible study timeline from four to six or eight years according to the current year, and render the saved choice history in the ending summary. A new game replaces the single save slot immediately after the player submits the creation form; the separate overwrite warning is removed.

@@ -4,6 +4,8 @@ import { getV2AvailableChoices } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
+import { describeChoiceEffects } from './choicePreview'
+import { YearTimeline } from './YearTimeline'
 
 type Props = {
   event: V2Event
@@ -60,6 +62,7 @@ export function SceneView({
             {homeLabel}
           </button>
         </div>
+        <YearTimeline currentYear={save.currentTime.year} />
         <div className="scene-stage">
           {sceneAsset && (
             <img className="scene-image" src={sceneAsset.path} alt="" />
@@ -102,16 +105,26 @@ export function SceneView({
           ) : choices.length ? (
             <>
               <p className="font-bold">คุณจะทำอย่างไร?</p>
-              {choices.map((choice) => (
-                <button
-                  key={choice.id}
-                  type="button"
-                  className="button button-secondary w-full justify-between text-left"
-                  onClick={() => onChoose(choice.id)}
-                >
-                  <span>{choice.text}</span>
-                </button>
-              ))}
+              {choices.map((choice) => {
+                const effects = describeChoiceEffects(choice, save.stats)
+                return (
+                  <button
+                    key={choice.id}
+                    type="button"
+                    className="button button-secondary w-full flex-col items-start text-left"
+                    onClick={() => onChoose(choice.id)}
+                  >
+                    <span>{choice.text}</span>
+                    {effects.length > 0 && (
+                      <span className="muted mt-1 grid gap-0.5 text-xs font-normal">
+                        {effects.map((effect, index) => (
+                          <span key={`${choice.id}-${index}`}>{effect}</span>
+                        ))}
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
             </>
           ) : (
             <p className="muted">ยังไม่มีตัวเลือกที่ใช้ได้ในเหตุการณ์นี้</p>

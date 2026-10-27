@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step              | Status | Depends on |
 | --- | ----------------- | ------ | ---------- |
-| 17  | Player gameplay   | Todo   | 12         |
 | 18  | Player UX/UI      | Todo   | 17         |
 | 19  | V2 test + release | Todo   | 16, 18     |
 
@@ -261,7 +260,7 @@ Completed 2026-10-27. BO searches event ID, title, dialogue, and choices; the Ti
 
 ## 17. Player gameplay
 
-**Status:** Todo
+**Status:** Done
 
 The V2 content loader, engine, and save store were connected to the Player during Step 15 so authored chance effects can run. The items below remain for this step.
 
@@ -274,6 +273,8 @@ The V2 content loader, engine, and save store were connected to the Player durin
 - Start a new life without the "เซฟเดิมจะถูกแทนที่" warning.
 
 **Done when:** a run plays from a random name to an ending with the new choice information and summary timeline.
+
+Completed 2026-10-27. New runs receive an editable name selected from `names.json`, and players can reroll it. Background cards show stat changes; random background selection hides the chosen card in the creation form. Choice buttons show immediate and delayed stat changes and the engine's effective chance percentage, with amounts hidden for `statsOnly`. The scene shows a four-year progress timeline that extends to six or eight years when study reviews require it. Endings list visited events, decisions, times, and saved chance results. Starting a new life no longer asks for a second overwrite confirmation. Focused engine and choice-information tests pass; the author should verify the Player flow and responsive layout manually.
 
 ## 18. Player UX/UI
 
