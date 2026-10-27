@@ -17,3 +17,5 @@ BO Save writes only after client and server validation. A failed save keeps the 
 Speakers write `characters.json`; scene images and BGM/SFX write `assets.json`. Deletion is confirmed and remains reversible in the draft. Broken references or missing files block Save. Story IDs use `snake_case`; the editor gives field-level feedback and can generate unique IDs.
 
 The BO toolbar owns Save, Undo, Redo, and Preview. `draftHistory.ts` owns reversible draft snapshots; the shared confirmation dialog owns delete confirmation. Preview focuses the current preview panel until Step 16 replaces it with a modal.
+
+The selected BO tab is reflected in the `/content-manage` URL so a development reload after saving content returns the author to the same tab.

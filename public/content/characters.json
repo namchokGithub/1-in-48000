@@ -1,1 +1,11 @@
-[{ "id": "mali", "name": "มะลิ", "portraitAssetId": "mali_portrait" }]
+[
+  {
+    "id": "mali",
+    "name": "มะลิ",
+    "portraitAssetId": "mali_portrait"
+  },
+  {
+    "id": "nup-dow",
+    "name": "นับดาวx"
+  }
+]

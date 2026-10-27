@@ -20,6 +20,19 @@ import { DataEditor, type DataSection } from './DataEditor'
 type Section = 'events' | 'endings' | DataSection
 type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
 
+function sectionFromUrl(): Section {
+  const tab = new URLSearchParams(window.location.search).get('tab')
+  if (
+    tab === 'endings' ||
+    tab === 'speakers' ||
+    tab === 'backgrounds' ||
+    tab === 'sounds'
+  ) {
+    return tab
+  }
+  return 'events'
+}
+
 function sectionFile(section: Section): EditableFile {
   if (section === 'speakers') return 'characters'
   if (section === 'backgrounds' || section === 'sounds') return 'assets'
@@ -60,7 +73,7 @@ export function BoApp() {
   const draft = history?.present ?? null
   const [loadError, setLoadError] = useState(false)
   const [retry, setRetry] = useState(0)
-  const [section, setSection] = useState<Section>('events')
+  const [section, setSection] = useState<Section>(sectionFromUrl)
   const [eventView, setEventView] = useState<'editor' | 'timeline'>('editor')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
@@ -89,6 +102,14 @@ export function BoApp() {
       if (!next) return null
       return current ? commitHistory(current, next) : createHistory(next)
     })
+  }
+
+  function selectSection(next: Section) {
+    const url = new URL(window.location.href)
+    if (next === 'events') url.searchParams.delete('tab')
+    else url.searchParams.set('tab', next)
+    window.history.replaceState(window.history.state, '', url)
+    setSection(next)
   }
 
   useEffect(() => {
@@ -220,7 +241,7 @@ export function BoApp() {
     }
     setEventIndex(currentDraft.events.length)
     setDraft({ ...currentDraft, events: [...currentDraft.events, newEvent] })
-    setSection('events')
+    selectSection('events')
     setEventView('editor')
     setNotice('')
   }
@@ -237,7 +258,7 @@ export function BoApp() {
     }
     setEndingIndex(currentDraft.endings.length)
     setDraft({ ...currentDraft, endings: [...currentDraft.endings, newEnding] })
-    setSection('endings')
+    selectSection('endings')
     setNotice('')
   }
 
@@ -388,7 +409,7 @@ export function BoApp() {
           <button
             aria-pressed={section === 'events'}
             type="button"
-            onClick={() => setSection('events')}
+            onClick={() => selectSection('events')}
           >
             เหตุการณ์ {draft.events.length}
             {dirtyEvents ? ' •' : ''}
@@ -396,7 +417,7 @@ export function BoApp() {
           <button
             aria-pressed={section === 'endings'}
             type="button"
-            onClick={() => setSection('endings')}
+            onClick={() => selectSection('endings')}
           >
             ตอนจบ {draft.endings.length}
             {dirtyEndings ? ' •' : ''}
@@ -404,7 +425,7 @@ export function BoApp() {
           <button
             aria-pressed={section === 'speakers'}
             type="button"
-            onClick={() => setSection('speakers')}
+            onClick={() => selectSection('speakers')}
           >
             ผู้พูด {draft.characters.length}
             {dirtyCharacters ? ' •' : ''}
@@ -412,7 +433,7 @@ export function BoApp() {
           <button
             aria-pressed={section === 'backgrounds'}
             type="button"
-            onClick={() => setSection('backgrounds')}
+            onClick={() => selectSection('backgrounds')}
           >
             ภาพฉาก{' '}
             {draft.assets.filter((asset) => asset.kind === 'scene').length}
@@ -421,7 +442,7 @@ export function BoApp() {
           <button
             aria-pressed={section === 'sounds'}
             type="button"
-            onClick={() => setSection('sounds')}
+            onClick={() => selectSection('sounds')}
           >
             เสียง{' '}
             {
