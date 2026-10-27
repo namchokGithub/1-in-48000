@@ -108,7 +108,6 @@ export function SceneView({
                   onClick={() => onChoose(choice.id)}
                 >
                   <span>{choice.text}</span>
-                  <span aria-hidden="true">→</span>
                 </button>
               ))}
             </>

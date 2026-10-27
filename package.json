@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@11.24.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "BROWSER=\"Google Chrome\" vite --open",
     "build": "tsc -b && vite build",
     "test": "vitest run --passWithNoTests",
     "lint": "eslint ."
