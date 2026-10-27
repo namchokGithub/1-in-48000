@@ -281,6 +281,13 @@ Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
 - Show the scene name only in the title, not inside the image.
 - Light theme (white and soft yellow) and dark theme (dark gray with a touch of gold).
 
+  - Theme Cozy campus + Soft youthful
+
+    - เน้นครีม / beige มากขึ้น + เหลืองอ่อน + ivory
+    - ทองนุ่มๆ
+    - ลดความหม่นของ dark
+    - เหมาะกับเกม choice-based
+
   - Light
 
     - bg: #FFFDF7
@@ -300,6 +307,19 @@ Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
     - primary-soft: #4B4128
     - text: #F3EBD7
     - text-secondary: #D1C5A8
+
+  - วิธีใช้สีใน UI
+
+    - แนะนำสัดส่วนประมาณนี้:
+      - 70% = neutral base
+    - พื้นหลัง / card / border / text
+      - 20% = soft brand tone
+    - selected, badge, subtle highlight
+      - 10% = gold accent
+    - ปุ่มหลัก, active tab, important icon
+    - อย่าใช้ทองเยอะเกินไป เพราะจะกลายเป็น “งานพิธี” หรือดูหนักไป
+    - ให้ใช้ทองเฉพาะจุดสำคัญ เช่น:
+      - ปุ่ม primary, active state, icon สำคัญ, badge / progress
 
 - Music plays across all playable pages.
 - Music-only sound control: an on/off button, default volume 20%, no settings panel.

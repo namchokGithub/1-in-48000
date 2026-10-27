@@ -101,7 +101,7 @@ export function boContentPlugin(): Plugin {
           try {
             const html = await server.transformIndexHtml(
               '/content-manage',
-              '<!doctype html><html lang="th"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>BO · 1 ใน 48,000</title></head><body><div id="root"></div><script type="module" src="/src/bo.tsx"></script></body></html>',
+              '<!doctype html><html lang="th"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" type="image/x-icon" href="/images/Kawaii-tropical-study.ico" /><title>BO · 1 ใน 48,000</title></head><body><div id="root"></div><script type="module" src="/src/bo.tsx"></script></body></html>',
             )
             res.statusCode = 200
             res.setHeader('Content-Type', 'text/html; charset=utf-8')
