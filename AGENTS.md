@@ -34,7 +34,7 @@ No game engine. React is enough for scene images that change per event.
 
 ```bash
 pnpm install       # install dependencies
-pnpm dev           # run Player at / and BO at /bo.html locally
+pnpm dev           # run Player at / and BO at /content-manage locally
 pnpm build         # production build (Player only)
 pnpm test          # run Vitest (currently no test files)
 pnpm lint          # run ESLint

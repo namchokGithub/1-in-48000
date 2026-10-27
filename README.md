@@ -105,7 +105,7 @@ pnpm install
 pnpm dev
 ```
 
-Open the Player at `http://127.0.0.1:5173/` and BO at `http://127.0.0.1:5173/bo.html`. BO is available only in development; the production build includes only the Player. In BO, edit a draft, inspect validation messages, then use **บันทึกเหตุการณ์** or **บันทึกตอนจบ** to write the matching JSON file.
+Open the Player at `http://127.0.0.1:5173/` and BO at `http://127.0.0.1:5173/content-manage`. BO is available only in development; the production build includes only the Player. In BO, edit a draft, use the sticky toolbar to undo, redo, preview, or save, and inspect validation messages before writing the matching JSON file.
 
 Check the scaffold with:
 

@@ -45,7 +45,7 @@ The scene takes the main column and the stats occupy a side column on desktop; t
 
 BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list, editor, and preview sit in three columns on wide screens, then stack into two or one column as space narrows. The event view can switch to a four-year timeline, with one card per event and a column for each period. Columns wrap to two or one across narrower widths. Native drag and drop moves cards within and across periods; selecting a card opens its form. The form's year/period fields and up/down controls remain available for touch and keyboard use.
 
-BO uses native select controls for event types, condition operators, references, and Asset IDs; the browser owns each popup's keyboard and positioning behavior. The long dialogue and ending fields grow with their content. `premium-ui.json` records the native select ownership for static audit.
+BO uses one authored Select for event types, condition operators, references, and Asset IDs. Its portal list matches the trigger width, stays inside the viewport, and supports keyboard selection and typeahead. Boolean fields use checkboxes. A sticky toolbar keeps Save, Undo, Redo, and Preview visible; Preview moves focus to the existing panel until the modal preview step. Deleting an event or ending opens a shared confirmation dialog. The long dialogue and ending fields grow with their content. `premium-ui.json` records authored Select ownership for static audit.
 
 ## Visual language
 
@@ -56,3 +56,5 @@ Pale teal canvas, white surfaces, dark blue-green ink, and a teal action color e
 Buttons have visible hover, pressed, disabled, and keyboard focus states. Form errors appear beside the relevant field. Loading and content errors keep a stable panel footprint. Restart requires an explicit second action before replacing a save. Motion is brief and removed when reduced motion is requested. Scrollbars remain visible and inherit the global theme.
 
 BO changes stay in a draft until Save is pressed. The header marks unsaved edits, and validation errors name their content path. The preview is a separate panel and never persists a save. Deleting an item removes it from the draft; cross-file validation blocks broken references when saving.
+
+Undo and Redo keep up to 100 draft snapshots and clear the redo path after a new edit. The toolbar marks unsaved changes relative to the last successful file save. The confirmation dialog uses the browser's modal focus behavior and returns focus to the editing surface when dismissed.

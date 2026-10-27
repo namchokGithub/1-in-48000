@@ -1,4 +1,5 @@
 import type { Condition } from '../../content/schema'
+import { BoDropdown } from './Select'
 import { statOptions } from './statOptions'
 
 const types: { id: Condition['type']; label: string }[] = [
@@ -42,7 +43,7 @@ export function ConditionList({
           <div className="bo-form-grid">
             <label className="bo-field">
               <span>ชนิดเงื่อนไข</span>
-              <select
+              <BoDropdown
                 className="field"
                 value={condition.type}
                 onChange={(event) =>
@@ -60,13 +61,13 @@ export function ConditionList({
                     {type.label}
                   </option>
                 ))}
-              </select>
+              </BoDropdown>
             </label>
             {condition.type === 'year' && (
               <>
                 <label className="bo-field">
                   <span>เปรียบเทียบ</span>
-                  <select
+                  <BoDropdown
                     className="field"
                     value={condition.operator}
                     onChange={(event) =>
@@ -80,7 +81,7 @@ export function ConditionList({
                     <option value="eq">เท่ากับ</option>
                     <option value="gte">อย่างน้อย</option>
                     <option value="lte">ไม่เกิน</option>
-                  </select>
+                  </BoDropdown>
                 </label>
                 <label className="bo-field">
                   <span>ปี</span>
@@ -104,7 +105,7 @@ export function ConditionList({
               <>
                 <label className="bo-field">
                   <span>ค่าสถานะ</span>
-                  <select
+                  <BoDropdown
                     className="field"
                     value={condition.stat}
                     onChange={(event) =>
@@ -119,11 +120,11 @@ export function ConditionList({
                         {stat.label}
                       </option>
                     ))}
-                  </select>
+                  </BoDropdown>
                 </label>
                 <label className="bo-field">
                   <span>เปรียบเทียบ</span>
-                  <select
+                  <BoDropdown
                     className="field"
                     value={condition.operator}
                     onChange={(event) =>
@@ -139,7 +140,7 @@ export function ConditionList({
                     <option value="gte">≥</option>
                     <option value="lt">&lt;</option>
                     <option value="lte">≤</option>
-                  </select>
+                  </BoDropdown>
                 </label>
                 <label className="bo-field">
                   <span>ค่า</span>
@@ -172,21 +173,18 @@ export function ConditionList({
                     }
                   />
                 </label>
-                <label className="bo-field">
-                  <span>สถานะ</span>
-                  <select
-                    className="field"
-                    value={String(condition.value)}
+                <label className="bo-checkbox-field">
+                  <input
+                    type="checkbox"
+                    checked={condition.value}
                     onChange={(event) =>
                       replace(index, {
                         ...condition,
-                        value: event.target.value === 'true',
+                        value: event.target.checked,
                       })
                     }
-                  >
-                    <option value="true">จริง</option>
-                    <option value="false">เท็จ</option>
-                  </select>
+                  />
+                  <span>Flag เป็นจริง</span>
                 </label>
               </>
             )}
@@ -194,7 +192,7 @@ export function ConditionList({
               <>
                 <label className="bo-field">
                   <span>เหตุการณ์</span>
-                  <select
+                  <BoDropdown
                     className="field"
                     value={condition.eventId}
                     onChange={(event) =>
@@ -209,23 +207,20 @@ export function ConditionList({
                         {id}
                       </option>
                     ))}
-                  </select>
+                  </BoDropdown>
                 </label>
-                <label className="bo-field">
-                  <span>เคยพบ</span>
-                  <select
-                    className="field"
-                    value={String(condition.visited)}
+                <label className="bo-checkbox-field">
+                  <input
+                    type="checkbox"
+                    checked={condition.visited}
                     onChange={(event) =>
                       replace(index, {
                         ...condition,
-                        visited: event.target.value === 'true',
+                        visited: event.target.checked,
                       })
                     }
-                  >
-                    <option value="true">ใช่</option>
-                    <option value="false">ไม่เคย</option>
-                  </select>
+                  />
+                  <span>เคยพบเหตุการณ์</span>
                 </label>
               </>
             )}

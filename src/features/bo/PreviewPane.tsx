@@ -50,7 +50,12 @@ export function PreviewPane({
   }
 
   return (
-    <aside className="panel bo-preview" aria-label="ทดลองเหตุการณ์">
+    <aside
+      id="bo-preview"
+      tabIndex={-1}
+      className="panel bo-preview"
+      aria-label="ทดลองเหตุการณ์"
+    >
       <div className="bo-section-heading">
         <div>
           <p className="eyebrow">Preview</p>

@@ -1,4 +1,5 @@
 import type { Effect, StateEffect } from '../../content/schema'
+import { BoDropdown } from './Select'
 import { statOptions } from './statOptions'
 
 function newEffect(type: Effect['type'], eventIds: string[]): Effect {
@@ -29,7 +30,7 @@ function StateEffectFields({
     <div className="bo-form-grid">
       <label className="bo-field">
         <span>ผลที่เกิด</span>
-        <select
+        <BoDropdown
           className="field"
           value={effect.type}
           onChange={(event) =>
@@ -42,13 +43,13 @@ function StateEffectFields({
         >
           <option value="statDelta">เปลี่ยนค่าสถานะ</option>
           <option value="setFlag">ตั้ง Flag</option>
-        </select>
+        </BoDropdown>
       </label>
       {effect.type === 'statDelta' ? (
         <>
           <label className="bo-field">
             <span>ค่าสถานะ</span>
-            <select
+            <BoDropdown
               className="field"
               value={effect.stat}
               onChange={(event) =>
@@ -63,7 +64,7 @@ function StateEffectFields({
                   {stat.label}
                 </option>
               ))}
-            </select>
+            </BoDropdown>
           </label>
           <label className="bo-field">
             <span>จำนวนที่เปลี่ยน</span>
@@ -89,18 +90,15 @@ function StateEffectFields({
               }
             />
           </label>
-          <label className="bo-field">
-            <span>ค่า</span>
-            <select
-              className="field"
-              value={String(effect.value)}
+          <label className="bo-checkbox-field">
+            <input
+              type="checkbox"
+              checked={effect.value}
               onChange={(event) =>
-                onChange({ ...effect, value: event.target.value === 'true' })
+                onChange({ ...effect, value: event.target.checked })
               }
-            >
-              <option value="true">จริง</option>
-              <option value="false">เท็จ</option>
-            </select>
+            />
+            <span>ตั้ง Flag เป็นจริง</span>
           </label>
         </>
       )}
@@ -129,7 +127,7 @@ export function EffectList({
           <div className="bo-form-grid">
             <label className="bo-field">
               <span>ชนิดผลลัพธ์</span>
-              <select
+              <BoDropdown
                 className="field"
                 value={effect.type}
                 onChange={(event) =>
@@ -143,13 +141,13 @@ export function EffectList({
                 <option value="setFlag">ตั้ง Flag</option>
                 <option value="goToEvent">ไปเหตุการณ์</option>
                 <option value="schedule">เกิดภายหลัง</option>
-              </select>
+              </BoDropdown>
             </label>
             {effect.type === 'statDelta' && (
               <>
                 <label className="bo-field">
                   <span>ค่าสถานะ</span>
-                  <select
+                  <BoDropdown
                     className="field"
                     value={effect.stat}
                     onChange={(event) =>
@@ -164,7 +162,7 @@ export function EffectList({
                         {stat.label}
                       </option>
                     ))}
-                  </select>
+                  </BoDropdown>
                 </label>
                 <label className="bo-field">
                   <span>จำนวนที่เปลี่ยน</span>
@@ -194,28 +192,22 @@ export function EffectList({
                     }
                   />
                 </label>
-                <label className="bo-field">
-                  <span>ค่า</span>
-                  <select
-                    className="field"
-                    value={String(effect.value)}
+                <label className="bo-checkbox-field">
+                  <input
+                    type="checkbox"
+                    checked={effect.value}
                     onChange={(event) =>
-                      replace(index, {
-                        ...effect,
-                        value: event.target.value === 'true',
-                      })
+                      replace(index, { ...effect, value: event.target.checked })
                     }
-                  >
-                    <option value="true">จริง</option>
-                    <option value="false">เท็จ</option>
-                  </select>
+                  />
+                  <span>ตั้ง Flag เป็นจริง</span>
                 </label>
               </>
             )}
             {effect.type === 'goToEvent' && (
               <label className="bo-field">
                 <span>เหตุการณ์ถัดไป</span>
-                <select
+                <BoDropdown
                   className="field"
                   value={effect.eventId}
                   onChange={(event) =>
@@ -227,7 +219,7 @@ export function EffectList({
                       {id}
                     </option>
                   ))}
-                </select>
+                </BoDropdown>
               </label>
             )}
           </div>
@@ -236,7 +228,7 @@ export function EffectList({
               <div className="bo-form-grid">
                 <label className="bo-field">
                   <span>เวลาเกิดผล</span>
-                  <select
+                  <BoDropdown
                     className="field"
                     value={effect.trigger.type}
                     onChange={(event) =>
@@ -257,12 +249,12 @@ export function EffectList({
                   >
                     <option value="afterEvent">หลังเหตุการณ์</option>
                     <option value="atPeriod">เมื่อเข้าช่วงเวลา</option>
-                  </select>
+                  </BoDropdown>
                 </label>
                 {effect.trigger.type === 'afterEvent' ? (
                   <label className="bo-field">
                     <span>เหตุการณ์</span>
-                    <select
+                    <BoDropdown
                       className="field"
                       value={effect.trigger.eventId}
                       onChange={(event) =>
@@ -280,7 +272,7 @@ export function EffectList({
                           {id}
                         </option>
                       ))}
-                    </select>
+                    </BoDropdown>
                   </label>
                 ) : (
                   <>
@@ -311,7 +303,7 @@ export function EffectList({
                     </label>
                     <label className="bo-field">
                       <span>ช่วงเวลา</span>
-                      <select
+                      <BoDropdown
                         className="field"
                         value={effect.trigger.time.period}
                         onChange={(event) =>
@@ -335,7 +327,7 @@ export function EffectList({
                         <option value="break">พักเทอม</option>
                         <option value="term2">เทอม 2</option>
                         <option value="summer">ภาคฤดูร้อน</option>
-                      </select>
+                      </BoDropdown>
                     </label>
                   </>
                 )}

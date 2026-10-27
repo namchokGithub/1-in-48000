@@ -1,4 +1,5 @@
 import type { Asset, Character, Event } from '../../content/schema'
+import { BoDropdown } from './Select'
 import { ConditionList } from './ConditionList'
 import { EffectList } from './EffectList'
 
@@ -18,7 +19,7 @@ function AssetSelect({
   return (
     <label className="bo-field">
       <span>{label}</span>
-      <select
+      <BoDropdown
         className="field"
         value={value ?? ''}
         onChange={(event) => onChange(event.target.value || undefined)}
@@ -31,7 +32,7 @@ function AssetSelect({
               {asset.id}
             </option>
           ))}
-      </select>
+      </BoDropdown>
     </label>
   )
 }
@@ -101,7 +102,7 @@ export function EventEditor({
         </label>
         <label className="bo-field">
           <span>ชนิด</span>
-          <select
+          <BoDropdown
             className="field"
             value={event.kind}
             onChange={(input) =>
@@ -114,7 +115,7 @@ export function EventEditor({
             <option value="conditional">ตามเงื่อนไข</option>
             <option value="holiday">วันหยุด</option>
             <option value="random">สุ่ม</option>
-          </select>
+          </BoDropdown>
         </label>
         <label className="bo-field">
           <span>ปี</span>
@@ -133,7 +134,7 @@ export function EventEditor({
         </label>
         <label className="bo-field">
           <span>ช่วงเวลา</span>
-          <select
+          <BoDropdown
             className="field"
             value={event.time.period}
             onChange={(input) =>
@@ -146,7 +147,7 @@ export function EventEditor({
             <option value="break">พักเทอม</option>
             <option value="term2">เทอม 2</option>
             <option value="summer">ภาคฤดูร้อน</option>
-          </select>
+          </BoDropdown>
         </label>
       </div>
       <div className="bo-form-grid">
@@ -216,7 +217,7 @@ export function EventEditor({
             <div className="bo-form-grid">
               <label className="bo-field">
                 <span>ผู้พูด</span>
-                <select
+                <BoDropdown
                   className="field"
                   value={line.speakerId ?? ''}
                   onChange={(input) =>
@@ -232,7 +233,7 @@ export function EventEditor({
                       {character.name}
                     </option>
                   ))}
-                </select>
+                </BoDropdown>
               </label>
               <AssetSelect
                 label="ภาพตัวละครแทนค่าเริ่มต้น"

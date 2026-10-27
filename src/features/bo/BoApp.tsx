@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type SetStateAction } from 'react'
 import { loadPlayerContent, type PlayerContent } from '../../content/loader'
 import { validateContent, type ValidationIssue } from '../../content/validate'
 import type { Ending, Event } from '../../content/schema'
@@ -6,6 +6,14 @@ import { EndingEditor } from './EndingEditor'
 import { EventEditor } from './EventEditor'
 import { PreviewPane } from './PreviewPane'
 import { TimelineBoard } from './TimelineBoard'
+import { ConfirmationDialog } from './ConfirmationDialog'
+import {
+  commitHistory,
+  createHistory,
+  redoHistory,
+  undoHistory,
+  type DraftHistory,
+} from './draftHistory'
 import { moveEvent } from './timeline'
 
 type Section = 'events' | 'endings'
@@ -38,17 +46,42 @@ function responseIssues(body: unknown): ValidationIssue[] {
 
 export function BoApp() {
   const [saved, setSaved] = useState<PlayerContent | null>(null)
-  const [draft, setDraft] = useState<PlayerContent | null>(null)
+  const [history, setHistory] = useState<DraftHistory<PlayerContent> | null>(
+    null,
+  )
+  const draft = history?.present ?? null
   const [loadError, setLoadError] = useState(false)
   const [retry, setRetry] = useState(0)
   const [section, setSection] = useState<Section>('events')
   const [eventView, setEventView] = useState<'editor' | 'timeline'>('editor')
-  const [eventIndex, setEventIndex] = useState(0)
-  const [endingIndex, setEndingIndex] = useState(0)
+  const [storedEventIndex, setEventIndex] = useState(0)
+  const [storedEndingIndex, setEndingIndex] = useState(0)
+  const eventIndex = draft
+    ? Math.min(storedEventIndex, Math.max(0, draft.events.length - 1))
+    : storedEventIndex
+  const endingIndex = draft
+    ? Math.min(storedEndingIndex, Math.max(0, draft.endings.length - 1))
+    : storedEndingIndex
   const [saving, setSaving] = useState(false)
   const [showIssues, setShowIssues] = useState(false)
   const [serverIssues, setServerIssues] = useState<ValidationIssue[]>([])
   const [notice, setNotice] = useState('')
+  const [confirmation, setConfirmation] = useState<{
+    title: string
+    description: string
+    confirmLabel: string
+    action: () => void
+  } | null>(null)
+  const [previewRequest, setPreviewRequest] = useState(0)
+
+  function setDraft(change: SetStateAction<PlayerContent | null>) {
+    setHistory((current) => {
+      const previous = current?.present ?? null
+      const next = typeof change === 'function' ? change(previous) : change
+      if (!next) return null
+      return current ? commitHistory(current, next) : createHistory(next)
+    })
+  }
 
   useEffect(() => {
     let active = true
@@ -56,7 +89,7 @@ export function BoApp() {
       .then((content) => {
         if (!active) return
         setSaved(content)
-        setDraft(structuredClone(content))
+        setHistory(createHistory(structuredClone(content)))
         setLoadError(false)
       })
       .catch(() => {
@@ -66,6 +99,17 @@ export function BoApp() {
       active = false
     }
   }, [retry])
+
+  useEffect(() => {
+    if (!previewRequest || section !== 'events' || eventView !== 'editor')
+      return
+    const frame = requestAnimationFrame(() => {
+      const panel = document.getElementById('bo-preview')
+      panel?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      panel?.focus({ preventScroll: true })
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [previewRequest, section, eventView])
 
   if (loadError) {
     return (
@@ -208,6 +252,18 @@ export function BoApp() {
     setServerIssues([])
   }
 
+  function undoDraft() {
+    setHistory((current) => (current ? undoHistory(current) : null))
+    setNotice('')
+    setServerIssues([])
+  }
+
+  function redoDraft() {
+    setHistory((current) => (current ? redoHistory(current) : null))
+    setNotice('')
+    setServerIssues([])
+  }
+
   async function saveFile(file: Section) {
     setShowIssues(true)
     setServerIssues([])
@@ -255,12 +311,41 @@ export function BoApp() {
               โดยตรงหลังตรวจข้อมูล
             </p>
           </div>
-          <div className="bo-header-actions">
-            <span className="bo-status">
-              {dirtyEvents || dirtyEndings
-                ? 'มีร่างที่ยังไม่บันทึก'
-                : 'บันทึกแล้ว'}
-            </span>
+        </header>
+        <div className="bo-toolbar" role="toolbar" aria-label="เครื่องมือแก้ไข">
+          <span className="bo-status" role="status">
+            {dirtyEvents || dirtyEndings
+              ? 'มีร่างที่ยังไม่บันทึก'
+              : 'บันทึกแล้ว'}
+          </span>
+          <div className="bo-toolbar-actions">
+            <button
+              type="button"
+              className="button button-secondary"
+              disabled={!history?.past.length || saving}
+              onClick={undoDraft}
+            >
+              เลิกทำ
+            </button>
+            <button
+              type="button"
+              className="button button-secondary"
+              disabled={!history?.future.length || saving}
+              onClick={redoDraft}
+            >
+              ทำซ้ำ
+            </button>
+            <button
+              type="button"
+              className="button button-secondary"
+              disabled={section !== 'events' || !event}
+              onClick={() => {
+                setEventView('editor')
+                setPreviewRequest((value) => value + 1)
+              }}
+            >
+              ทดลองเหตุการณ์
+            </button>
             <button
               type="button"
               className="button button-primary"
@@ -272,7 +357,7 @@ export function BoApp() {
                 : `บันทึก${section === 'events' ? 'เหตุการณ์' : 'ตอนจบ'}`}
             </button>
           </div>
-        </header>
+        </div>
         <nav className="bo-tabs" aria-label="ชนิดเนื้อหา">
           <button
             aria-pressed={section === 'events'}
@@ -435,16 +520,23 @@ export function BoApp() {
                     characters={draft.characters}
                     eventIds={eventIds}
                     onChange={updateEvent}
-                    onDelete={() => {
-                      setDraft({
-                        ...draft,
-                        events: draft.events.filter(
-                          (_, index) => index !== eventIndex,
-                        ),
+                    onDelete={() =>
+                      setConfirmation({
+                        title: 'ลบเหตุการณ์จากร่าง?',
+                        description: `“${event.title}” จะถูกนำออกจากร่าง คุณยังเลิกทำได้ก่อนบันทึก`,
+                        confirmLabel: 'ลบเหตุการณ์',
+                        action: () => {
+                          setDraft({
+                            ...draft,
+                            events: draft.events.filter(
+                              (_, index) => index !== eventIndex,
+                            ),
+                          })
+                          setEventIndex(Math.max(0, eventIndex - 1))
+                          setNotice('')
+                        },
                       })
-                      setEventIndex(Math.max(0, eventIndex - 1))
-                      setNotice('')
-                    }}
+                    }
                   />
                 ) : (
                   <p className="muted">
@@ -456,16 +548,23 @@ export function BoApp() {
                   ending={ending}
                   eventIds={eventIds}
                   onChange={updateEnding}
-                  onDelete={() => {
-                    setDraft({
-                      ...draft,
-                      endings: draft.endings.filter(
-                        (_, index) => index !== endingIndex,
-                      ),
+                  onDelete={() =>
+                    setConfirmation({
+                      title: 'ลบตอนจบจากร่าง?',
+                      description: `“${ending.title}” จะถูกนำออกจากร่าง คุณยังเลิกทำได้ก่อนบันทึก`,
+                      confirmLabel: 'ลบตอนจบ',
+                      action: () => {
+                        setDraft({
+                          ...draft,
+                          endings: draft.endings.filter(
+                            (_, index) => index !== endingIndex,
+                          ),
+                        })
+                        setEndingIndex(Math.max(0, endingIndex - 1))
+                        setNotice('')
+                      },
                     })
-                    setEndingIndex(Math.max(0, endingIndex - 1))
-                    setNotice('')
-                  }}
+                  }
                 />
               ) : (
                 <p className="muted">ยังไม่มีตอนจบ กดเพิ่มเพื่อเริ่มเขียน</p>
@@ -475,6 +574,18 @@ export function BoApp() {
               <PreviewPane key={eventIndex} content={draft} event={event} />
             )}
           </div>
+        )}
+        {confirmation && (
+          <ConfirmationDialog
+            title={confirmation.title}
+            description={confirmation.description}
+            confirmLabel={confirmation.confirmLabel}
+            onCancel={() => setConfirmation(null)}
+            onConfirm={() => {
+              confirmation.action()
+              setConfirmation(null)
+            }}
+          />
         )}
       </div>
     </main>

@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                  | Status | Depends on |
 | --- | --------------------- | ------ | ---------- |
-| 13  | BO shell              | Todo   | 11         |
 | 14  | BO data tabs          | Todo   | 13         |
 | 15  | BO story editor       | Todo   | 12, 14     |
 | 16  | BO timeline + preview | Todo   | 12, 15     |
@@ -200,7 +199,7 @@ Completed 2026-10-27. The isolated V2 engine applies signed stats and debt, reso
 
 ## 13. BO shell
 
-**Status:** Todo
+**Status:** Done
 
 - Move BO from `bo.html` to the `/content-manage` route; keep it local only and out of the production build.
 - Shared Select component (no native dropdowns).
@@ -209,6 +208,8 @@ Completed 2026-10-27. The isolated V2 engine applies signed stats and debt, reso
 - Sticky toolbar with Save, Undo, Redo, and Preview.
 
 **Done when:** BO opens at `/content-manage` locally, the production build does not include it, and the shared controls are in use.
+
+Completed 2026-10-27. The development-only BO entry is served at `/content-manage`; the old `bo.html` entry was removed. One authored Select replaces the BO's native dropdowns, boolean editors use checkboxes, and event/ending deletion uses a shared confirmation dialog. A sticky toolbar offers Save, Undo, Redo, and Preview; Undo/Redo manages up to 100 draft snapshots, while Preview focuses the existing panel until Step 16. The V1 content model remains active in BO until later V2 editing steps. The author should check the route, dropdown keyboard behavior, modal focus, and toolbar layout locally.
 
 ## 14. BO data tabs
 

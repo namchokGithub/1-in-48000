@@ -89,6 +89,28 @@ export function boContentPlugin(): Plugin {
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const path = req.url?.split('?')[0]
+        if (path === '/content-manage' || path === '/content-manage/') {
+          if (req.method !== 'GET') {
+            respond(res, 405, { error: 'Method not allowed' })
+            return
+          }
+          if (!/^127\.0\.0\.1:\d+$/.test(req.headers.host ?? '')) {
+            respond(res, 403, { error: 'Local BO request required' })
+            return
+          }
+          try {
+            const html = await server.transformIndexHtml(
+              '/content-manage',
+              '<!doctype html><html lang="th"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>BO · 1 ใน 48,000</title></head><body><div id="root"></div><script type="module" src="/src/bo.tsx"></script></body></html>',
+            )
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'text/html; charset=utf-8')
+            res.end(html)
+          } catch {
+            respond(res, 500, { error: 'Could not open BO' })
+          }
+          return
+        }
         if (
           path !== '/__bo/content/events' &&
           path !== '/__bo/content/endings'
