@@ -45,14 +45,43 @@
   gap: 0.5rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid var(--color-line);
+  overflow-x: auto;
 }
 .bo-tabs button {
+  flex: 0 0 auto;
   border: 0;
   border-bottom: 3px solid transparent;
   padding: 0.7rem 1rem;
   background: transparent;
   color: var(--color-muted);
   font-weight: 800;
+}
+.bo-id-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+.bo-id-actions .field {
+  min-width: 0;
+  flex: 1;
+}
+.bo-id-actions .button {
+  flex: 0 0 auto;
+}
+.bo-field-error {
+  color: var(--color-danger);
+  font-size: 0.78rem;
+}
+.bo-data-layout .bo-editor {
+  min-height: 16rem;
+}
+.bo-asset-preview {
+  display: block;
+  max-width: min(100%, 36rem);
+  max-height: 18rem;
+  object-fit: contain;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
 }
 .bo-tabs button[aria-pressed='true'] {
   border-bottom-color: var(--color-primary);
@@ -448,6 +477,9 @@
 @media (min-width: 1400px) {
   .bo-layout {
     grid-template-columns: 15rem minmax(0, 1fr) 19rem;
+  }
+  .bo-data-layout {
+    grid-template-columns: 15rem minmax(0, 1fr);
   }
   .bo-preview {
     grid-column: 3;

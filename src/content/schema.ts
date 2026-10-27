@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 export const idSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/)
+export const storyIdSchema = z.string().regex(/^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$/)
 const nonEmptyTextSchema = z.string().trim().min(1)
 const boundedStatSchema = z.int().min(0).max(100)
 
@@ -128,7 +129,7 @@ export const gameConfigSchema = z.object({
 })
 
 export const eventSchema = z.object({
-  id: idSchema,
+  id: storyIdSchema,
   kind: z.enum(['main', 'conditional', 'holiday', 'random']),
   time: timeSchema,
   title: nonEmptyTextSchema,
@@ -148,7 +149,7 @@ export const eventSchema = z.object({
   choices: z
     .array(
       z.object({
-        id: idSchema,
+        id: storyIdSchema,
         text: nonEmptyTextSchema,
         conditions: z.array(conditionSchema),
         effects: z.array(effectSchema),

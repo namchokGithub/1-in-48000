@@ -47,3 +47,7 @@ Use `study − max(stress, 0) ÷ 10 ≥ 60` at the end of Years 4, 6, and 8. Fai
 ## 2026-10-27 — Local BO route and shared controls
 
 Serve BO HTML through a Vite development middleware at `/content-manage` and remove the public `bo.html` file. Production still builds only the Player entry. Use one dependency-free authored Select across BO forms, with a portal list, keyboard navigation, and typeahead; use checkboxes for boolean fields and a native modal `<dialog>` component for destructive draft deletion. Keep up to 100 Undo/Redo snapshots in memory and persist only when Save succeeds. The sticky Preview action focuses the existing preview panel until the modal preview work in Step 16. These shell changes keep the current V1 BO content editor in place while later steps add V2 data tabs and story editing.
+
+## 2026-10-27 — BO data files and story IDs
+
+Treat the BO background tab as scene assets, alongside speaker records and BGM/SFX assets. Write speakers to `characters.json` and scene/sound entries to `assets.json` through the same local validator and atomic writer used by story files. Require the V2 `snake_case` convention for Event and Choice IDs in the active V1 schema so the current BO cannot author incompatible IDs; keep other existing ID rules until the V2 story editor migrates. Asset paths remain manifest references to files placed manually in `public/assets`, and Save checks their existence.

@@ -59,6 +59,67 @@ describe('local BO file saving', () => {
     expect(stored[0].title).toBe('เรื่องราวที่แก้ใน BO')
   })
 
+  it('writes speaker and sound edits to their own files', async () => {
+    const dir = await fixture()
+    const nextCharacters = [...characters, { id: 'new_speaker', name: 'ดาว' }]
+    await saveBoContent(root, 'characters', nextCharacters)
+    const soundPath = '/assets/sound/new-sfx.mp3'
+    const soundFile = join(root, 'public', soundPath.slice(1))
+    await mkdir(dirname(soundFile), { recursive: true })
+    await writeFile(soundFile, '')
+    const nextAssets = [
+      ...assets,
+      { id: 'new_sfx', kind: 'sfx', path: soundPath },
+    ]
+    await saveBoContent(root, 'assets', nextAssets)
+    expect(
+      JSON.parse(await readFile(join(dir, 'characters.json'), 'utf8')),
+    ).toContainEqual({ id: 'new_speaker', name: 'ดาว' })
+    expect(
+      JSON.parse(await readFile(join(dir, 'assets.json'), 'utf8')),
+    ).toContainEqual({ id: 'new_sfx', kind: 'sfx', path: soundPath })
+  })
+
+  it('adds and removes an unreferenced scene through the asset file', async () => {
+    const dir = await fixture()
+    const scenePath = '/assets/scene/new-scene.png'
+    const sceneFile = join(root, 'public', scenePath.slice(1))
+    await mkdir(dirname(sceneFile), { recursive: true })
+    await writeFile(sceneFile, '')
+    const extra = { id: 'new_scene', kind: 'scene', path: scenePath }
+    await saveBoContent(root, 'assets', [...assets, extra])
+    expect(
+      JSON.parse(await readFile(join(dir, 'assets.json'), 'utf8')),
+    ).toContainEqual(extra)
+    await saveBoContent(root, 'assets', assets)
+    expect(
+      JSON.parse(await readFile(join(dir, 'assets.json'), 'utf8')),
+    ).not.toContainEqual(extra)
+  })
+
+  it('rejects removing a speaker or scene still used by an event', async () => {
+    const dir = await fixture()
+    const beforeCharacters = await readFile(
+      join(dir, 'characters.json'),
+      'utf8',
+    )
+    const beforeAssets = await readFile(join(dir, 'assets.json'), 'utf8')
+    await expect(saveBoContent(root, 'characters', [])).rejects.toBeInstanceOf(
+      BoValidationError,
+    )
+    await expect(
+      saveBoContent(
+        root,
+        'assets',
+        assets.filter((asset) => asset.id !== 'campus_orientation'),
+      ),
+    ).rejects.toBeInstanceOf(BoValidationError)
+    expect(await readFile(join(dir, 'characters.json'), 'utf8')).toBe(
+      beforeCharacters,
+    )
+    expect(await readFile(join(dir, 'assets.json'), 'utf8')).toBe(beforeAssets)
+  })
+
   it('rejects broken links and leaves the original file intact', async () => {
     const dir = await fixture()
     const before = await readFile(join(dir, 'events.json'), 'utf8')

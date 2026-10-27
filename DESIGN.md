@@ -47,6 +47,8 @@ BO reuses the same colors, type, controls, and surface treatment. Its working ar
 
 BO uses one authored Select for event types, condition operators, references, and Asset IDs. Its portal list matches the trigger width, stays inside the viewport, and supports keyboard selection and typeahead. Boolean fields use checkboxes. A sticky toolbar keeps Save, Undo, Redo, and Preview visible; Preview moves focus to the existing panel until the modal preview step. Deleting an event or ending opens a shared confirmation dialog. The long dialogue and ending fields grow with their content. `premium-ui.json` records authored Select ownership for static audit.
 
+The BO data tabs reuse the list and editor layout for speakers, scene images, and BGM/SFX. Tabs scroll horizontally on narrow screens. Asset paths are entered as manifest paths and checked against local files on Save; scene images have a preview. ID generators sit beside the corresponding fields, while Event and Choice IDs show `snake_case` feedback in place.
+
 ## Visual language
 
 Pale teal canvas, white surfaces, dark blue-green ink, and a teal action color evoke campus notebooks without imitating paper texture. The scene placeholder is a geometric campus silhouette until asset IDs point to real art. One warm accent highlights progress. Rounded panels and fine borders carry hierarchy; shadows stay subtle.

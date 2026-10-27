@@ -2,6 +2,8 @@ import type { Asset, Character, Event } from '../../content/schema'
 import { BoDropdown } from './Select'
 import { ConditionList } from './ConditionList'
 import { EffectList } from './EffectList'
+import { randomId } from './randomId'
+import { storyIdSchema } from '../../content/schema'
 
 function AssetSelect({
   label,
@@ -76,18 +78,43 @@ export function EventEditor({
         </button>
       </div>
       <div className="bo-form-grid">
-        <label className="bo-field">
-          <span>Event ID</span>
-          <input
-            className="field"
-            value={event.id}
-            onChange={(input) =>
-              update((next) => {
-                next.id = input.target.value
-              })
-            }
-          />
-        </label>
+        <div className="bo-field">
+          <label htmlFor="bo-event-id">Event ID</label>
+          <div className="bo-id-actions">
+            <input
+              id="bo-event-id"
+              className="field"
+              value={event.id}
+              aria-invalid={!storyIdSchema.safeParse(event.id).success}
+              aria-describedby={
+                !storyIdSchema.safeParse(event.id).success
+                  ? 'bo-event-id-error'
+                  : undefined
+              }
+              onChange={(input) =>
+                update((next) => {
+                  next.id = input.target.value
+                })
+              }
+            />
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={() =>
+                update((next) => {
+                  next.id = randomId('event', eventIds)
+                })
+              }
+            >
+              สุ่ม ID
+            </button>
+          </div>
+          {!storyIdSchema.safeParse(event.id).success && (
+            <small id="bo-event-id-error" className="bo-field-error">
+              ใช้ตัวพิมพ์เล็ก ตัวเลข และ _ คั่นคำ เช่น lost_student_card
+            </small>
+          )}
+        </div>
         <label className="bo-field">
           <span>ชื่อเหตุการณ์</span>
           <input
@@ -170,17 +197,6 @@ export function EventEditor({
           onChange={(id) =>
             update((next) => {
               next.bgmAssetId = id
-            })
-          }
-        />
-        <AssetSelect
-          label="เสียงบรรยากาศ"
-          kind="ambience"
-          value={event.ambienceAssetId}
-          assets={assets}
-          onChange={(id) =>
-            update((next) => {
-              next.ambienceAssetId = id
             })
           }
         />
@@ -283,7 +299,10 @@ export function EventEditor({
             onClick={() =>
               update((next) => {
                 next.choices.push({
-                  id: 'new_choice',
+                  id: randomId(
+                    'choice',
+                    next.choices.map((item) => item.id),
+                  ),
                   text: 'ตัวเลือกใหม่',
                   conditions: [],
                   effects: [],
@@ -297,18 +316,49 @@ export function EventEditor({
         {event.choices.map((choice, index) => (
           <div className="bo-list-item bo-choice" key={index}>
             <div className="bo-form-grid">
-              <label className="bo-field">
-                <span>Choice ID</span>
-                <input
-                  className="field"
-                  value={choice.id}
-                  onChange={(input) =>
-                    update((next) => {
-                      next.choices[index].id = input.target.value
-                    })
-                  }
-                />
-              </label>
+              <div className="bo-field">
+                <label htmlFor={`bo-choice-id-${index}`}>Choice ID</label>
+                <div className="bo-id-actions">
+                  <input
+                    id={`bo-choice-id-${index}`}
+                    className="field"
+                    value={choice.id}
+                    aria-invalid={!storyIdSchema.safeParse(choice.id).success}
+                    aria-describedby={
+                      !storyIdSchema.safeParse(choice.id).success
+                        ? `bo-choice-id-${index}-error`
+                        : undefined
+                    }
+                    onChange={(input) =>
+                      update((next) => {
+                        next.choices[index].id = input.target.value
+                      })
+                    }
+                  />
+                  <button
+                    type="button"
+                    className="button button-secondary"
+                    onClick={() =>
+                      update((next) => {
+                        next.choices[index].id = randomId(
+                          'choice',
+                          next.choices.map((item) => item.id),
+                        )
+                      })
+                    }
+                  >
+                    สุ่ม ID
+                  </button>
+                </div>
+                {!storyIdSchema.safeParse(choice.id).success && (
+                  <small
+                    id={`bo-choice-id-${index}-error`}
+                    className="bo-field-error"
+                  >
+                    ใช้ตัวพิมพ์เล็ก ตัวเลข และ _ คั่นคำ เช่น take_loan
+                  </small>
+                )}
+              </div>
               <label className="bo-field">
                 <span>ข้อความตัวเลือก</span>
                 <input

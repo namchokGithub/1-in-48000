@@ -15,8 +15,16 @@ import {
   type DraftHistory,
 } from './draftHistory'
 import { moveEvent } from './timeline'
+import { DataEditor, type DataSection } from './DataEditor'
 
-type Section = 'events' | 'endings'
+type Section = 'events' | 'endings' | DataSection
+type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
+
+function sectionFile(section: Section): EditableFile {
+  if (section === 'speakers') return 'characters'
+  if (section === 'backgrounds' || section === 'sounds') return 'assets'
+  return section
+}
 
 function nextId(base: string, existing: string[]) {
   if (!existing.includes(base)) return base
@@ -152,7 +160,19 @@ export function BoApp() {
     JSON.stringify(draft.events) !== JSON.stringify(saved.events)
   const dirtyEndings =
     JSON.stringify(draft.endings) !== JSON.stringify(saved.endings)
-  const dirty = section === 'events' ? dirtyEvents : dirtyEndings
+  const dirtyCharacters =
+    JSON.stringify(draft.characters) !== JSON.stringify(saved.characters)
+  const dirtyAssets =
+    JSON.stringify(draft.assets) !== JSON.stringify(saved.assets)
+  const file = sectionFile(section)
+  const dirty =
+    file === 'events'
+      ? dirtyEvents
+      : file === 'endings'
+        ? dirtyEndings
+        : file === 'characters'
+          ? dirtyCharacters
+          : dirtyAssets
   const event = draft.events[eventIndex]
   const ending = draft.endings[endingIndex]
   const eventIds = draft.events.map((item) => item.id)
@@ -264,7 +284,7 @@ export function BoApp() {
     setServerIssues([])
   }
 
-  async function saveFile(file: Section) {
+  async function saveFile(file: EditableFile) {
     setShowIssues(true)
     setServerIssues([])
     setNotice('')
@@ -291,7 +311,13 @@ export function BoApp() {
           },
       )
       setShowIssues(false)
-      setNotice(file === 'events' ? 'บันทึกเหตุการณ์แล้ว' : 'บันทึกตอนจบแล้ว')
+      const name = {
+        events: 'เหตุการณ์',
+        endings: 'ตอนจบ',
+        characters: 'ผู้พูด',
+        assets: 'Asset',
+      }[file]
+      setNotice(`บันทึก${name}แล้ว`)
     } catch {
       setNotice('ติดต่อ dev server ไม่ได้ โปรดลองอีกครั้ง')
     } finally {
@@ -314,7 +340,7 @@ export function BoApp() {
         </header>
         <div className="bo-toolbar" role="toolbar" aria-label="เครื่องมือแก้ไข">
           <span className="bo-status" role="status">
-            {dirtyEvents || dirtyEndings
+            {dirtyEvents || dirtyEndings || dirtyCharacters || dirtyAssets
               ? 'มีร่างที่ยังไม่บันทึก'
               : 'บันทึกแล้ว'}
           </span>
@@ -350,11 +376,11 @@ export function BoApp() {
               type="button"
               className="button button-primary"
               disabled={!dirty || saving}
-              onClick={() => saveFile(section)}
+              onClick={() => saveFile(file)}
             >
               {saving
                 ? 'กำลังบันทึก…'
-                : `บันทึก${section === 'events' ? 'เหตุการณ์' : 'ตอนจบ'}`}
+                : `บันทึก${section === 'events' ? 'เหตุการณ์' : section === 'endings' ? 'ตอนจบ' : section === 'speakers' ? 'ผู้พูด' : section === 'backgrounds' ? 'ภาพฉาก' : 'เสียง'}`}
             </button>
           </div>
         </div>
@@ -374,6 +400,36 @@ export function BoApp() {
           >
             ตอนจบ {draft.endings.length}
             {dirtyEndings ? ' •' : ''}
+          </button>
+          <button
+            aria-pressed={section === 'speakers'}
+            type="button"
+            onClick={() => setSection('speakers')}
+          >
+            ผู้พูด {draft.characters.length}
+            {dirtyCharacters ? ' •' : ''}
+          </button>
+          <button
+            aria-pressed={section === 'backgrounds'}
+            type="button"
+            onClick={() => setSection('backgrounds')}
+          >
+            ภาพฉาก{' '}
+            {draft.assets.filter((asset) => asset.kind === 'scene').length}
+            {dirtyAssets ? ' •' : ''}
+          </button>
+          <button
+            aria-pressed={section === 'sounds'}
+            type="button"
+            onClick={() => setSection('sounds')}
+          >
+            เสียง{' '}
+            {
+              draft.assets.filter(
+                (asset) => asset.kind === 'bgm' || asset.kind === 'sfx',
+              ).length
+            }
+            {dirtyAssets ? ' •' : ''}
           </button>
         </nav>
         {section === 'events' && (
@@ -418,7 +474,28 @@ export function BoApp() {
             </ul>
           </section>
         )}
-        {section === 'events' && eventView === 'timeline' ? (
+        {section === 'speakers' ||
+        section === 'backgrounds' ||
+        section === 'sounds' ? (
+          <DataEditor
+            key={section}
+            section={section}
+            content={draft}
+            onChange={(next) => {
+              setDraft(next)
+              setNotice('')
+              setServerIssues([])
+            }}
+            onDelete={(title, description, action) =>
+              setConfirmation({
+                title,
+                description,
+                confirmLabel: 'ลบจากร่าง',
+                action,
+              })
+            }
+          />
+        ) : section === 'events' && eventView === 'timeline' ? (
           <TimelineBoard
             events={draft.events}
             onSelect={(index) => {

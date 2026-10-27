@@ -10,7 +10,6 @@ Every item not `Done`. Update this table whenever an item's status changes.
 
 | #   | Step                  | Status | Depends on |
 | --- | --------------------- | ------ | ---------- |
-| 14  | BO data tabs          | Todo   | 13         |
 | 15  | BO story editor       | Todo   | 12, 14     |
 | 16  | BO timeline + preview | Todo   | 12, 15     |
 | 17  | Player gameplay       | Todo   | 12         |
@@ -213,13 +212,15 @@ Completed 2026-10-27. The development-only BO entry is served at `/content-manag
 
 ## 14. BO data tabs
 
-**Status:** Todo
+**Status:** Done
 
 - Tabs to manage speakers, backgrounds, and sounds (BGM and SFX only).
 - Random ID generator.
 - snake_case validation for Event IDs and Choice IDs.
 
 **Done when:** speakers, backgrounds, and sounds can be added, edited, and removed through BO and pass validation.
+
+Completed 2026-10-27. BO now edits `characters.json` and scene/BGM/SFX records in `assets.json` from dedicated tabs, with draft undo/redo, deletion confirmation, and the existing validated local writer. Event and Choice IDs use `snake_case` in the active schema with inline feedback and random ID buttons. Asset paths refer to files already in `public/assets`; server validation rejects missing files and broken references. The current BO story editor and Player remain on V1 until later steps.
 
 ## 15. BO story editor
 
@@ -279,6 +280,27 @@ Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
 - Place action buttons on the right.
 - Show the scene name only in the title, not inside the image.
 - Light theme (white and soft yellow) and dark theme (dark gray with a touch of gold).
+
+  - Light
+
+    - bg: #FFFDF7
+    - card: #FFF9EE
+    - border: #E7DDBD
+    - primary: #D9B85F
+    - primary-soft: #F4E6B0
+    - text: #4A4436
+    - text-secondary: #756C58
+
+  - Dark
+
+    - bg: #1D1C1A
+    - card: #2B2925
+    - border: #4A4438
+    - primary: #D2B15C
+    - primary-soft: #4B4128
+    - text: #F3EBD7
+    - text-secondary: #D1C5A8
+
 - Music plays across all playable pages.
 - Music-only sound control: an on/off button, default volume 20%, no settings panel.
 

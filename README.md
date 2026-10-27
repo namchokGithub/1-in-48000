@@ -43,7 +43,7 @@ A content authoring and testing tool that runs **only on the author's machine**,
 - Validate JSON: duplicate IDs, broken event links, and missing assets.
 - Save JSON directly to the content files — no manual import/export.
 
-The current BO edits `events.json` and `endings.json`; config, characters, and the asset manifest are read-only. The timeline moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event, so it is useful for checking one choice and its effects. Review `contentVersion` and save migration before publishing content changes.
+The current BO edits `events.json`, `endings.json`, `characters.json`, and `assets.json`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The timeline moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event, so it is useful for checking one choice and its effects. Review `contentVersion` and save migration before publishing content changes.
 
 ## Tech Stack
 
@@ -129,7 +129,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 
-**V2 progress:** Separate draft content, engine, and save v3 modules now support negative stats, debt, deterministic luck-based chance events, up to eight study years, and a decision timeline. The playable Player and BO still use V1; integration and authored Years 5–8 content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**V2 progress:** Separate draft content, engine, and save v3 modules now support negative stats, debt, deterministic luck-based chance events, up to eight study years, and a decision timeline. The BO shell and data tabs are ready, while the playable Player and BO story editor still use V1; integration and authored Years 5–8 content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

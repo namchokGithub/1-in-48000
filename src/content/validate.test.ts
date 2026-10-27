@@ -51,6 +51,15 @@ describe('BO content validation', () => {
     ).toBe(true)
   })
 
+  it('requires snake_case event and choice IDs in the active BO schema', () => {
+    const copy = structuredClone(sample) as unknown as PlayerContent
+    copy.events[0].id = 'bad-event'
+    copy.events[0].choices[0].id = 'BadChoice'
+    const paths = validateContent(copy).map((issue) => issue.path)
+    expect(paths).toContain('events.0.id')
+    expect(paths).toContain('events.0.choices.0.id')
+  })
+
   it('requires at least one ending before saving', () => {
     const copy = structuredClone(sample) as unknown as PlayerContent
     copy.endings = []

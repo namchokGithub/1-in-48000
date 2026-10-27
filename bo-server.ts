@@ -10,7 +10,7 @@ import {
   type ValidationIssue,
 } from './src/content/validate.ts'
 
-type EditableFile = 'events' | 'endings'
+type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
 const files = ['config', 'events', 'characters', 'assets', 'endings'] as const
 const MAX_BODY_BYTES = 2 * 1024 * 1024
 
@@ -111,10 +111,10 @@ export function boContentPlugin(): Plugin {
           }
           return
         }
-        if (
-          path !== '/__bo/content/events' &&
-          path !== '/__bo/content/endings'
-        ) {
+        const file = path?.match(
+          /^\/__bo\/content\/(events|endings|characters|assets)$/,
+        )?.[1] as EditableFile | undefined
+        if (!file) {
           next()
           return
         }
@@ -133,7 +133,6 @@ export function boContentPlugin(): Plugin {
         }
         try {
           const value = await readBody(req)
-          const file = path.endsWith('/events') ? 'events' : 'endings'
           await saveBoContent(server.config.root, file, value)
           respond(res, 200, { ok: true })
         } catch (error) {
