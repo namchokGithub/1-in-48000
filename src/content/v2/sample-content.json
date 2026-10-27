@@ -1,0 +1,135 @@
+{
+  "config": {
+    "contentVersion": "v2-example",
+    "title": "1 ใน 48,000 — V2 ตัวอย่าง",
+    "startingTime": { "year": 1, "period": "term1" },
+    "startingEventId": "student_loan",
+    "initialStats": {
+      "study": 50,
+      "money": 1200,
+      "health": 80,
+      "stress": 20,
+      "relationships": 50,
+      "debt": 0,
+      "lucky": 10
+    },
+    "backgrounds": [
+      {
+        "id": "balanced",
+        "title": "ค่อย ๆ หาทางของตัวเอง",
+        "family": "ครอบครัวพอประมาณ",
+        "personality": "รอบคอบ",
+        "skill": "จัดเวลา",
+        "statDeltas": {
+          "study": 0,
+          "money": 0,
+          "health": 0,
+          "stress": 0,
+          "relationships": 0,
+          "debt": 0,
+          "lucky": 0
+        }
+      }
+    ],
+    "timeModel": {
+      "standardYears": 4,
+      "maximumYears": 8,
+      "reviewYears": [4, 6, 8],
+      "periods": ["term1", "break", "term2", "summer"]
+    }
+  },
+  "events": [
+    {
+      "id": "student_loan",
+      "kind": "main",
+      "time": { "year": 1, "period": "term1" },
+      "title": "ทุนเรียนต่อ",
+      "conditions": [],
+      "lines": [{ "text": "คุณมองทางเลือกเงินกู้เพื่อเรียนต่อ" }],
+      "choices": [
+        {
+          "id": "apply_kyos",
+          "text": "สมัคร กยศ.",
+          "conditions": [],
+          "effects": [
+            { "type": "statDelta", "stat": "money", "amount": 3000 },
+            { "type": "statDelta", "stat": "debt", "amount": 3000 }
+          ]
+        },
+        {
+          "id": "apply_kro",
+          "text": "สมัคร กรอ.",
+          "conditions": [],
+          "effects": [
+            { "type": "statDelta", "stat": "money", "amount": 2500 },
+            { "type": "statDelta", "stat": "debt", "amount": 2500 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "borrow_from_friend",
+      "kind": "conditional",
+      "time": { "year": 1, "period": "term1" },
+      "title": "เพื่อนช่วยได้ไหม",
+      "conditions": [
+        { "type": "stat", "stat": "money", "operator": "lt", "value": 500 }
+      ],
+      "lines": [{ "text": "เพื่อนเสนอให้ยืมเงินค่าอาหาร" }],
+      "choices": [
+        {
+          "id": "accept_loan",
+          "text": "ยืมก่อนแล้วค่อยคืน",
+          "conditions": [],
+          "effects": [
+            { "type": "statDelta", "stat": "money", "amount": 200 },
+            { "type": "statDelta", "stat": "debt", "amount": 200 }
+          ]
+        },
+        {
+          "id": "decline_loan",
+          "text": "ขอบคุณแต่ยังไม่ยืม",
+          "conditions": [],
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "lottery_ticket",
+      "kind": "random",
+      "time": { "year": 1, "period": "term1" },
+      "title": "ลองเสี่ยงโชค",
+      "conditions": [],
+      "lines": [{ "text": "แผงลอตเตอรี่หน้าตลาดทำให้คุณหยุดมอง" }],
+      "choices": [
+        {
+          "id": "buy_ticket",
+          "text": "ซื้อลอตเตอรี่",
+          "conditions": [],
+          "effects": [
+            { "type": "statDelta", "stat": "money", "amount": -50 },
+            {
+              "type": "chance",
+              "successPercent": 3,
+              "displayMode": "statsOnly",
+              "successEffects": [
+                { "type": "statDelta", "stat": "money", "amount": 1000 }
+              ],
+              "failureEffects": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "characters": [],
+  "assets": [],
+  "endings": [
+    {
+      "id": "study_complete",
+      "title": "เรียนจบ",
+      "summary": "คุณมองย้อนชีวิตในมหาวิทยาลัย",
+      "conditions": []
+    }
+  ]
+}

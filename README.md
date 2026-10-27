@@ -129,6 +129,8 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 
+**V2 progress:** A separate draft content schema and sample now describe negative stats, debt, luck-based chance events, up to eight study years, and random names. The playable game still uses V1 content; V2 engine, save migration, BO, and Player changes follow in Steps 12–18. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+
 ### Future
 
 - After graduating, start university again — events will not repeat the same way.

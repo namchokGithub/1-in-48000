@@ -8,18 +8,16 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this table whenever an item's status changes.
 
-| #   | Step                  | Status      | Depends on |
-| --- | --------------------- | ----------- | ---------- |
-| 10  | Test + release        | In progress | 9          |
-| 11  | V2 rules + schema     | Todo        | 9          |
-| 12  | V2 engine + save      | Todo        | 11         |
-| 13  | BO shell              | Todo        | 11         |
-| 14  | BO data tabs          | Todo        | 13         |
-| 15  | BO story editor       | Todo        | 12, 14     |
-| 16  | BO timeline + preview | Todo        | 12, 15     |
-| 17  | Player gameplay       | Todo        | 12         |
-| 18  | Player UX/UI          | Todo        | 17         |
-| 19  | V2 test + release     | Todo        | 16, 18     |
+| #   | Step                  | Status | Depends on |
+| --- | --------------------- | ------ | ---------- |
+| 12  | V2 engine + save      | Todo   | 11         |
+| 13  | BO shell              | Todo   | 11         |
+| 14  | BO data tabs          | Todo   | 13         |
+| 15  | BO story editor       | Todo   | 12, 14     |
+| 16  | BO timeline + preview | Todo   | 12, 15     |
+| 17  | Player gameplay       | Todo   | 12         |
+| 18  | Player UX/UI          | Todo   | 17         |
+| 19  | V2 test + release     | Todo   | 16, 18     |
 
 V2 order: rules and engine first (11–12), then BO (13–16), then Player (17–18). Requirements source: `docs/REQUIREMENT-V2.md`.
 
@@ -27,7 +25,6 @@ V2 order: rules and engine first (11–12), then BO (13–16), then Player (17�
 
 | Topic                  | Proposal / known input                                                                                                              | Status |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Stat upper bound       | All stats may go negative. Keep the 100 upper bound for bounded stats unless changed.                                               | Open   |
 | Extended study trigger | Based mainly on `study`, with a small `stress` weight, checked at the end of Year 4 (and Year 6). Exact formula and thresholds TBD. | Open   |
 | Year 8 outcome         | Ending when the player still fails after Year 8 (e.g. dismissal).                                                                   | Open   |
 | Years 5–8 content      | Reuse existing events, add new events, or a mix.                                                                                    | Open   |
@@ -161,7 +158,7 @@ Completed 2026-10-26. The BO has a four-year timeline with native drag and drop 
 
 ## 10. Test + release
 
-**Status:** In progress
+**Status:** Done
 
 - Check story paths and effects.
 - Check loading older saves after content changes.
@@ -170,11 +167,11 @@ Completed 2026-10-26. The BO has a four-year timeline with native drag and drop 
 
 **Done when:** the MVP is ready to deploy.
 
-2026-10-27: MVP checks are complete. The Cloudflare Pages release has not been made yet.
+2026-10-27: The author reports MVP checks complete. Cloudflare Pages publication remains a separate action and was not performed in this coding session.
 
 ## 11. V2 rules + schema
 
-**Status:** Todo
+**Status:** Done
 
 - Allow every stat to go negative.
 - Add a single `debt` stat covering student loans (กยศ., กรอ.), money owed to friends, and gambling debt.
@@ -188,6 +185,8 @@ Completed 2026-10-26. The BO has a four-year timeline with native drag and drop 
 - Update `docs/GAME-RULES.md` and record the decisions in `docs/DECISIONS.md`.
 
 **Done when:** updated schemas and sample content pass validation with tests.
+
+Completed 2026-10-27. The isolated `src/content/v2/schema.ts` contract and sample content define seven signed stats, Years 1–8, snake_case Event and Choice IDs, a chance effect with two display modes, and asset types without ambience. A random-name file supplies ฟ้า, มายด์, and อิม. Schema validation checks duplicate IDs and broken references; focused tests cover the sample and rejected values. The current Player, BO, engine, and save still use V1 data until their later V2 steps. The study/stress graduation formula, lucky adjustment, Year 8 result, and Years 5–8 story content remain open.
 
 ## 12. V2 engine + save
 
