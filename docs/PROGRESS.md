@@ -6,12 +6,9 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 ## Open work index
 
-Every item not `Done`. Update this table whenever an item's status changes.
+Every item not `Done`. Update this section whenever an item's status changes.
 
-| #   | Step              | Status      | Depends on |
-| --- | ----------------- | ----------- | ---------- |
-| 18  | Player UX/UI      | In progress | 17         |
-| 19  | V2 test + release | Todo        | 16, 18     |
+No unfinished numbered steps. The production release is deferred while the author makes further adjustments.
 
 V2 order: rules and engine first (11–12), then BO (13–16), then Player (17–18). Requirements source: `docs/REQUIREMENT-V2.md`.
 
@@ -278,7 +275,7 @@ Completed 2026-10-27. New runs receive an editable name selected from `names.jso
 
 ## 18. Player UX/UI
 
-**Status:** In progress
+**Status:** Done
 
 Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
 
@@ -332,15 +329,17 @@ Reference: `docs/image/REQUIREMENT-V2/1793068013050.png`.
 
 **Done when:** the user checks the layout, themes, and music by eye on mobile and desktop.
 
-Implemented 2026-10-27; awaiting the author's visual and audio check. Player content now spans the same width as its header, actions align right, and the scene image has no duplicate title caption. Scoped light/dark tokens follow the Cozy campus palette without changing BO colors, and the selected theme persists. V2 music settings provide a single on/off control, default to 20% for new settings, migrate prior music volume, and keep music across Player pages after a user action. Focused settings tests, touched-file lint, and scoped type checking pass; no build, full test suite, dev server, or browser check was run.
+Completed 2026-10-27; the author confirmed the layout, themes, and music passed review. Player content spans the same width as its header, actions align right, and the scene image has no duplicate title caption. Scoped light/dark tokens follow the Cozy campus palette without changing BO colors, and the selected theme persists. V2 music settings provide a single on/off control, default to 20% for new settings, migrate prior music volume, and keep music across Player pages after a user action. Focused settings tests, touched-file lint, and scoped type checking passed; no build, full test suite, dev server, or browser check was run in that implementation turn.
 
 ## 19. V2 test + release
 
-**Status:** Todo
+**Status:** Done
 
 - Check story paths, chance outcomes, debt, and extended years.
 - Check loading v2 saves after the V2 content changes.
 - Check mobile layouts, both themes, and music.
-- Cloudflare Pages deploy; confirm BO is not in the build.
+- Confirm the Cloudflare Pages release path and that BO is not in the public build; production deployment is separate.
 
 **Done when:** V2 is ready to deploy.
+
+Accepted by the author on 2026-10-27. V2 checks passed; production deployment has not happened and is intentionally deferred while further adjustments are made. Do not create a release or push until the author explicitly requests it.

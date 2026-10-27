@@ -30,9 +30,11 @@ playerDark:
   textSecondary: '#D1C5A8'
 typography:
   body:
-    fontFamily: 'Noto Sans Thai, Sarabun, Thonburi, Leelawadee UI, system-ui, sans-serif'
+    fontFamily: 'Noto Sans Thai, sans-serif'
+    fontWeight: 300
   utility:
-    fontFamily: 'ui-monospace, SFMono-Regular, monospace'
+    fontFamily: 'Noto Sans Thai, sans-serif'
+    fontWeight: 300
 rounded:
   card: '1.25rem'
   control: '0.8rem'
@@ -57,7 +59,7 @@ The Player reads like a personal field guide to one student's years at ม.บ�
 
 ## Layout and type
 
-The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. Player content and header share the same width of at most 76rem, including the start form and home card. Actions align right where space allows. The scene name appears in the title above the image. Thai-capable system fallbacks avoid a late web-font shift. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
+The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. Player content and header share the same width of at most 76rem, including the start form and home card. Actions align right where space allows. The scene name appears in the title above the image. Both Player and BO load Noto Sans Thai Light 300 from Google Fonts; all text uses that weight, including headings, buttons, and utility labels. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
 
 BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list and editor sit in two columns on wide screens and stack on phones. The event view can switch to an eight-year timeline, with one card per event and a column for each period. Columns wrap to two or one across narrower widths. Native drag and drop moves cards within and across periods; selecting a card opens its form. The form's year/period fields and up/down controls remain available for touch and keyboard use.
 

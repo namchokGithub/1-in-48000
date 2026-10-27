@@ -1,6 +1,6 @@
 # UI behavior contract
 
-The Player and local BO share the controls and colors in `src/shared/styles.css`. BO owns one custom Select for dropdowns and uses native inputs, checkboxes, and a modal dialog for other controls.
+The Player and local BO share the controls and base colors in `src/shared/styles.css`. Both HTML entries load Noto Sans Thai Light 300; shared CSS holds that weight across headings, buttons, and form fields. BO owns one custom Select for dropdowns and uses native inputs, checkboxes, and a modal dialog for other controls.
 
 ## Canonical UI Map
 

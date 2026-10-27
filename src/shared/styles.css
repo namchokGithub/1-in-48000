@@ -1,8 +1,11 @@
 @import 'tailwindcss';
 
 :root {
-  font-family:
-    'Noto Sans Thai', Sarabun, Thonburi, 'Leelawadee UI', system-ui, sans-serif;
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
   color: var(--color-ink);
   background: var(--color-canvas);
   --color-ink: #173544;
@@ -41,6 +44,10 @@
 
 * {
   box-sizing: border-box;
+}
+:where(body, body *, body *::before, body *::after) {
+  font-family: 'Noto Sans Thai', sans-serif !important;
+  font-weight: 300 !important;
 }
 body {
   margin: 0;

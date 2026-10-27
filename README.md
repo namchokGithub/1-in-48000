@@ -129,7 +129,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 
-**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player starts with a random name, shows background and choice stat effects, tracks four to eight study years, and ends with a decision timeline. The light/dark Player themes and music-only control are implemented pending a mobile, desktop, and audio check. Authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player starts with a random name, shows background and choice stat effects, tracks four to eight study years, and ends with a decision timeline. The light/dark themes, music control, and V2 checks have passed the author's review. Player and BO use Noto Sans Thai Light 300. Production release is deferred while further adjustments are made; authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 
