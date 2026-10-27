@@ -36,14 +36,14 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 A content authoring and testing tool that runs **only on the author's machine**, separate from the public game.
 
 - Add, edit, and delete events, choices, and endings.
-- Drag events within or across the four-year timeline; use the form and up/down controls on touch or keyboard.
+- Search events and filter the eight-year timeline by kind; drag events across periods or use the form and up/down controls on touch or keyboard.
 - Conditions (e.g. academic year, money, past events) and effects (change stats, set flags, go to the next event).
 - Bind images, music, and sounds by Asset ID.
-- Preview events and try choices.
+- Preview Player dialogue and try choices in a modal without writing a player save.
 - Validate JSON: duplicate IDs, broken event links, and missing assets.
 - Save JSON directly to the content files — no manual import/export.
 
-The current BO edits `events.json`, `endings.json`, `characters.json`, and `assets.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. The timeline moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event, so it is useful for checking one choice and its effects. Review `contentVersion` and save migration before publishing content changes.
+The current BO edits `events.json`, `endings.json`, `characters.json`, and `assets.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The timeline covers Years 1–8, filters by kind, and warns when a period has more than ten active main events without blocking additions. It moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` and save migration before publishing content changes.
 
 ## Tech Stack
 
@@ -129,7 +129,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
 
-**V2 progress:** BO story editing and the Player now share V2 content, engine rules, and save v3. The author can write chance and delayed effects; the Player can resolve them and migrate a V1 save. Player presentation, BO timeline/preview upgrades, and authored Years 5–8 story content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player can resolve those choices and migrate a V1 save. Player presentation and authored Years 5–8 story content follow in later steps. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

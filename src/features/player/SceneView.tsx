@@ -13,6 +13,7 @@ type Props = {
   error: string | null
   onChoose: (choiceId: string) => void
   onHome: () => void
+  homeLabel?: string
 }
 
 export function SceneView({
@@ -23,6 +24,7 @@ export function SceneView({
   error,
   onChoose,
   onHome,
+  homeLabel = 'หน้าแรก',
 }: Props) {
   const [lineIndex, setLineIndex] = useState(0)
   const line = event.lines[lineIndex]
@@ -55,7 +57,7 @@ export function SceneView({
             className="button button-secondary"
             onClick={onHome}
           >
-            หน้าแรก
+            {homeLabel}
           </button>
         </div>
         <div className="scene-stage">

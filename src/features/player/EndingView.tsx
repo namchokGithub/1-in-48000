@@ -5,10 +5,17 @@ type Props = {
   summary: V2LifeSummary
   onHome: () => void
   onRestart: () => void
-  onExport: () => void
+  onExport?: () => void
+  homeLabel?: string
 }
 
-export function EndingView({ summary, onHome, onRestart, onExport }: Props) {
+export function EndingView({
+  summary,
+  onHome,
+  onRestart,
+  onExport,
+  homeLabel = 'หน้าแรก',
+}: Props) {
   return (
     <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
       <section className="panel p-6 sm:p-10">
@@ -36,19 +43,21 @@ export function EndingView({ summary, onHome, onRestart, onExport }: Props) {
           >
             เริ่มชีวิตใหม่
           </button>
-          <button
-            type="button"
-            className="button button-secondary"
-            onClick={onExport}
-          >
-            ดาวน์โหลดเซฟ
-          </button>
+          {onExport && (
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={onExport}
+            >
+              ดาวน์โหลดเซฟ
+            </button>
+          )}
           <button
             type="button"
             className="button button-secondary"
             onClick={onHome}
           >
-            หน้าแรก
+            {homeLabel}
           </button>
         </div>
       </section>

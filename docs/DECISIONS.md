@@ -55,3 +55,7 @@ Treat the BO background tab as scene assets, alongside speaker records and BGM/S
 ## 2026-10-27 — Shared V2 authoring and Player content
 
 Keep the published V1 JSON under `public/content` for migration fixtures while authoring V2 in `public/content-v2`. BO and Player both load the V2 directory and use its schema and engine; the local BO writer validates the whole V2 content set before replacing one JSON file. Content version `0.5.0` retains existing event and ending IDs so the v2-to-v3 save migration can preserve progress. The optional `active` event flag defaults to enabled; inactive events are omitted from selection and cannot be direct-link targets. Move the Player's V2 runtime connection into Step 15 so a chance effect authored in BO can play, while later Player steps finish its presentation and audio controls.
+
+## 2026-10-27 — BO timeline search and isolated preview
+
+Count the more-than-ten-main-event warning from all active events in a year/period, independent of search and kind filters. When dragging a filtered card, map its drop position back to the full authored slot so hidden events retain their order. Preview uses the shared V2 engine and Player scene view inside a native modal. It activates the selected event only in an in-memory content copy and creates a sample save; preview choices never touch the Player save store.

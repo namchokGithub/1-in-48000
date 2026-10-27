@@ -8,12 +8,11 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this table whenever an item's status changes.
 
-| #   | Step                  | Status | Depends on |
-| --- | --------------------- | ------ | ---------- |
-| 16  | BO timeline + preview | Todo   | 12, 15     |
-| 17  | Player gameplay       | Todo   | 12         |
-| 18  | Player UX/UI          | Todo   | 17         |
-| 19  | V2 test + release     | Todo   | 16, 18     |
+| #   | Step              | Status | Depends on |
+| --- | ----------------- | ------ | ---------- |
+| 17  | Player gameplay   | Todo   | 12         |
+| 18  | Player UX/UI      | Todo   | 17         |
+| 19  | V2 test + release | Todo   | 16, 18     |
 
 V2 order: rules and engine first (11–12), then BO (13–16), then Player (17–18). Requirements source: `docs/REQUIREMENT-V2.md`.
 
@@ -247,7 +246,7 @@ Completed 2026-10-27. The BO story form now uses compact dialogue and choice car
 
 ## 16. BO timeline + preview
 
-**Status:** Todo
+**Status:** Done
 
 - Search and filter events.
 - Timeline filter by event kind.
@@ -257,6 +256,8 @@ Completed 2026-10-27. The BO story form now uses compact dialogue and choice car
 - Live preview that shows dialogue as in the Player page.
 
 **Done when:** authors can find events, filter the timeline, see the main-event warning, and preview an event in a modal.
+
+Completed 2026-10-27. BO searches event ID, title, dialogue, and choices; the Timeline filters by event kind and displays Years 1–8. Each year/period warns when active main events exceed ten without blocking additional events. Filtered dragging keeps the authored order of hidden events. The toolbar and Timeline cards open a modal preview using the Player scene and V2 engine, with an isolated sample save that never writes player progress. Focused tests cover search, filters, warnings, timeline moves, and V2 preview choices; visual checks remain for the author.
 
 ## 17. Player gameplay
 

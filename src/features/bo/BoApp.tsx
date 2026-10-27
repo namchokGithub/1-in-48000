@@ -8,7 +8,7 @@ import {
 import type { ValidationIssue } from '../../content/validate'
 import { V2EndingEditor } from './V2EndingEditor'
 import { V2EventEditor } from './V2EventEditor'
-import { PreviewPane } from './PreviewPane'
+import { PreviewDialog } from './PreviewDialog'
 import { TimelineBoard } from './TimelineBoard'
 import { ConfirmationDialog } from './ConfirmationDialog'
 import {
@@ -20,6 +20,7 @@ import {
 } from './draftHistory'
 import { moveEvent } from './timeline'
 import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
+import { matchesStoryQuery } from './timelineFilters'
 import { DataEditor, type DataSection } from './DataEditor'
 
 type Section = 'events' | 'endings' | DataSection
@@ -78,6 +79,7 @@ export function BoApp() {
   const [retry, setRetry] = useState(0)
   const [section, setSection] = useState<Section>(sectionFromUrl)
   const [eventView, setEventView] = useState<'editor' | 'timeline'>('editor')
+  const [eventQuery, setEventQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
   const eventIndex = draft
@@ -96,7 +98,7 @@ export function BoApp() {
     confirmLabel: string
     action: () => void
   } | null>(null)
-  const [previewRequest, setPreviewRequest] = useState(0)
+  const [previewEventId, setPreviewEventId] = useState<string | null>(null)
 
   function setDraft(change: SetStateAction<V2Content | null>) {
     setHistory((current) => {
@@ -131,17 +133,6 @@ export function BoApp() {
       active = false
     }
   }, [retry])
-
-  useEffect(() => {
-    if (!previewRequest || section !== 'events' || eventView !== 'editor')
-      return
-    const frame = requestAnimationFrame(() => {
-      const panel = document.getElementById('bo-preview')
-      panel?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      panel?.focus({ preventScroll: true })
-    })
-    return () => cancelAnimationFrame(frame)
-  }, [previewRequest, section, eventView])
 
   if (loadError) {
     return (
@@ -206,6 +197,9 @@ export function BoApp() {
   const event = draft.events[eventIndex]
   const ending = draft.endings[endingIndex]
   const eventIds = draft.events.map((item) => item.id)
+  const visibleEventEntries = orderedStoryEntries(draft.events).filter(
+    ({ event: item }) => matchesStoryQuery(item, eventQuery),
+  )
 
   function updateEvent(next: V2Event) {
     setDraft(
@@ -252,6 +246,7 @@ export function BoApp() {
     setDraft({ ...currentDraft, events: [...currentDraft.events, newEvent] })
     selectSection('events')
     setEventView('editor')
+    setEventQuery('')
     setNotice('')
   }
 
@@ -399,10 +394,7 @@ export function BoApp() {
               type="button"
               className="button button-secondary"
               disabled={section !== 'events' || !event}
-              onClick={() => {
-                setEventView('editor')
-                setPreviewRequest((value) => value + 1)
-              }}
+              onClick={() => event && setPreviewEventId(event.id)}
             >
               ทดลองเหตุการณ์
             </button>
@@ -467,23 +459,43 @@ export function BoApp() {
           </button>
         </nav>
         {section === 'events' && (
-          <div className="bo-view-switch" aria-label="มุมมองเหตุการณ์">
-            <button
-              type="button"
-              className="button button-secondary"
-              aria-pressed={eventView === 'editor'}
-              onClick={() => setEventView('editor')}
-            >
-              ฟอร์มแก้ไข
-            </button>
-            <button
-              type="button"
-              className="button button-secondary"
-              aria-pressed={eventView === 'timeline'}
-              onClick={() => setEventView('timeline')}
-            >
-              Timeline
-            </button>
+          <div className="bo-events-tools">
+            <div className="bo-view-switch" aria-label="มุมมองเหตุการณ์">
+              <button
+                type="button"
+                className="button button-secondary"
+                aria-pressed={eventView === 'editor'}
+                onClick={() => setEventView('editor')}
+              >
+                ฟอร์มแก้ไข
+              </button>
+              <button
+                type="button"
+                className="button button-secondary"
+                aria-pressed={eventView === 'timeline'}
+                onClick={() => setEventView('timeline')}
+              >
+                Timeline
+              </button>
+            </div>
+            <label className="bo-event-search">
+              <span>ค้นหาเหตุการณ์</span>
+              <input
+                className="field"
+                type="search"
+                value={eventQuery}
+                placeholder="ชื่อ, ID หรือข้อความในเรื่อง"
+                onChange={(input) => {
+                  const next = input.target.value
+                  setEventQuery(next)
+                  if (!event || matchesStoryQuery(event, next)) return
+                  const first = orderedStoryEntries(draft.events).find(
+                    ({ event: item }) => matchesStoryQuery(item, next),
+                  )
+                  if (first) setEventIndex(first.index)
+                }}
+              />
+            </label>
           </div>
         )}
         {notice && (
@@ -532,11 +544,13 @@ export function BoApp() {
         ) : section === 'events' && eventView === 'timeline' ? (
           <TimelineBoard
             events={draft.events}
+            query={eventQuery}
             onSelect={(index) => {
               setEventIndex(index)
               setEventView('editor')
             }}
             onMove={moveOnTimeline}
+            onPreview={(index) => setPreviewEventId(draft.events[index].id)}
           />
         ) : (
           <div className="bo-layout">
@@ -560,25 +574,21 @@ export function BoApp() {
               </div>
               <div className="bo-item-list">
                 {section === 'events'
-                  ? orderedStoryEntries(draft.events).map(
-                      ({ event: item, index }) => (
-                        <button
-                          key={index}
-                          type="button"
-                          data-selected={index === eventIndex}
-                          aria-current={
-                            index === eventIndex ? 'true' : undefined
-                          }
-                          onClick={() => setEventIndex(index)}
-                        >
-                          <strong>{item.title || 'ไม่มีชื่อ'}</strong>
-                          <small>
-                            {item.id} · ปี {item.time.year} {item.time.period}
-                            {item.active === false ? ' · Inactive' : ''}
-                          </small>
-                        </button>
-                      ),
-                    )
+                  ? visibleEventEntries.map(({ event: item, index }) => (
+                      <button
+                        key={index}
+                        type="button"
+                        data-selected={index === eventIndex}
+                        aria-current={index === eventIndex ? 'true' : undefined}
+                        onClick={() => setEventIndex(index)}
+                      >
+                        <strong>{item.title || 'ไม่มีชื่อ'}</strong>
+                        <small>
+                          {item.id} · ปี {item.time.year} {item.time.period}
+                          {item.active === false ? ' · Inactive' : ''}
+                        </small>
+                      </button>
+                    ))
                   : draft.endings.map((item, index) => (
                       <button
                         key={index}
@@ -594,6 +604,9 @@ export function BoApp() {
                       </button>
                     ))}
               </div>
+              {section === 'events' && !visibleEventEntries.length && (
+                <p className="muted mt-3 text-sm">ไม่พบเหตุการณ์ที่ค้นหา</p>
+              )}
             </aside>
             <section className="panel bo-editor" aria-label="แก้เนื้อหา">
               {((event && section === 'events') ||
@@ -693,10 +706,15 @@ export function BoApp() {
                 <p className="muted">ยังไม่มีตอนจบ กดเพิ่มเพื่อเริ่มเขียน</p>
               )}
             </section>
-            {section === 'events' && event && (
-              <PreviewPane key={eventIndex} content={draft} event={event} />
-            )}
           </div>
+        )}
+        {previewEventId && (
+          <PreviewDialog
+            key={previewEventId}
+            content={draft}
+            eventId={previewEventId}
+            onClose={() => setPreviewEventId(null)}
+          />
         )}
         {confirmation && (
           <ConfirmationDialog
