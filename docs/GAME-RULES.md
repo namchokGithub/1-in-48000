@@ -70,7 +70,7 @@ A `chance` effect holds `successPercent` from 0 to 100, `successEffects`, `failu
 
 V2 events have no `ambienceAssetId`, and V2 assets allow scene, portrait, BGM, and SFX only. V2 audio settings contain only `musicEnabled` and `musicVolume`; absent or invalid settings default to enabled at 20%. The Player exposes a single on/off music button and starts playback after a user action. V2 complete-content validation rejects duplicate IDs and broken Event, character, and Asset ID references.
 
-The earlier V2 player checkpoint used `saveVersion: 3`, the seven stats, decision history with `{ eventId, choiceId, time, chanceOutcomes }`, pending effects, and RNG seed/state. Before Step 20, the Player kept progress in memory for the current page session and did not read stored checkpoints on a new visit. The active content has no authored Years 5–8 story yet; the engine tests use synthetic events there.
+The earlier V2 player checkpoint used `saveVersion: 3`, the seven stats, decision history with `{ eventId, choiceId, time, chanceOutcomes }`, pending effects, and RNG seed/state. Before Step 20, the Player kept progress in memory for the current page session and did not read stored checkpoints on a new visit. The active content has no authored Years 5–8 story yet; the engine tests use synthetic events there. The agreed content approach for those years is a mix of adapted earlier story beats and new events. Adapted beats get distinct Event IDs and later-year times because progression tracks visits by Event ID.
 
 ## Current content contract (Step 20)
 

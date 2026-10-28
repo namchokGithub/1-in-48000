@@ -19,9 +19,7 @@ V3 order: rules and engine first (20–21), then BO (22–23), then Player (24�
 
 ## Open decisions
 
-| Topic             | Proposal / known input                           | Status |
-| ----------------- | ------------------------------------------------ | ------ |
-| Years 5–8 content | Reuse existing events, add new events, or a mix. | Open   |
+None. The Years 5–8 content approach is resolved as a mix of adapted earlier story beats and newly authored events; see `docs/DECISIONS.md`.
 
 ## Future
 

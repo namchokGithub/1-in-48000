@@ -95,3 +95,7 @@ Expose the active selection modes and faculty/major/elective conditions in the s
 ## 2026-10-28 — Make the V3 selection path playable in active content
 
 Place a two-of-three-choice event after the first Year 2 term-one main event and link it to the next authored event. Display the engine's seeded player name and the name record's portrait Asset ID next to stats; use three original pixel-style PNG placeholders until final portraits are available. Keep scheduled effects active but hide their details in Player choice previews. Advance active content to `0.2.0` so a same-tab checkpoint from the earlier story cannot restore against the changed event list.
+
+## 2026-10-28 — Mix reused and new events for Years 5–8
+
+Use a mix of adapted existing story beats and newly authored events for Years 5–8. Each adapted beat gets its own Event ID and later-year time so it can appear on a longer path after the original has been visited. Keep the shared main-line structure and give the longer study paths their own consequences and context. The exact event list and pacing remain content-authoring work; this decision does not mark Years 5–8 content complete.
