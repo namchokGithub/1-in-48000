@@ -73,9 +73,9 @@ export function SceneView({
   const lastLine = lineIndex === event.lines.length - 1
 
   return (
-    <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div className="player-scene-layout">
       <section
-        className="panel overflow-hidden p-3 sm:p-5"
+        className="panel player-scene-main overflow-hidden p-3 sm:p-5"
         aria-label="ฉากเหตุการณ์"
       >
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
@@ -109,25 +109,39 @@ export function SceneView({
           aria-live="polite"
         >
           <p className="eyebrow">{speaker?.name ?? 'เรื่องราว'}</p>
-          <p className="mt-3 min-h-20 text-lg leading-relaxed">{line.text}</p>
-          <p className="muted mt-3 text-xs">
-            {lineIndex + 1} / {event.lines.length}
+          <p className="player-dialogue-text mt-3 text-lg leading-relaxed">
+            {line.text}
           </p>
+          <div className="mt-3 flex min-h-10 items-center justify-between gap-3">
+            <p className="muted text-xs">
+              {lineIndex + 1} / {event.lines.length}
+            </p>
+            {!lastLine && (
+              <button
+                type="button"
+                className="button button-primary"
+                onClick={() => setLineIndex((index) => index + 1)}
+              >
+                อ่านต่อ
+              </button>
+            )}
+          </div>
         </div>
+      </section>
+      <section
+        className="panel player-choice-panel p-4 sm:p-5"
+        aria-label="ตัวเลือก"
+      >
         {error && (
-          <p className="mt-4 text-sm text-[var(--color-danger)]" role="alert">
+          <p className="mb-3 text-sm text-[var(--color-danger)]" role="alert">
             {error}
           </p>
         )}
-        <div className="mt-5 flex flex-col items-end gap-3">
+        <div className="flex flex-col items-end gap-3">
           {!lastLine ? (
-            <button
-              type="button"
-              className="button button-primary w-full sm:w-auto"
-              onClick={() => setLineIndex((index) => index + 1)}
-            >
-              อ่านต่อ
-            </button>
+            <p className="muted w-full text-sm" role="status">
+              อ่านบทสนทนาให้จบก่อนเลือกทางต่อ
+            </p>
           ) : event.selection?.type === 'program' ? (
             <div className="grid w-full gap-3">
               <label className="grid gap-1">
@@ -242,7 +256,7 @@ export function SceneView({
             </div>
           ) : choices.length ? (
             <>
-              <p className="w-full font-bold">คุณจะทำอย่างไร?</p>
+              <h2 className="w-full text-lg font-bold">คุณจะทำอย่างไร?</h2>
               {choices.map((choice) => {
                 const effects = describeChoiceEffects(choice, save.stats)
                 return (
@@ -269,10 +283,12 @@ export function SceneView({
           )}
         </div>
       </section>
-      <StatPanel
-        stats={save.stats}
-        identity={{ name: save.playerName, portraitPath: playerPortrait }}
-      />
+      <aside className="player-scene-stats">
+        <StatPanel
+          stats={save.stats}
+          identity={{ name: save.playerName, portraitPath: playerPortrait }}
+        />
+      </aside>
     </div>
   )
 }

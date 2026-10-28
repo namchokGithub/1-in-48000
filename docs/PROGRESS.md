@@ -8,12 +8,12 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this section whenever an item's status changes.
 
-| #   | Step              | Status | Depends on |
-| --- | ----------------- | ------ | ---------- |
-| 20  | V3 rules + schema | Done   | 19         |
-| 21  | V3 engine + save  | Done   | 20         |
-| 25  | Player UX/UI (V3) | Todo   | 24         |
-| 26  | V3 test           | Todo   | 23, 25     |
+| #   | Step              | Status      | Depends on |
+| --- | ----------------- | ----------- | ---------- |
+| 20  | V3 rules + schema | Done        | 19         |
+| 21  | V3 engine + save  | Done        | 20         |
+| 25  | Player UX/UI (V3) | In progress | 24         |
+| 26  | V3 test           | Todo        | 23, 25     |
 
 V3 order: rules and engine first (20–21), then BO (22–23), then Player (24–25). Requirements source: `docs/REQUIREMENT-V3.md`. The production release is still deferred while the author makes further adjustments.
 
@@ -434,7 +434,7 @@ Completed 2026-10-28. The Player already had the shared program, elective, and m
 
 ## 25. Player UX/UI (V3)
 
-**Status:** Todo
+**Status:** In progress
 
 References: `docs/image/REQUIREMENT-V3/1793110431448.png`, `docs/image/REQUIREMENT-V3/1793111676895.png`, `docs/image/REQUIREMENT-V3/1793112325756.png`.
 
@@ -444,6 +444,8 @@ References: `docs/image/REQUIREMENT-V3/1793110431448.png`, `docs/image/REQUIREME
 - Redesign the year timeline as a stepper with icons (Freshman, Sophomore, Junior, Senior); Years 5–8 show "ปี 5" to "ปี 8" with a generic icon.
 
 **Done when:** the user checks the layout and timeline by eye on mobile and desktop.
+
+Implementation ready for visual review 2026-10-28. Desktop places Choices below the stats in the right column, with an internally scrolling Choice panel when needed; the scene, timeline, and dialogue remain in the left column. Mobile orders scene/dialogue, Choices, then stats. Dialogue keeps a stable height while lines change. The year timeline is now a connected stepper with icons and Freshman–Senior labels for Years 1–4; Years 5–8 use a generic icon and Thai year label. The active year scrolls into view in narrow layouts. Awaiting the author's visual check at mobile and desktop widths in both themes before marking Done.
 
 ## 26. V3 test
 

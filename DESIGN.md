@@ -59,7 +59,7 @@ The Player reads like a personal field guide to one student's years at ม.บ�
 
 ## Layout and type
 
-The scene takes the main column and the stats occupy a side column on desktop; they stack on phones. Player content and header share the same width of at most 76rem, including the start form and home card. Actions align right where space allows. The scene name appears in the title above the image. Both Player and BO load Noto Sans Thai Light 300 from Google Fonts; all text uses that weight, including headings, buttons, and utility labels. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
+The scene and fixed-height dialogue take the main column on desktop, while stats and a bounded, internally scrolling Choice panel stack in the side column. On phones the order is scene/dialogue, Choices, then stats. Player content and header share the same width of at most 76rem, including the start form and home card. Actions align right where space allows. The scene name appears in the title above the image. Both Player and BO load Noto Sans Thai Light 300 from Google Fonts; all text uses that weight, including headings, buttons, and utility labels. Body text has comfortable line height, while small utility labels use spaced Latin numerals sparingly for year and term markers.
 
 BO reuses the same colors, type, controls, and surface treatment. Its working area can grow to 100rem: an item list and editor sit in two columns on wide screens and stack on phones. The event view can switch to an eight-year timeline, with one card per event and a column for each period. Columns wrap to two or one across narrower widths. Native drag and drop moves cards within and across periods; selecting a card opens its form. The form's year/period fields and up/down controls remain available for touch and keyboard use.
 
@@ -71,7 +71,7 @@ The V2 story form uses compact ordered cards for dialogue and choices. Speaker p
 
 ## Visual language
 
-The Player uses a Cozy campus palette: ivory canvas and cream cards in light mode, charcoal canvas and gray cards in dark mode. Soft gold marks primary actions, selected states, and study progress; large neutral areas keep both themes calm. The scene placeholder keeps its geometric campus silhouette in theme-aware tones until asset IDs point to real art. The BO retains its teal palette. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
+The Player uses a Cozy campus palette: ivory canvas and cream cards in light mode, charcoal canvas and gray cards in dark mode. Soft gold marks primary actions, selected states, and study progress; large neutral areas keep both themes calm. A connected year stepper uses small line icons for Freshman through Senior and a generic calendar icon for Years 5–8. The scene placeholder keeps its geometric campus silhouette in theme-aware tones until asset IDs point to real art. The BO retains its teal palette. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
 
 ## Interaction states
 
