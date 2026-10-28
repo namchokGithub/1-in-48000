@@ -553,7 +553,7 @@ export function BoApp() {
             onPreview={(index) => setPreviewEventId(draft.events[index].id)}
           />
         ) : (
-          <div className="bo-layout">
+          <div className="bo-layout mt-3">
             <aside
               className="panel bo-sidebar"
               aria-label={

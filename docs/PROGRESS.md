@@ -8,15 +8,28 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this section whenever an item's status changes.
 
-No unfinished numbered steps. The production release is deferred while the author makes further adjustments.
+| #   | Step                 | Status | Depends on |
+| --- | -------------------- | ------ | ---------- |
+| 20  | V3 rules + schema    | Todo   | 19         |
+| 21  | V3 engine + save     | Todo   | 20         |
+| 22  | BO data tabs (V3)    | Todo   | 20         |
+| 23  | BO story editor (V3) | Todo   | 21, 22     |
+| 24  | Player gameplay (V3) | Todo   | 21         |
+| 25  | Player UX/UI (V3)    | Todo   | 24         |
+| 26  | V3 test              | Todo   | 23, 25     |
 
-V2 order: rules and engine first (11–12), then BO (13–16), then Player (17–18). Requirements source: `docs/REQUIREMENT-V2.md`.
+V3 order: rules and engine first (20–21), then BO (22–23), then Player (24–25). Requirements source: `docs/REQUIREMENT-V3.md`. The production release is still deferred while the author makes further adjustments.
 
 ## Open decisions
 
-| Topic             | Proposal / known input                           | Status |
-| ----------------- | ------------------------------------------------ | ------ |
-| Years 5–8 content | Reuse existing events, add new events, or a mix. | Open   |
+| Topic                 | Proposal / known input                                                                                                                        | Status |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| Years 5–8 content     | Reuse existing events, add new events, or a mix.                                                                                              | Open   |
+| Refresh vs. new visit | Restore the run from localStorage on every page load until it ends or the player starts over. Confirm whether a new visit should also resume. | Open   |
+
+## Future
+
+- Share a life result (not scheduled).
 
 Resolved choices are recorded in `docs/DECISIONS.md`.
 
@@ -345,3 +358,94 @@ Completed 2026-10-27; the author confirmed the layout, themes, and music passed 
 Accepted by the author on 2026-10-27. V2 checks passed; production deployment has not happened and is intentionally deferred while further adjustments are made. Do not create a release or push until the author explicitly requests it.
 
 Post-V2 cleanup on 2026-10-27: Removed unused V1 runtime, schema, save store, BO editor and writer route. The Player now starts with a fresh in-memory game on every page visit while continuing to write checkpoints to localStorage during play; stored games of any version are not loaded. Historical V1 JSON remains archived in `public/content`.
+
+## 20. V3 rules + schema
+
+**Status:** Todo
+
+- Events may have more than two choices.
+- Multi-select events: per-event `min`/`max` selections. Effects of every selected choice are combined. A multi-select event has a single event-level `goToEvent`; its choices do not link to events.
+- Fixed starting event: every run begins by choosing a faculty and a major.
+- Year 3 free elective choice.
+- Content files for faculties, majors, and free electives so new entries can be added.
+- Program length per major: 4 or 6 years. A 6-year program is allowed only for a faculty and major marked to support it.
+- Failing a review still extends study: 4 → 6 → 8 years for 4-year programs, and 6 → 8 years for 6-year programs.
+- Electives can change stats and/or set flags, and the choice is recorded for the life summary.
+- Conditions on faculty, major, and elective.
+- Player names file entries link to an image Asset ID.
+- No V1/V2 compatibility: nothing has been released, so content and save versions reset without migrations.
+- Update `docs/GAME-RULES.md` and record the decisions in `docs/DECISIONS.md`.
+
+**Done when:** updated schemas and sample faculties, majors, electives, and multi-select events pass validation with tests.
+
+## 21. V3 engine + save
+
+**Status:** Todo
+
+- Start every run at the fixed faculty/major event.
+- Resolve multi-select choices within `min`/`max`, combine their effects, then follow the event-level link.
+- Year 3 elective selection and its effects.
+- Program length from the major, combined with failed-review extensions.
+- Assign the player name at random from the names file; the player cannot change it.
+- Keep localStorage checkpoints so a refresh restores the current run. Remove save file download and import.
+- Remove V1/V2 save migrations.
+- Update the save rule in `AGENTS.md` to match.
+
+**Done when:** focused tests cover the starting event, multi-select limits and effects, electives, 4- and 6-year programs with extensions, and refresh restore.
+
+## 22. BO data tabs (V3)
+
+**Status:** Todo
+
+- Tabs to manage faculties, majors (including program length), and free electives.
+- Tab to manage player names and link each name to an image.
+
+**Done when:** faculties, majors, electives, and player names can be added, edited, and removed through BO and pass validation.
+
+## 23. BO story editor (V3)
+
+**Status:** Todo
+
+- Author any number of choices per event.
+- Multi-select settings: `min`/`max` and the event-level `goToEvent`.
+- Condition builder for faculty, major, and elective.
+- Remove drag and drop from the story editor's event list; keep the up/down buttons.
+
+**Done when:** a multi-select event with faculty/major conditions can be authored through BO and plays in the Player page.
+
+## 24. Player gameplay (V3)
+
+**Status:** Todo
+
+- Faculty and major selection at the start of every run.
+- Year 3 elective selection.
+- Multi-select choices with `min`/`max` feedback.
+- Random player name and image, not editable.
+- Remove Continue and save download.
+- Do not show delayed effects ("ผลลัพธ์ภายหลัง") on choices.
+
+**Done when:** a run plays from the faculty/major choice through the Year 3 elective to an ending, including a multi-select event.
+
+## 25. Player UX/UI (V3)
+
+**Status:** Todo
+
+References: `docs/image/REQUIREMENT-V3/1793110431448.png`, `docs/image/REQUIREMENT-V3/1793111676895.png`, `docs/image/REQUIREMENT-V3/1793112325756.png`.
+
+- Desktop: move choices below the stats panel in the right column. The scene, dialogue, and other areas stay fixed; only the choice area changes, so the player rarely needs to scroll.
+- Mobile: choices stay below the dialogue.
+- Layout supports more than two choices and multi-select.
+- Redesign the year timeline as a stepper with icons (Freshman, Sophomore, Junior, Senior); Years 5–8 show "ปี 5" to "ปี 8" with a generic icon.
+
+**Done when:** the user checks the layout and timeline by eye on mobile and desktop.
+
+## 26. V3 test
+
+**Status:** Todo
+
+- Check paths for each faculty and major, including 6-year programs and extensions.
+- Check multi-select events and elective effects.
+- Check refresh restore and that save download is gone.
+- Check mobile and desktop layouts in both themes.
+
+**Done when:** V3 is accepted by the author. Release remains a separate, explicit request.
