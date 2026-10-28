@@ -87,3 +87,7 @@ Extend the existing engine/save modules rather than creating V3 copies. Roll the
 ## 2026-10-28 — Author V3 catalogs through the existing BO writer
 
 Keep faculty, major, elective, and player-name editors in the current BO draft and file-save flow. Register player portraits in the existing asset manifest via a portrait tab, then reference their Asset IDs from names. Each Save writes one JSON file after validating the complete content set and checking asset files; related new records may need to be saved in dependency order (faculty before major, portrait asset before name).
+
+## 2026-10-28 — Author V3 event selections in the existing BO form
+
+Expose the active selection modes and faculty/major/elective conditions in the shared BO story editor. A multi-select event owns its selection limits and destination, so its choices cannot add individual event links. Keep the Event list without drag and drop and retain its up/down buttons. Timeline event dragging remains available; this distinction reflects the author's Step 23 clarification.

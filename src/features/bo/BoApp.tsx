@@ -734,6 +734,7 @@ export function BoApp() {
                     event={event}
                     assets={draft.assets}
                     characters={draft.characters}
+                    catalogs={draft}
                     eventIds={eventIds}
                     onChange={updateEvent}
                     onDelete={() =>
@@ -762,6 +763,7 @@ export function BoApp() {
               ) : ending ? (
                 <V2EndingEditor
                   ending={ending}
+                  catalogs={draft}
                   eventIds={eventIds}
                   onChange={updateEnding}
                   onDelete={() =>

@@ -1,12 +1,17 @@
-import type { V2Event } from '../../content/v2/schema'
+import type { V2Content, V2Event } from '../../content/v2/schema'
 import { v2IdSchema, v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { v2StatOptions } from './v2StatOptions'
 import { conditionSummary } from './storySummary'
 
 type Condition = V2Event['conditions'][number]
+type Catalogs = Pick<V2Content, 'faculties' | 'majors' | 'electives'>
 
-function makeCondition(type: Condition['type'], eventIds: string[]): Condition {
+function makeCondition(
+  type: Condition['type'],
+  eventIds: string[],
+  catalogs: Catalogs,
+): Condition {
   switch (type) {
     case 'year':
       return { type, operator: 'eq', value: 1 }
@@ -17,19 +22,23 @@ function makeCondition(type: Condition['type'], eventIds: string[]): Condition {
     case 'pastEvent':
       return { type, eventId: eventIds[0] ?? 'new_event', visited: true }
     case 'faculty':
+      return { type, facultyId: catalogs.faculties[0]?.id ?? '' }
     case 'major':
+      return { type, majorId: catalogs.majors[0]?.id ?? '' }
     case 'elective':
-      throw new Error('This condition is edited in Step 23')
+      return { type, electiveId: catalogs.electives[0]?.id ?? '' }
   }
 }
 
 export function V2ConditionList({
   value,
   eventIds,
+  catalogs,
   onChange,
 }: {
   value: Condition[]
   eventIds: string[]
+  catalogs: Catalogs
   onChange: (next: Condition[]) => void
 }) {
   const replace = (index: number, next: Condition) =>
@@ -49,6 +58,7 @@ export function V2ConditionList({
                   makeCondition(
                     event.target.value as Condition['type'],
                     eventIds,
+                    catalogs,
                   ),
                 )
               }
@@ -57,6 +67,9 @@ export function V2ConditionList({
               <option value="stat">ค่าสถานะ</option>
               <option value="flag">Flag</option>
               <option value="pastEvent">เหตุการณ์ที่ผ่านมา</option>
+              <option value="faculty">คณะ</option>
+              <option value="major">สาขา</option>
+              <option value="elective">วิชาเสรี</option>
             </BoDropdown>
             {condition.type === 'year' && (
               <>
@@ -207,6 +220,60 @@ export function V2ConditionList({
                 )}
               </>
             )}
+            {condition.type === 'faculty' && (
+              <BoDropdown
+                label="คณะ"
+                value={condition.facultyId}
+                onChange={(event) =>
+                  replace(index, {
+                    ...condition,
+                    facultyId: event.target.value,
+                  })
+                }
+              >
+                {catalogs.faculties.map((faculty) => (
+                  <option key={faculty.id} value={faculty.id}>
+                    {faculty.name}
+                  </option>
+                ))}
+              </BoDropdown>
+            )}
+            {condition.type === 'major' && (
+              <BoDropdown
+                label="สาขา"
+                value={condition.majorId}
+                onChange={(event) =>
+                  replace(index, { ...condition, majorId: event.target.value })
+                }
+              >
+                {catalogs.majors.map((major) => (
+                  <option key={major.id} value={major.id}>
+                    {major.name} ·{' '}
+                    {catalogs.faculties.find(
+                      (faculty) => faculty.id === major.facultyId,
+                    )?.name ?? major.facultyId}
+                  </option>
+                ))}
+              </BoDropdown>
+            )}
+            {condition.type === 'elective' && (
+              <BoDropdown
+                label="วิชาเสรี"
+                value={condition.electiveId}
+                onChange={(event) =>
+                  replace(index, {
+                    ...condition,
+                    electiveId: event.target.value,
+                  })
+                }
+              >
+                {catalogs.electives.map((elective) => (
+                  <option key={elective.id} value={elective.id}>
+                    {elective.name}
+                  </option>
+                ))}
+              </BoDropdown>
+            )}
           </div>
           <button
             type="button"
@@ -223,7 +290,9 @@ export function V2ConditionList({
       <button
         type="button"
         className="button button-secondary bo-add-at-end"
-        onClick={() => onChange([...value, makeCondition('year', eventIds)])}
+        onClick={() =>
+          onChange([...value, makeCondition('year', eventIds, catalogs)])
+        }
       >
         + เพิ่มเงื่อนไข
       </button>

@@ -12,6 +12,7 @@ export function V2EventEditor({
   event,
   assets,
   characters,
+  catalogs,
   eventIds,
   onChange,
   onDelete,
@@ -19,6 +20,7 @@ export function V2EventEditor({
   event: V2Event
   assets: V2Content['assets']
   characters: V2Content['characters']
+  catalogs: Pick<V2Content, 'faculties' | 'majors' | 'electives'>
   eventIds: string[]
   onChange: (next: V2Event) => void
   onDelete: () => void
@@ -235,12 +237,140 @@ export function V2EventEditor({
           </BoDropdown>
         </label>
       </div>
+      <div className="bo-nested bo-stack">
+        <label className="bo-field">
+          <span>วิธีเลือกคำตอบ</span>
+          <BoDropdown
+            value={event.selection?.type ?? 'single'}
+            onChange={(input) =>
+              update((next) => {
+                const type = input.target.value
+                if (type === 'single') {
+                  next.selection = undefined
+                } else if (type === 'program' || type === 'elective') {
+                  next.selection = { type }
+                } else if (type === 'multiple') {
+                  const linkedEventId = next.choices
+                    .flatMap((choice) => choice.effects)
+                    .find((effect) => effect.type === 'goToEvent')?.eventId
+                  next.selection = {
+                    type,
+                    min: 1,
+                    max: Math.min(2, next.choices.length),
+                    goToEventId:
+                      linkedEventId ??
+                      eventIds[eventIds.indexOf(next.id) + 1] ??
+                      '',
+                  }
+                }
+              })
+            }
+          >
+            <option value="single">เลือกหนึ่งข้อ</option>
+            <option value="multiple">เลือกหลายข้อ</option>
+            <option value="program">เลือกคณะและสาขา</option>
+            <option value="elective">เลือกวิชาเสรี</option>
+          </BoDropdown>
+        </label>
+        {event.selection?.type === 'multiple' && (
+          <>
+            <div className="bo-form-grid">
+              <label className="bo-field">
+                <span>เลือกอย่างน้อย</span>
+                <input
+                  className="field"
+                  type="number"
+                  min="1"
+                  max={event.choices.length}
+                  value={event.selection.min}
+                  aria-invalid={
+                    event.selection.min < 1 ||
+                    event.selection.min > event.selection.max
+                  }
+                  onChange={(input) =>
+                    update((next) => {
+                      if (next.selection?.type === 'multiple')
+                        next.selection.min = Number(input.target.value)
+                    })
+                  }
+                />
+              </label>
+              <label className="bo-field">
+                <span>เลือกได้สูงสุด</span>
+                <input
+                  className="field"
+                  type="number"
+                  min="1"
+                  max={event.choices.length}
+                  value={event.selection.max}
+                  aria-invalid={
+                    event.selection.max < event.selection.min ||
+                    event.selection.max > event.choices.length
+                  }
+                  onChange={(input) =>
+                    update((next) => {
+                      if (next.selection?.type === 'multiple')
+                        next.selection.max = Number(input.target.value)
+                    })
+                  }
+                />
+              </label>
+              <label className="bo-field">
+                <span>ไปเหตุการณ์หลังยืนยันคำตอบ</span>
+                <BoDropdown
+                  value={event.selection.goToEventId}
+                  onChange={(input) =>
+                    update((next) => {
+                      if (next.selection?.type === 'multiple')
+                        next.selection.goToEventId = input.target.value
+                    })
+                  }
+                >
+                  {eventIds.map((id) => (
+                    <option key={id} value={id}>
+                      {id}
+                    </option>
+                  ))}
+                </BoDropdown>
+                {!eventIds.includes(event.selection.goToEventId) && (
+                  <small className="bo-field-error">
+                    ไม่พบ Event ID ปลายทาง
+                  </small>
+                )}
+              </label>
+            </div>
+            {(event.selection.min > event.selection.max ||
+              event.selection.max > event.choices.length) && (
+              <p className="bo-field-error">
+                จำนวนที่เลือกต้องไม่เกิน {event.choices.length} ข้อ
+                และค่าต่ำสุดต้องไม่เกินค่าสูงสุด
+              </p>
+            )}
+            {event.choices.some((choice) =>
+              choice.effects.some((effect) => effect.type === 'goToEvent'),
+            ) && (
+              <p className="bo-field-error">
+                โหมดเลือกหลายข้อใช้ปลายทางของเหตุการณ์ด้านบน กรุณาลบผลลัพธ์
+                “ไปเหตุการณ์” ในตัวเลือก
+              </p>
+            )}
+          </>
+        )}
+        {(event.selection?.type === 'program' ||
+          event.selection?.type === 'elective') && (
+          <p className="muted text-sm">
+            Player แสดงรายการจากแท็บข้อมูล และใช้ผลลัพธ์ของ Choice
+            แรกเมื่อยืนยัน
+          </p>
+        )}
+      </div>
       <details className="bo-nested">
         <summary>เงื่อนไขแสดงเหตุการณ์ · {event.conditions.length}</summary>
         <div className="mt-3">
           <V2ConditionList
             value={event.conditions}
             eventIds={eventIds}
+            catalogs={catalogs}
             onChange={(conditions) =>
               update((next) => {
                 next.conditions = conditions
@@ -639,6 +769,7 @@ export function V2EventEditor({
                       <V2ConditionList
                         value={choice.conditions}
                         eventIds={eventIds}
+                        catalogs={catalogs}
                         onChange={(conditions) =>
                           update((next) => {
                             next.choices[index].conditions = conditions
@@ -652,6 +783,7 @@ export function V2EventEditor({
                     <V2EffectList
                       value={choice.effects}
                       eventIds={eventIds}
+                      allowGoToEvent={event.selection?.type !== 'multiple'}
                       onChange={(effects) =>
                         update((next) => {
                           next.choices[index].effects = effects

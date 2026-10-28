@@ -4,8 +4,14 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { saveBoContent, BoValidationError } from './bo-server'
 import { loadV2Content } from './src/content/v2/loader'
-import { chooseV2, chooseV2Program, createV2Game } from './src/engine/v2/game'
+import {
+  chooseV2,
+  chooseV2Many,
+  chooseV2Program,
+  createV2Game,
+} from './src/engine/v2/game'
 import type { V2Event } from './src/content/v2/schema'
+import { createV2PreviewSession } from './src/features/bo/preview'
 
 let root = ''
 
@@ -123,6 +129,58 @@ describe('V2 BO story writing', () => {
       saveBoContent(root, 'endings', JSON.parse(before)),
     ).rejects.toBeInstanceOf(BoValidationError)
     expect(await readFile(join(dir, 'endings.json'), 'utf8')).toBe(before)
+  })
+
+  it('saves a multi-select event with faculty and major conditions that plays in preview', async () => {
+    const dir = await fixture()
+    const events = JSON.parse(
+      await readFile(join(dir, 'events.json'), 'utf8'),
+    ) as V2Event[]
+    const authored: V2Event = {
+      ...events.find((event) => event.id === 'orientation')!,
+      id: 'faculty_group_project',
+      title: 'งานกลุ่มคณะมนุษยศาสตร์',
+      conditions: [
+        { type: 'faculty', facultyId: 'humanities' },
+        { type: 'major', majorId: 'thai_language' },
+      ],
+      selection: {
+        type: 'multiple',
+        min: 2,
+        max: 2,
+        goToEventId: 'first_class',
+      },
+      choices: [
+        {
+          id: 'read_notes',
+          text: 'อ่านสรุป',
+          conditions: [],
+          effects: [{ type: 'statDelta', stat: 'study', amount: 2 }],
+        },
+        {
+          id: 'help_group',
+          text: 'ช่วยเพื่อน',
+          conditions: [],
+          effects: [{ type: 'setFlag', flagId: 'helped_group', value: true }],
+        },
+      ],
+    }
+    await saveBoContent(root, 'events', [...events, authored])
+    const loaded = await loadV2Content(async (path) =>
+      JSON.parse(await readFile(join(root, 'public', path.slice(1)), 'utf8')),
+    )
+    const preview = createV2PreviewSession(loaded, authored.id)
+    expect(preview.save).toMatchObject({
+      facultyId: 'humanities',
+      majorId: 'thai_language',
+    })
+    const next = chooseV2Many(preview.content, preview.save, [
+      'help_group',
+      'read_notes',
+    ])
+    expect(next.currentEventId).toBe('first_class')
+    expect(next.stats.study).toBe(preview.save.stats.study + 2)
+    expect(next.flags.helped_group).toBe(true)
   })
 })
 

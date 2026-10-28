@@ -6,11 +6,13 @@ type Ending = V2Content['endings'][number]
 export function V2EndingEditor({
   ending,
   eventIds,
+  catalogs,
   onChange,
   onDelete,
 }: {
   ending: Ending
   eventIds: string[]
+  catalogs: Pick<V2Content, 'faculties' | 'majors' | 'electives'>
   onChange: (next: Ending) => void
   onDelete: () => void
 }) {
@@ -70,6 +72,7 @@ export function V2EndingEditor({
         <V2ConditionList
           value={ending.conditions}
           eventIds={eventIds}
+          catalogs={catalogs}
           onChange={(conditions) => onChange({ ...ending, conditions })}
         />
       </section>

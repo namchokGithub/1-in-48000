@@ -176,10 +176,12 @@ export function V2EffectList({
   value,
   onChange,
   eventIds,
+  allowGoToEvent = true,
 }: {
   value: Effect[]
   onChange: (next: Effect[]) => void
   eventIds: string[]
+  allowGoToEvent?: boolean
 }) {
   const [expanded, setExpanded] = useState<number | null>(0)
   const replace = (index: number, effect: Effect) =>
@@ -247,7 +249,9 @@ export function V2EffectList({
                 >
                   <option value="statDelta">เปลี่ยนค่าสถานะ</option>
                   <option value="setFlag">ตั้ง Flag</option>
-                  <option value="goToEvent">ไปเหตุการณ์</option>
+                  <option value="goToEvent" disabled={!allowGoToEvent}>
+                    ไปเหตุการณ์
+                  </option>
                   <option value="schedule">เกิดภายหลัง</option>
                   <option value="chance">สุ่มโอกาส</option>
                 </BoDropdown>

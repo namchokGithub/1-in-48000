@@ -12,7 +12,6 @@ Every item not `Done`. Update this section whenever an item's status changes.
 | --- | -------------------- | ------ | ---------- |
 | 20  | V3 rules + schema    | Done   | 19         |
 | 21  | V3 engine + save     | Done   | 20         |
-| 23  | BO story editor (V3) | Todo   | 21, 22     |
 | 24  | Player gameplay (V3) | Todo   | 21         |
 | 25  | Player UX/UI (V3)    | Todo   | 24         |
 | 26  | V3 test              | Todo   | 23, 25     |
@@ -408,7 +407,7 @@ Completed 2026-10-28. BO now edits faculties, majors and their 4/6-year length, 
 
 ## 23. BO story editor (V3)
 
-**Status:** Todo
+**Status:** Done
 
 - Author any number of choices per event.
 - Multi-select settings: `min`/`max` and the event-level `goToEvent`.
@@ -416,6 +415,8 @@ Completed 2026-10-28. BO now edits faculties, majors and their 4/6-year length, 
 - Remove drag and drop from the story editor's event list; keep the up/down buttons.
 
 **Done when:** a multi-select event with faculty/major conditions can be authored through BO and plays in the Player page.
+
+Completed 2026-10-28. The existing event editor now authors single, multi-select, program, and elective selection modes, including multi-select minimum/maximum choices and the event-level destination. Event, choice, and ending condition editors offer faculty, major, and elective references from the shared catalogs. Choice-level event links are unavailable in multi-select mode, while validation surfaces any old links that must be removed. The Event list remains button-based with up/down ordering; Timeline event dragging remains available as requested. A focused BO writer/preview test saves an authored multi-select event with faculty/major conditions and resolves it through the shared Player engine.
 
 ## 24. Player gameplay (V3)
 

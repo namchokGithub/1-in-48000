@@ -16,6 +16,8 @@ BO Save writes only after client and server validation. A failed save keeps the 
 
 BO and Player use `public/content-v2`. The story editor keeps line and choice order in the JSON arrays; drag and up/down actions produce the same order. Inactive events remain editable but are skipped by the V2 engine. A chance effect stores its percentage, display mode, and separate success/failure state effects. Preview uses the Player scene and shared V2 engine in a modal without writing a save.
 
+The Event list uses selection buttons and up/down ordering, with no event drag. Timeline cards retain drag and drop. The event form authors single, multi-select, program, and elective selection modes. Multi-select owns its minimum, maximum, and one destination Event ID; choice-level event links are disabled for that mode. Event, choice, and ending conditions select faculty, major, and elective IDs from the catalogs.
+
 Speakers write `characters.json`; scene images and BGM/SFX write `assets.json`. Deletion is confirmed and remains reversible in the draft. Broken references or missing files block Save. Story IDs use `snake_case`; the editor gives field-level feedback and can generate unique IDs.
 
 Faculties, majors, electives, and player names each write their matching JSON file. Portraits share `assets.json`; player names select a portrait Asset ID from that manifest. A 6-year major requires a faculty that supports 6-year programs. Elective effects use the shared state-effect editor. Save keeps the active tab and validates the whole content set against the files on disk.
