@@ -11,7 +11,7 @@ Every item not `Done`. Update this section whenever an item's status changes.
 | #   | Step                 | Status | Depends on |
 | --- | -------------------- | ------ | ---------- |
 | 20  | V3 rules + schema    | Done   | 19         |
-| 21  | V3 engine + save     | Todo   | 20         |
+| 21  | V3 engine + save     | Done   | 20         |
 | 22  | BO data tabs (V3)    | Todo   | 20         |
 | 23  | BO story editor (V3) | Todo   | 21, 22     |
 | 24  | Player gameplay (V3) | Todo   | 21         |
@@ -22,10 +22,9 @@ V3 order: rules and engine first (20–21), then BO (22–23), then Player (24�
 
 ## Open decisions
 
-| Topic                 | Proposal / known input                                                                                                                        | Status |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Years 5–8 content     | Reuse existing events, add new events, or a mix.                                                                                              | Open   |
-| Refresh vs. new visit | Restore the run from localStorage on every page load until it ends or the player starts over. Confirm whether a new visit should also resume. | Open   |
+| Topic             | Proposal / known input                           | Status |
+| ----------------- | ------------------------------------------------ | ------ |
+| Years 5–8 content | Reuse existing events, add new events, or a mix. | Open   |
 
 ## Future
 
@@ -382,7 +381,7 @@ Completed 2026-10-28. The existing schema and `public/content-v2` loader now rea
 
 ## 21. V3 engine + save
 
-**Status:** Todo
+**Status:** Done
 
 - Start every run at the fixed faculty/major event.
 - Resolve multi-select choices within `min`/`max`, combine their effects, then follow the event-level link.
@@ -394,6 +393,8 @@ Completed 2026-10-28. The existing schema and `public/content-v2` loader now rea
 - Update the save rule in `AGENTS.md` to match.
 
 **Done when:** focused tests cover the starting event, multi-select limits and effects, electives, 4- and 6-year programs with extensions, and refresh restore.
+
+Completed 2026-10-28. The existing engine now assigns a seeded random name, resolves faculty and major selection, validates and combines multiple selected choices in authored order, applies a Year 3 elective, evaluates faculty/major/elective conditions, and reviews study at the selected program's 4- or 6-year point before any extension to Year 8. Save v1 records name/program/elective IDs and all selected Choice IDs. The Player and BO preview use the same engine actions; the Player removes name editing and save download. Checkpoints resume only after a refresh in the same tab while new visits and completed runs start fresh. A Year 3 elective Event was added to the active content. Focused engine, store, content, and BO preview tests passed; Steps 22–25 still cover full BO authoring and Player presentation.
 
 ## 22. BO data tabs (V3)
 

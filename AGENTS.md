@@ -67,8 +67,8 @@ Hard rules:
 - UI components never access localStorage directly. They go through the save store/interface in `src/save/`.
 - Keep in-progress UI state (current dialogue line, open menus, animations) in client state, not in the save.
 - Persist the save only at meaningful checkpoints (after a choice resolves, at an event or term boundary, at an ending) — not per render or per keystroke.
-- Every save must include `saveVersion` and `contentVersion`. The Player writes checkpoints but does not load stored saves on a new page session.
-- Store the RNG seed or rolled results in the save so outcomes stay stable during the current session.
+- Every save must include `saveVersion` and `contentVersion`. The Player writes checkpoints and restores an unfinished run only on refresh in the same tab; new visits start fresh. No old-save migrations are required before release.
+- Store the RNG seed and current RNG state so refresh never changes random outcomes.
 - Reference images, music, and sounds only by Asset ID through the asset manifest. Never hard-code file paths in events or components.
 - BO runs locally only. It saves JSON directly to the content files (no Import/Export flow). It must not ship in the production build or be reachable from the public site.
 - BO validation must catch duplicate IDs, broken event links, and missing Asset IDs before content is published.

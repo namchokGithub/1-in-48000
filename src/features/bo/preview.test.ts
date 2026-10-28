@@ -9,7 +9,11 @@ import faculties from '../../../public/content-v2/faculties.json'
 import majors from '../../../public/content-v2/majors.json'
 import electives from '../../../public/content-v2/electives.json'
 import { v2ContentSchema } from '../../content/v2/schema'
-import { chooseV2 } from '../../engine/v2/game'
+import {
+  chooseV2,
+  chooseV2Elective,
+  chooseV2Program,
+} from '../../engine/v2/game'
 import { createV2PreviewSession } from './preview'
 
 const content = v2ContentSchema.parse({
@@ -51,5 +55,39 @@ describe('BO V2 preview session', () => {
     expect(() => createV2PreviewSession(draft, 'orientation')).toThrow(
       'เพิ่มบทสนทนา',
     )
+  })
+
+  it('uses the shared program and elective actions in an isolated preview', () => {
+    const opening = createV2PreviewSession(content, 'choose_program')
+    const selected = chooseV2Program(
+      opening.content,
+      opening.save,
+      'humanities',
+      'thai_language',
+    )
+    expect(selected.majorId).toBe('thai_language')
+    const elective = createV2PreviewSession(content, 'free_elective')
+    const studied = chooseV2Elective(
+      elective.content,
+      elective.save,
+      'creative_writing',
+    )
+    expect(studied.electiveId).toBe('creative_writing')
+    expect(studied.stats.study).toBe(elective.save.stats.study + 2)
+  })
+
+  it('prepares catalog conditions for a focused event preview', () => {
+    const draft = structuredClone(content)
+    draft.events[0].conditions = [
+      { type: 'faculty', facultyId: 'medicine' },
+      { type: 'major', majorId: 'medicine' },
+      { type: 'elective', electiveId: 'creative_writing' },
+    ]
+    const preview = createV2PreviewSession(draft, 'orientation')
+    expect(preview.save).toMatchObject({
+      facultyId: 'medicine',
+      majorId: 'medicine',
+      electiveId: 'creative_writing',
+    })
   })
 })

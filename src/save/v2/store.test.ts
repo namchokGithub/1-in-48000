@@ -6,50 +6,114 @@ import { createV2GameStore } from './store'
 
 const content = v2ContentSchema.parse({ ...sample, names })
 
-describe('V2 save checkpoints', () => {
-  it('writes on start and choice without loading storage on a new session', () => {
-    let raw: string | null = null
-    let reads = 0
-    const storage = {
-      get read() {
-        reads += 1
-        throw new Error('Stored saves must not be read')
-      },
+function checkpointStorage() {
+  let raw: string | null = null
+  let active = false
+  return {
+    storage: {
+      read: () => raw,
       write: (value: string) => {
         raw = value
       },
-    }
-    const first = createV2GameStore(content, storage)
-    const started = first.getState().startGame('ฟ้า', 2049)
-    expect(JSON.parse(raw ?? '').history).toEqual([])
-    first.getState().choose('confirm_program')
+    },
+    session: {
+      read: () => active,
+      write: (value: boolean) => {
+        active = value
+      },
+    },
+    raw: () => raw,
+  }
+}
+
+describe('V2 checkpoint store', () => {
+  it('restores a valid run after refresh in the same tab', () => {
+    const { storage, session, raw } = checkpointStorage()
+    const first = createV2GameStore(content, storage, session)
+    const started = first.getState().startGame(2049)
+    expect(started.playerName).toBe(
+      names.find((name) => name.id === started.nameId)?.name,
+    )
+    first.getState().chooseProgram('humanities', 'thai_language')
     const chosen = first.getState().choose('apply_kyos')
     expect(chosen.stats.debt).toBe(3000)
-    expect(chosen.history[1].time).toEqual({ year: 1, period: 'term1' })
-    expect(JSON.parse(raw ?? '').history).toHaveLength(2)
-    const fresh = createV2GameStore(content, storage)
-    expect(fresh.getState().save).toBeNull()
-    expect(fresh.getState().exportSave()).toBeNull()
-    expect(reads).toBe(0)
-    expect(started.rngState).toBe(2049)
+    expect(JSON.parse(raw() ?? '').history).toHaveLength(2)
+    const refreshed = createV2GameStore(content, storage, session)
+    expect(refreshed.getState().restoreGame()).toEqual(chosen)
+    expect(refreshed.getState().save?.rngState).toBe(chosen.rngState)
   })
 
-  it('exports only the current session and replaces the checkpoint on restart', () => {
-    let raw: string | null = null
-    const storage = {
-      write: (value: string) => {
-        raw = value
-      },
-    }
-    const store = createV2GameStore(content, storage)
-    expect(store.getState().exportSave()).toBeNull()
-    store.getState().startGame('ฟ้า', 77)
-    const first = raw
-    expect(JSON.parse(store.getState().exportSave() ?? '').playerName).toBe(
-      'ฟ้า',
+  it('starts fresh in a new tab and ignores invalid or old content saves', () => {
+    const { storage, session } = checkpointStorage()
+    const first = createV2GameStore(content, storage, session)
+    first.getState().startGame(77)
+    const newTab = createV2GameStore(content, storage, {
+      read: () => false,
+      write: () => undefined,
+    })
+    expect(newTab.getState().restoreGame()).toBeNull()
+    expect(newTab.getState().save).toBeNull()
+    storage.write('{broken')
+    expect(
+      createV2GameStore(content, storage, session).getState().restoreGame(),
+    ).toBeNull()
+    expect(session.read()).toBe(false)
+    session.write(true)
+    storage.write(
+      JSON.stringify({ ...first.getState().save, contentVersion: 'old' }),
     )
-    store.getState().restartGame('มายด์', 99)
-    expect(raw).not.toBe(first)
-    expect(JSON.parse(raw ?? '').playerName).toBe('มายด์')
+    expect(
+      createV2GameStore(content, storage, session).getState().restoreGame(),
+    ).toBeNull()
+    expect(session.read()).toBe(false)
+  })
+
+  it('rejects a checkpoint pointing to a removed event', () => {
+    const { storage, session } = checkpointStorage()
+    const first = createV2GameStore(content, storage, session)
+    const save = first.getState().startGame(9)
+    storage.write(JSON.stringify({ ...save, currentEventId: 'missing_event' }))
+    expect(
+      createV2GameStore(content, storage, session).getState().restoreGame(),
+    ).toBeNull()
+    expect(session.read()).toBe(false)
+  })
+
+  it('does not resume a run after its ending', () => {
+    const opening = sample.events.find(
+      (event) => event.id === 'choose_program',
+    )!
+    const endingContent = v2ContentSchema.parse({
+      ...sample,
+      names,
+      config: {
+        ...sample.config,
+        initialStats: { ...sample.config.initialStats, study: 70, stress: 0 },
+      },
+      events: [
+        {
+          ...opening,
+          choices: [
+            {
+              id: 'confirm_program',
+              text: 'ยืนยัน',
+              conditions: [],
+              effects: [],
+            },
+          ],
+        },
+      ],
+    })
+    const { storage, session } = checkpointStorage()
+    const store = createV2GameStore(endingContent, storage, session)
+    store.getState().startGame(1)
+    const ended = store.getState().chooseProgram('humanities', 'thai_language')
+    expect(ended.endingId).toBe('study_complete')
+    expect(session.read()).toBe(false)
+    expect(
+      createV2GameStore(endingContent, storage, session)
+        .getState()
+        .restoreGame(),
+    ).toBeNull()
   })
 })

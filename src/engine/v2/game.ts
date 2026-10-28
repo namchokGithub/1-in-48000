@@ -16,7 +16,16 @@ type V2Condition = z.infer<typeof v2ConditionSchema>
 type V2StateEffect = z.infer<typeof v2StateEffectSchema>
 type V2Choice = V2Event['choices'][number]
 
-export type V2GameContent = Pick<V2Content, 'config' | 'events' | 'endings'>
+export type V2GameContent = Pick<
+  V2Content,
+  | 'config'
+  | 'events'
+  | 'endings'
+  | 'names'
+  | 'faculties'
+  | 'majors'
+  | 'electives'
+>
 
 export function pickV2StartOption<T>(options: readonly T[], roll: number): T {
   if (!options.length) throw new Error('No starting options')
@@ -79,21 +88,20 @@ function matches(conditions: V2Condition[], save: V2PlayerSave): boolean {
           condition.visited
         )
       case 'faculty':
+        return save.facultyId === condition.facultyId
       case 'major':
+        return save.majorId === condition.majorId
       case 'elective':
-        return false
+        return save.electiveId === condition.electiveId
     }
   })
 }
 
 export function createV2Game(
   content: V2GameContent,
-  playerName: string,
   rngSeed: number,
   backgroundId = content.config.backgrounds[0].id,
 ): V2PlayerSave {
-  const name = playerName.trim()
-  if (!name) throw new Error('Player name is required')
   if (!Number.isInteger(rngSeed) || rngSeed < 0 || rngSeed > 4_294_967_295) {
     throw new Error('RNG seed must be a uint32 integer')
   }
@@ -114,11 +122,17 @@ export function createV2Game(
       content.config.initialStats[stat] + background.statDeltas[stat],
     )
   }
+  const nameRoll = rollIndex(rngSeed, content.names.length)
+  const name = content.names[nameRoll.index]
   const save = v2PlayerSaveSchema.parse({
     saveVersion: 1,
     contentVersion: content.config.contentVersion,
-    playerName: name,
+    nameId: name.id,
+    playerName: name.name,
     backgroundId,
+    facultyId: null,
+    majorId: null,
+    electiveId: null,
     currentTime: { ...content.config.startingTime },
     currentEventId: start.id,
     endingId: null,
@@ -127,7 +141,7 @@ export function createV2Game(
     history: [],
     pendingEffects: [],
     rngSeed,
-    rngState: rngSeed,
+    rngState: nameRoll.nextState,
   })
   if (!matches(start.conditions, save)) {
     throw new Error('Starting event conditions do not hold')
@@ -204,14 +218,17 @@ function resolveEnding(
 }
 
 function reviewStudy(content: V2GameContent, save: V2PlayerSave): boolean {
+  const programYears =
+    content.majors.find((major) => major.id === save.majorId)?.programYears ?? 4
   if (
     save.currentTime.period !== 'summer' ||
-    (save.currentTime.year !== 4 &&
+    (save.currentTime.year !== programYears &&
       save.currentTime.year !== 6 &&
       save.currentTime.year !== 8)
   ) {
     return false
   }
+  if (save.currentTime.year === 4 && programYears === 6) return false
   const score = save.stats.study - Math.max(save.stats.stress, 0) / 10
   if (score >= 60) {
     resolveEnding(content, save)
@@ -303,10 +320,11 @@ function selectNext(content: V2GameContent, save: V2PlayerSave): void {
   }
 }
 
-export function chooseV2(
+function resolveChoices(
   content: V2GameContent,
   previous: V2PlayerSave,
-  choiceId: string,
+  choices: V2Choice[],
+  eventLink?: string,
 ): V2PlayerSave {
   if (previous.contentVersion !== content.config.contentVersion) {
     throw new Error('Content version mismatch')
@@ -314,13 +332,10 @@ export function chooseV2(
   if (previous.endingId || !previous.currentEventId)
     throw new Error('The game has ended')
   const event = findEvent(content, previous.currentEventId)
-  const choice = getV2AvailableChoices(event, previous).find(
-    (item) => item.id === choiceId,
-  )
-  if (!choice) throw new Error(`Unavailable choice: ${choiceId}`)
+  if (!choices.length) throw new Error('No choices selected')
   const entry: V2PlayerSave['history'][number] = {
     eventId: event.id,
-    choiceId,
+    choiceIds: choices.map((choice) => choice.id),
     time: { ...previous.currentTime },
     chanceOutcomes: [],
   }
@@ -332,48 +347,50 @@ export function chooseV2(
     history: [...previous.history, entry],
     pendingEffects: [...previous.pendingEffects],
   }
-  let nextEventId: string | null = null
-  choice.effects.forEach((effect, effectIndex) => {
-    if (effect.type === 'schedule') {
-      const trigger = effect.trigger
-      if (
-        trigger.type === 'atPeriod' &&
-        compareTime(trigger.time, save.currentTime) <= 0
-      ) {
-        throw new Error('Scheduled period must be in the future')
+  let nextEventId: string | null = eventLink ?? null
+  choices
+    .flatMap((choice) => choice.effects)
+    .forEach((effect, effectIndex) => {
+      if (effect.type === 'schedule') {
+        const trigger = effect.trigger
+        if (
+          trigger.type === 'atPeriod' &&
+          compareTime(trigger.time, save.currentTime) <= 0
+        ) {
+          throw new Error('Scheduled period must be in the future')
+        }
+        if (
+          trigger.type === 'afterEvent' &&
+          trigger.eventId !== event.id &&
+          save.history.some((item) => item.eventId === trigger.eventId)
+        ) {
+          throw new Error('Scheduled event was already visited')
+        }
+        save.pendingEffects.push({
+          sourceEventId: event.id,
+          trigger,
+          effect: effect.effect,
+        })
+      } else if (effect.type === 'goToEvent') {
+        nextEventId = effect.eventId
+      } else if (effect.type === 'chance') {
+        const effectivePercent = getV2EffectiveChancePercent(
+          effect.successPercent,
+          save.stats.lucky,
+        )
+        const roll = rollIndex(save.rngState, 4_294_967_296)
+        save.rngState = roll.nextState
+        const succeeded = roll.index < (effectivePercent / 100) * 4_294_967_296
+        entry.chanceOutcomes.push({ effectIndex, succeeded, effectivePercent })
+        for (const result of succeeded
+          ? effect.successEffects
+          : effect.failureEffects) {
+          applyStateEffect(save, result)
+        }
+      } else {
+        applyStateEffect(save, effect)
       }
-      if (
-        trigger.type === 'afterEvent' &&
-        trigger.eventId !== event.id &&
-        save.history.some((item) => item.eventId === trigger.eventId)
-      ) {
-        throw new Error('Scheduled event was already visited')
-      }
-      save.pendingEffects.push({
-        sourceEventId: event.id,
-        trigger,
-        effect: effect.effect,
-      })
-    } else if (effect.type === 'goToEvent') {
-      nextEventId = effect.eventId
-    } else if (effect.type === 'chance') {
-      const effectivePercent = getV2EffectiveChancePercent(
-        effect.successPercent,
-        save.stats.lucky,
-      )
-      const roll = rollIndex(save.rngState, 4_294_967_296)
-      save.rngState = roll.nextState
-      const succeeded = roll.index < (effectivePercent / 100) * 4_294_967_296
-      entry.chanceOutcomes.push({ effectIndex, succeeded, effectivePercent })
-      for (const result of succeeded
-        ? effect.successEffects
-        : effect.failureEffects) {
-        applyStateEffect(save, result)
-      }
-    } else {
-      applyStateEffect(save, effect)
-    }
-  })
+    })
   applyPending(
     save,
     (pending) =>
@@ -396,6 +413,100 @@ export function chooseV2(
   return save
 }
 
+export function chooseV2(
+  content: V2GameContent,
+  previous: V2PlayerSave,
+  choiceId: string,
+): V2PlayerSave {
+  const event = findEvent(content, previous.currentEventId ?? '')
+  if (event.selection)
+    throw new Error('This event requires its selection action')
+  const choice = getV2AvailableChoices(event, previous).find(
+    (item) => item.id === choiceId,
+  )
+  if (!choice) throw new Error(`Unavailable choice: ${choiceId}`)
+  return resolveChoices(content, previous, [choice])
+}
+
+export function chooseV2Many(
+  content: V2GameContent,
+  previous: V2PlayerSave,
+  choiceIds: string[],
+): V2PlayerSave {
+  const event = findEvent(content, previous.currentEventId ?? '')
+  const selection = event.selection
+  if (selection?.type !== 'multiple')
+    throw new Error('Not a multi-select event')
+  const ids = new Set(choiceIds)
+  if (
+    ids.size !== choiceIds.length ||
+    ids.size < selection.min ||
+    ids.size > selection.max
+  ) {
+    throw new Error('Selection count is outside the allowed range')
+  }
+  const available = getV2AvailableChoices(event, previous)
+  const choices = available.filter((choice) => ids.has(choice.id))
+  if (choices.length !== ids.size)
+    throw new Error('Unavailable choice selected')
+  return resolveChoices(content, previous, choices, selection.goToEventId)
+}
+
+export function chooseV2Program(
+  content: V2GameContent,
+  previous: V2PlayerSave,
+  facultyId: string,
+  majorId: string,
+): V2PlayerSave {
+  const event = findEvent(content, previous.currentEventId ?? '')
+  if (event.selection?.type !== 'program')
+    throw new Error('Not a program event')
+  const faculty = content.faculties.find((item) => item.id === facultyId)
+  const major = content.majors.find((item) => item.id === majorId)
+  if (
+    !faculty ||
+    !major ||
+    major.facultyId !== faculty.id ||
+    (major.programYears === 6 && !faculty.supportsSixYear)
+  ) {
+    throw new Error('Invalid faculty and major selection')
+  }
+  const choice = getV2AvailableChoices(event, previous)[0]
+  if (!choice) throw new Error('No program confirmation choice')
+  const next = resolveChoices(content, { ...previous, facultyId, majorId }, [
+    choice,
+  ])
+  const entry = next.history.at(-1)!
+  entry.facultyId = facultyId
+  entry.majorId = majorId
+  return next
+}
+
+export function chooseV2Elective(
+  content: V2GameContent,
+  previous: V2PlayerSave,
+  electiveId: string,
+): V2PlayerSave {
+  const event = findEvent(content, previous.currentEventId ?? '')
+  if (event.selection?.type !== 'elective' || event.time.year !== 3) {
+    throw new Error('Not a Year 3 elective event')
+  }
+  const elective = content.electives.find((item) => item.id === electiveId)
+  if (!elective) throw new Error(`Unknown elective: ${electiveId}`)
+  const choice = getV2AvailableChoices(event, previous)[0]
+  if (!choice) throw new Error('No elective confirmation choice')
+  const prepared: V2PlayerSave = {
+    ...previous,
+    electiveId,
+    stats: { ...previous.stats },
+    flags: { ...previous.flags },
+  }
+  for (const effect of elective.effects) applyStateEffect(prepared, effect)
+  const next = resolveChoices(content, prepared, [choice])
+  next.history.at(-1)!.electiveId = electiveId
+  return next
+}
+
 export type V2LifeSummary = {
   playerName: string
   title: string
@@ -407,7 +518,7 @@ export type V2LifeSummary = {
     time: V2Time | null
     eventId: string
     eventTitle: string
-    choiceId: string
+    choiceIds: string[]
     choiceText: string
     chanceOutcomes: V2PlayerSave['history'][number]['chanceOutcomes']
   }>
@@ -429,13 +540,26 @@ export function summarizeV2Life(
     choicesMade: save.history.length,
     timeline: save.history.map((entry) => {
       const event = content.events.find((item) => item.id === entry.eventId)
-      const choice = event?.choices.find((item) => item.id === entry.choiceId)
+      const choices = entry.choiceIds.map(
+        (id) => event?.choices.find((item) => item.id === id)?.text ?? id,
+      )
+      const faculty = content.faculties.find(
+        (item) => item.id === entry.facultyId,
+      )
+      const major = content.majors.find((item) => item.id === entry.majorId)
+      const elective = content.electives.find(
+        (item) => item.id === entry.electiveId,
+      )
+      const choiceText =
+        faculty && major
+          ? `${faculty.name} · ${major.name}`
+          : (elective?.name ?? choices.join(', '))
       return {
         time: entry.time ? { ...entry.time } : null,
         eventId: entry.eventId,
         eventTitle: event?.title ?? entry.eventId,
-        choiceId: entry.choiceId,
-        choiceText: choice?.text ?? entry.choiceId,
+        choiceIds: [...entry.choiceIds],
+        choiceText,
         chanceOutcomes: entry.chanceOutcomes.map((outcome) => ({ ...outcome })),
       }
     }),

@@ -2118,5 +2118,24 @@
         "effects": [{ "type": "goToEvent", "eventId": "orientation" }]
       }
     ]
+  },
+  {
+    "id": "free_elective",
+    "kind": "main",
+    "time": { "year": 3, "period": "term1" },
+    "title": "เลือกวิชาเสรี",
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
+    "selection": { "type": "elective" },
+    "conditions": [],
+    "lines": [{ "text": "ปีสามมาถึงแล้ว ถึงเวลาเลือกวิชาเสรีที่จะเรียน" }],
+    "choices": [
+      {
+        "id": "choose_elective",
+        "text": "เลือกวิชาเสรี",
+        "conditions": [],
+        "effects": []
+      }
+    ]
   }
 ]

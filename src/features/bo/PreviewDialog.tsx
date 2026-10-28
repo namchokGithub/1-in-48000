@@ -1,6 +1,12 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import type { V2Content } from '../../content/v2/schema'
-import { chooseV2, summarizeV2Life } from '../../engine/v2/game'
+import {
+  chooseV2,
+  chooseV2Elective,
+  chooseV2Many,
+  chooseV2Program,
+  summarizeV2Life,
+} from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { EndingView } from '../player/EndingView'
 import { SceneView } from '../player/SceneView'
@@ -51,13 +57,13 @@ export function PreviewDialog({
     }
   }, [])
 
-  function choose(choiceId: string) {
+  function resolve(action: (current: Session) => V2PlayerSave) {
     setSession((current) => {
       if (!current.save) return current
       try {
         return {
           ...current,
-          save: chooseV2(current.content, current.save, choiceId),
+          save: action(current),
           error: null,
         }
       } catch (cause) {
@@ -68,6 +74,20 @@ export function PreviewDialog({
       }
     })
   }
+  const choose = (choiceId: string) =>
+    resolve((current) => chooseV2(current.content, current.save!, choiceId))
+  const chooseMany = (choiceIds: string[]) =>
+    resolve((current) =>
+      chooseV2Many(current.content, current.save!, choiceIds),
+    )
+  const chooseProgram = (facultyId: string, majorId: string) =>
+    resolve((current) =>
+      chooseV2Program(current.content, current.save!, facultyId, majorId),
+    )
+  const chooseElective = (electiveId: string) =>
+    resolve((current) =>
+      chooseV2Elective(current.content, current.save!, electiveId),
+    )
 
   const event = session.content.events.find(
     (item) => item.id === session.save?.currentEventId,
@@ -130,8 +150,14 @@ export function PreviewDialog({
             save={session.save}
             assets={session.content.assets}
             characters={session.content.characters}
+            faculties={session.content.faculties}
+            majors={session.content.majors}
+            electives={session.content.electives}
             error={session.error}
             onChoose={choose}
+            onChooseMany={chooseMany}
+            onChooseProgram={chooseProgram}
+            onChooseElective={chooseElective}
             onHome={onClose}
             homeLabel="ปิด Preview"
           />

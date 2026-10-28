@@ -15,8 +15,12 @@ const savedTriggerSchema = z.discriminatedUnion('type', [
 export const v2PlayerSaveSchema = z.object({
   saveVersion: z.literal(1),
   contentVersion: z.string().trim().min(1),
+  nameId: idSchema,
   playerName: z.string().trim().min(1),
   backgroundId: idSchema.nullable(),
+  facultyId: idSchema.nullable(),
+  majorId: idSchema.nullable(),
+  electiveId: idSchema.nullable(),
   currentTime: v2TimeSchema,
   currentEventId: idSchema.nullable(),
   endingId: idSchema.nullable(),
@@ -25,7 +29,10 @@ export const v2PlayerSaveSchema = z.object({
   history: z.array(
     z.object({
       eventId: idSchema,
-      choiceId: idSchema,
+      choiceIds: z.array(idSchema).min(1),
+      facultyId: idSchema.optional(),
+      majorId: idSchema.optional(),
+      electiveId: idSchema.optional(),
       time: v2TimeSchema.nullable(),
       chanceOutcomes: z.array(
         z.object({

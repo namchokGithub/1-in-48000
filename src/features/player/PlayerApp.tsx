@@ -4,7 +4,10 @@ import { loadV2Content } from '../../content/v2/loader'
 import type { V2Content } from '../../content/v2/schema'
 import { getV2CurrentEvent, summarizeV2Life } from '../../engine/v2/game'
 import { createV2GameStore } from '../../save/v2/store'
-import { createLocalStorageAdapter } from '../../save/storage'
+import {
+  createLocalStorageAdapter,
+  createSessionStorageAdapter,
+} from '../../save/storage'
 import { createV2AudioSettingsStore } from '../../save/v2/audioSettings'
 import { createPlayerThemeStore } from '../../save/v2/themeSettings'
 import type { V2PlayerSave } from '../../save/v2/schema'
@@ -33,24 +36,6 @@ function summaryOrNull(content: V2Content, save: V2PlayerSave) {
   }
 }
 
-function downloadSave(text: string) {
-  let extension = 'json'
-  try {
-    JSON.parse(text)
-  } catch {
-    extension = 'txt'
-  }
-  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = `1-in-48000-save.${extension}`
-  document.body.append(anchor)
-  anchor.click()
-  anchor.remove()
-  URL.revokeObjectURL(url)
-}
-
 function PlayerShell({
   content,
   themeSettings,
@@ -58,15 +43,25 @@ function PlayerShell({
   content: V2Content
   themeSettings: ReturnType<typeof createPlayerThemeStore>
 }) {
-  const [store] = useState(() =>
-    createV2GameStore(content, createLocalStorageAdapter()),
-  )
+  const [store] = useState(() => {
+    const created = createV2GameStore(
+      content,
+      createLocalStorageAdapter(),
+      createSessionStorageAdapter(),
+    )
+    const navigation = performance.getEntriesByType('navigation')[0] as
+      PerformanceNavigationTiming | undefined
+    if (navigation?.type === 'reload') created.getState().restoreGame()
+    return created
+  })
   const [audio] = useState(createAudioController)
   const [audioSettings] = useState(createV2AudioSettingsStore)
   const musicSettings = useStore(audioSettings, (state) => state.settings)
   const theme = useStore(themeSettings, (state) => state.theme)
   const save = useStore(store, (state) => state.save)
-  const [view, setView] = useState<View>('home')
+  const [view, setView] = useState<View>(() =>
+    store.getState().save ? 'play' : 'home',
+  )
   const [actionError, setActionError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -97,21 +92,21 @@ function PlayerShell({
     setView('home')
   }
 
-  function start(name: string, backgroundId: string) {
+  function start(backgroundId: string) {
     const seed = crypto.getRandomValues(new Uint32Array(1))[0]
     const action = save
       ? store.getState().restartGame
       : store.getState().startGame
-    action(name, seed, backgroundId)
+    action(seed, backgroundId)
     const started = store.getState().save
     if (started) syncMusic(started)
     setActionError(null)
     setView('play')
   }
 
-  function choose(choiceId: string) {
+  function resolve(action: () => V2PlayerSave) {
     try {
-      const next = store.getState().choose(choiceId)
+      const next = action()
       syncMusic(next.endingId ? null : next)
       setActionError(null)
       setView(next.endingId ? 'ending' : 'play')
@@ -120,22 +115,20 @@ function PlayerShell({
     }
   }
 
-  function exportBackup() {
-    try {
-      syncMusic(view === 'play' ? save : null)
-      const raw = store.getState().exportSave()
-      if (raw) downloadSave(raw)
-    } catch {
-      setActionError('ดาวน์โหลดเซฟไม่ได้ โปรดลองอีกครั้ง')
-    }
-  }
+  const choose = (choiceId: string) =>
+    resolve(() => store.getState().choose(choiceId))
+  const chooseMany = (choiceIds: string[]) =>
+    resolve(() => store.getState().chooseMany(choiceIds))
+  const chooseProgram = (facultyId: string, majorId: string) =>
+    resolve(() => store.getState().chooseProgram(facultyId, majorId))
+  const chooseElective = (electiveId: string) =>
+    resolve(() => store.getState().chooseElective(electiveId))
 
   let body
   if (view === 'create') {
     body = (
       <CharacterForm
         backgrounds={content.config.backgrounds}
-        names={content.names}
         onStart={start}
         onCancel={() => setView('home')}
       />
@@ -149,8 +142,14 @@ function PlayerShell({
         save={save}
         assets={content.assets}
         characters={content.characters}
+        faculties={content.faculties}
+        majors={content.majors}
+        electives={content.electives}
         error={actionError}
         onChoose={choose}
+        onChooseMany={chooseMany}
+        onChooseProgram={chooseProgram}
+        onChooseElective={chooseElective}
         onHome={goHome}
       />
     ) : null
@@ -164,7 +163,6 @@ function PlayerShell({
           syncMusic(null)
           setView('create')
         }}
-        onExport={exportBackup}
       />
     ) : null
   }
@@ -201,18 +199,6 @@ function PlayerShell({
               </p>
             )}
             <div className="mt-8 flex flex-wrap justify-end gap-3">
-              {save && (
-                <button
-                  type="button"
-                  className="button button-primary"
-                  onClick={() => {
-                    syncMusic(save.endingId ? null : save)
-                    setView(save.endingId ? 'ending' : 'play')
-                  }}
-                >
-                  เล่นต่อ
-                </button>
-              )}
               <button
                 type="button"
                 className={
@@ -225,15 +211,6 @@ function PlayerShell({
               >
                 {save ? 'เริ่มชีวิตใหม่' : 'เริ่มเกม'}
               </button>
-              {save && (
-                <button
-                  type="button"
-                  className="button button-secondary"
-                  onClick={exportBackup}
-                >
-                  ดาวน์โหลดเซฟ
-                </button>
-              )}
             </div>
           </div>
           <div className="player-home-art relative flex min-h-64 items-end overflow-hidden p-7 sm:p-10">

@@ -11,6 +11,8 @@ import electives from '../../../public/content-v2/electives.json'
 import { loadV2Content } from './loader'
 import {
   chooseV2,
+  chooseV2Elective,
+  chooseV2Program,
   createV2Game,
   getV2AvailableChoices,
   getV2CurrentEvent,
@@ -32,7 +34,7 @@ describe('live V2 content', () => {
     const content = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
     )
-    expect(content.events).toHaveLength(36)
+    expect(content.events).toHaveLength(37)
     expect(content.config.contentVersion).toBe('0.1.0')
     expect(content.endings.some((ending) => ending.id === 'dismissal')).toBe(
       true,
@@ -54,7 +56,7 @@ describe('live V2 content', () => {
     const content = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
     )
-    let save = createV2Game(content, 'ฟ้า', 42)
+    let save = createV2Game(content, 42)
     for (let step = 0; step < 100 && !save.endingId; step += 1) {
       const event = getV2CurrentEvent(content, save)
       expect(event).not.toBeNull()
@@ -69,7 +71,17 @@ describe('live V2 content', () => {
         }),
       )
       if (!choice) throw new Error(`No playable choice in ${event!.id}`)
-      save = chooseV2(content, save, choice.id)
+      save =
+        event!.selection?.type === 'program'
+          ? chooseV2Program(
+              content,
+              save,
+              content.faculties[0].id,
+              content.majors[0].id,
+            )
+          : event!.selection?.type === 'elective'
+            ? chooseV2Elective(content, save, content.electives[0].id)
+            : chooseV2(content, save, choice.id)
     }
     expect(save.endingId).not.toBeNull()
   })

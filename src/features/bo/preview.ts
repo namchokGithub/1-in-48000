@@ -9,9 +9,24 @@ export function createV2PreviewSave(
   const event = content.events.find((entry) => entry.id === eventId)
   if (!event || event.active === false)
     throw new Error(`Unavailable event: ${eventId}`)
-  const save = createV2Game(content, 'ตัวอย่าง', 1)
+  const save = createV2Game(content, 1)
+  const majorId =
+    event.conditions.find((condition) => condition.type === 'major')?.majorId ??
+    null
+  const major = content.majors.find((item) => item.id === majorId)
+  const facultyId =
+    event.conditions.find((condition) => condition.type === 'faculty')
+      ?.facultyId ??
+    major?.facultyId ??
+    null
+  const electiveId =
+    event.conditions.find((condition) => condition.type === 'elective')
+      ?.electiveId ?? null
   return {
     ...save,
+    facultyId,
+    majorId,
+    electiveId,
     currentTime: { ...event.time },
     currentEventId: event.id,
     flags: Object.fromEntries(

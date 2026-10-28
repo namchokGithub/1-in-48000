@@ -6,7 +6,6 @@ type Props = {
   summary: V2LifeSummary
   onHome: () => void
   onRestart: () => void
-  onExport?: () => void
   homeLabel?: string
 }
 
@@ -14,7 +13,6 @@ export function EndingView({
   summary,
   onHome,
   onRestart,
-  onExport,
   homeLabel = 'หน้าแรก',
 }: Props) {
   return (
@@ -77,15 +75,6 @@ export function EndingView({
           >
             เริ่มชีวิตใหม่
           </button>
-          {onExport && (
-            <button
-              type="button"
-              className="button button-secondary"
-              onClick={onExport}
-            >
-              ดาวน์โหลดเซฟ
-            </button>
-          )}
           <button
             type="button"
             className="button button-secondary"

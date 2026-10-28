@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { saveBoContent, BoValidationError } from './bo-server'
 import { loadV2Content } from './src/content/v2/loader'
-import { chooseV2, createV2Game } from './src/engine/v2/game'
+import { chooseV2, chooseV2Program, createV2Game } from './src/engine/v2/game'
 import type { V2Event } from './src/content/v2/schema'
 
 let root = ''
@@ -64,8 +64,8 @@ describe('V2 BO story writing', () => {
     const loaded = await loadV2Content(async (path) =>
       JSON.parse(await readFile(join(root, 'public', path.slice(1)), 'utf8')),
     )
-    const save = createV2Game(loaded, 'ฟ้า', 123)
-    const started = chooseV2(loaded, save, 'confirm_program')
+    const save = createV2Game(loaded, 123)
+    const started = chooseV2Program(loaded, save, 'humanities', 'thai_language')
     const next = chooseV2(loaded, started, events[0].choices[0].id)
     expect(next.stats.lucky).toBe(save.stats.lucky + 4)
     expect(next.history[1].chanceOutcomes[0].succeeded).toBe(true)

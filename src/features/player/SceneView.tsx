@@ -12,8 +12,14 @@ type Props = {
   save: V2PlayerSave
   assets: V2Content['assets']
   characters: V2Content['characters']
+  faculties: V2Content['faculties']
+  majors: V2Content['majors']
+  electives: V2Content['electives']
   error: string | null
   onChoose: (choiceId: string) => void
+  onChooseMany: (choiceIds: string[]) => void
+  onChooseProgram: (facultyId: string, majorId: string) => void
+  onChooseElective: (electiveId: string) => void
   onHome: () => void
   homeLabel?: string
 }
@@ -23,12 +29,28 @@ export function SceneView({
   save,
   assets,
   characters,
+  faculties,
+  majors,
+  electives,
   error,
   onChoose,
+  onChooseMany,
+  onChooseProgram,
+  onChooseElective,
   onHome,
   homeLabel = 'หน้าแรก',
 }: Props) {
   const [lineIndex, setLineIndex] = useState(0)
+  const availableFaculties = faculties.filter((faculty) =>
+    majors.some((major) => major.facultyId === faculty.id),
+  )
+  const [facultyId, setFacultyId] = useState(availableFaculties[0]?.id ?? '')
+  const [majorId, setMajorId] = useState(
+    majors.find((major) => major.facultyId === availableFaculties[0]?.id)?.id ??
+      '',
+  )
+  const [electiveId, setElectiveId] = useState(electives[0]?.id ?? '')
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
   const line = event.lines[lineIndex]
   const speaker = characters.find(
     (character) => character.id === line.speakerId,
@@ -41,6 +63,9 @@ export function SceneView({
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )
   const choices = getV2AvailableChoices(event, save)
+  const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
+  const maxSelections =
+    event.selection?.type === 'multiple' ? event.selection.max : 0
   const lastLine = lineIndex === event.lines.length - 1
 
   return (
@@ -99,6 +124,118 @@ export function SceneView({
             >
               อ่านต่อ
             </button>
+          ) : event.selection?.type === 'program' ? (
+            <div className="grid w-full gap-3">
+              <label className="grid gap-1">
+                <span>คณะ</span>
+                <select
+                  className="field"
+                  value={facultyId}
+                  onChange={(change) => {
+                    const nextId = change.target.value
+                    setFacultyId(nextId)
+                    setMajorId(
+                      majors.find((major) => major.facultyId === nextId)?.id ??
+                        '',
+                    )
+                  }}
+                >
+                  {availableFaculties.map((faculty) => (
+                    <option key={faculty.id} value={faculty.id}>
+                      {faculty.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="grid gap-1">
+                <span>สาขา</span>
+                <select
+                  className="field"
+                  value={majorId}
+                  onChange={(change) => setMajorId(change.target.value)}
+                >
+                  {matchingMajors.map((major) => (
+                    <option key={major.id} value={major.id}>
+                      {major.name} · {major.programYears} ปี
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                type="button"
+                className="button button-primary"
+                disabled={!facultyId || !majorId}
+                onClick={() => onChooseProgram(facultyId, majorId)}
+              >
+                ยืนยันคณะและสาขา
+              </button>
+            </div>
+          ) : event.selection?.type === 'elective' ? (
+            <div className="grid w-full gap-3">
+              <label className="grid gap-1">
+                <span>วิชาเสรี</span>
+                <select
+                  className="field"
+                  value={electiveId}
+                  onChange={(change) => setElectiveId(change.target.value)}
+                >
+                  {electives.map((elective) => (
+                    <option key={elective.id} value={elective.id}>
+                      {elective.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                type="button"
+                className="button button-primary"
+                disabled={!electiveId}
+                onClick={() => onChooseElective(electiveId)}
+              >
+                ยืนยันวิชาเสรี
+              </button>
+            </div>
+          ) : event.selection?.type === 'multiple' ? (
+            <div className="grid w-full gap-3">
+              <p className="font-bold">
+                เลือก {event.selection.min}–{event.selection.max} ข้อ (
+                {selectedIds.length} ข้อแล้ว)
+              </p>
+              {choices.map((choice) => (
+                <label
+                  key={choice.id}
+                  className="button button-secondary flex items-center gap-3 text-left"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(choice.id)}
+                    disabled={
+                      !selectedIds.includes(choice.id) &&
+                      selectedIds.length >= maxSelections
+                    }
+                    onChange={(change) =>
+                      setSelectedIds((current) =>
+                        change.target.checked
+                          ? [...current, choice.id]
+                          : current.filter((id) => id !== choice.id),
+                      )
+                    }
+                  />
+                  <span>{choice.text}</span>
+                </label>
+              ))}
+              <button
+                type="button"
+                className="button button-primary"
+                disabled={
+                  selectedIds.length < event.selection.min ||
+                  selectedIds.length > event.selection.max
+                }
+                onClick={() => onChooseMany(selectedIds)}
+              >
+                ยืนยันตัวเลือก
+              </button>
+            </div>
           ) : choices.length ? (
             <>
               <p className="w-full font-bold">คุณจะทำอย่างไร?</p>

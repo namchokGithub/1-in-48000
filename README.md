@@ -19,7 +19,7 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 
 ### Player
 
-- **New game** — name your character, then pick or randomize a starting background (family wealth, personality, skills).
+- **New game** — receive a random name, pick or randomize a starting background, then choose a faculty and major.
 - **Progression** — Year 1–4, split by term and key events, with semester breaks and summer sessions.
 - **Stats** — study, money, health, stress, relationships.
 - **Events** — main events, conditional events, Thai holiday events, and random events.
@@ -27,7 +27,7 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 - **Story memory** — the game remembers decisions such as helping a friend, joining a club, or taking a part-time job. They do not always pay off.
 - **Graphics** — seven pixel-art scenes and character portraits referenced by Asset ID.
 - **Sound** — looping background music with a simple on/off control.
-- **Save** — checkpoint each choice, continue within the current page session, and restart.
+- **Save** — checkpoint decisions and restore an unfinished run after refreshing the same tab.
 - **Ending** — a life summary covering grades, relationships, and your path after graduation.
 - **Devices** — mobile and desktop.
 
@@ -74,11 +74,11 @@ Game content and player saves are separate from day one.
 | Endings     | Ending conditions and summary text                          |
 | Player save | Current state, choice history, flags, content version, seed |
 
-Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Player does not reload stored checkpoints when a page opens.
+Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Player restores an unfinished run after refreshing the same tab; a new visit starts fresh.
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO use the shared content in `public/content-v2`. It carries 36 events, including the new program-selection opening event, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Step 20 added faculty, major, elective, and structured player-name data, and reset the unreleased content version to `0.1.0`; Step 21 will connect the new program and multi-select rules to gameplay. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The old JSON in `public/content` remains as a historical archive; Player and BO no longer load it. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The Player and BO use the shared content in `public/content-v2`. It carries 37 events, including program selection and a Year 3 elective, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.1.0`; authored Years 5–8 story events remain future work. The old JSON in `public/content` remains as a historical archive; Player and BO no longer load it. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 
@@ -92,7 +92,7 @@ Edit in BO → Save JSON → git push → Cloudflare Pages auto-deploys → Play
 
 ## Saves and Backups
 
-The Player writes checkpoints to localStorage after starting and resolving choices, but does not load them after a page refresh or a new visit. Progress continues only while the current page stays open. The Player can download the current session state as JSON during play or at an ending; there is no import or resume flow.
+The Player writes checkpoints to localStorage after starting and resolving choices. Refreshing the same tab restores an unfinished run; a new visit or tab starts fresh. Completed runs do not resume. There is no save file import or download.
 
 ## Getting Started
 
@@ -125,9 +125,9 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 | 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches | Complete: 35 events and 3 reachable endings    |
 | 5 — Test and release  | Check story paths, effects, mobile, and audio       | Ready to deploy                                |
 
-**MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major gameplay is planned for Step 21; clubs and relationship routes come later.
+**MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major selection is active; clubs and relationship routes come later.
 
-**Current progress:** BO story editing and the Player share the existing content and engine. Step 20 added the next ruleset's schema and catalog files in place; Step 21 will implement program and elective selection, multi-select effects, and the updated checkpoint flow. The current Player still uses the earlier selection behavior. The light/dark themes, music control, and V2 checks have passed the author's review. Player and BO use Noto Sans Thai Light 300. Production release is deferred while further adjustments are made; authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** BO and Player share the updated content and engine. Step 21 runs program and elective selection, multi-select effects, four- and six-year reviews, seeded player names, and same-tab refresh recovery. Steps 22–25 will add BO authoring controls and finish the Player presentation. Player and BO use Noto Sans Thai Light 300. Production release is deferred while further adjustments are made; authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

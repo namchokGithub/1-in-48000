@@ -1,30 +1,17 @@
-import { useRef, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import type { V2Content } from '../../content/v2/schema'
 import { pickV2StartOption } from '../../engine/v2/game'
 import { formatStatChange } from './choicePreview'
 
 type Props = {
   backgrounds: V2Content['config']['backgrounds']
-  names: V2Content['names']
-  onStart: (name: string, backgroundId: string) => void
+  onStart: (backgroundId: string) => void
   onCancel: () => void
 }
 
-export function CharacterForm({
-  backgrounds,
-  names,
-  onStart,
-  onCancel,
-}: Props) {
-  const [name, setName] = useState(
-    () =>
-      pickV2StartOption(names, crypto.getRandomValues(new Uint32Array(1))[0])
-        .name,
-  )
-  const nameRef = useRef<HTMLInputElement>(null)
+export function CharacterForm({ backgrounds, onStart, onCancel }: Props) {
   const [backgroundId, setBackgroundId] = useState(backgrounds[0].id)
   const [randomBackground, setRandomBackground] = useState(false)
-  const [nameError, setNameError] = useState('')
   const [actionError, setActionError] = useState('')
 
   function randomize() {
@@ -35,15 +22,8 @@ export function CharacterForm({
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const trimmed = name.trim()
-    if (!trimmed) {
-      setNameError('กรุณาตั้งชื่อก่อนเริ่มเกม')
-      nameRef.current?.focus()
-      return
-    }
-    setNameError('')
     try {
-      onStart(trimmed, backgroundId)
+      onStart(backgroundId)
     } catch {
       setActionError(
         'เริ่มเกมไม่ได้ โปรดตรวจพื้นที่จัดเก็บของเบราว์เซอร์แล้วลองอีกครั้ง',
@@ -58,56 +38,9 @@ export function CharacterForm({
         ชีวิตนี้เริ่มที่คุณ
       </h1>
       <p className="muted mt-2">
-        ตั้งชื่อและเลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู
+        ชื่อจะสุ่มเมื่อเริ่มเกม เลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู
       </p>
       <form className="mt-7 space-y-7" onSubmit={submit} noValidate>
-        <div>
-          <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
-            <label htmlFor="player-name" className="font-bold">
-              ชื่อของคุณ
-            </label>
-            <button
-              className="button button-secondary"
-              type="button"
-              onClick={() => {
-                const alternatives = names.filter(
-                  (candidate) => candidate.name !== name,
-                )
-                setName(
-                  pickV2StartOption(
-                    alternatives.length ? alternatives : names,
-                    crypto.getRandomValues(new Uint32Array(1))[0],
-                  ).name,
-                )
-                setNameError('')
-              }}
-            >
-              สุ่มชื่อ
-            </button>
-          </div>
-          <input
-            ref={nameRef}
-            id="player-name"
-            className="field"
-            value={name}
-            maxLength={30}
-            autoComplete="off"
-            aria-invalid={Boolean(nameError)}
-            aria-describedby={nameError ? 'player-name-error' : undefined}
-            onChange={(event) => {
-              setName(event.target.value)
-              setNameError('')
-            }}
-          />
-          {nameError && (
-            <p
-              id="player-name-error"
-              className="mt-2 text-sm text-[var(--color-danger)]"
-            >
-              {nameError}
-            </p>
-          )}
-        </div>
         <div>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <div>
