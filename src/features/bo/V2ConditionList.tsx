@@ -16,6 +16,10 @@ function makeCondition(type: Condition['type'], eventIds: string[]): Condition {
       return { type, flagId: 'new_flag', value: true }
     case 'pastEvent':
       return { type, eventId: eventIds[0] ?? 'new_event', visited: true }
+    case 'faculty':
+    case 'major':
+    case 'elective':
+      throw new Error('This condition is edited in Step 23')
   }
 }
 

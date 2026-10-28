@@ -20,6 +20,9 @@ async function fixture() {
     'assets',
     'endings',
     'names',
+    'faculties',
+    'majors',
+    'electives',
   ]) {
     await writeFile(
       join(dir, `${name}.json`),
@@ -62,9 +65,10 @@ describe('V2 BO story writing', () => {
       JSON.parse(await readFile(join(root, 'public', path.slice(1)), 'utf8')),
     )
     const save = createV2Game(loaded, 'ฟ้า', 123)
-    const next = chooseV2(loaded, save, events[0].choices[0].id)
+    const started = chooseV2(loaded, save, 'confirm_program')
+    const next = chooseV2(loaded, started, events[0].choices[0].id)
     expect(next.stats.lucky).toBe(save.stats.lucky + 4)
-    expect(next.history[0].chanceOutcomes[0].succeeded).toBe(true)
+    expect(next.history[1].chanceOutcomes[0].succeeded).toBe(true)
   })
 
   it('rejects an invalid target without replacing the V2 file', async () => {

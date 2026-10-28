@@ -1,0 +1,18 @@
+[
+  {
+    "id": "creative_writing",
+    "name": "การเขียนสร้างสรรค์",
+    "effects": [{ "type": "statDelta", "stat": "study", "amount": 2 }]
+  },
+  {
+    "id": "community_service",
+    "name": "กิจกรรมเพื่อชุมชน",
+    "effects": [
+      {
+        "type": "setFlag",
+        "flagId": "studied_community_service",
+        "value": true
+      }
+    ]
+  }
+]

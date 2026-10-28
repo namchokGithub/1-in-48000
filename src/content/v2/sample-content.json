@@ -1,9 +1,9 @@
 {
   "config": {
-    "contentVersion": "v2-example",
-    "title": "1 ใน 48,000 — V2 ตัวอย่าง",
+    "contentVersion": "0.1.0",
+    "title": "1 ใน 48,000 — ตัวอย่างข้อมูล",
     "startingTime": { "year": 1, "period": "term1" },
-    "startingEventId": "student_loan",
+    "startingEventId": "choose_program",
     "initialStats": {
       "study": 50,
       "money": 1200,
@@ -72,6 +72,12 @@
       "kind": "conditional",
       "time": { "year": 1, "period": "term1" },
       "title": "เพื่อนช่วยได้ไหม",
+      "selection": {
+        "type": "multiple",
+        "min": 1,
+        "max": 2,
+        "goToEventId": "lottery_ticket"
+      },
       "conditions": [
         { "type": "stat", "stat": "money", "operator": "lt", "value": 500 }
       ],
@@ -91,6 +97,12 @@
           "text": "ขอบคุณแต่ยังไม่ยืม",
           "conditions": [],
           "effects": []
+        },
+        {
+          "id": "ask_for_advice",
+          "text": "ขอคำแนะนำเรื่องค่าใช้จ่าย",
+          "conditions": [],
+          "effects": [{ "type": "statDelta", "stat": "study", "amount": 1 }]
         }
       ]
     },
@@ -120,6 +132,65 @@
           ]
         }
       ]
+    },
+    {
+      "id": "free_elective",
+      "kind": "main",
+      "time": { "year": 3, "period": "term1" },
+      "title": "เลือกวิชาเสรี",
+      "selection": { "type": "elective" },
+      "conditions": [],
+      "lines": [{ "text": "ถึงเวลาเลือกวิชาเสรี" }],
+      "choices": [
+        {
+          "id": "choose_elective",
+          "text": "เลือกวิชาเสรี",
+          "conditions": [],
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "choose_program",
+      "kind": "main",
+      "time": { "year": 1, "period": "term1" },
+      "title": "เลือกคณะและสาขา",
+      "selection": { "type": "program" },
+      "conditions": [],
+      "lines": [{ "text": "วันนี้คุณจะเลือกคณะและสาขาที่อยากเรียน" }],
+      "choices": [
+        {
+          "id": "confirm_program",
+          "text": "ไปต่อ",
+          "conditions": [],
+          "effects": [{ "type": "goToEvent", "eventId": "student_loan" }]
+        }
+      ]
+    }
+  ],
+  "faculties": [
+    { "id": "humanities", "name": "คณะมนุษยศาสตร์", "supportsSixYear": false },
+    { "id": "medicine", "name": "คณะแพทยศาสตร์", "supportsSixYear": true }
+  ],
+  "majors": [
+    {
+      "id": "thai_language",
+      "facultyId": "humanities",
+      "name": "ภาษาไทย",
+      "programYears": 4
+    },
+    {
+      "id": "medicine",
+      "facultyId": "medicine",
+      "name": "แพทยศาสตร์",
+      "programYears": 6
+    }
+  ],
+  "electives": [
+    {
+      "id": "creative_writing",
+      "name": "การเขียนสร้างสรรค์",
+      "effects": [{ "type": "statDelta", "stat": "study", "amount": 2 }]
     }
   ],
   "characters": [],

@@ -12,7 +12,7 @@ import {
 describe('V2 content contract', () => {
   it('accepts the isolated sample with debt, chance, and default names', () => {
     expect(v2ContentSchema.safeParse({ ...sample, names }).success).toBe(true)
-    expect(names).toEqual(['ฟ้า', 'มายด์', 'อิม'])
+    expect(names.map((entry) => entry.name)).toEqual(['ฟ้า', 'มายด์', 'อิม'])
   })
 
   it('allows negative stats but retains upper bounds for bounded stats', () => {
@@ -116,8 +116,11 @@ describe('V2 content contract', () => {
   })
 
   it('rejects duplicate or blank random names', () => {
-    expect(v2NamesSchema.safeParse(['ฟ้า', 'ฟ้า']).success).toBe(false)
-    expect(v2NamesSchema.safeParse(['ฟ้า', ' ']).success).toBe(false)
+    expect(v2NamesSchema.safeParse([names[0], names[0]]).success).toBe(false)
+    expect(v2NamesSchema.safeParse([{ ...names[0], name: ' ' }]).success).toBe(
+      false,
+    )
+    expect(v2NamesSchema.safeParse(['ฟ้า']).success).toBe(false)
   })
 
   it('rejects duplicate event IDs and broken content references', () => {
@@ -140,6 +143,181 @@ describe('V2 content contract', () => {
         ...sample,
         names,
         events: [{ ...sample.events[0], sceneAssetId: 'missing_scene' }],
+      }).success,
+    ).toBe(false)
+  })
+
+  it('accepts program, elective, and three-choice multi-select sample events', () => {
+    const content = v2ContentSchema.parse({ ...sample, names })
+    expect(
+      content.events.find((event) => event.id === 'choose_program')?.selection,
+    ).toEqual({ type: 'program' })
+    expect(content.events[1].choices).toHaveLength(3)
+    expect(content.events[1].selection).toMatchObject({
+      type: 'multiple',
+      min: 1,
+      max: 2,
+    })
+    expect(
+      content.events.find((event) => event.id === 'free_elective')?.selection,
+    ).toEqual({
+      type: 'elective',
+    })
+  })
+
+  it('rejects invalid multi-select limits and choice-level story links', () => {
+    const event = sample.events[1]
+    expect(
+      v2EventSchema.safeParse({
+        ...event,
+        selection: {
+          type: 'multiple',
+          min: 3,
+          max: 2,
+          goToEventId: 'lottery_ticket',
+        },
+      }).success,
+    ).toBe(false)
+    expect(
+      v2EventSchema.safeParse({
+        ...event,
+        selection: {
+          type: 'multiple',
+          min: 1,
+          max: 4,
+          goToEventId: 'lottery_ticket',
+        },
+      }).success,
+    ).toBe(false)
+    expect(
+      v2EventSchema.safeParse({
+        ...event,
+        choices: [
+          {
+            ...event.choices[0],
+            effects: [{ type: 'goToEvent', eventId: 'lottery_ticket' }],
+          },
+          ...event.choices.slice(1),
+        ],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...sample,
+        names,
+        events: sample.events.map((item, index) =>
+          index === 1
+            ? {
+                ...item,
+                selection: {
+                  type: 'multiple',
+                  min: 1,
+                  max: 2,
+                  goToEventId: 'missing_event',
+                },
+              }
+            : item,
+        ),
+      }).success,
+    ).toBe(false)
+  })
+
+  it('requires a program-selection start and a Year 3 elective event', () => {
+    expect(
+      v2ContentSchema.safeParse({
+        ...sample,
+        names,
+        events: sample.events.map((event) =>
+          event.id === 'choose_program'
+            ? { ...event, selection: undefined }
+            : event,
+        ),
+      }).success,
+    ).toBe(false)
+    const elective = sample.events.find(
+      (event) => event.id === 'free_elective',
+    )!
+    expect(
+      v2EventSchema.safeParse({
+        ...elective,
+        time: { year: 2, period: 'term1' },
+      }).success,
+    ).toBe(true)
+    expect(
+      v2ContentSchema.safeParse({
+        ...sample,
+        names,
+        events: sample.events.map((event) =>
+          event.id === 'free_elective'
+            ? { ...event, time: { year: 2, period: 'term1' } }
+            : event,
+        ),
+      }).success,
+    ).toBe(false)
+  })
+
+  it('validates faculty, major, elective, and player portrait references', () => {
+    const base = { ...sample, names }
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        assets: [
+          {
+            id: 'fah_portrait',
+            kind: 'portrait',
+            path: '/assets/portrait/fah.png',
+          },
+        ],
+        names: [{ ...names[0], portraitAssetId: 'fah_portrait' }],
+        events: sample.events.map((event, index) =>
+          index === 1
+            ? {
+                ...event,
+                conditions: [
+                  { type: 'faculty', facultyId: 'humanities' },
+                  { type: 'major', majorId: 'thai_language' },
+                  { type: 'elective', electiveId: 'creative_writing' },
+                ],
+              }
+            : event,
+        ),
+      }).success,
+    ).toBe(true)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        majors: [{ ...sample.majors[1], facultyId: 'humanities' }],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        majors: [{ ...sample.majors[0], facultyId: 'missing' }],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        electives: [...sample.electives, sample.electives[0]],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        names: [{ ...names[0], portraitAssetId: 'missing' }],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        events: sample.events.map((event, index) =>
+          index === 1
+            ? {
+                ...event,
+                conditions: [{ type: 'faculty', facultyId: 'missing' }],
+              }
+            : event,
+        ),
       }).success,
     ).toBe(false)
   })

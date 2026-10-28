@@ -1,11 +1,11 @@
 {
-  "contentVersion": "0.5.0",
+  "contentVersion": "0.1.0",
   "title": "1 ใน 48,000",
   "startingTime": {
     "year": 1,
     "period": "term1"
   },
-  "startingEventId": "orientation",
+  "startingEventId": "choose_program",
   "initialStats": {
     "study": 50,
     "money": 1200,
@@ -68,16 +68,7 @@
   "timeModel": {
     "standardYears": 4,
     "maximumYears": 8,
-    "reviewYears": [
-      4,
-      6,
-      8
-    ],
-    "periods": [
-      "term1",
-      "break",
-      "term2",
-      "summer"
-    ]
+    "reviewYears": [4, 6, 8],
+    "periods": ["term1", "break", "term2", "summer"]
   }
 }

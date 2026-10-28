@@ -1,0 +1,14 @@
+[
+  {
+    "id": "thai_language",
+    "facultyId": "humanities",
+    "name": "ภาษาไทย",
+    "programYears": 4
+  },
+  {
+    "id": "medicine",
+    "facultyId": "medicine",
+    "name": "แพทยศาสตร์",
+    "programYears": 6
+  }
+]

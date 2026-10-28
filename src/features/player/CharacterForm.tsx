@@ -16,8 +16,10 @@ export function CharacterForm({
   onStart,
   onCancel,
 }: Props) {
-  const [name, setName] = useState(() =>
-    pickV2StartOption(names, crypto.getRandomValues(new Uint32Array(1))[0]),
+  const [name, setName] = useState(
+    () =>
+      pickV2StartOption(names, crypto.getRandomValues(new Uint32Array(1))[0])
+        .name,
   )
   const nameRef = useRef<HTMLInputElement>(null)
   const [backgroundId, setBackgroundId] = useState(backgrounds[0].id)
@@ -69,13 +71,13 @@ export function CharacterForm({
               type="button"
               onClick={() => {
                 const alternatives = names.filter(
-                  (candidate) => candidate !== name,
+                  (candidate) => candidate.name !== name,
                 )
                 setName(
                   pickV2StartOption(
                     alternatives.length ? alternatives : names,
                     crypto.getRandomValues(new Uint32Array(1))[0],
-                  ),
+                  ).name,
                 )
                 setNameError('')
               }}

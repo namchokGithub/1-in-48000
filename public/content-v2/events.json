@@ -2097,5 +2097,26 @@
         ]
       }
     ]
+  },
+  {
+    "id": "choose_program",
+    "kind": "main",
+    "time": { "year": 1, "period": "term1" },
+    "title": "เลือกคณะและสาขา",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "selection": { "type": "program" },
+    "conditions": [],
+    "lines": [
+      { "text": "วันแรกที่ ม.บารพู คุณมองรายชื่อคณะและสาขาที่จะเลือกเรียน" }
+    ],
+    "choices": [
+      {
+        "id": "confirm_program",
+        "text": "ไปต่อ",
+        "conditions": [],
+        "effects": [{ "type": "goToEvent", "eventId": "orientation" }]
+      }
+    ]
   }
 ]

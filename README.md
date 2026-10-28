@@ -78,7 +78,7 @@ Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Pla
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO use V2 content version `0.5.0` in `public/content-v2`. It carries the 35 existing events, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The old JSON in `public/content` remains as a historical archive; Player and BO no longer load it. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The Player and BO use the shared content in `public/content-v2`. It carries 36 events, including the new program-selection opening event, seven pixel scenes, and previous endings, plus debt/lucky stats and a Year 8 dismissal ending. Step 20 added faculty, major, elective, and structured player-name data, and reset the unreleased content version to `0.1.0`; Step 21 will connect the new program and multi-select rules to gameplay. Shared events carry the run from enrollment through Year 4; authored Years 5–8 story events remain future work. The old JSON in `public/content` remains as a historical archive; Player and BO no longer load it. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 
@@ -125,9 +125,9 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 | 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches | Complete: 35 events and 3 reachable endings    |
 | 5 — Test and release  | Check story paths, effects, mobile, and audio       | Ready to deploy                                |
 
-**MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculties, clubs, and relationship routes come later.
+**MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major gameplay is planned for Step 21; clubs and relationship routes come later.
 
-**V2 progress:** BO story editing and the Player share V2 content, engine rules, and save v3. The author can write chance and delayed effects, search and filter the eight-year BO timeline, and preview choices in a modal. The Player starts with a random name, shows background and choice stat effects, tracks four to eight study years, and ends with a decision timeline. The light/dark themes, music control, and V2 checks have passed the author's review. Player and BO use Noto Sans Thai Light 300. Production release is deferred while further adjustments are made; authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** BO story editing and the Player share the existing content and engine. Step 20 added the next ruleset's schema and catalog files in place; Step 21 will implement program and elective selection, multi-select effects, and the updated checkpoint flow. The current Player still uses the earlier selection behavior. The light/dark themes, music control, and V2 checks have passed the author's review. Player and BO use Noto Sans Thai Light 300. Production release is deferred while further adjustments are made; authored Years 5–8 story content remains open. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

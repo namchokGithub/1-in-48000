@@ -1,0 +1,4 @@
+[
+  { "id": "humanities", "name": "คณะมนุษยศาสตร์", "supportsSixYear": false },
+  { "id": "medicine", "name": "คณะแพทยศาสตร์", "supportsSixYear": true }
+]

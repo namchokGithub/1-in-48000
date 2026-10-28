@@ -13,7 +13,7 @@ const savedTriggerSchema = z.discriminatedUnion('type', [
 ])
 
 export const v2PlayerSaveSchema = z.object({
-  saveVersion: z.literal(3),
+  saveVersion: z.literal(1),
   contentVersion: z.string().trim().min(1),
   playerName: z.string().trim().min(1),
   backgroundId: idSchema.nullable(),

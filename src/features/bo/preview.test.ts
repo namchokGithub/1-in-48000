@@ -5,6 +5,9 @@ import characters from '../../../public/content-v2/characters.json'
 import assets from '../../../public/content-v2/assets.json'
 import endings from '../../../public/content-v2/endings.json'
 import names from '../../../public/content-v2/names.json'
+import faculties from '../../../public/content-v2/faculties.json'
+import majors from '../../../public/content-v2/majors.json'
+import electives from '../../../public/content-v2/electives.json'
 import { v2ContentSchema } from '../../content/v2/schema'
 import { chooseV2 } from '../../engine/v2/game'
 import { createV2PreviewSession } from './preview'
@@ -16,6 +19,9 @@ const content = v2ContentSchema.parse({
   assets,
   endings,
   names,
+  faculties,
+  majors,
+  electives,
 })
 
 describe('BO V2 preview session', () => {

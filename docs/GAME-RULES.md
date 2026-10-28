@@ -1,6 +1,6 @@
 # Game rules and data contract
 
-This document records the initial data model and the active V2 rules for "1 ใน 48,000". The V1 contract below remains as historical reference; its runtime code has been removed. Player and BO share `src/content/v2/schema.ts`, `src/engine/v2/game.ts`, and save v3 in `src/save/v2/schema.ts`.
+This document records historical rules and the active data contract for "1 ใน 48,000". The earlier V1/V2 descriptions remain as history. Player and BO share `src/content/v2/schema.ts`; Step 20 extends that file in place for the next ruleset. The engine and gameplay for those new fields follow in Step 21.
 
 ## Stats
 
@@ -60,7 +60,7 @@ The save store writes one localStorage slot when a game starts or restarts and a
 
 ## V2 data contract (Step 11)
 
-`src/content/v2/schema.ts` defines the active Player and BO contract; `src/content/v2/sample-content.json` remains a small test sample. Version `0.5.0` is authored in `public/content-v2`. The V1 JSON in `public/content` remains only as an archive; active tests use V2 content.
+`src/content/v2/schema.ts` defines the shared Player and BO contract; `src/content/v2/sample-content.json` remains a small test sample. The earlier `0.5.0` content was authored in `public/content-v2`. The V1 JSON in `public/content` remains only as an archive.
 
 All seven stats are integers and can be negative. `study`, `health`, `stress`, `relationships`, and `lucky` retain a maximum of 100; `money` and the single `debt` balance have no upper bound. Debt covers student loans (กยศ./กรอ.), borrowing from friends, and gambling debt. Background presets provide deltas for all seven stats.
 
@@ -70,4 +70,14 @@ A `chance` effect holds `successPercent` from 0 to 100, `successEffects`, `failu
 
 V2 events have no `ambienceAssetId`, and V2 assets allow scene, portrait, BGM, and SFX only. V2 audio settings contain only `musicEnabled` and `musicVolume`; absent or invalid settings default to enabled at 20%. The Player exposes a single on/off music button and starts playback after a user action. V2 complete-content validation rejects duplicate IDs and broken Event, character, and Asset ID references.
 
-The V2 player checkpoint has `saveVersion: 3`, the seven stats, decision history with `{ eventId, choiceId, time, chanceOutcomes }`, pending effects, and RNG seed/state. The V2 store writes a checkpoint at game start/restart and after each resolved choice. The Player keeps progress in memory for the current page session and does not read stored checkpoints on a new visit. The JSON download exports only the current session state. The active V2 content has no authored Years 5–8 story yet; the engine tests use synthetic events there.
+The earlier V2 player checkpoint used `saveVersion: 3`, the seven stats, decision history with `{ eventId, choiceId, time, chanceOutcomes }`, pending effects, and RNG seed/state. Before Step 20, the Player kept progress in memory for the current page session and did not read stored checkpoints on a new visit. The active content has no authored Years 5–8 story yet; the engine tests use synthetic events there.
+
+## Current content contract (Step 20)
+
+Step 20 extends the existing schema and `public/content-v2` files in place. Content version resets to `0.1.0` and the checkpoint shape starts at `saveVersion: 1`; no migration or compatibility loader is added. The current engine still uses the earlier choice and progression behavior until Step 21.
+
+`faculties.json` holds `{ id, name, supportsSixYear }`. `majors.json` holds `{ id, facultyId, name, programYears }`, where `programYears` is 4 or 6. A six-year major is valid only when its faculty has `supportsSixYear: true`. `electives.json` holds `{ id, name, effects }`; elective effects are stat changes or flag changes. `names.json` now contains `{ id, name, portraitAssetId? }` records. When a portrait ID is present, it must point to a portrait asset in `assets.json`. IDs must be unique and references must resolve.
+
+The fixed starting event has `selection: { type: 'program' }`. Its future Player control will pick a faculty, then offer only majors belonging to it. A Year 3 elective event uses `selection: { type: 'elective' }`; the catalog supplies the elective options. A multi-select event uses `selection: { type: 'multiple', min, max, goToEventId }`: `1 ≤ min ≤ max ≤ number of authored choices`, the event-level link points to an active event, and its choices cannot contain `goToEvent`. The engine will combine effects from selected choices in Step 21. Event/choice/ending conditions may reference a faculty, major, or elective ID; the shared schema validates those references.
+
+Program reviews remain at Years 4, 6, and 8. The intended progression is 4 → 6 → 8 years for a four-year program after failed reviews, and 6 → 8 years for a six-year program. The new schema permits these records; Step 21 implements the rules and save fields, while Steps 22–25 add the BO and Player controls.

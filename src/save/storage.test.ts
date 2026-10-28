@@ -11,8 +11,8 @@ describe('localStorage adapter', () => {
     }
     const adapter = createLocalStorageAdapter(storage)
 
-    adapter.write('{"saveVersion":3}')
-    expect(values.get(SAVE_STORAGE_KEY)).toBe('{"saveVersion":3}')
+    adapter.write('{"saveVersion":1}')
+    expect(values.get(SAVE_STORAGE_KEY)).toBe('{"saveVersion":1}')
     expect(values.get('other')).toBe('keep')
   })
 })

@@ -78,6 +78,10 @@ function matches(conditions: V2Condition[], save: V2PlayerSave): boolean {
           save.history.some((entry) => entry.eventId === condition.eventId) ===
           condition.visited
         )
+      case 'faculty':
+      case 'major':
+      case 'elective':
+        return false
     }
   })
 }
@@ -111,7 +115,7 @@ export function createV2Game(
     )
   }
   const save = v2PlayerSaveSchema.parse({
-    saveVersion: 3,
+    saveVersion: 1,
     contentVersion: content.config.contentVersion,
     playerName: name,
     backgroundId,

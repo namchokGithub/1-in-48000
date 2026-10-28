@@ -11,12 +11,29 @@ async function fetchJson(path: string): Promise<unknown> {
 export async function loadV2Content(
   readJson: ReadJson = fetchJson,
 ): Promise<V2Content> {
-  const [config, events, characters, assets, endings, names] =
-    await Promise.all(
-      ['config', 'events', 'characters', 'assets', 'endings', 'names'].map(
-        (name) => readJson(`/content-v2/${name}.json`),
-      ),
-    )
+  const [
+    config,
+    events,
+    characters,
+    assets,
+    endings,
+    names,
+    faculties,
+    majors,
+    electives,
+  ] = await Promise.all(
+    [
+      'config',
+      'events',
+      'characters',
+      'assets',
+      'endings',
+      'names',
+      'faculties',
+      'majors',
+      'electives',
+    ].map((name) => readJson(`/content-v2/${name}.json`)),
+  )
   return v2ContentSchema.parse({
     config,
     events,
@@ -24,5 +41,8 @@ export async function loadV2Content(
     assets,
     endings,
     names,
+    faculties,
+    majors,
+    electives,
   })
 }

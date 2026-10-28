@@ -10,7 +10,7 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 | #   | Step                 | Status | Depends on |
 | --- | -------------------- | ------ | ---------- |
-| 20  | V3 rules + schema    | Todo   | 19         |
+| 20  | V3 rules + schema    | Done   | 19         |
 | 21  | V3 engine + save     | Todo   | 20         |
 | 22  | BO data tabs (V3)    | Todo   | 20         |
 | 23  | BO story editor (V3) | Todo   | 21, 22     |
@@ -361,7 +361,7 @@ Post-V2 cleanup on 2026-10-27: Removed unused V1 runtime, schema, save store, BO
 
 ## 20. V3 rules + schema
 
-**Status:** Todo
+**Status:** Done
 
 - Events may have more than two choices.
 - Multi-select events: per-event `min`/`max` selections. Effects of every selected choice are combined. A multi-select event has a single event-level `goToEvent`; its choices do not link to events.
@@ -377,6 +377,8 @@ Post-V2 cleanup on 2026-10-27: Removed unused V1 runtime, schema, save store, BO
 - Update `docs/GAME-RULES.md` and record the decisions in `docs/DECISIONS.md`.
 
 **Done when:** updated schemas and sample faculties, majors, electives, and multi-select events pass validation with tests.
+
+Completed 2026-10-28. The existing schema and `public/content-v2` loader now read faculty, major, elective, and structured player-name files without a new version tree. The sample exercises a program-selection start, a Year 3 elective event, and a three-choice multi-select event; validation checks selection limits, event links, duplicate IDs, 4/6-year program rules, conditions, and name portrait references. Content/save version numbers reset to `0.1.0`/`1` without migrations. The current engine and Player still use prior selection behavior until Step 21; BO data tabs and editors follow in Steps 22–23.
 
 ## 21. V3 engine + save
 

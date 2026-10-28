@@ -16,6 +16,9 @@ const files = [
   'assets',
   'endings',
   'names',
+  'faculties',
+  'majors',
+  'electives',
 ] as const
 
 export class BoValidationError extends Error {

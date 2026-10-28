@@ -19,7 +19,11 @@ export function conditionSummary(condition: Condition): string {
   }
   if (condition.type === 'flag')
     return `Flag ${condition.flagId} = ${condition.value ? 'จริง' : 'เท็จ'}`
-  return `${condition.visited ? 'เคย' : 'ยังไม่เคย'}พบ ${condition.eventId}`
+  if (condition.type === 'pastEvent')
+    return `${condition.visited ? 'เคย' : 'ยังไม่เคย'}พบ ${condition.eventId}`
+  if (condition.type === 'faculty') return `คณะ ${condition.facultyId}`
+  if (condition.type === 'major') return `สาขา ${condition.majorId}`
+  return `วิชาเสรี ${condition.electiveId}`
 }
 
 export function effectSummary(effect: Effect): string {
