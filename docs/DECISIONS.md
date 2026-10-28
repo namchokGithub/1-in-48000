@@ -91,3 +91,7 @@ Keep faculty, major, elective, and player-name editors in the current BO draft a
 ## 2026-10-28 — Author V3 event selections in the existing BO form
 
 Expose the active selection modes and faculty/major/elective conditions in the shared BO story editor. A multi-select event owns its selection limits and destination, so its choices cannot add individual event links. Keep the Event list without drag and drop and retain its up/down buttons. Timeline event dragging remains available; this distinction reflects the author's Step 23 clarification.
+
+## 2026-10-28 — Make the V3 selection path playable in active content
+
+Place a two-of-three-choice event after the first Year 2 term-one main event and link it to the next authored event. Display the engine's seeded player name and the name record's portrait Asset ID next to stats; use three original pixel-style PNG placeholders until final portraits are available. Keep scheduled effects active but hide their details in Player choice previews. Advance active content to `0.2.0` so a same-tab checkpoint from the earlier story cannot restore against the changed event list.

@@ -1,5 +1,5 @@
 [
-  { "id": "fah", "name": "ฟ้า" },
-  { "id": "mind", "name": "มายด์" },
-  { "id": "im", "name": "อิม" }
+  { "id": "fah", "name": "ฟ้า", "portraitAssetId": "player_fah" },
+  { "id": "mind", "name": "มายด์", "portraitAssetId": "player_mind" },
+  { "id": "im", "name": "อิม", "portraitAssetId": "player_im" }
 ]

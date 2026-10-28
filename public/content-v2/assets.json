@@ -40,6 +40,21 @@
     "path": "/assets/portrait/mali.png"
   },
   {
+    "id": "player_fah",
+    "kind": "portrait",
+    "path": "/assets/portrait/player-fah.png"
+  },
+  {
+    "id": "player_mind",
+    "kind": "portrait",
+    "path": "/assets/portrait/player-mind.png"
+  },
+  {
+    "id": "player_im",
+    "kind": "portrait",
+    "path": "/assets/portrait/player-im.png"
+  },
+  {
     "id": "kanto_daydream",
     "kind": "bgm",
     "path": "/assets/sound/turning_pages-kanto-daydream-569855.mp3"

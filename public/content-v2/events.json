@@ -1156,6 +1156,57 @@
     ]
   },
   {
+    "id": "year_two_plans",
+    "kind": "main",
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "แผนปีสองของเรา",
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
+    "selection": {
+      "type": "multiple",
+      "min": 2,
+      "max": 2,
+      "goToEventId": "course_choice"
+    },
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนชวนคุยเรื่องปีสองที่โต๊ะหลังห้อง แต่ละคนมีทั้งเรื่องเรียนและเรื่องที่อยากลอง"
+      },
+      {
+        "text": "คุณเลือกได้สองอย่างที่จะให้เวลากับมันในเทอมนี้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "review_notes",
+        "text": "ทบทวนบทเรียนให้สม่ำเสมอ",
+        "conditions": [],
+        "effects": [{ "type": "statDelta", "stat": "study", "amount": 3 }]
+      },
+      {
+        "id": "join_friends",
+        "text": "ใช้เวลากับเพื่อนมากขึ้น",
+        "conditions": [],
+        "effects": [
+          { "type": "statDelta", "stat": "relationships", "amount": 3 }
+        ]
+      },
+      {
+        "id": "rest_well",
+        "text": "จัดเวลาพักให้พอดี",
+        "conditions": [],
+        "effects": [
+          { "type": "statDelta", "stat": "health", "amount": 3 },
+          { "type": "statDelta", "stat": "stress", "amount": -2 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "course_choice",
     "kind": "main",
     "time": {

@@ -50,13 +50,6 @@ export function describeChoiceEffects(
     if (effect.type === 'statDelta') {
       descriptions.push(formatStatChange(effect.stat, effect.amount))
       if (effect.stat === 'lucky') lucky = Math.min(100, lucky + effect.amount)
-    } else if (
-      effect.type === 'schedule' &&
-      effect.effect.type === 'statDelta'
-    ) {
-      descriptions.push(
-        `ภายหลัง: ${formatStatChange(effect.effect.stat, effect.effect.amount)}`,
-      )
     } else if (effect.type === 'chance') {
       const percent = getV2EffectiveChancePercent(effect.successPercent, lucky)
       descriptions.push(`โอกาสสำเร็จ ${number.format(percent)}%`)

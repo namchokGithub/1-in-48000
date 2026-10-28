@@ -4,6 +4,7 @@ import { formatGameTime } from './labels'
 
 type Props = {
   summary: V2LifeSummary
+  portraitPath?: string
   onHome: () => void
   onRestart: () => void
   homeLabel?: string
@@ -11,6 +12,7 @@ type Props = {
 
 export function EndingView({
   summary,
+  portraitPath,
   onHome,
   onRestart,
   homeLabel = 'หน้าแรก',
@@ -84,7 +86,10 @@ export function EndingView({
           </button>
         </div>
       </section>
-      <StatPanel stats={summary.stats} />
+      <StatPanel
+        stats={summary.stats}
+        identity={{ name: summary.playerName, portraitPath }}
+      />
     </div>
   )
 }

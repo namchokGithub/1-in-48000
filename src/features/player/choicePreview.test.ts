@@ -17,7 +17,7 @@ function choice(effects: V2Event['choices'][number]['effects']) {
 }
 
 describe('Player choice information', () => {
-  it('describes immediate and delayed stat changes', () => {
+  it('describes immediate changes without revealing delayed effects', () => {
     expect(formatStatChange('money', -500)).toBe('เงิน -500 ฿')
     expect(
       describeChoiceEffects(
@@ -31,7 +31,7 @@ describe('Player choice information', () => {
         ]),
         stats,
       ),
-    ).toEqual(['การเรียน +5', 'ภายหลัง: ความเครียด -2'])
+    ).toEqual(['การเรียน +5'])
   })
 
   it('shows effective chance and masks amounts for statsOnly', () => {
@@ -50,11 +50,7 @@ describe('Player choice information', () => {
         ]),
         stats,
       ),
-    ).toEqual([
-      'โอกาสสำเร็จ 4%',
-      'สำเร็จ: เงินเพิ่ม',
-      'ไม่สำเร็จ: สุขภาพลด',
-    ])
+    ).toEqual(['โอกาสสำเร็จ 4%', 'สำเร็จ: เงินเพิ่ม', 'ไม่สำเร็จ: สุขภาพลด'])
   })
 
   it('shows disclosed amounts and accounts for an earlier lucky change', () => {

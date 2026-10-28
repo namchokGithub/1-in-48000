@@ -6,6 +6,7 @@ import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
 import { YearTimeline } from './YearTimeline'
+import { playerPortraitPath } from './playerIdentity'
 
 type Props = {
   event: V2Event
@@ -15,6 +16,7 @@ type Props = {
   faculties: V2Content['faculties']
   majors: V2Content['majors']
   electives: V2Content['electives']
+  names: V2Content['names']
   error: string | null
   onChoose: (choiceId: string) => void
   onChooseMany: (choiceIds: string[]) => void
@@ -32,6 +34,7 @@ export function SceneView({
   faculties,
   majors,
   electives,
+  names,
   error,
   onChoose,
   onChooseMany,
@@ -62,6 +65,7 @@ export function SceneView({
   const portraitAsset = assets.find(
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )
+  const playerPortrait = playerPortraitPath(names, assets, save.nameId)
   const choices = getV2AvailableChoices(event, save)
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
   const maxSelections =
@@ -265,7 +269,10 @@ export function SceneView({
           )}
         </div>
       </section>
-      <StatPanel stats={save.stats} />
+      <StatPanel
+        stats={save.stats}
+        identity={{ name: save.playerName, portraitPath: playerPortrait }}
+      />
     </div>
   )
 }

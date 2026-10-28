@@ -10,6 +10,7 @@ import {
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { EndingView } from '../player/EndingView'
 import { SceneView } from '../player/SceneView'
+import { playerPortraitPath } from '../player/playerIdentity'
 import { createV2PreviewSession } from './preview'
 
 type Session = {
@@ -139,6 +140,11 @@ export function PreviewDialog({
         {summary ? (
           <EndingView
             summary={summary}
+            portraitPath={playerPortraitPath(
+              session.content.names,
+              session.content.assets,
+              session.save?.nameId ?? '',
+            )}
             onHome={onClose}
             onRestart={() => setSession((current) => start(current.run + 1))}
             homeLabel="ปิด Preview"
@@ -153,6 +159,7 @@ export function PreviewDialog({
             faculties={session.content.faculties}
             majors={session.content.majors}
             electives={session.content.electives}
+            names={session.content.names}
             error={session.error}
             onChoose={choose}
             onChooseMany={chooseMany}

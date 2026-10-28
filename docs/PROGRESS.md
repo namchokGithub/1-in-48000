@@ -8,13 +8,12 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this section whenever an item's status changes.
 
-| #   | Step                 | Status | Depends on |
-| --- | -------------------- | ------ | ---------- |
-| 20  | V3 rules + schema    | Done   | 19         |
-| 21  | V3 engine + save     | Done   | 20         |
-| 24  | Player gameplay (V3) | Todo   | 21         |
-| 25  | Player UX/UI (V3)    | Todo   | 24         |
-| 26  | V3 test              | Todo   | 23, 25     |
+| #   | Step              | Status | Depends on |
+| --- | ----------------- | ------ | ---------- |
+| 20  | V3 rules + schema | Done   | 19         |
+| 21  | V3 engine + save  | Done   | 20         |
+| 25  | Player UX/UI (V3) | Todo   | 24         |
+| 26  | V3 test           | Todo   | 23, 25     |
 
 V3 order: rules and engine first (20–21), then BO (22–23), then Player (24–25). Requirements source: `docs/REQUIREMENT-V3.md`. The production release is still deferred while the author makes further adjustments.
 
@@ -420,7 +419,7 @@ Completed 2026-10-28. The existing event editor now authors single, multi-select
 
 ## 24. Player gameplay (V3)
 
-**Status:** Todo
+**Status:** Done
 
 - Faculty and major selection at the start of every run.
 - Year 3 elective selection.
@@ -430,6 +429,8 @@ Completed 2026-10-28. The existing event editor now authors single, multi-select
 - Do not show delayed effects ("ผลลัพธ์ภายหลัง") on choices.
 
 **Done when:** a run plays from the faculty/major choice through the Year 3 elective to an ending, including a multi-select event.
+
+Completed 2026-10-28. The Player already had the shared program, elective, and multi-select actions with selection-count feedback and no Continue or save-download control. It now shows the seeded player's name and linked portrait beside the stats; three original pixel-style placeholder PNGs are registered by Asset ID for the current names. Choice previews omit delayed effects while the engine still applies them. A Year 2 multi-select event with three options and a two-choice limit is on the active story path. Content version moved to `0.2.0` so older same-tab checkpoints are not restored into changed content. Focused content and gameplay tests reach the event, the Year 3 elective, and an ending.
 
 ## 25. Player UX/UI (V3)
 

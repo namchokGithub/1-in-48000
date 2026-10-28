@@ -194,7 +194,23 @@
     }
   ],
   "characters": [],
-  "assets": [],
+  "assets": [
+    {
+      "id": "player_fah",
+      "kind": "portrait",
+      "path": "/assets/portrait/player-fah.png"
+    },
+    {
+      "id": "player_mind",
+      "kind": "portrait",
+      "path": "/assets/portrait/player-mind.png"
+    },
+    {
+      "id": "player_im",
+      "kind": "portrait",
+      "path": "/assets/portrait/player-im.png"
+    }
+  ],
   "endings": [
     {
       "id": "study_complete",

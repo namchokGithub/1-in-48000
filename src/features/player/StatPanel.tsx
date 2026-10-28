@@ -10,9 +10,39 @@ const statLabels: { key: keyof V2Stats; label: string }[] = [
   { key: 'lucky', label: 'โชค' },
 ]
 
-export function StatPanel({ stats }: { stats: V2Stats }) {
+export function StatPanel({
+  stats,
+  identity,
+}: {
+  stats: V2Stats
+  identity?: { name: string; portraitPath?: string }
+}) {
   return (
     <section className="panel p-5" aria-label="ค่าสถานะ">
+      {identity && (
+        <div className="mb-5 flex items-center gap-3 border-b border-[var(--color-line)] pb-5">
+          {identity.portraitPath ? (
+            <img
+              className="size-16 shrink-0 rounded-xl object-cover"
+              src={identity.portraitPath}
+              alt={`ภาพผู้เล่น ${identity.name}`}
+              width="64"
+              height="64"
+            />
+          ) : (
+            <span
+              className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] text-2xl"
+              aria-hidden="true"
+            >
+              {identity.name.slice(0, 1)}
+            </span>
+          )}
+          <div className="min-w-0">
+            <p className="eyebrow">นิสิต ม.บารพู</p>
+            <p className="truncate text-lg font-bold">{identity.name}</p>
+          </div>
+        </div>
+      )}
       <p className="eyebrow">สถานะตอนนี้</p>
       <div className="mt-5 space-y-4">
         {statLabels.map(({ key, label }) => (

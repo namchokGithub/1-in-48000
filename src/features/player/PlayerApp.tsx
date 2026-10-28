@@ -17,6 +17,7 @@ import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
 import { formatGameTime } from './labels'
 import { SceneView } from './SceneView'
+import { playerPortraitPath } from './playerIdentity'
 
 type View = 'home' | 'create' | 'play' | 'ending'
 
@@ -145,6 +146,7 @@ function PlayerShell({
         faculties={content.faculties}
         majors={content.majors}
         electives={content.electives}
+        names={content.names}
         error={actionError}
         onChoose={choose}
         onChooseMany={chooseMany}
@@ -158,6 +160,11 @@ function PlayerShell({
     body = summary ? (
       <EndingView
         summary={summary}
+        portraitPath={playerPortraitPath(
+          content.names,
+          content.assets,
+          save.nameId,
+        )}
         onHome={goHome}
         onRestart={() => {
           syncMusic(null)
