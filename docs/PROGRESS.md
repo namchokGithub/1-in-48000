@@ -12,7 +12,6 @@ Every item not `Done`. Update this section whenever an item's status changes.
 | --- | -------------------- | ------ | ---------- |
 | 20  | V3 rules + schema    | Done   | 19         |
 | 21  | V3 engine + save     | Done   | 20         |
-| 22  | BO data tabs (V3)    | Todo   | 20         |
 | 23  | BO story editor (V3) | Todo   | 21, 22     |
 | 24  | Player gameplay (V3) | Todo   | 21         |
 | 25  | Player UX/UI (V3)    | Todo   | 24         |
@@ -398,12 +397,14 @@ Completed 2026-10-28. The existing engine now assigns a seeded random name, reso
 
 ## 22. BO data tabs (V3)
 
-**Status:** Todo
+**Status:** Done
 
 - Tabs to manage faculties, majors (including program length), and free electives.
 - Tab to manage player names and link each name to an image.
 
 **Done when:** faculties, majors, electives, and player names can be added, edited, and removed through BO and pass validation.
+
+Completed 2026-10-28. BO now edits faculties, majors and their 4/6-year length, elective state effects, and player names with portrait Asset IDs in the active content files. A portrait asset tab lets authors register image paths without editing JSON manually. The existing draft, Undo/Redo, tab URL, confirmation, and per-file Save flow cover all new tabs. The local writer validates the complete content set and actual asset files before atomic replacement; focused writer tests cover valid writes and broken catalog references.
 
 ## 23. BO story editor (V3)
 

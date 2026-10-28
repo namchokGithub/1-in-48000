@@ -83,3 +83,7 @@ Add faculties, majors, electives, and structured player-name records to the exis
 ## 2026-10-28 — Resolve V3 selections and refresh checkpoints in place
 
 Extend the existing engine/save modules rather than creating V3 copies. Roll the player name once from the names catalog when a run starts and persist its ID and advanced RNG state. Store faculty, major, elective, and every selected Choice ID in save v1; apply multi-select effects in authored order and elective effects before evaluating the next event. A six-year major skips the Year 4 review. Restore a valid unfinished checkpoint only after a reload in the same tab, using localStorage for the checkpoint and sessionStorage for tab activity; a new navigation or tab starts fresh. Endings clear the resume marker. Remove Player name editing and save download, and keep BO preview on the shared engine actions.
+
+## 2026-10-28 — Author V3 catalogs through the existing BO writer
+
+Keep faculty, major, elective, and player-name editors in the current BO draft and file-save flow. Register player portraits in the existing asset manifest via a portrait tab, then reference their Asset IDs from names. Each Save writes one JSON file after validating the complete content set and checking asset files; related new records may need to be saved in dependency order (faculty before major, portrait asset before name).

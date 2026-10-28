@@ -3,11 +3,12 @@ import type { V2Content } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { randomId } from './randomId'
 
-export type DataSection = 'speakers' | 'backgrounds' | 'sounds'
+export type DataSection = 'speakers' | 'backgrounds' | 'portraits' | 'sounds'
 
 const labels: Record<DataSection, string> = {
   speakers: 'ผู้พูด',
   backgrounds: 'ภาพฉาก',
+  portraits: 'ภาพตัวละคร',
   sounds: 'เสียง',
 }
 
@@ -29,7 +30,9 @@ export function DataEditor({
       : content.assets.filter((asset) =>
           section === 'backgrounds'
             ? asset.kind === 'scene'
-            : asset.kind === 'bgm' || asset.kind === 'sfx',
+            : section === 'portraits'
+              ? asset.kind === 'portrait'
+              : asset.kind === 'bgm' || asset.kind === 'sfx',
         )
   const index = Math.min(storedIndex, Math.max(0, items.length - 1))
   const selected = items[index]
@@ -60,7 +63,12 @@ export function DataEditor({
         name: 'ผู้พูดใหม่',
       })
     } else {
-      const kind = section === 'backgrounds' ? 'scene' : 'bgm'
+      const kind =
+        section === 'backgrounds'
+          ? 'scene'
+          : section === 'portraits'
+            ? 'portrait'
+            : 'bgm'
       next.assets.push({
         id: randomId(
           kind,
@@ -176,7 +184,9 @@ export function DataEditor({
                             ? 'speaker'
                             : section === 'backgrounds'
                               ? 'scene'
-                              : 'sound',
+                              : section === 'portraits'
+                                ? 'portrait'
+                                : 'sound',
                           items.map((item) => item.id),
                         ),
                       })
@@ -247,7 +257,9 @@ export function DataEditor({
                       placeholder={
                         asset.kind === 'scene'
                           ? '/assets/scene/example.png'
-                          : '/assets/sound/example.mp3'
+                          : asset.kind === 'portrait'
+                            ? '/assets/portrait/example.png'
+                            : '/assets/sound/example.mp3'
                       }
                       onChange={(event) =>
                         replace({ ...asset, path: event.target.value })
@@ -257,13 +269,14 @@ export function DataEditor({
                 </>
               ) : null}
             </div>
-            {asset?.kind === 'scene' && asset.path.startsWith('/assets/') && (
-              <img
-                className="bo-asset-preview"
-                src={asset.path}
-                alt={`ตัวอย่างภาพฉาก ${asset.id}`}
-              />
-            )}
+            {(asset?.kind === 'scene' || asset?.kind === 'portrait') &&
+              asset.path.startsWith('/assets/') && (
+                <img
+                  className="bo-asset-preview"
+                  src={asset.path}
+                  alt={`ตัวอย่าง${labels[section]} ${asset.id}`}
+                />
+              )}
             {asset && (
               <p className="muted text-sm">
                 วางไฟล์จริงใน public/assets ก่อนบันทึก BO จะตรวจว่าไฟล์มีอยู่

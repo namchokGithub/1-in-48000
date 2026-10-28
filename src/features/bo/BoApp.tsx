@@ -21,9 +21,11 @@ import { moveEvent } from './timeline'
 import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
 import { matchesStoryQuery } from './timelineFilters'
 import { DataEditor, type DataSection } from './DataEditor'
+import { CatalogEditor, type CatalogSection } from './CatalogEditor'
 
-type Section = 'events' | 'endings' | DataSection
-type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
+type Section = 'events' | 'endings' | DataSection | CatalogSection
+type EditableFile =
+  'events' | 'endings' | 'characters' | 'assets' | CatalogSection
 type ValidationIssue = { path: string; message: string }
 
 function sectionFromUrl(): Section {
@@ -32,7 +34,12 @@ function sectionFromUrl(): Section {
     tab === 'endings' ||
     tab === 'speakers' ||
     tab === 'backgrounds' ||
-    tab === 'sounds'
+    tab === 'portraits' ||
+    tab === 'sounds' ||
+    tab === 'faculties' ||
+    tab === 'majors' ||
+    tab === 'electives' ||
+    tab === 'names'
   ) {
     return tab
   }
@@ -41,7 +48,12 @@ function sectionFromUrl(): Section {
 
 function sectionFile(section: Section): EditableFile {
   if (section === 'speakers') return 'characters'
-  if (section === 'backgrounds' || section === 'sounds') return 'assets'
+  if (
+    section === 'backgrounds' ||
+    section === 'portraits' ||
+    section === 'sounds'
+  )
+    return 'assets'
   return section
 }
 
@@ -185,15 +197,38 @@ export function BoApp() {
     JSON.stringify(draft.characters) !== JSON.stringify(saved.characters)
   const dirtyAssets =
     JSON.stringify(draft.assets) !== JSON.stringify(saved.assets)
+  const dirtyFaculties =
+    JSON.stringify(draft.faculties) !== JSON.stringify(saved.faculties)
+  const dirtyMajors =
+    JSON.stringify(draft.majors) !== JSON.stringify(saved.majors)
+  const dirtyElectives =
+    JSON.stringify(draft.electives) !== JSON.stringify(saved.electives)
+  const dirtyNames = JSON.stringify(draft.names) !== JSON.stringify(saved.names)
+  const dirtyFiles: Record<EditableFile, boolean> = {
+    events: dirtyEvents,
+    endings: dirtyEndings,
+    characters: dirtyCharacters,
+    assets: dirtyAssets,
+    faculties: dirtyFaculties,
+    majors: dirtyMajors,
+    electives: dirtyElectives,
+    names: dirtyNames,
+  }
   const file = sectionFile(section)
-  const dirty =
-    file === 'events'
-      ? dirtyEvents
-      : file === 'endings'
-        ? dirtyEndings
-        : file === 'characters'
-          ? dirtyCharacters
-          : dirtyAssets
+  const dirty = dirtyFiles[file]
+  const dirtyAny = Object.values(dirtyFiles).some(Boolean)
+  const sectionLabels: Record<Section, string> = {
+    events: 'เหตุการณ์',
+    endings: 'ตอนจบ',
+    speakers: 'ผู้พูด',
+    backgrounds: 'ภาพฉาก',
+    portraits: 'ภาพตัวละคร',
+    sounds: 'เสียง',
+    faculties: 'คณะ',
+    majors: 'สาขา',
+    electives: 'วิชาเสรี',
+    names: 'ชื่อผู้เล่น',
+  }
   const event = draft.events[eventIndex]
   const ending = draft.endings[endingIndex]
   const eventIds = draft.events.map((item) => item.id)
@@ -345,6 +380,10 @@ export function BoApp() {
         endings: 'ตอนจบ',
         characters: 'ผู้พูด',
         assets: 'Asset',
+        faculties: 'คณะ',
+        majors: 'สาขา',
+        electives: 'วิชาเสรี',
+        names: 'ชื่อผู้เล่น',
       }[file]
       setNotice(`บันทึก${name}แล้ว`)
     } catch {
@@ -369,9 +408,7 @@ export function BoApp() {
         </header>
         <div className="bo-toolbar" role="toolbar" aria-label="เครื่องมือแก้ไข">
           <span className="bo-status" role="status">
-            {dirtyEvents || dirtyEndings || dirtyCharacters || dirtyAssets
-              ? 'มีร่างที่ยังไม่บันทึก'
-              : 'บันทึกแล้ว'}
+            {dirtyAny ? 'มีร่างที่ยังไม่บันทึก' : 'บันทึกแล้ว'}
           </span>
           <div className="bo-toolbar-actions">
             <button
@@ -404,9 +441,7 @@ export function BoApp() {
               disabled={!dirty || saving}
               onClick={() => saveFile(file)}
             >
-              {saving
-                ? 'กำลังบันทึก…'
-                : `บันทึก${section === 'events' ? 'เหตุการณ์' : section === 'endings' ? 'ตอนจบ' : section === 'speakers' ? 'ผู้พูด' : section === 'backgrounds' ? 'ภาพฉาก' : 'เสียง'}`}
+              {saving ? 'กำลังบันทึก…' : `บันทึก${sectionLabels[section]}`}
             </button>
           </div>
         </div>
@@ -457,6 +492,28 @@ export function BoApp() {
             }
             {dirtyAssets ? ' •' : ''}
           </button>
+          <button
+            aria-pressed={section === 'portraits'}
+            type="button"
+            onClick={() => selectSection('portraits')}
+          >
+            ภาพตัวละคร{' '}
+            {draft.assets.filter((asset) => asset.kind === 'portrait').length}
+            {dirtyAssets ? ' •' : ''}
+          </button>
+          {(['faculties', 'majors', 'electives', 'names'] as const).map(
+            (catalog) => (
+              <button
+                key={catalog}
+                aria-pressed={section === catalog}
+                type="button"
+                onClick={() => selectSection(catalog)}
+              >
+                {sectionLabels[catalog]} {draft[catalog].length}
+                {dirtyFiles[catalog] ? ' •' : ''}
+              </button>
+            ),
+          )}
         </nav>
         {section === 'events' && (
           <div className="bo-events-tools">
@@ -522,8 +579,31 @@ export function BoApp() {
         )}
         {section === 'speakers' ||
         section === 'backgrounds' ||
+        section === 'portraits' ||
         section === 'sounds' ? (
           <DataEditor
+            key={section}
+            section={section}
+            content={draft}
+            onChange={(next) => {
+              setDraft(next)
+              setNotice('')
+              setServerIssues([])
+            }}
+            onDelete={(title, description, action) =>
+              setConfirmation({
+                title,
+                description,
+                confirmLabel: 'ลบจากร่าง',
+                action,
+              })
+            }
+          />
+        ) : section === 'faculties' ||
+          section === 'majors' ||
+          section === 'electives' ||
+          section === 'names' ? (
+          <CatalogEditor
             key={section}
             section={section}
             content={draft}

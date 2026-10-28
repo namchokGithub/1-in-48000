@@ -125,3 +125,159 @@ describe('V2 BO story writing', () => {
     expect(await readFile(join(dir, 'endings.json'), 'utf8')).toBe(before)
   })
 })
+
+describe('BO program and player catalogs', () => {
+  it('writes faculties, majors, electives, names, and portrait assets', async () => {
+    const dir = await fixture()
+    const faculties = JSON.parse(
+      await readFile(join(dir, 'faculties.json'), 'utf8'),
+    ) as Array<{ id: string; name: string; supportsSixYear: boolean }>
+    const majors = JSON.parse(
+      await readFile(join(dir, 'majors.json'), 'utf8'),
+    ) as Array<{
+      id: string
+      facultyId: string
+      name: string
+      programYears: number
+    }>
+    const electives = JSON.parse(
+      await readFile(join(dir, 'electives.json'), 'utf8'),
+    ) as Array<{ id: string; name: string; effects: unknown[] }>
+    const names = JSON.parse(
+      await readFile(join(dir, 'names.json'), 'utf8'),
+    ) as Array<{ id: string; name: string; portraitAssetId?: string }>
+    const assets = JSON.parse(
+      await readFile(join(dir, 'assets.json'), 'utf8'),
+    ) as Array<{ id: string; kind: string; path: string }>
+
+    const faculty = {
+      id: 'science',
+      name: 'คณะวิทยาศาสตร์',
+      supportsSixYear: false,
+    }
+    const major = {
+      id: 'biology',
+      facultyId: 'science',
+      name: 'ชีววิทยา',
+      programYears: 4,
+    }
+    const elective = {
+      id: 'field_work',
+      name: 'สำรวจภาคสนาม',
+      effects: [{ type: 'statDelta', stat: 'study', amount: 3 }],
+    }
+    const portrait = {
+      id: 'fah_portrait',
+      kind: 'portrait',
+      path: '/assets/portrait/fah.png',
+    }
+    const name = {
+      id: 'fah_new',
+      name: 'ฟ้าใหม่',
+      portraitAssetId: portrait.id,
+    }
+    const portraitFile = join(root, 'public', portrait.path.slice(1))
+    await mkdir(dirname(portraitFile), { recursive: true })
+    await writeFile(portraitFile, '')
+
+    await saveBoContent(root, 'faculties', [...faculties, faculty])
+    await saveBoContent(root, 'majors', [...majors, major])
+    await saveBoContent(root, 'electives', [...electives, elective])
+    await saveBoContent(root, 'assets', [...assets, portrait])
+    await saveBoContent(root, 'names', [...names, name])
+
+    for (const [file, item] of [
+      ['faculties', faculty],
+      ['majors', major],
+      ['electives', elective],
+      ['assets', portrait],
+      ['names', name],
+    ] as const) {
+      expect(
+        JSON.parse(await readFile(join(dir, `${file}.json`), 'utf8')),
+      ).toContainEqual(item)
+    }
+  })
+
+  it('rejects duplicate player name IDs without replacing the file', async () => {
+    const dir = await fixture()
+    const before = await readFile(join(dir, 'names.json'), 'utf8')
+    const names = JSON.parse(before) as Array<{ id: string; name: string }>
+    await expect(
+      saveBoContent(root, 'names', [
+        ...names,
+        { ...names[0], name: 'ชื่อซ้ำ' },
+      ]),
+    ).rejects.toMatchObject({
+      issues: [{ path: 'names', message: 'Name IDs must be unique' }],
+    })
+    expect(await readFile(join(dir, 'names.json'), 'utf8')).toBe(before)
+  })
+
+  it('rejects a six-year major in a faculty without six-year support', async () => {
+    const dir = await fixture()
+    const before = await readFile(join(dir, 'majors.json'), 'utf8')
+    const majors = JSON.parse(before) as Array<{
+      id: string
+      facultyId: string
+      programYears: number
+    }>
+    await expect(
+      saveBoContent(root, 'majors', [
+        ...majors,
+        {
+          id: 'long_thai',
+          facultyId: 'humanities',
+          name: 'ภาษาไทย 6 ปี',
+          programYears: 6,
+        },
+      ]),
+    ).rejects.toBeInstanceOf(BoValidationError)
+    expect(await readFile(join(dir, 'majors.json'), 'utf8')).toBe(before)
+  })
+
+  it('keeps names intact when a portrait reference is not in the manifest', async () => {
+    const dir = await fixture()
+    const before = await readFile(join(dir, 'names.json'), 'utf8')
+    const names = JSON.parse(before) as Array<{
+      id: string
+      name: string
+      portraitAssetId?: string
+    }>
+    await expect(
+      saveBoContent(root, 'names', [
+        ...names,
+        {
+          id: 'new_player',
+          name: 'นิสิตใหม่',
+          portraitAssetId: 'missing_portrait',
+        },
+      ]),
+    ).rejects.toMatchObject({
+      issues: [
+        {
+          path: `names.${names.length}.portraitAssetId`,
+          message: 'Unknown portrait asset: missing_portrait',
+        },
+      ],
+    })
+    expect(await readFile(join(dir, 'names.json'), 'utf8')).toBe(before)
+  })
+
+  it('keeps faculties intact when a major still refers to the removed faculty', async () => {
+    const dir = await fixture()
+    const before = await readFile(join(dir, 'faculties.json'), 'utf8')
+    const faculties = JSON.parse(before) as Array<{ id: string }>
+    await expect(
+      saveBoContent(root, 'faculties', faculties.slice(1)),
+    ).rejects.toMatchObject({
+      issues: [
+        {
+          path: 'majors.0.facultyId',
+          message: `Unknown faculty: ${faculties[0].id}`,
+        },
+      ],
+    })
+    expect(await readFile(join(dir, 'faculties.json'), 'utf8')).toBe(before)
+  })
+})

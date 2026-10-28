@@ -126,7 +126,7 @@ function StateEffectEditor({
   )
 }
 
-function StateEffectList({
+export function StateEffectList({
   value,
   onChange,
   label,

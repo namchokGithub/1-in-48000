@@ -6,7 +6,15 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 import { v2AssetListSchema, v2ContentSchema } from './src/content/v2/schema.ts'
 
-type EditableFile = 'events' | 'endings' | 'characters' | 'assets'
+type EditableFile =
+  | 'events'
+  | 'endings'
+  | 'characters'
+  | 'assets'
+  | 'faculties'
+  | 'majors'
+  | 'electives'
+  | 'names'
 type ValidationIssue = { path: string; message: string }
 const MAX_BODY_BYTES = 2 * 1024 * 1024
 const files = [
@@ -140,7 +148,7 @@ export function boContentPlugin(): Plugin {
           return
         }
         const match = path?.match(
-          /^\/__bo\/v2\/content\/(events|endings|characters|assets)$/,
+          /^\/__bo\/v2\/content\/(events|endings|characters|assets|faculties|majors|electives|names)$/,
         )
         const file = match?.[1] as EditableFile | undefined
         if (!file) {
