@@ -99,3 +99,15 @@ Place a two-of-three-choice event after the first Year 2 term-one main event and
 ## 2026-10-28 — Mix reused and new events for Years 5–8
 
 Use a mix of adapted existing story beats and newly authored events for Years 5–8. Each adapted beat gets its own Event ID and later-year time so it can appear on a longer path after the original has been visited. Keep the shared main-line structure and give the longer study paths their own consequences and context. The exact event list and pacing remain content-authoring work; this decision does not mark Years 5–8 content complete.
+
+## 2026-10-29 — Graph-driven story flow
+
+Replace event selection by kind and period with a story flow graph. The run follows authored edges between Start, Event, Condition, Random, Next Period, and Ending nodes. An event's `kind`, `year`, and `period` remain only as BO library labels for search and filtering; the run's time comes from Next Period nodes.
+
+- **Links:** Remove the `goToEvent` effect and `selection.goToEventId`; edges replace them. A single-select event has one edge per choice. Multi-select, program, and elective events have one outgoing edge.
+- **Conditions:** An edge may hold one simple condition. A Condition node holds one group joined by either AND or OR, without nesting, and has pass and fail outputs.
+- **Random pools:** Events carry a pool tag. A Random node names a pool, rolls one eligible event with the game seed, plays it, then continues on the node's "after" edge. A fallback edge is used when no pool event qualifies. The roll is recorded so a refresh restores the same path.
+- **Program review:** The engine keeps the automatic study review. A Next Period node that leaves a review year's summer has a graduate output and an extend output. Failure at Year 8 still selects `dismissal`.
+- **Board:** Each event appears on the board at most once; several paths may merge into it. V4 uses one board for the whole story, with year/term filters in the library. Splitting boards is a later option.
+- **Data and library:** Store nodes, edges, and card positions in `public/content-v2/flow.json`. Use `@xyflow/react` (React Flow, MIT) for the BO board instead of a hand-built canvas.
+- **BO:** Remove the Timeline tab once the Flow board is in place. Keep the Event list and form for editing event details.
