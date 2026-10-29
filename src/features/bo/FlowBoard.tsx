@@ -7,6 +7,7 @@ import {
   Panel,
   Position,
   ReactFlow,
+  SelectionMode,
   ReactFlowProvider,
   applyNodeChanges,
   useReactFlow,
@@ -887,6 +888,11 @@ function Board({
               onEdgeMouseEnter={(_, edge) => setHoveredEdge(edge.id)}
               onEdgeMouseLeave={() => setHoveredEdge(null)}
               onPaneClick={() => select(null)}
+              selectionOnDrag={true}
+              selectionMode={SelectionMode.Partial}
+              panOnDrag={[1, 2]}
+              panOnScroll={true}
+              multiSelectionKeyCode={['Meta', 'Control']}
               deleteKeyCode={['Backspace', 'Delete']}
               minZoom={0.15}
               fitView

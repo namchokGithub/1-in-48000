@@ -710,11 +710,11 @@
   {
     "id": "lost_student_card",
     "kind": "random",
-    "pool": "y1_term1_life",
     "time": {
       "year": 1,
       "period": "term1"
     },
+    "pool": "y1_term1_life",
     "title": "บัตรนักศึกษาหาย",
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
@@ -762,11 +762,11 @@
   {
     "id": "quiet_courtyard",
     "kind": "random",
-    "pool": "y1_term1_life",
     "time": {
       "year": 1,
       "period": "term1"
     },
+    "pool": "y1_term1_life",
     "title": "ลานเงียบหลังสอบ",
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
@@ -1146,13 +1146,13 @@
       "period": "term1"
     },
     "title": "แผนปีสองของเรา",
-    "sceneAssetId": "classroom",
-    "bgmAssetId": "kanto_daydream",
     "selection": {
       "type": "multiple",
       "min": 2,
       "max": 2
     },
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [
       {
@@ -1167,14 +1167,24 @@
         "id": "review_notes",
         "text": "ทบทวนบทเรียนให้สม่ำเสมอ",
         "conditions": [],
-        "effects": [{ "type": "statDelta", "stat": "study", "amount": 3 }]
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          }
+        ]
       },
       {
         "id": "join_friends",
         "text": "ใช้เวลากับเพื่อนมากขึ้น",
         "conditions": [],
         "effects": [
-          { "type": "statDelta", "stat": "relationships", "amount": 3 }
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          }
         ]
       },
       {
@@ -1182,8 +1192,16 @@
         "text": "จัดเวลาพักให้พอดี",
         "conditions": [],
         "effects": [
-          { "type": "statDelta", "stat": "health", "amount": 3 },
-          { "type": "statDelta", "stat": "stress", "amount": -2 }
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
         ]
       }
     ]
@@ -2122,14 +2140,22 @@
   {
     "id": "choose_program",
     "kind": "main",
-    "time": { "year": 1, "period": "term1" },
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
     "title": "เลือกคณะและสาขา",
+    "selection": {
+      "type": "program"
+    },
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
-    "selection": { "type": "program" },
     "conditions": [],
     "lines": [
-      { "text": "วันแรกที่ ม.บารพู คุณมองรายชื่อคณะและสาขาที่จะเลือกเรียน" }
+      {
+        "text": "วันแรกที่ ม.บารพู คุณมองรายชื่อคณะและสาขาที่จะเลือกเรียน",
+        "portraitAssetId": "player_fah"
+      }
     ],
     "choices": [
       {
@@ -2143,13 +2169,22 @@
   {
     "id": "free_elective",
     "kind": "main",
-    "time": { "year": 3, "period": "term1" },
+    "time": {
+      "year": 3,
+      "period": "term1"
+    },
     "title": "เลือกวิชาเสรี",
+    "selection": {
+      "type": "elective"
+    },
     "sceneAssetId": "classroom",
     "bgmAssetId": "kanto_daydream",
-    "selection": { "type": "elective" },
     "conditions": [],
-    "lines": [{ "text": "ปีสามมาถึงแล้ว ถึงเวลาเลือกวิชาเสรีที่จะเรียน" }],
+    "lines": [
+      {
+        "text": "ปีสามมาถึงแล้ว ถึงเวลาเลือกวิชาเสรีที่จะเรียน"
+      }
+    ],
     "choices": [
       {
         "id": "choose_elective",

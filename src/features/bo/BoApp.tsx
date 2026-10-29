@@ -513,7 +513,7 @@ export function BoApp() {
               disabled={!dirty || saving}
               onClick={() => saveFile(file)}
             >
-              {saving ? 'กำลังบันทึก…' : `บันทึก${sectionLabels[section]}`}
+              {saving ? 'กำลังบันทึก…' : `บันทึก ${sectionLabels[section]}`}
             </button>
           </div>
         </div>
