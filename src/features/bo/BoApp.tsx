@@ -438,7 +438,9 @@ export function BoApp() {
 
   return (
     <main className="app-shell">
-      <div className="app-wrap bo-wrap">
+      <div
+        className={`app-wrap bo-wrap${section === 'flow' ? ' bo-wrap-wide' : ''}`}
+      >
         <header className="bo-header">
           <div>
             <p className="eyebrow">เครื่องมือบนเครื่องผู้เขียน</p>

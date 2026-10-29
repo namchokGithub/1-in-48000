@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState, type DragEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react'
 import {
   Background,
   Controls,
   Handle,
   MiniMap,
+  Panel,
   Position,
   ReactFlow,
   ReactFlowProvider,
@@ -202,6 +203,10 @@ function Board({
   } | null>(null)
   const [message, setMessage] = useState('')
   const [showIssues, setShowIssues] = useState(false)
+  const [libraryOpen, setLibraryOpen] = useState(true)
+  const [goTo, setGoTo] = useState('')
+  const goToRef = useRef<HTMLInputElement>(null)
+  const addMenuRef = useRef<HTMLDetailsElement>(null)
 
   const report = useMemo(
     () => validateV2Flow(flow, content.events),
@@ -280,6 +285,7 @@ function Board({
         sourceHandle: edge.port,
         target: edge.to,
         targetHandle: 'in',
+        type: 'smoothstep',
         label: edge.condition ? conditionSummary(edge.condition) : undefined,
         selected: selected?.kind === 'edge' && selected.id === edge.id,
         animated: highlight?.edgeIds.includes(edge.id),
@@ -375,6 +381,67 @@ function Board({
     })
   }
 
+  function fitSelected() {
+    const ids = selectedNode
+      ? [selectedNode.id]
+      : selectedEdge
+        ? [selectedEdge.from, selectedEdge.to]
+        : []
+    if (ids.length)
+      fitView({ nodes: ids.map((id) => ({ id })), duration: 300, maxZoom: 1 })
+  }
+
+  const goToQuery = goTo.trim().toLowerCase()
+  const goToMatches = goToQuery
+    ? flow.nodes
+        .filter((node) =>
+          [
+            node.id,
+            node.type === 'event' ? node.eventId : '',
+            cardTitle(node, content),
+          ].some((text) => text.toLowerCase().includes(goToQuery)),
+        )
+        .slice(0, 8)
+    : []
+
+  function jumpTo(id: string) {
+    focus(id)
+    setGoTo('')
+    goToRef.current?.blur()
+  }
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+      if (document.querySelector('dialog[open]')) return
+      const target = event.target as HTMLElement | null
+      if (target?.closest('input, textarea, select, [contenteditable="true"]'))
+        return
+      if (event.code === 'Slash') {
+        event.preventDefault()
+        goToRef.current?.focus()
+      } else if (event.code === 'KeyF') {
+        event.preventDefault()
+        if (selected) fitSelected()
+        else fitView({ duration: 300 })
+      } else if (event.key === 'Escape') {
+        addMenuRef.current?.removeAttribute('open')
+        select(null)
+      }
+    }
+    function onPointerDown(event: PointerEvent) {
+      const menu = addMenuRef.current
+      if (menu?.open && !menu.contains(event.target as globalThis.Node))
+        menu.removeAttribute('open')
+    }
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('pointerdown', onPointerDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('pointerdown', onPointerDown)
+    }
+  })
+
   function onNodesChange(changes: NodeChange<Card>[]) {
     setNodes((current) => applyNodeChanges(changes, current))
     const moved: Record<string, V2FlowNode['position']> = {}
@@ -413,113 +480,123 @@ function Board({
   ]
 
   return (
-    <div className="bo-flow-layout mt-3">
-      <aside className="panel bo-flow-library" aria-label="คลังเหตุการณ์">
-        <div className="bo-section-heading">
-          <h2 className="font-extrabold">คลังเหตุการณ์</h2>
-          <button
-            type="button"
-            className="bo-text-button"
-            onClick={() => onCreateEvent(boardCenter())}
-          >
-            + เหตุการณ์ใหม่
-          </button>
-        </div>
-        <label className="bo-field">
-          <span>ค้นหา</span>
-          <input
-            className="field"
-            type="search"
-            value={query}
-            placeholder="ชื่อ, ID หรือข้อความ"
-            onChange={(input) => setQuery(input.target.value)}
-          />
-        </label>
-        <div className="bo-form-grid">
-          <label className="bo-field">
-            <span>ปี</span>
-            <BoDropdown
-              value={year}
-              onChange={(input) => setYear(input.target.value)}
+    <div
+      className="bo-flow-layout mt-3"
+      data-library={libraryOpen ? 'open' : 'closed'}
+    >
+      {libraryOpen && (
+        <aside
+          id="bo-flow-library"
+          className="panel bo-flow-library"
+          aria-label="คลังเหตุการณ์"
+        >
+          <div className="bo-section-heading">
+            <h2 className="font-extrabold">คลังเหตุการณ์</h2>
+            <button
+              type="button"
+              className="bo-text-button"
+              onClick={() => onCreateEvent(boardCenter())}
             >
-              <option value="all">ทุกปี</option>
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((value) => (
-                <option key={value} value={String(value)}>
-                  ปี {value}
-                </option>
-              ))}
-            </BoDropdown>
-          </label>
+              + เหตุการณ์ใหม่
+            </button>
+          </div>
           <label className="bo-field">
-            <span>ช่วงเวลา</span>
-            <BoDropdown
-              value={period}
-              onChange={(input) => setPeriod(input.target.value)}
-            >
-              <option value="all">ทุกช่วง</option>
-              {Object.entries(periodLabels).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </BoDropdown>
+            <span>ค้นหา</span>
+            <input
+              className="field"
+              type="search"
+              value={query}
+              placeholder="ชื่อ, ID หรือข้อความ"
+              onChange={(input) => setQuery(input.target.value)}
+            />
           </label>
-        </div>
-        <ul className="bo-flow-library-list">
-          {library.map((event) => {
-            const placed = placedEventIds.has(event.id)
-            const placeable = !placed && !event.pool && event.active !== false
-            return (
-              <li
-                key={event.id}
-                draggable={placeable}
-                data-placeable={placeable}
-                onDragStart={(drag) => {
-                  drag.dataTransfer.setData(EVENT_DRAG_TYPE, event.id)
-                  drag.dataTransfer.effectAllowed = 'copy'
-                }}
+          <div className="bo-form-grid">
+            <label className="bo-field">
+              <span>ปี</span>
+              <BoDropdown
+                value={year}
+                onChange={(input) => setYear(input.target.value)}
               >
-                <div>
-                  <strong>{event.title}</strong>
-                  <small>
-                    {event.id} · ปี {event.time.year}{' '}
-                    {periodLabels[event.time.period]}
-                    {event.pool ? ` · Pool ${event.pool}` : ''}
-                    {event.active === false ? ' · Inactive' : ''}
-                  </small>
-                </div>
-                {placed ? (
-                  <button
-                    type="button"
-                    className="bo-text-button"
-                    onClick={() =>
-                      focus(
-                        flow.nodes.find(
-                          (node) =>
-                            node.type === 'event' && node.eventId === event.id,
-                        )!.id,
-                      )
-                    }
-                  >
-                    ดูบนกระดาน
-                  </button>
-                ) : placeable ? (
-                  <button
-                    type="button"
-                    className="bo-text-button"
-                    onClick={() => place(event.id)}
-                  >
-                    วาง
-                  </button>
-                ) : null}
-              </li>
-            )
-          })}
-        </ul>
-        {!library.length && (
-          <p className="muted text-sm">ไม่พบเหตุการณ์ที่ค้นหา</p>
-        )}
-      </aside>
+                <option value="all">ทุกปี</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((value) => (
+                  <option key={value} value={String(value)}>
+                    ปี {value}
+                  </option>
+                ))}
+              </BoDropdown>
+            </label>
+            <label className="bo-field">
+              <span>ช่วงเวลา</span>
+              <BoDropdown
+                value={period}
+                onChange={(input) => setPeriod(input.target.value)}
+              >
+                <option value="all">ทุกช่วง</option>
+                {Object.entries(periodLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </BoDropdown>
+            </label>
+          </div>
+          <ul className="bo-flow-library-list">
+            {library.map((event) => {
+              const placed = placedEventIds.has(event.id)
+              const placeable = !placed && !event.pool && event.active !== false
+              return (
+                <li
+                  key={event.id}
+                  draggable={placeable}
+                  data-placeable={placeable}
+                  onDragStart={(drag) => {
+                    drag.dataTransfer.setData(EVENT_DRAG_TYPE, event.id)
+                    drag.dataTransfer.effectAllowed = 'copy'
+                  }}
+                >
+                  <div>
+                    <strong>{event.title}</strong>
+                    <small>
+                      {event.id} · ปี {event.time.year}{' '}
+                      {periodLabels[event.time.period]}
+                      {event.pool ? ` · Pool ${event.pool}` : ''}
+                      {event.active === false ? ' · Inactive' : ''}
+                    </small>
+                  </div>
+                  {placed ? (
+                    <button
+                      type="button"
+                      className="bo-text-button"
+                      onClick={() =>
+                        focus(
+                          flow.nodes.find(
+                            (node) =>
+                              node.type === 'event' &&
+                              node.eventId === event.id,
+                          )!.id,
+                        )
+                      }
+                    >
+                      ดูบนกระดาน
+                    </button>
+                  ) : placeable ? (
+                    <button
+                      type="button"
+                      className="bo-text-button"
+                      onClick={() => place(event.id)}
+                    >
+                      วาง
+                    </button>
+                  ) : null}
+                </li>
+              )
+            })}
+          </ul>
+          {!library.length && (
+            <p className="muted text-sm">ไม่พบเหตุการณ์ที่ค้นหา</p>
+          )}
+        </aside>
+      )}
 
       <section className="panel bo-flow-main" aria-label="กระดาน Flow">
         <div
@@ -527,34 +604,82 @@ function Board({
           role="toolbar"
           aria-label="เครื่องมือกระดาน"
         >
-          <button
-            type="button"
-            className="button button-secondary"
-            onClick={() => add('condition')}
-          >
-            + Condition
-          </button>
-          <button
-            type="button"
-            className="button button-secondary"
-            onClick={() => add('random')}
-          >
-            + Random
-          </button>
-          <button
-            type="button"
-            className="button button-secondary"
-            onClick={() => add('nextPeriod')}
-          >
-            + Next Period
-          </button>
-          <button
-            type="button"
-            className="button button-secondary"
-            onClick={() => add('ending')}
-          >
-            + Ending
-          </button>
+          <div className="bo-flow-group" role="group" aria-label="แก้กระดาน">
+            <button
+              type="button"
+              className="button button-secondary"
+              aria-expanded={libraryOpen}
+              aria-controls="bo-flow-library"
+              onClick={() => setLibraryOpen((value) => !value)}
+            >
+              {libraryOpen ? 'ซ่อนคลัง' : 'คลังเหตุการณ์'}
+            </button>
+            <details ref={addMenuRef} className="bo-flow-menu">
+              <summary className="button button-secondary">+ เพิ่ม ▾</summary>
+              <div className="bo-flow-menu-list">
+                <button
+                  type="button"
+                  onClick={() => {
+                    addMenuRef.current?.removeAttribute('open')
+                    onCreateEvent(boardCenter())
+                  }}
+                >
+                  เหตุการณ์ใหม่
+                </button>
+                {(['condition', 'random', 'nextPeriod', 'ending'] as const).map(
+                  (type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      onClick={() => {
+                        addMenuRef.current?.removeAttribute('open')
+                        add(type)
+                      }}
+                    >
+                      {typeLabels[type]}
+                    </button>
+                  ),
+                )}
+              </div>
+            </details>
+          </div>
+          <div className="bo-flow-goto">
+            <input
+              ref={goToRef}
+              className="field"
+              type="search"
+              value={goTo}
+              placeholder="ไปที่การ์ด… ( / )"
+              aria-label="ไปที่การ์ด"
+              onChange={(input) => setGoTo(input.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && goToMatches[0])
+                  jumpTo(goToMatches[0].id)
+                else if (event.key === 'Escape') {
+                  setGoTo('')
+                  event.currentTarget.blur()
+                }
+              }}
+            />
+            {goToQuery && (
+              <ul className="bo-flow-goto-list">
+                {goToMatches.length ? (
+                  goToMatches.map((node) => (
+                    <li key={node.id}>
+                      <button type="button" onClick={() => jumpTo(node.id)}>
+                        <strong>{cardTitle(node, content)}</strong>
+                        <small>
+                          {typeLabels[node.type]} · {node.id}
+                        </small>
+                      </button>
+                    </li>
+                  ))
+                ) : (
+                  <li className="muted">ไม่พบการ์ด</li>
+                )}
+              </ul>
+            )}
+          </div>
           <span className="bo-flow-actions-gap" />
           {highlight && (
             <button
@@ -565,16 +690,35 @@ function Board({
               ล้างไฮไลต์เส้นทาง
             </button>
           )}
-          <button
-            type="button"
-            className="button button-secondary"
-            onClick={() => {
-              change(layoutFlow(flow))
-              window.requestAnimationFrame(() => fitView({ duration: 300 }))
-            }}
-          >
-            จัดตำแหน่งอัตโนมัติ
-          </button>
+          <div className="bo-flow-group" role="group" aria-label="มุมมอง">
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={() => {
+                change(layoutFlow(flow))
+                window.requestAnimationFrame(() => fitView({ duration: 300 }))
+              }}
+            >
+              จัดตำแหน่ง
+            </button>
+            <button
+              type="button"
+              className="button button-secondary"
+              title="คีย์ลัด F เมื่อไม่ได้เลือกอะไร"
+              onClick={() => fitView({ duration: 300 })}
+            >
+              Fit ทั้งหมด
+            </button>
+            <button
+              type="button"
+              className="button button-secondary"
+              title="คีย์ลัด F เมื่อเลือกการ์ดหรือเส้น"
+              disabled={!selectedNode && !selectedEdge}
+              onClick={fitSelected}
+            >
+              Fit ที่เลือก
+            </button>
+          </div>
           <button
             type="button"
             className="button button-secondary"
@@ -620,154 +764,173 @@ function Board({
             )}
           </ul>
         )}
-        <div
-          ref={boardRef}
-          className="bo-flow-canvas"
-          onDragOver={(event) => {
-            if (event.dataTransfer.types.includes(EVENT_DRAG_TYPE)) {
-              event.preventDefault()
-              event.dataTransfer.dropEffect = 'copy'
-            }
-          }}
-          onDrop={onDrop}
-        >
-          <ReactFlow<Card>
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            onNodesChange={onNodesChange}
-            onConnect={onConnect}
-            onNodesDelete={(deleted) =>
-              change(
-                removeFlowNodes(
-                  flow,
-                  deleted.map((node) => node.id),
-                ),
-              )
-            }
-            onEdgesDelete={(deleted) =>
-              change(
-                removeFlowEdges(
-                  flow,
-                  deleted.map((edge) => edge.id),
-                ),
-              )
-            }
-            onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
-            onNodeDoubleClick={(_, node) => {
-              if (node.data.node.type === 'event')
-                onEditEvent(node.data.node.eventId)
+        <div className="bo-flow-stage">
+          <div
+            ref={boardRef}
+            className="bo-flow-canvas"
+            onDragOver={(event) => {
+              if (event.dataTransfer.types.includes(EVENT_DRAG_TYPE)) {
+                event.preventDefault()
+                event.dataTransfer.dropEffect = 'copy'
+              }
             }}
-            zoomOnDoubleClick={false}
-            onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
-            onPaneClick={() => select(null)}
-            deleteKeyCode={['Backspace', 'Delete']}
-            minZoom={0.15}
-            fitView
+            onDrop={onDrop}
           >
-            <Background gap={24} />
-            <Controls />
-            <MiniMap pannable zoomable />
-          </ReactFlow>
+            <ReactFlow<Card>
+              nodes={nodes}
+              edges={edges}
+              nodeTypes={nodeTypes}
+              onNodesChange={onNodesChange}
+              onConnect={onConnect}
+              onNodesDelete={(deleted) =>
+                change(
+                  removeFlowNodes(
+                    flow,
+                    deleted.map((node) => node.id),
+                  ),
+                )
+              }
+              onEdgesDelete={(deleted) =>
+                change(
+                  removeFlowEdges(
+                    flow,
+                    deleted.map((edge) => edge.id),
+                  ),
+                )
+              }
+              onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
+              onNodeDoubleClick={(_, node) => {
+                if (node.data.node.type === 'event')
+                  onEditEvent(node.data.node.eventId)
+              }}
+              zoomOnDoubleClick={false}
+              onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
+              onPaneClick={() => select(null)}
+              deleteKeyCode={['Backspace', 'Delete']}
+              minZoom={0.15}
+              fitView
+            >
+              <Background gap={24} />
+              <Controls />
+              <MiniMap pannable zoomable />
+              {!selectedNode && !selectedEdge && (
+                <Panel position="top-left" className="bo-flow-hint">
+                  เลือกการ์ดหรือเส้นเพื่อแก้
+                  ลากจากจุดขวาของตัวเลือกไปยังการ์ดถัดไปเพื่อเชื่อมเส้น ·
+                  คีย์ลัด / ค้นหา · F พอดีจอ · Esc ยกเลิกการเลือก
+                </Panel>
+              )}
+            </ReactFlow>
+          </div>
+          {(selectedNode || selectedEdge) && (
+            <aside className="bo-flow-drawer" aria-label="รายละเอียดที่เลือก">
+              <button
+                type="button"
+                className="bo-text-button bo-flow-drawer-close"
+                onClick={() => select(null)}
+              >
+                ปิด ✕
+              </button>
+              {selectedNode ? (
+                <NodeDetail
+                  node={selectedNode}
+                  content={content}
+                  pools={pools}
+                  eventIds={eventIds}
+                  issues={issues.get(selectedNode.id)}
+                  onChange={updateNode}
+                  onRemove={() => {
+                    change(removeFlowNodes(flow, [selectedNode.id]))
+                    select(null)
+                  }}
+                  onEditEvent={onEditEvent}
+                  onPreview={onPreview}
+                />
+              ) : selectedEdge ? (
+                <div className="bo-stack">
+                  <p className="eyebrow">เส้นเชื่อม</p>
+                  <h2 className="text-lg font-extrabold">
+                    {cardTitle(
+                      flow.nodes.find((node) => node.id === selectedEdge.from)!,
+                      content,
+                    )}{' '}
+                    →{' '}
+                    {cardTitle(
+                      flow.nodes.find((node) => node.id === selectedEdge.to)!,
+                      content,
+                    )}
+                  </h2>
+                  <p className="muted text-sm">
+                    ทาง:{' '}
+                    {flowPorts(
+                      flow.nodes.find((node) => node.id === selectedEdge.from)!,
+                      content.events,
+                    ).find((port) => port.id === selectedEdge.port)?.label ??
+                      selectedEdge.port}
+                  </p>
+                  <section className="bo-editor-section">
+                    <h3>เงื่อนไขบนเส้น (ไม่เกิน 1 ข้อ)</h3>
+                    <V2ConditionList
+                      value={
+                        selectedEdge.condition ? [selectedEdge.condition] : []
+                      }
+                      eventIds={eventIds}
+                      catalogs={content}
+                      onChange={(conditions) =>
+                        change({
+                          ...flow,
+                          edges: flow.edges.map((edge) => {
+                            if (edge.id !== selectedEdge.id) return edge
+                            const { condition: _removed, ...rest } = edge
+                            void _removed
+                            const condition = conditions.at(-1)
+                            return condition ? { ...rest, condition } : rest
+                          }),
+                        })
+                      }
+                    />
+                  </section>
+                  <p className="muted text-xs">
+                    เส้นจากทางเดียวกันตรวจตามลำดับ
+                    เส้นแรกที่เงื่อนไขผ่านจะถูกใช้
+                    เส้นที่ไม่มีเงื่อนไขทำหน้าที่เป็นทางสำรอง
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      onClick={() =>
+                        change(moveEdgeOrder(flow, selectedEdge.id, -1))
+                      }
+                    >
+                      ↑ ตรวจก่อน
+                    </button>
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      onClick={() =>
+                        change(moveEdgeOrder(flow, selectedEdge.id, 1))
+                      }
+                    >
+                      ↓ ตรวจทีหลัง
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    className="button button-danger"
+                    onClick={() => {
+                      change(removeFlowEdges(flow, [selectedEdge.id]))
+                      select(null)
+                    }}
+                  >
+                    ลบเส้น
+                  </button>
+                </div>
+              ) : null}
+            </aside>
+          )}
         </div>
       </section>
-
-      <aside className="panel bo-flow-detail" aria-label="รายละเอียดที่เลือก">
-        {selectedNode ? (
-          <NodeDetail
-            node={selectedNode}
-            content={content}
-            pools={pools}
-            eventIds={eventIds}
-            issues={issues.get(selectedNode.id)}
-            onChange={updateNode}
-            onRemove={() => {
-              change(removeFlowNodes(flow, [selectedNode.id]))
-              select(null)
-            }}
-            onEditEvent={onEditEvent}
-            onPreview={onPreview}
-          />
-        ) : selectedEdge ? (
-          <div className="bo-stack">
-            <p className="eyebrow">เส้นเชื่อม</p>
-            <h2 className="text-lg font-extrabold">
-              {cardTitle(
-                flow.nodes.find((node) => node.id === selectedEdge.from)!,
-                content,
-              )}{' '}
-              →{' '}
-              {cardTitle(
-                flow.nodes.find((node) => node.id === selectedEdge.to)!,
-                content,
-              )}
-            </h2>
-            <p className="muted text-sm">
-              ทาง:{' '}
-              {flowPorts(
-                flow.nodes.find((node) => node.id === selectedEdge.from)!,
-                content.events,
-              ).find((port) => port.id === selectedEdge.port)?.label ??
-                selectedEdge.port}
-            </p>
-            <section className="bo-editor-section">
-              <h3>เงื่อนไขบนเส้น (ไม่เกิน 1 ข้อ)</h3>
-              <V2ConditionList
-                value={selectedEdge.condition ? [selectedEdge.condition] : []}
-                eventIds={eventIds}
-                catalogs={content}
-                onChange={(conditions) =>
-                  change({
-                    ...flow,
-                    edges: flow.edges.map((edge) => {
-                      if (edge.id !== selectedEdge.id) return edge
-                      const { condition: _removed, ...rest } = edge
-                      void _removed
-                      const condition = conditions.at(-1)
-                      return condition ? { ...rest, condition } : rest
-                    }),
-                  })
-                }
-              />
-            </section>
-            <p className="muted text-xs">
-              เส้นจากทางเดียวกันตรวจตามลำดับ เส้นแรกที่เงื่อนไขผ่านจะถูกใช้
-              เส้นที่ไม่มีเงื่อนไขทำหน้าที่เป็นทางสำรอง
-            </p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                className="button button-secondary"
-                onClick={() => change(moveEdgeOrder(flow, selectedEdge.id, -1))}
-              >
-                ↑ ตรวจก่อน
-              </button>
-              <button
-                type="button"
-                className="button button-secondary"
-                onClick={() => change(moveEdgeOrder(flow, selectedEdge.id, 1))}
-              >
-                ↓ ตรวจทีหลัง
-              </button>
-            </div>
-            <button
-              type="button"
-              className="button button-danger"
-              onClick={() => {
-                change(removeFlowEdges(flow, [selectedEdge.id]))
-                select(null)
-              }}
-            >
-              ลบเส้น
-            </button>
-          </div>
-        ) : (
-          <p className="muted text-sm">
-            เลือกการ์ดหรือเส้นเพื่อดูรายละเอียด
-            ลากจากจุดขวาของตัวเลือกไปยังการ์ดถัดไปเพื่อเชื่อมเส้น
-          </p>
-        )}
-      </aside>
     </div>
   )
 }

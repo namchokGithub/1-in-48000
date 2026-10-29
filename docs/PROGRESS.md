@@ -13,7 +13,7 @@ Every item not `Done`. Update this section whenever an item's status changes.
 | 30  | Converted flow review           | Todo        | —          |
 | 32  | BO Flow detail panel + preview  | In progress | 28         |
 | 33  | V4 Player check + test          | In progress | 30, 32     |
-| 34  | BO Flow board layout            | Todo        | 31         |
+| 34  | BO Flow board layout            | In progress | 31         |
 | 35  | BO Flow focus + readability     | Todo        | 34         |
 | 36  | BO Flow undo/redo + safer edits | Todo        | 34         |
 
@@ -68,7 +68,7 @@ Step 31 added the Condition, Random, Ending, and edge forms, and an event editor
 
 ## 34. BO Flow board layout
 
-**Status:** Todo
+**Status:** In progress — awaiting the author's visual check
 
 UI only; no automated tests. Source: `docs/BO-UX-DESIGN.md`.
 
@@ -82,6 +82,8 @@ UI only; no automated tests. Source: `docs/BO-UX-DESIGN.md`.
 - Clicking an item in the issue list jumps to its card, if not already supported.
 
 **Done when:** the canvas uses nearly the full screen at 1280px, and every board action still works with the library collapsed.
+
+2026-10-29: Implemented. The Flow tab lifts the page width limit and fills the screen height below the sticky toolbar. The library collapses with a toolbar toggle, and "เหตุการณ์ใหม่" moved into the `+ เพิ่ม` menu so it works while collapsed. The Inspector is a drawer over the canvas with a close button. Edges are Smooth Step. The issue list already jumped to cards before this step.
 
 ## 35. BO Flow focus + readability
 
