@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CopyIdButton } from './CopyIdButton'
 import type { V2Content } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { randomId } from './randomId'
@@ -194,6 +195,10 @@ export function DataEditor({
                   >
                     สุ่ม ID
                   </button>
+                  <CopyIdButton
+                    value={selected.id}
+                    label={`ID ${labels[section]}`}
+                  />
                 </div>
               </div>
               {speaker ? (

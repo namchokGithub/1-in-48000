@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { CopyIdButton } from './CopyIdButton'
 import { v2IdSchema, type V2Content } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { StateEffectList } from './V2EffectList'
@@ -199,6 +200,10 @@ export function CatalogEditor({
                   >
                     สุ่ม ID
                   </button>
+                  <CopyIdButton
+                    value={selected.id}
+                    label={`ID ${labels[section]}`}
+                  />
                 </div>
                 {!v2IdSchema.safeParse(selected.id).success && (
                   <small className="bo-field-error">

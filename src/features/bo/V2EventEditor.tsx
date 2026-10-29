@@ -1,4 +1,5 @@
 import { useState, type DragEvent } from 'react'
+import { CopyIdButton } from './CopyIdButton'
 import type { V2Content, V2Event } from '../../content/v2/schema'
 import { v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
@@ -111,6 +112,7 @@ export function V2EventEditor({
             >
               สุ่ม ID
             </button>
+            <CopyIdButton value={event.id} label="Event ID" />
           </div>
           {!idValid && (
             <small id="bo-v2-event-id-error" className="bo-field-error">
@@ -701,6 +703,7 @@ export function V2EventEditor({
                       >
                         สุ่ม ID
                       </button>
+                      <CopyIdButton value={choice.id} label="Choice ID" />
                     </div>
                     {(!v2StoryIdSchema.safeParse(choice.id).success ||
                       event.choices.filter((item) => item.id === choice.id)

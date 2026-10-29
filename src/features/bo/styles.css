@@ -56,6 +56,21 @@
   align-items: stretch;
   gap: 0.5rem;
 }
+.bo-copy-id {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.bo-flow-ids {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.bo-flow-ids .bo-copy-id {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+}
 .bo-id-actions .field {
   min-width: 0;
   flex: 1;

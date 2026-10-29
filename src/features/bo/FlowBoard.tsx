@@ -34,6 +34,7 @@ import type {
 } from '../../content/v2/schema'
 import { validateV2Flow } from '../../content/v2/flowValidator'
 import { BoDropdown } from './Select'
+import { CopyIdButton } from './CopyIdButton'
 import { V2ConditionList } from './V2ConditionList'
 import { conditionSummary } from './storySummary'
 import { matchesStoryQuery } from './timelineFilters'
@@ -1180,7 +1181,16 @@ function NodeDetail({
     <div className="bo-stack">
       <p className="eyebrow">{typeLabels[node.type]}</p>
       <h2 className="text-lg font-extrabold">{cardTitle(node, content)}</h2>
-      <p className="muted text-xs">Node ID: {node.id}</p>
+      <div className="bo-flow-ids">
+        <span className="muted text-xs">Node ID: {node.id}</span>
+        <CopyIdButton value={node.id} label="Node ID" />
+      </div>
+      {node.type === 'event' && (
+        <div className="bo-flow-ids">
+          <span className="muted text-xs">Event ID: {node.eventId}</span>
+          <CopyIdButton value={node.eventId} label="Event ID" />
+        </div>
+      )}
       {issues &&
         [...issues.errors, ...issues.warnings].map((issue, index) => (
           <p

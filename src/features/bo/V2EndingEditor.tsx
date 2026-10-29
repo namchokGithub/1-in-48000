@@ -1,3 +1,4 @@
+import { CopyIdButton } from './CopyIdButton'
 import type { V2Content } from '../../content/v2/schema'
 
 type Ending = V2Content['endings'][number]
@@ -29,16 +30,20 @@ export function V2EndingEditor({
         </button>
       </div>
       <div className="bo-form-grid">
-        <label className="bo-field">
-          <span>Ending ID</span>
-          <input
-            className="field"
-            value={ending.id}
-            onChange={(event) =>
-              onChange({ ...ending, id: event.target.value })
-            }
-          />
-        </label>
+        <div className="bo-field">
+          <label htmlFor="bo-ending-id">Ending ID</label>
+          <div className="bo-id-actions">
+            <input
+              id="bo-ending-id"
+              className="field"
+              value={ending.id}
+              onChange={(event) =>
+                onChange({ ...ending, id: event.target.value })
+              }
+            />
+            <CopyIdButton value={ending.id} label="Ending ID" />
+          </div>
+        </div>
         <label className="bo-field">
           <span>ชื่อตอนจบ</span>
           <input
