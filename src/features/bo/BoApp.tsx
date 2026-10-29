@@ -462,61 +462,64 @@ export function BoApp() {
       <div className="app-wrap bo-wrap">
         <header className="bo-header">
           <div>
-            <p className="eyebrow">เครื่องมือบนเครื่องผู้เขียน</p>
-            <h1 className="text-3xl font-extrabold">BO · 1 ใน 48,000</h1>
-            <p className="muted text-sm">
-              Content {draft.config.contentVersion} · แก้ JSON
-              โดยตรงหลังตรวจข้อมูล
+            <h1 className="text-xl font-extrabold">BO · 1 ใน 48,000</h1>
+            <p className="muted text-xs">
+              เครื่องมือบนเครื่องผู้เขียน · Content{' '}
+              {draft.config.contentVersion} · แก้ JSON โดยตรงหลังตรวจข้อมูล
             </p>
           </div>
-        </header>
-        <div className="bo-toolbar" role="toolbar" aria-label="เครื่องมือแก้ไข">
-          <span className="bo-status" role="status">
-            {dirtyAny ? 'มีร่างที่ยังไม่บันทึก' : 'บันทึกแล้ว'}
-          </span>
-          <div className="bo-toolbar-actions">
-            <button
-              type="button"
-              className="button button-secondary"
-              disabled={!history?.past.length || saving}
-              onClick={undoDraft}
-            >
-              เลิกทำ
-            </button>
-            <button
-              type="button"
-              className="button button-secondary"
-              disabled={!history?.future.length || saving}
-              onClick={redoDraft}
-            >
-              ทำซ้ำ
-            </button>
-            <button
-              type="button"
-              className="button button-secondary"
-              disabled={
-                section === 'flow'
-                  ? !flowEventId
-                  : section !== 'events' || !event
-              }
-              onClick={() =>
-                section === 'flow'
-                  ? flowEventId && setPreviewEventId(flowEventId)
-                  : event && setPreviewEventId(event.id)
-              }
-            >
-              ทดลองเหตุการณ์
-            </button>
-            <button
-              type="button"
-              className="button button-primary"
-              disabled={!dirty || saving}
-              onClick={() => saveFile(file)}
-            >
-              {saving ? 'กำลังบันทึก…' : `บันทึก ${sectionLabels[section]}`}
-            </button>
+          <div
+            className="bo-toolbar"
+            role="toolbar"
+            aria-label="เครื่องมือแก้ไข"
+          >
+            <span className="bo-status" role="status">
+              {dirtyAny ? 'มีร่างที่ยังไม่บันทึก' : 'บันทึกแล้ว'}
+            </span>
+            <div className="bo-toolbar-actions">
+              <button
+                type="button"
+                className="button button-secondary"
+                disabled={!history?.past.length || saving}
+                onClick={undoDraft}
+              >
+                เลิกทำ
+              </button>
+              <button
+                type="button"
+                className="button button-secondary"
+                disabled={!history?.future.length || saving}
+                onClick={redoDraft}
+              >
+                ทำซ้ำ
+              </button>
+              <button
+                type="button"
+                className="button button-secondary"
+                disabled={
+                  section === 'flow'
+                    ? !flowEventId
+                    : section !== 'events' || !event
+                }
+                onClick={() =>
+                  section === 'flow'
+                    ? flowEventId && setPreviewEventId(flowEventId)
+                    : event && setPreviewEventId(event.id)
+                }
+              >
+                ทดลองเหตุการณ์
+              </button>
+              <button
+                type="button"
+                className="button button-primary"
+                disabled={!dirty || saving}
+                onClick={() => saveFile(file)}
+              >
+                {saving ? 'กำลังบันทึก…' : `บันทึก ${sectionLabels[section]}`}
+              </button>
+            </div>
           </div>
-        </div>
+        </header>
         <nav className="bo-tabs" aria-label="ชนิดเนื้อหา">
           <button
             aria-pressed={section === 'events'}
