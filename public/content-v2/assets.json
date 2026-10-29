@@ -35,6 +35,86 @@
     "path": "/assets/scene/graduation-stage.png"
   },
   {
+    "id": "bang_phra_reservoir",
+    "kind": "scene",
+    "path": "/assets/scene/bang-phra-reservoir.png"
+  },
+  {
+    "id": "bang_saen_aquarium",
+    "kind": "scene",
+    "path": "/assets/scene/bang-saen-aquarium.png"
+  },
+  {
+    "id": "bang_saen_beach",
+    "kind": "scene",
+    "path": "/assets/scene/bang-saen-beach.png"
+  },
+  {
+    "id": "bang_saen_coffee_truck",
+    "kind": "scene",
+    "path": "/assets/scene/bang-saen-coffee-truck.png"
+  },
+  {
+    "id": "bang_saen_rachanawi_bridge",
+    "kind": "scene",
+    "path": "/assets/scene/bang-saen-rachanawi-bridge.png"
+  },
+  {
+    "id": "bang_saen_walking_street_dusk",
+    "kind": "scene",
+    "path": "/assets/scene/bang-saen-walking-street-dusk.png"
+  },
+  {
+    "id": "campus_library_exterior",
+    "kind": "scene",
+    "path": "/assets/scene/campus-library-exterior.png"
+  },
+  {
+    "id": "campus_stadium",
+    "kind": "scene",
+    "path": "/assets/scene/campus-stadium.png"
+  },
+  {
+    "id": "khao_sam_muk_shrine",
+    "kind": "scene",
+    "path": "/assets/scene/khao-sam-muk-shrine.png"
+  },
+  {
+    "id": "khao_sam_muk_viewpoint",
+    "kind": "scene",
+    "path": "/assets/scene/khao-sam-muk-viewpoint.png"
+  },
+  {
+    "id": "recreation_park",
+    "kind": "scene",
+    "path": "/assets/scene/recreation-park.png"
+  },
+  {
+    "id": "scene_university",
+    "kind": "scene",
+    "path": "/assets/scene/scene-university.png"
+  },
+  {
+    "id": "soi_sodsai_night",
+    "kind": "scene",
+    "path": "/assets/scene/soi-sodsai-night.png"
+  },
+  {
+    "id": "wat_saen_suk_night",
+    "kind": "scene",
+    "path": "/assets/scene/wat-saen-suk-night.png"
+  },
+  {
+    "id": "wat_saen_suk",
+    "kind": "scene",
+    "path": "/assets/scene/wat-saen-suk.png"
+  },
+  {
+    "id": "won_napha_beach",
+    "kind": "scene",
+    "path": "/assets/scene/won-napha-beach.png"
+  },
+  {
     "id": "mali_portrait",
     "kind": "portrait",
     "path": "/assets/portrait/mali.png"
@@ -53,6 +133,106 @@
     "id": "player_im",
     "kind": "portrait",
     "path": "/assets/portrait/player-im.png"
+  },
+  {
+    "id": "man_private_01",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-private-01.png"
+  },
+  {
+    "id": "man_private_02",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-private-02.png"
+  },
+  {
+    "id": "man_private_03",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-private-03.png"
+  },
+  {
+    "id": "man_private_04",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-private-04.png"
+  },
+  {
+    "id": "man_private_05",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-private-05.png"
+  },
+  {
+    "id": "man_university_student_01",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-university-student-01.png"
+  },
+  {
+    "id": "man_university_student_02",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-university-student-02.png"
+  },
+  {
+    "id": "man_university_student_03",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-university-student-03.png"
+  },
+  {
+    "id": "man_university_student_04",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-university-student-04.png"
+  },
+  {
+    "id": "man_university_student_05",
+    "kind": "portrait",
+    "path": "/assets/portrait/man-university-student-05.png"
+  },
+  {
+    "id": "woman_private_01",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-private-01.png"
+  },
+  {
+    "id": "woman_private_02",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-private-02.png"
+  },
+  {
+    "id": "woman_private_03",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-private-03.png"
+  },
+  {
+    "id": "woman_private_04",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-private-04.png"
+  },
+  {
+    "id": "woman_private_05",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-private-05.png"
+  },
+  {
+    "id": "woman_university_student_01",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-university-student-01.png"
+  },
+  {
+    "id": "woman_university_student_02",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-university-student-02.png"
+  },
+  {
+    "id": "woman_university_student_03",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-university-student-03.png"
+  },
+  {
+    "id": "woman_university_student_04",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-university-student-04.png"
+  },
+  {
+    "id": "woman_university_student_05",
+    "kind": "portrait",
+    "path": "/assets/portrait/woman-university-student-05.png"
   },
   {
     "id": "kanto_daydream",
