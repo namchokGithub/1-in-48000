@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { validateV2Flow } from './flowValidator.ts'
 
 export const v2IdSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/)
 export const v2StoryIdSchema = z
@@ -520,7 +521,11 @@ export const v2ContentSchema = z
       })
     }
 
-    checkV2FlowReferences(content.flow, content).forEach((issue) =>
+    const flowIssues = [
+      ...checkV2FlowReferences(content.flow, content),
+      ...validateV2Flow(content.flow, content.events).errors,
+    ]
+    flowIssues.forEach((issue) =>
       report(['flow', ...issue.path], issue.message),
     )
     content.flow.nodes.forEach((node, index) => {

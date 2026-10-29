@@ -138,6 +138,12 @@
       "to": "review"
     },
     {
+      "id": "e_review_next",
+      "from": "review",
+      "port": "next",
+      "to": "review"
+    },
+    {
       "id": "e_graduate",
       "from": "review",
       "port": "graduate",

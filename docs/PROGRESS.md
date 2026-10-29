@@ -10,9 +10,8 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 | #   | Step                           | Status | Depends on |
 | --- | ------------------------------ | ------ | ---------- |
-| 29  | Flow validator                 | Todo   | 27         |
 | 30  | Converted flow review          | Todo   | 31         |
-| 31  | BO Flow board                  | Todo   | 29         |
+| 31  | BO Flow board                  | Todo   | 28         |
 | 32  | BO Flow detail panel + preview | Todo   | 28, 31     |
 | 33  | V4 Player check + test         | Todo   | 30, 32     |
 
@@ -29,16 +28,6 @@ None. V4 decisions 1–9 were resolved on 2026-10-29 and are recorded in `docs/D
 Resolved choices are recorded in `docs/DECISIONS.md`.
 
 Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](COMPLETE-LOG.md).
-
-## 29. Flow validator
-
-**Status:** Todo
-
-- Errors: broken edges, missing targets, unconnected choices, Condition nodes without an output, Random nodes without a fallback.
-- Warnings: unreachable events and loops that may never exit.
-- Shared by BO validation and the local writer before save.
-
-**Done when:** focused tests cover each error and warning.
 
 ## 30. Converted flow review
 
@@ -60,7 +49,7 @@ The one-time conversion moved into Step 28 so the game and tests keep working. T
 - Cards show title, thumbnail, short text, and choices.
 - Add Start, Condition, Random, Next Period, and Ending cards.
 - Top toolbar: Undo/Redo, auto layout, validate, Preview, Save.
-- Show validator errors and warnings on cards and edges.
+- Show validator errors and warnings on cards and edges (`validateV2Flow` returns both; only errors block saving today).
 
 **Done when:** an author can build a branching path with a Condition and a Random node, save it, and play it in the Player page.
 
