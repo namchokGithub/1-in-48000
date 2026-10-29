@@ -1,7 +1,4 @@
 .bo-wrap {
-  max-width: 100rem;
-}
-.bo-wrap-wide {
   max-width: none;
 }
 .bo-header,

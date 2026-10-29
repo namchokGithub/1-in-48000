@@ -232,14 +232,14 @@ export function BoApp() {
     events: 'เหตุการณ์',
     flow: 'Flow เรื่อง',
     endings: 'ตอนจบ',
-    speakers: 'ผู้พูด',
     backgrounds: 'ภาพฉาก',
+    speakers: 'ผู้พูด',
+    names: 'ชื่อผู้เล่น',
     portraits: 'ภาพตัวละคร',
     sounds: 'เสียง',
     faculties: 'คณะ',
     majors: 'สาขา',
     electives: 'วิชาเสรี',
-    names: 'ชื่อผู้เล่น',
   }
   const event = draft.events[eventIndex]
   const ending = draft.endings[endingIndex]
@@ -438,9 +438,7 @@ export function BoApp() {
 
   return (
     <main className="app-shell">
-      <div
-        className={`app-wrap bo-wrap${section === 'flow' ? ' bo-wrap-wide' : ''}`}
-      >
+      <div className="app-wrap bo-wrap">
         <header className="bo-header">
           <div>
             <p className="eyebrow">เครื่องมือบนเครื่องผู้เขียน</p>
