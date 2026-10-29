@@ -14,7 +14,7 @@ Every item not `Done`. Update this section whenever an item's status changes.
 | 32  | BO Flow detail panel + preview  | In progress | 28         |
 | 33  | V4 Player check + test          | In progress | 30, 32     |
 | 35  | BO Flow focus + readability     | In progress | 34         |
-| 36  | BO Flow undo/redo + safer edits | Todo        | 34         |
+| 36  | BO Flow undo/redo + safer edits | In progress | 34         |
 
 V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
@@ -83,13 +83,14 @@ Mostly UI. Computing the focused cards and edges is logic and gets tests.
 
 ## 36. BO Flow undo/redo + safer edits
 
-**Status:** Todo
+**Status:** In progress — awaiting the author's visual check
 
-Logic with tests.
+Logic with tests. The existing BO draft history (`draftHistory.ts`) already undoes every board edit through the page toolbar, including drag ends and auto layout. This step keeps that single history instead of adding a flow-only one (see `docs/DECISIONS.md`).
 
-- Undo/Redo for flow changes only: adding or removing cards and edges, moving cards (recorded on drag end), auto layout, and edge condition or order edits. Event edits in the modal are not included.
-- Cmd+Z / Cmd+Shift+Z do not act on the board while focus is in a text field.
-- Drag an edge end to another card to change its target (`onReconnect`).
-- Auto layout asks for confirmation or can be undone.
+- Keyboard shortcuts on every BO tab: Cmd/Ctrl+Z undo, Cmd/Ctrl+Shift+Z or Ctrl+Y redo; inactive in text fields and while saving.
+- Drag either end of an edge to another card or port (`onReconnect`); the edge keeps its ID, condition, and check order.
+- Auto layout needs no confirmation; it shows a note that Cmd+Z undoes it.
 
 **Done when:** every board edit can be undone, and a wrong auto layout can be recovered.
+
+2026-10-29: Implemented. `reconnectEdge` moves an edge in place under the same rules as a new connection (no edges out of an Ending or into Start, no duplicate unconditional edge) and is covered by a focused test. A rejected reconnect shows a notice and the edge snaps back.

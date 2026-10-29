@@ -15,6 +15,7 @@ import {
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
+  reconnectEdge,
   removeEventFromFlow,
   removeFlowEdges,
   removeFlowNodes,
@@ -213,6 +214,42 @@ describe('BO flow board editing', () => {
       nodeIds: ['daily_life', 'n_borrow_from_friend'],
       edgeIds: ['e_borrow'],
     })
+  })
+
+  it('reconnects an edge in place and keeps its id, condition, and order', () => {
+    const index = flow.edges.findIndex((edge) => edge.id === 'e_kro')
+    const moved = reconnectEdge(
+      flow,
+      'e_kro',
+      'n_student_loan',
+      'apply_kro',
+      'daily_life',
+    )
+    expect(moved.edges[index]).toEqual({
+      ...flow.edges[index],
+      to: 'daily_life',
+    })
+    expect(moved.edges).toHaveLength(flow.edges.length)
+    expect(
+      reconnectEdge(flow, 'e_kyos', 'has_money', 'fail', 'daily_life').edges[
+        flow.edges.findIndex((edge) => edge.id === 'e_kyos')
+      ],
+    ).toMatchObject({ from: 'has_money', port: 'fail', to: 'daily_life' })
+    expect(
+      reconnectEdge(flow, 'e_kro', 'n_student_loan', 'apply_kro', 'start'),
+    ).toBe(flow)
+    expect(
+      reconnectEdge(flow, 'e_kro', 'end_dismissal', 'next', 'review'),
+    ).toBe(flow)
+    expect(
+      reconnectEdge(
+        flow,
+        'e_kro_fallback',
+        'n_student_loan',
+        'apply_kyos',
+        'has_money',
+      ),
+    ).toBe(flow)
   })
 
   it('reorders edges only among edges of the same port', () => {

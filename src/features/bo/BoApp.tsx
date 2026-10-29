@@ -155,6 +155,27 @@ export function BoApp() {
     }
   }, [retry])
 
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (!(event.metaKey || event.ctrlKey) || event.altKey || saving) return
+      const target = event.target as HTMLElement | null
+      if (target?.closest('input, textarea, select, [contenteditable="true"]'))
+        return
+      const redo =
+        (event.code === 'KeyZ' && event.shiftKey) ||
+        (event.code === 'KeyY' && event.ctrlKey && !event.shiftKey)
+      if (redo) {
+        event.preventDefault()
+        redoDraft()
+      } else if (event.code === 'KeyZ') {
+        event.preventDefault()
+        undoDraft()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  })
+
   if (loadError) {
     return (
       <main className="app-shell">

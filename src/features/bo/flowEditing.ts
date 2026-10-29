@@ -132,6 +132,45 @@ export function connectPorts(
   return { ...flow, edges: [...flow.edges, { id, from, port, to }] }
 }
 
+export function reconnectEdge(
+  flow: V2Flow,
+  edgeId: string,
+  from: string,
+  port: string,
+  to: string,
+): V2Flow {
+  const edge = flow.edges.find((item) => item.id === edgeId)
+  const source = flow.nodes.find((node) => node.id === from)
+  const target = flow.nodes.find((node) => node.id === to)
+  if (
+    !edge ||
+    !source ||
+    !target ||
+    source.type === 'ending' ||
+    target.type === 'start'
+  )
+    return flow
+  if (edge.from === from && edge.port === port && edge.to === to) return flow
+  if (
+    !edge.condition &&
+    flow.edges.some(
+      (item) =>
+        item.id !== edgeId &&
+        item.from === from &&
+        item.port === port &&
+        item.to === to &&
+        !item.condition,
+    )
+  )
+    return flow
+  return {
+    ...flow,
+    edges: flow.edges.map((item) =>
+      item.id === edgeId ? { ...item, from, port, to } : item,
+    ),
+  }
+}
+
 export function removeFlowNodes(flow: V2Flow, ids: string[]): V2Flow {
   const removed = new Set(
     flow.nodes

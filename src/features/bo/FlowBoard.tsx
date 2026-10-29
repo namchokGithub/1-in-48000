@@ -40,6 +40,7 @@ import {
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
+  reconnectEdge,
   removeFlowEdges,
   removeFlowNodes,
   type FlowNodeIssues,
@@ -760,6 +761,7 @@ function Board({
               className="button button-secondary"
               onClick={() => {
                 change(layoutFlow(flow))
+                setMessage('จัดตำแหน่งแล้ว · กด Cmd+Z (Ctrl+Z) เพื่อย้อน')
                 window.requestAnimationFrame(() => fitView({ duration: 300 }))
               }}
             >
@@ -847,6 +849,18 @@ function Board({
               nodeTypes={nodeTypes}
               onNodesChange={onNodesChange}
               onConnect={onConnect}
+              onReconnect={(edge, connection) => {
+                if (!connection.sourceHandle) return
+                const next = reconnectEdge(
+                  flow,
+                  edge.id,
+                  connection.source,
+                  connection.sourceHandle,
+                  connection.target,
+                )
+                if (next === flow) setMessage('ต่อเส้นไปที่นั่นไม่ได้')
+                else change(next)
+              }}
               onNodesDelete={(deleted) =>
                 change(
                   removeFlowNodes(
