@@ -8,7 +8,7 @@ import {
 import { V2EndingEditor } from './V2EndingEditor'
 import { V2EventEditor } from './V2EventEditor'
 import { PreviewDialog } from './PreviewDialog'
-import { TimelineBoard } from './TimelineBoard'
+import { FlowBoard } from './FlowBoard'
 import { ConfirmationDialog } from './ConfirmationDialog'
 import {
   commitHistory,
@@ -17,20 +17,21 @@ import {
   undoHistory,
   type DraftHistory,
 } from './draftHistory'
-import { moveEvent } from './timeline'
+import { removeEventFromFlow, syncEventChange } from './flowEditing'
 import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
 import { matchesStoryQuery } from './timelineFilters'
 import { DataEditor, type DataSection } from './DataEditor'
 import { CatalogEditor, type CatalogSection } from './CatalogEditor'
 
-type Section = 'events' | 'endings' | DataSection | CatalogSection
+type Section = 'events' | 'flow' | 'endings' | DataSection | CatalogSection
 type EditableFile =
-  'events' | 'endings' | 'characters' | 'assets' | CatalogSection
+  'events' | 'flow' | 'endings' | 'characters' | 'assets' | CatalogSection
 type ValidationIssue = { path: string; message: string }
 
 function sectionFromUrl(): Section {
   const tab = new URLSearchParams(window.location.search).get('tab')
   if (
+    tab === 'flow' ||
     tab === 'endings' ||
     tab === 'speakers' ||
     tab === 'backgrounds' ||
@@ -90,7 +91,7 @@ export function BoApp() {
   const [loadError, setLoadError] = useState(false)
   const [retry, setRetry] = useState(0)
   const [section, setSection] = useState<Section>(sectionFromUrl)
-  const [eventView, setEventView] = useState<'editor' | 'timeline'>('editor')
+  const [flowEventId, setFlowEventId] = useState<string | null>(null)
   const [eventQuery, setEventQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
@@ -193,6 +194,7 @@ export function BoApp() {
     JSON.stringify(draft.events) !== JSON.stringify(saved.events)
   const dirtyEndings =
     JSON.stringify(draft.endings) !== JSON.stringify(saved.endings)
+  const dirtyFlow = JSON.stringify(draft.flow) !== JSON.stringify(saved.flow)
   const dirtyCharacters =
     JSON.stringify(draft.characters) !== JSON.stringify(saved.characters)
   const dirtyAssets =
@@ -206,6 +208,7 @@ export function BoApp() {
   const dirtyNames = JSON.stringify(draft.names) !== JSON.stringify(saved.names)
   const dirtyFiles: Record<EditableFile, boolean> = {
     events: dirtyEvents,
+    flow: dirtyFlow,
     endings: dirtyEndings,
     characters: dirtyCharacters,
     assets: dirtyAssets,
@@ -219,6 +222,7 @@ export function BoApp() {
   const dirtyAny = Object.values(dirtyFiles).some(Boolean)
   const sectionLabels: Record<Section, string> = {
     events: 'เหตุการณ์',
+    flow: 'Flow เรื่อง',
     endings: 'ตอนจบ',
     speakers: 'ผู้พูด',
     backgrounds: 'ภาพฉาก',
@@ -244,6 +248,7 @@ export function BoApp() {
           events: current.events.map((item, index) =>
             index === eventIndex ? next : item,
           ),
+          flow: syncEventChange(current.flow, current.events[eventIndex], next),
         },
     )
     setNotice('')
@@ -280,7 +285,6 @@ export function BoApp() {
     setEventIndex(currentDraft.events.length)
     setDraft({ ...currentDraft, events: [...currentDraft.events, newEvent] })
     selectSection('events')
-    setEventView('editor')
     setEventQuery('')
     setNotice('')
   }
@@ -327,14 +331,6 @@ export function BoApp() {
     setNotice('')
   }
 
-  function moveOnTimeline(id: string, time: V2Event['time'], index: number) {
-    const events = moveEvent(currentDraft.events, id, time, index)
-    setDraft({ ...currentDraft, events })
-    setEventIndex(events.findIndex((event) => event.id === id))
-    setNotice('')
-    setServerIssues([])
-  }
-
   function undoDraft() {
     setHistory((current) => (current ? undoHistory(current) : null))
     setNotice('')
@@ -376,6 +372,7 @@ export function BoApp() {
       setShowIssues(false)
       const name = {
         events: 'เหตุการณ์',
+        flow: 'Flow เรื่อง',
         endings: 'ตอนจบ',
         characters: 'ผู้พูด',
         assets: 'Asset',
@@ -429,8 +426,16 @@ export function BoApp() {
             <button
               type="button"
               className="button button-secondary"
-              disabled={section !== 'events' || !event}
-              onClick={() => event && setPreviewEventId(event.id)}
+              disabled={
+                section === 'flow'
+                  ? !flowEventId
+                  : section !== 'events' || !event
+              }
+              onClick={() =>
+                section === 'flow'
+                  ? flowEventId && setPreviewEventId(flowEventId)
+                  : event && setPreviewEventId(event.id)
+              }
             >
               ทดลองเหตุการณ์
             </button>
@@ -452,6 +457,14 @@ export function BoApp() {
           >
             เหตุการณ์ {draft.events.length}
             {dirtyEvents ? ' •' : ''}
+          </button>
+          <button
+            aria-pressed={section === 'flow'}
+            type="button"
+            onClick={() => selectSection('flow')}
+          >
+            Flow เรื่อง {draft.flow.nodes.length}
+            {dirtyFlow ? ' •' : ''}
           </button>
           <button
             aria-pressed={section === 'endings'}
@@ -516,24 +529,6 @@ export function BoApp() {
         </nav>
         {section === 'events' && (
           <div className="bo-events-tools">
-            <div className="bo-view-switch" aria-label="มุมมองเหตุการณ์">
-              <button
-                type="button"
-                className="button button-secondary"
-                aria-pressed={eventView === 'editor'}
-                onClick={() => setEventView('editor')}
-              >
-                ฟอร์มแก้ไข
-              </button>
-              <button
-                type="button"
-                className="button button-secondary"
-                aria-pressed={eventView === 'timeline'}
-                onClick={() => setEventView('timeline')}
-              >
-                Timeline
-              </button>
-            </div>
             <label className="bo-event-search">
               <span>ค้นหาเหตุการณ์</span>
               <input
@@ -620,16 +615,33 @@ export function BoApp() {
               })
             }
           />
-        ) : section === 'events' && eventView === 'timeline' ? (
-          <TimelineBoard
-            events={draft.events}
-            query={eventQuery}
-            onSelect={(index) => {
-              setEventIndex(index)
-              setEventView('editor')
+        ) : section === 'flow' ? (
+          <FlowBoard
+            content={draft}
+            schemaIssues={
+              checked.success
+                ? []
+                : checked.error.issues
+                    .filter((issue) => issue.path[0] === 'flow')
+                    .map((issue) => ({
+                      path: issue.path.slice(1) as (string | number)[],
+                      message: issue.message,
+                    }))
+            }
+            onChange={(flow) => {
+              setDraft({ ...currentDraft, flow })
+              setNotice('')
+              setServerIssues([])
             }}
-            onMove={moveOnTimeline}
-            onPreview={(index) => setPreviewEventId(draft.events[index].id)}
+            onSelectEvent={setFlowEventId}
+            onEditEvent={(eventId) => {
+              const index = currentDraft.events.findIndex(
+                (item) => item.id === eventId,
+              )
+              if (index >= 0) setEventIndex(index)
+              selectSection('events')
+            }}
+            onPreview={setPreviewEventId}
           />
         ) : (
           <div className="bo-layout mt-3">
@@ -692,7 +704,7 @@ export function BoApp() {
                 (ending && section === 'endings')) && (
                 <div className="bo-order-actions" aria-label="ลำดับในไฟล์">
                   <span className="muted text-xs">
-                    ลำดับในไฟล์กำหนดการเลือกเหตุการณ์และตอนจบ
+                    ลำดับในไฟล์ใช้จัดรายการ เส้นทางเรื่องกำหนดในแท็บ Flow เรื่อง
                   </span>
                   <div className="flex gap-2">
                     <button
@@ -747,6 +759,7 @@ export function BoApp() {
                             events: draft.events.filter(
                               (_, index) => index !== eventIndex,
                             ),
+                            flow: removeEventFromFlow(draft.flow, event.id),
                           })
                           setEventIndex(Math.max(0, eventIndex - 1))
                           setNotice('')

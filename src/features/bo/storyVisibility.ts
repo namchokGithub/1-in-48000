@@ -8,12 +8,6 @@ export function orderedStoryEntries<T extends { active?: boolean }>(
   ]
 }
 
-export function timelineStories<T extends { active?: boolean }>(
-  events: T[],
-): T[] {
-  return events.filter((event) => event.active !== false)
-}
-
 export function neighboringStoryIndex<T extends { active?: boolean }>(
   events: T[],
   selectedIndex: number,

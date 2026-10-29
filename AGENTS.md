@@ -24,6 +24,7 @@ Instructions for AI coding agents working in the 1-in-48000 ("1 ใน 48,000") 
 | Content validation | Zod (shared schema for Player and BO)                |
 | Graphics           | Pixel art as WebP/PNG + CSS animation                |
 | Audio              | Howler.js (looping BGM, fade, music on/off settings) |
+| BO Flow board      | @xyflow/react (React Flow)                           |
 | Tests              | Vitest                                               |
 | Package manager    | pnpm                                                 |
 | Hosting            | Cloudflare Pages (auto-deploy from GitHub on push)   |

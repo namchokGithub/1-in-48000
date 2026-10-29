@@ -125,3 +125,7 @@ The Ending node now decides the ending. Ending `conditions` were removed; the gr
 ## 2026-10-29 — Flow validation errors and warnings
 
 Treat missing required edges as errors and possible dead ends as warnings. The engine throws when a run reaches a port with no edge, so unconnected choices and missing Condition or Random outputs must block saving. Ports whose edges are all conditional, unreachable nodes, and loops may be intentional while authoring, so they warn without blocking. A loop containing a Next Period node is never reported, because time advances on each pass and the Year 8 review ends the run. The static check cannot know a Next Period node's time, so it only warns about a missing `next` or a `graduate`/`extend` pair with one side missing.
+
+## 2026-10-29 — BO Flow board editing rules
+
+The board edits only `flow.json`; event content stays in the Events form. Renaming an Event ID or a Choice ID in the form updates the matching card and edge ports in the draft flow, and deleting an event removes its card and edges, so routine edits do not leave broken references. Pool events cannot be placed on the board; a Random card points to a pool tag set in the event form. Condition, Random, Ending, and edge forms moved into the Step 31 right panel because a branching path cannot be built without them; Step 32 keeps the event form in the panel and the preview trace. The Timeline view was removed with its helpers, as decided for V4. React Flow is pinned to `@xyflow/react` 12.12.0.

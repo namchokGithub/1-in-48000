@@ -184,6 +184,27 @@ export function V2EventEditor({
             <option value="summer">ภาคฤดูร้อน</option>
           </BoDropdown>
         </label>
+        <label className="bo-field">
+          <span>Pool สำหรับการ์ดสุ่ม</span>
+          <input
+            className="field"
+            value={event.pool ?? ''}
+            placeholder="เว้นว่างถ้าวางบนกระดานเอง"
+            aria-invalid={
+              !!event.pool && !v2StoryIdSchema.safeParse(event.pool).success
+            }
+            onChange={(input) =>
+              update((next) => {
+                next.pool = input.target.value || undefined
+              })
+            }
+          />
+          {!!event.pool && !v2StoryIdSchema.safeParse(event.pool).success && (
+            <small className="bo-field-error">
+              ใช้ตัวพิมพ์เล็ก ตัวเลข และขีดล่าง เช่น y1_term1_life
+            </small>
+          )}
+        </label>
         <label className="bo-checkbox-field">
           <input
             type="checkbox"

@@ -1,9 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  neighboringStoryIndex,
-  orderedStoryEntries,
-  timelineStories,
-} from './storyVisibility'
+import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
 
 describe('inactive story visibility', () => {
   it('places inactive stories last in the BO list while preserving authored indexes', () => {
@@ -27,12 +23,6 @@ describe('inactive story visibility', () => {
       'third',
       'fourth',
     ])
-  })
-
-  it('omits inactive stories from the timeline', () => {
-    expect(
-      timelineStories([{ id: 'hidden', active: false }, { id: 'shown' }]),
-    ).toEqual([{ id: 'shown' }])
   })
 
   it('finds order controls within the visible active or inactive group', () => {

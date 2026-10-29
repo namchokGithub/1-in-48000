@@ -15,6 +15,7 @@ type EditableFile =
   | 'majors'
   | 'electives'
   | 'names'
+  | 'flow'
 type ValidationIssue = { path: string; message: string }
 const MAX_BODY_BYTES = 2 * 1024 * 1024
 const files = [
@@ -149,7 +150,7 @@ export function boContentPlugin(): Plugin {
           return
         }
         const match = path?.match(
-          /^\/__bo\/v2\/content\/(events|endings|characters|assets|faculties|majors|electives|names)$/,
+          /^\/__bo\/v2\/content\/(events|endings|characters|assets|faculties|majors|electives|names|flow)$/,
         )
         const file = match?.[1] as EditableFile | undefined
         if (!file) {

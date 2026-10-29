@@ -10,7 +10,7 @@ import {
   chooseV2Program,
   createV2Game,
 } from './src/engine/v2/game'
-import type { V2Event } from './src/content/v2/schema'
+import type { V2Content, V2Event } from './src/content/v2/schema'
 import { createV2PreviewSession } from './src/features/bo/preview'
 
 let root = ''
@@ -331,5 +331,31 @@ describe('BO program and player catalogs', () => {
       ],
     })
     expect(await readFile(join(dir, 'faculties.json'), 'utf8')).toBe(before)
+  })
+})
+
+describe('BO flow writing', () => {
+  it('saves a flow edit and rejects an unconnected choice without replacing the file', async () => {
+    const dir = await fixture()
+    const before = JSON.parse(
+      await readFile(join(dir, 'flow.json'), 'utf8'),
+    ) as V2Content['flow']
+    const moved = {
+      ...before,
+      nodes: before.nodes.map((node) =>
+        node.id === 'start' ? { ...node, position: { x: 1, y: 2 } } : node,
+      ),
+    }
+    await saveBoContent(root, 'flow', moved)
+    const written = await readFile(join(dir, 'flow.json'), 'utf8')
+    expect(JSON.parse(written)).toEqual(moved)
+    const broken = {
+      ...moved,
+      edges: moved.edges.filter((edge) => edge.from !== 'n_orientation'),
+    }
+    await expect(saveBoContent(root, 'flow', broken)).rejects.toBeInstanceOf(
+      BoValidationError,
+    )
+    expect(await readFile(join(dir, 'flow.json'), 'utf8')).toBe(written)
   })
 })
