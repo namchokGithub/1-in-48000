@@ -1,3 +1,24 @@
+## 34. BO Flow board layout
+
+**Status:** Done
+
+UI only; no automated tests. Source: `docs/BO-UX-DESIGN.md`.
+
+- Make the Flow tab fill the screen height.
+- Add a toggle to collapse and expand the event library; keep the state in React state only.
+- Show the Inspector as a drawer over the canvas when a card or edge is selected; close it with Esc or a click on empty canvas.
+- Group the toolbar: `[+ เพิ่ม ▾]` · `[จัดตำแหน่ง] [Fit ทั้งหมด] [Fit ที่เลือก]` · `[ตรวจความถูกต้อง]`.
+- Add a Go to Event search on the canvas toolbar.
+- Draw edges as Smooth Step.
+- Shortcuts: `/` search, `F` fit, `Esc` clear selection.
+- Clicking an item in the issue list jumps to its card, if not already supported.
+
+**Done when:** the canvas uses nearly the full screen at 1280px, and every board action still works with the library collapsed.
+
+2026-10-29: Implemented. The Flow tab lifts the page width limit and fills the screen height below the sticky toolbar. The library collapses with a toolbar toggle, and "เหตุการณ์ใหม่" moved into the `+ เพิ่ม` menu so it works while collapsed. The Inspector is a drawer over the canvas with a close button. Edges are Smooth Step. The issue list already jumped to cards before this step.
+
+Accepted by the author on 2026-10-29. Follow-up on the same day: every BO tab now uses the full screen width, not only the Flow tab.
+
 ## 31. BO Flow board
 
 **Status:** Done

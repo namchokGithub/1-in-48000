@@ -229,6 +229,42 @@ export function issuesByNode(
   return result
 }
 
+export type FlowFocus = { nodeIds: string[]; edgeIds: string[] }
+
+export function focusedFlow(
+  flow: V2Flow,
+  selection: { kind: 'node' | 'edge'; id: string },
+  depth: number,
+): FlowFocus {
+  const selectedEdge =
+    selection.kind === 'edge'
+      ? flow.edges.find((edge) => edge.id === selection.id)
+      : undefined
+  const nodeIds = new Set(
+    selectedEdge ? [selectedEdge.from, selectedEdge.to] : [selection.id],
+  )
+  const edgeIds = new Set(selectedEdge ? [selectedEdge.id] : [])
+  let frontier = [...nodeIds]
+  for (let step = selectedEdge ? 1 : 0; step < depth; step++) {
+    const reached: string[] = []
+    for (const edge of flow.edges) {
+      const near = frontier.includes(edge.from)
+        ? edge.to
+        : frontier.includes(edge.to)
+          ? edge.from
+          : undefined
+      if (near === undefined) continue
+      edgeIds.add(edge.id)
+      if (!nodeIds.has(near)) {
+        nodeIds.add(near)
+        reached.push(near)
+      }
+    }
+    frontier = reached
+  }
+  return { nodeIds: [...nodeIds], edgeIds: [...edgeIds] }
+}
+
 export function moveEdgeOrder(
   flow: V2Flow,
   id: string,

@@ -388,6 +388,10 @@
 .bo-flow-goto-list button:hover {
   background: var(--color-primary-soft);
 }
+.bo-flow-focus {
+  width: auto;
+  min-width: 9rem;
+}
 .bo-flow-goto {
   position: relative;
   width: min(100%, 18rem);
@@ -476,6 +480,75 @@
 .bo-flow-card[data-state='error'] {
   border-color: var(--color-danger);
   border-width: 2px;
+}
+.bo-flow-card[data-kind],
+.bo-flow-legend span[data-kind] {
+  --bo-event-kind: var(--color-primary);
+}
+.bo-flow-card[data-kind='conditional'],
+.bo-flow-legend span[data-kind='conditional'] {
+  --bo-event-kind: #7a5cc4;
+}
+.bo-flow-card[data-kind='holiday'],
+.bo-flow-legend span[data-kind='holiday'] {
+  --bo-event-kind: #2f6fc1;
+}
+.bo-flow-card[data-kind='random'],
+.bo-flow-legend span[data-kind='random'] {
+  --bo-event-kind: #c2508a;
+}
+.bo-flow-card[data-kind] {
+  border-top: 0.3rem solid var(--bo-event-kind);
+}
+.bo-flow-event-kind {
+  margin-left: auto;
+  border-radius: 999px;
+  padding: 0 0.45rem;
+  background: var(--bo-event-kind);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+.bo-flow-legend {
+  display: flex;
+  gap: 0.6rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+}
+.bo-flow-legend span::before {
+  content: '';
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 0.3rem;
+  border-radius: 999px;
+  background: var(--bo-event-kind);
+  vertical-align: middle;
+}
+.bo-flow-dimmed {
+  opacity: 0.25;
+}
+.bo-flow-edge-dimmed {
+  opacity: 0.15;
+}
+.bo-flow-edge-focus .react-flow__edge-path {
+  stroke: var(--color-primary);
+  stroke-width: 2.5;
+}
+.bo-flow-canvas[data-zoom='far'] .bo-flow-thumb,
+.bo-flow-canvas[data-zoom='far'] .bo-flow-text,
+.bo-flow-canvas[data-zoom='far'] .react-flow__edge-textwrapper {
+  display: none;
+}
+.bo-flow-canvas[data-zoom='far'] .bo-flow-kind,
+.bo-flow-canvas[data-zoom='far'] .bo-flow-ports span {
+  visibility: hidden;
+}
+.bo-flow-canvas[data-zoom='far'] .bo-flow-title {
+  font-size: 2.4rem;
+  line-height: 1.15;
 }
 .bo-flow-card-head {
   display: flex;

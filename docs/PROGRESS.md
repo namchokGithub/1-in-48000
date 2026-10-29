@@ -13,8 +13,7 @@ Every item not `Done`. Update this section whenever an item's status changes.
 | 30  | Converted flow review           | Todo        | —          |
 | 32  | BO Flow detail panel + preview  | In progress | 28         |
 | 33  | V4 Player check + test          | In progress | 30, 32     |
-| 34  | BO Flow board layout            | In progress | 31         |
-| 35  | BO Flow focus + readability     | Todo        | 34         |
+| 35  | BO Flow focus + readability     | In progress | 34         |
 | 36  | BO Flow undo/redo + safer edits | Todo        | 34         |
 
 V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
@@ -66,28 +65,9 @@ Step 31 added the Condition, Random, Ending, and edge forms, and an event editor
 
 **Done when:** V4 is accepted by the author. Release remains a separate, explicit request.
 
-## 34. BO Flow board layout
-
-**Status:** In progress — awaiting the author's visual check
-
-UI only; no automated tests. Source: `docs/BO-UX-DESIGN.md`.
-
-- Make the Flow tab fill the screen height.
-- Add a toggle to collapse and expand the event library; keep the state in React state only.
-- Show the Inspector as a drawer over the canvas when a card or edge is selected; close it with Esc or a click on empty canvas.
-- Group the toolbar: `[+ เพิ่ม ▾]` · `[จัดตำแหน่ง] [Fit ทั้งหมด] [Fit ที่เลือก]` · `[ตรวจความถูกต้อง]`.
-- Add a Go to Event search on the canvas toolbar.
-- Draw edges as Smooth Step.
-- Shortcuts: `/` search, `F` fit, `Esc` clear selection.
-- Clicking an item in the issue list jumps to its card, if not already supported.
-
-**Done when:** the canvas uses nearly the full screen at 1280px, and every board action still works with the library collapsed.
-
-2026-10-29: Implemented. The Flow tab lifts the page width limit and fills the screen height below the sticky toolbar. The library collapses with a toolbar toggle, and "เหตุการณ์ใหม่" moved into the `+ เพิ่ม` menu so it works while collapsed. The Inspector is a drawer over the canvas with a close button. Edges are Smooth Step. The issue list already jumped to cards before this step.
-
 ## 35. BO Flow focus + readability
 
-**Status:** Todo
+**Status:** In progress — awaiting the author's visual check
 
 Mostly UI. Computing the focused cards and edges is logic and gets tests.
 
@@ -98,6 +78,8 @@ Mostly UI. Computing the focused cards and edges is logic and gets tests.
 - Optional: year and period swimlane bands behind the cards; drop this if it proves too complex.
 
 **Done when:** any selected card shows its incoming and outgoing paths clearly, and card titles stay readable when zoomed out.
+
+2026-10-29: Implemented. Selecting a card or edge focuses the board: `focusedFlow` collects the cards and edges within the chosen depth in both directions, and everything else dims. A toolbar dropdown sets the depth (off, 1, 2, or 3 steps; default 1). Edges show the choice name on hover, selection, or focus, and keep showing their condition. Event cards carry a colored top border and a chip for `kind`, with a legend at the bottom of the canvas. Below 45% zoom, cards hide the scene image, text, and port labels and show a large title, and edge labels are hidden. Swimlane bands were dropped: card positions are not tied to year or period lanes, so bands would not line up after manual moves. A focused test covers the focus depth for cards and edges.
 
 ## 36. BO Flow undo/redo + safer edits
 

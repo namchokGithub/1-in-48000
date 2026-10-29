@@ -8,6 +8,7 @@ import {
   connectPorts,
   filesToSave,
   flowPorts,
+  focusedFlow,
   issuesByNode,
   LAYOUT_COLUMN,
   layoutFlow,
@@ -165,6 +166,53 @@ describe('BO flow board editing', () => {
       warnings: [],
     })
     expect(grouped.get('start')).toEqual({ errors: [], warnings: ['check'] })
+  })
+
+  it('focuses a card on its incoming and outgoing paths up to the chosen depth', () => {
+    const sorted = (focus: { nodeIds: string[]; edgeIds: string[] }) => ({
+      nodeIds: [...focus.nodeIds].sort(),
+      edgeIds: [...focus.edgeIds].sort(),
+    })
+    expect(
+      sorted(focusedFlow(flow, { kind: 'node', id: 'has_money' }, 1)),
+    ).toEqual({
+      nodeIds: [
+        'daily_life',
+        'has_money',
+        'n_borrow_from_friend',
+        'n_student_loan',
+      ],
+      edgeIds: ['e_kro', 'e_kyos', 'e_money_fail', 'e_money_pass'],
+    })
+    expect(
+      sorted(focusedFlow(flow, { kind: 'node', id: 'has_money' }, 2)),
+    ).toEqual({
+      nodeIds: [
+        'daily_life',
+        'has_money',
+        'n_borrow_from_friend',
+        'n_choose_program',
+        'n_student_loan',
+        'to_year_3',
+      ],
+      edgeIds: [
+        'e_borrow',
+        'e_daily_after',
+        'e_daily_fallback',
+        'e_kro',
+        'e_kro_fallback',
+        'e_kyos',
+        'e_money_fail',
+        'e_money_pass',
+        'e_program',
+      ],
+    })
+    expect(
+      sorted(focusedFlow(flow, { kind: 'edge', id: 'e_borrow' }, 1)),
+    ).toEqual({
+      nodeIds: ['daily_life', 'n_borrow_from_friend'],
+      edgeIds: ['e_borrow'],
+    })
   })
 
   it('reorders edges only among edges of the same port', () => {

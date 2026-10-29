@@ -10,6 +10,7 @@ import {
   ReactFlowProvider,
   applyNodeChanges,
   useReactFlow,
+  useStore,
   type Connection,
   type Edge,
   type Node,
@@ -33,6 +34,7 @@ import {
   addFlowNode,
   connectPorts,
   flowPorts,
+  focusedFlow,
   issuesByNode,
   layoutFlow,
   moveEdgeOrder,
@@ -49,6 +51,7 @@ type CardData = {
   node: V2FlowNode
   title: string
   kind: string
+  eventKind?: V2Event['kind']
   text: string
   thumbnail?: string
   ports: FlowPort[]
@@ -62,6 +65,12 @@ const periodLabels: Record<V2Event['time']['period'], string> = {
   break: 'ปิดเทอม',
   term2: 'เทอม 2',
   summer: 'ซัมเมอร์',
+}
+const eventKindLabels: Record<V2Event['kind'], string> = {
+  main: 'หลัก',
+  conditional: 'มีเงื่อนไข',
+  holiday: 'วันหยุด',
+  random: 'สุ่ม',
 }
 const typeLabels: Record<V2FlowNode['type'], string> = {
   start: 'Start',
@@ -122,6 +131,7 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
     <div
       className="bo-flow-card"
       data-type={node.type}
+      data-kind={data.eventKind}
       data-state={state}
       data-selected={selected}
     >
@@ -130,6 +140,11 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
       )}
       <div className="bo-flow-card-head">
         <span className="bo-flow-kind">{data.kind}</span>
+        {data.eventKind && (
+          <span className="bo-flow-event-kind">
+            {eventKindLabels[data.eventKind]}
+          </span>
+        )}
         {state && (
           <span
             className="bo-flow-issue-count"
@@ -204,6 +219,9 @@ function Board({
   const [message, setMessage] = useState('')
   const [showIssues, setShowIssues] = useState(false)
   const [libraryOpen, setLibraryOpen] = useState(true)
+  const [focusDepth, setFocusDepth] = useState(1)
+  const [hoveredEdge, setHoveredEdge] = useState<string | null>(null)
+  const zoomedOut = useStore((state) => state.transform[2] < 0.45)
   const [goTo, setGoTo] = useState('')
   const goToRef = useRef<HTMLInputElement>(null)
   const addMenuRef = useRef<HTMLDetailsElement>(null)
@@ -231,6 +249,12 @@ function Board({
     [flow, errors, report.warnings],
   )
 
+  const focusView = useMemo(
+    () =>
+      selected && focusDepth ? focusedFlow(flow, selected, focusDepth) : null,
+    [flow, selected, focusDepth],
+  )
+
   const cards = useMemo<Card[]>(
     () =>
       flow.nodes.map((node) => {
@@ -243,15 +267,22 @@ function Board({
           type: 'card',
           position: node.position,
           deletable: node.type !== 'start',
-          className: highlight?.nodeIds.includes(node.id)
-            ? 'bo-flow-traced'
-            : undefined,
+          className:
+            [
+              highlight?.nodeIds.includes(node.id) ? 'bo-flow-traced' : '',
+              focusView && !focusView.nodeIds.includes(node.id)
+                ? 'bo-flow-dimmed'
+                : '',
+            ]
+              .filter(Boolean)
+              .join(' ') || undefined,
           data: {
             node,
             title: cardTitle(node, content),
             kind: event
               ? `ปี ${event.time.year} · ${periodLabels[event.time.period]}`
               : typeLabels[node.type],
+            eventKind: event?.kind,
             text: cardText(node, content),
             thumbnail: content.assets.find(
               (asset) => asset.id === event?.sceneAssetId,
@@ -261,7 +292,7 @@ function Board({
           },
         }
       }),
-    [flow.nodes, content, issues, highlight],
+    [flow.nodes, content, issues, highlight, focusView],
   )
   const [nodes, setNodes] = useState<Card[]>(cards)
   const [shownCards, setShownCards] = useState(cards)
@@ -279,25 +310,47 @@ function Board({
 
   const edges = useMemo<Edge[]>(
     () =>
-      flow.edges.map((edge) => ({
-        id: edge.id,
-        source: edge.from,
-        sourceHandle: edge.port,
-        target: edge.to,
-        targetHandle: 'in',
-        type: 'smoothstep',
-        label: edge.condition ? conditionSummary(edge.condition) : undefined,
-        selected: selected?.kind === 'edge' && selected.id === edge.id,
-        animated: highlight?.edgeIds.includes(edge.id),
-        className:
-          [
-            edge.condition ? 'bo-flow-edge-conditional' : '',
-            highlight?.edgeIds.includes(edge.id) ? 'bo-flow-edge-traced' : '',
-          ]
-            .filter(Boolean)
-            .join(' ') || undefined,
-      })),
-    [flow.edges, selected, highlight],
+      flow.edges.map((edge) => {
+        const focused = focusView?.edgeIds.includes(edge.id)
+        const from = flow.nodes.find((node) => node.id === edge.from)
+        const choice =
+          focused ||
+          hoveredEdge === edge.id ||
+          (selected?.kind === 'edge' && selected.id === edge.id)
+            ? from &&
+              flowPorts(from, content.events).find(
+                (port) => port.id === edge.port,
+              )?.label
+            : undefined
+        const label = [
+          choice,
+          edge.condition ? conditionSummary(edge.condition) : undefined,
+        ]
+          .filter(Boolean)
+          .join(' · ')
+        return {
+          id: edge.id,
+          source: edge.from,
+          sourceHandle: edge.port,
+          target: edge.to,
+          targetHandle: 'in',
+          type: 'smoothstep',
+          label: label || undefined,
+          selected: selected?.kind === 'edge' && selected.id === edge.id,
+          animated: highlight?.edgeIds.includes(edge.id),
+          zIndex: focused ? 1 : undefined,
+          className:
+            [
+              edge.condition ? 'bo-flow-edge-conditional' : '',
+              highlight?.edgeIds.includes(edge.id) ? 'bo-flow-edge-traced' : '',
+              focused ? 'bo-flow-edge-focus' : '',
+              focusView && !focused ? 'bo-flow-edge-dimmed' : '',
+            ]
+              .filter(Boolean)
+              .join(' ') || undefined,
+        }
+      }),
+    [flow, content.events, selected, highlight, focusView, hoveredEdge],
   )
 
   const selectedNode =
@@ -691,6 +744,17 @@ function Board({
             </button>
           )}
           <div className="bo-flow-group" role="group" aria-label="มุมมอง">
+            <BoDropdown
+              label="ระยะโฟกัส"
+              className="field bo-flow-focus"
+              value={String(focusDepth)}
+              onChange={(input) => setFocusDepth(Number(input.target.value))}
+            >
+              <option value="0">โฟกัส: ปิด</option>
+              <option value="1">โฟกัส: 1 ขั้น</option>
+              <option value="2">โฟกัส: 2 ขั้น</option>
+              <option value="3">โฟกัส: 3 ขั้น</option>
+            </BoDropdown>
             <button
               type="button"
               className="button button-secondary"
@@ -768,6 +832,7 @@ function Board({
           <div
             ref={boardRef}
             className="bo-flow-canvas"
+            data-zoom={zoomedOut ? 'far' : undefined}
             onDragOver={(event) => {
               if (event.dataTransfer.types.includes(EVENT_DRAG_TYPE)) {
                 event.preventDefault()
@@ -805,6 +870,8 @@ function Board({
               }}
               zoomOnDoubleClick={false}
               onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
+              onEdgeMouseEnter={(_, edge) => setHoveredEdge(edge.id)}
+              onEdgeMouseLeave={() => setHoveredEdge(null)}
               onPaneClick={() => select(null)}
               deleteKeyCode={['Backspace', 'Delete']}
               minZoom={0.15}
@@ -813,6 +880,13 @@ function Board({
               <Background gap={24} />
               <Controls />
               <MiniMap pannable zoomable />
+              <Panel position="bottom-center" className="bo-flow-legend">
+                {Object.entries(eventKindLabels).map(([kind, label]) => (
+                  <span key={kind} data-kind={kind}>
+                    {label}
+                  </span>
+                ))}
+              </Panel>
               {!selectedNode && !selectedEdge && (
                 <Panel position="top-left" className="bo-flow-hint">
                   เลือกการ์ดหรือเส้นเพื่อแก้
