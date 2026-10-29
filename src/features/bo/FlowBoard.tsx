@@ -158,14 +158,17 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
 
 const nodeTypes = { card: FlowCard }
 
-export function FlowBoard(props: {
+type BoardProps = {
   content: V2Content
   schemaIssues: V2FlowIssue[]
   onChange: (flow: V2Flow) => void
   onSelectEvent: (eventId: string | null) => void
   onEditEvent: (eventId: string) => void
+  onCreateEvent: (position: V2FlowNode['position']) => void
   onPreview: (eventId: string) => void
-}) {
+}
+
+export function FlowBoard(props: BoardProps) {
   return (
     <ReactFlowProvider>
       <Board {...props} />
@@ -179,15 +182,9 @@ function Board({
   onChange,
   onSelectEvent,
   onEditEvent,
+  onCreateEvent,
   onPreview,
-}: {
-  content: V2Content
-  schemaIssues: V2FlowIssue[]
-  onChange: (flow: V2Flow) => void
-  onSelectEvent: (eventId: string | null) => void
-  onEditEvent: (eventId: string) => void
-  onPreview: (eventId: string) => void
-}) {
+}: BoardProps) {
   const flow = content.flow
   const boardRef = useRef<HTMLDivElement>(null)
   const { screenToFlowPosition, fitView, setCenter } = useReactFlow()
@@ -403,7 +400,16 @@ function Board({
   return (
     <div className="bo-flow-layout mt-3">
       <aside className="panel bo-flow-library" aria-label="คลังเหตุการณ์">
-        <h2 className="font-extrabold">คลังเหตุการณ์</h2>
+        <div className="bo-section-heading">
+          <h2 className="font-extrabold">คลังเหตุการณ์</h2>
+          <button
+            type="button"
+            className="bo-text-button"
+            onClick={() => onCreateEvent(boardCenter())}
+          >
+            + เหตุการณ์ใหม่
+          </button>
+        </div>
         <label className="bo-field">
           <span>ค้นหา</span>
           <input
@@ -624,6 +630,11 @@ function Board({
               )
             }
             onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
+            onNodeDoubleClick={(_, node) => {
+              if (node.data.node.type === 'event')
+                onEditEvent(node.data.node.eventId)
+            }}
+            zoomOnDoubleClick={false}
             onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
             onPaneClick={() => select(null)}
             deleteKeyCode={['Backspace', 'Delete']}

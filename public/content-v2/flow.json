@@ -2,483 +2,487 @@
   "nodes": [
     {
       "id": "n_choose_program",
-      "type": "event",
-      "eventId": "choose_program",
       "position": {
-        "x": 80,
-        "y": 80
-      }
+        "x": -92,
+        "y": -13
+      },
+      "type": "event",
+      "eventId": "choose_program"
     },
     {
       "id": "n_orientation",
-      "type": "event",
-      "eventId": "orientation",
       "position": {
         "x": 360,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "orientation"
     },
     {
       "id": "n_first_class",
-      "type": "event",
-      "eventId": "first_class",
       "position": {
         "x": 640,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "first_class"
     },
     {
       "id": "n_dorm_evening",
-      "type": "event",
-      "eventId": "dorm_evening",
       "position": {
         "x": 920,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "dorm_evening"
     },
     {
       "id": "n_cafeteria_budget",
-      "type": "event",
-      "eventId": "cafeteria_budget",
       "position": {
         "x": 1200,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "cafeteria_budget"
     },
     {
       "id": "n_club_fair",
-      "type": "event",
-      "eventId": "club_fair",
       "position": {
         "x": 1480,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "club_fair"
     },
     {
       "id": "n_library_study",
-      "type": "event",
-      "eventId": "library_study",
       "position": {
-        "x": 1760,
-        "y": 80
-      }
+        "x": 1772,
+        "y": 483
+      },
+      "type": "event",
+      "eventId": "library_study"
     },
     {
       "id": "n_group_project",
-      "type": "event",
-      "eventId": "group_project",
       "position": {
         "x": 2040,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "group_project"
     },
     {
       "id": "n_rainy_commute",
-      "type": "event",
-      "eventId": "rainy_commute",
       "position": {
-        "x": 2320,
-        "y": 80
-      }
+        "x": 2295,
+        "y": 493
+      },
+      "type": "event",
+      "eventId": "rainy_commute"
     },
     {
       "id": "n_midterm_prep",
-      "type": "event",
-      "eventId": "midterm_prep",
       "position": {
         "x": 2600,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "midterm_prep"
     },
     {
       "id": "n_midterm_exam",
-      "type": "event",
-      "eventId": "midterm_exam",
       "position": {
         "x": 2880,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "midterm_exam"
     },
     {
       "id": "n_mali_checkin",
-      "type": "event",
-      "eventId": "mali_checkin",
       "position": {
         "x": 3160,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "mali_checkin"
     },
     {
       "id": "n_club_invitation",
-      "type": "event",
-      "eventId": "club_invitation",
       "position": {
         "x": 3440,
         "y": 80
-      }
+      },
+      "type": "event",
+      "eventId": "club_invitation"
     },
     {
       "id": "random_y1_term1_life",
-      "type": "random",
-      "poolId": "y1_term1_life",
       "position": {
         "x": 3720,
         "y": 80
-      }
+      },
+      "type": "random",
+      "poolId": "y1_term1_life"
     },
     {
       "id": "next_y1_term1",
-      "type": "nextPeriod",
       "position": {
         "x": 4000,
         "y": 80
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_term_reflection",
-      "type": "event",
-      "eventId": "term_reflection",
       "position": {
-        "x": 80,
-        "y": 280
-      }
+        "x": -217,
+        "y": 241
+      },
+      "type": "event",
+      "eventId": "term_reflection"
     },
     {
       "id": "next_y1_break",
-      "type": "nextPeriod",
       "position": {
-        "x": 360,
-        "y": 280
-      }
+        "x": -226,
+        "y": 553
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_return_to_campus",
-      "type": "event",
-      "eventId": "return_to_campus",
       "position": {
         "x": 80,
         "y": 480
-      }
+      },
+      "type": "event",
+      "eventId": "return_to_campus"
     },
     {
       "id": "n_year_one_final",
-      "type": "event",
-      "eventId": "year_one_final",
       "position": {
         "x": 360,
         "y": 480
-      }
+      },
+      "type": "event",
+      "eventId": "year_one_final"
     },
     {
       "id": "n_scholarship_notice",
-      "type": "event",
-      "eventId": "scholarship_notice",
       "position": {
         "x": 640,
         "y": 480
-      }
+      },
+      "type": "event",
+      "eventId": "scholarship_notice"
     },
     {
       "id": "next_y1_term2",
-      "type": "nextPeriod",
       "position": {
         "x": 920,
         "y": 480
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_summer_job",
-      "type": "event",
-      "eventId": "summer_job",
       "position": {
         "x": 80,
         "y": 680
-      }
+      },
+      "type": "event",
+      "eventId": "summer_job"
     },
     {
       "id": "next_y1_summer",
-      "type": "nextPeriod",
       "position": {
         "x": 360,
         "y": 680
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_sophomore_welcome",
-      "type": "event",
-      "eventId": "sophomore_welcome",
       "position": {
         "x": 80,
         "y": 880
-      }
+      },
+      "type": "event",
+      "eventId": "sophomore_welcome"
     },
     {
       "id": "n_year_two_plans",
-      "type": "event",
-      "eventId": "year_two_plans",
       "position": {
         "x": 360,
         "y": 880
-      }
+      },
+      "type": "event",
+      "eventId": "year_two_plans"
     },
     {
       "id": "n_course_choice",
-      "type": "event",
-      "eventId": "course_choice",
       "position": {
         "x": 640,
         "y": 880
-      }
+      },
+      "type": "event",
+      "eventId": "course_choice"
     },
     {
       "id": "next_y2_term1",
-      "type": "nextPeriod",
       "position": {
         "x": 920,
         "y": 880
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "next_y2_break",
-      "type": "nextPeriod",
       "position": {
         "x": 80,
         "y": 1080
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_group_research",
-      "type": "event",
-      "eventId": "group_research",
       "position": {
         "x": 80,
         "y": 1280
-      }
+      },
+      "type": "event",
+      "eventId": "group_research"
     },
     {
       "id": "n_club_project",
-      "type": "event",
-      "eventId": "club_project",
       "position": {
         "x": 360,
         "y": 1280
-      }
+      },
+      "type": "event",
+      "eventId": "club_project"
     },
     {
       "id": "next_y2_term2",
-      "type": "nextPeriod",
       "position": {
         "x": 640,
         "y": 1280
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_internship_application",
-      "type": "event",
-      "eventId": "internship_application",
       "position": {
         "x": 80,
         "y": 1480
-      }
+      },
+      "type": "event",
+      "eventId": "internship_application"
     },
     {
       "id": "next_y2_summer",
-      "type": "nextPeriod",
       "position": {
         "x": 360,
         "y": 1480
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_fieldwork_start",
-      "type": "event",
-      "eventId": "fieldwork_start",
       "position": {
         "x": 80,
         "y": 1680
-      }
+      },
+      "type": "event",
+      "eventId": "fieldwork_start"
     },
     {
       "id": "n_crowded_deadline",
-      "type": "event",
-      "eventId": "crowded_deadline",
       "position": {
         "x": 360,
         "y": 1680
-      }
+      },
+      "type": "event",
+      "eventId": "crowded_deadline"
     },
     {
       "id": "n_free_elective",
-      "type": "event",
-      "eventId": "free_elective",
       "position": {
         "x": 640,
         "y": 1680
-      }
+      },
+      "type": "event",
+      "eventId": "free_elective"
     },
     {
       "id": "next_y3_term1",
-      "type": "nextPeriod",
       "position": {
         "x": 920,
         "y": 1680
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_festival_visit",
-      "type": "event",
-      "eventId": "festival_visit",
       "position": {
         "x": 80,
         "y": 1880
-      }
+      },
+      "type": "event",
+      "eventId": "festival_visit"
     },
     {
       "id": "next_y3_break",
-      "type": "nextPeriod",
       "position": {
         "x": 360,
         "y": 1880
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_project_pitch",
-      "type": "event",
-      "eventId": "project_pitch",
       "position": {
         "x": 80,
         "y": 2080
-      }
+      },
+      "type": "event",
+      "eventId": "project_pitch"
     },
     {
       "id": "n_mentor_feedback",
-      "type": "event",
-      "eventId": "mentor_feedback",
       "position": {
         "x": 360,
         "y": 2080
-      }
+      },
+      "type": "event",
+      "eventId": "mentor_feedback"
     },
     {
       "id": "next_y3_term2",
-      "type": "nextPeriod",
       "position": {
         "x": 640,
         "y": 2080
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_internship_result",
-      "type": "event",
-      "eventId": "internship_result",
       "position": {
         "x": 80,
         "y": 2280
-      }
+      },
+      "type": "event",
+      "eventId": "internship_result"
     },
     {
       "id": "next_y3_summer",
-      "type": "nextPeriod",
       "position": {
         "x": 360,
         "y": 2280
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_thesis_topic",
-      "type": "event",
-      "eventId": "thesis_topic",
       "position": {
         "x": 80,
         "y": 2480
-      }
+      },
+      "type": "event",
+      "eventId": "thesis_topic"
     },
     {
       "id": "n_career_fair",
-      "type": "event",
-      "eventId": "career_fair",
       "position": {
         "x": 360,
         "y": 2480
-      }
+      },
+      "type": "event",
+      "eventId": "career_fair"
     },
     {
       "id": "next_y4_term1",
-      "type": "nextPeriod",
       "position": {
         "x": 640,
         "y": 2480
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "next_y4_break",
-      "type": "nextPeriod",
       "position": {
         "x": 80,
         "y": 2680
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_thesis_defense",
-      "type": "event",
-      "eventId": "thesis_defense",
       "position": {
         "x": 80,
         "y": 2880
-      }
+      },
+      "type": "event",
+      "eventId": "thesis_defense"
     },
     {
       "id": "n_farewell_dinner",
-      "type": "event",
-      "eventId": "farewell_dinner",
       "position": {
         "x": 360,
         "y": 2880
-      }
+      },
+      "type": "event",
+      "eventId": "farewell_dinner"
     },
     {
       "id": "next_y4_term2",
-      "type": "nextPeriod",
       "position": {
         "x": 640,
         "y": 2880
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "n_graduation_day",
-      "type": "event",
-      "eventId": "graduation_day",
       "position": {
         "x": 80,
         "y": 3080
-      }
+      },
+      "type": "event",
+      "eventId": "graduation_day"
     },
     {
       "id": "next_y4_summer",
-      "type": "nextPeriod",
       "position": {
         "x": 360,
         "y": 3080
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "start",
-      "type": "start",
       "position": {
-        "x": -200,
-        "y": 80
-      }
+        "x": -378,
+        "y": -11
+      },
+      "type": "start"
     },
     {
       "id": "next_extra_years",
-      "type": "nextPeriod",
       "position": {
         "x": 80,
         "y": 3280
-      }
+      },
+      "type": "nextPeriod"
     },
     {
       "id": "check_academic_path",
+      "position": {
+        "x": 360,
+        "y": 3280
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -493,14 +497,14 @@
           "operator": "gte",
           "value": 70
         }
-      ],
-      "position": {
-        "x": 360,
-        "y": 3280
-      }
+      ]
     },
     {
       "id": "check_community_path",
+      "position": {
+        "x": 640,
+        "y": 3280
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -515,37 +519,42 @@
           "operator": "gte",
           "value": 65
         }
-      ],
-      "position": {
-        "x": 640,
-        "y": 3280
-      }
+      ]
     },
     {
       "id": "end_academic_path",
-      "type": "ending",
-      "endingId": "academic_path",
       "position": {
         "x": 920,
         "y": 3280
-      }
+      },
+      "type": "ending",
+      "endingId": "academic_path"
     },
     {
       "id": "end_community_path",
-      "type": "ending",
-      "endingId": "community_path",
       "position": {
         "x": 920,
         "y": 3440
-      }
+      },
+      "type": "ending",
+      "endingId": "community_path"
     },
     {
       "id": "end_graduation",
-      "type": "ending",
-      "endingId": "graduation",
       "position": {
         "x": 920,
         "y": 3600
+      },
+      "type": "ending",
+      "endingId": "graduation"
+    },
+    {
+      "id": "random",
+      "type": "random",
+      "poolId": "y1_term1_life",
+      "position": {
+        "x": 2036,
+        "y": 741
       }
     }
   ],
@@ -1289,6 +1298,24 @@
       "from": "check_community_path",
       "port": "fail",
       "to": "end_graduation"
+    },
+    {
+      "id": "e_n_library_study_solo_notes_2",
+      "from": "n_library_study",
+      "port": "solo_notes",
+      "to": "random"
+    },
+    {
+      "id": "e_random_after",
+      "from": "random",
+      "port": "after",
+      "to": "n_rainy_commute"
+    },
+    {
+      "id": "e_random_fallback",
+      "from": "random",
+      "port": "fallback",
+      "to": "n_rainy_commute"
     }
   ]
 }

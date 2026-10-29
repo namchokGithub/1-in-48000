@@ -9,6 +9,7 @@ import { V2EndingEditor } from './V2EndingEditor'
 import { V2EventEditor } from './V2EventEditor'
 import { PreviewDialog } from './PreviewDialog'
 import { FlowBoard } from './FlowBoard'
+import { EventEditorDialog } from './EventEditorDialog'
 import { ConfirmationDialog } from './ConfirmationDialog'
 import {
   commitHistory,
@@ -17,7 +18,12 @@ import {
   undoHistory,
   type DraftHistory,
 } from './draftHistory'
-import { removeEventFromFlow, syncEventChange } from './flowEditing'
+import {
+  filesToSave,
+  placeEvent,
+  removeEventFromFlow,
+  syncEventChange,
+} from './flowEditing'
 import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
 import { matchesStoryQuery } from './timelineFilters'
 import { DataEditor, type DataSection } from './DataEditor'
@@ -92,6 +98,7 @@ export function BoApp() {
   const [retry, setRetry] = useState(0)
   const [section, setSection] = useState<Section>(sectionFromUrl)
   const [flowEventId, setFlowEventId] = useState<string | null>(null)
+  const [editEventId, setEditEventId] = useState<string | null>(null)
   const [eventQuery, setEventQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
@@ -218,7 +225,7 @@ export function BoApp() {
     names: dirtyNames,
   }
   const file = sectionFile(section)
-  const dirty = dirtyFiles[file]
+  const dirty = section === 'flow' ? dirtyEvents || dirtyFlow : dirtyFiles[file]
   const dirtyAny = Object.values(dirtyFiles).some(Boolean)
   const sectionLabels: Record<Section, string> = {
     events: 'เหตุการณ์',
@@ -240,17 +247,64 @@ export function BoApp() {
     ({ event: item }) => matchesStoryQuery(item, eventQuery),
   )
 
-  function updateEvent(next: V2Event) {
+  function updateEventAt(target: number, next: V2Event) {
     setDraft(
       (current) =>
         current && {
           ...current,
           events: current.events.map((item, index) =>
-            index === eventIndex ? next : item,
+            index === target ? next : item,
           ),
-          flow: syncEventChange(current.flow, current.events[eventIndex], next),
+          flow: syncEventChange(current.flow, current.events[target], next),
         },
     )
+    setNotice('')
+    setServerIssues([])
+  }
+
+  function updateEvent(next: V2Event) {
+    updateEventAt(eventIndex, next)
+  }
+
+  function confirmDeleteEvent(target: V2Event, afterDelete: () => void) {
+    setConfirmation({
+      title: 'ลบเหตุการณ์จากร่าง?',
+      description: `“${target.title}” จะถูกนำออกจากร่างและจากกระดาน Flow คุณยังเลิกทำได้ก่อนบันทึก`,
+      confirmLabel: 'ลบเหตุการณ์',
+      action: () => {
+        setDraft({
+          ...currentDraft,
+          events: currentDraft.events.filter((item) => item.id !== target.id),
+          flow: removeEventFromFlow(currentDraft.flow, target.id),
+        })
+        afterDelete()
+        setNotice('')
+      },
+    })
+  }
+
+  function newEventDraft(): V2Event {
+    return {
+      id: nextId('new_event', eventIds),
+      kind: 'main',
+      time: { year: 1, period: 'term1' },
+      title: 'เหตุการณ์ใหม่',
+      sceneAssetId: currentDraft.assets.find((asset) => asset.kind === 'scene')
+        ?.id,
+      bgmAssetId: currentDraft.assets.find((asset) => asset.kind === 'bgm')?.id,
+      conditions: [],
+      lines: [{ text: 'เขียนบทสนทนา' }],
+      choices: [{ id: 'continue', text: 'ต่อไป', conditions: [], effects: [] }],
+    }
+  }
+
+  function addEventToFlow(position: { x: number; y: number }) {
+    const newEvent = newEventDraft()
+    const events = [...currentDraft.events, newEvent]
+    const flow = placeEvent(currentDraft.flow, events, newEvent.id, position)
+    if (typeof flow === 'string') return
+    setDraft({ ...currentDraft, events, flow })
+    setEditEventId(newEvent.id)
     setNotice('')
     setServerIssues([])
   }
@@ -270,18 +324,7 @@ export function BoApp() {
   }
 
   function addEvent() {
-    const newEvent: V2Event = {
-      id: nextId('new_event', eventIds),
-      kind: 'main',
-      time: { year: 1, period: 'term1' },
-      title: 'เหตุการณ์ใหม่',
-      sceneAssetId: currentDraft.assets.find((asset) => asset.kind === 'scene')
-        ?.id,
-      bgmAssetId: currentDraft.assets.find((asset) => asset.kind === 'bgm')?.id,
-      conditions: [],
-      lines: [{ text: 'เขียนบทสนทนา' }],
-      choices: [{ id: 'continue', text: 'ต่อไป', conditions: [], effects: [] }],
-    }
+    const newEvent = newEventDraft()
     setEventIndex(currentDraft.events.length)
     setDraft({ ...currentDraft, events: [...currentDraft.events, newEvent] })
     selectSection('events')
@@ -343,34 +386,37 @@ export function BoApp() {
     setServerIssues([])
   }
 
-  async function saveFile(file: EditableFile) {
+  async function saveFile(target: EditableFile) {
     setShowIssues(true)
     setServerIssues([])
     setNotice('')
     if (issues.length) return
     setSaving(true)
     try {
-      const response = await fetch(`/__bo/v2/content/${file}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(currentDraft[file]),
-      })
-      if (!response.ok) {
-        const body: unknown = await response.json()
-        const found = responseIssues(body)
-        if (found.length) setServerIssues(found)
-        else setNotice('บันทึกไม่ได้ โปรดตรวจ dev server แล้วลองอีกครั้ง')
-        return
+      const files = filesToSave(target, dirtyFiles)
+      for (const file of files) {
+        const response = await fetch(`/__bo/v2/content/${file}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentDraft[file]),
+        })
+        if (!response.ok) {
+          const body: unknown = await response.json()
+          const found = responseIssues(body)
+          if (found.length) setServerIssues(found)
+          else setNotice('บันทึกไม่ได้ โปรดตรวจ dev server แล้วลองอีกครั้ง')
+          return
+        }
+        setSaved(
+          (current) =>
+            current && {
+              ...current,
+              [file]: structuredClone(currentDraft[file]),
+            },
+        )
       }
-      setSaved(
-        (current) =>
-          current && {
-            ...current,
-            [file]: structuredClone(currentDraft[file]),
-          },
-      )
       setShowIssues(false)
-      const name = {
+      const names = {
         events: 'เหตุการณ์',
         flow: 'Flow เรื่อง',
         endings: 'ตอนจบ',
@@ -380,8 +426,8 @@ export function BoApp() {
         majors: 'สาขา',
         electives: 'วิชาเสรี',
         names: 'ชื่อผู้เล่น',
-      }[file]
-      setNotice(`บันทึก${name}แล้ว`)
+      }
+      setNotice(`บันทึก${files.map((file) => names[file]).join(' และ ')}แล้ว`)
     } catch {
       setNotice('ติดต่อ dev server ไม่ได้ โปรดลองอีกครั้ง')
     } finally {
@@ -634,13 +680,8 @@ export function BoApp() {
               setServerIssues([])
             }}
             onSelectEvent={setFlowEventId}
-            onEditEvent={(eventId) => {
-              const index = currentDraft.events.findIndex(
-                (item) => item.id === eventId,
-              )
-              if (index >= 0) setEventIndex(index)
-              selectSection('events')
-            }}
+            onEditEvent={setEditEventId}
+            onCreateEvent={addEventToFlow}
             onPreview={setPreviewEventId}
           />
         ) : (
@@ -749,22 +790,9 @@ export function BoApp() {
                     eventIds={eventIds}
                     onChange={updateEvent}
                     onDelete={() =>
-                      setConfirmation({
-                        title: 'ลบเหตุการณ์จากร่าง?',
-                        description: `“${event.title}” จะถูกนำออกจากร่าง คุณยังเลิกทำได้ก่อนบันทึก`,
-                        confirmLabel: 'ลบเหตุการณ์',
-                        action: () => {
-                          setDraft({
-                            ...draft,
-                            events: draft.events.filter(
-                              (_, index) => index !== eventIndex,
-                            ),
-                            flow: removeEventFromFlow(draft.flow, event.id),
-                          })
-                          setEventIndex(Math.max(0, eventIndex - 1))
-                          setNotice('')
-                        },
-                      })
+                      confirmDeleteEvent(event, () =>
+                        setEventIndex(Math.max(0, eventIndex - 1)),
+                      )
                     }
                   />
                 ) : (
@@ -800,6 +828,32 @@ export function BoApp() {
             </section>
           </div>
         )}
+        {editEventId &&
+          (() => {
+            const target = draft.events.findIndex(
+              (item) => item.id === editEventId,
+            )
+            const editing = draft.events[target]
+            if (!editing) return null
+            return (
+              <EventEditorDialog
+                event={editing}
+                assets={draft.assets}
+                characters={draft.characters}
+                catalogs={draft}
+                eventIds={eventIds}
+                onChange={(next) => {
+                  updateEventAt(target, next)
+                  if (next.id !== editing.id) setEditEventId(next.id)
+                }}
+                onDelete={() =>
+                  confirmDeleteEvent(editing, () => setEditEventId(null))
+                }
+                onPreview={() => setPreviewEventId(editing.id)}
+                onClose={() => setEditEventId(null)}
+              />
+            )
+          })()}
         {previewEventId && (
           <PreviewDialog
             key={previewEventId}

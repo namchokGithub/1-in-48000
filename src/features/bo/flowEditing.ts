@@ -294,3 +294,11 @@ export function removeEventFromFlow(flow: V2Flow, eventId: string): V2Flow {
       .map((node) => node.id),
   )
 }
+
+export function filesToSave<T extends string>(
+  file: T | 'flow',
+  dirty: Partial<Record<T | 'flow' | 'events', boolean>>,
+): (T | 'flow' | 'events')[] {
+  if (file !== 'flow') return [file]
+  return (['events', 'flow'] as const).filter((name) => dirty[name])
+}

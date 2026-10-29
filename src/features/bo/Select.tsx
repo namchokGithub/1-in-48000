@@ -38,6 +38,7 @@ export function BoDropdown({
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(0)
   const [position, setPosition] = useState<Position | null>(null)
+  const [layer, setLayer] = useState<HTMLElement | null>(null)
   const positioned = position !== null
   const [inferredLabel, setInferredLabel] = useState('')
   const options = useMemo(
@@ -76,6 +77,7 @@ export function BoDropdown({
 
   useLayoutEffect(() => {
     if (!open) return
+    setLayer(triggerRef.current?.closest('dialog') ?? document.body)
     const update = () => {
       const rect = triggerRef.current?.getBoundingClientRect()
       if (!rect) return
@@ -229,6 +231,7 @@ export function BoDropdown({
       </button>
       {open &&
         position &&
+        layer &&
         createPortal(
           <div
             ref={listRef}
@@ -260,7 +263,7 @@ export function BoDropdown({
               <p className="bo-select-empty">ไม่มีตัวเลือก</p>
             )}
           </div>,
-          document.body,
+          layer,
         )}
     </>
   )

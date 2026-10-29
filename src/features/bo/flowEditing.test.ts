@@ -6,6 +6,7 @@ import { v2ContentSchema } from '../../content/v2/schema'
 import {
   addFlowNode,
   connectPorts,
+  filesToSave,
   flowPorts,
   issuesByNode,
   LAYOUT_COLUMN,
@@ -210,5 +211,19 @@ describe('BO flow board editing', () => {
           edge.from === 'n_student_loan' || edge.to === 'n_student_loan',
       ),
     ).toBe(false)
+  })
+
+  it('saves events before the flow from the Flow tab and only dirty files', () => {
+    expect(filesToSave('flow', { events: true, flow: true })).toEqual([
+      'events',
+      'flow',
+    ])
+    expect(filesToSave('flow', { events: false, flow: true })).toEqual(['flow'])
+    expect(filesToSave('flow', { events: true, flow: false })).toEqual([
+      'events',
+    ])
+    expect(filesToSave('endings', { events: true, flow: true })).toEqual([
+      'endings',
+    ])
   })
 })

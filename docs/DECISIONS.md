@@ -129,3 +129,7 @@ Treat missing required edges as errors and possible dead ends as warnings. The e
 ## 2026-10-29 — BO Flow board editing rules
 
 The board edits only `flow.json`; event content stays in the Events form. Renaming an Event ID or a Choice ID in the form updates the matching card and edge ports in the draft flow, and deleting an event removes its card and edges, so routine edits do not leave broken references. Pool events cannot be placed on the board; a Random card points to a pool tag set in the event form. Condition, Random, Ending, and edge forms moved into the Step 31 right panel because a branching path cannot be built without them; Step 32 keeps the event form in the panel and the preview trace. The Timeline view was removed with its helpers, as decided for V4. React Flow is pinned to `@xyflow/react` 12.12.0.
+
+## 2026-10-29 — Edit events from the Flow board in a modal
+
+Authors edit an event's content from the Flow tab in a modal that reuses the event form, so building a path does not require switching tabs. The Flow tab's Save writes the events file before `flow.json`, because the local writer validates a flow against the events already on disk. A new event created from the board library is placed immediately and opened in the modal. BO dropdown lists render inside the nearest open dialog, since a list portaled to `document.body` sits beneath a modal dialog's top layer and cannot be clicked.
