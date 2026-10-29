@@ -141,3 +141,7 @@ Preview reasons come from the engine itself: each choice action accepts an optio
 ## 2026-10-29 — BO Flow board undo scope and card colors
 
 Undo/Redo on the Flow board uses the existing BO draft history, which covers the whole draft: flow edits and event edits in one order. A separate flow-only history was planned but dropped in Step 36, because two histories over one draft break each other. Renaming an Event ID also renames it on the flow cards, so undoing only the flow would leave cards pointing at an event ID that no longer exists. Keyboard shortcuts act on the same history and leave text fields to their own undo. Auto layout needs no confirmation because it can be undone. Event cards are colored by `kind`; in V4 `kind` is only a label, so using it for color changes no game logic.
+
+## 2026-10-29 — Flow board edge groups
+
+Edges are grouped by meaning on the board only: normal, fallback, Condition pass, Condition fail, and key (study review results and edges into an Ending). The group is derived from the source card type, the port, and edge order, so `flow.json` stays unchanged. Groups differ mainly by width, dash, arrowheads, and a "สำรอง" label rather than new hues, because card kinds, errors and warnings, the preview trace, and focus already use most distinct colors. Trace and focus styles override group styles. Loop styling is deferred because it needs graph analysis.

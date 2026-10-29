@@ -6,6 +6,7 @@ import { v2ContentSchema } from '../../content/v2/schema'
 import {
   addFlowNode,
   connectPorts,
+  edgeStyle,
   filesToSave,
   flowPorts,
   focusedFlow,
@@ -250,6 +251,24 @@ describe('BO flow board editing', () => {
         'has_money',
       ),
     ).toBe(flow)
+  })
+
+  it('groups edges by meaning for board styling', () => {
+    const style = (id: string) =>
+      edgeStyle(
+        flow,
+        flow.edges.find((edge) => edge.id === id)!,
+      )
+    expect(style('e_kyos')).toBe('normal')
+    expect(style('e_kro')).toBe('normal')
+    expect(style('e_kro_fallback')).toBe('fallback')
+    expect(style('e_daily_fallback')).toBe('fallback')
+    expect(style('e_daily_after')).toBe('normal')
+    expect(style('e_money_pass')).toBe('pass')
+    expect(style('e_money_fail')).toBe('fail')
+    expect(style('e_review_next')).toBe('normal')
+    expect(style('e_graduate')).toBe('key')
+    expect(style('e_extend')).toBe('key')
   })
 
   it('reorders edges only among edges of the same port', () => {

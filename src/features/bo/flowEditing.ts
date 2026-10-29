@@ -304,6 +304,36 @@ export function focusedFlow(
   return { nodeIds: [...nodeIds], edgeIds: [...edgeIds] }
 }
 
+export type FlowEdgeStyle = 'normal' | 'fallback' | 'pass' | 'fail' | 'key'
+
+export function edgeStyle(
+  flow: V2Flow,
+  edge: V2Flow['edges'][number],
+): FlowEdgeStyle {
+  const source = flow.nodes.find((node) => node.id === edge.from)
+  const target = flow.nodes.find((node) => node.id === edge.to)
+  if (source?.type === 'condition')
+    return edge.port === 'pass' ? 'pass' : 'fail'
+  if (
+    source?.type === 'nextPeriod' &&
+    (edge.port === 'graduate' || edge.port === 'extend')
+  )
+    return 'key'
+  if (target?.type === 'ending') return 'key'
+  if (source?.type === 'random' && edge.port === 'fallback') return 'fallback'
+  if (edge.condition) return 'normal'
+  const index = flow.edges.indexOf(edge)
+  return flow.edges.some(
+    (other, otherIndex) =>
+      otherIndex < index &&
+      other.from === edge.from &&
+      other.port === edge.port &&
+      other.condition,
+  )
+    ? 'fallback'
+    : 'normal'
+}
+
 export function moveEdgeOrder(
   flow: V2Flow,
   id: string,

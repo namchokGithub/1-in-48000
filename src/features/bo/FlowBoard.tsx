@@ -11,6 +11,7 @@ import {
   SelectionMode,
   ReactFlowProvider,
   applyNodeChanges,
+  MarkerType,
   getSmoothStepPath,
   useInternalNode,
   useReactFlow,
@@ -39,6 +40,7 @@ import { matchesStoryQuery } from './timelineFilters'
 import {
   addFlowNode,
   connectPorts,
+  edgeStyle,
   flowPorts,
   focusedFlow,
   issuesByNode,
@@ -49,6 +51,7 @@ import {
   reconnectEdge,
   removeFlowEdges,
   removeFlowNodes,
+  type FlowEdgeStyle,
   type FlowNodeIssues,
   type FlowPort,
 } from './flowEditing'
@@ -87,6 +90,21 @@ const eventKindLabels: Record<V2Event['kind'], string> = {
   conditional: 'มีเงื่อนไข',
   holiday: 'วันหยุด',
   random: 'สุ่ม',
+}
+const edgeStyleLabels: Record<Exclude<FlowEdgeStyle, 'normal'>, string> = {
+  fallback: 'สำรอง',
+  pass: 'ผ่าน',
+  fail: 'ไม่ผ่าน',
+  key: 'ผลการเรียน / ตอนจบ',
+}
+const edgeColors: Record<FlowEdgeStyle | 'traced' | 'focus', string> = {
+  normal: '#b1b1b7',
+  fallback: '#b1b1b7',
+  pass: '#3d8b3d',
+  fail: '#5f6b73',
+  key: '#173544',
+  traced: '#e8a36b',
+  focus: '#087f79',
 }
 const typeLabels: Record<V2FlowNode['type'], string> = {
   start: 'Start',
@@ -413,7 +431,10 @@ function Board({
                 (port) => port.id === edge.port,
               )?.label
             : undefined
+        const style = edgeStyle(flow, edge)
+        const traced = highlight?.edgeIds.includes(edge.id)
         const label = [
+          style === 'fallback' ? 'สำรอง' : undefined,
           choice,
           edge.condition ? conditionSummary(edge.condition) : undefined,
         ]
@@ -429,12 +450,19 @@ function Board({
           data: { port: edge.port },
           label: label || undefined,
           selected: selected?.kind === 'edge' && selected.id === edge.id,
-          animated: highlight?.edgeIds.includes(edge.id),
+          animated: traced,
           zIndex: focused ? 1 : undefined,
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 16,
+            height: 16,
+            color: edgeColors[traced ? 'traced' : focused ? 'focus' : style],
+          },
           className:
             [
+              `bo-flow-edge-${style}`,
               edge.condition ? 'bo-flow-edge-conditional' : '',
-              highlight?.edgeIds.includes(edge.id) ? 'bo-flow-edge-traced' : '',
+              traced ? 'bo-flow-edge-traced' : '',
               focused ? 'bo-flow-edge-focus' : '',
               focusView && !focused ? 'bo-flow-edge-dimmed' : '',
             ]
@@ -994,6 +1022,13 @@ function Board({
               <Panel position="bottom-center" className="bo-flow-legend">
                 {Object.entries(eventKindLabels).map(([kind, label]) => (
                   <span key={kind} data-kind={kind}>
+                    {label}
+                  </span>
+                ))}
+                <span className="bo-flow-legend-sep" aria-hidden="true" />
+                <span data-edge="conditional">มีเงื่อนไข</span>
+                {Object.entries(edgeStyleLabels).map(([style, label]) => (
+                  <span key={style} data-edge={style}>
                     {label}
                   </span>
                 ))}

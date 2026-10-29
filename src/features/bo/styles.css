@@ -507,7 +507,10 @@
 }
 .bo-flow-legend {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.6rem;
+  max-width: min(48rem, 60%);
   border-radius: 0.5rem;
   padding: 0.3rem 0.6rem;
   background: rgba(255, 255, 255, 0.85);
@@ -610,6 +613,48 @@
   width: 0.55rem;
   height: 0.55rem;
   background: var(--color-primary);
+}
+:where(.bo-flow-edge-fallback) .react-flow__edge-path {
+  stroke-width: 1;
+}
+:where(.bo-flow-edge-pass) .react-flow__edge-path {
+  stroke: #3d8b3d;
+  stroke-width: 2;
+}
+:where(.bo-flow-edge-fail) .react-flow__edge-path {
+  stroke: #5f6b73;
+  stroke-dasharray: 2 4;
+  stroke-width: 2;
+}
+:where(.bo-flow-edge-key) .react-flow__edge-path {
+  stroke: #173544;
+  stroke-width: 2.5;
+}
+.bo-flow-legend-sep {
+  width: 1px;
+  background: var(--color-line);
+}
+.bo-flow-legend span[data-edge]::before {
+  width: 1.2rem;
+  height: 0;
+  border-top: 2px solid #b1b1b7;
+  border-radius: 0;
+  background: none;
+}
+.bo-flow-legend span[data-edge='conditional']::before {
+  border-top-style: dashed;
+}
+.bo-flow-legend span[data-edge='fallback']::before {
+  border-top-width: 1px;
+}
+.bo-flow-legend span[data-edge='pass']::before {
+  border-top-color: #3d8b3d;
+}
+.bo-flow-legend span[data-edge='fail']::before {
+  border-top: 2px dotted #5f6b73;
+}
+.bo-flow-legend span[data-edge='key']::before {
+  border-top: 3px solid #173544;
 }
 .bo-flow-edge-conditional .react-flow__edge-path {
   stroke-dasharray: 6 4;

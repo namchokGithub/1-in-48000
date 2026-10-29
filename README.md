@@ -36,14 +36,14 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 A content authoring and testing tool that runs **only on the author's machine**, separate from the public game.
 
 - Add, edit, and delete events, choices, and endings.
-- Search events and filter the eight-year timeline by kind; drag events across periods or use the form and up/down controls on touch or keyboard.
-- Conditions (e.g. academic year, money, past events) and effects (change stats, set flags, go to the next event).
+- Build the story on a Flow board: place events, connect each choice to the next card, and add Condition, Random, Next Period, and Ending cards.
+- Conditions (e.g. academic year, money, past events) on Flow edges and Condition cards, and effects (change stats, set flags).
 - Bind images, music, and sounds by Asset ID.
-- Preview Player dialogue and try choices in a modal without writing a player save.
-- Validate JSON: duplicate IDs, broken event links, and missing assets.
+- Preview Player dialogue and try choices in a modal without writing a player save; the preview lists the path taken with pass/fail reasons and highlights it on the board.
+- Validate JSON: duplicate IDs, broken event links, missing assets, and Flow errors (unconnected choices) and warnings (unreachable cards, possible dead ends).
 - Save JSON directly to the content files — no manual import/export.
 
-The current BO edits `events.json`, `endings.json`, `characters.json`, and `assets.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The timeline covers Years 1–8, filters by kind, and warns when a period has more than ten active main events without blocking additions. It moves event cards within or across periods, while up/down controls change authored order in the form. Event order affects precedence within each event kind, and ending order sets ending precedence. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` before publishing content changes.
+The current BO edits `events.json`, `endings.json`, `characters.json`, `assets.json`, and `flow.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The Flow board decides story order: edges from the same choice are checked in file order, Random cards draw from an event pool, and Next Period cards advance time and run the study review. It supports focus on nearby paths, cards colored by kind, go-to search, keyboard shortcuts, Undo/Redo, and drag-to-reconnect edges. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` before publishing content changes.
 
 ## Tech Stack
 
@@ -124,10 +124,11 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 | 3 — BO                | Content editing forms and preview                   | New story content added through BO             |
 | 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches | Complete: 35 events and 3 reachable endings    |
 | 5 — Test and release  | Check story paths, effects, mobile, and audio       | Ready to deploy                                |
+| V4 — Story flow       | Graph-driven story on a BO Flow board               | Complete: story order lives in `flow.json`     |
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major selection is active; clubs and relationship routes come later.
 
-**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Step 25's Player layout and year stepper are ready for the author's mobile/desktop visual check. Player and BO use Noto Sans Thai Light 300. Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Step 25's Player layout and year stepper are ready for the author's mobile/desktop visual check. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

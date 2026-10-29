@@ -8,15 +8,13 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this section whenever an item's status changes.
 
-| #   | Step                            | Status      | Depends on |
-| --- | ------------------------------- | ----------- | ---------- |
-| 30  | Converted flow review           | Todo        | —          |
-| 32  | BO Flow detail panel + preview  | In progress | 28         |
-| 33  | V4 Player check + test          | In progress | 30, 32     |
-| 35  | BO Flow focus + readability     | In progress | 34         |
-| 36  | BO Flow undo/redo + safer edits | In progress | 34         |
+V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
-V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
+| #   | Step                | Status      | Depends on |
+| --- | ------------------- | ----------- | ---------- |
+| 37  | BO Flow edge styles | In progress | 35         |
+
+V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/legacy/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
 ## Open decisions
 
@@ -30,67 +28,18 @@ Resolved choices are recorded in `docs/DECISIONS.md`.
 
 Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](COMPLETE-LOG.md).
 
-## 30. Converted flow review
-
-**Status:** Todo
-
-The one-time conversion moved into Step 28 so the game and tests keep working. This step is the author's review of the converted story on the BO Flow board.
-
-- Review the converted order, conditional edges, random pools, Next Period nodes, and graduation endings on the board.
-- Rearrange cards with auto layout; adjust edges where the mechanical conversion does not match the intended story.
-
-**Done when:** the author accepts the converted flow in BO.
-
-## 32. BO Flow detail panel + preview
+## 37. BO Flow edge styles
 
 **Status:** In progress — awaiting the author's visual check
 
-Step 31 added the Condition, Random, Ending, and edge forms, and an event editor modal on the Flow board.
+Group Flow board edges by meaning, derived from the source card type, port, and edge order; no content or schema change.
 
-- Engine trace for preview: path taken, state, and why each condition passed or failed (moved from Step 28).
-- Preview highlights the real path with current state and condition pass/fail reasons.
-- Preview of an event not yet placed on the board ends with a "No path" message today; give it a clear Thai message.
+- Arrowheads on every edge.
+- Groups: normal (choices, `next`, `after`), fallback (Random `fallback`, or an unconditional edge after a conditional one on the same port, labeled "สำรอง"), Condition pass and fail, and key (study review `graduate`/`extend` and edges into an Ending). Conditional edges stay dashed.
+- Preview trace and focus styles win over group styles.
+- Legend for edge groups next to the card colors.
+- Loop (back-edge) styling is skipped for now.
 
-**Done when:** Preview shows the highlighted path with reasons, and an unplaced event's preview explains what to connect.
+**Done when:** the author can tell fallback, pass/fail, and key edges apart on the board.
 
-2026-10-29: Implemented and ready for visual review. The engine's choice actions accept an optional trace that records each edge (with the conditional edges skipped before it), Condition results, Random candidates and the rolled event, period moves with the review score, and the event or ending reached. The preview modal lists that path in Thai with pass/fail reasons and current flags, and stats stay in the scene's stat panel. The Flow board highlights the traced cards and edges while the preview runs and keeps them until "ล้างไฮไลต์เส้นทาง". An unplaced event shows a notice before choosing, and missing-path errors read as Thai guidance. Focused tests cover the engine trace, the Thai descriptions, the highlighted IDs, and the error messages.
-
-## 33. V4 Player check + test
-
-**Status:** In progres
-
-- Confirm the Player runs on the flow engine with no visible regressions.
-- Check story paths, random restore after refresh, program review, and endings.
-- Check the BO Flow board on desktop.
-
-**Done when:** V4 is accepted by the author. Release remains a separate, explicit request.
-
-## 35. BO Flow focus + readability
-
-**Status:** In progress — awaiting the author's visual check
-
-Mostly UI. Computing the focused cards and edges is logic and gets tests.
-
-- Focus Mode: selecting a card highlights it and its directly connected cards and edges (incoming and outgoing, 1 hop) and dims the rest without hiding them. The depth can be expanded.
-- Show choice names on edges only on hover, selection, or focus.
-- Color event cards by `kind` (`main`, `conditional`, `holiday`, `random`), without clashing with the error/warning red and yellow or the gold trace highlight.
-- Zoom-level detail: when zoomed out, show only a large title and hide the scene image and ports.
-- Optional: year and period swimlane bands behind the cards; drop this if it proves too complex.
-
-**Done when:** any selected card shows its incoming and outgoing paths clearly, and card titles stay readable when zoomed out.
-
-2026-10-29: Implemented. Selecting a card or edge focuses the board: `focusedFlow` collects the cards and edges within the chosen depth in both directions, and everything else dims. A toolbar dropdown sets the depth (off, 1, 2, or 3 steps; default 1). Edges show the choice name on hover, selection, or focus, and keep showing their condition. Event cards carry a colored top border and a chip for `kind`, with a legend at the bottom of the canvas. Below 45% zoom, cards hide the scene image, text, and port labels and show a large title, and edge labels are hidden. Swimlane bands were dropped: card positions are not tied to year or period lanes, so bands would not line up after manual moves. A focused test covers the focus depth for cards and edges.
-
-## 36. BO Flow undo/redo + safer edits
-
-**Status:** In progress — awaiting the author's visual check
-
-Logic with tests. The existing BO draft history (`draftHistory.ts`) already undoes every board edit through the page toolbar, including drag ends and auto layout. This step keeps that single history instead of adding a flow-only one (see `docs/DECISIONS.md`).
-
-- Keyboard shortcuts on every BO tab: Cmd/Ctrl+Z undo, Cmd/Ctrl+Shift+Z or Ctrl+Y redo; inactive in text fields and while saving.
-- Drag either end of an edge to another card or port (`onReconnect`); the edge keeps its ID, condition, and check order.
-- Auto layout needs no confirmation; it shows a note that Cmd+Z undoes it.
-
-**Done when:** every board edit can be undone, and a wrong auto layout can be recovered.
-
-2026-10-29: Implemented. `reconnectEdge` moves an edge in place under the same rules as a new connection (no edges out of an Ending or into Start, no duplicate unconditional edge) and is covered by a focused test. A rejected reconnect shows a notice and the edge snaps back.
+2026-10-29: Implemented. `edgeStyle` returns the group and is covered by a focused test. Groups differ by width, dash, and a few dark colors, and arrowheads follow the trace and focus colors.
