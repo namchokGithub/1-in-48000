@@ -137,3 +137,7 @@ Authors edit an event's content from the Flow tab in a modal that reuses the eve
 ## 2026-10-29 — Preview trace through the engine
 
 Preview reasons come from the engine itself: each choice action accepts an optional trace array, so the BO shows the same edge checks, Condition results, Random candidates, and review scores the Player run would use. The trace is not stored in the player save. The Flow board keeps the last preview path highlighted after the preview closes until the author clears it.
+
+## 2026-10-29 — BO Flow board undo scope and card colors
+
+Undo/Redo on the Flow board covers `flow.json` changes only. Event content edited in the modal is not part of the board history, because the event form has its own fields and save path, and mixing both histories would make one Undo revert changes the author cannot see on the board. Event cards are colored by `kind`; in V4 `kind` is only a label, so using it for color changes no game logic.
