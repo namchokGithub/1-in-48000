@@ -7,7 +7,7 @@ import {
 } from '../../content/v2/schema'
 import { V2EndingEditor } from './V2EndingEditor'
 import { V2EventEditor } from './V2EventEditor'
-import { PreviewDialog } from './PreviewDialog'
+import { PreviewDialog, type PreviewPath } from './PreviewDialog'
 import { FlowBoard } from './FlowBoard'
 import { EventEditorDialog } from './EventEditorDialog'
 import { ConfirmationDialog } from './ConfirmationDialog'
@@ -99,6 +99,7 @@ export function BoApp() {
   const [section, setSection] = useState<Section>(sectionFromUrl)
   const [flowEventId, setFlowEventId] = useState<string | null>(null)
   const [editEventId, setEditEventId] = useState<string | null>(null)
+  const [previewPath, setPreviewPath] = useState<PreviewPath | null>(null)
   const [eventQuery, setEventQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
@@ -683,6 +684,8 @@ export function BoApp() {
             onEditEvent={setEditEventId}
             onCreateEvent={addEventToFlow}
             onPreview={setPreviewEventId}
+            highlight={previewPath}
+            onClearHighlight={() => setPreviewPath(null)}
           />
         ) : (
           <div className="bo-layout mt-3">
@@ -860,6 +863,7 @@ export function BoApp() {
             content={draft}
             eventId={previewEventId}
             onClose={() => setPreviewEventId(null)}
+            onTrace={setPreviewPath}
           />
         )}
         {confirmation && (

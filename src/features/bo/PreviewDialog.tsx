@@ -6,28 +6,37 @@ import {
   chooseV2Many,
   chooseV2Program,
   summarizeV2Life,
+  type V2FlowStep,
 } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { EndingView } from '../player/EndingView'
 import { SceneView } from '../player/SceneView'
 import { playerPortraitPath } from '../player/playerIdentity'
 import { createV2PreviewSession } from './preview'
+import { describeFlowStep, previewErrorMessage, tracedPath } from './flowTrace'
 
 type Session = {
   content: V2Content
   save: V2PlayerSave | null
   error: string | null
   run: number
+  placed: boolean
+  startNodeId: string | null
+  steps: V2FlowStep[]
 }
+
+export type PreviewPath = { nodeIds: string[]; edgeIds: string[] }
 
 export function PreviewDialog({
   content,
   eventId,
   onClose,
+  onTrace,
 }: {
   content: V2Content
   eventId: string
   onClose: () => void
+  onTrace?: (path: PreviewPath) => void
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -36,15 +45,29 @@ export function PreviewDialog({
 
   function start(run: number): Session {
     try {
-      return { ...createV2PreviewSession(content, eventId), error: null, run }
+      return {
+        ...createV2PreviewSession(content, eventId),
+        error: null,
+        run,
+        steps: [],
+      }
     } catch (cause) {
       return {
         content,
         save: null,
         error: cause instanceof Error ? cause.message : 'เริ่มทดลองไม่ได้',
         run,
+        placed: false,
+        startNodeId: null,
+        steps: [],
       }
     }
+  }
+
+  function restart() {
+    const next = start(session.run + 1)
+    setSession(next)
+    onTrace?.(tracedPath([], next.startNodeId))
   }
 
   const [session, setSession] = useState<Session>(() => start(0))
@@ -58,36 +81,43 @@ export function PreviewDialog({
     }
   }, [])
 
-  function resolve(action: (current: Session) => V2PlayerSave) {
-    setSession((current) => {
-      if (!current.save) return current
-      try {
-        return {
-          ...current,
-          save: action(current),
-          error: null,
-        }
-      } catch (cause) {
-        return {
-          ...current,
-          error: cause instanceof Error ? cause.message : 'ทดลองตัวเลือกไม่ได้',
-        }
+  function resolve(
+    action: (save: V2PlayerSave, trace: V2FlowStep[]) => V2PlayerSave,
+  ) {
+    if (!session.save) return
+    const trace: V2FlowStep[] = []
+    try {
+      const next = {
+        ...session,
+        save: action(session.save, trace),
+        error: null,
+        steps: [...session.steps, ...trace],
       }
-    })
+      setSession(next)
+      onTrace?.(tracedPath(next.steps, next.startNodeId))
+    } catch (cause) {
+      setSession({
+        ...session,
+        error:
+          cause instanceof Error
+            ? previewErrorMessage(cause.message, session.content)
+            : 'ทดลองตัวเลือกไม่ได้',
+      })
+    }
   }
   const choose = (choiceId: string) =>
-    resolve((current) => chooseV2(current.content, current.save!, choiceId))
+    resolve((save, trace) => chooseV2(session.content, save, choiceId, trace))
   const chooseMany = (choiceIds: string[]) =>
-    resolve((current) =>
-      chooseV2Many(current.content, current.save!, choiceIds),
+    resolve((save, trace) =>
+      chooseV2Many(session.content, save, choiceIds, trace),
     )
   const chooseProgram = (facultyId: string, majorId: string) =>
-    resolve((current) =>
-      chooseV2Program(current.content, current.save!, facultyId, majorId),
+    resolve((save, trace) =>
+      chooseV2Program(session.content, save, facultyId, majorId, trace),
     )
   const chooseElective = (electiveId: string) =>
-    resolve((current) =>
-      chooseV2Elective(current.content, current.save!, electiveId),
+    resolve((save, trace) =>
+      chooseV2Elective(session.content, save, electiveId, trace),
     )
 
   const event = session.content.events.find(
@@ -123,7 +153,7 @@ export function PreviewDialog({
             <button
               type="button"
               className="button button-secondary"
-              onClick={() => setSession((current) => start(current.run + 1))}
+              onClick={restart}
             >
               เริ่มใหม่
             </button>
@@ -146,7 +176,7 @@ export function PreviewDialog({
               session.save?.nameId ?? '',
             )}
             onHome={onClose}
-            onRestart={() => setSession((current) => start(current.run + 1))}
+            onRestart={restart}
             homeLabel="ปิด Preview"
           />
         ) : event && session.save ? (
@@ -173,6 +203,45 @@ export function PreviewDialog({
             {session.error ?? 'ไม่พบเหตุการณ์สำหรับทดลอง'}
           </p>
         )}
+        {session.save && !session.placed && (
+          <p className="bo-flow-warning" role="status">
+            เหตุการณ์นี้ยังไม่ได้วางบนกระดาน Flow ทดลองได้เฉพาะเหตุการณ์นี้
+          </p>
+        )}
+        <section className="bo-trace" aria-label="เส้นทางที่ผ่าน">
+          <h3 className="font-extrabold">เส้นทางที่ผ่าน</h3>
+          {session.save && (
+            <p className="muted text-sm">
+              Flag ตอนนี้:{' '}
+              {Object.entries(session.save.flags)
+                .map(([flag, value]) => `${flag} = ${value ? 'จริง' : 'เท็จ'}`)
+                .join(', ') || 'ยังไม่มี'}
+            </p>
+          )}
+          {session.steps.length ? (
+            <ol>
+              {session.steps.map((step, index) => {
+                const line = describeFlowStep(step, session.content)
+                return (
+                  <li
+                    key={index}
+                    data-passed={
+                      line.passed === undefined ? undefined : line.passed
+                    }
+                  >
+                    <span>{line.text}</span>
+                    {line.detail && <small>{line.detail}</small>}
+                  </li>
+                )
+              })}
+            </ol>
+          ) : (
+            <p className="muted text-sm">
+              เลือกคำตอบแล้วเส้นทาง เงื่อนไข และการสุ่มจะแสดงที่นี่
+              พร้อมไฮไลต์บนกระดาน Flow
+            </p>
+          )}
+        </section>
       </div>
     </dialog>
   )

@@ -19,6 +19,7 @@ import {
   pickV2StartOption,
   getV2CurrentEvent,
   summarizeV2Life,
+  type V2FlowStep,
   type V2GameContent,
 } from './game'
 
@@ -634,5 +635,121 @@ describe('V4 flow engine', () => {
     expect(() =>
       chooseV2Elective(yearTwo, createV2Game(yearTwo, 2), 'creative_writing'),
     ).toThrow('Not a Year 3 elective event')
+  })
+
+  it('traces edges checked, Condition results, and the reached event', () => {
+    const rich = {
+      type: 'stat' as const,
+      stat: 'money' as const,
+      operator: 'gte' as const,
+      value: 5000,
+    }
+    const content = game(
+      [event('opening'), event('rich'), event('pass'), event('fail')],
+      [
+        eventNode('opening'),
+        eventNode('rich'),
+        {
+          id: 'check',
+          type: 'condition',
+          join: 'or',
+          conditions: [rich, { type: 'flag', flagId: 'never', value: true }],
+          position: at,
+        },
+        eventNode('pass'),
+        eventNode('fail'),
+      ],
+      [
+        edge('opening', 'continue_story', 'rich', rich),
+        edge('opening', 'continue_story', 'check'),
+        edge('check', 'pass', 'pass'),
+        edge('check', 'fail', 'fail'),
+      ],
+    )
+    const trace: V2FlowStep[] = []
+    chooseV2(content, createV2Game(content, 1), 'continue_story', trace)
+    expect(trace).toEqual([
+      {
+        type: 'edge',
+        from: 'opening',
+        port: 'continue_story',
+        to: 'check',
+        edgeId: 'opening_continue_story_check',
+        checked: [
+          {
+            edgeId: 'opening_continue_story_rich',
+            condition: rich,
+            passed: false,
+          },
+          {
+            edgeId: 'opening_continue_story_check',
+            condition: undefined,
+            passed: true,
+          },
+        ],
+      },
+      {
+        type: 'condition',
+        nodeId: 'check',
+        join: 'or',
+        results: [
+          { condition: rich, passed: false },
+          {
+            condition: { type: 'flag', flagId: 'never', value: true },
+            passed: false,
+          },
+        ],
+        passed: false,
+      },
+      {
+        type: 'edge',
+        from: 'check',
+        port: 'fail',
+        to: 'fail',
+        edgeId: 'check_fail_fail',
+        checked: [
+          { edgeId: 'check_fail_fail', condition: undefined, passed: true },
+        ],
+      },
+      { type: 'event', nodeId: 'fail', eventId: 'fail' },
+    ])
+  })
+
+  it('traces Random candidates, period moves with review scores, and endings', () => {
+    const content = reviewGame(
+      { study: 50, stress: 20 },
+      { year: 8, period: 'summer' },
+    )
+    const trace: V2FlowStep[] = []
+    chooseV2(content, createV2Game(content, 1), 'continue_story', trace)
+    expect(trace.slice(1)).toEqual([
+      {
+        type: 'nextPeriod',
+        nodeId: 'next_period',
+        from: { year: 8, period: 'summer' },
+        to: { year: 8, period: 'summer' },
+        review: 'dismiss',
+        score: 48,
+      },
+      { type: 'ending', nodeId: null, endingId: 'dismissal' },
+    ])
+
+    const pooled = game(
+      [event('opening'), { ...event('rain'), pool: 'daily' }],
+      [
+        eventNode('opening'),
+        { id: 'daily', type: 'random', poolId: 'daily', position: at },
+      ],
+      [edge('opening', 'continue_story', 'daily')],
+    )
+    const randomTrace: V2FlowStep[] = []
+    chooseV2(pooled, createV2Game(pooled, 1), 'continue_story', randomTrace)
+    expect(randomTrace.at(-1)).toEqual({
+      type: 'random',
+      nodeId: 'daily',
+      poolId: 'daily',
+      candidates: ['rain'],
+      eventId: 'rain',
+    })
   })
 })

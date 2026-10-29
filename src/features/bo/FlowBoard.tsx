@@ -42,6 +42,7 @@ import {
   type FlowNodeIssues,
   type FlowPort,
 } from './flowEditing'
+import type { PreviewPath } from './PreviewDialog'
 
 type CardData = {
   node: V2FlowNode
@@ -166,6 +167,8 @@ type BoardProps = {
   onEditEvent: (eventId: string) => void
   onCreateEvent: (position: V2FlowNode['position']) => void
   onPreview: (eventId: string) => void
+  highlight: PreviewPath | null
+  onClearHighlight: () => void
 }
 
 export function FlowBoard(props: BoardProps) {
@@ -184,6 +187,8 @@ function Board({
   onEditEvent,
   onCreateEvent,
   onPreview,
+  highlight,
+  onClearHighlight,
 }: BoardProps) {
   const flow = content.flow
   const boardRef = useRef<HTMLDivElement>(null)
@@ -233,6 +238,9 @@ function Board({
           type: 'card',
           position: node.position,
           deletable: node.type !== 'start',
+          className: highlight?.nodeIds.includes(node.id)
+            ? 'bo-flow-traced'
+            : undefined,
           data: {
             node,
             title: cardTitle(node, content),
@@ -248,7 +256,7 @@ function Board({
           },
         }
       }),
-    [flow.nodes, content, issues],
+    [flow.nodes, content, issues, highlight],
   )
   const [nodes, setNodes] = useState<Card[]>(cards)
   const [shownCards, setShownCards] = useState(cards)
@@ -274,9 +282,16 @@ function Board({
         targetHandle: 'in',
         label: edge.condition ? conditionSummary(edge.condition) : undefined,
         selected: selected?.kind === 'edge' && selected.id === edge.id,
-        className: edge.condition ? 'bo-flow-edge-conditional' : undefined,
+        animated: highlight?.edgeIds.includes(edge.id),
+        className:
+          [
+            edge.condition ? 'bo-flow-edge-conditional' : '',
+            highlight?.edgeIds.includes(edge.id) ? 'bo-flow-edge-traced' : '',
+          ]
+            .filter(Boolean)
+            .join(' ') || undefined,
       })),
-    [flow.edges, selected],
+    [flow.edges, selected, highlight],
   )
 
   const selectedNode =
@@ -541,6 +556,15 @@ function Board({
             + Ending
           </button>
           <span className="bo-flow-actions-gap" />
+          {highlight && (
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={onClearHighlight}
+            >
+              ล้างไฮไลต์เส้นทาง
+            </button>
+          )}
           <button
             type="button"
             className="button button-secondary"

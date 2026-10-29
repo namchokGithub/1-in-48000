@@ -133,3 +133,7 @@ The board edits only `flow.json`; event content stays in the Events form. Renami
 ## 2026-10-29 — Edit events from the Flow board in a modal
 
 Authors edit an event's content from the Flow tab in a modal that reuses the event form, so building a path does not require switching tabs. The Flow tab's Save writes the events file before `flow.json`, because the local writer validates a flow against the events already on disk. A new event created from the board library is placed immediately and opened in the modal. BO dropdown lists render inside the nearest open dialog, since a list portaled to `document.body` sits beneath a modal dialog's top layer and cannot be clicked.
+
+## 2026-10-29 — Preview trace through the engine
+
+Preview reasons come from the engine itself: each choice action accepts an optional trace array, so the BO shows the same edge checks, Condition results, Random candidates, and review scores the Player run would use. The trace is not stored in the player save. The Flow board keeps the last preview path highlighted after the preview closes until the author clears it.

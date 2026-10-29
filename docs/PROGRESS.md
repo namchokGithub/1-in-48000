@@ -8,11 +8,11 @@ Status values: `Todo`, `In progress`, `Blocked`, `Done`.
 
 Every item not `Done`. Update this section whenever an item's status changes.
 
-| #   | Step                           | Status | Depends on |
-| --- | ------------------------------ | ------ | ---------- |
-| 30  | Converted flow review          | Todo   | —          |
-| 32  | BO Flow detail panel + preview | Todo   | 28         |
-| 33  | V4 Player check + test         | Todo   | 30, 32     |
+| #   | Step                           | Status      | Depends on |
+| --- | ------------------------------ | ----------- | ---------- |
+| 30  | Converted flow review          | Todo        | —          |
+| 32  | BO Flow detail panel + preview | In progress | 28         |
+| 33  | V4 Player check + test         | Todo        | 30, 32     |
 
 V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). Requirements source: `docs/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
@@ -41,7 +41,7 @@ The one-time conversion moved into Step 28 so the game and tests keep working. T
 
 ## 32. BO Flow detail panel + preview
 
-**Status:** Todo
+**Status:** In progress — awaiting the author's visual check
 
 Step 31 added the Condition, Random, Ending, and edge forms, and an event editor modal on the Flow board.
 
@@ -50,6 +50,8 @@ Step 31 added the Condition, Random, Ending, and edge forms, and an event editor
 - Preview of an event not yet placed on the board ends with a "No path" message today; give it a clear Thai message.
 
 **Done when:** Preview shows the highlighted path with reasons, and an unplaced event's preview explains what to connect.
+
+2026-10-29: Implemented and ready for visual review. The engine's choice actions accept an optional trace that records each edge (with the conditional edges skipped before it), Condition results, Random candidates and the rolled event, period moves with the review score, and the event or ending reached. The preview modal lists that path in Thai with pass/fail reasons and current flags, and stats stay in the scene's stat panel. The Flow board highlights the traced cards and edges while the preview runs and keeps them until "ล้างไฮไลต์เส้นทาง". An unplaced event shows a notice before choosing, and missing-path errors read as Thai guidance. Focused tests cover the engine trace, the Thai descriptions, the highlighted IDs, and the error messages.
 
 ## 33. V4 Player check + test
 

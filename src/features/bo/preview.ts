@@ -86,5 +86,6 @@ export function createV2PreviewSession(content: V2Content, eventId: string) {
           ],
         },
   }
-  return { content: sandbox, save: createV2PreviewSave(sandbox, eventId) }
+  const save = createV2PreviewSave(sandbox, eventId)
+  return { content: sandbox, save, placed, startNodeId: save.currentNodeId }
 }

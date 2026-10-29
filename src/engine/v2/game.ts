@@ -199,6 +199,42 @@ function nextTime(time: V2Time): V2Time | null {
   return time.year === 8 ? null : { year: time.year + 1, period: 'term1' }
 }
 
+export type V2FlowStep =
+  | {
+      type: 'edge'
+      from: string
+      port: string
+      to: string
+      edgeId: string
+      checked: { edgeId: string; condition?: V2Condition; passed: boolean }[]
+    }
+  | {
+      type: 'condition'
+      nodeId: string
+      join: 'and' | 'or'
+      results: { condition: V2Condition; passed: boolean }[]
+      passed: boolean
+    }
+  | {
+      type: 'random'
+      nodeId: string
+      poolId: string
+      candidates: string[]
+      eventId: string | null
+    }
+  | {
+      type: 'nextPeriod'
+      nodeId: string
+      from: V2Time
+      to: V2Time
+      review: 'graduate' | 'extend' | 'dismiss' | null
+      score: number | null
+    }
+  | { type: 'event'; nodeId: string; eventId: string }
+  | { type: 'ending'; nodeId: string | null; endingId: string }
+
+type Trace = V2FlowStep[] | undefined
+
 function endRun(save: V2PlayerSave, endingId: string): void {
   save.currentNodeId = null
   save.currentEventId = null
@@ -213,9 +249,12 @@ function reviewStudy(
     content.majors.find((major) => major.id === save.majorId)?.programYears ?? 4
   const { year, period } = save.currentTime
   if (period !== 'summer' || year < programYears || year % 2 !== 0) return null
-  const score = save.stats.study - Math.max(save.stats.stress, 0) / 10
-  if (score >= 60) return 'graduate'
+  if (studyScore(save) >= 60) return 'graduate'
   return year === 8 ? 'dismiss' : 'extend'
+}
+
+function studyScore(save: V2PlayerSave): number {
+  return save.stats.study - Math.max(save.stats.stress, 0) / 10
 }
 
 function advancePeriod(save: V2PlayerSave): void {
@@ -235,14 +274,24 @@ function follow(
   save: V2PlayerSave,
   nodeId: string,
   port: string,
+  trace?: Trace,
 ): string {
-  const edge = content.flow.edges.find(
-    (item) =>
-      item.from === nodeId &&
-      item.port === port &&
-      (!item.condition || matches([item.condition], save)),
-  )
+  const checked: Extract<V2FlowStep, { type: 'edge' }>['checked'] = []
+  const edge = content.flow.edges.find((item) => {
+    if (item.from !== nodeId || item.port !== port) return false
+    const passed = !item.condition || matches([item.condition], save)
+    checked.push({ edgeId: item.id, condition: item.condition, passed })
+    return passed
+  })
   if (!edge) throw new Error(`No path from ${nodeId} (${port})`)
+  trace?.push({
+    type: 'edge',
+    from: nodeId,
+    port,
+    to: edge.to,
+    edgeId: edge.id,
+    checked,
+  })
   return edge.to
 }
 
@@ -252,6 +301,7 @@ function enterNode(
   content: V2GameContent,
   save: V2PlayerSave,
   firstNodeId: string,
+  trace?: Trace,
 ): void {
   let nodeId = firstNodeId
   for (let step = 0; step < MAX_FLOW_STEPS; step += 1) {
@@ -263,13 +313,25 @@ function enterNode(
       case 'event':
         save.currentNodeId = node.id
         save.currentEventId = findEvent(content, node.eventId).id
+        trace?.push({ type: 'event', nodeId: node.id, eventId: node.eventId })
         return
       case 'condition': {
+        const results = node.conditions.map((condition) => ({
+          condition,
+          passed: matches([condition], save),
+        }))
         const passed =
           node.join === 'and'
-            ? matches(node.conditions, save)
-            : node.conditions.some((condition) => matches([condition], save))
-        nodeId = follow(content, save, node.id, passed ? 'pass' : 'fail')
+            ? results.every((result) => result.passed)
+            : results.some((result) => result.passed)
+        trace?.push({
+          type: 'condition',
+          nodeId: node.id,
+          join: node.join,
+          results,
+          passed,
+        })
+        nodeId = follow(content, save, node.id, passed ? 'pass' : 'fail', trace)
         break
       }
       case 'random': {
@@ -281,28 +343,56 @@ function enterNode(
             !visited.has(event.id) &&
             matches(event.conditions, save),
         )
+        const step: Extract<V2FlowStep, { type: 'random' }> = {
+          type: 'random',
+          nodeId: node.id,
+          poolId: node.poolId,
+          candidates: pool.map((event) => event.id),
+          eventId: null,
+        }
+        trace?.push(step)
         if (!pool.length) {
-          nodeId = follow(content, save, node.id, 'fallback')
+          nodeId = follow(content, save, node.id, 'fallback', trace)
           break
         }
         const roll = rollIndex(save.rngState, pool.length)
         save.rngState = roll.nextState
         save.currentNodeId = node.id
         save.currentEventId = pool[roll.index].id
+        step.eventId = save.currentEventId
         return
       }
       case 'nextPeriod': {
         const review = reviewStudy(content, save)
+        const from = { ...save.currentTime }
+        const score = review ? studyScore(save) : null
         if (review === 'dismiss') {
           endRun(save, 'dismissal')
+        } else if (review !== 'graduate') {
+          advancePeriod(save)
+        }
+        trace?.push({
+          type: 'nextPeriod',
+          nodeId: node.id,
+          from,
+          to: { ...save.currentTime },
+          review,
+          score,
+        })
+        if (review === 'dismiss') {
+          trace?.push({ type: 'ending', nodeId: null, endingId: 'dismissal' })
           return
         }
-        if (review !== 'graduate') advancePeriod(save)
-        nodeId = follow(content, save, node.id, review ?? 'next')
+        nodeId = follow(content, save, node.id, review ?? 'next', trace)
         break
       }
       case 'ending':
         endRun(save, node.endingId)
+        trace?.push({
+          type: 'ending',
+          nodeId: node.id,
+          endingId: node.endingId,
+        })
         return
     }
   }
@@ -313,6 +403,7 @@ function resolveChoices(
   content: V2GameContent,
   previous: V2PlayerSave,
   choices: V2Choice[],
+  trace?: Trace,
 ): V2PlayerSave {
   if (previous.contentVersion !== content.config.contentVersion) {
     throw new Error('Content version mismatch')
@@ -387,7 +478,12 @@ function resolveChoices(
   )
   const port =
     node?.type === 'random' ? 'after' : event.selection ? 'next' : choices[0].id
-  enterNode(content, save, follow(content, save, previous.currentNodeId, port))
+  enterNode(
+    content,
+    save,
+    follow(content, save, previous.currentNodeId, port, trace),
+    trace,
+  )
   return save
 }
 
@@ -395,6 +491,7 @@ export function chooseV2(
   content: V2GameContent,
   previous: V2PlayerSave,
   choiceId: string,
+  trace?: Trace,
 ): V2PlayerSave {
   const event = findEvent(content, previous.currentEventId ?? '')
   if (event.selection)
@@ -403,13 +500,14 @@ export function chooseV2(
     (item) => item.id === choiceId,
   )
   if (!choice) throw new Error(`Unavailable choice: ${choiceId}`)
-  return resolveChoices(content, previous, [choice])
+  return resolveChoices(content, previous, [choice], trace)
 }
 
 export function chooseV2Many(
   content: V2GameContent,
   previous: V2PlayerSave,
   choiceIds: string[],
+  trace?: Trace,
 ): V2PlayerSave {
   const event = findEvent(content, previous.currentEventId ?? '')
   const selection = event.selection
@@ -427,7 +525,7 @@ export function chooseV2Many(
   const choices = available.filter((choice) => ids.has(choice.id))
   if (choices.length !== ids.size)
     throw new Error('Unavailable choice selected')
-  return resolveChoices(content, previous, choices)
+  return resolveChoices(content, previous, choices, trace)
 }
 
 export function chooseV2Program(
@@ -435,6 +533,7 @@ export function chooseV2Program(
   previous: V2PlayerSave,
   facultyId: string,
   majorId: string,
+  trace?: Trace,
 ): V2PlayerSave {
   const event = findEvent(content, previous.currentEventId ?? '')
   if (event.selection?.type !== 'program')
@@ -451,9 +550,12 @@ export function chooseV2Program(
   }
   const choice = getV2AvailableChoices(event, previous)[0]
   if (!choice) throw new Error('No program confirmation choice')
-  const next = resolveChoices(content, { ...previous, facultyId, majorId }, [
-    choice,
-  ])
+  const next = resolveChoices(
+    content,
+    { ...previous, facultyId, majorId },
+    [choice],
+    trace,
+  )
   const entry = next.history.at(-1)!
   entry.facultyId = facultyId
   entry.majorId = majorId
@@ -464,6 +566,7 @@ export function chooseV2Elective(
   content: V2GameContent,
   previous: V2PlayerSave,
   electiveId: string,
+  trace?: Trace,
 ): V2PlayerSave {
   const event = findEvent(content, previous.currentEventId ?? '')
   if (event.selection?.type !== 'elective' || previous.currentTime.year !== 3) {
@@ -480,7 +583,7 @@ export function chooseV2Elective(
     flags: { ...previous.flags },
   }
   for (const effect of elective.effects) applyStateEffect(prepared, effect)
-  const next = resolveChoices(content, prepared, [choice])
+  const next = resolveChoices(content, prepared, [choice], trace)
   next.history.at(-1)!.electiveId = electiveId
   return next
 }

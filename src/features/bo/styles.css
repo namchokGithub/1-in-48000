@@ -751,3 +751,30 @@
     grid-template-columns: 15rem minmax(0, 1fr);
   }
 }
+.bo-flow-traced .bo-flow-card {
+  box-shadow: 0 0 0 3px var(--color-accent);
+}
+.bo-flow-edge-traced .react-flow__edge-path {
+  stroke: var(--color-accent);
+  stroke-width: 3;
+}
+.bo-trace {
+  display: grid;
+  gap: 0.5rem;
+  border-top: 1px solid var(--color-line);
+  padding-top: 0.75rem;
+}
+.bo-trace ol {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 1.25rem;
+  list-style: decimal;
+  font-size: 0.85rem;
+}
+.bo-trace li small {
+  display: block;
+  color: var(--color-muted);
+}
+.bo-trace li[data-passed='false'] > span {
+  color: var(--color-danger);
+}
