@@ -284,6 +284,7 @@
 }
 .bo-flow-layout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 }
 .bo-flow-library {
@@ -641,9 +642,21 @@
   right: 1rem;
 }
 @media (min-width: 900px) {
-  .bo-flow-layout {
-    height: calc(100dvh - 6rem);
-    min-height: 34rem;
+  .bo-fill {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+  }
+  .bo-fill .bo-wrap {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+  }
+  .bo-fill .bo-flow-layout {
+    flex: 1;
+    min-height: 30rem;
   }
   .bo-flow-layout[data-library='open'] {
     grid-template-columns: 16rem minmax(0, 1fr);

@@ -458,7 +458,7 @@ export function BoApp() {
   }
 
   return (
-    <main className="app-shell">
+    <main className={`app-shell${section === 'flow' ? ' bo-fill' : ''}`}>
       <div className="app-wrap bo-wrap">
         <header className="bo-header">
           <div>
