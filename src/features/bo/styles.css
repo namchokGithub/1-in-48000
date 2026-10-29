@@ -605,6 +605,11 @@
   height: 0.65rem;
   background: var(--color-primary);
 }
+.bo-flow-card .bo-flow-bottom-handle {
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--color-primary);
+}
 .bo-flow-edge-conditional .react-flow__edge-path {
   stroke-dasharray: 6 4;
 }

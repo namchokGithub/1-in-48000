@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react'
 import {
   Background,
+  BaseEdge,
   Controls,
   Handle,
   MiniMap,
@@ -10,10 +11,14 @@ import {
   SelectionMode,
   ReactFlowProvider,
   applyNodeChanges,
+  getSmoothStepPath,
+  useInternalNode,
   useReactFlow,
   useStore,
   type Connection,
   type Edge,
+  type EdgeProps,
+  type InternalNode,
   type Node,
   type NodeChange,
   type NodeProps,
@@ -47,6 +52,14 @@ import {
   type FlowNodeIssues,
   type FlowPort,
 } from './flowEditing'
+import {
+  bottomHandleId,
+  floatingTarget,
+  outputSide,
+  portFromHandle,
+  type Box,
+  type Side,
+} from './flowEdgeGeometry'
 import type { PreviewPath } from './PreviewDialog'
 
 type CardData = {
@@ -60,6 +73,7 @@ type CardData = {
   issues?: FlowNodeIssues
 }
 type Card = Node<CardData, 'card'>
+type FlowLine = Edge<{ port: string }, 'flow'>
 
 const EVENT_DRAG_TYPE = 'application/x-bo-event'
 const periodLabels: Record<V2Event['time']['period'], string> = {
@@ -138,7 +152,10 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
       data-selected={selected}
     >
       {node.type !== 'start' && (
-        <Handle type="target" position={Position.Left} id="in" />
+        <>
+          <Handle type="target" position={Position.Left} id="in" />
+          <Handle type="target" position={Position.Top} id="in-top" />
+        </>
       )}
       <div className="bo-flow-card-head">
         <span className="bo-flow-kind">{data.kind}</span>
@@ -171,11 +188,83 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
           ))}
         </ul>
       )}
+      {data.ports.map((port, index) => (
+        <Handle
+          key={port.id}
+          type="source"
+          position={Position.Bottom}
+          id={bottomHandleId(port.id)}
+          className="bo-flow-bottom-handle"
+          title={port.label}
+          style={{ left: `${((index + 1) / (data.ports.length + 1)) * 100}%` }}
+        />
+      ))}
     </div>
   )
 }
 
+const sidePositions: Record<Side, Position> = {
+  top: Position.Top,
+  right: Position.Right,
+  bottom: Position.Bottom,
+  left: Position.Left,
+}
+
+function nodeBox(node: InternalNode): Box {
+  return {
+    ...node.internals.positionAbsolute,
+    width: node.measured.width ?? 0,
+    height: node.measured.height ?? 0,
+  }
+}
+
+function FlowLineEdge({
+  id,
+  source,
+  target,
+  data,
+  label,
+  style,
+  markerEnd,
+}: EdgeProps<FlowLine>) {
+  const from = useInternalNode(source)
+  const to = useInternalNode(target)
+  if (!from || !to || !data) return null
+  const fromBox = nodeBox(from)
+  const toBox = nodeBox(to)
+  const side = outputSide(fromBox, toBox)
+  const handleId = side === 'bottom' ? bottomHandleId(data.port) : data.port
+  const handle = from.internals.handleBounds?.source?.find(
+    (item) => item.id === handleId,
+  )
+  const start = {
+    x: fromBox.x + (handle ? handle.x + handle.width / 2 : fromBox.width),
+    y: fromBox.y + (handle ? handle.y + handle.height / 2 : fromBox.height / 2),
+  }
+  const end = floatingTarget(toBox, start)
+  const [path, labelX, labelY] = getSmoothStepPath({
+    sourceX: start.x,
+    sourceY: start.y,
+    sourcePosition: sidePositions[side],
+    targetX: end.x,
+    targetY: end.y,
+    targetPosition: sidePositions[end.side],
+  })
+  return (
+    <BaseEdge
+      id={id}
+      path={path}
+      label={label}
+      labelX={labelX}
+      labelY={labelY}
+      style={style}
+      markerEnd={markerEnd}
+    />
+  )
+}
+
 const nodeTypes = { card: FlowCard }
+const edgeTypes = { flow: FlowLineEdge }
 
 type BoardProps = {
   content: V2Content
@@ -310,7 +399,7 @@ function Board({
     )
   }
 
-  const edges = useMemo<Edge[]>(
+  const edges = useMemo<FlowLine[]>(
     () =>
       flow.edges.map((edge) => {
         const focused = focusView?.edgeIds.includes(edge.id)
@@ -336,7 +425,8 @@ function Board({
           sourceHandle: edge.port,
           target: edge.to,
           targetHandle: 'in',
-          type: 'smoothstep',
+          type: 'flow',
+          data: { port: edge.port },
           label: label || undefined,
           selected: selected?.kind === 'edge' && selected.id === edge.id,
           animated: highlight?.edgeIds.includes(edge.id),
@@ -513,7 +603,7 @@ function Board({
       connectPorts(
         flow,
         connection.source,
-        connection.sourceHandle,
+        portFromHandle(connection.sourceHandle),
         connection.target,
       ),
     )
@@ -844,10 +934,11 @@ function Board({
             }}
             onDrop={onDrop}
           >
-            <ReactFlow<Card>
+            <ReactFlow<Card, FlowLine>
               nodes={nodes}
               edges={edges}
               nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
               onNodesChange={onNodesChange}
               onConnect={onConnect}
               onReconnect={(edge, connection) => {
@@ -856,7 +947,7 @@ function Board({
                   flow,
                   edge.id,
                   connection.source,
-                  connection.sourceHandle,
+                  portFromHandle(connection.sourceHandle),
                   connection.target,
                 )
                 if (next === flow) setMessage('ต่อเส้นไปที่นั่นไม่ได้')
