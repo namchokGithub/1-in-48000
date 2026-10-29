@@ -1,0 +1,153 @@
+{
+  "nodes": [
+    { "id": "start", "type": "start", "position": { "x": 0, "y": 0 } },
+    {
+      "id": "n_choose_program",
+      "type": "event",
+      "eventId": "choose_program",
+      "position": { "x": 240, "y": 0 }
+    },
+    {
+      "id": "n_student_loan",
+      "type": "event",
+      "eventId": "student_loan",
+      "position": { "x": 480, "y": 0 }
+    },
+    {
+      "id": "has_money",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        { "type": "stat", "stat": "money", "operator": "gte", "value": 100 }
+      ],
+      "position": { "x": 720, "y": 0 }
+    },
+    {
+      "id": "n_borrow_from_friend",
+      "type": "event",
+      "eventId": "borrow_from_friend",
+      "position": { "x": 960, "y": 120 }
+    },
+    {
+      "id": "daily_life",
+      "type": "random",
+      "poolId": "y1_t1_life",
+      "position": { "x": 1200, "y": 0 }
+    },
+    {
+      "id": "to_year_3",
+      "type": "nextPeriod",
+      "position": { "x": 1440, "y": 0 }
+    },
+    {
+      "id": "n_free_elective",
+      "type": "event",
+      "eventId": "free_elective",
+      "position": { "x": 1680, "y": 0 }
+    },
+    {
+      "id": "review",
+      "type": "nextPeriod",
+      "position": { "x": 1920, "y": 0 }
+    },
+    {
+      "id": "end_study_complete",
+      "type": "ending",
+      "endingId": "study_complete",
+      "position": { "x": 2160, "y": 0 }
+    },
+    {
+      "id": "end_dismissal",
+      "type": "ending",
+      "endingId": "dismissal",
+      "position": { "x": 2160, "y": 160 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_start",
+      "from": "start",
+      "port": "next",
+      "to": "n_choose_program"
+    },
+    {
+      "id": "e_program",
+      "from": "n_choose_program",
+      "port": "next",
+      "to": "n_student_loan"
+    },
+    {
+      "id": "e_kyos",
+      "from": "n_student_loan",
+      "port": "apply_kyos",
+      "to": "has_money"
+    },
+    {
+      "id": "e_kro",
+      "from": "n_student_loan",
+      "port": "apply_kro",
+      "to": "has_money",
+      "condition": { "type": "flag", "flagId": "met_mali", "value": false }
+    },
+    {
+      "id": "e_kro_fallback",
+      "from": "n_student_loan",
+      "port": "apply_kro",
+      "to": "n_borrow_from_friend"
+    },
+    {
+      "id": "e_money_pass",
+      "from": "has_money",
+      "port": "pass",
+      "to": "daily_life"
+    },
+    {
+      "id": "e_money_fail",
+      "from": "has_money",
+      "port": "fail",
+      "to": "n_borrow_from_friend"
+    },
+    {
+      "id": "e_borrow",
+      "from": "n_borrow_from_friend",
+      "port": "next",
+      "to": "daily_life"
+    },
+    {
+      "id": "e_daily_after",
+      "from": "daily_life",
+      "port": "after",
+      "to": "to_year_3"
+    },
+    {
+      "id": "e_daily_fallback",
+      "from": "daily_life",
+      "port": "fallback",
+      "to": "to_year_3"
+    },
+    {
+      "id": "e_next_period",
+      "from": "to_year_3",
+      "port": "next",
+      "to": "n_free_elective"
+    },
+    {
+      "id": "e_elective",
+      "from": "n_free_elective",
+      "port": "next",
+      "to": "review"
+    },
+    {
+      "id": "e_graduate",
+      "from": "review",
+      "port": "graduate",
+      "to": "end_study_complete"
+    },
+    {
+      "id": "e_extend",
+      "from": "review",
+      "port": "extend",
+      "to": "end_dismissal"
+    }
+  ]
+}

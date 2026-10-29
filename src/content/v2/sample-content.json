@@ -110,6 +110,7 @@
       "id": "lottery_ticket",
       "kind": "random",
       "time": { "year": 1, "period": "term1" },
+      "pool": "y1_t1_life",
       "title": "ลองเสี่ยงโชค",
       "conditions": [],
       "lines": [{ "text": "แผงลอตเตอรี่หน้าตลาดทำให้คุณหยุดมอง" }],

@@ -10,7 +10,6 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 | #   | Step                           | Status | Depends on |
 | --- | ------------------------------ | ------ | ---------- |
-| 27  | V4 flow rules + schema         | Todo   | 26         |
 | 28  | V4 flow engine + save          | Todo   | 27         |
 | 29  | Flow validator                 | Todo   | 27         |
 | 30  | Content conversion to flow     | Todo   | 28, 29     |
@@ -31,20 +30,6 @@ None. V4 decisions 1–9 were resolved on 2026-10-29 and are recorded in `docs/D
 Resolved choices are recorded in `docs/DECISIONS.md`.
 
 Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](COMPLETE-LOG.md).
-
-## 27. V4 flow rules + schema
-
-**Status:** Todo
-
-- Node types: Start, Event, Condition, Random, Next Period, Ending.
-- Edges from Start, from each choice of an Event, from Condition pass/fail, from Random (after/fallback), and from Next Period.
-- Simple conditions on edges; AND/OR groups on Condition nodes.
-- Random pools for in-between events.
-- Card positions for BO.
-- Remove direct-link fields that edges replace.
-- Update `docs/GAME-RULES.md` and record the decisions in `docs/DECISIONS.md`.
-
-**Done when:** a sample flow with every node type passes schema validation with tests.
 
 ## 28. V4 flow engine + save
 

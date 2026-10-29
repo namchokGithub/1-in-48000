@@ -111,3 +111,7 @@ Replace event selection by kind and period with a story flow graph. The run foll
 - **Board:** Each event appears on the board at most once; several paths may merge into it. V4 uses one board for the whole story, with year/term filters in the library. Splitting boards is a later option.
 - **Data and library:** Store nodes, edges, and card positions in `public/content-v2/flow.json`. Use `@xyflow/react` (React Flow, MIT) for the BO board instead of a hand-built canvas.
 - **BO:** Remove the Timeline tab once the Flow board is in place. Keep the Event list and form for editing event details.
+
+## 2026-10-29 — Flow edge order, pool placement, and Next Period ports
+
+Several edges may leave the same port, each with at most one simple condition; the engine follows the first in file order whose condition holds, so an unconditional edge is the port's fallback. This keeps simple branching on edges without a Condition node. Pool events are never placed on the board, so a Random node owns the path back into the main story through its `after` edge. Each Next Period node has `next`, `graduate`, and `extend` ports. The engine chooses `graduate` or `extend` only when the node leaves a review year's summer for the run's program; otherwise it follows `next`. One node type can then serve both 4-year and 6-year programs at the same point in the story.

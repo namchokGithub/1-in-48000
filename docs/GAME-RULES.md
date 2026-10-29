@@ -83,3 +83,26 @@ The fixed starting event has `selection: { type: 'program' }`. The Player picks 
 Program reviews use `study − max(stress, 0) ÷ 10 ≥ 60`. A four-year program is reviewed at Year 4, then Year 6 and Year 8 after failed reviews. A six-year program starts reviews at Year 6, then Year 8. Failure at Year 8 selects dismissal. Save v1 records the randomly assigned name ID, faculty, major, elective, all selected Choice IDs, decision history, chance outcomes, and RNG seed/state. The life summary uses those IDs to describe program, elective, and multi-select decisions.
 
 The store writes localStorage checkpoints after starting and resolving a decision. `sessionStorage` marks an unfinished run in the current tab. On a reload of that tab, the Player validates and restores the checkpoint only when content version and referenced IDs still match; a new visit or tab starts fresh, and an ending clears the resume marker. No save file import or download is offered. BO preview uses the same engine without writing a Player checkpoint.
+
+## Story flow contract (Step 27)
+
+Step 27 adds the V4 flow schema in `src/content/v2/flow.ts`. The engine still uses the selection rules above until Step 28 switches progression to the flow.
+
+A flow has `nodes` and `edges`. Every node has an `id` and a BO card `position`. Node types and their output ports:
+
+| Node         | Data                                      | Output ports                                                                  |
+| ------------ | ----------------------------------------- | ----------------------------------------------------------------------------- |
+| `start`      | —                                         | `next`                                                                        |
+| `event`      | `eventId`                                 | One port per Choice ID; `next` for program, elective, and multi-select events |
+| `condition`  | `join: and \| or`, one or more conditions | `pass`, `fail`                                                                |
+| `random`     | `poolId`                                  | `after`, `fallback`                                                           |
+| `nextPeriod` | —                                         | `next`, `graduate`, `extend`                                                  |
+| `ending`     | `endingId`                                | none                                                                          |
+
+An edge has an `id`, a source node and port (`from`, `port`), a target node (`to`), and at most one simple condition. Several edges may leave the same port; they are checked in file order and the first whose condition holds is followed, so an unconditional edge acts as that port's fallback. A flow has exactly one Start node, and no edge enters it.
+
+Events may carry a `pool` tag. A Random node rolls among active events with its pool tag whose event conditions hold. Pool events are not placed on the board; after a pool event the run continues on the Random node's `after` edge, or on `fallback` when no pool event qualifies. Each non-pool event is placed on the board at most once; several paths may merge into it.
+
+A Next Period node advances time. When it leaves the summer of a program review year, the engine runs the study review and follows `graduate` or `extend`; otherwise it follows `next`. Failure at Year 8 still selects `dismissal`.
+
+`checkV2FlowReferences(flow, content)` reports unknown or inactive events, events placed twice, pool events on the board, unknown endings and pools, and event ports that do not match the event's choices or selection type. Reachability, unconnected choices, and loop checks follow in Step 29.

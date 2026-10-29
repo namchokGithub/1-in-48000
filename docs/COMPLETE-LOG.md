@@ -428,3 +428,19 @@ Implementation ready for visual review 2026-10-28. Desktop places Choices below 
 - Check mobile and desktop layouts in both themes.
 
 **Done when:** V3 is accepted by the author. Release remains a separate, explicit request.
+
+## 27. V4 flow rules + schema
+
+**Status:** Done
+
+- Node types: Start, Event, Condition, Random, Next Period, Ending.
+- Edges from Start, from each choice of an Event, from Condition pass/fail, from Random (after/fallback), and from Next Period.
+- Simple conditions on edges; AND/OR groups on Condition nodes.
+- Random pools for in-between events.
+- Card positions for BO.
+- Remove direct-link fields that edges replace.
+- Update `docs/GAME-RULES.md` and record the decisions in `docs/DECISIONS.md`.
+
+**Done when:** a sample flow with every node type passes schema validation with tests.
+
+Completed 2026-10-29. `src/content/v2/flow.ts` defines the six node types, card positions, edges with one optional simple condition, and the fixed ports for each node type. `checkV2FlowReferences` checks a flow against content: unknown or inactive events, events placed twice, pool events placed on the board, unknown endings and pools, and choice ports. Events have an optional `pool` tag. A test-only `sample-flow.json` uses every node type against the existing sample content. The current engine, BO, and `events.json` still use `goToEvent` and `selection.goToEventId`; Step 28 removes them when the engine follows edges, and Step 30 creates `public/content-v2/flow.json`.

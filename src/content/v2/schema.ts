@@ -152,6 +152,7 @@ export const v2EventSchema = z
     active: z.boolean().optional(),
     kind: z.enum(['main', 'conditional', 'holiday', 'random']),
     time: v2TimeSchema,
+    pool: storyIdSchema.optional(),
     title: textSchema,
     selection: z
       .discriminatedUnion('type', [
