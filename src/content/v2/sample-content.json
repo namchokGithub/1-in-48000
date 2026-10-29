@@ -3,7 +3,6 @@
     "contentVersion": "0.1.0",
     "title": "1 ใน 48,000 — ตัวอย่างข้อมูล",
     "startingTime": { "year": 1, "period": "term1" },
-    "startingEventId": "choose_program",
     "initialStats": {
       "study": 50,
       "money": 1200,
@@ -75,8 +74,7 @@
       "selection": {
         "type": "multiple",
         "min": 1,
-        "max": 2,
-        "goToEventId": "lottery_ticket"
+        "max": 2
       },
       "conditions": [
         { "type": "stat", "stat": "money", "operator": "lt", "value": 500 }
@@ -164,7 +162,7 @@
           "id": "confirm_program",
           "text": "ไปต่อ",
           "conditions": [],
-          "effects": [{ "type": "goToEvent", "eventId": "student_loan" }]
+          "effects": []
         }
       ]
     }
@@ -216,14 +214,12 @@
     {
       "id": "study_complete",
       "title": "เรียนจบ",
-      "summary": "คุณมองย้อนชีวิตในมหาวิทยาลัย",
-      "conditions": []
+      "summary": "คุณมองย้อนชีวิตในมหาวิทยาลัย"
     },
     {
       "id": "dismissal",
       "title": "พ้นสภาพนักศึกษา",
-      "summary": "การเรียนจบลง แต่เส้นทางชีวิตยังดำเนินต่อ",
-      "conditions": [{ "type": "year", "operator": "eq", "value": 8 }]
+      "summary": "การเรียนจบลง แต่เส้นทางชีวิตยังดำเนินต่อ"
     }
   ]
 }

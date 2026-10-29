@@ -2,10 +2,14 @@ import { describe, expect, it } from 'vitest'
 import names from '../../../public/content-v2/names.json'
 import sample from './sample-content.json'
 import sampleFlow from './sample-flow.json'
-import { checkV2FlowReferences, v2FlowSchema, type V2Flow } from './flow'
-import { v2ContentSchema } from './schema'
+import {
+  checkV2FlowReferences,
+  v2ContentSchema,
+  v2FlowSchema,
+  type V2Flow,
+} from './schema'
 
-const content = v2ContentSchema.parse({ ...sample, names })
+const content = v2ContentSchema.parse({ ...sample, names, flow: sampleFlow })
 const flow = v2FlowSchema.parse(sampleFlow)
 
 function withFlow(change: (flow: V2Flow) => void) {

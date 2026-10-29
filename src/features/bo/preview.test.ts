@@ -8,6 +8,7 @@ import names from '../../../public/content-v2/names.json'
 import faculties from '../../../public/content-v2/faculties.json'
 import majors from '../../../public/content-v2/majors.json'
 import electives from '../../../public/content-v2/electives.json'
+import flow from '../../../public/content-v2/flow.json'
 import { v2ContentSchema } from '../../content/v2/schema'
 import {
   chooseV2,
@@ -26,6 +27,7 @@ const content = v2ContentSchema.parse({
   faculties,
   majors,
   electives,
+  flow,
 })
 
 describe('BO V2 preview session', () => {

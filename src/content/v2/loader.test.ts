@@ -8,6 +8,7 @@ import names from '../../../public/content-v2/names.json'
 import faculties from '../../../public/content-v2/faculties.json'
 import majors from '../../../public/content-v2/majors.json'
 import electives from '../../../public/content-v2/electives.json'
+import flow from '../../../public/content-v2/flow.json'
 import { loadV2Content } from './loader'
 import {
   chooseV2,
@@ -31,12 +32,13 @@ describe('live V2 content', () => {
       faculties,
       majors,
       electives,
+      flow,
     }
     const content = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
     )
     expect(content.events).toHaveLength(38)
-    expect(content.config.contentVersion).toBe('0.2.0')
+    expect(content.config.contentVersion).toBe('0.3.0')
     expect(
       content.names.every((name) =>
         content.assets.some(
@@ -64,6 +66,7 @@ describe('live V2 content', () => {
       faculties,
       majors,
       electives,
+      flow,
     }
     const content = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
@@ -114,5 +117,68 @@ describe('live V2 content', () => {
       save.history.find((entry) => entry.eventId === 'year_two_plans')
         ?.choiceIds,
     ).toHaveLength(2)
+  })
+
+  it('reaches every graduation ending through the converted flow', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    let state = 1
+    const pick = (count: number) => {
+      state = (state * 1_103_515_245 + 12_345) % 2_147_483_648
+      return state % count
+    }
+    const reached = new Set<string>()
+    for (let run = 0; run < 200; run += 1) {
+      const major = content.majors[run % content.majors.length]
+      let save = createV2Game(content, run)
+      for (let step = 0; step < 300 && !save.endingId; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        const choices = getV2AvailableChoices(event, save).filter((choice) =>
+          choice.effects.every(
+            (effect) =>
+              effect.type !== 'schedule' ||
+              effect.trigger.type !== 'afterEvent' ||
+              !save.history.some(
+                (visited) =>
+                  effect.trigger.type === 'afterEvent' &&
+                  visited.eventId === effect.trigger.eventId,
+              ),
+          ),
+        )
+        save =
+          event.selection?.type === 'program'
+            ? chooseV2Program(content, save, major.facultyId, major.id)
+            : event.selection?.type === 'elective'
+              ? chooseV2Elective(content, save, content.electives[0].id)
+              : event.selection?.type === 'multiple'
+                ? chooseV2Many(
+                    content,
+                    save,
+                    choices
+                      .slice(0, event.selection.min)
+                      .map((choice) => choice.id),
+                  )
+                : chooseV2(content, save, choices[pick(choices.length)].id)
+      }
+      reached.add(save.endingId ?? 'none')
+    }
+    expect([...reached].sort()).toEqual([
+      'academic_path',
+      'community_path',
+      'graduation',
+    ])
   })
 })

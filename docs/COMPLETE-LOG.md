@@ -444,3 +444,21 @@ Implementation ready for visual review 2026-10-28. Desktop places Choices below 
 **Done when:** a sample flow with every node type passes schema validation with tests.
 
 Completed 2026-10-29. `src/content/v2/flow.ts` defines the six node types, card positions, edges with one optional simple condition, and the fixed ports for each node type. `checkV2FlowReferences` checks a flow against content: unknown or inactive events, events placed twice, pool events placed on the board, unknown endings and pools, and choice ports. Events have an optional `pool` tag. A test-only `sample-flow.json` uses every node type against the existing sample content. The current engine, BO, and `events.json` still use `goToEvent` and `selection.goToEventId`; Step 28 removes them when the engine follows edges, and Step 30 creates `public/content-v2/flow.json`.
+
+## 28. V4 flow engine + save
+
+**Status:** Done
+
+- Progress by following edges instead of selecting events by kind and period.
+- Choice → apply effects and flags → follow the choice's edge.
+- Condition → evaluate current state and pick pass/fail.
+- Random → roll from eligible pool events with the game seed; record the result so a refresh restores the same path.
+- Next Period → advance time, apply effects due on entry, and run the program review where required.
+- Ending → show the ending and life summary.
+- Save stores the current node; reset save/content versions without migration.
+- Engine trace for preview: moved to Step 32.
+- One-time conversion of the current story to `public/content-v2/flow.json` (moved from Step 30).
+
+**Done when:** focused tests cover each node type, merging paths, seeded random restore after refresh, program review, and a full run to each ending.
+
+Completed 2026-10-29. The engine starts at the Start node and follows edges: choice ports for single-select events, `next` for program, elective, and multi-select events, pass/fail for Condition nodes, and `after`/`fallback` for Random nodes. Random nodes roll one active, unvisited pool event whose conditions hold, using the saved RNG state. Next Period nodes advance one period and apply due delayed effects; when leaving a program review year's summer they follow `graduate` or `extend`, and failing at Year 8 ends in `dismissal`. Ending nodes end the run. Save v1 now records `currentNodeId`; refresh restore rejects a missing node. `goToEvent`, `selection.goToEventId`, `config.startingEventId`, and ending conditions were removed; the Start edge must lead to the faculty/major event. A one-time script converted the 38 events into 60 nodes and 113 edges in the old selection order: conditional events became conditional edges, the two random events became the `y1_term1_life` pool, and the graduation ending conditions became two Condition nodes. Content version moved to `0.3.0`. BO no longer offers story-link fields or ending conditions, its writer validates `flow.json`, and preview starts at the event's node. Focused tests cover every node type, merging paths, edge order, seeded pool restore, reviews for 4- and 6-year programs, and runs that reach all three graduation endings. The engine trace for preview moved to Step 32.

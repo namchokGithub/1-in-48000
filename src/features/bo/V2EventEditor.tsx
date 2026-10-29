@@ -250,17 +250,10 @@ export function V2EventEditor({
                 } else if (type === 'program' || type === 'elective') {
                   next.selection = { type }
                 } else if (type === 'multiple') {
-                  const linkedEventId = next.choices
-                    .flatMap((choice) => choice.effects)
-                    .find((effect) => effect.type === 'goToEvent')?.eventId
                   next.selection = {
                     type,
                     min: 1,
                     max: Math.min(2, next.choices.length),
-                    goToEventId:
-                      linkedEventId ??
-                      eventIds[eventIds.indexOf(next.id) + 1] ??
-                      '',
                   }
                 }
               })
@@ -315,43 +308,12 @@ export function V2EventEditor({
                   }
                 />
               </label>
-              <label className="bo-field">
-                <span>ไปเหตุการณ์หลังยืนยันคำตอบ</span>
-                <BoDropdown
-                  value={event.selection.goToEventId}
-                  onChange={(input) =>
-                    update((next) => {
-                      if (next.selection?.type === 'multiple')
-                        next.selection.goToEventId = input.target.value
-                    })
-                  }
-                >
-                  {eventIds.map((id) => (
-                    <option key={id} value={id}>
-                      {id}
-                    </option>
-                  ))}
-                </BoDropdown>
-                {!eventIds.includes(event.selection.goToEventId) && (
-                  <small className="bo-field-error">
-                    ไม่พบ Event ID ปลายทาง
-                  </small>
-                )}
-              </label>
             </div>
             {(event.selection.min > event.selection.max ||
               event.selection.max > event.choices.length) && (
               <p className="bo-field-error">
                 จำนวนที่เลือกต้องไม่เกิน {event.choices.length} ข้อ
                 และค่าต่ำสุดต้องไม่เกินค่าสูงสุด
-              </p>
-            )}
-            {event.choices.some((choice) =>
-              choice.effects.some((effect) => effect.type === 'goToEvent'),
-            ) && (
-              <p className="bo-field-error">
-                โหมดเลือกหลายข้อใช้ปลายทางของเหตุการณ์ด้านบน กรุณาลบผลลัพธ์
-                “ไปเหตุการณ์” ในตัวเลือก
               </p>
             )}
           </>
@@ -783,7 +745,6 @@ export function V2EventEditor({
                     <V2EffectList
                       value={choice.effects}
                       eventIds={eventIds}
-                      allowGoToEvent={event.selection?.type !== 'multiple'}
                       onChange={(effects) =>
                         update((next) => {
                           next.choices[index].effects = effects

@@ -69,6 +69,9 @@ export function createV2GameStore(
           )
           if (
             !getV2CurrentEvent(content, restored) ||
+            !content.flow.nodes.some(
+              (node) => node.id === restored.currentNodeId,
+            ) ||
             !content.names.some((item) => item.id === restored.nameId) ||
             !content.config.backgrounds.some(
               (item) => item.id === restored.backgroundId,

@@ -1,0 +1,1294 @@
+{
+  "nodes": [
+    {
+      "id": "n_choose_program",
+      "type": "event",
+      "eventId": "choose_program",
+      "position": {
+        "x": 80,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_orientation",
+      "type": "event",
+      "eventId": "orientation",
+      "position": {
+        "x": 360,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_first_class",
+      "type": "event",
+      "eventId": "first_class",
+      "position": {
+        "x": 640,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_dorm_evening",
+      "type": "event",
+      "eventId": "dorm_evening",
+      "position": {
+        "x": 920,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_cafeteria_budget",
+      "type": "event",
+      "eventId": "cafeteria_budget",
+      "position": {
+        "x": 1200,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_club_fair",
+      "type": "event",
+      "eventId": "club_fair",
+      "position": {
+        "x": 1480,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_library_study",
+      "type": "event",
+      "eventId": "library_study",
+      "position": {
+        "x": 1760,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_group_project",
+      "type": "event",
+      "eventId": "group_project",
+      "position": {
+        "x": 2040,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_rainy_commute",
+      "type": "event",
+      "eventId": "rainy_commute",
+      "position": {
+        "x": 2320,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_midterm_prep",
+      "type": "event",
+      "eventId": "midterm_prep",
+      "position": {
+        "x": 2600,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_midterm_exam",
+      "type": "event",
+      "eventId": "midterm_exam",
+      "position": {
+        "x": 2880,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_mali_checkin",
+      "type": "event",
+      "eventId": "mali_checkin",
+      "position": {
+        "x": 3160,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_club_invitation",
+      "type": "event",
+      "eventId": "club_invitation",
+      "position": {
+        "x": 3440,
+        "y": 80
+      }
+    },
+    {
+      "id": "random_y1_term1_life",
+      "type": "random",
+      "poolId": "y1_term1_life",
+      "position": {
+        "x": 3720,
+        "y": 80
+      }
+    },
+    {
+      "id": "next_y1_term1",
+      "type": "nextPeriod",
+      "position": {
+        "x": 4000,
+        "y": 80
+      }
+    },
+    {
+      "id": "n_term_reflection",
+      "type": "event",
+      "eventId": "term_reflection",
+      "position": {
+        "x": 80,
+        "y": 280
+      }
+    },
+    {
+      "id": "next_y1_break",
+      "type": "nextPeriod",
+      "position": {
+        "x": 360,
+        "y": 280
+      }
+    },
+    {
+      "id": "n_return_to_campus",
+      "type": "event",
+      "eventId": "return_to_campus",
+      "position": {
+        "x": 80,
+        "y": 480
+      }
+    },
+    {
+      "id": "n_year_one_final",
+      "type": "event",
+      "eventId": "year_one_final",
+      "position": {
+        "x": 360,
+        "y": 480
+      }
+    },
+    {
+      "id": "n_scholarship_notice",
+      "type": "event",
+      "eventId": "scholarship_notice",
+      "position": {
+        "x": 640,
+        "y": 480
+      }
+    },
+    {
+      "id": "next_y1_term2",
+      "type": "nextPeriod",
+      "position": {
+        "x": 920,
+        "y": 480
+      }
+    },
+    {
+      "id": "n_summer_job",
+      "type": "event",
+      "eventId": "summer_job",
+      "position": {
+        "x": 80,
+        "y": 680
+      }
+    },
+    {
+      "id": "next_y1_summer",
+      "type": "nextPeriod",
+      "position": {
+        "x": 360,
+        "y": 680
+      }
+    },
+    {
+      "id": "n_sophomore_welcome",
+      "type": "event",
+      "eventId": "sophomore_welcome",
+      "position": {
+        "x": 80,
+        "y": 880
+      }
+    },
+    {
+      "id": "n_year_two_plans",
+      "type": "event",
+      "eventId": "year_two_plans",
+      "position": {
+        "x": 360,
+        "y": 880
+      }
+    },
+    {
+      "id": "n_course_choice",
+      "type": "event",
+      "eventId": "course_choice",
+      "position": {
+        "x": 640,
+        "y": 880
+      }
+    },
+    {
+      "id": "next_y2_term1",
+      "type": "nextPeriod",
+      "position": {
+        "x": 920,
+        "y": 880
+      }
+    },
+    {
+      "id": "next_y2_break",
+      "type": "nextPeriod",
+      "position": {
+        "x": 80,
+        "y": 1080
+      }
+    },
+    {
+      "id": "n_group_research",
+      "type": "event",
+      "eventId": "group_research",
+      "position": {
+        "x": 80,
+        "y": 1280
+      }
+    },
+    {
+      "id": "n_club_project",
+      "type": "event",
+      "eventId": "club_project",
+      "position": {
+        "x": 360,
+        "y": 1280
+      }
+    },
+    {
+      "id": "next_y2_term2",
+      "type": "nextPeriod",
+      "position": {
+        "x": 640,
+        "y": 1280
+      }
+    },
+    {
+      "id": "n_internship_application",
+      "type": "event",
+      "eventId": "internship_application",
+      "position": {
+        "x": 80,
+        "y": 1480
+      }
+    },
+    {
+      "id": "next_y2_summer",
+      "type": "nextPeriod",
+      "position": {
+        "x": 360,
+        "y": 1480
+      }
+    },
+    {
+      "id": "n_fieldwork_start",
+      "type": "event",
+      "eventId": "fieldwork_start",
+      "position": {
+        "x": 80,
+        "y": 1680
+      }
+    },
+    {
+      "id": "n_crowded_deadline",
+      "type": "event",
+      "eventId": "crowded_deadline",
+      "position": {
+        "x": 360,
+        "y": 1680
+      }
+    },
+    {
+      "id": "n_free_elective",
+      "type": "event",
+      "eventId": "free_elective",
+      "position": {
+        "x": 640,
+        "y": 1680
+      }
+    },
+    {
+      "id": "next_y3_term1",
+      "type": "nextPeriod",
+      "position": {
+        "x": 920,
+        "y": 1680
+      }
+    },
+    {
+      "id": "n_festival_visit",
+      "type": "event",
+      "eventId": "festival_visit",
+      "position": {
+        "x": 80,
+        "y": 1880
+      }
+    },
+    {
+      "id": "next_y3_break",
+      "type": "nextPeriod",
+      "position": {
+        "x": 360,
+        "y": 1880
+      }
+    },
+    {
+      "id": "n_project_pitch",
+      "type": "event",
+      "eventId": "project_pitch",
+      "position": {
+        "x": 80,
+        "y": 2080
+      }
+    },
+    {
+      "id": "n_mentor_feedback",
+      "type": "event",
+      "eventId": "mentor_feedback",
+      "position": {
+        "x": 360,
+        "y": 2080
+      }
+    },
+    {
+      "id": "next_y3_term2",
+      "type": "nextPeriod",
+      "position": {
+        "x": 640,
+        "y": 2080
+      }
+    },
+    {
+      "id": "n_internship_result",
+      "type": "event",
+      "eventId": "internship_result",
+      "position": {
+        "x": 80,
+        "y": 2280
+      }
+    },
+    {
+      "id": "next_y3_summer",
+      "type": "nextPeriod",
+      "position": {
+        "x": 360,
+        "y": 2280
+      }
+    },
+    {
+      "id": "n_thesis_topic",
+      "type": "event",
+      "eventId": "thesis_topic",
+      "position": {
+        "x": 80,
+        "y": 2480
+      }
+    },
+    {
+      "id": "n_career_fair",
+      "type": "event",
+      "eventId": "career_fair",
+      "position": {
+        "x": 360,
+        "y": 2480
+      }
+    },
+    {
+      "id": "next_y4_term1",
+      "type": "nextPeriod",
+      "position": {
+        "x": 640,
+        "y": 2480
+      }
+    },
+    {
+      "id": "next_y4_break",
+      "type": "nextPeriod",
+      "position": {
+        "x": 80,
+        "y": 2680
+      }
+    },
+    {
+      "id": "n_thesis_defense",
+      "type": "event",
+      "eventId": "thesis_defense",
+      "position": {
+        "x": 80,
+        "y": 2880
+      }
+    },
+    {
+      "id": "n_farewell_dinner",
+      "type": "event",
+      "eventId": "farewell_dinner",
+      "position": {
+        "x": 360,
+        "y": 2880
+      }
+    },
+    {
+      "id": "next_y4_term2",
+      "type": "nextPeriod",
+      "position": {
+        "x": 640,
+        "y": 2880
+      }
+    },
+    {
+      "id": "n_graduation_day",
+      "type": "event",
+      "eventId": "graduation_day",
+      "position": {
+        "x": 80,
+        "y": 3080
+      }
+    },
+    {
+      "id": "next_y4_summer",
+      "type": "nextPeriod",
+      "position": {
+        "x": 360,
+        "y": 3080
+      }
+    },
+    {
+      "id": "start",
+      "type": "start",
+      "position": {
+        "x": -200,
+        "y": 80
+      }
+    },
+    {
+      "id": "next_extra_years",
+      "type": "nextPeriod",
+      "position": {
+        "x": 80,
+        "y": 3280
+      }
+    },
+    {
+      "id": "check_academic_path",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "research_focus",
+          "value": true
+        },
+        {
+          "type": "stat",
+          "stat": "study",
+          "operator": "gte",
+          "value": 70
+        }
+      ],
+      "position": {
+        "x": 360,
+        "y": 3280
+      }
+    },
+    {
+      "id": "check_community_path",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "community_focus",
+          "value": true
+        },
+        {
+          "type": "stat",
+          "stat": "relationships",
+          "operator": "gte",
+          "value": 65
+        }
+      ],
+      "position": {
+        "x": 640,
+        "y": 3280
+      }
+    },
+    {
+      "id": "end_academic_path",
+      "type": "ending",
+      "endingId": "academic_path",
+      "position": {
+        "x": 920,
+        "y": 3280
+      }
+    },
+    {
+      "id": "end_community_path",
+      "type": "ending",
+      "endingId": "community_path",
+      "position": {
+        "x": 920,
+        "y": 3440
+      }
+    },
+    {
+      "id": "end_graduation",
+      "type": "ending",
+      "endingId": "graduation",
+      "position": {
+        "x": 920,
+        "y": 3600
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_start_next",
+      "from": "start",
+      "port": "next",
+      "to": "n_choose_program"
+    },
+    {
+      "id": "e_n_choose_program_next",
+      "from": "n_choose_program",
+      "port": "next",
+      "to": "n_orientation"
+    },
+    {
+      "id": "e_n_orientation_join_group",
+      "from": "n_orientation",
+      "port": "join_group",
+      "to": "n_first_class"
+    },
+    {
+      "id": "e_n_orientation_explore_campus",
+      "from": "n_orientation",
+      "port": "explore_campus",
+      "to": "n_first_class"
+    },
+    {
+      "id": "e_n_first_class_take_notes",
+      "from": "n_first_class",
+      "port": "take_notes",
+      "to": "n_dorm_evening"
+    },
+    {
+      "id": "e_n_first_class_ask_friend",
+      "from": "n_first_class",
+      "port": "ask_friend",
+      "to": "n_dorm_evening"
+    },
+    {
+      "id": "e_n_dorm_evening_unpack",
+      "from": "n_dorm_evening",
+      "port": "unpack",
+      "to": "n_cafeteria_budget"
+    },
+    {
+      "id": "e_n_dorm_evening_rest",
+      "from": "n_dorm_evening",
+      "port": "rest",
+      "to": "n_cafeteria_budget"
+    },
+    {
+      "id": "e_n_cafeteria_budget_simple_meal",
+      "from": "n_cafeteria_budget",
+      "port": "simple_meal",
+      "to": "n_club_fair"
+    },
+    {
+      "id": "e_n_cafeteria_budget_treat_friend",
+      "from": "n_cafeteria_budget",
+      "port": "treat_friend",
+      "to": "n_club_fair"
+    },
+    {
+      "id": "e_n_club_fair_join_club",
+      "from": "n_club_fair",
+      "port": "join_club",
+      "to": "n_library_study"
+    },
+    {
+      "id": "e_n_club_fair_keep_schedule",
+      "from": "n_club_fair",
+      "port": "keep_schedule",
+      "to": "n_library_study"
+    },
+    {
+      "id": "e_n_library_study_study_together",
+      "from": "n_library_study",
+      "port": "study_together",
+      "to": "n_group_project"
+    },
+    {
+      "id": "e_n_library_study_solo_notes",
+      "from": "n_library_study",
+      "port": "solo_notes",
+      "to": "n_group_project"
+    },
+    {
+      "id": "e_n_group_project_share_work",
+      "from": "n_group_project",
+      "port": "share_work",
+      "to": "n_rainy_commute"
+    },
+    {
+      "id": "e_n_group_project_finish_alone",
+      "from": "n_group_project",
+      "port": "finish_alone",
+      "to": "n_rainy_commute"
+    },
+    {
+      "id": "e_n_rainy_commute_walk_in_rain",
+      "from": "n_rainy_commute",
+      "port": "walk_in_rain",
+      "to": "n_midterm_prep"
+    },
+    {
+      "id": "e_n_rainy_commute_wait_bus",
+      "from": "n_rainy_commute",
+      "port": "wait_bus",
+      "to": "n_midterm_prep"
+    },
+    {
+      "id": "e_n_midterm_prep_review_alone",
+      "from": "n_midterm_prep",
+      "port": "review_alone",
+      "to": "n_midterm_exam"
+    },
+    {
+      "id": "e_n_midterm_prep_review_with_mali",
+      "from": "n_midterm_prep",
+      "port": "review_with_mali",
+      "to": "n_midterm_exam"
+    },
+    {
+      "id": "e_n_midterm_exam_trust_preparation_n_mali_checkin",
+      "from": "n_midterm_exam",
+      "port": "trust_preparation",
+      "to": "n_mali_checkin",
+      "condition": {
+        "type": "flag",
+        "flagId": "met_mali",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_midterm_exam_trust_preparation_n_club_invitation",
+      "from": "n_midterm_exam",
+      "port": "trust_preparation",
+      "to": "n_club_invitation",
+      "condition": {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_midterm_exam_trust_preparation_random_y1_term1_life",
+      "from": "n_midterm_exam",
+      "port": "trust_preparation",
+      "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_n_midterm_exam_last_minute_n_mali_checkin",
+      "from": "n_midterm_exam",
+      "port": "last_minute",
+      "to": "n_mali_checkin",
+      "condition": {
+        "type": "flag",
+        "flagId": "met_mali",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_midterm_exam_last_minute_n_club_invitation",
+      "from": "n_midterm_exam",
+      "port": "last_minute",
+      "to": "n_club_invitation",
+      "condition": {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_midterm_exam_last_minute_random_y1_term1_life",
+      "from": "n_midterm_exam",
+      "port": "last_minute",
+      "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_n_mali_checkin_share_worry_n_club_invitation",
+      "from": "n_mali_checkin",
+      "port": "share_worry",
+      "to": "n_club_invitation",
+      "condition": {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_mali_checkin_share_worry_random_y1_term1_life",
+      "from": "n_mali_checkin",
+      "port": "share_worry",
+      "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_n_mali_checkin_keep_to_self_n_club_invitation",
+      "from": "n_mali_checkin",
+      "port": "keep_to_self",
+      "to": "n_club_invitation",
+      "condition": {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_mali_checkin_keep_to_self_random_y1_term1_life",
+      "from": "n_mali_checkin",
+      "port": "keep_to_self",
+      "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_n_club_invitation_join_activity",
+      "from": "n_club_invitation",
+      "port": "join_activity",
+      "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_n_club_invitation_skip_activity",
+      "from": "n_club_invitation",
+      "port": "skip_activity",
+      "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_random_y1_term1_life_after",
+      "from": "random_y1_term1_life",
+      "port": "after",
+      "to": "next_y1_term1"
+    },
+    {
+      "id": "e_random_y1_term1_life_fallback",
+      "from": "random_y1_term1_life",
+      "port": "fallback",
+      "to": "next_y1_term1"
+    },
+    {
+      "id": "e_next_y1_term1_next",
+      "from": "next_y1_term1",
+      "port": "next",
+      "to": "n_term_reflection"
+    },
+    {
+      "id": "e_n_term_reflection_keep_journal",
+      "from": "n_term_reflection",
+      "port": "keep_journal",
+      "to": "next_y1_break"
+    },
+    {
+      "id": "e_n_term_reflection_plan_next_term",
+      "from": "n_term_reflection",
+      "port": "plan_next_term",
+      "to": "next_y1_break"
+    },
+    {
+      "id": "e_next_y1_break_next",
+      "from": "next_y1_break",
+      "port": "next",
+      "to": "n_return_to_campus"
+    },
+    {
+      "id": "e_n_return_to_campus_budget_semester",
+      "from": "n_return_to_campus",
+      "port": "budget_semester",
+      "to": "n_year_one_final"
+    },
+    {
+      "id": "e_n_return_to_campus_take_more_classes",
+      "from": "n_return_to_campus",
+      "port": "take_more_classes",
+      "to": "n_year_one_final"
+    },
+    {
+      "id": "e_n_year_one_final_review_notes_n_scholarship_notice",
+      "from": "n_year_one_final",
+      "port": "review_notes",
+      "to": "n_scholarship_notice",
+      "condition": {
+        "type": "stat",
+        "stat": "money",
+        "operator": "lt",
+        "value": 1000
+      }
+    },
+    {
+      "id": "e_n_year_one_final_review_notes_next_y1_term2",
+      "from": "n_year_one_final",
+      "port": "review_notes",
+      "to": "next_y1_term2"
+    },
+    {
+      "id": "e_n_year_one_final_rest_before_exam_n_scholarship_notice",
+      "from": "n_year_one_final",
+      "port": "rest_before_exam",
+      "to": "n_scholarship_notice",
+      "condition": {
+        "type": "stat",
+        "stat": "money",
+        "operator": "lt",
+        "value": 1000
+      }
+    },
+    {
+      "id": "e_n_year_one_final_rest_before_exam_next_y1_term2",
+      "from": "n_year_one_final",
+      "port": "rest_before_exam",
+      "to": "next_y1_term2"
+    },
+    {
+      "id": "e_n_scholarship_notice_apply_aid",
+      "from": "n_scholarship_notice",
+      "port": "apply_aid",
+      "to": "next_y1_term2"
+    },
+    {
+      "id": "e_n_scholarship_notice_find_extra_shift",
+      "from": "n_scholarship_notice",
+      "port": "find_extra_shift",
+      "to": "next_y1_term2"
+    },
+    {
+      "id": "e_next_y1_term2_next",
+      "from": "next_y1_term2",
+      "port": "next",
+      "to": "n_summer_job"
+    },
+    {
+      "id": "e_n_summer_job_work_canteen",
+      "from": "n_summer_job",
+      "port": "work_canteen",
+      "to": "next_y1_summer"
+    },
+    {
+      "id": "e_n_summer_job_rest_and_read",
+      "from": "n_summer_job",
+      "port": "rest_and_read",
+      "to": "next_y1_summer"
+    },
+    {
+      "id": "e_next_y1_summer_next",
+      "from": "next_y1_summer",
+      "port": "next",
+      "to": "n_sophomore_welcome"
+    },
+    {
+      "id": "e_n_sophomore_welcome_guide_newcomers",
+      "from": "n_sophomore_welcome",
+      "port": "guide_newcomers",
+      "to": "n_year_two_plans"
+    },
+    {
+      "id": "e_n_sophomore_welcome_prepare_classes",
+      "from": "n_sophomore_welcome",
+      "port": "prepare_classes",
+      "to": "n_year_two_plans"
+    },
+    {
+      "id": "e_n_year_two_plans_next",
+      "from": "n_year_two_plans",
+      "port": "next",
+      "to": "n_course_choice"
+    },
+    {
+      "id": "e_n_course_choice_take_hard_course",
+      "from": "n_course_choice",
+      "port": "take_hard_course",
+      "to": "next_y2_term1"
+    },
+    {
+      "id": "e_n_course_choice_keep_balance",
+      "from": "n_course_choice",
+      "port": "keep_balance",
+      "to": "next_y2_term1"
+    },
+    {
+      "id": "e_next_y2_term1_next",
+      "from": "next_y2_term1",
+      "port": "next",
+      "to": "next_y2_break"
+    },
+    {
+      "id": "e_next_y2_break_next",
+      "from": "next_y2_break",
+      "port": "next",
+      "to": "n_group_research"
+    },
+    {
+      "id": "e_n_group_research_listen_first_n_club_project",
+      "from": "n_group_research",
+      "port": "listen_first",
+      "to": "n_club_project",
+      "condition": {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_group_research_listen_first_next_y2_term2",
+      "from": "n_group_research",
+      "port": "listen_first",
+      "to": "next_y2_term2"
+    },
+    {
+      "id": "e_n_group_research_draft_quickly_n_club_project",
+      "from": "n_group_research",
+      "port": "draft_quickly",
+      "to": "n_club_project",
+      "condition": {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_group_research_draft_quickly_next_y2_term2",
+      "from": "n_group_research",
+      "port": "draft_quickly",
+      "to": "next_y2_term2"
+    },
+    {
+      "id": "e_n_club_project_organize_event",
+      "from": "n_club_project",
+      "port": "organize_event",
+      "to": "next_y2_term2"
+    },
+    {
+      "id": "e_n_club_project_share_tasks",
+      "from": "n_club_project",
+      "port": "share_tasks",
+      "to": "next_y2_term2"
+    },
+    {
+      "id": "e_next_y2_term2_next",
+      "from": "next_y2_term2",
+      "port": "next",
+      "to": "n_internship_application"
+    },
+    {
+      "id": "e_n_internship_application_apply_internship",
+      "from": "n_internship_application",
+      "port": "apply_internship",
+      "to": "next_y2_summer"
+    },
+    {
+      "id": "e_n_internship_application_take_paid_work",
+      "from": "n_internship_application",
+      "port": "take_paid_work",
+      "to": "next_y2_summer"
+    },
+    {
+      "id": "e_next_y2_summer_next",
+      "from": "next_y2_summer",
+      "port": "next",
+      "to": "n_fieldwork_start"
+    },
+    {
+      "id": "e_n_fieldwork_start_ask_questions",
+      "from": "n_fieldwork_start",
+      "port": "ask_questions",
+      "to": "n_crowded_deadline"
+    },
+    {
+      "id": "e_n_fieldwork_start_listen_to_people",
+      "from": "n_fieldwork_start",
+      "port": "listen_to_people",
+      "to": "n_crowded_deadline"
+    },
+    {
+      "id": "e_n_crowded_deadline_push_through",
+      "from": "n_crowded_deadline",
+      "port": "push_through",
+      "to": "n_free_elective"
+    },
+    {
+      "id": "e_n_crowded_deadline_sleep_then_plan",
+      "from": "n_crowded_deadline",
+      "port": "sleep_then_plan",
+      "to": "n_free_elective"
+    },
+    {
+      "id": "e_n_free_elective_next",
+      "from": "n_free_elective",
+      "port": "next",
+      "to": "next_y3_term1"
+    },
+    {
+      "id": "e_next_y3_term1_next",
+      "from": "next_y3_term1",
+      "port": "next",
+      "to": "n_festival_visit"
+    },
+    {
+      "id": "e_n_festival_visit_walk_with_friends",
+      "from": "n_festival_visit",
+      "port": "walk_with_friends",
+      "to": "next_y3_break"
+    },
+    {
+      "id": "e_n_festival_visit_help_cleanup",
+      "from": "n_festival_visit",
+      "port": "help_cleanup",
+      "to": "next_y3_break"
+    },
+    {
+      "id": "e_next_y3_break_next",
+      "from": "next_y3_break",
+      "port": "next",
+      "to": "n_project_pitch"
+    },
+    {
+      "id": "e_n_project_pitch_ask_mentor_n_mentor_feedback",
+      "from": "n_project_pitch",
+      "port": "ask_mentor",
+      "to": "n_mentor_feedback",
+      "condition": {
+        "type": "flag",
+        "flagId": "asked_mentor",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_project_pitch_ask_mentor_next_y3_term2",
+      "from": "n_project_pitch",
+      "port": "ask_mentor",
+      "to": "next_y3_term2"
+    },
+    {
+      "id": "e_n_project_pitch_pitch_alone_n_mentor_feedback",
+      "from": "n_project_pitch",
+      "port": "pitch_alone",
+      "to": "n_mentor_feedback",
+      "condition": {
+        "type": "flag",
+        "flagId": "asked_mentor",
+        "value": true
+      }
+    },
+    {
+      "id": "e_n_project_pitch_pitch_alone_next_y3_term2",
+      "from": "n_project_pitch",
+      "port": "pitch_alone",
+      "to": "next_y3_term2"
+    },
+    {
+      "id": "e_n_mentor_feedback_revise_carefully",
+      "from": "n_mentor_feedback",
+      "port": "revise_carefully",
+      "to": "next_y3_term2"
+    },
+    {
+      "id": "e_n_mentor_feedback_aim_higher",
+      "from": "n_mentor_feedback",
+      "port": "aim_higher",
+      "to": "next_y3_term2"
+    },
+    {
+      "id": "e_next_y3_term2_next",
+      "from": "next_y3_term2",
+      "port": "next",
+      "to": "n_internship_result"
+    },
+    {
+      "id": "e_n_internship_result_write_lessons",
+      "from": "n_internship_result",
+      "port": "write_lessons",
+      "to": "next_y3_summer"
+    },
+    {
+      "id": "e_n_internship_result_take_extra_shift",
+      "from": "n_internship_result",
+      "port": "take_extra_shift",
+      "to": "next_y3_summer"
+    },
+    {
+      "id": "e_next_y3_summer_next",
+      "from": "next_y3_summer",
+      "port": "next",
+      "to": "n_thesis_topic"
+    },
+    {
+      "id": "e_n_thesis_topic_research_thesis",
+      "from": "n_thesis_topic",
+      "port": "research_thesis",
+      "to": "n_career_fair"
+    },
+    {
+      "id": "e_n_thesis_topic_community_thesis",
+      "from": "n_thesis_topic",
+      "port": "community_thesis",
+      "to": "n_career_fair"
+    },
+    {
+      "id": "e_n_thesis_topic_open_thesis",
+      "from": "n_thesis_topic",
+      "port": "open_thesis",
+      "to": "n_career_fair"
+    },
+    {
+      "id": "e_n_career_fair_meet_network",
+      "from": "n_career_fair",
+      "port": "meet_network",
+      "to": "next_y4_term1"
+    },
+    {
+      "id": "e_n_career_fair_community_work",
+      "from": "n_career_fair",
+      "port": "community_work",
+      "to": "next_y4_term1"
+    },
+    {
+      "id": "e_n_career_fair_explore_options",
+      "from": "n_career_fair",
+      "port": "explore_options",
+      "to": "next_y4_term1"
+    },
+    {
+      "id": "e_next_y4_term1_next",
+      "from": "next_y4_term1",
+      "port": "next",
+      "to": "next_y4_break"
+    },
+    {
+      "id": "e_next_y4_break_next",
+      "from": "next_y4_break",
+      "port": "next",
+      "to": "n_thesis_defense"
+    },
+    {
+      "id": "e_n_thesis_defense_present_carefully",
+      "from": "n_thesis_defense",
+      "port": "present_carefully",
+      "to": "n_farewell_dinner"
+    },
+    {
+      "id": "e_n_thesis_defense_discuss_with_team",
+      "from": "n_thesis_defense",
+      "port": "discuss_with_team",
+      "to": "n_farewell_dinner"
+    },
+    {
+      "id": "e_n_thesis_defense_breathe_first",
+      "from": "n_thesis_defense",
+      "port": "breathe_first",
+      "to": "n_farewell_dinner"
+    },
+    {
+      "id": "e_n_farewell_dinner_thank_everyone",
+      "from": "n_farewell_dinner",
+      "port": "thank_everyone",
+      "to": "next_y4_term2"
+    },
+    {
+      "id": "e_n_farewell_dinner_quiet_goodbye",
+      "from": "n_farewell_dinner",
+      "port": "quiet_goodbye",
+      "to": "next_y4_term2"
+    },
+    {
+      "id": "e_next_y4_term2_next",
+      "from": "next_y4_term2",
+      "port": "next",
+      "to": "n_graduation_day"
+    },
+    {
+      "id": "e_n_graduation_day_look_ahead",
+      "from": "n_graduation_day",
+      "port": "look_ahead",
+      "to": "next_y4_summer"
+    },
+    {
+      "id": "e_n_graduation_day_thank_friends",
+      "from": "n_graduation_day",
+      "port": "thank_friends",
+      "to": "next_y4_summer"
+    },
+    {
+      "id": "e_n_graduation_day_pause_and_rest",
+      "from": "n_graduation_day",
+      "port": "pause_and_rest",
+      "to": "next_y4_summer"
+    },
+    {
+      "id": "e_next_y4_summer_graduate",
+      "from": "next_y4_summer",
+      "port": "graduate",
+      "to": "check_academic_path"
+    },
+    {
+      "id": "e_next_y4_summer_extend",
+      "from": "next_y4_summer",
+      "port": "extend",
+      "to": "next_extra_years"
+    },
+    {
+      "id": "e_next_y4_summer_next",
+      "from": "next_y4_summer",
+      "port": "next",
+      "to": "next_extra_years"
+    },
+    {
+      "id": "e_next_extra_years_graduate",
+      "from": "next_extra_years",
+      "port": "graduate",
+      "to": "check_academic_path"
+    },
+    {
+      "id": "e_next_extra_years_extend",
+      "from": "next_extra_years",
+      "port": "extend",
+      "to": "next_extra_years"
+    },
+    {
+      "id": "e_next_extra_years_next",
+      "from": "next_extra_years",
+      "port": "next",
+      "to": "next_extra_years"
+    },
+    {
+      "id": "e_check_academic_path_pass",
+      "from": "check_academic_path",
+      "port": "pass",
+      "to": "end_academic_path"
+    },
+    {
+      "id": "e_check_academic_path_fail",
+      "from": "check_academic_path",
+      "port": "fail",
+      "to": "check_community_path"
+    },
+    {
+      "id": "e_check_community_path_pass",
+      "from": "check_community_path",
+      "port": "pass",
+      "to": "end_community_path"
+    },
+    {
+      "id": "e_check_community_path_fail",
+      "from": "check_community_path",
+      "port": "fail",
+      "to": "end_graduation"
+    }
+  ]
+}

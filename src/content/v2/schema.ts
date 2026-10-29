@@ -106,7 +106,6 @@ export const v2DelayedTriggerSchema = z.discriminatedUnion('type', [
 export const v2EffectSchema = z.union([
   statDeltaSchema,
   setFlagSchema,
-  z.object({ type: z.literal('goToEvent'), eventId: storyIdSchema }),
   z.object({
     type: z.literal('schedule'),
     trigger: v2DelayedTriggerSchema,
@@ -119,7 +118,6 @@ export const v2GameConfigSchema = z.object({
   contentVersion: textSchema,
   title: textSchema,
   startingTime: v2TimeSchema,
-  startingEventId: storyIdSchema,
   initialStats: v2StatsSchema,
   backgrounds: z
     .array(
@@ -162,7 +160,6 @@ export const v2EventSchema = z
           type: z.literal('multiple'),
           min: z.int().min(1),
           max: z.int().min(1),
-          goToEventId: storyIdSchema,
         }),
       ])
       .optional(),
@@ -199,15 +196,6 @@ export const v2EventSchema = z
         message: 'Selection limits must fit the available choices',
       })
     }
-    event.choices.forEach((choice, index) => {
-      if (choice.effects.some((effect) => effect.type === 'goToEvent')) {
-        context.addIssue({
-          code: 'custom',
-          path: ['choices', index, 'effects'],
-          message: 'Multi-select choices cannot link to events',
-        })
-      }
-    })
   })
 
 export const v2NamesSchema = z
@@ -263,6 +251,169 @@ export const v2AssetListSchema = z.array(
   }),
 )
 
+const positionSchema = z.strictObject({ x: z.number(), y: z.number() })
+
+const nodeBase = { id: v2IdSchema, position: positionSchema }
+
+export const v2FlowNodeSchema = z.discriminatedUnion('type', [
+  z.strictObject({ ...nodeBase, type: z.literal('start') }),
+  z.strictObject({
+    ...nodeBase,
+    type: z.literal('event'),
+    eventId: v2StoryIdSchema,
+  }),
+  z.strictObject({
+    ...nodeBase,
+    type: z.literal('condition'),
+    join: z.enum(['and', 'or']),
+    conditions: z.array(v2ConditionSchema).min(1),
+  }),
+  z.strictObject({
+    ...nodeBase,
+    type: z.literal('random'),
+    poolId: v2StoryIdSchema,
+  }),
+  z.strictObject({ ...nodeBase, type: z.literal('nextPeriod') }),
+  z.strictObject({
+    ...nodeBase,
+    type: z.literal('ending'),
+    endingId: v2IdSchema,
+  }),
+])
+
+export const v2FlowEdgeSchema = z.strictObject({
+  id: v2IdSchema,
+  from: v2IdSchema,
+  port: z.string().min(1),
+  to: v2IdSchema,
+  condition: v2ConditionSchema.optional(),
+})
+
+type FlowNode = z.infer<typeof v2FlowNodeSchema>
+
+const fixedPorts: Record<Exclude<FlowNode['type'], 'event'>, string[]> = {
+  start: ['next'],
+  condition: ['pass', 'fail'],
+  random: ['after', 'fallback'],
+  nextPeriod: ['next', 'graduate', 'extend'],
+  ending: [],
+}
+
+export const v2FlowSchema = z
+  .strictObject({
+    nodes: z.array(v2FlowNodeSchema),
+    edges: z.array(v2FlowEdgeSchema),
+  })
+  .superRefine((flow, context) => {
+    const report = (path: (string | number)[], message: string) =>
+      context.addIssue({ code: 'custom', path, message })
+    const nodes = new Map<string, FlowNode>()
+    flow.nodes.forEach((node, index) => {
+      if (nodes.has(node.id))
+        report(['nodes', index, 'id'], `Duplicate ID: ${node.id}`)
+      nodes.set(node.id, node)
+    })
+    const startCount = flow.nodes.filter((node) => node.type === 'start').length
+    if (startCount !== 1)
+      report(['nodes'], 'Flow must have exactly one Start node')
+
+    const edgeIds = new Set<string>()
+    flow.edges.forEach((edge, index) => {
+      const base = ['edges', index]
+      if (edgeIds.has(edge.id))
+        report([...base, 'id'], `Duplicate ID: ${edge.id}`)
+      edgeIds.add(edge.id)
+      const source = nodes.get(edge.from)
+      if (!source) report([...base, 'from'], `Unknown node: ${edge.from}`)
+      else if (
+        source.type !== 'event' &&
+        !fixedPorts[source.type].includes(edge.port)
+      ) {
+        report([...base, 'port'], `Invalid ${source.type} port: ${edge.port}`)
+      }
+      const target = nodes.get(edge.to)
+      if (!target) report([...base, 'to'], `Unknown node: ${edge.to}`)
+      else if (target.type === 'start')
+        report([...base, 'to'], 'Edges cannot enter the Start node')
+    })
+  })
+
+export type V2Flow = z.infer<typeof v2FlowSchema>
+export type V2FlowNode = FlowNode
+export type V2FlowEdge = z.infer<typeof v2FlowEdgeSchema>
+
+export type V2FlowIssue = { path: (string | number)[]; message: string }
+
+export function checkV2FlowReferences(
+  flow: V2Flow,
+  content: { events: V2Event[]; endings: { id: string }[] },
+): V2FlowIssue[] {
+  const issues: V2FlowIssue[] = []
+  const report = (path: (string | number)[], message: string) =>
+    issues.push({ path, message })
+  const events = new Map(content.events.map((event) => [event.id, event]))
+  const endingIds = new Set(content.endings.map((ending) => ending.id))
+  const pools = new Set(
+    content.events.flatMap((event) =>
+      event.pool && event.active !== false ? [event.pool] : [],
+    ),
+  )
+  const placed = new Set<string>()
+  const nodes = new Map(flow.nodes.map((node) => [node.id, node]))
+
+  flow.nodes.forEach((node, index) => {
+    const base = ['nodes', index]
+    if (node.type === 'event') {
+      const event = events.get(node.eventId)
+      if (!event) report([...base, 'eventId'], `Unknown event: ${node.eventId}`)
+      else if (event.active === false)
+        report([...base, 'eventId'], `Inactive event: ${node.eventId}`)
+      else if (event.pool)
+        report(
+          [...base, 'eventId'],
+          `Pool event cannot be placed on the board: ${node.eventId}`,
+        )
+      if (placed.has(node.eventId))
+        report([...base, 'eventId'], `Event placed twice: ${node.eventId}`)
+      placed.add(node.eventId)
+    } else if (node.type === 'ending' && !endingIds.has(node.endingId)) {
+      report([...base, 'endingId'], `Unknown ending: ${node.endingId}`)
+    } else if (node.type === 'random' && !pools.has(node.poolId)) {
+      report([...base, 'poolId'], `Unknown pool: ${node.poolId}`)
+    }
+  })
+
+  const startIds = new Set(
+    flow.nodes.filter((node) => node.type === 'start').map((node) => node.id),
+  )
+  const startEdges = flow.edges.filter((edge) => startIds.has(edge.from))
+  if (!startEdges.length) report(['edges'], 'Start node has no edge')
+  startEdges.forEach((edge) => {
+    const target = nodes.get(edge.to)
+    const event =
+      target?.type === 'event' ? events.get(target.eventId) : undefined
+    if (event?.selection?.type !== 'program')
+      report(
+        ['edges', flow.edges.indexOf(edge), 'to'],
+        'Start must lead to the faculty and major event',
+      )
+  })
+
+  flow.edges.forEach((edge, index) => {
+    const source = nodes.get(edge.from)
+    if (source?.type !== 'event') return
+    const event = events.get(source.eventId)
+    if (!event) return
+    const ports = event.selection
+      ? ['next']
+      : event.choices.map((choice) => choice.id)
+    if (!ports.includes(edge.port))
+      report(['edges', index, 'port'], `Invalid event port: ${edge.port}`)
+  })
+
+  return issues
+}
+
 export const v2ContentSchema = z
   .object({
     config: v2GameConfigSchema,
@@ -280,13 +431,13 @@ export const v2ContentSchema = z
         id: idSchema,
         title: textSchema,
         summary: textSchema,
-        conditions: z.array(v2ConditionSchema),
       }),
     ),
     names: v2NamesSchema,
     faculties: z.array(v2FacultySchema).min(1),
     majors: z.array(v2MajorSchema).min(1),
     electives: z.array(v2ElectiveSchema).min(1),
+    flow: v2FlowSchema,
   })
   .superRefine((content, context) => {
     const report = (path: (string | number)[], message: string) =>
@@ -369,16 +520,17 @@ export const v2ContentSchema = z
       })
     }
 
-    checkEvent(content.config.startingEventId, ['config', 'startingEventId'])
-    const startingEvent = content.events.find(
-      (event) => event.id === content.config.startingEventId,
+    checkV2FlowReferences(content.flow, content).forEach((issue) =>
+      report(['flow', ...issue.path], issue.message),
     )
-    if (startingEvent?.selection?.type !== 'program') {
-      report(
-        ['config', 'startingEventId'],
-        'Starting event must select a faculty and major',
-      )
-    }
+    content.flow.nodes.forEach((node, index) => {
+      if (node.type === 'condition')
+        checkConditions(node.conditions, ['flow', 'nodes', index, 'conditions'])
+    })
+    content.flow.edges.forEach((edge, index) => {
+      if (edge.condition)
+        checkConditions([edge.condition], ['flow', 'edges', index, 'condition'])
+    })
     content.majors.forEach((major, index) => {
       const faculty = faculties.get(major.facultyId)
       if (!faculty)
@@ -415,13 +567,6 @@ export const v2ContentSchema = z
       if (event.selection?.type === 'elective' && event.time.year !== 3) {
         report([...base, 'time', 'year'], 'Electives are selected in Year 3')
       }
-      if (event.selection?.type === 'multiple') {
-        checkEvent(event.selection.goToEventId, [
-          ...base,
-          'selection',
-          'goToEventId',
-        ])
-      }
       event.lines.forEach((line, lineIndex) => {
         if (line.speakerId && !characterIds.has(line.speakerId)) {
           report(
@@ -441,14 +586,7 @@ export const v2ContentSchema = z
         const choiceBase = [...base, 'choices', choiceIndex]
         checkConditions(choice.conditions, [...choiceBase, 'conditions'])
         choice.effects.forEach((effect, effectIndex) => {
-          if (effect.type === 'goToEvent') {
-            checkEvent(effect.eventId, [
-              ...choiceBase,
-              'effects',
-              effectIndex,
-              'eventId',
-            ])
-          } else if (
+          if (
             effect.type === 'schedule' &&
             effect.trigger.type === 'afterEvent'
           ) {
@@ -462,9 +600,6 @@ export const v2ContentSchema = z
           }
         })
       })
-    })
-    content.endings.forEach((ending, index) => {
-      checkConditions(ending.conditions, ['endings', index, 'conditions'])
     })
   })
 

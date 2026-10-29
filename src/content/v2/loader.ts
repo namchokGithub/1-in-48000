@@ -21,6 +21,7 @@ export async function loadV2Content(
     faculties,
     majors,
     electives,
+    flow,
   ] = await Promise.all(
     [
       'config',
@@ -32,6 +33,7 @@ export async function loadV2Content(
       'faculties',
       'majors',
       'electives',
+      'flow',
     ].map((name) => readJson(`/content-v2/${name}.json`)),
   )
   return v2ContentSchema.parse({
@@ -44,5 +46,6 @@ export async function loadV2Content(
     faculties,
     majors,
     electives,
+    flow,
   })
 }

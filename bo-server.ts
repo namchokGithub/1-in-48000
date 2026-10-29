@@ -27,6 +27,7 @@ const files = [
   'faculties',
   'majors',
   'electives',
+  'flow',
 ] as const
 
 export class BoValidationError extends Error {

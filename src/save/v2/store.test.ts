@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import sample from '../../content/v2/sample-content.json'
+import flow from '../../content/v2/sample-flow.json'
 import { v2ContentSchema } from '../../content/v2/schema'
 import names from '../../../public/content-v2/names.json'
 import { createV2GameStore } from './store'
 
-const content = v2ContentSchema.parse({ ...sample, names })
+const content = v2ContentSchema.parse({ ...sample, names, flow })
 
 function checkpointStorage() {
   let raw: string | null = null
@@ -86,23 +87,28 @@ describe('V2 checkpoint store', () => {
     const endingContent = v2ContentSchema.parse({
       ...sample,
       names,
-      config: {
-        ...sample.config,
-        initialStats: { ...sample.config.initialStats, study: 70, stress: 0 },
+      events: [opening],
+      flow: {
+        nodes: [
+          { id: 'start', type: 'start', position: { x: 0, y: 0 } },
+          {
+            id: 'opening',
+            type: 'event',
+            eventId: opening.id,
+            position: { x: 0, y: 0 },
+          },
+          {
+            id: 'done',
+            type: 'ending',
+            endingId: 'study_complete',
+            position: { x: 0, y: 0 },
+          },
+        ],
+        edges: [
+          { id: 'e_start', from: 'start', port: 'next', to: 'opening' },
+          { id: 'e_done', from: 'opening', port: 'next', to: 'done' },
+        ],
       },
-      events: [
-        {
-          ...opening,
-          choices: [
-            {
-              id: 'confirm_program',
-              text: 'ยืนยัน',
-              conditions: [],
-              effects: [],
-            },
-          ],
-        },
-      ],
     })
     const { storage, session } = checkpointStorage()
     const store = createV2GameStore(endingContent, storage, session)

@@ -22,6 +22,7 @@ export const v2PlayerSaveSchema = z.object({
   majorId: idSchema.nullable(),
   electiveId: idSchema.nullable(),
   currentTime: v2TimeSchema,
+  currentNodeId: idSchema.nullable(),
   currentEventId: idSchema.nullable(),
   endingId: idSchema.nullable(),
   stats: v2StatsSchema,

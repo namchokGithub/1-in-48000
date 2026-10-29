@@ -31,7 +31,6 @@ export function effectSummary(effect: Effect): string {
     return `${statLabel(effect.stat)} ${effect.amount >= 0 ? '+' : ''}${effect.amount}`
   if (effect.type === 'setFlag')
     return `${effect.flagId} = ${effect.value ? 'จริง' : 'เท็จ'}`
-  if (effect.type === 'goToEvent') return `ไป ${effect.eventId}`
   if (effect.type === 'schedule')
     return `ภายหลัง · ${effectSummary(effect.effect)}`
   return `โอกาส ${effect.successPercent}%`

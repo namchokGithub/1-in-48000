@@ -29,6 +29,7 @@ async function fixture() {
     'faculties',
     'majors',
     'electives',
+    'flow',
   ]) {
     await writeFile(
       join(dir, `${name}.json`),
@@ -77,16 +78,17 @@ describe('V2 BO story writing', () => {
     expect(next.history[1].chanceOutcomes[0].succeeded).toBe(true)
   })
 
-  it('rejects an invalid target without replacing the V2 file', async () => {
+  it('rejects removing an event that is still on the flow board', async () => {
     const dir = await fixture()
     const before = await readFile(join(dir, 'events.json'), 'utf8')
     const events = JSON.parse(before) as V2Event[]
-    events[0].choices[0].effects = [
-      { type: 'goToEvent', eventId: 'missing_event' },
-    ]
-    await expect(saveBoContent(root, 'events', events)).rejects.toBeInstanceOf(
-      BoValidationError,
-    )
+    await expect(
+      saveBoContent(
+        root,
+        'events',
+        events.filter((event) => event.id !== 'first_class'),
+      ),
+    ).rejects.toBeInstanceOf(BoValidationError)
     expect(await readFile(join(dir, 'events.json'), 'utf8')).toBe(before)
   })
 
@@ -131,7 +133,7 @@ describe('V2 BO story writing', () => {
     expect(await readFile(join(dir, 'endings.json'), 'utf8')).toBe(before)
   })
 
-  it('saves a multi-select event with faculty and major conditions that plays in preview', async () => {
+  it('saves a multi-select event with faculty and major conditions and previews it before placement', async () => {
     const dir = await fixture()
     const events = JSON.parse(
       await readFile(join(dir, 'events.json'), 'utf8'),
@@ -144,12 +146,7 @@ describe('V2 BO story writing', () => {
         { type: 'faculty', facultyId: 'humanities' },
         { type: 'major', majorId: 'thai_language' },
       ],
-      selection: {
-        type: 'multiple',
-        min: 2,
-        max: 2,
-        goToEventId: 'first_class',
-      },
+      selection: { type: 'multiple', min: 2, max: 2 },
       choices: [
         {
           id: 'read_notes',
@@ -174,13 +171,10 @@ describe('V2 BO story writing', () => {
       facultyId: 'humanities',
       majorId: 'thai_language',
     })
-    const next = chooseV2Many(preview.content, preview.save, [
-      'help_group',
-      'read_notes',
-    ])
-    expect(next.currentEventId).toBe('first_class')
-    expect(next.stats.study).toBe(preview.save.stats.study + 2)
-    expect(next.flags.helped_group).toBe(true)
+    expect(preview.save.currentEventId).toBe(authored.id)
+    expect(() =>
+      chooseV2Many(preview.content, preview.save, ['help_group', 'read_notes']),
+    ).toThrow('No path from bo_preview_event (next)')
   })
 })
 

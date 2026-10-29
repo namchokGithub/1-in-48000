@@ -10,14 +10,13 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 | #   | Step                           | Status | Depends on |
 | --- | ------------------------------ | ------ | ---------- |
-| 28  | V4 flow engine + save          | Todo   | 27         |
 | 29  | Flow validator                 | Todo   | 27         |
-| 30  | Content conversion to flow     | Todo   | 28, 29     |
+| 30  | Converted flow review          | Todo   | 31         |
 | 31  | BO Flow board                  | Todo   | 29         |
 | 32  | BO Flow detail panel + preview | Todo   | 28, 31     |
 | 33  | V4 Player check + test         | Todo   | 30, 32     |
 
-V4 order: rules, engine, and validator first (27–29), then convert the current story (30), then the BO Flow editor (31–32), then Player check (33). Requirements source: `docs/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
+V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). Requirements source: `docs/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
 ## Open decisions
 
@@ -31,21 +30,6 @@ Resolved choices are recorded in `docs/DECISIONS.md`.
 
 Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](COMPLETE-LOG.md).
 
-## 28. V4 flow engine + save
-
-**Status:** Todo
-
-- Progress by following edges instead of selecting events by kind and period.
-- Choice → apply effects and flags → follow the choice's edge.
-- Condition → evaluate current state and pick pass/fail.
-- Random → roll from eligible pool events with the game seed; record the result so a refresh restores the same path.
-- Next Period → advance time, apply effects due on entry, and run the program review where required.
-- Ending → show the ending and life summary.
-- Save stores the current node; reset save/content versions without migration.
-- Engine trace for preview: path taken, state, and why each condition passed or failed.
-
-**Done when:** focused tests cover each node type, merging paths, seeded random restore after refresh, program review, and a full run to each ending.
-
 ## 29. Flow validator
 
 **Status:** Todo
@@ -56,14 +40,16 @@ Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](C
 
 **Done when:** focused tests cover each error and warning.
 
-## 30. Content conversion to flow
+## 30. Converted flow review
 
 **Status:** Todo
 
-- Convert the current 38 events into a flow that keeps today's story order, branches, random events, program/elective events, and endings.
-- One-time conversion; the author reviews the result in BO.
+The one-time conversion moved into Step 28 so the game and tests keep working. This step is the author's review of the converted story on the BO Flow board.
 
-**Done when:** the converted flow passes validation and a full run reaches each ending.
+- Review the converted order, conditional edges, random pools, Next Period nodes, and graduation endings on the board.
+- Rearrange cards with auto layout; adjust edges where the mechanical conversion does not match the intended story.
+
+**Done when:** the author accepts the converted flow in BO.
 
 ## 31. BO Flow board
 
@@ -83,7 +69,9 @@ Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](C
 **Status:** Todo
 
 - Right panel: details for the selected card or edge (reuse the event form; forms for Condition, Random, Next Period, Ending, and edge conditions).
+- Engine trace for preview: path taken, state, and why each condition passed or failed (moved from Step 28).
 - Preview highlights the real path with current state and condition pass/fail reasons.
+- Preview of an event not yet placed on the board ends with a "No path" message today; give it a clear Thai message.
 
 **Done when:** the selected card or edge can be edited from the panel and Preview shows the highlighted path with reasons.
 

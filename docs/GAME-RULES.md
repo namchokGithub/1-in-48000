@@ -86,7 +86,7 @@ The store writes localStorage checkpoints after starting and resolving a decisio
 
 ## Story flow contract (Step 27)
 
-Step 27 adds the V4 flow schema in `src/content/v2/flow.ts`. The engine still uses the selection rules above until Step 28 switches progression to the flow.
+The flow schema lives in `src/content/v2/schema.ts` with the other content schemas, and the flow data in `public/content-v2/flow.json`. Since Step 28 the engine follows the flow; the selection by kind and period, `goToEvent`, `selection.goToEventId`, `config.startingEventId`, and ending conditions described in earlier sections no longer apply. An event's `kind`, `year`, and `period` remain as BO labels for search and filtering. The run's time starts at `config.startingTime` and changes only at Next Period nodes. Save v1 records `currentNodeId` beside `currentEventId`; while a pool event plays, `currentNodeId` is the Random node.
 
 A flow has `nodes` and `edges`. Every node has an `id` and a BO card `position`. Node types and their output ports:
 
@@ -103,6 +103,6 @@ An edge has an `id`, a source node and port (`from`, `port`), a target node (`to
 
 Events may carry a `pool` tag. A Random node rolls among active events with its pool tag whose event conditions hold. Pool events are not placed on the board; after a pool event the run continues on the Random node's `after` edge, or on `fallback` when no pool event qualifies. Each non-pool event is placed on the board at most once; several paths may merge into it.
 
-A Next Period node advances time. When it leaves the summer of a program review year, the engine runs the study review and follows `graduate` or `extend`; otherwise it follows `next`. Failure at Year 8 still selects `dismissal`.
+A Next Period node advances time by one period and applies effects due on entry. When it leaves the summer of a program review year, the engine runs the study review first: a pass follows `graduate` without advancing time, a failure advances to the next year and follows `extend`, and a failure at Year 8 ends the run with `dismissal`. Otherwise it follows `next`. An Ending node ends the run with its ending. Event `conditions` decide Random pool eligibility only; placed events are guarded by edge conditions or Condition nodes. Program and elective selection, multi-select limits, chance rolls, and delayed effects work as described above. The Start edge must lead to the faculty and major event.
 
 `checkV2FlowReferences(flow, content)` reports unknown or inactive events, events placed twice, pool events on the board, unknown endings and pools, and event ports that do not match the event's choices or selection type. Reachability, unconnected choices, and loop checks follow in Step 29.

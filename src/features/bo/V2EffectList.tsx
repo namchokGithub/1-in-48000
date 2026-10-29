@@ -20,8 +20,6 @@ function makeEffect(type: Effect['type'], eventIds: string[]): Effect {
       return makeStateEffect(type)
     case 'setFlag':
       return makeStateEffect(type)
-    case 'goToEvent':
-      return { type, eventId: eventIds[0] ?? 'new_event' }
     case 'schedule':
       return {
         type,
@@ -176,12 +174,10 @@ export function V2EffectList({
   value,
   onChange,
   eventIds,
-  allowGoToEvent = true,
 }: {
   value: Effect[]
   onChange: (next: Effect[]) => void
   eventIds: string[]
-  allowGoToEvent?: boolean
 }) {
   const [expanded, setExpanded] = useState<number | null>(0)
   const replace = (index: number, effect: Effect) =>
@@ -249,9 +245,6 @@ export function V2EffectList({
                 >
                   <option value="statDelta">เปลี่ยนค่าสถานะ</option>
                   <option value="setFlag">ตั้ง Flag</option>
-                  <option value="goToEvent" disabled={!allowGoToEvent}>
-                    ไปเหตุการณ์
-                  </option>
                   <option value="schedule">เกิดภายหลัง</option>
                   <option value="chance">สุ่มโอกาส</option>
                 </BoDropdown>
@@ -261,28 +254,6 @@ export function V2EffectList({
                   effect={effect}
                   onChange={(next) => replace(index, next)}
                 />
-              )}
-              {effect.type === 'goToEvent' && (
-                <label className="bo-field">
-                  <span>Event ID ปลายทาง</span>
-                  <input
-                    className="field"
-                    value={effect.eventId}
-                    aria-invalid={
-                      !v2StoryIdSchema.safeParse(effect.eventId).success ||
-                      !eventIds.includes(effect.eventId)
-                    }
-                    onChange={(event) =>
-                      replace(index, { ...effect, eventId: event.target.value })
-                    }
-                  />
-                  {(!v2StoryIdSchema.safeParse(effect.eventId).success ||
-                    !eventIds.includes(effect.eventId)) && (
-                    <small className="bo-field-error">
-                      ไม่พบ Event ID ปลายทาง
-                    </small>
-                  )}
-                </label>
               )}
               {effect.type === 'schedule' && (
                 <details open className="bo-nested">

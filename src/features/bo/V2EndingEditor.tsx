@@ -1,18 +1,13 @@
 import type { V2Content } from '../../content/v2/schema'
-import { V2ConditionList } from './V2ConditionList'
 
 type Ending = V2Content['endings'][number]
 
 export function V2EndingEditor({
   ending,
-  eventIds,
-  catalogs,
   onChange,
   onDelete,
 }: {
   ending: Ending
-  eventIds: string[]
-  catalogs: Pick<V2Content, 'faculties' | 'majors' | 'electives'>
   onChange: (next: Ending) => void
   onDelete: () => void
 }) {
@@ -67,15 +62,6 @@ export function V2EndingEditor({
           }
         />
       </label>
-      <section className="bo-editor-section">
-        <h3>เงื่อนไขตอนจบ</h3>
-        <V2ConditionList
-          value={ending.conditions}
-          eventIds={eventIds}
-          catalogs={catalogs}
-          onChange={(conditions) => onChange({ ...ending, conditions })}
-        />
-      </section>
     </div>
   )
 }

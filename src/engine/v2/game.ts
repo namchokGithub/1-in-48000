@@ -25,6 +25,7 @@ export type V2GameContent = Pick<
   | 'faculties'
   | 'majors'
   | 'electives'
+  | 'flow'
 >
 
 export function pickV2StartOption<T>(options: readonly T[], roll: number): T {
@@ -109,10 +110,8 @@ export function createV2Game(
     (item) => item.id === backgroundId,
   )
   if (!background) throw new Error(`Unknown background: ${backgroundId}`)
-  const start = findEvent(content, content.config.startingEventId)
-  if (compareTime(start.time, content.config.startingTime) !== 0) {
-    throw new Error('Starting event time does not match config')
-  }
+  const start = content.flow.nodes.find((node) => node.type === 'start')
+  if (!start) throw new Error('Flow has no Start node')
   const stats = {} as V2Stats
   for (const stat of Object.keys(
     content.config.initialStats,
@@ -134,7 +133,8 @@ export function createV2Game(
     majorId: null,
     electiveId: null,
     currentTime: { ...content.config.startingTime },
-    currentEventId: start.id,
+    currentNodeId: start.id,
+    currentEventId: null,
     endingId: null,
     stats,
     flags: {},
@@ -143,9 +143,7 @@ export function createV2Game(
     rngSeed,
     rngState: nameRoll.nextState,
   })
-  if (!matches(start.conditions, save)) {
-    throw new Error('Starting event conditions do not hold')
-  }
+  enterNode(content, save, follow(content, save, start.id, 'next'))
   return save
 }
 
@@ -201,135 +199,125 @@ function nextTime(time: V2Time): V2Time | null {
   return time.year === 8 ? null : { year: time.year + 1, period: 'term1' }
 }
 
-function resolveEnding(
-  content: V2GameContent,
-  save: V2PlayerSave,
-  id?: string,
-): void {
-  const ending = id
-    ? content.endings.find((item) => item.id === id)
-    : content.endings.find(
-        (item) => item.id !== 'dismissal' && matches(item.conditions, save),
-      )
-  if (!ending)
-    throw new Error(id ? `Unknown ending: ${id}` : 'No ending matches this run')
+function endRun(save: V2PlayerSave, endingId: string): void {
+  save.currentNodeId = null
   save.currentEventId = null
-  save.endingId = ending.id
+  save.endingId = endingId
 }
 
-function reviewStudy(content: V2GameContent, save: V2PlayerSave): boolean {
+function reviewStudy(
+  content: V2GameContent,
+  save: V2PlayerSave,
+): 'graduate' | 'extend' | 'dismiss' | null {
   const programYears =
     content.majors.find((major) => major.id === save.majorId)?.programYears ?? 4
-  if (
-    save.currentTime.period !== 'summer' ||
-    (save.currentTime.year !== programYears &&
-      save.currentTime.year !== 6 &&
-      save.currentTime.year !== 8)
-  ) {
-    return false
-  }
-  if (save.currentTime.year === 4 && programYears === 6) return false
+  const { year, period } = save.currentTime
+  if (period !== 'summer' || year < programYears || year % 2 !== 0) return null
   const score = save.stats.study - Math.max(save.stats.stress, 0) / 10
-  if (score >= 60) {
-    resolveEnding(content, save)
-    return true
-  }
-  if (save.currentTime.year === 8) {
-    resolveEnding(content, save, 'dismissal')
-    return true
-  }
-  return false
+  if (score >= 60) return 'graduate'
+  return year === 8 ? 'dismiss' : 'extend'
 }
 
-function moveToTime(
+function advancePeriod(save: V2PlayerSave): void {
+  const next = nextTime(save.currentTime)
+  if (!next) throw new Error('Cannot move past year 8')
+  save.currentTime = next
+  applyPending(
+    save,
+    (pending) =>
+      pending.trigger.type === 'atPeriod' &&
+      compareTime(pending.trigger.time, next) === 0,
+  )
+}
+
+function follow(
   content: V2GameContent,
   save: V2PlayerSave,
-  target: V2Time,
-): boolean {
-  if (compareTime(target, save.currentTime) < 0) {
-    throw new Error('Cannot move to a past period')
-  }
-  while (compareTime(save.currentTime, target) < 0) {
-    if (reviewStudy(content, save)) return false
-    const next = nextTime(save.currentTime)
-    if (!next) throw new Error('Cannot move past year 8')
-    save.currentTime = next
-    applyPending(
-      save,
-      (pending) =>
-        pending.trigger.type === 'atPeriod' &&
-        compareTime(pending.trigger.time, next) === 0,
-    )
-  }
-  return true
+  nodeId: string,
+  port: string,
+): string {
+  const edge = content.flow.edges.find(
+    (item) =>
+      item.from === nodeId &&
+      item.port === port &&
+      (!item.condition || matches([item.condition], save)),
+  )
+  if (!edge) throw new Error(`No path from ${nodeId} (${port})`)
+  return edge.to
 }
 
-function pickAtCurrentTime(
+const MAX_FLOW_STEPS = 10_000
+
+function enterNode(
   content: V2GameContent,
   save: V2PlayerSave,
-): V2Event | null {
-  const visited = new Set(save.history.map((entry) => entry.eventId))
-  const eligible = content.events.filter(
-    (event) =>
-      event.active !== false &&
-      compareTime(event.time, save.currentTime) === 0 &&
-      !visited.has(event.id) &&
-      matches(event.conditions, save),
-  )
-  for (const kind of ['main', 'holiday', 'conditional'] as const) {
-    const found = eligible.find((event) => event.kind === kind)
-    if (found) return found
-  }
-  const randomPlayed = content.events.some(
-    (event) =>
-      event.kind === 'random' &&
-      compareTime(event.time, save.currentTime) === 0 &&
-      visited.has(event.id),
-  )
-  if (randomPlayed) return null
-  const random = eligible.filter((event) => event.kind === 'random')
-  if (!random.length) return null
-  const roll = rollIndex(save.rngState, random.length)
-  save.rngState = roll.nextState
-  return random[roll.index]
-}
-
-function selectNext(content: V2GameContent, save: V2PlayerSave): void {
-  while (true) {
-    const event = pickAtCurrentTime(content, save)
-    if (event) {
-      save.currentEventId = event.id
-      return
+  firstNodeId: string,
+): void {
+  let nodeId = firstNodeId
+  for (let step = 0; step < MAX_FLOW_STEPS; step += 1) {
+    const node = content.flow.nodes.find((item) => item.id === nodeId)
+    if (!node) throw new Error(`Unknown node: ${nodeId}`)
+    switch (node.type) {
+      case 'start':
+        throw new Error('Flow cannot return to Start')
+      case 'event':
+        save.currentNodeId = node.id
+        save.currentEventId = findEvent(content, node.eventId).id
+        return
+      case 'condition': {
+        const passed =
+          node.join === 'and'
+            ? matches(node.conditions, save)
+            : node.conditions.some((condition) => matches([condition], save))
+        nodeId = follow(content, save, node.id, passed ? 'pass' : 'fail')
+        break
+      }
+      case 'random': {
+        const visited = new Set(save.history.map((entry) => entry.eventId))
+        const pool = content.events.filter(
+          (event) =>
+            event.pool === node.poolId &&
+            event.active !== false &&
+            !visited.has(event.id) &&
+            matches(event.conditions, save),
+        )
+        if (!pool.length) {
+          nodeId = follow(content, save, node.id, 'fallback')
+          break
+        }
+        const roll = rollIndex(save.rngState, pool.length)
+        save.rngState = roll.nextState
+        save.currentNodeId = node.id
+        save.currentEventId = pool[roll.index].id
+        return
+      }
+      case 'nextPeriod': {
+        const review = reviewStudy(content, save)
+        if (review === 'dismiss') {
+          endRun(save, 'dismissal')
+          return
+        }
+        if (review !== 'graduate') advancePeriod(save)
+        nodeId = follow(content, save, node.id, review ?? 'next')
+        break
+      }
+      case 'ending':
+        endRun(save, node.endingId)
+        return
     }
-    const early = content.endings.find(
-      (ending) =>
-        ending.id !== 'dismissal' &&
-        ending.conditions.some(
-          (condition) => condition.type === 'flag' && condition.value === true,
-        ) &&
-        matches(ending.conditions, save),
-    )
-    if (early) {
-      resolveEnding(content, save, early.id)
-      return
-    }
-    if (reviewStudy(content, save)) return
-    const next = nextTime(save.currentTime)
-    if (!next) throw new Error('No ending after year 8')
-    moveToTime(content, save, next)
   }
+  throw new Error('Flow did not reach an event or ending')
 }
 
 function resolveChoices(
   content: V2GameContent,
   previous: V2PlayerSave,
   choices: V2Choice[],
-  eventLink?: string,
 ): V2PlayerSave {
   if (previous.contentVersion !== content.config.contentVersion) {
     throw new Error('Content version mismatch')
   }
-  if (previous.endingId || !previous.currentEventId)
+  if (previous.endingId || !previous.currentEventId || !previous.currentNodeId)
     throw new Error('The game has ended')
   const event = findEvent(content, previous.currentEventId)
   if (!choices.length) throw new Error('No choices selected')
@@ -347,7 +335,6 @@ function resolveChoices(
     history: [...previous.history, entry],
     pendingEffects: [...previous.pendingEffects],
   }
-  let nextEventId: string | null = eventLink ?? null
   choices
     .flatMap((choice) => choice.effects)
     .forEach((effect, effectIndex) => {
@@ -371,8 +358,6 @@ function resolveChoices(
           trigger,
           effect: effect.effect,
         })
-      } else if (effect.type === 'goToEvent') {
-        nextEventId = effect.eventId
       } else if (effect.type === 'chance') {
         const effectivePercent = getV2EffectiveChancePercent(
           effect.successPercent,
@@ -397,19 +382,12 @@ function resolveChoices(
       pending.trigger.type === 'afterEvent' &&
       pending.trigger.eventId === event.id,
   )
-  if (nextEventId) {
-    const next = findEvent(content, nextEventId)
-    if (save.history.some((item) => item.eventId === next.id)) {
-      throw new Error(`Event already visited: ${next.id}`)
-    }
-    if (!moveToTime(content, save, next.time)) return save
-    if (!matches(next.conditions, save)) {
-      throw new Error(`Event conditions do not hold: ${next.id}`)
-    }
-    save.currentEventId = next.id
-  } else {
-    selectNext(content, save)
-  }
+  const node = content.flow.nodes.find(
+    (item) => item.id === previous.currentNodeId,
+  )
+  const port =
+    node?.type === 'random' ? 'after' : event.selection ? 'next' : choices[0].id
+  enterNode(content, save, follow(content, save, previous.currentNodeId, port))
   return save
 }
 
@@ -449,7 +427,7 @@ export function chooseV2Many(
   const choices = available.filter((choice) => ids.has(choice.id))
   if (choices.length !== ids.size)
     throw new Error('Unavailable choice selected')
-  return resolveChoices(content, previous, choices, selection.goToEventId)
+  return resolveChoices(content, previous, choices)
 }
 
 export function chooseV2Program(
@@ -488,7 +466,7 @@ export function chooseV2Elective(
   electiveId: string,
 ): V2PlayerSave {
   const event = findEvent(content, previous.currentEventId ?? '')
-  if (event.selection?.type !== 'elective' || event.time.year !== 3) {
+  if (event.selection?.type !== 'elective' || previous.currentTime.year !== 3) {
     throw new Error('Not a Year 3 elective event')
   }
   const elective = content.electives.find((item) => item.id === electiveId)

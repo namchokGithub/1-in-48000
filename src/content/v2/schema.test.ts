@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import names from '../../../public/content-v2/names.json'
-import sample from './sample-content.json'
+import sampleContent from './sample-content.json'
+import sampleFlow from './sample-flow.json'
 import {
   v2ContentSchema,
   v2EventSchema,
@@ -8,6 +9,8 @@ import {
   v2StatsSchema,
   v2TimeSchema,
 } from './schema'
+
+const sample = { ...sampleContent, flow: sampleFlow }
 
 describe('V2 content contract', () => {
   it('accepts the isolated sample with debt, chance, and default names', () => {
@@ -59,14 +62,15 @@ describe('V2 content contract', () => {
     ).toBe(true)
   })
 
-  it('allows inactive stories but rejects links to them', () => {
+  it('allows inactive stories off the board but rejects placed ones', () => {
     const content = v2ContentSchema.parse({ ...sample, names })
-    content.events[1].active = false
-    expect(v2ContentSchema.safeParse(content).success).toBe(true)
-    content.events[0].choices[0].effects.push({
-      type: 'goToEvent',
-      eventId: content.events[1].id,
+    content.events.push({
+      ...content.events[0],
+      id: 'draft_story',
+      active: false,
     })
+    expect(v2ContentSchema.safeParse(content).success).toBe(true)
+    content.events[1].active = false
     expect(v2ContentSchema.safeParse(content).success).toBe(false)
   })
 
@@ -135,7 +139,12 @@ describe('V2 content contract', () => {
       v2ContentSchema.safeParse({
         ...sample,
         names,
-        config: { ...sample.config, startingEventId: 'missing_event' },
+        flow: {
+          ...sample.flow,
+          edges: sample.flow.edges.map((edge) =>
+            edge.from === 'start' ? { ...edge, to: 'n_student_loan' } : edge,
+          ),
+        },
       }).success,
     ).toBe(false)
     expect(
@@ -165,28 +174,18 @@ describe('V2 content contract', () => {
     })
   })
 
-  it('rejects invalid multi-select limits and choice-level story links', () => {
+  it('rejects invalid multi-select limits and removed story link fields', () => {
     const event = sample.events[1]
     expect(
       v2EventSchema.safeParse({
         ...event,
-        selection: {
-          type: 'multiple',
-          min: 3,
-          max: 2,
-          goToEventId: 'lottery_ticket',
-        },
+        selection: { type: 'multiple', min: 3, max: 2 },
       }).success,
     ).toBe(false)
     expect(
       v2EventSchema.safeParse({
         ...event,
-        selection: {
-          type: 'multiple',
-          min: 1,
-          max: 4,
-          goToEventId: 'lottery_ticket',
-        },
+        selection: { type: 'multiple', min: 1, max: 4 },
       }).success,
     ).toBe(false)
     expect(
@@ -199,25 +198,6 @@ describe('V2 content contract', () => {
           },
           ...event.choices.slice(1),
         ],
-      }).success,
-    ).toBe(false)
-    expect(
-      v2ContentSchema.safeParse({
-        ...sample,
-        names,
-        events: sample.events.map((item, index) =>
-          index === 1
-            ? {
-                ...item,
-                selection: {
-                  type: 'multiple',
-                  min: 1,
-                  max: 2,
-                  goToEventId: 'missing_event',
-                },
-              }
-            : item,
-        ),
       }).success,
     ).toBe(false)
   })

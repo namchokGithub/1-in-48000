@@ -614,13 +614,7 @@
     "title": "หลังสอบกับมะลิ",
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
-    "conditions": [
-      {
-        "type": "flag",
-        "flagId": "met_mali",
-        "value": true
-      }
-    ],
+    "conditions": [],
     "lines": [
       {
         "text": "มะลิเดินมานั่งข้าง ๆ ใต้ร่มไม้ หลังสอบเสร็จทั้งคู่เงียบไปพักหนึ่ง"
@@ -672,13 +666,7 @@
     "title": "ข้อความจากชมรม",
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
-    "conditions": [
-      {
-        "type": "flag",
-        "flagId": "joined_club",
-        "value": true
-      }
-    ],
+    "conditions": [],
     "lines": [
       {
         "text": "ชมรมส่งข้อความชวนไปช่วยงานเล็ก ๆ หลังสอบ"
@@ -722,6 +710,7 @@
   {
     "id": "lost_student_card",
     "kind": "random",
+    "pool": "y1_term1_life",
     "time": {
       "year": 1,
       "period": "term1"
@@ -773,6 +762,7 @@
   {
     "id": "quiet_courtyard",
     "kind": "random",
+    "pool": "y1_term1_life",
     "time": {
       "year": 1,
       "period": "term1"
@@ -990,14 +980,7 @@
     "title": "ประกาศทุนฉุกเฉิน",
     "sceneAssetId": "campus_library",
     "bgmAssetId": "kanto_daydream",
-    "conditions": [
-      {
-        "type": "stat",
-        "stat": "money",
-        "operator": "lt",
-        "value": 1000
-      }
-    ],
+    "conditions": [],
     "lines": [
       {
         "text": "บอร์ดหน้าอาคารมีประกาศช่วยค่าใช้จ่ายสำหรับคนที่เงินเริ่มตึง"
@@ -1168,8 +1151,7 @@
     "selection": {
       "type": "multiple",
       "min": 2,
-      "max": 2,
-      "goToEventId": "course_choice"
+      "max": 2
     },
     "conditions": [],
     "lines": [
@@ -1340,13 +1322,7 @@
     "title": "งานเล็กของชมรม",
     "sceneAssetId": "campus_orientation",
     "bgmAssetId": "kanto_daydream",
-    "conditions": [
-      {
-        "type": "flag",
-        "flagId": "joined_club",
-        "value": true
-      }
-    ],
+    "conditions": [],
     "lines": [
       {
         "text": "คนในชมรมชวนจัดกิจกรรมให้รุ่นน้องหลังส่งงานกลุ่ม"
@@ -1697,13 +1673,7 @@
     "title": "ข้อเสนอแนะที่ไม่ง่าย",
     "sceneAssetId": "campus_library",
     "bgmAssetId": "kanto_daydream",
-    "conditions": [
-      {
-        "type": "flag",
-        "flagId": "asked_mentor",
-        "value": true
-      }
-    ],
+    "conditions": [],
     "lines": [
       {
         "text": "อาจารย์ส่งข้อเสนอแนะกลับมา มีทั้งจุดที่ดีและส่วนที่ต้องรื้อ"
@@ -2166,7 +2136,7 @@
         "id": "confirm_program",
         "text": "ไปต่อ",
         "conditions": [],
-        "effects": [{ "type": "goToEvent", "eventId": "orientation" }]
+        "effects": []
       }
     ]
   },

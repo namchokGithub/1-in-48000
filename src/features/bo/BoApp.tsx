@@ -293,7 +293,6 @@ export function BoApp() {
       ),
       title: 'ตอนจบใหม่',
       summary: 'เขียนเรื่องสรุป',
-      conditions: [{ type: 'flag', flagId: 'new_ending_ready', value: true }],
     }
     setEndingIndex(currentDraft.endings.length)
     setDraft({ ...currentDraft, endings: [...currentDraft.endings, newEnding] })
@@ -763,8 +762,6 @@ export function BoApp() {
               ) : ending ? (
                 <V2EndingEditor
                   ending={ending}
-                  catalogs={draft}
-                  eventIds={eventIds}
                   onChange={updateEnding}
                   onDelete={() =>
                     setConfirmation({

@@ -115,3 +115,9 @@ Replace event selection by kind and period with a story flow graph. The run foll
 ## 2026-10-29 — Flow edge order, pool placement, and Next Period ports
 
 Several edges may leave the same port, each with at most one simple condition; the engine follows the first in file order whose condition holds, so an unconditional edge is the port's fallback. This keeps simple branching on edges without a Condition node. Pool events are never placed on the board, so a Random node owns the path back into the main story through its `after` edge. Each Next Period node has `next`, `graduate`, and `extend` ports. The engine chooses `graduate` or `extend` only when the node leaves a review year's summer for the run's program; otherwise it follows `next`. One node type can then serve both 4-year and 6-year programs at the same point in the story.
+
+## 2026-10-29 — Flow engine, story conversion, and ending choice
+
+Convert the current story to `flow.json` in the same step as the flow engine, so the Player, BO writer, and tests keep working; the author reviews the converted flow on the board later. The conversion keeps the old selection order: each period's main and holiday events in file order, then conditional events as conditional edges, then one Random node per period that had random events, then a Next Period node.
+
+The Ending node now decides the ending. Ending `conditions` were removed; the graduation choice between academic, community, and general endings became two Condition nodes after the review's `graduate` port. This also lets a student graduate after an extended Year 6 or Year 8, which the old `year = 4` ending conditions did not allow. An event's own `conditions` decide Random pool eligibility only; edges carry the conditions for placed events. The converted conditional events moved their single condition to the incoming edges. `config.startingEventId` was removed because the Start node's edge sets the opening event.
