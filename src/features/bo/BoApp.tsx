@@ -33,8 +33,11 @@ import { ListSearch } from './ListSearch'
 import { useCloseMenus } from './useCloseMenus'
 import { periodLabels } from './periodLabels'
 import { filterOptionIndexes } from './dropdownFilter'
+import { FlagIdOptions, FlagList } from './FlagList'
+import { flagUsage } from './flagUsage'
 
-type Section = 'events' | 'flow' | 'endings' | DataSection | CatalogSection
+type Section =
+  'events' | 'flow' | 'endings' | 'flags' | DataSection | CatalogSection
 type EditableFile =
   'events' | 'flow' | 'endings' | 'characters' | 'assets' | CatalogSection
 type ValidationIssue = { path: string; message: string }
@@ -44,6 +47,7 @@ function sectionFromUrl(): Section {
   if (
     tab === 'events' ||
     tab === 'endings' ||
+    tab === 'flags' ||
     tab === 'speakers' ||
     tab === 'backgrounds' ||
     tab === 'portraits' ||
@@ -58,7 +62,8 @@ function sectionFromUrl(): Section {
   return 'flow'
 }
 
-function sectionFile(section: Section): EditableFile {
+function sectionFile(section: Section): EditableFile | null {
+  if (section === 'flags') return null
   if (section === 'speakers') return 'characters'
   if (
     section === 'backgrounds' ||
@@ -295,12 +300,16 @@ export function BoApp() {
     names: dirtyNames,
   }
   const file = sectionFile(section)
-  const dirty = section === 'flow' ? dirtyEvents || dirtyFlow : dirtyFiles[file]
+  const dirty =
+    section === 'flow'
+      ? dirtyEvents || dirtyFlow
+      : file !== null && dirtyFiles[file]
   const dirtyAny = Object.values(dirtyFiles).some(Boolean)
   const sectionLabels: Record<Section, string> = {
     events: 'เหตุการณ์',
     flow: 'Flow เรื่อง',
     endings: 'ตอนจบ',
+    flags: 'ตัวแปร (Flag)',
     backgrounds: 'ภาพฉาก',
     speakers: 'ตัวละคร (NPC)',
     names: 'ชื่อผู้เล่น',
@@ -325,6 +334,11 @@ export function BoApp() {
           section: 'endings',
           count: draft.endings.length,
           dirty: dirtyEndings,
+        },
+        {
+          section: 'flags',
+          count: flagUsage(draft).length,
+          dirty: false,
         },
       ],
     },
@@ -695,14 +709,16 @@ export function BoApp() {
               >
                 ทดลองเหตุการณ์
               </button>
-              <button
-                type="button"
-                className="button button-primary"
-                disabled={!dirty || saving}
-                onClick={() => saveFile(file)}
-              >
-                {saving ? 'กำลังบันทึก…' : `บันทึก ${sectionLabels[section]}`}
-              </button>
+              {file && (
+                <button
+                  type="button"
+                  className="button button-primary"
+                  disabled={!dirty || saving}
+                  onClick={() => saveFile(file)}
+                >
+                  {saving ? 'กำลังบันทึก…' : `บันทึก ${sectionLabels[section]}`}
+                </button>
+              )}
             </div>
           </div>
         </header>
@@ -748,10 +764,13 @@ export function BoApp() {
             </ul>
           </section>
         )}
-        {section === 'speakers' ||
-        section === 'backgrounds' ||
-        section === 'portraits' ||
-        section === 'sounds' ? (
+        <FlagIdOptions content={draft} />
+        {section === 'flags' ? (
+          <FlagList content={draft} onGo={goToIssue} />
+        ) : section === 'speakers' ||
+          section === 'backgrounds' ||
+          section === 'portraits' ||
+          section === 'sounds' ? (
           <DataEditor
             key={`${section}-${issueJump?.seq ?? 0}`}
             section={section}

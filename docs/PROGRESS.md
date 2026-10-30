@@ -10,12 +10,11 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
-Steps 37–38 were accepted by the author on 2026-10-30.
+Steps 37–39 were accepted by the author on 2026-10-30.
 
 | #   | Step                               | Status      | Depends on |
 | --- | ---------------------------------- | ----------- | ---------- |
-| 39  | Player bug fixes                   | In progress | —          |
-| 40  | BO and content for local feedback  | Todo        | 39         |
+| 40  | BO and content for local feedback  | In progress | —          |
 | 41  | Player features for local feedback | Todo        | 40         |
 
 Local feedback order (source: `docs/LOCAL.md`): fix the two Player bugs first (39), then the content schema, engine, and BO work (40), then the Player screens that show it (41). Loan rules for 40.3 are below.
@@ -84,7 +83,7 @@ Source: `docs/legacy/PLAY_UXUI_DESIGN.md`.
 
 ## 39. Player bug fixes
 
-**Status:** In progress
+**Status:** Done — accepted by the author on 2026-10-30
 
 Source: `docs/LOCAL.md`.
 
@@ -93,11 +92,11 @@ Source: `docs/LOCAL.md`.
 
 **Done when:** a six-year major shows a Year 6 goal, and the music toggle fades both ways.
 
-2026-10-30: Implemented, waiting for the author's check. `getV2GoalYear` in the engine follows the study review years, and the audio controller fades to a new volume instead of setting it, so the settings effect no longer cuts the fade-in.
+2026-10-30: Implemented and accepted by the author. `getV2GoalYear` in the engine follows the study review years, and the audio controller fades to a new volume instead of setting it, so the settings effect no longer cuts the fade-in.
 
 ## 40. BO and content for local feedback
 
-**Status:** Todo
+**Status:** In progress
 
 Each item adds the Zod schema, engine handling where needed, BO support, and focused tests.
 
@@ -109,6 +108,8 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 - 40.6 Year summary data: the save keeps the stats at the start of the current year, so the Player can show what changed. No old-save migration (see Architecture Rules).
 
 **Done when:** the author can set each of these in BO, the content validates, and the BO preview plays them through the shared engine.
+
+2026-10-30: 40.1 implemented, waiting for the author's check. `flagUsage` collects where each flag is set (choice effects including scheduled and chance results, elective effects) and checked (event, choice, Condition card, and edge conditions); the read-only tab links each place and marks flags that are checked but never set, or set but never checked. Flag ID fields suggest known flags through one shared `datalist`.
 
 ## 41. Player features for local feedback
 

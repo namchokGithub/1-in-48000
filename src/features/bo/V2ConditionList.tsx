@@ -157,6 +157,7 @@ export function V2ConditionList({
                 <input
                   className="field bo-medium-field"
                   aria-label="Flag ID"
+                  list="bo-flag-ids"
                   aria-invalid={!v2IdSchema.safeParse(condition.flagId).success}
                   value={condition.flagId}
                   onChange={(event) =>

@@ -103,6 +103,7 @@ function StateEffectEditor({
             <span>Flag ID</span>
             <input
               className="field"
+              list="bo-flag-ids"
               value={effect.flagId}
               aria-invalid={!v2IdSchema.safeParse(effect.flagId).success}
               onChange={(event) =>
