@@ -7,6 +7,13 @@ import {
 
 const idSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/)
 const uint32Schema = z.int().min(0).max(4_294_967_295)
+const yearProgressSchema = z.object({
+  year: z.int().min(1).max(8),
+  startStats: v2StatsSchema,
+  moneyIn: z.int().min(0),
+  moneyOut: z.int().min(0),
+})
+
 const savedTriggerSchema = z.discriminatedUnion('type', [
   z.object({ type: z.literal('atPeriod'), time: v2TimeSchema }),
   z.object({ type: z.literal('afterEvent'), eventId: idSchema }),
@@ -51,6 +58,11 @@ export const v2PlayerSaveSchema = z.object({
       effect: v2StateEffectSchema,
     }),
   ),
+  // The running year and the last finished one, for the Player's year summary.
+  yearProgress: yearProgressSchema,
+  finishedYear: yearProgressSchema
+    .extend({ endStats: v2StatsSchema })
+    .nullable(),
   rngSeed: uint32Schema,
   rngState: uint32Schema,
 })

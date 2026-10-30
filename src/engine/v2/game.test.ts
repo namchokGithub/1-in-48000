@@ -273,6 +273,56 @@ describe('V4 flow engine', () => {
     )
   })
 
+  it('keeps the stats and money flow of the running and the finished year', () => {
+    const content = game(
+      [
+        event('summer_job', [
+          { type: 'statDelta', stat: 'money', amount: 200 },
+          { type: 'statDelta', stat: 'money', amount: -50 },
+          { type: 'statDelta', stat: 'study', amount: 5 },
+        ]),
+        event('new_year'),
+      ],
+      [
+        eventNode('summer_job'),
+        { id: 'next_period', type: 'nextPeriod', position: at },
+        eventNode('new_year'),
+        ending('study_complete'),
+      ],
+      [
+        edge('summer_job', 'continue_story', 'next_period'),
+        edge('next_period', 'next', 'new_year'),
+        edge('new_year', 'continue_story', 'end_study_complete'),
+      ],
+      { stats: { money: -1000 }, startingTime: { year: 1, period: 'summer' } },
+    )
+    const save = createV2Game(content, 1)
+    expect(save.yearProgress).toEqual({
+      year: 1,
+      startStats: save.stats,
+      moneyIn: 0,
+      moneyOut: 0,
+    })
+    expect(save.finishedYear).toBeNull()
+
+    const next = chooseV2(content, save, 'continue_story')
+    // −850 after the job, then 850 × 15% × 95 days ÷ 36,500 = 33 interest.
+    const endStats = { ...save.stats, money: -883, study: save.stats.study + 5 }
+    expect(next.finishedYear).toEqual({
+      year: 1,
+      startStats: save.stats,
+      endStats,
+      moneyIn: 200,
+      moneyOut: 83,
+    })
+    expect(next.yearProgress).toEqual({
+      year: 2,
+      startStats: endStats,
+      moneyIn: 0,
+      moneyOut: 0,
+    })
+  })
+
   it('starts at the first event linked from Start', () => {
     const content = single([event('first'), event('second')])
     const save = createV2Game(content, 1)

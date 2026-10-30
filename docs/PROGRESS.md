@@ -110,6 +110,8 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 2026-10-30: 40.5 implemented, waiting for the author's check, with the portrait part of 41.2. Events get an optional `hidePlayer`; `scenePortraits` places the speaker left and the player right, and drops a speaker picture that is the player's own. BO sets it next to the outfit. The scene fade-in in 41.2 is still open.
 
+2026-10-30: 40.6 implemented, waiting for the author's check. The save keeps `yearProgress` and `finishedYear` (stats at the start and end of the year, money in and out including interest); old checkpoints fail validation and start fresh. The Player screen for it is 41.6.
+
 ## 41. Player features for local feedback
 
 **Status:** Todo

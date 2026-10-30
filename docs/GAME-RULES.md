@@ -35,6 +35,8 @@ A choice may carry an optional `recap`, written by the author. The next event sh
 
 The scene shows the line's speaker (an NPC, or the narrator for a line without one) on the left and the player, in the event's outfit, on the right. An event can hide the player with `hidePlayer: true`. Either picture alone keeps its side, and a line that already shows the player's own picture is not drawn twice.
 
+For the year summary, the save keeps `yearProgress` (the running year, its stats at the start, and money in and out, including loan interest) and `finishedYear` (the same for the last finished year, plus its stats at the end). Entering Year N + 1 at a Next Period moves the running year into `finishedYear` after that period's interest is charged. Events of a year come from the choice history. A checkpoint written before these fields fails validation and the Player starts fresh; no migration is kept (see Architecture Rules).
+
 Every event has at least one line and one choice. A choice may have no effects when it only changes dialogue. The event kinds are `main`, `conditional`, `holiday`, and `random`. Event selection and condition evaluation belong to Step 3.
 
 ## Loans

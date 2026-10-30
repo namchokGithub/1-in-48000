@@ -146,6 +146,13 @@ export function createV2Game(
     flags: {},
     history: [],
     pendingEffects: [],
+    yearProgress: {
+      year: content.config.startingTime.year,
+      startStats: { ...stats },
+      moneyIn: 0,
+      moneyOut: 0,
+    },
+    finishedYear: null,
     rngSeed,
     rngState: nameRoll.nextState,
   })
@@ -206,11 +213,17 @@ function applyStateEffect(save: V2PlayerSave, effect: V2StateEffect): void {
   if (effect.type === 'setFlag') {
     save.flags[effect.flagId] = effect.value
   } else {
+    if (effect.stat === 'money') trackMoney(save, effect.amount)
     save.stats[effect.stat] = bounded(
       effect.stat,
       save.stats[effect.stat] + effect.amount,
     )
   }
+}
+
+function trackMoney(save: V2PlayerSave, amount: number): void {
+  if (amount > 0) save.yearProgress.moneyIn += amount
+  else save.yearProgress.moneyOut -= amount
 }
 
 function applyPending(
@@ -303,15 +316,26 @@ function chargeLoanInterest(content: V2GameContent, save: V2PlayerSave): void {
   if (save.stats.money >= 0) return
   const { annualRatePercent, periodDays } = content.config.loan
   const days = periodDays[save.currentTime.period]
-  save.stats.money -= Math.round(
+  const interest = Math.round(
     (-save.stats.money * annualRatePercent * days) / 36500,
   )
+  trackMoney(save, -interest)
+  save.stats.money -= interest
 }
 
 function advancePeriod(content: V2GameContent, save: V2PlayerSave): void {
   const next = nextTime(save.currentTime)
   if (!next) throw new Error('Cannot move past year 8')
   chargeLoanInterest(content, save)
+  if (next.year !== save.currentTime.year) {
+    save.finishedYear = { ...save.yearProgress, endStats: { ...save.stats } }
+    save.yearProgress = {
+      year: next.year,
+      startStats: { ...save.stats },
+      moneyIn: 0,
+      moneyOut: 0,
+    }
+  }
   save.currentTime = next
   applyPending(
     save,
@@ -477,6 +501,7 @@ function resolveChoices(
     flags: { ...previous.flags },
     history: [...previous.history, entry],
     pendingEffects: [...previous.pendingEffects],
+    yearProgress: { ...previous.yearProgress },
   }
   choices
     .flatMap((choice) => choice.effects)
@@ -633,6 +658,7 @@ export function chooseV2Elective(
     electiveId,
     stats: { ...previous.stats },
     flags: { ...previous.flags },
+    yearProgress: { ...previous.yearProgress },
   }
   for (const effect of elective.effects) applyStateEffect(prepared, effect)
   const next = resolveChoices(content, prepared, [choice], trace)
