@@ -5,6 +5,7 @@ import {
   chooseV2Elective,
   chooseV2Many,
   chooseV2Program,
+  getV2LastRecaps,
   summarizeV2Life,
   type V2FlowStep,
 } from '../../engine/v2/game'
@@ -198,6 +199,7 @@ export function PreviewDialog({
             electives={session.content.electives}
             names={session.content.names}
             loanRatePercent={session.content.config.loan.annualRatePercent}
+            recaps={getV2LastRecaps(session.content, session.save)}
             error={session.error}
             onChoose={choose}
             onChooseMany={chooseMany}

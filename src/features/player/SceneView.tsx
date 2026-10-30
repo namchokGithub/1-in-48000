@@ -23,6 +23,8 @@ type Props = {
   electives: V2Content['electives']
   names: V2Content['names']
   loanRatePercent: number
+  // Recaps of the last choice, shown with the first line only.
+  recaps: string[]
   error: string | null
   onChoose: (choiceId: string) => void
   onChooseMany: (choiceIds: string[]) => void
@@ -42,6 +44,7 @@ export function SceneView({
   electives,
   names,
   loanRatePercent,
+  recaps,
   error,
   onChoose,
   onChooseMany,
@@ -158,6 +161,13 @@ export function SceneView({
               {lineIndex + 1} / {event.lines.length}
             </p>
           </div>
+          {lineIndex === 0 && recaps.length > 0 && (
+            <div className="player-recap">
+              {recaps.map((recap, index) => (
+                <p key={index}>{recap}</p>
+              ))}
+            </div>
+          )}
           {/* Focusable so a long line can be scrolled with the keyboard. */}
           <p
             className="player-dialogue-text mt-2 text-lg leading-relaxed"

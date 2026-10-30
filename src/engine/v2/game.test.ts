@@ -17,6 +17,7 @@ import {
   createV2Game,
   getV2ChoiceOptions,
   getV2EffectiveChancePercent,
+  getV2LastRecaps,
   getV2GoalYear,
   pickV2StartOption,
   previewV2Name,
@@ -242,6 +243,34 @@ describe('V4 flow engine', () => {
       finalMoney: -700,
     })
     expect(summary.stats).toMatchObject({ money: -700, debt: 0 })
+  })
+
+  it('recaps the choices picked in the last resolved event', () => {
+    const base = event('talk', [], ['thank', 'leave'])
+    const talk = v2EventSchema.parse({
+      ...base,
+      choices: [
+        { ...base.choices[0], recap: 'คุณขอบคุณมะลิ' },
+        base.choices[1],
+      ],
+    })
+    const content = game(
+      [talk, event('next')],
+      [eventNode('talk'), eventNode('next'), ending('study_complete')],
+      [
+        edge('talk', 'thank', 'next'),
+        edge('talk', 'leave', 'next'),
+        edge('next', 'continue_story', 'end_study_complete'),
+      ],
+    )
+    const save = createV2Game(content, 1)
+    expect(getV2LastRecaps(content, save)).toEqual([])
+    expect(getV2LastRecaps(content, chooseV2(content, save, 'thank'))).toEqual([
+      'คุณขอบคุณมะลิ',
+    ])
+    expect(getV2LastRecaps(content, chooseV2(content, save, 'leave'))).toEqual(
+      [],
+    )
   })
 
   it('starts at the first event linked from Start', () => {

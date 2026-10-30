@@ -31,6 +31,8 @@ An event or choice may have conditions. All conditions in its array must hold; a
 
 A choice whose conditions do not hold is hidden unless it sets `showWhenLocked: true`. Then the Player shows it disabled with a reason built from the unmet conditions, for example "ต้องมีเงินอย่างน้อย 500 ฿"; `flag` and `pastEvent` conditions read only "ยังไม่เข้าเงื่อนไข" so the story is not revealed. The engine still rejects choosing it.
 
+A choice may carry an optional `recap`, written by the author. The next event shows the recaps of the choices picked in the last resolved event, in authored order, with its first line only; a choice without one shows nothing. The recap comes from the save history, so a refresh keeps it.
+
 Every event has at least one line and one choice. A choice may have no effects when it only changes dialogue. The event kinds are `main`, `conditional`, `holiday`, and `random`. Event selection and condition evaluation belong to Step 3.
 
 ## Loans

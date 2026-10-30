@@ -181,6 +181,20 @@ export function getV2ChoiceOptions(
   })
 }
 
+// Author-written recaps of the choices picked in the last resolved event, for
+// the next event to show.
+export function getV2LastRecaps(
+  content: V2GameContent,
+  save: V2PlayerSave,
+): string[] {
+  const last = save.history.at(-1)
+  if (!last) return []
+  const event = content.events.find((item) => item.id === last.eventId)
+  return (event?.choices ?? []).flatMap((choice) =>
+    choice.recap && last.choiceIds.includes(choice.id) ? [choice.recap] : [],
+  )
+}
+
 export function getV2EffectiveChancePercent(
   successPercent: number,
   lucky: number,

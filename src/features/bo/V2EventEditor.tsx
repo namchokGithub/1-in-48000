@@ -693,6 +693,7 @@ export function V2EventEditor({
                 {choice.showWhenLocked && choice.conditions.length > 0
                   ? ' · แสดงแม้ไม่เข้าเงื่อนไข'
                   : ''}
+                {choice.recap ? ' · มี recap' : ''}
               </p>
               {expandedChoice === index && (
                 <div className="bo-choice-body bo-stack">
@@ -713,6 +714,22 @@ export function V2EventEditor({
                         กรุณาใส่ข้อความตัวเลือก
                       </small>
                     )}
+                  </label>
+                  <label className="bo-field">
+                    <span>สรุปหลังเลือก (recap)</span>
+                    <textarea
+                      className="field"
+                      rows={2}
+                      value={choice.recap ?? ''}
+                      placeholder="เว้นว่างได้ เหตุการณ์ถัดไปจะแสดงข้อความนี้ในบรรทัดแรก"
+                      onChange={(input) =>
+                        update((next) => {
+                          if (input.target.value.trim())
+                            next.choices[index].recap = input.target.value
+                          else delete next.choices[index].recap
+                        })
+                      }
+                    />
                   </label>
                   <details className="bo-story-advanced">
                     <summary>Advanced · Choice ID และลำดับ</summary>

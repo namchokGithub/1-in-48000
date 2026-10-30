@@ -196,6 +196,7 @@ export const v2EventSchema = z
           text: textSchema,
           conditions: z.array(v2ConditionSchema),
           showWhenLocked: z.boolean().optional(),
+          recap: textSchema.optional(),
           effects: z.array(v2EffectSchema),
         }),
       )

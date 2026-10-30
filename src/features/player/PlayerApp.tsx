@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import { useStore } from 'zustand'
 import { loadV2Content } from '../../content/v2/loader'
 import type { V2Content } from '../../content/v2/schema'
-import { getV2CurrentEvent, summarizeV2Life } from '../../engine/v2/game'
+import {
+  getV2CurrentEvent,
+  getV2LastRecaps,
+  summarizeV2Life,
+} from '../../engine/v2/game'
 import { createV2GameStore } from '../../save/v2/store'
 import {
   createLocalStorageAdapter,
@@ -149,6 +153,7 @@ function PlayerShell({
         electives={content.electives}
         names={content.names}
         loanRatePercent={content.config.loan.annualRatePercent}
+        recaps={getV2LastRecaps(content, save)}
         error={actionError}
         onChoose={choose}
         onChooseMany={chooseMany}

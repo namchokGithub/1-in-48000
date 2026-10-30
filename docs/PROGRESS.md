@@ -104,7 +104,9 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 2026-10-30: 40.2 implemented, waiting for the author's check, with the locked-choice part of 41.3. A choice gets `showWhenLocked`; `getV2ChoiceOptions` returns available choices and shown locked ones with their unmet conditions, and `lockedReason` turns those into Player text. The Player and BO preview show locked choices disabled with the reason. The author accepted 40.2.
 
-2026-10-30: 40.3 implemented, waiting for the author's check, with the loan part of 41.3. `config.loan` holds the yearly rate and days per period, Next Period charges interest on negative money, and the life summary settles debt from money at every ending. BO edits the loan in a new "เกม" group tab "ตั้งค่าเกม" and can now save `config.json`. The Player marks negative money as a loan with its rate, and the Ending shows the settlement.
+2026-10-30: 40.3 implemented, waiting for the author's check, with the loan part of 41.3. `config.loan` holds the yearly rate and days per period, Next Period charges interest on negative money, and the life summary settles debt from money at every ending. BO edits the loan in a new "เกม" group tab "ตั้งค่าเกม" and can now save `config.json`. The Player marks negative money as a loan with its rate, and the Ending shows the settlement. The author accepted 40.3.
+
+2026-10-30: 40.4 implemented, waiting for the author's check, with 41.4. A choice gets an optional `recap`; `getV2LastRecaps` reads the last history entry, and the next event shows the recaps in a thin frame with its first line only. BO edits the recap under the choice text.
 
 ## 41. Player features for local feedback
 
@@ -113,7 +115,7 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 - 41.1 Home button opens a confirm modal: "กลับหน้าแรก? เกมนี้จะจบลงและเล่นต่อไม่ได้", with "เล่นต่อ" and "กลับหน้าแรก".
 - 41.2 The scene image fades in when the scene changes (off with reduced motion), and the speaker and player portraits follow 40.5.
 - 41.3 Locked choices appear disabled with their reason (40.2; done with 40.2). A negative money balance reads as a loan with its interest, and the Ending shows the debt settlement (40.3; done with 40.3).
-- 41.4 The dialogue box shows the previous choice's recap (40.4) in a thin frame.
+- 41.4 The dialogue box shows the previous choice's recap (40.4) in a thin frame, with the first line only (done with 40.4).
 - 41.5 A small notification lists the stats that rose or fell after a choice, including delayed effects that came due.
 - 41.6 A year summary appears when a new year starts: stat changes for the year, money in and out, events passed, and "ต่อไป" (40.6).
 - 41.7 Ending timeline: an ⓘ button explains that each year opens and closes.
