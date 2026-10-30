@@ -109,18 +109,6 @@
               "stat": "study",
               "amount": 4
             }
-          },
-          {
-            "type": "schedule",
-            "trigger": {
-              "type": "afterEvent",
-              "eventId": "orientation"
-            },
-            "effect": {
-              "type": "statDelta",
-              "stat": "money",
-              "amount": -101
-            }
           }
         ]
       },

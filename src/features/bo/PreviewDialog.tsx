@@ -178,9 +178,7 @@ export function PreviewDialog({
               session.content.assets,
               session.save?.nameId ?? '',
             )}
-            onHome={onClose}
             onRestart={restart}
-            homeLabel="ปิด Preview"
           />
         ) : event && session.save ? (
           <SceneView

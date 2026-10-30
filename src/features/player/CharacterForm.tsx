@@ -1,15 +1,29 @@
 import { useState, type FormEvent } from 'react'
 import type { V2Content } from '../../content/v2/schema'
-import { pickV2StartOption } from '../../engine/v2/game'
+import { pickV2StartOption, previewV2Name } from '../../engine/v2/game'
 import { formatStatChange } from './choicePreview'
+import { playerPortraitPath } from './playerIdentity'
+import { EffectList } from './ui/EffectList'
 
 type Props = {
   backgrounds: V2Content['config']['backgrounds']
-  onStart: (backgroundId: string) => void
+  names: V2Content['names']
+  assets: V2Content['assets']
+  onStart: (seed: number, backgroundId: string) => void
   onCancel: () => void
 }
 
-export function CharacterForm({ backgrounds, onStart, onCancel }: Props) {
+export function CharacterForm({
+  backgrounds,
+  names,
+  assets,
+  onStart,
+  onCancel,
+}: Props) {
+  // The game seed is rolled here so the name shown is the name the game uses.
+  const [seed] = useState(() => crypto.getRandomValues(new Uint32Array(1))[0])
+  const name = previewV2Name({ names }, seed)
+  const portraitPath = playerPortraitPath(names, assets, name.id, 'casual')
   const [backgroundId, setBackgroundId] = useState(backgrounds[0].id)
   const [randomBackground, setRandomBackground] = useState(false)
   const [actionError, setActionError] = useState('')
@@ -23,7 +37,7 @@ export function CharacterForm({ backgrounds, onStart, onCancel }: Props) {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     try {
-      onStart(backgroundId)
+      onStart(seed, backgroundId)
     } catch {
       setActionError(
         'เริ่มเกมไม่ได้ โปรดตรวจพื้นที่จัดเก็บของเบราว์เซอร์แล้วลองอีกครั้ง',
@@ -37,9 +51,27 @@ export function CharacterForm({ backgrounds, onStart, onCancel }: Props) {
       <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
         ชีวิตนี้เริ่มที่คุณ
       </h1>
-      <p className="muted mt-2">
-        ชื่อจะสุ่มเมื่อเริ่มเกม เลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู
-      </p>
+      <p className="muted mt-2">เลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู</p>
+      <div className="player-create-identity mt-6">
+        {portraitPath ? (
+          <img
+            className="player-identity-portrait"
+            src={portraitPath}
+            alt={`ภาพผู้เล่น ${name.name}`}
+          />
+        ) : (
+          <span
+            className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] text-2xl"
+            aria-hidden="true"
+          >
+            {name.name.slice(0, 1)}
+          </span>
+        )}
+        <div className="min-w-0">
+          <p className="eyebrow">ชื่อของคุณ</p>
+          <p className="truncate text-2xl font-extrabold">{name.name}</p>
+        </div>
+      </div>
       <form className="mt-7 space-y-7" onSubmit={submit} noValidate>
         <div>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -91,17 +123,21 @@ export function CharacterForm({ backgrounds, onStart, onCancel }: Props) {
                 <span className="muted block text-sm">
                   ทักษะ: {background.skill}
                 </span>
-                <span className="mt-3 block text-sm font-semibold">
-                  {Object.entries(background.statDeltas)
-                    .filter(([, amount]) => amount !== 0)
-                    .map(([stat, amount]) =>
-                      formatStatChange(
-                        stat as keyof typeof background.statDeltas,
-                        amount,
-                      ),
-                    )
-                    .join(' · ') || 'ค่าสถานะเริ่มต้นไม่เปลี่ยน'}
-                </span>
+                {Object.values(background.statDeltas).some(Boolean) ? (
+                  <EffectList
+                    className="mt-3"
+                    lines={Object.entries(background.statDeltas)
+                      .filter(([, amount]) => amount !== 0)
+                      .map(([key, amount]) => {
+                        const stat = key as keyof typeof background.statDeltas
+                        return { stat, text: formatStatChange(stat, amount) }
+                      })}
+                  />
+                ) : (
+                  <span className="mt-3 block text-sm">
+                    ค่าสถานะเริ่มต้นไม่เปลี่ยน
+                  </span>
+                )}
               </label>
             ))}
           </div>

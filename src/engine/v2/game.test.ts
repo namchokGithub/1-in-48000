@@ -17,6 +17,7 @@ import {
   createV2Game,
   getV2EffectiveChancePercent,
   pickV2StartOption,
+  previewV2Name,
   getV2CurrentEvent,
   summarizeV2Life,
   type V2FlowStep,
@@ -151,6 +152,14 @@ describe('V4 flow engine', () => {
   it('picks a start option from a supplied random value', () => {
     expect(pickV2StartOption(['ฟ้า', 'มายด์', 'อิม'], 4)).toBe('มายด์')
     expect(() => pickV2StartOption([], 0)).toThrow('No starting options')
+  })
+
+  it('previews the same player name the game starts with', () => {
+    for (const seed of [0, 1, 2, 7, 4_294_967_295]) {
+      expect(previewV2Name(sampleContent, seed).id).toBe(
+        createV2Game(sampleContent, seed).nameId,
+      )
+    }
   })
 
   it('starts at the first event linked from Start', () => {

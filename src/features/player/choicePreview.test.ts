@@ -31,7 +31,7 @@ describe('Player choice information', () => {
         ]),
         stats,
       ),
-    ).toEqual(['การเรียน +5'])
+    ).toEqual([{ stat: 'study', text: 'การเรียน +5' }])
   })
 
   it('shows effective chance and masks amounts for statsOnly', () => {
@@ -50,7 +50,11 @@ describe('Player choice information', () => {
         ]),
         stats,
       ),
-    ).toEqual(['โอกาสสำเร็จ 4%', 'สำเร็จ: เงินเพิ่ม', 'ไม่สำเร็จ: สุขภาพลด'])
+    ).toEqual([
+      { stat: null, text: 'โอกาสสำเร็จ 4%' },
+      { stat: null, text: 'สำเร็จ: เงินเพิ่ม' },
+      { stat: null, text: 'ไม่สำเร็จ: สุขภาพลด' },
+    ])
   })
 
   it('shows disclosed amounts and accounts for an earlier lucky change', () => {
@@ -69,10 +73,10 @@ describe('Player choice information', () => {
         stats,
       ),
     ).toEqual([
-      'โชค +10',
-      'โอกาสสำเร็จ 5%',
-      'สำเร็จ: เงิน +100 ฿',
-      'ไม่สำเร็จ: ไม่มีผลต่อค่าสถานะ',
+      { stat: 'lucky', text: 'โชค +10' },
+      { stat: null, text: 'โอกาสสำเร็จ 5%' },
+      { stat: null, text: 'สำเร็จ: เงิน +100 ฿' },
+      { stat: null, text: 'ไม่สำเร็จ: ไม่มีผลต่อค่าสถานะ' },
     ])
   })
 })

@@ -8,6 +8,9 @@ import { describeChoiceEffects } from './choicePreview'
 import { YearTimeline } from './YearTimeline'
 import { playerPortraitPath } from './playerIdentity'
 import { lineSpeaker } from '../../content/v2/lineSpeaker'
+import { EffectList } from './ui/EffectList'
+import { PlayerCheckbox } from './ui/PlayerCheckbox'
+import { PlayerSelect } from './ui/PlayerSelect'
 
 type Props = {
   event: V2Event
@@ -132,160 +135,148 @@ export function SceneView({
           </div>
         </div>
       </section>
-      <section
-        className="panel player-choice-panel p-4 sm:p-5"
-        aria-label="ตัวเลือก"
-      >
+      <section className="panel player-choice-panel" aria-label="ตัวเลือก">
         {error && (
           <p className="mb-3 text-sm text-[var(--color-danger)]" role="alert">
             {error}
           </p>
         )}
-        <div className="flex flex-col items-end gap-3">
+        <div className="player-choice-scroll">
           {!lastLine ? (
-            <p className="muted w-full text-sm" role="status">
+            <p className="muted text-sm" role="status">
               อ่านบทสนทนาให้จบก่อนเลือกทางต่อ
             </p>
           ) : event.selection?.type === 'program' ? (
-            <div className="grid w-full gap-3">
-              <label className="grid gap-1">
-                <span>คณะ</span>
-                <select
-                  className="field"
-                  value={facultyId}
-                  onChange={(change) => {
-                    const nextId = change.target.value
-                    setFacultyId(nextId)
-                    setMajorId(
-                      majors.find((major) => major.facultyId === nextId)?.id ??
-                        '',
-                    )
-                  }}
-                >
-                  {availableFaculties.map((faculty) => (
-                    <option key={faculty.id} value={faculty.id}>
-                      {faculty.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label className="grid gap-1">
-                <span>สาขา</span>
-                <select
-                  className="field"
-                  value={majorId}
-                  onChange={(change) => setMajorId(change.target.value)}
-                >
-                  {matchingMajors.map((major) => (
-                    <option key={major.id} value={major.id}>
-                      {major.name} · {major.programYears} ปี
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <button
-                type="button"
-                className="button button-primary"
-                disabled={!facultyId || !majorId}
-                onClick={() => onChooseProgram(facultyId, majorId)}
-              >
-                ยืนยันคณะและสาขา
-              </button>
+            <div className="grid gap-4">
+              <PlayerSelect
+                label="คณะ"
+                value={facultyId}
+                options={availableFaculties.map((faculty) => ({
+                  value: faculty.id,
+                  label: faculty.name,
+                }))}
+                onChange={(nextId) => {
+                  setFacultyId(nextId)
+                  setMajorId(
+                    majors.find((major) => major.facultyId === nextId)?.id ??
+                      '',
+                  )
+                }}
+              />
+              <PlayerSelect
+                label="สาขา"
+                value={majorId}
+                options={matchingMajors.map((major) => ({
+                  value: major.id,
+                  label: `${major.name} · ${major.programYears} ปี`,
+                }))}
+                onChange={setMajorId}
+              />
             </div>
           ) : event.selection?.type === 'elective' ? (
-            <div className="grid w-full gap-3">
-              <label className="grid gap-1">
-                <span>วิชาเสรี</span>
-                <select
-                  className="field"
-                  value={electiveId}
-                  onChange={(change) => setElectiveId(change.target.value)}
-                >
-                  {electives.map((elective) => (
-                    <option key={elective.id} value={elective.id}>
-                      {elective.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <button
-                type="button"
-                className="button button-primary"
-                disabled={!electiveId}
-                onClick={() => onChooseElective(electiveId)}
-              >
-                ยืนยันวิชาเสรี
-              </button>
-            </div>
+            <PlayerSelect
+              label="วิชาเสรี"
+              value={electiveId}
+              options={electives.map((elective) => ({
+                value: elective.id,
+                label: elective.name,
+              }))}
+              onChange={setElectiveId}
+            />
           ) : event.selection?.type === 'multiple' ? (
-            <div className="grid w-full gap-3">
-              <p className="font-bold">
-                เลือก {event.selection.min}–{event.selection.max} ข้อ (
-                {selectedIds.length} ข้อแล้ว)
-              </p>
+            <div className="grid gap-3">
+              <h2 className="text-lg font-bold">
+                เลือก {event.selection.min}–{event.selection.max} ข้อ
+                <span className="muted text-sm font-normal">
+                  {' '}
+                  (เลือกแล้ว {selectedIds.length} ข้อ)
+                </span>
+              </h2>
               {choices.map((choice) => (
-                <label
+                <PlayerCheckbox
                   key={choice.id}
-                  className="button button-secondary flex items-center gap-3 text-left"
+                  checked={selectedIds.includes(choice.id)}
+                  disabled={
+                    !selectedIds.includes(choice.id) &&
+                    selectedIds.length >= maxSelections
+                  }
+                  onChange={(checked) =>
+                    setSelectedIds((current) =>
+                      checked
+                        ? [...current, choice.id]
+                        : current.filter((id) => id !== choice.id),
+                    )
+                  }
                 >
-                  <input
-                    type="checkbox"
-                    checked={selectedIds.includes(choice.id)}
-                    disabled={
-                      !selectedIds.includes(choice.id) &&
-                      selectedIds.length >= maxSelections
-                    }
-                    onChange={(change) =>
-                      setSelectedIds((current) =>
-                        change.target.checked
-                          ? [...current, choice.id]
-                          : current.filter((id) => id !== choice.id),
-                      )
-                    }
-                  />
                   <span>{choice.text}</span>
-                </label>
+                  <EffectList
+                    lines={describeChoiceEffects(choice, save.stats)}
+                  />
+                </PlayerCheckbox>
               ))}
-              <button
-                type="button"
-                className="button button-primary"
-                disabled={
-                  selectedIds.length < event.selection.min ||
-                  selectedIds.length > event.selection.max
-                }
-                onClick={() => onChooseMany(selectedIds)}
-              >
-                ยืนยันตัวเลือก
-              </button>
             </div>
           ) : choices.length ? (
-            <>
-              <h2 className="w-full text-lg font-bold">คุณจะทำอย่างไร?</h2>
-              {choices.map((choice) => {
-                const effects = describeChoiceEffects(choice, save.stats)
-                return (
-                  <button
-                    key={choice.id}
-                    type="button"
-                    className="button button-secondary w-full flex-col items-start text-left sm:max-w-[38rem]"
-                    onClick={() => onChoose(choice.id)}
-                  >
+            <div className="grid gap-3">
+              <h2 className="text-lg font-bold">คุณจะทำอย่างไร?</h2>
+              {choices.map((choice) => (
+                <button
+                  key={choice.id}
+                  type="button"
+                  className="player-option"
+                  onClick={() => onChoose(choice.id)}
+                >
+                  <span className="player-option-body">
                     <span>{choice.text}</span>
-                    {effects.length > 0 && (
-                      <span className="muted mt-1 grid gap-0.5 text-xs font-normal">
-                        {effects.map((effect, index) => (
-                          <span key={`${choice.id}-${index}`}>{effect}</span>
-                        ))}
-                      </span>
-                    )}
-                  </button>
-                )
-              })}
-            </>
+                    <EffectList
+                      lines={describeChoiceEffects(choice, save.stats)}
+                    />
+                  </span>
+                </button>
+              ))}
+            </div>
           ) : (
             <p className="muted">ยังไม่มีตัวเลือกที่ใช้ได้ในเหตุการณ์นี้</p>
           )}
         </div>
+        {lastLine && event.selection?.type === 'program' && (
+          <div className="player-choice-footer">
+            <button
+              type="button"
+              className="button button-primary w-full"
+              disabled={!facultyId || !majorId}
+              onClick={() => onChooseProgram(facultyId, majorId)}
+            >
+              ยืนยันคณะและสาขา
+            </button>
+          </div>
+        )}
+        {lastLine && event.selection?.type === 'elective' && (
+          <div className="player-choice-footer">
+            <button
+              type="button"
+              className="button button-primary w-full"
+              disabled={!electiveId}
+              onClick={() => onChooseElective(electiveId)}
+            >
+              ยืนยันวิชาเสรี
+            </button>
+          </div>
+        )}
+        {lastLine && event.selection?.type === 'multiple' && (
+          <div className="player-choice-footer">
+            <button
+              type="button"
+              className="button button-primary w-full"
+              disabled={
+                selectedIds.length < event.selection.min ||
+                selectedIds.length > event.selection.max
+              }
+              onClick={() => onChooseMany(selectedIds)}
+            >
+              ยืนยันตัวเลือก
+            </button>
+          </div>
+        )}
       </section>
       <aside className="player-scene-stats">
         <StatPanel

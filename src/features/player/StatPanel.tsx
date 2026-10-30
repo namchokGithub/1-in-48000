@@ -1,13 +1,15 @@
 import type { V2Stats } from '../../content/v2/schema'
+import { StatIcon } from './ui/StatIcon'
 
+// Stats with a 0–100 bar first, then money and debt.
 const statLabels: { key: keyof V2Stats; label: string }[] = [
   { key: 'study', label: 'การเรียน' },
-  { key: 'money', label: 'เงิน' },
   { key: 'health', label: 'สุขภาพ' },
   { key: 'stress', label: 'ความเครียด' },
   { key: 'relationships', label: 'ความสัมพันธ์' },
-  { key: 'debt', label: 'หนี้' },
   { key: 'lucky', label: 'โชค' },
+  { key: 'money', label: 'เงิน' },
+  { key: 'debt', label: 'หนี้' },
 ]
 
 export function StatPanel({
@@ -23,11 +25,9 @@ export function StatPanel({
         <div className="mb-5 flex items-center gap-3 border-b border-[var(--color-line)] pb-5">
           {identity.portraitPath ? (
             <img
-              className="size-16 shrink-0 rounded-xl object-cover"
+              className="player-identity-portrait"
               src={identity.portraitPath}
               alt={`ภาพผู้เล่น ${identity.name}`}
-              width="64"
-              height="64"
             />
           ) : (
             <span
@@ -46,9 +46,15 @@ export function StatPanel({
       <p className="eyebrow">สถานะตอนนี้</p>
       <div className="mt-5 space-y-4">
         {statLabels.map(({ key, label }) => (
-          <div key={key}>
+          <div
+            key={key}
+            className={key === 'money' ? 'player-stat-money' : undefined}
+          >
             <div className="mb-1.5 flex items-baseline justify-between gap-3 text-sm">
-              <span className="font-semibold">{label}</span>
+              <span className="flex items-center gap-2 font-semibold">
+                <StatIcon stat={key} />
+                {label}
+              </span>
               <span className="font-bold tabular-nums">
                 {key === 'money' || key === 'debt'
                   ? `${new Intl.NumberFormat('th-TH').format(stats[key])} ฿`

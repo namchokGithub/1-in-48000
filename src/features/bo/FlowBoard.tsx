@@ -665,7 +665,7 @@ function Board({
 
   return (
     <div
-      className="bo-flow-layout mt-3"
+      className="bo-flow-layout"
       data-library={libraryOpen ? 'open' : 'closed'}
     >
       {libraryOpen && (

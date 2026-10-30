@@ -153,3 +153,9 @@ Each player name pairs one portrait per outfit, `casual` and `student`, in `name
 ## 2026-10-30 — Narrator as a character
 
 A character can be marked `isNarrator`, and at most one may be. A line without a speaker uses that character's name and portrait, in the Player and in the BO line preview; without a narrator it reads "เรื่องราว" with no portrait as before. The flag lives in `characters.json`, not `config.json`, because the BO saves the NPC tab to `characters.json` and has no editor that writes `config.json`. The narrator uses one portrait for every outfit, and a line's own `portraitAssetId` still overrides it.
+
+## 2026-10-30 — Player UI images live with the Player code
+
+The stat icons and the Home art are part of the Player's interface, not story content: no event or BO tab refers to them, and an author never swaps them per event. They live in `src/features/player/assets/` and are imported by the Player components, so Vite fingerprints them and they ship only with the Player. This is a deliberate exception to "reference images only by Asset ID": that rule covers content that authors pick and the BO validates. An image that content can choose still belongs in `assets.json`.
+
+The create screen rolls the game seed when it opens and starts the game with that seed, so the name and portrait it shows are the ones the game uses (`previewV2Name` shares the engine's name roll).

@@ -40,25 +40,36 @@ function describeOutcome(effects: StateEffect[], showAmounts: boolean): string {
     .join(' · ')
 }
 
+// `stat` is set for a single stat change so the Player can show its icon.
+export type ChoiceEffectLine = { stat: Stat | null; text: string }
+
 export function describeChoiceEffects(
   choice: Choice,
   stats: V2Stats,
-): string[] {
+): ChoiceEffectLine[] {
   let lucky = stats.lucky
-  const descriptions: string[] = []
+  const descriptions: ChoiceEffectLine[] = []
   for (const effect of choice.effects) {
     if (effect.type === 'statDelta') {
-      descriptions.push(formatStatChange(effect.stat, effect.amount))
+      descriptions.push({
+        stat: effect.stat,
+        text: formatStatChange(effect.stat, effect.amount),
+      })
       if (effect.stat === 'lucky') lucky = Math.min(100, lucky + effect.amount)
     } else if (effect.type === 'chance') {
       const percent = getV2EffectiveChancePercent(effect.successPercent, lucky)
-      descriptions.push(`โอกาสสำเร็จ ${number.format(percent)}%`)
-      descriptions.push(
-        `สำเร็จ: ${describeOutcome(effect.successEffects, effect.displayMode === 'amounts')}`,
-      )
-      descriptions.push(
-        `ไม่สำเร็จ: ${describeOutcome(effect.failureEffects, effect.displayMode === 'amounts')}`,
-      )
+      descriptions.push({
+        stat: null,
+        text: `โอกาสสำเร็จ ${number.format(percent)}%`,
+      })
+      descriptions.push({
+        stat: null,
+        text: `สำเร็จ: ${describeOutcome(effect.successEffects, effect.displayMode === 'amounts')}`,
+      })
+      descriptions.push({
+        stat: null,
+        text: `ไม่สำเร็จ: ${describeOutcome(effect.failureEffects, effect.displayMode === 'amounts')}`,
+      })
     }
   }
   return descriptions

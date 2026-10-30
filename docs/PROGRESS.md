@@ -13,6 +13,7 @@ V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 | #   | Step                | Status      | Depends on |
 | --- | ------------------- | ----------- | ---------- |
 | 37  | BO Flow edge styles | In progress | 35         |
+| 38  | Player UX/UI pass   | In progress | 33         |
 
 V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/legacy/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
@@ -43,3 +44,21 @@ Group Flow board edges by meaning, derived from the source card type, port, and 
 **Done when:** the author can tell fallback, pass/fail, and key edges apart on the board.
 
 2026-10-29: Implemented. `edgeStyle` returns the group and is covered by a focused test. Groups differ by width, dash, and a few dark colors, and arrowheads follow the trace and focus colors.
+
+## 38. Player UX/UI pass
+
+**Status:** In progress
+
+Source: `docs/PLAY_UXUI_DESIGN.md`.
+
+- 38.1 Fix `first_class.take_notes`: it scheduled an effect after `orientation`, which always comes first, so the choice always failed.
+- 38.2 Player UI kit in `src/features/player/ui/` (custom select, checkbox, stat icon), separate from BO.
+- 38.3 Home: remove the save card, add the campus art, fix the footer.
+- 38.4 Create: preview the rolled name and portrait, stat icons, no outline on pointer select.
+- 38.5 Play: 16:9 scene, full-body portrait, stat icons and order, custom selects, left-aligned choices and checkboxes with effect previews, confirm at the bottom, hidden scrollbar.
+- 38.6 Ending: restart in the first card, no home button, a separate collapsible timeline grouped by year.
+- 38.7 Responsive check at 360/390/768/1280px (in-app browsers such as LINE at 360px first).
+
+**Done when:** the author accepts every page by eye at mobile and desktop widths.
+
+2026-10-30: 38.1–38.6 implemented (awaiting visual check). Stat icons and the Home art moved to `src/features/player/assets/` (see `docs/DECISIONS.md`), Player-only CSS moved to `src/features/player/player.css`, and the custom select, checkbox, and effect list live in `src/features/player/ui/`. 38.7 is the author's check.

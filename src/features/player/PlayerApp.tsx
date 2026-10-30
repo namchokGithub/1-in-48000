@@ -15,9 +15,9 @@ import { createAudioController } from '../../shared/audio'
 import { AudioControls } from './AudioControls'
 import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
-import { formatGameTime } from './labels'
 import { SceneView } from './SceneView'
 import { playerPortraitPath } from './playerIdentity'
+import homeArt from './assets/home-campus.png'
 
 type View = 'home' | 'create' | 'play' | 'ending'
 
@@ -93,8 +93,7 @@ function PlayerShell({
     setView('home')
   }
 
-  function start(backgroundId: string) {
-    const seed = crypto.getRandomValues(new Uint32Array(1))[0]
+  function start(seed: number, backgroundId: string) {
     const action = save
       ? store.getState().restartGame
       : store.getState().startGame
@@ -130,6 +129,8 @@ function PlayerShell({
     body = (
       <CharacterForm
         backgrounds={content.config.backgrounds}
+        names={content.names}
+        assets={content.assets}
         onStart={start}
         onCancel={() => setView('home')}
       />
@@ -165,7 +166,6 @@ function PlayerShell({
           content.assets,
           save.nameId,
         )}
-        onHome={goHome}
         onRestart={() => {
           syncMusic(null)
           setView('create')
@@ -187,16 +187,6 @@ function PlayerShell({
               จากวันแรกที่ ม.บารพู ไปจนถึงวันที่ต้องเลือกทางของตัวเอง
               ทุกคำตอบจะกลายเป็นเรื่องราวของคุณ
             </p>
-            {save && (
-              <div className="player-save-card mt-6 rounded-xl border border-[var(--color-line)] p-4">
-                <p className="font-bold">เซฟของ {save.playerName}</p>
-                <p className="muted mt-1 text-sm">
-                  {save.endingId
-                    ? 'เล่นจบแล้ว'
-                    : formatGameTime(save.currentTime)}
-                </p>
-              </div>
-            )}
             {actionError && (
               <p
                 className="mt-4 text-sm text-[var(--color-danger)]"
@@ -208,20 +198,19 @@ function PlayerShell({
             <div className="mt-8 flex flex-wrap justify-end gap-3">
               <button
                 type="button"
-                className={
-                  save ? 'button button-secondary' : 'button button-primary'
-                }
+                className="button button-primary"
                 onClick={() => {
                   syncMusic(null)
                   setView('create')
                 }}
               >
-                {save ? 'เริ่มชีวิตใหม่' : 'เริ่มเกม'}
+                เริ่มเกม
               </button>
             </div>
           </div>
           <div className="player-home-art relative flex min-h-64 items-end overflow-hidden p-7 sm:p-10">
-            <p className="relative max-w-xs text-2xl font-extrabold leading-snug">
+            <img className="player-home-image" src={homeArt} alt="" />
+            <p className="player-home-caption relative max-w-xs text-2xl font-extrabold leading-snug">
               หนึ่งชีวิต
               <br />
               หลายทางเลือก
@@ -271,7 +260,9 @@ function PlayerShell({
         </header>
         <main id="player-content">{body}</main>
         <footer className="muted mt-8 text-center text-xs">
-          เรื่องราวตัวอย่าง · เนื้อหาและภาพเพิ่มเติมจะตามมา
+          สร้างขึ้นเพื่อความบันเทิงเท่านั้น · เนื้อหาเป็นเรื่องสมมติ
+          <br />
+          ไม่ได้มีเจตนาพาดพิงหรือทำให้เข้าใจผิดเกี่ยวกับบุคคลและสถานที่จริง
         </footer>
       </div>
     </div>

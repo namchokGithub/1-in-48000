@@ -36,6 +36,14 @@ export function pickV2StartOption<T>(options: readonly T[], roll: number): T {
   return options[roll % options.length]
 }
 
+// The player name a game started with this seed will get.
+export function previewV2Name(
+  content: Pick<V2GameContent, 'names'>,
+  rngSeed: number,
+) {
+  return content.names[rollIndex(rngSeed, content.names.length).index]
+}
+
 function findEvent(content: V2GameContent, id: string): V2Event {
   const event = content.events.find((candidate) => candidate.id === id)
   if (!event) throw new Error(`Unknown event: ${id}`)
