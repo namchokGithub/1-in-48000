@@ -22,6 +22,7 @@ type Props = {
   majors: V2Content['majors']
   electives: V2Content['electives']
   names: V2Content['names']
+  loanRatePercent: number
   error: string | null
   onChoose: (choiceId: string) => void
   onChooseMany: (choiceIds: string[]) => void
@@ -40,6 +41,7 @@ export function SceneView({
   majors,
   electives,
   names,
+  loanRatePercent,
   error,
   onChoose,
   onChooseMany,
@@ -346,6 +348,7 @@ export function SceneView({
       <aside className="player-scene-stats">
         <StatPanel
           stats={save.stats}
+          loanRatePercent={loanRatePercent}
           identity={{
             name: save.playerName,
             portraitPath: playerPortrait,

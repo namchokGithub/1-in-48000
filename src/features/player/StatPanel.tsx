@@ -15,10 +15,14 @@ const statLabels: { key: keyof V2Stats; label: string }[] = [
 export function StatPanel({
   stats,
   identity,
+  loanRatePercent,
 }: {
   stats: V2Stats
   identity?: { name: string; portraitPath?: string; program?: string }
+  // Shown with negative money, which is an automatic loan.
+  loanRatePercent?: number
 }) {
+  const number = new Intl.NumberFormat('th-TH')
   return (
     <section className="panel player-stat-panel" aria-label="ค่าสถานะ">
       {identity && (
@@ -88,11 +92,21 @@ export function StatPanel({
                 <StatIcon stat={key} />
                 {label}
               </span>
-              <span className="font-bold tabular-nums">
-                {new Intl.NumberFormat('th-TH').format(stats[key])} ฿
+              <span
+                className="font-bold tabular-nums"
+                data-negative={stats[key] < 0 || undefined}
+              >
+                {number.format(stats[key])} ฿
               </span>
             </div>
           ))}
+        {stats.money < 0 && loanRatePercent !== undefined && (
+          <p className="player-stat-loan">
+            เงินติดลบคือยอดกู้อัตโนมัติ {number.format(-stats.money)} ฿ ดอกเบี้ย{' '}
+            {number.format(loanRatePercent)}% ต่อปี
+            คิดทุกครั้งที่ขึ้นช่วงเวลาใหม่ หนี้ทั้งหมดหักคืนตอนจบ
+          </p>
+        )}
       </div>
     </section>
   )

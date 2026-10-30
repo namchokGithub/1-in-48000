@@ -17,22 +17,13 @@ Steps 37–39 were accepted by the author on 2026-10-30.
 | 40  | BO and content for local feedback  | In progress | —          |
 | 41  | Player features for local feedback | Todo        | 40         |
 
-Local feedback order (source: `docs/LOCAL.md`): fix the two Player bugs first (39), then the content schema, engine, and BO work (40), then the Player screens that show it (41). Loan rules for 40.3 are below.
+Local feedback order (source: `docs/LOCAL.md`): fix the two Player bugs first (39), then the content schema, engine, and BO work (40), then the Player screens that show it (41).
 
 V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/legacy/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/legacy/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
 ## Open decisions
 
-Loan rules for 40.3, answered by the author on 2026-10-30 (move to `docs/DECISIONS.md` when 40.3 is built):
-
-1. Money can go below 0. The negative balance is the automatic loan; the debt stat does not change. There is no "กู้แล้วเลือก" button: a choice that costs more than the player has is still allowed.
-2. Every money decrease works this way, including the existing money −X effects. The engine and schemas already allow negative money.
-3. Interest applies only to the negative money balance, not to debt that authors add (for example a student loan). Bank-style simple interest: `principal × rate × days / 36500`.
-4. The yearly rate is one value in `config.json` (`loan.annualRatePercent`, default 15), editable in BO.
-5. Interest is taken from money at every Next Period while money is below 0, with days per period in `config.json` (term 1: 120, break: 30, term 2: 120, summer: 95; 365 in total), rounded to whole baht.
-6. At any ending (graduation or leaving early), money becomes money − debt and debt becomes 0. The Ending screen shows this settlement.
-
-No separate choice `cost` field: rule 2 makes it the same as a money −X effect, so the author dropped it.
+No open decisions. The loan rules for 40.3 are recorded in `docs/DECISIONS.md` ("Automatic loans as negative money").
 
 V4 decisions 1–9 were resolved on 2026-10-29 and are recorded in `docs/DECISIONS.md` ("Graph-driven story flow").
 
@@ -102,7 +93,7 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 - 40.1 Flag list: a BO tab "ตัวแปร (Flag)" lists every flag with where it is set and where it is checked, and warns about a flag that is checked but never set. Flag ID fields become dropdowns that still accept a new name. Flags only; stats are not listed.
 - 40.2 Locked choices: a choice toggle "แสดงแม้ไม่เข้าเงื่อนไข" (default off). The engine returns each choice with whether it can be chosen and the reason, built from its conditions (for example "ต้องมีเงินอย่างน้อย 500 ฿", "ต้องอยู่ปี 2 ขึ้นไป"); flag and past-event conditions read "ยังไม่เข้าเงื่อนไข" so the story is not revealed. Choosing a locked choice is still rejected.
-- 40.3 Automatic loans (see Open decisions): money can go below 0, interest on the negative balance is taken at each Next Period, and debt is settled from money at the ending.
+- 40.3 Automatic loans (see `docs/DECISIONS.md`): money can go below 0, interest on the negative balance is taken at each Next Period, and debt is settled from money at the ending.
 - 40.4 Recap text: an optional choice field `recap`, written by the author. The next event shows it; without it nothing is shown.
 - 40.5 Player in the scene: an event setting to hide the player portrait (shown by default). The line's speaker (NPC or narrator) stands on the left, the player on the right; either one alone keeps its side.
 - 40.6 Year summary data: the save keeps the stats at the start of the current year, so the Player can show what changed. No old-save migration (see Architecture Rules).
@@ -111,7 +102,9 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 2026-10-30: 40.1 implemented, waiting for the author's check. `flagUsage` collects where each flag is set (choice effects including scheduled and chance results, elective effects) and checked (event, choice, Condition card, and edge conditions); the read-only tab links each place and marks flags that are checked but never set, or set but never checked. Flag ID fields suggest known flags through one shared `datalist`. The author accepted 40.1.
 
-2026-10-30: 40.2 implemented, waiting for the author's check, with the locked-choice part of 41.3. A choice gets `showWhenLocked`; `getV2ChoiceOptions` returns available choices and shown locked ones with their unmet conditions, and `lockedReason` turns those into Player text. The Player and BO preview show locked choices disabled with the reason.
+2026-10-30: 40.2 implemented, waiting for the author's check, with the locked-choice part of 41.3. A choice gets `showWhenLocked`; `getV2ChoiceOptions` returns available choices and shown locked ones with their unmet conditions, and `lockedReason` turns those into Player text. The Player and BO preview show locked choices disabled with the reason. The author accepted 40.2.
+
+2026-10-30: 40.3 implemented, waiting for the author's check, with the loan part of 41.3. `config.loan` holds the yearly rate and days per period, Next Period charges interest on negative money, and the life summary settles debt from money at every ending. BO edits the loan in a new "เกม" group tab "ตั้งค่าเกม" and can now save `config.json`. The Player marks negative money as a loan with its rate, and the Ending shows the settlement.
 
 ## 41. Player features for local feedback
 
@@ -119,7 +112,7 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 - 41.1 Home button opens a confirm modal: "กลับหน้าแรก? เกมนี้จะจบลงและเล่นต่อไม่ได้", with "เล่นต่อ" and "กลับหน้าแรก".
 - 41.2 The scene image fades in when the scene changes (off with reduced motion), and the speaker and player portraits follow 40.5.
-- 41.3 Locked choices appear disabled with their reason (40.2; done with 40.2). A negative money balance reads as a loan with its interest, and the Ending shows the debt settlement (40.3).
+- 41.3 Locked choices appear disabled with their reason (40.2; done with 40.2). A negative money balance reads as a loan with its interest, and the Ending shows the debt settlement (40.3; done with 40.3).
 - 41.4 The dialogue box shows the previous choice's recap (40.4) in a thin frame.
 - 41.5 A small notification lists the stats that rose or fell after a choice, including delayed effects that came due.
 - 41.6 A year summary appears when a new year starts: stat changes for the year, money in and out, events passed, and "ต่อไป" (40.6).

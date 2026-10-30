@@ -148,6 +148,7 @@ function PlayerShell({
         majors={content.majors}
         electives={content.electives}
         names={content.names}
+        loanRatePercent={content.config.loan.annualRatePercent}
         error={actionError}
         onChoose={choose}
         onChooseMany={chooseMany}

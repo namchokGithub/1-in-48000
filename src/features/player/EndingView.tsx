@@ -22,6 +22,9 @@ function groupByYear(timeline: Entry[]) {
   return groups
 }
 
+const baht = (value: number) =>
+  `${new Intl.NumberFormat('th-TH').format(value)} ฿`
+
 export function EndingView({
   summary,
   portraitPath,
@@ -49,6 +52,16 @@ export function EndingView({
               <strong>{summary.choicesMade}</strong> การตัดสินใจ
             </p>
           </div>
+          {summary.settlement.debt > 0 && (
+            <p className="player-settlement">
+              <span className="eyebrow">ชำระหนี้ตอนจบ</span>
+              <span className="tabular-nums">
+                เงิน {baht(summary.settlement.money)} − หนี้{' '}
+                {baht(summary.settlement.debt)} ={' '}
+                <strong>{baht(summary.settlement.finalMoney)}</strong>
+              </span>
+            </p>
+          )}
           <div className="mt-8 flex justify-end">
             <button
               type="button"

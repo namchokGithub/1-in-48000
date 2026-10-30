@@ -120,6 +120,27 @@ describe('V2 BO story writing', () => {
     ).toContainEqual(scene)
   })
 
+  it('writes the loan settings in config and rejects a negative rate', async () => {
+    const dir = await fixture()
+    const config = JSON.parse(
+      await readFile(join(dir, 'config.json'), 'utf8'),
+    ) as V2Content['config']
+    await saveBoContent(root, 'config', {
+      ...config,
+      loan: { ...config.loan, annualRatePercent: 12 },
+    })
+    const saved = JSON.parse(
+      await readFile(join(dir, 'config.json'), 'utf8'),
+    ) as V2Content['config']
+    expect(saved.loan.annualRatePercent).toBe(12)
+    await expect(
+      saveBoContent(root, 'config', {
+        ...config,
+        loan: { ...config.loan, annualRatePercent: -1 },
+      }),
+    ).rejects.toBeInstanceOf(BoValidationError)
+  })
+
   it('rejects a missing asset file without replacing content', async () => {
     const dir = await fixture()
     const before = await readFile(join(dir, 'endings.json'), 'utf8')

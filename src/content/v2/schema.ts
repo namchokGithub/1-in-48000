@@ -143,6 +143,15 @@ export const v2GameConfigSchema = z.object({
       z.literal('summer'),
     ]),
   }),
+  loan: z.strictObject({
+    annualRatePercent: z.number().min(0).max(100),
+    periodDays: z.strictObject({
+      term1: z.int().min(0),
+      break: z.int().min(0),
+      term2: z.int().min(0),
+      summer: z.int().min(0),
+    }),
+  }),
 })
 
 export const v2OutfitSchema = z.enum(['casual', 'student'])

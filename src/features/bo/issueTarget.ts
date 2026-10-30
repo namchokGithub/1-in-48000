@@ -11,6 +11,7 @@ type IssueContent = {
 }
 
 export type IssueSection =
+  | 'settings'
   | 'events'
   | 'endings'
   | 'flow'
@@ -55,6 +56,12 @@ export function issueTarget(
   content: IssueContent,
 ): IssueTarget | null {
   const [file, rawIndex, ...rest] = path.split('.')
+  if (file === 'config')
+    return {
+      section: 'settings',
+      label: 'ตั้งค่าเกม',
+      field: [rawIndex, ...rest].filter(Boolean).join('.'),
+    }
   if (file === 'flow')
     return {
       section: 'flow',

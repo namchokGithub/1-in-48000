@@ -163,3 +163,7 @@ The create screen rolls the game seed when it opens and starts the game with tha
 ## 2026-10-30 — Remove the V1 content archive
 
 Delete `public/content/`. Player and BO load and write only `public/content-v2/`, no code or test reads the V1 JSON, and the V1 engine and save migrations that used it were removed earlier. Keeping it shipped stale files with the public build, and edits to it could be mistaken for live content. The files remain in Git history.
+
+## 2026-10-30 — Automatic loans as negative money
+
+Money may go below 0, and the negative balance is the automatic loan, so a choice is never blocked or split into a separate "borrow and choose" action, and every existing money −X effect works the same way without a new `cost` field. Interest uses bank-style simple interest, `principal × rate × days ÷ 36500`, charged from money at each Next Period for the days of the period that just ended, rounded to whole baht. The game counts time in periods, not days, so `config.loan.periodDays` maps each period to days (120/30/120/95, 365 in total) next to the yearly rate (15%), and the BO edits both in a "ตั้งค่าเกม" tab. Only the negative balance earns interest; debt that authors set keeps its value, because it stands for loans the story defines. Debt is repaid once, at the ending: the life summary derives money − debt without changing the save, so no save field or migration is needed and every ending, including dismissal, is covered.

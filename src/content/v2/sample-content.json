@@ -35,6 +35,10 @@
       "maximumYears": 8,
       "reviewYears": [4, 6, 8],
       "periods": ["term1", "break", "term2", "summer"]
+    },
+    "loan": {
+      "annualRatePercent": 15,
+      "periodDays": { "term1": 120, "break": 30, "term2": 120, "summer": 95 }
     }
   },
   "events": [

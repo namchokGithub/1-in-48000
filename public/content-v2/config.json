@@ -67,7 +67,25 @@
   "timeModel": {
     "standardYears": 4,
     "maximumYears": 8,
-    "reviewYears": [4, 6, 8],
-    "periods": ["term1", "break", "term2", "summer"]
+    "reviewYears": [
+      4,
+      6,
+      8
+    ],
+    "periods": [
+      "term1",
+      "break",
+      "term2",
+      "summer"
+    ]
+  },
+  "loan": {
+    "annualRatePercent": 22,
+    "periodDays": {
+      "term1": 120,
+      "break": 30,
+      "term2": 120,
+      "summer": 95
+    }
   }
 }

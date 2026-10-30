@@ -27,6 +27,14 @@ describe('issue target', () => {
     })
   })
 
+  it('points a config issue at the game settings tab', () => {
+    expect(issueTarget('config.loan.annualRatePercent', content)).toEqual({
+      section: 'settings',
+      label: 'ตั้งค่าเกม',
+      field: 'loan.annualRatePercent',
+    })
+  })
+
   it('points an ending issue at the ending', () => {
     expect(issueTarget('endings.0.title', content)).toEqual({
       section: 'endings',
@@ -63,7 +71,7 @@ describe('issue target', () => {
   })
 
   it('has no target for an unknown file or a missing item', () => {
-    expect(issueTarget('config.title', content)).toBeNull()
+    expect(issueTarget('unknown.title', content)).toBeNull()
     expect(issueTarget('events.9.title', content)).toBeNull()
   })
 })

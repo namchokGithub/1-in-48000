@@ -197,6 +197,7 @@ export function PreviewDialog({
             majors={session.content.majors}
             electives={session.content.electives}
             names={session.content.names}
+            loanRatePercent={session.content.config.loan.annualRatePercent}
             error={session.error}
             onChoose={choose}
             onChooseMany={chooseMany}

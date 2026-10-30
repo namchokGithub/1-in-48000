@@ -283,9 +283,21 @@ function studyScore(save: V2PlayerSave): number {
   return save.stats.study - Math.max(save.stats.stress, 0) / 10
 }
 
-function advancePeriod(save: V2PlayerSave): void {
+// A negative money balance is an automatic loan. It grows by simple interest
+// for the days of the period that just ended; author-set debt does not.
+function chargeLoanInterest(content: V2GameContent, save: V2PlayerSave): void {
+  if (save.stats.money >= 0) return
+  const { annualRatePercent, periodDays } = content.config.loan
+  const days = periodDays[save.currentTime.period]
+  save.stats.money -= Math.round(
+    (-save.stats.money * annualRatePercent * days) / 36500,
+  )
+}
+
+function advancePeriod(content: V2GameContent, save: V2PlayerSave): void {
   const next = nextTime(save.currentTime)
   if (!next) throw new Error('Cannot move past year 8')
+  chargeLoanInterest(content, save)
   save.currentTime = next
   applyPending(
     save,
@@ -395,7 +407,7 @@ function enterNode(
         if (review === 'dismiss') {
           endRun(save, 'dismissal')
         } else if (review !== 'graduate') {
-          advancePeriod(save)
+          advancePeriod(content, save)
         }
         trace?.push({
           type: 'nextPeriod',
@@ -618,7 +630,9 @@ export type V2LifeSummary = {
   playerName: string
   title: string
   summary: string
+  // Stats after the debt is settled from money.
   stats: V2Stats
+  settlement: { money: number; debt: number; finalMoney: number }
   eventsVisited: number
   choicesMade: number
   timeline: Array<{
@@ -638,11 +652,13 @@ export function summarizeV2Life(
   if (!save.endingId) throw new Error('No ending has been reached')
   const ending = content.endings.find((item) => item.id === save.endingId)
   if (!ending) throw new Error(`Unknown ending: ${save.endingId}`)
+  const { money, debt } = save.stats
   return {
     playerName: save.playerName,
     title: ending.title,
     summary: ending.summary,
-    stats: { ...save.stats },
+    stats: { ...save.stats, money: money - debt, debt: 0 },
+    settlement: { money, debt, finalMoney: money - debt },
     eventsVisited: new Set(save.history.map((entry) => entry.eventId)).size,
     choicesMade: save.history.length,
     timeline: save.history.map((entry) => {

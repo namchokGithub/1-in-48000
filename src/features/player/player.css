@@ -442,6 +442,23 @@
 .player-stat-money .player-stat-row {
   margin-bottom: 0;
 }
+.player-stat-money [data-negative] {
+  color: var(--color-danger);
+}
+.player-stat-loan {
+  grid-column: 1 / -1;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+.player-settlement {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 1.5rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+}
 .player-effect-list {
   display: grid;
   gap: 0.2rem;

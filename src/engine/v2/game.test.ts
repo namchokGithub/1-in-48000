@@ -201,6 +201,49 @@ describe('V4 flow engine', () => {
     )
   })
 
+  it('charges interest on a negative money balance at each Next Period', () => {
+    const periodGame = (money: number) =>
+      game(
+        [event('first'), event('second')],
+        [
+          eventNode('first'),
+          { id: 'next_period', type: 'nextPeriod', position: at },
+          eventNode('second'),
+          ending('study_complete'),
+        ],
+        [
+          edge('first', 'continue_story', 'next_period'),
+          edge('next_period', 'next', 'second'),
+          edge('second', 'continue_story', 'end_study_complete'),
+        ],
+        { stats: { money, debt: 500 } },
+      )
+    const after = (money: number) => {
+      const content = periodGame(money)
+      return chooseV2(content, createV2Game(content, 1), 'continue_story').stats
+    }
+    // 1,000 × 15% × 120 days ÷ 36,500 = 49.3, rounded to 49.
+    expect(after(-1000)).toMatchObject({ money: -1049, debt: 500 })
+    expect(after(1000)).toMatchObject({ money: 1000, debt: 500 })
+  })
+
+  it('settles debt from money at the ending', () => {
+    const content = game(
+      [event('only')],
+      [eventNode('only'), ending('study_complete')],
+      [edge('only', 'continue_story', 'end_study_complete')],
+      { stats: { money: 300, debt: 1000 } },
+    )
+    const ended = chooseV2(content, createV2Game(content, 1), 'continue_story')
+    const summary = summarizeV2Life(content, ended)
+    expect(summary.settlement).toEqual({
+      money: 300,
+      debt: 1000,
+      finalMoney: -700,
+    })
+    expect(summary.stats).toMatchObject({ money: -700, debt: 0 })
+  })
+
   it('starts at the first event linked from Start', () => {
     const content = single([event('first'), event('second')])
     const save = createV2Game(content, 1)

@@ -34,12 +34,25 @@ import { useCloseMenus } from './useCloseMenus'
 import { periodLabels } from './periodLabels'
 import { filterOptionIndexes } from './dropdownFilter'
 import { FlagIdOptions, FlagList } from './FlagList'
+import { GameSettingsEditor } from './GameSettingsEditor'
 import { flagUsage } from './flagUsage'
 
 type Section =
-  'events' | 'flow' | 'endings' | 'flags' | DataSection | CatalogSection
+  | 'events'
+  | 'flow'
+  | 'endings'
+  | 'flags'
+  | 'settings'
+  | DataSection
+  | CatalogSection
 type EditableFile =
-  'events' | 'flow' | 'endings' | 'characters' | 'assets' | CatalogSection
+  | 'config'
+  | 'events'
+  | 'flow'
+  | 'endings'
+  | 'characters'
+  | 'assets'
+  | CatalogSection
 type ValidationIssue = { path: string; message: string }
 
 function sectionFromUrl(): Section {
@@ -48,6 +61,7 @@ function sectionFromUrl(): Section {
     tab === 'events' ||
     tab === 'endings' ||
     tab === 'flags' ||
+    tab === 'settings' ||
     tab === 'speakers' ||
     tab === 'backgrounds' ||
     tab === 'portraits' ||
@@ -64,6 +78,7 @@ function sectionFromUrl(): Section {
 
 function sectionFile(section: Section): EditableFile | null {
   if (section === 'flags') return null
+  if (section === 'settings') return 'config'
   if (section === 'speakers') return 'characters'
   if (
     section === 'backgrounds' ||
@@ -288,7 +303,10 @@ export function BoApp() {
   const dirtyElectives =
     JSON.stringify(draft.electives) !== JSON.stringify(saved.electives)
   const dirtyNames = JSON.stringify(draft.names) !== JSON.stringify(saved.names)
+  const dirtyConfig =
+    JSON.stringify(draft.config) !== JSON.stringify(saved.config)
   const dirtyFiles: Record<EditableFile, boolean> = {
+    config: dirtyConfig,
     events: dirtyEvents,
     flow: dirtyFlow,
     endings: dirtyEndings,
@@ -310,6 +328,7 @@ export function BoApp() {
     flow: 'Flow เรื่อง',
     endings: 'ตอนจบ',
     flags: 'ตัวแปร (Flag)',
+    settings: 'ตั้งค่าเกม',
     backgrounds: 'ภาพฉาก',
     speakers: 'ตัวละคร (NPC)',
     names: 'ชื่อผู้เล่น',
@@ -380,6 +399,10 @@ export function BoApp() {
         count: draft[catalog].length,
         dirty: dirtyFiles[catalog],
       })),
+    },
+    {
+      label: 'เกม',
+      tabs: [{ section: 'settings', count: 1, dirty: dirtyConfig }],
     },
   ]
   const currentGroup = tabGroups.find((group) =>
@@ -582,6 +605,7 @@ export function BoApp() {
       }
       setShowIssues(false)
       const names = {
+        config: 'ตั้งค่าเกม',
         events: 'เหตุการณ์',
         flow: 'Flow เรื่อง',
         endings: 'ตอนจบ',
@@ -767,6 +791,15 @@ export function BoApp() {
         <FlagIdOptions content={draft} />
         {section === 'flags' ? (
           <FlagList content={draft} onGo={goToIssue} />
+        ) : section === 'settings' ? (
+          <GameSettingsEditor
+            config={draft.config}
+            onChange={(config) => {
+              setDraft({ ...currentDraft, config })
+              setNotice('')
+              setServerIssues([])
+            }}
+          />
         ) : section === 'speakers' ||
           section === 'backgrounds' ||
           section === 'portraits' ||
