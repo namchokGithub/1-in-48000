@@ -65,6 +65,7 @@ import {
   type Side,
 } from './flowEdgeGeometry'
 import type { PreviewPath } from './PreviewDialog'
+import { periodLabels } from './periodLabels'
 
 type CardData = {
   node: V2FlowNode
@@ -80,12 +81,6 @@ type Card = Node<CardData, 'card'>
 type FlowLine = Edge<{ port: string }, 'flow'>
 
 const EVENT_DRAG_TYPE = 'application/x-bo-event'
-const periodLabels: Record<V2Event['time']['period'], string> = {
-  term1: 'เทอม 1',
-  break: 'ปิดเทอม',
-  term2: 'เทอม 2',
-  summer: 'ซัมเมอร์',
-}
 const eventKindLabels: Record<V2Event['kind'], string> = {
   main: 'หลัก',
   conditional: 'มีเงื่อนไข',
@@ -319,6 +314,21 @@ function Board({
   const flow = content.flow
   const boardRef = useRef<HTMLDivElement>(null)
   const { screenToFlowPosition, fitView, setCenter } = useReactFlow()
+  // The board opens on the start of the story at a readable zoom: the Start
+  // card and the cards up to four steps after it.
+  const [openingNodes] = useState(() => {
+    const start = flow.nodes.find((node) => node.type === 'start')
+    if (!start) return undefined
+    const seen = new Set([start.id])
+    let frontier = [start.id]
+    for (let step = 0; step < 4; step += 1) {
+      frontier = flow.edges
+        .filter((edge) => frontier.includes(edge.from) && !seen.has(edge.to))
+        .map((edge) => edge.to)
+      frontier.forEach((id) => seen.add(id))
+    }
+    return [...seen].map((id) => ({ id }))
+  })
   const [query, setQuery] = useState('')
   const [year, setYear] = useState('all')
   const [period, setPeriod] = useState('all')
@@ -876,34 +886,38 @@ function Board({
               <option value="2">โฟกัส: 2 ขั้น</option>
               <option value="3">โฟกัส: 3 ขั้น</option>
             </BoDropdown>
-            <button
-              type="button"
-              className="button button-secondary"
-              onClick={() => {
-                change(layoutFlow(flow))
-                setMessage('จัดตำแหน่งแล้ว · กด Cmd+Z (Ctrl+Z) เพื่อย้อน')
-                window.requestAnimationFrame(() => fitView({ duration: 300 }))
-              }}
-            >
-              จัดตำแหน่ง
-            </button>
-            <button
-              type="button"
-              className="button button-secondary"
-              title="คีย์ลัด F เมื่อไม่ได้เลือกอะไร"
-              onClick={() => fitView({ duration: 300 })}
-            >
-              Fit ทั้งหมด
-            </button>
-            <button
-              type="button"
-              className="button button-secondary"
-              title="คีย์ลัด F เมื่อเลือกการ์ดหรือเส้น"
-              disabled={!selectedNode && !selectedEdge}
-              onClick={fitSelected}
-            >
-              Fit ที่เลือก
-            </button>
+            <details className="bo-flow-menu">
+              <summary className="button button-secondary">มุมมอง ▾</summary>
+              <div className="bo-flow-menu-list">
+                <button
+                  type="button"
+                  title="คีย์ลัด F เมื่อไม่ได้เลือกอะไร"
+                  onClick={() => fitView({ duration: 300 })}
+                >
+                  พอดีจอทั้งหมด
+                </button>
+                <button
+                  type="button"
+                  title="คีย์ลัด F เมื่อเลือกการ์ดหรือเส้น"
+                  disabled={!selectedNode && !selectedEdge}
+                  onClick={fitSelected}
+                >
+                  พอดีจอเฉพาะที่เลือก
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    change(layoutFlow(flow))
+                    setMessage('จัดตำแหน่งแล้ว · กด Cmd+Z (Ctrl+Z) เพื่อย้อน')
+                    window.requestAnimationFrame(() =>
+                      fitView({ duration: 300 }),
+                    )
+                  }}
+                >
+                  จัดตำแหน่งอัตโนมัติ
+                </button>
+              </div>
+            </details>
           </div>
           <button
             type="button"
@@ -911,8 +925,7 @@ function Board({
             aria-pressed={showIssues}
             onClick={() => setShowIssues((value) => !value)}
           >
-            ตรวจความถูกต้อง · {errors.length} ผิด · {report.warnings.length}{' '}
-            เตือน
+            ตรวจ · {errors.length} ผิด · {report.warnings.length} เตือน
           </button>
         </div>
         {message && (
@@ -1016,23 +1029,29 @@ function Board({
               deleteKeyCode={['Backspace', 'Delete']}
               minZoom={0.15}
               fitView
+              fitViewOptions={{ nodes: openingNodes, maxZoom: 1, padding: 0.2 }}
             >
               <Background gap={24} />
               <Controls />
-              <MiniMap pannable zoomable />
-              <Panel position="bottom-center" className="bo-flow-legend">
-                {Object.entries(eventKindLabels).map(([kind, label]) => (
-                  <span key={kind} data-kind={kind}>
-                    {label}
-                  </span>
-                ))}
-                <span className="bo-flow-legend-sep" aria-hidden="true" />
-                <span data-edge="conditional">มีเงื่อนไข</span>
-                {Object.entries(edgeStyleLabels).map(([style, label]) => (
-                  <span key={style} data-edge={style}>
-                    {label}
-                  </span>
-                ))}
+              {!selectedNode && !selectedEdge && <MiniMap pannable zoomable />}
+              <Panel position="bottom-center">
+                <details className="bo-flow-legend-toggle">
+                  <summary>คำอธิบายสัญลักษณ์</summary>
+                  <div className="bo-flow-legend">
+                    {Object.entries(eventKindLabels).map(([kind, label]) => (
+                      <span key={kind} data-kind={kind}>
+                        {label}
+                      </span>
+                    ))}
+                    <span className="bo-flow-legend-sep" aria-hidden="true" />
+                    <span data-edge="conditional">มีเงื่อนไข</span>
+                    {Object.entries(edgeStyleLabels).map(([style, label]) => (
+                      <span key={style} data-edge={style}>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </details>
               </Panel>
               {!selectedNode && !selectedEdge && (
                 <Panel position="top-left" className="bo-flow-hint">

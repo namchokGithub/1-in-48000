@@ -29,6 +29,9 @@ export function V2EventEditor({
 }) {
   const [expandedChoice, setExpandedChoice] = useState<number | null>(0)
   const narrator = characters.find((item) => item.isNarrator)
+  const sceneAsset = assets.find(
+    (item) => item.id === event.sceneAssetId && item.kind === 'scene',
+  )
   const update = (change: (next: V2Event) => void) => {
     const next = structuredClone(event)
     change(next)
@@ -88,7 +91,7 @@ export function V2EventEditor({
         </div>
         <div className="bo-story-heading-actions">
           <span className="bo-summary-badge">
-            {event.active === false ? 'Inactive' : 'Draft'}
+            {event.active === false ? 'ปิดใช้' : 'เปิดใช้'}
           </span>
           <button
             type="button"
@@ -252,6 +255,13 @@ export function V2EventEditor({
                 </option>
               ))}
           </BoDropdown>
+          {sceneAsset && (
+            <img
+              className="bo-scene-thumb"
+              src={sceneAsset.path}
+              alt={`ตัวอย่างภาพฉาก ${sceneAsset.id}`}
+            />
+          )}
         </label>
         <label className="bo-field">
           <span>ชุดผู้เล่น</span>

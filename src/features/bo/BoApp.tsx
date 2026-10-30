@@ -29,6 +29,10 @@ import { matchesStoryQuery } from './timelineFilters'
 import { DataEditor, type DataSection } from './DataEditor'
 import { CatalogEditor, type CatalogSection } from './CatalogEditor'
 import { issueTarget, type IssueTarget } from './issueTarget'
+import { ListSearch } from './ListSearch'
+import { useCloseMenus } from './useCloseMenus'
+import { periodLabels } from './periodLabels'
+import { filterOptionIndexes } from './dropdownFilter'
 
 type Section = 'events' | 'flow' | 'endings' | DataSection | CatalogSection
 type EditableFile =
@@ -102,6 +106,7 @@ export function BoApp() {
   const [editEventId, setEditEventId] = useState<string | null>(null)
   const [previewPath, setPreviewPath] = useState<PreviewPath | null>(null)
   const [eventQuery, setEventQuery] = useState('')
+  const [endingQuery, setEndingQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
   const eventIndex = draft
@@ -130,6 +135,7 @@ export function BoApp() {
   >(null)
   const unsaved =
     !!draft && !!saved && JSON.stringify(draft) !== JSON.stringify(saved)
+  useCloseMenus()
 
   function setDraft(change: SetStateAction<V2Content | null>) {
     setHistory((current) => {
@@ -369,6 +375,10 @@ export function BoApp() {
   const event = draft.events[eventIndex]
   const ending = draft.endings[endingIndex]
   const eventIds = draft.events.map((item) => item.id)
+  const visibleEndingIndexes = filterOptionIndexes(
+    draft.endings.map((item) => ({ value: item.id, label: item.title })),
+    endingQuery,
+  )
   const visibleEventEntries = orderedStoryEntries(draft.events).filter(
     ({ event: item }) => matchesStoryQuery(item, eventQuery),
   )
@@ -696,28 +706,6 @@ export function BoApp() {
             </div>
           </div>
         </header>
-        {section === 'events' && (
-          <div className="bo-events-tools">
-            <label className="bo-event-search">
-              <span>ค้นหาเหตุการณ์</span>
-              <input
-                className="field"
-                type="search"
-                value={eventQuery}
-                placeholder="ชื่อ, ID หรือข้อความในเรื่อง"
-                onChange={(input) => {
-                  const next = input.target.value
-                  setEventQuery(next)
-                  if (!event || matchesStoryQuery(event, next)) return
-                  const first = orderedStoryEntries(draft.events).find(
-                    ({ event: item }) => matchesStoryQuery(item, next),
-                  )
-                  if (first) setEventIndex(first.index)
-                }}
-              />
-            </label>
-          </div>
-        )}
         {notice && (
           <p
             className="bo-notice"
@@ -855,6 +843,27 @@ export function BoApp() {
                   + เพิ่ม
                 </button>
               </div>
+              {section === 'events' ? (
+                <ListSearch
+                  label="ค้นหาเหตุการณ์"
+                  value={eventQuery}
+                  placeholder="ชื่อ, ID, ข้อความ"
+                  onChange={(next) => {
+                    setEventQuery(next)
+                    if (!event || matchesStoryQuery(event, next)) return
+                    const first = orderedStoryEntries(draft.events).find(
+                      ({ event: item }) => matchesStoryQuery(item, next),
+                    )
+                    if (first) setEventIndex(first.index)
+                  }}
+                />
+              ) : (
+                <ListSearch
+                  label="ค้นหาตอนจบ"
+                  value={endingQuery}
+                  onChange={setEndingQuery}
+                />
+              )}
               <div className="bo-item-list">
                 {section === 'events'
                   ? visibleEventEntries.map(({ event: item, index }) => (
@@ -867,28 +876,34 @@ export function BoApp() {
                       >
                         <strong>{item.title || 'ไม่มีชื่อ'}</strong>
                         <small>
-                          {item.id} · ปี {item.time.year} {item.time.period}
-                          {item.active === false ? ' · Inactive' : ''}
+                          {item.id} · ปี {item.time.year}{' '}
+                          {periodLabels[item.time.period]}
+                          {item.active === false ? ' · ปิดใช้' : ''}
                         </small>
                       </button>
                     ))
-                  : draft.endings.map((item, index) => (
-                      <button
-                        key={index}
-                        type="button"
-                        data-selected={index === endingIndex}
-                        aria-current={
-                          index === endingIndex ? 'true' : undefined
-                        }
-                        onClick={() => setEndingIndex(index)}
-                      >
-                        <strong>{item.title || 'ไม่มีชื่อ'}</strong>
-                        <small>{item.id}</small>
-                      </button>
-                    ))}
+                  : visibleEndingIndexes.map((index) => {
+                      const item = draft.endings[index]
+                      return (
+                        <button
+                          key={index}
+                          type="button"
+                          data-selected={index === endingIndex}
+                          aria-current={
+                            index === endingIndex ? 'true' : undefined
+                          }
+                          onClick={() => setEndingIndex(index)}
+                        >
+                          <strong>{item.title || 'ไม่มีชื่อ'}</strong>
+                          <small>{item.id}</small>
+                        </button>
+                      )
+                    })}
               </div>
-              {section === 'events' && !visibleEventEntries.length && (
-                <p className="muted mt-3 text-sm">ไม่พบเหตุการณ์ที่ค้นหา</p>
+              {(section === 'events'
+                ? !visibleEventEntries.length
+                : !visibleEndingIndexes.length) && (
+                <p className="muted mt-3 text-sm">ไม่พบรายการที่ค้นหา</p>
               )}
             </aside>
             <section className="panel bo-editor" aria-label="แก้เนื้อหา">
@@ -954,6 +969,9 @@ export function BoApp() {
               ) : ending ? (
                 <V2EndingEditor
                   ending={ending}
+                  otherIds={draft.endings
+                    .filter((_, index) => index !== endingIndex)
+                    .map((item) => item.id)}
                   onChange={updateEnding}
                   onDelete={() =>
                     setConfirmation({

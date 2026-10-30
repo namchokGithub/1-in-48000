@@ -1,4 +1,6 @@
 import { CopyIdButton } from './CopyIdButton'
+import { idProblem } from './idCheck'
+import { randomId } from './randomId'
 import type { V2Content } from '../../content/v2/schema'
 
 type Ending = V2Content['endings'][number]
@@ -7,11 +9,14 @@ export function V2EndingEditor({
   ending,
   onChange,
   onDelete,
+  otherIds,
 }: {
   ending: Ending
   onChange: (next: Ending) => void
   onDelete: () => void
+  otherIds: string[]
 }) {
+  const idError = idProblem(ending.id, otherIds)
   return (
     <div className="bo-stack">
       <div className="bo-section-heading">
@@ -37,12 +42,29 @@ export function V2EndingEditor({
               id="bo-ending-id"
               className="field"
               value={ending.id}
+              aria-invalid={!!idError}
+              aria-describedby={idError ? 'bo-ending-id-error' : undefined}
               onChange={(event) =>
                 onChange({ ...ending, id: event.target.value })
               }
             />
+            <button
+              type="button"
+              className="button button-secondary"
+              aria-label="สุ่ม Ending ID"
+              onClick={() =>
+                onChange({ ...ending, id: randomId('ending', otherIds) })
+              }
+            >
+              สุ่ม ID
+            </button>
             <CopyIdButton value={ending.id} label="Ending ID" />
           </div>
+          {idError && (
+            <small id="bo-ending-id-error" className="bo-field-error">
+              {idError}
+            </small>
+          )}
         </div>
         <label className="bo-field">
           <span>ชื่อตอนจบ</span>
@@ -54,6 +76,9 @@ export function V2EndingEditor({
               onChange({ ...ending, title: event.target.value })
             }
           />
+          {!ending.title.trim() && (
+            <small className="bo-field-error">ต้องมีชื่อตอนจบ</small>
+          )}
         </label>
       </div>
       <label className="bo-field">
@@ -66,6 +91,9 @@ export function V2EndingEditor({
             onChange({ ...ending, summary: event.target.value })
           }
         />
+        {!ending.summary.trim() && (
+          <small className="bo-field-error">ต้องมีสรุปชีวิต</small>
+        )}
       </label>
     </div>
   )

@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { CopyIdButton } from './CopyIdButton'
-import {
-  v2IdSchema,
-  type V2Content,
-  type V2Outfit,
-} from '../../content/v2/schema'
+import { type V2Content, type V2Outfit } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { StateEffectList } from './V2EffectList'
 import { randomId } from './randomId'
+import { ListSearch } from './ListSearch'
+import { idProblem } from './idCheck'
+import { filterOptionIndexes } from './dropdownFilter'
 
 export type CatalogSection = 'faculties' | 'majors' | 'electives' | 'names'
 
@@ -49,8 +48,19 @@ export function CatalogEditor({
       items.findIndex((item) => item.id === initialId),
     ),
   )
+  const [query, setQuery] = useState('')
   const index = Math.min(storedIndex, Math.max(0, items.length - 1))
   const selected = items[index] as CatalogItem | undefined
+  const idError = selected
+    ? idProblem(
+        selected.id,
+        items.filter((item) => item !== selected).map((item) => item.id),
+      )
+    : null
+  const visibleIndexes = filterOptionIndexes(
+    items.map((item) => ({ value: item.id, label: item.name })),
+    query,
+  )
 
   function replace(value: CatalogItem) {
     const next = structuredClone(content)
@@ -151,23 +161,34 @@ export function CatalogEditor({
             + เพิ่ม
           </button>
         </div>
+        <ListSearch
+          label={`ค้นหา${labels[section]}`}
+          value={query}
+          onChange={setQuery}
+        />
         <div className="bo-item-list">
-          {items.map((item, itemIndex) => (
-            <button
-              key={`${item.id}-${itemIndex}`}
-              type="button"
-              data-selected={itemIndex === index}
-              aria-current={itemIndex === index ? 'true' : undefined}
-              onClick={() => setIndex(itemIndex)}
-            >
-              <strong>{item.name}</strong>
-              <small>
-                {item.id}
-                {'programYears' in item ? ` · ${item.programYears} ปี` : ''}
-              </small>
-            </button>
-          ))}
+          {visibleIndexes.map((itemIndex) => {
+            const item = items[itemIndex]
+            return (
+              <button
+                key={`${item.id}-${itemIndex}`}
+                type="button"
+                data-selected={itemIndex === index}
+                aria-current={itemIndex === index ? 'true' : undefined}
+                onClick={() => setIndex(itemIndex)}
+              >
+                <strong>{item.name}</strong>
+                <small>
+                  {item.id}
+                  {'programYears' in item ? ` · ${item.programYears} ปี` : ''}
+                </small>
+              </button>
+            )
+          })}
         </div>
+        {!visibleIndexes.length && (
+          <p className="muted mt-3 text-sm">ไม่พบรายการที่ค้นหา</p>
+        )}
       </aside>
       <section className="panel bo-editor" aria-label={`แก้${labels[section]}`}>
         {selected ? (
@@ -193,7 +214,10 @@ export function CatalogEditor({
                     id="bo-catalog-id"
                     className="field"
                     value={selected.id}
-                    aria-invalid={!v2IdSchema.safeParse(selected.id).success}
+                    aria-invalid={!!idError}
+                    aria-describedby={
+                      idError ? 'bo-catalog-id-error' : undefined
+                    }
                     onChange={(event) =>
                       replace({ ...selected, id: event.target.value })
                     }
@@ -225,10 +249,9 @@ export function CatalogEditor({
                     label={`ID ${labels[section]}`}
                   />
                 </div>
-                {!v2IdSchema.safeParse(selected.id).success && (
-                  <small className="bo-field-error">
-                    ID ต้องขึ้นต้นด้วยตัวพิมพ์เล็ก และใช้ได้เฉพาะ a–z, 0–9, _
-                    หรือ -
+                {idError && (
+                  <small id="bo-catalog-id-error" className="bo-field-error">
+                    {idError}
                   </small>
                 )}
               </div>

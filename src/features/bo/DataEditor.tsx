@@ -3,6 +3,9 @@ import { CopyIdButton } from './CopyIdButton'
 import type { V2Content } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { randomId } from './randomId'
+import { ListSearch } from './ListSearch'
+import { idProblem } from './idCheck'
+import { filterOptionIndexes } from './dropdownFilter'
 
 export type DataSection = 'speakers' | 'backgrounds' | 'portraits' | 'sounds'
 
@@ -42,9 +45,25 @@ export function DataEditor({
       items.findIndex((item) => item.id === initialId),
     ),
   )
+  const [query, setQuery] = useState('')
   const index = Math.min(storedIndex, Math.max(0, items.length - 1))
   const selected = items[index]
   const file = section === 'speakers' ? 'characters' : 'assets'
+  const idError = selected
+    ? idProblem(
+        selected.id,
+        (file === 'characters' ? content.characters : content.assets)
+          .filter((item) => item !== selected)
+          .map((item) => item.id),
+      )
+    : null
+  const visibleIndexes = filterOptionIndexes(
+    items.map((item) => ({
+      value: item.id,
+      label: 'name' in item ? item.name : item.id,
+    })),
+    query,
+  )
 
   function replace(
     value: V2Content['characters'][number] | V2Content['assets'][number],
@@ -133,24 +152,37 @@ export function DataEditor({
             + เพิ่ม
           </button>
         </div>
+        <ListSearch
+          label={`ค้นหา${labels[section]}`}
+          value={query}
+          onChange={setQuery}
+        />
         <div className="bo-item-list">
-          {items.map((item, itemIndex) => (
-            <button
-              key={`${item.id}-${itemIndex}`}
-              type="button"
-              data-selected={itemIndex === index}
-              aria-current={itemIndex === index ? 'true' : undefined}
-              onClick={() => setIndex(itemIndex)}
-            >
-              <strong>{'name' in item ? item.name : item.id}</strong>
-              <small>
-                {item.id}
-                {'kind' in item ? ` · ${item.kind.toUpperCase()}` : ''}
-                {'isNarrator' in item && item.isNarrator ? ' · ผู้บรรยาย' : ''}
-              </small>
-            </button>
-          ))}
+          {visibleIndexes.map((itemIndex) => {
+            const item = items[itemIndex]
+            return (
+              <button
+                key={`${item.id}-${itemIndex}`}
+                type="button"
+                data-selected={itemIndex === index}
+                aria-current={itemIndex === index ? 'true' : undefined}
+                onClick={() => setIndex(itemIndex)}
+              >
+                <strong>{'name' in item ? item.name : item.id}</strong>
+                <small>
+                  {item.id}
+                  {'kind' in item ? ` · ${item.kind.toUpperCase()}` : ''}
+                  {'isNarrator' in item && item.isNarrator
+                    ? ' · ผู้บรรยาย'
+                    : ''}
+                </small>
+              </button>
+            )
+          })}
         </div>
+        {!visibleIndexes.length && (
+          <p className="muted mt-3 text-sm">ไม่พบรายการที่ค้นหา</p>
+        )}
       </aside>
       <section className="panel bo-editor" aria-label={`แก้${labels[section]}`}>
         {selected ? (
@@ -180,6 +212,8 @@ export function DataEditor({
                     id="bo-data-id"
                     className="field"
                     value={selected.id}
+                    aria-invalid={!!idError}
+                    aria-describedby={idError ? 'bo-data-id-error' : undefined}
                     onChange={(event) =>
                       replace({ ...selected, id: event.target.value })
                     }
@@ -211,6 +245,11 @@ export function DataEditor({
                     label={`ID ${labels[section]}`}
                   />
                 </div>
+                {idError && (
+                  <small id="bo-data-id-error" className="bo-field-error">
+                    {idError}
+                  </small>
+                )}
               </div>
               {speaker ? (
                 <>
@@ -318,6 +357,17 @@ export function DataEditor({
                   className="bo-asset-preview"
                   src={asset.path}
                   alt={`ตัวอย่าง${labels[section]} ${asset.id}`}
+                />
+              )}
+            {(asset?.kind === 'bgm' || asset?.kind === 'sfx') &&
+              asset.path.startsWith('/assets/') && (
+                <audio
+                  key={asset.path}
+                  className="bo-audio-preview"
+                  controls
+                  preload="none"
+                  src={asset.path}
+                  aria-label={`ฟังตัวอย่าง ${asset.id}`}
                 />
               )}
             {asset && (
