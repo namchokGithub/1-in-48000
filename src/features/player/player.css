@@ -863,3 +863,109 @@
     height: clamp(8rem, 25vh, 10rem);
   }
 }
+.player-dialog {
+  width: min(100% - 2rem, 26rem);
+  margin: auto;
+  padding: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 1.5rem 4rem #0003;
+}
+.player-dialog::backdrop {
+  background: #0008;
+}
+.player-toast {
+  position: fixed;
+  z-index: 40;
+  bottom: 1rem;
+  left: 50%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 0.75rem 2rem #0003;
+  transform: translateX(-50%);
+  animation: player-toast-in 0.2s ease-out;
+}
+.player-toast ul,
+.player-year-list {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+.player-toast li,
+.player-year-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.player-toast li[data-direction='up'],
+.player-year-list li[data-direction='up'] {
+  color: var(--color-primary-dark);
+}
+.player-toast li[data-direction='down'],
+.player-year-list li[data-direction='down'] {
+  color: var(--color-danger);
+}
+.player-toast-close {
+  border: 0;
+  background: none;
+  color: var(--color-muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.player-year-events {
+  display: grid;
+  gap: 0.25rem;
+  padding-left: 1.25rem;
+  list-style: decimal;
+  font-size: 0.9rem;
+}
+.player-info-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  cursor: pointer;
+}
+.player-info-note {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-control);
+  background: var(--color-primary-soft);
+  font-size: 0.875rem;
+}
+.scene-stage img.scene-image[data-fade] {
+  animation: player-scene-in 0.6s ease-out;
+}
+@keyframes player-scene-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes player-toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 0.5rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-stage img.scene-image[data-fade],
+  .player-toast {
+    animation: none;
+  }
+}

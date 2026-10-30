@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { V2LifeSummary } from '../../engine/v2/game'
 import { StatPanel } from './StatPanel'
 import { periodLabels } from './labels'
@@ -32,6 +33,7 @@ export function EndingView({
   onRestart,
 }: Props) {
   const years = groupByYear(summary.timeline)
+  const [showHelp, setShowHelp] = useState(false)
   return (
     <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
       <div className="grid min-w-0 gap-5">
@@ -73,10 +75,28 @@ export function EndingView({
           </div>
         </section>
         <section className="panel p-6 sm:p-10" aria-label="ไทม์ไลน์ชีวิต">
-          <h2 className="text-xl font-extrabold">เส้นทางชีวิตของคุณ</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-extrabold">เส้นทางชีวิตของคุณ</h2>
+            <button
+              type="button"
+              className="player-info-button"
+              aria-label="วิธีดูเส้นทางชีวิต"
+              aria-expanded={showHelp}
+              aria-controls="ending-timeline-help"
+              onClick={() => setShowHelp((open) => !open)}
+            >
+              ⓘ
+            </button>
+          </div>
           <p className="muted mt-1 text-sm">
-            เหตุการณ์และทางเลือกที่พามาถึงวันนี้ กดที่ปีเพื่อดูหรือซ่อน
+            เหตุการณ์และทางเลือกที่พามาถึงวันนี้
           </p>
+          {showHelp && (
+            <p id="ending-timeline-help" className="player-info-note">
+              แต่ละปีเปิดและปิดได้ กดที่ชื่อปีเพื่อดูเหตุการณ์ของปีนั้น
+              แล้วกดอีกครั้งเพื่อซ่อน
+            </p>
+          )}
           <div className="mt-5 grid gap-3">
             {years.map((group, groupIndex) => (
               <details

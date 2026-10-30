@@ -29,6 +29,7 @@ type Props = {
   loanRatePercent: number
   // Recaps of the last choice, shown with the first line only.
   recaps: string[]
+  fadeScene?: boolean
   error: string | null
   onChoose: (choiceId: string) => void
   onChooseMany: (choiceIds: string[]) => void
@@ -49,6 +50,7 @@ export function SceneView({
   names,
   loanRatePercent,
   recaps,
+  fadeScene = false,
   error,
   onChoose,
   onChooseMany,
@@ -149,7 +151,12 @@ export function SceneView({
         <div className="scene-frame">
           <div className="scene-stage">
             {sceneAsset && (
-              <img className="scene-image" src={sceneAsset.path} alt="" />
+              <img
+                className="scene-image"
+                data-fade={fadeScene || undefined}
+                src={sceneAsset.path}
+                alt=""
+              />
             )}
             {portraits.speaker && (
               <img

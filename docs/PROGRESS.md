@@ -10,12 +10,11 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
-Steps 37–39 were accepted by the author on 2026-10-30.
+Steps 37–40 were accepted by the author on 2026-10-30.
 
 | #   | Step                               | Status      | Depends on |
 | --- | ---------------------------------- | ----------- | ---------- |
-| 40  | BO and content for local feedback  | In progress | —          |
-| 41  | Player features for local feedback | Todo        | 40         |
+| 41  | Player features for local feedback | In progress | —          |
 
 Local feedback order (source: `docs/LOCAL.md`): fix the two Player bugs first (39), then the content schema, engine, and BO work (40), then the Player screens that show it (41).
 
@@ -87,7 +86,7 @@ Source: `docs/LOCAL.md`.
 
 ## 40. BO and content for local feedback
 
-**Status:** In progress
+**Status:** Done — accepted by the author on 2026-10-30
 
 Each item adds the Zod schema, engine handling where needed, BO support, and focused tests.
 
@@ -110,11 +109,11 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 2026-10-30: 40.5 implemented, waiting for the author's check, with the portrait part of 41.2. Events get an optional `hidePlayer`; `scenePortraits` places the speaker left and the player right, and drops a speaker picture that is the player's own. BO sets it next to the outfit. The scene fade-in in 41.2 is still open.
 
-2026-10-30: 40.6 implemented, waiting for the author's check. The save keeps `yearProgress` and `finishedYear` (stats at the start and end of the year, money in and out including interest); old checkpoints fail validation and start fresh. The Player screen for it is 41.6.
+2026-10-30: 40.6 implemented, waiting for the author's check. The save keeps `yearProgress` and `finishedYear` (stats at the start and end of the year, money in and out including interest); old checkpoints fail validation and start fresh. The Player screen for it is 41.6. The author accepted 40.4–40.6, and `pnpm build` and `pnpm test` pass.
 
 ## 41. Player features for local feedback
 
-**Status:** Todo
+**Status:** In progress
 
 - 41.1 Home button opens a confirm modal: "กลับหน้าแรก? เกมนี้จะจบลงและเล่นต่อไม่ได้", with "เล่นต่อ" and "กลับหน้าแรก".
 - 41.2 The scene image fades in when the scene changes (off with reduced motion), and the speaker and player portraits follow 40.5 (portraits done with 40.5).
@@ -125,3 +124,5 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 - 41.7 Ending timeline: an ⓘ button explains that each year opens and closes.
 
 **Done when:** the author accepts each screen by eye at mobile and desktop widths.
+
+2026-10-30: 41.1, 41.2 (fade-in), 41.5, 41.6, and 41.7 implemented, waiting for the author's check; 41.2 portraits, 41.3, and 41.4 were done with 40. The Home button asks to confirm in a modal; the scene image fades in only when the scene changes; a toast lists the stats changed by a choice (`statChanges`, including delayed effects that came due); a new year first shows the summary of the year before (`yearSummary`) until "ต่อไป"; and the ending timeline has an ⓘ note. The toast and year summary are in the Player only, not the BO preview. The year summary shows again after a refresh in that year, because which summary was closed is client state.

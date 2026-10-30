@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useStore } from 'zustand'
 import { loadV2Content } from '../../content/v2/loader'
 import type { V2Content } from '../../content/v2/schema'
@@ -17,6 +17,11 @@ import { createPlayerThemeStore } from '../../save/v2/themeSettings'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { createAudioController } from '../../shared/audio'
 import { AudioControls } from './AudioControls'
+import { statChanges, type StatChange } from './statChanges'
+import { yearSummary } from './yearSummary'
+import { YearSummaryView } from './YearSummaryView'
+import { PlayerConfirmDialog } from './ui/PlayerConfirmDialog'
+import { StatToast } from './ui/StatToast'
 import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
 import { SceneView } from './SceneView'
@@ -68,6 +73,16 @@ function PlayerShell({
     store.getState().save ? 'play' : 'home',
   )
   const [actionError, setActionError] = useState<string | null>(null)
+  const [confirmHome, setConfirmHome] = useState(false)
+  const [toast, setToast] = useState<{
+    key: number
+    changes: StatChange[]
+  } | null>(null)
+  const clearToast = useCallback(() => setToast(null), [])
+  // Fade the scene image in only when the next event shows a different scene.
+  const [fadeScene, setFadeScene] = useState(true)
+  // The year whose summary the player already closed in this tab.
+  const [seenYear, setSeenYear] = useState<number | null>(null)
 
   useEffect(() => {
     audio.setVolume(musicSettings.musicEnabled ? musicSettings.musicVolume : 0)
@@ -94,6 +109,7 @@ function PlayerShell({
 
   function goHome() {
     syncMusic(null)
+    setToast(null)
     setView('home')
   }
 
@@ -102,6 +118,9 @@ function PlayerShell({
       ? store.getState().restartGame
       : store.getState().startGame
     action(seed, backgroundId)
+    setSeenYear(null)
+    setToast(null)
+    setFadeScene(true)
     const started = store.getState().save
     if (started) syncMusic(started)
     setActionError(null)
@@ -110,7 +129,21 @@ function PlayerShell({
 
   function resolve(action: () => V2PlayerSave) {
     try {
+      const before = store.getState().save
       const next = action()
+      const changes = before ? statChanges(before.stats, next.stats) : []
+      // A new year opens its summary, which already lists the changes.
+      const newYear = before?.currentTime.year !== next.currentTime.year
+      const sceneOf = (current: V2PlayerSave | null | undefined) =>
+        current && !current.endingId
+          ? currentEventOrNull(content, current)?.sceneAssetId
+          : undefined
+      setFadeScene(sceneOf(before) !== sceneOf(next))
+      setToast(
+        changes.length && !next.endingId && !newYear
+          ? { key: Date.now(), changes }
+          : null,
+      )
       syncMusic(next.endingId ? null : next)
       setActionError(null)
       setView(next.endingId ? 'ending' : 'play')
@@ -141,27 +174,32 @@ function PlayerShell({
     )
   } else if (view === 'play' && save) {
     const event = currentEventOrNull(content, save)
-    body = event ? (
-      <SceneView
-        key={event.id}
-        event={event}
-        save={save}
-        assets={content.assets}
-        characters={content.characters}
-        faculties={content.faculties}
-        majors={content.majors}
-        electives={content.electives}
-        names={content.names}
-        loanRatePercent={content.config.loan.annualRatePercent}
-        recaps={getV2LastRecaps(content, save)}
-        error={actionError}
-        onChoose={choose}
-        onChooseMany={chooseMany}
-        onChooseProgram={chooseProgram}
-        onChooseElective={chooseElective}
-        onHome={goHome}
-      />
-    ) : null
+    const year = yearSummary(content.events, save)
+    body =
+      year && year.year !== seenYear ? (
+        <YearSummaryView summary={year} onNext={() => setSeenYear(year.year)} />
+      ) : event ? (
+        <SceneView
+          key={event.id}
+          event={event}
+          save={save}
+          assets={content.assets}
+          characters={content.characters}
+          faculties={content.faculties}
+          majors={content.majors}
+          electives={content.electives}
+          names={content.names}
+          loanRatePercent={content.config.loan.annualRatePercent}
+          recaps={getV2LastRecaps(content, save)}
+          fadeScene={fadeScene}
+          error={actionError}
+          onChoose={choose}
+          onChooseMany={chooseMany}
+          onChooseProgram={chooseProgram}
+          onChooseElective={chooseElective}
+          onHome={() => setConfirmHome(true)}
+        />
+      ) : null
   } else if (view === 'ending' && save?.endingId) {
     const summary = summaryOrNull(content, save)
     body = summary ? (
@@ -271,6 +309,26 @@ function PlayerShell({
           </div>
         </header>
         <main id="player-content">{body}</main>
+        {toast && view === 'play' && (
+          <StatToast
+            key={toast.key}
+            changes={toast.changes}
+            onDone={clearToast}
+          />
+        )}
+        {confirmHome && (
+          <PlayerConfirmDialog
+            title="กลับหน้าแรก?"
+            description="เกมนี้จะจบลงและเล่นต่อไม่ได้"
+            cancelLabel="เล่นต่อ"
+            confirmLabel="กลับหน้าแรก"
+            onCancel={() => setConfirmHome(false)}
+            onConfirm={() => {
+              setConfirmHome(false)
+              goHome()
+            }}
+          />
+        )}
         <footer className="muted mt-8 text-center text-xs">
           สร้างขึ้นเพื่อความบันเทิงเท่านั้น · เนื้อหาเป็นเรื่องสมมติ
           <br />
