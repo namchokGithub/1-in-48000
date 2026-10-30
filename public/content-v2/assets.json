@@ -115,24 +115,14 @@
     "path": "/assets/scene/won-napha-beach.png"
   },
   {
-    "id": "mali_portrait",
+    "id": "mali_private",
     "kind": "portrait",
-    "path": "/assets/portrait/mali.png"
+    "path": "/assets/portrait/mali-private.png"
   },
   {
-    "id": "player_fah",
+    "id": "mali_university_student",
     "kind": "portrait",
-    "path": "/assets/portrait/player-fah.png"
-  },
-  {
-    "id": "player_mind",
-    "kind": "portrait",
-    "path": "/assets/portrait/player-mind.png"
-  },
-  {
-    "id": "player_im",
-    "kind": "portrait",
-    "path": "/assets/portrait/player-im.png"
+    "path": "/assets/portrait/mali-university-student.png"
   },
   {
     "id": "man_private_01",

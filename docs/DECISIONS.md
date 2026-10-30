@@ -145,3 +145,7 @@ Undo/Redo on the Flow board uses the existing BO draft history, which covers the
 ## 2026-10-29 — Flow board edge groups
 
 Edges are grouped by meaning on the board only: normal, fallback, Condition pass, Condition fail, and key (study review results and edges into an Ending). The group is derived from the source card type, the port, and edge order, so `flow.json` stays unchanged. Groups differ mainly by width, dash, arrowheads, and a "สำรอง" label rather than new hues, because card kinds, errors and warnings, the preview trace, and focus already use most distinct colors. Trace and focus styles override group styles. Loop styling is deferred because it needs graph analysis.
+
+## 2026-10-30 — Player outfits chosen per event
+
+Each player name pairs one portrait per outfit, `casual` and `student`, in `names.json` (`portraits`). The pair is explicit content rather than matched by the number in a file name, so renaming or renumbering image files cannot silently pair the wrong pictures. An event picks the outfit with an optional `outfit` field, next to its scene and music; an event without one uses `student`. The outfit lives on the event, not on the Flow node, because each event is placed on the board once and the scene view already has the event, so the engine and save stay unchanged. The ending screen uses the default outfit. A name either has no portraits or has both, so no scene falls back to a missing picture. A line's own `portraitAssetId` still overrides the player portrait.

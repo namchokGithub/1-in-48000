@@ -2148,13 +2148,13 @@
     "selection": {
       "type": "program"
     },
-    "sceneAssetId": "campus_orientation",
+    "sceneAssetId": "scene_university",
     "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [
       {
         "text": "วันแรกที่ ม.บารพู คุณมองรายชื่อคณะและสาขาที่จะเลือกเรียน",
-        "portraitAssetId": "player_fah"
+        "portraitAssetId": "woman_private_01"
       }
     ],
     "choices": [

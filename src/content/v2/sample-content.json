@@ -195,19 +195,34 @@
   "characters": [],
   "assets": [
     {
-      "id": "player_fah",
+      "id": "woman_private_01",
       "kind": "portrait",
-      "path": "/assets/portrait/player-fah.png"
+      "path": "/assets/portrait/woman-private-01.png"
     },
     {
-      "id": "player_mind",
+      "id": "woman_university_student_01",
       "kind": "portrait",
-      "path": "/assets/portrait/player-mind.png"
+      "path": "/assets/portrait/woman-university-student-01.png"
     },
     {
-      "id": "player_im",
+      "id": "woman_private_02",
       "kind": "portrait",
-      "path": "/assets/portrait/player-im.png"
+      "path": "/assets/portrait/woman-private-02.png"
+    },
+    {
+      "id": "woman_university_student_02",
+      "kind": "portrait",
+      "path": "/assets/portrait/woman-university-student-02.png"
+    },
+    {
+      "id": "woman_private_03",
+      "kind": "portrait",
+      "path": "/assets/portrait/woman-private-03.png"
+    },
+    {
+      "id": "woman_university_student_03",
+      "kind": "portrait",
+      "path": "/assets/portrait/woman-university-student-03.png"
     }
   ],
   "endings": [

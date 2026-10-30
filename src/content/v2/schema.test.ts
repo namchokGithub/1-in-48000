@@ -243,16 +243,27 @@ describe('V2 content contract', () => {
         ...base,
         assets: [
           {
-            id: 'fah_portrait',
+            id: 'fah_casual',
             kind: 'portrait',
-            path: '/assets/portrait/fah.png',
+            path: '/assets/portrait/fah-casual.png',
+          },
+          {
+            id: 'fah_student',
+            kind: 'portrait',
+            path: '/assets/portrait/fah-student.png',
           },
         ],
-        names: [{ ...names[0], portraitAssetId: 'fah_portrait' }],
+        names: [
+          {
+            ...names[0],
+            portraits: { casual: 'fah_casual', student: 'fah_student' },
+          },
+        ],
         events: sample.events.map((event, index) =>
           index === 1
             ? {
                 ...event,
+                outfit: 'casual',
                 conditions: [
                   { type: 'faculty', facultyId: 'humanities' },
                   { type: 'major', majorId: 'thai_language' },
@@ -284,7 +295,28 @@ describe('V2 content contract', () => {
     expect(
       v2ContentSchema.safeParse({
         ...base,
-        names: [{ ...names[0], portraitAssetId: 'missing' }],
+        names: [
+          { ...names[0], portraits: { casual: 'missing', student: 'missing' } },
+        ],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        names: [
+          {
+            ...names[0],
+            portraits: { student: names[0].portraits?.student },
+          },
+        ],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        events: sample.events.map((event, index) =>
+          index === 1 ? { ...event, outfit: 'swimsuit' } : event,
+        ),
       }).success,
     ).toBe(false)
     expect(

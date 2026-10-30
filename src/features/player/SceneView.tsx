@@ -65,7 +65,12 @@ export function SceneView({
   const portraitAsset = assets.find(
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )
-  const playerPortrait = playerPortraitPath(names, assets, save.nameId)
+  const playerPortrait = playerPortraitPath(
+    names,
+    assets,
+    save.nameId,
+    event.outfit,
+  )
   const choices = getV2AvailableChoices(event, save)
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
   const maxSelections =

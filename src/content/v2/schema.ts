@@ -145,6 +145,9 @@ export const v2GameConfigSchema = z.object({
   }),
 })
 
+export const v2OutfitSchema = z.enum(['casual', 'student'])
+export const V2_DEFAULT_OUTFIT = 'student'
+
 export const v2EventSchema = z
   .strictObject({
     id: storyIdSchema,
@@ -166,6 +169,7 @@ export const v2EventSchema = z
       .optional(),
     sceneAssetId: idSchema.optional(),
     bgmAssetId: idSchema.optional(),
+    outfit: v2OutfitSchema.optional(),
     conditions: z.array(v2ConditionSchema),
     lines: z
       .array(
@@ -204,7 +208,12 @@ export const v2NamesSchema = z
     z.strictObject({
       id: idSchema,
       name: textSchema,
-      portraitAssetId: idSchema.optional(),
+      portraits: z
+        .strictObject({
+          casual: idSchema.optional(),
+          student: idSchema.optional(),
+        })
+        .optional(),
     }),
   )
   .min(1)
@@ -551,11 +560,13 @@ export const v2ContentSchema = z
       }
     })
     content.names.forEach((name, index) => {
-      checkAsset(name.portraitAssetId, 'portrait', [
-        'names',
-        index,
-        'portraitAssetId',
-      ])
+      if (!name.portraits) return
+      v2OutfitSchema.options.forEach((outfit) => {
+        const path = ['names', index, 'portraits', outfit]
+        const id = name.portraits?.[outfit]
+        if (!id) report(path, `Missing ${outfit} portrait`)
+        checkAsset(id, 'portrait', path)
+      })
     })
     content.characters.forEach((character, index) => {
       checkAsset(character.portraitAssetId, 'portrait', [
@@ -611,3 +622,4 @@ export const v2ContentSchema = z
 export type V2Content = z.infer<typeof v2ContentSchema>
 export type V2Stats = z.infer<typeof v2StatsSchema>
 export type V2Event = z.infer<typeof v2EventSchema>
+export type V2Outfit = z.infer<typeof v2OutfitSchema>

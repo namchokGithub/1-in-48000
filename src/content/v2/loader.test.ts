@@ -41,9 +41,10 @@ describe('live V2 content', () => {
     expect(content.config.contentVersion).toBe('0.3.0')
     expect(
       content.names.every((name) =>
-        content.assets.some(
-          (asset) =>
-            asset.id === name.portraitAssetId && asset.kind === 'portrait',
+        [name.portraits?.casual, name.portraits?.student].every((id) =>
+          content.assets.some(
+            (asset) => asset.id === id && asset.kind === 'portrait',
+          ),
         ),
       ),
     ).toBe(true)

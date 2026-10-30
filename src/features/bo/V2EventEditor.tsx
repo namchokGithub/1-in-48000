@@ -1,6 +1,6 @@
 import { useState, type DragEvent } from 'react'
 import { CopyIdButton } from './CopyIdButton'
-import type { V2Content, V2Event } from '../../content/v2/schema'
+import type { V2Content, V2Event, V2Outfit } from '../../content/v2/schema'
 import { v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { randomId } from './randomId'
@@ -237,6 +237,22 @@ export function V2EventEditor({
                   {asset.id}
                 </option>
               ))}
+          </BoDropdown>
+        </label>
+        <label className="bo-field">
+          <span>ชุดผู้เล่น</span>
+          <BoDropdown
+            value={event.outfit ?? ''}
+            onChange={(input) =>
+              update((next) => {
+                next.outfit = (input.target.value || undefined) as
+                  V2Outfit | undefined
+              })
+            }
+          >
+            <option value="">ค่าเริ่มต้น (ชุดนักศึกษา)</option>
+            <option value="casual">ชุดปกติ</option>
+            <option value="student">ชุดนักศึกษา</option>
           </BoDropdown>
         </label>
         <label className="bo-field">

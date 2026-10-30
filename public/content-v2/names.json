@@ -1,5 +1,26 @@
 [
-  { "id": "fah", "name": "ฟ้า", "portraitAssetId": "player_fah" },
-  { "id": "mind", "name": "มายด์", "portraitAssetId": "player_mind" },
-  { "id": "im", "name": "อิม", "portraitAssetId": "player_im" }
+  {
+    "id": "fah",
+    "name": "ฟ้า",
+    "portraits": {
+      "casual": "woman_private_01",
+      "student": "woman_university_student_01"
+    }
+  },
+  {
+    "id": "mind",
+    "name": "มายด์",
+    "portraits": {
+      "casual": "woman_private_02",
+      "student": "woman_university_student_02"
+    }
+  },
+  {
+    "id": "im",
+    "name": "อิม",
+    "portraits": {
+      "casual": "woman_private_03",
+      "student": "woman_university_student_03"
+    }
+  }
 ]

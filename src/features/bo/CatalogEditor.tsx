@@ -1,11 +1,20 @@
 import { useState } from 'react'
 import { CopyIdButton } from './CopyIdButton'
-import { v2IdSchema, type V2Content } from '../../content/v2/schema'
+import {
+  v2IdSchema,
+  type V2Content,
+  type V2Outfit,
+} from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { StateEffectList } from './V2EffectList'
 import { randomId } from './randomId'
 
 export type CatalogSection = 'faculties' | 'majors' | 'electives' | 'names'
+
+const outfits: { outfit: V2Outfit; label: string }[] = [
+  { outfit: 'casual', label: 'ชุดปกติ' },
+  { outfit: 'student', label: 'ชุดนักศึกษา' },
+]
 
 const labels: Record<CatalogSection, string> = {
   faculties: 'คณะ',
@@ -115,9 +124,13 @@ export function CatalogEditor({
   const elective =
     section === 'electives' ? content.electives[index] : undefined
   const playerName = section === 'names' ? content.names[index] : undefined
-  const portrait = content.assets.find(
-    (asset) => asset.id === playerName?.portraitAssetId,
-  )
+  const portraits = outfits.flatMap(({ outfit, label }) => {
+    const asset = content.assets.find(
+      (item) =>
+        item.id === playerName?.portraits?.[outfit] && item.kind === 'portrait',
+    )
+    return asset ? [{ outfit, label, path: asset.path }] : []
+  })
 
   return (
     <div className="bo-layout bo-data-layout">
@@ -271,29 +284,35 @@ export function CatalogEditor({
                   </label>
                 </>
               )}
-              {playerName && (
-                <label className="bo-field">
-                  <span>ภาพผู้เล่น</span>
-                  <BoDropdown
-                    value={playerName.portraitAssetId ?? ''}
-                    onChange={(event) =>
-                      replace({
-                        ...playerName,
-                        portraitAssetId: event.target.value || undefined,
-                      })
-                    }
-                  >
-                    <option value="">ไม่ใช้ภาพ</option>
-                    {content.assets
-                      .filter((asset) => asset.kind === 'portrait')
-                      .map((asset) => (
-                        <option key={asset.id} value={asset.id}>
-                          {asset.id}
-                        </option>
-                      ))}
-                  </BoDropdown>
-                </label>
-              )}
+              {playerName &&
+                outfits.map(({ outfit, label }) => (
+                  <label key={outfit} className="bo-field">
+                    <span>ภาพผู้เล่น{label}</span>
+                    <BoDropdown
+                      value={playerName.portraits?.[outfit] ?? ''}
+                      onChange={(event) => {
+                        const next = {
+                          ...playerName.portraits,
+                          [outfit]: event.target.value || undefined,
+                        }
+                        replace({
+                          ...playerName,
+                          portraits:
+                            next.casual || next.student ? next : undefined,
+                        })
+                      }}
+                    >
+                      <option value="">ไม่ใช้ภาพ</option>
+                      {content.assets
+                        .filter((asset) => asset.kind === 'portrait')
+                        .map((asset) => (
+                          <option key={asset.id} value={asset.id}>
+                            {asset.id}
+                          </option>
+                        ))}
+                    </BoDropdown>
+                  </label>
+                ))}
             </div>
             {major?.programYears === 6 &&
               !content.faculties.find(
@@ -303,12 +322,17 @@ export function CatalogEditor({
                   คณะที่เลือกต้องรองรับหลักสูตร 6 ปีก่อนบันทึก
                 </p>
               )}
-            {portrait?.kind === 'portrait' && (
-              <img
-                className="bo-asset-preview"
-                src={portrait.path}
-                alt={`ตัวอย่างภาพผู้เล่น ${playerName?.name}`}
-              />
+            {portraits.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {portraits.map(({ outfit, label, path }) => (
+                  <img
+                    key={outfit}
+                    className="bo-asset-preview"
+                    src={path}
+                    alt={`ตัวอย่างภาพผู้เล่น ${playerName?.name} ${label}`}
+                  />
+                ))}
+              </div>
             )}
             {elective && (
               <StateEffectList
