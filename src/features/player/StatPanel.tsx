@@ -20,9 +20,9 @@ export function StatPanel({
   identity?: { name: string; portraitPath?: string }
 }) {
   return (
-    <section className="panel p-5" aria-label="ค่าสถานะ">
+    <section className="panel player-stat-panel" aria-label="ค่าสถานะ">
       {identity && (
-        <div className="mb-5 flex items-center gap-3 border-b border-[var(--color-line)] pb-5">
+        <div className="player-stat-identity">
           {identity.portraitPath ? (
             <img
               className="player-identity-portrait"
@@ -44,40 +44,50 @@ export function StatPanel({
         </div>
       )}
       <p className="eyebrow">สถานะตอนนี้</p>
-      <div className="mt-5 space-y-4">
-        {statLabels.map(({ key, label }) => (
-          <div
-            key={key}
-            className={key === 'money' ? 'player-stat-money' : undefined}
-          >
-            <div className="mb-1.5 flex items-baseline justify-between gap-3 text-sm">
-              <span className="flex items-center gap-2 font-semibold">
+      <div className="player-stat-list">
+        {statLabels
+          .filter(({ key }) => key !== 'money' && key !== 'debt')
+          .map(({ key, label }) => (
+            <div key={key}>
+              <div className="player-stat-row">
+                <span className="player-stat-name">
+                  <StatIcon stat={key} />
+                  {label}
+                </span>
+                <span className="font-bold tabular-nums">{stats[key]}</span>
+              </div>
+              {stats[key] >= 0 && (
+                <div
+                  className="stat-track"
+                  role="meter"
+                  aria-label={label}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={stats[key]}
+                >
+                  <div
+                    className="stat-fill"
+                    style={{ width: `${Math.min(100, stats[key])}%` }}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+      </div>
+      <div className="player-stat-money">
+        {statLabels
+          .filter(({ key }) => key === 'money' || key === 'debt')
+          .map(({ key, label }) => (
+            <div key={key} className="player-stat-row">
+              <span className="player-stat-name">
                 <StatIcon stat={key} />
                 {label}
               </span>
               <span className="font-bold tabular-nums">
-                {key === 'money' || key === 'debt'
-                  ? `${new Intl.NumberFormat('th-TH').format(stats[key])} ฿`
-                  : stats[key]}
+                {new Intl.NumberFormat('th-TH').format(stats[key])} ฿
               </span>
             </div>
-            {key !== 'money' && key !== 'debt' && stats[key] >= 0 && (
-              <div
-                className="stat-track"
-                role="meter"
-                aria-label={label}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={stats[key]}
-              >
-                <div
-                  className="stat-fill"
-                  style={{ width: `${Math.min(100, stats[key])}%` }}
-                />
-              </div>
-            )}
-          </div>
-        ))}
+          ))}
       </div>
     </section>
   )

@@ -224,7 +224,7 @@ function PlayerShell({
   }
 
   return (
-    <div className="app-shell player-shell" data-theme={theme}>
+    <div className="app-shell player-shell" data-theme={theme} data-view={view}>
       <div className="app-wrap">
         <header className="player-header mb-6 flex flex-wrap items-center justify-between gap-3">
           <span className="text-sm font-extrabold tracking-wide">

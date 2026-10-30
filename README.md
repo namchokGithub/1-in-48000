@@ -128,7 +128,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major selection is active; clubs and relationship routes come later.
 
-**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Step 25's Player layout and year stepper are ready for the author's mobile/desktop visual check. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). The author accepted the BO Flow edge styles (Step 37) and Player UX/UI pass, including the responsive check (Step 38), on 2026-10-30. Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 

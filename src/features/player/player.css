@@ -72,6 +72,33 @@
   display: flex;
   flex-direction: column;
   height: 12rem;
+  margin-top: 1rem;
+  padding: 1.25rem;
+}
+@media (min-width: 640px) {
+  .player-dialogue {
+    padding: 1.5rem;
+  }
+}
+.player-scene-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-inline: 0.25rem;
+}
+.year-timeline {
+  margin-bottom: 1rem;
+}
+.year-timeline-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
 }
 .player-dialogue-text {
   flex: 1;
@@ -167,8 +194,9 @@
 }
 .year-stepper-card {
   display: flex;
-  min-height: 5.15rem;
-  flex-direction: column;
+  min-height: 2.75rem;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 0.1rem;
@@ -370,9 +398,48 @@
   flex: none;
   image-rendering: pixelated;
 }
+.player-stat-panel {
+  padding: 1.25rem;
+}
+.player-stat-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.player-stat-list {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+}
+.player-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+}
+.player-stat-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+/* Money and debt share one row under the bars. */
 .player-stat-money {
-  padding-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 0.85rem;
   border-top: 1px solid var(--color-line);
+}
+.player-stat-money .player-stat-row {
+  margin-bottom: 0;
 }
 .player-effect-list {
   display: grid;
@@ -392,9 +459,42 @@
   flex-direction: column;
   padding: 1rem;
 }
+.player-choice-frame {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.player-choice-frame::before,
+.player-choice-frame::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset-inline: 0;
+  height: 1.75rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+.player-choice-frame::before {
+  top: 0;
+  background: linear-gradient(var(--color-surface), transparent);
+}
+.player-choice-frame::after {
+  bottom: 0;
+  background: linear-gradient(transparent, var(--color-surface));
+}
+.player-choice-frame[data-more-above='true']::before,
+.player-choice-frame[data-more-below='true']::after {
+  opacity: 1;
+}
 .player-choice-scroll {
   flex: 1;
   min-height: 0;
+  /* Room for focus outlines, which the scroll box would otherwise clip. */
+  margin: -0.4rem;
+  padding: 0.4rem;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -552,4 +652,165 @@
   height: 10px;
   border-radius: 50%;
   background: var(--color-primary);
+}
+
+/* Desktop play screen fits the viewport: the scene, dialogue, and choice list
+   shrink or scroll inside instead of the page. Short or narrow screens keep
+   the normal page scroll. */
+@media (min-width: 1024px) and (min-height: 600px) {
+  .player-shell[data-view='play'] {
+    --page-max: 96rem;
+    height: 100svh;
+    padding-block: 1rem;
+  }
+  .player-shell[data-view='play'] > .app-wrap {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+  .player-shell[data-view='play'] .player-header {
+    margin-bottom: 0.75rem;
+  }
+  .player-shell[data-view='play'] .player-header-button {
+    min-height: 40px;
+    padding-block: 0.45rem;
+  }
+  .player-shell[data-view='play'] #player-content {
+    flex: 1;
+    min-height: 0;
+  }
+  .player-shell[data-view='play'] > .app-wrap > footer {
+    margin-top: 0.5rem;
+    line-height: 1.35;
+  }
+  .player-shell[data-view='play'] .player-scene-layout {
+    height: 100%;
+    gap: 1rem;
+  }
+  .player-shell[data-view='play'] .player-scene-main {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    min-height: 0;
+    padding: 1rem 1.25rem;
+  }
+  .player-shell[data-view='play'] .player-scene-heading {
+    margin-bottom: 0.5rem;
+  }
+  .player-shell[data-view='play'] .player-scene-heading .button {
+    min-height: 40px;
+    padding-block: 0.45rem;
+  }
+  .player-shell[data-view='play'] .year-timeline {
+    margin-bottom: 0.75rem;
+  }
+  .player-shell[data-view='play'] .year-timeline-heading {
+    margin-bottom: 0.35rem;
+  }
+  .player-shell[data-view='play'] .year-stepper {
+    padding-bottom: 0;
+  }
+  .player-shell[data-view='play'] .scene-frame {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    container-type: size;
+  }
+  .player-shell[data-view='play'] .scene-stage {
+    width: min(100%, 100cqh * 16 / 9);
+    max-width: none;
+  }
+  .player-shell[data-view='play'] .player-dialogue {
+    height: clamp(8rem, 24vh, 12rem);
+    margin-top: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+  .player-shell[data-view='play'] .player-scene-stats {
+    min-height: 0;
+  }
+  .player-shell[data-view='play'] .player-stat-panel {
+    padding: 1rem 1.15rem;
+  }
+  .player-shell[data-view='play'] .player-choice-panel {
+    min-height: 0;
+    max-height: none;
+  }
+}
+@media (min-width: 1024px) and (min-height: 600px) {
+  .player-shell[data-view='play'] .player-stat-identity {
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+  .player-shell[data-view='play']
+    .player-stat-identity
+    .player-identity-portrait {
+    width: 3rem;
+    height: 4.5rem;
+  }
+  .player-shell[data-view='play'] .player-scene-layout {
+    grid-template-columns: minmax(0, 1fr) 19.5rem;
+  }
+  .player-shell[data-view='play'] .player-stat-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 0.9rem;
+    margin-top: 0.6rem;
+  }
+  .player-shell[data-view='play'] .player-stat-row {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+  }
+  .player-shell[data-view='play'] .player-stat-name {
+    gap: 0.35rem;
+  }
+  .player-shell[data-view='play'] .player-stat-money {
+    margin-top: 0.65rem;
+    padding-top: 0.6rem;
+  }
+}
+@media (min-width: 1024px) and (min-height: 600px) and (max-height: 860px) {
+  .player-shell[data-view='play'] .player-stat-list .stat-track {
+    height: 0.4rem;
+  }
+  .player-shell[data-view='play'] .player-choice-panel {
+    padding: 0.85rem 1rem;
+  }
+  .player-shell[data-view='play'] .player-select {
+    gap: 0.25rem;
+  }
+  .player-shell[data-view='play'] .player-select-trigger {
+    min-height: 42px;
+    padding-block: 0.5rem;
+  }
+}
+@media (min-width: 1024px) and (min-height: 600px) and (max-height: 720px) {
+  .player-shell[data-view='play'] .player-header-button {
+    min-height: 36px;
+    padding-block: 0.3rem;
+  }
+  .player-shell[data-view='play'] .player-dialogue .button {
+    min-height: 38px;
+    padding-block: 0.35rem;
+  }
+  .player-shell[data-view='play']
+    .player-stat-identity
+    .player-identity-portrait {
+    width: 2.5rem;
+    height: 3.75rem;
+  }
+  .player-shell[data-view='play'] .player-stat-list {
+    gap: 0.4rem 0.9rem;
+  }
+  .player-shell[data-view='play'] .player-stat-row {
+    margin-bottom: 0.15rem;
+  }
+  .player-shell[data-view='play'] .year-stepper-card {
+    min-height: 2.3rem;
+  }
+  .player-shell[data-view='play'] .player-dialogue {
+    height: clamp(8rem, 25vh, 10rem);
+  }
 }

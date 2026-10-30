@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { V2Content, V2Event } from '../../content/v2/schema'
 import { getV2AvailableChoices } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
@@ -78,6 +78,32 @@ export function SceneView({
   const maxSelections =
     event.selection?.type === 'multiple' ? event.selection.max : 0
   const lastLine = lineIndex === event.lines.length - 1
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [more, setMore] = useState({ above: false, below: false })
+
+  // Fade the edges of the choice list while more choices are out of view,
+  // because its scrollbar is hidden.
+  function updateMore() {
+    const list = scrollRef.current
+    if (!list) return
+    const above = list.scrollTop > 1
+    const below = list.scrollTop + list.clientHeight < list.scrollHeight - 1
+    setMore((current) =>
+      current.above === above && current.below === below
+        ? current
+        : { above, below },
+    )
+  }
+
+  useEffect(() => {
+    const list = scrollRef.current
+    if (!list) return
+    updateMore()
+    const observer = new ResizeObserver(updateMore)
+    observer.observe(list)
+    if (list.firstElementChild) observer.observe(list.firstElementChild)
+    return () => observer.disconnect()
+  }, [lastLine, lineIndex])
 
   return (
     <div className="player-scene-layout">
@@ -85,7 +111,7 @@ export function SceneView({
         className="panel player-scene-main overflow-hidden p-3 sm:p-5"
         aria-label="ฉากเหตุการณ์"
       >
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-1">
+        <div className="player-scene-heading">
           <div>
             <p className="eyebrow">{formatGameTime(save.currentTime)}</p>
             <h1 className="mt-1 text-2xl font-extrabold">{event.title}</h1>
@@ -99,31 +125,39 @@ export function SceneView({
           </button>
         </div>
         <YearTimeline currentYear={save.currentTime.year} />
-        <div className="scene-stage">
-          {sceneAsset && (
-            <img className="scene-image" src={sceneAsset.path} alt="" />
-          )}
-          {portraitAsset && (
-            <img
-              className="portrait-image"
-              src={portraitAsset.path}
-              alt={speaker?.name ?? 'ตัวละคร'}
-            />
-          )}
+        <div className="scene-frame">
+          <div className="scene-stage">
+            {sceneAsset && (
+              <img className="scene-image" src={sceneAsset.path} alt="" />
+            )}
+            {portraitAsset && (
+              <img
+                className="portrait-image"
+                src={portraitAsset.path}
+                alt={speaker?.name ?? 'ตัวละคร'}
+              />
+            )}
+          </div>
         </div>
         <div
-          className="player-dialogue mt-4 rounded-2xl border border-[var(--color-line)] p-5 sm:p-6"
+          className="player-dialogue rounded-2xl border border-[var(--color-line)]"
           aria-live="polite"
         >
-          <p className="eyebrow">{speaker?.name ?? 'เรื่องราว'}</p>
-          <p className="player-dialogue-text mt-3 text-lg leading-relaxed">
-            {line.text}
-          </p>
-          <div className="mt-3 flex min-h-10 items-center justify-between gap-3">
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="eyebrow">{speaker?.name ?? 'เรื่องราว'}</p>
             <p className="muted text-xs">
               {lineIndex + 1} / {event.lines.length}
             </p>
-            {!lastLine && (
+          </div>
+          {/* Focusable so a long line can be scrolled with the keyboard. */}
+          <p
+            className="player-dialogue-text mt-2 text-lg leading-relaxed"
+            tabIndex={0}
+          >
+            {line.text}
+          </p>
+          {!lastLine && (
+            <div className="mt-2 flex justify-end">
               <button
                 type="button"
                 className="button button-primary"
@@ -131,8 +165,8 @@ export function SceneView({
               >
                 อ่านต่อ
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
       <section className="panel player-choice-panel" aria-label="ตัวเลือก">
@@ -141,102 +175,112 @@ export function SceneView({
             {error}
           </p>
         )}
-        <div className="player-choice-scroll">
-          {!lastLine ? (
-            <p className="muted text-sm" role="status">
-              อ่านบทสนทนาให้จบก่อนเลือกทางต่อ
-            </p>
-          ) : event.selection?.type === 'program' ? (
-            <div className="grid gap-4">
-              <PlayerSelect
-                label="คณะ"
-                value={facultyId}
-                options={availableFaculties.map((faculty) => ({
-                  value: faculty.id,
-                  label: faculty.name,
-                }))}
-                onChange={(nextId) => {
-                  setFacultyId(nextId)
-                  setMajorId(
-                    majors.find((major) => major.facultyId === nextId)?.id ??
-                      '',
-                  )
-                }}
-              />
-              <PlayerSelect
-                label="สาขา"
-                value={majorId}
-                options={matchingMajors.map((major) => ({
-                  value: major.id,
-                  label: `${major.name} · ${major.programYears} ปี`,
-                }))}
-                onChange={setMajorId}
-              />
-            </div>
-          ) : event.selection?.type === 'elective' ? (
-            <PlayerSelect
-              label="วิชาเสรี"
-              value={electiveId}
-              options={electives.map((elective) => ({
-                value: elective.id,
-                label: elective.name,
-              }))}
-              onChange={setElectiveId}
-            />
-          ) : event.selection?.type === 'multiple' ? (
-            <div className="grid gap-3">
-              <h2 className="text-lg font-bold">
-                เลือก {event.selection.min}–{event.selection.max} ข้อ
-                <span className="muted text-sm font-normal">
-                  {' '}
-                  (เลือกแล้ว {selectedIds.length} ข้อ)
-                </span>
-              </h2>
-              {choices.map((choice) => (
-                <PlayerCheckbox
-                  key={choice.id}
-                  checked={selectedIds.includes(choice.id)}
-                  disabled={
-                    !selectedIds.includes(choice.id) &&
-                    selectedIds.length >= maxSelections
-                  }
-                  onChange={(checked) =>
-                    setSelectedIds((current) =>
-                      checked
-                        ? [...current, choice.id]
-                        : current.filter((id) => id !== choice.id),
+        <div
+          className="player-choice-frame"
+          data-more-above={more.above}
+          data-more-below={more.below}
+        >
+          <div
+            ref={scrollRef}
+            className="player-choice-scroll"
+            onScroll={updateMore}
+          >
+            {!lastLine ? (
+              <p className="muted text-sm" role="status">
+                อ่านบทสนทนาให้จบก่อนเลือกทางต่อ
+              </p>
+            ) : event.selection?.type === 'program' ? (
+              <div className="grid gap-4">
+                <PlayerSelect
+                  label="คณะ"
+                  value={facultyId}
+                  options={availableFaculties.map((faculty) => ({
+                    value: faculty.id,
+                    label: faculty.name,
+                  }))}
+                  onChange={(nextId) => {
+                    setFacultyId(nextId)
+                    setMajorId(
+                      majors.find((major) => major.facultyId === nextId)?.id ??
+                        '',
                     )
-                  }
-                >
-                  <span>{choice.text}</span>
-                  <EffectList
-                    lines={describeChoiceEffects(choice, save.stats)}
-                  />
-                </PlayerCheckbox>
-              ))}
-            </div>
-          ) : choices.length ? (
-            <div className="grid gap-3">
-              <h2 className="text-lg font-bold">คุณจะทำอย่างไร?</h2>
-              {choices.map((choice) => (
-                <button
-                  key={choice.id}
-                  type="button"
-                  className="player-option"
-                  onClick={() => onChoose(choice.id)}
-                >
-                  <span className="player-option-body">
+                  }}
+                />
+                <PlayerSelect
+                  label="สาขา"
+                  value={majorId}
+                  options={matchingMajors.map((major) => ({
+                    value: major.id,
+                    label: `${major.name} · ${major.programYears} ปี`,
+                  }))}
+                  onChange={setMajorId}
+                />
+              </div>
+            ) : event.selection?.type === 'elective' ? (
+              <PlayerSelect
+                label="วิชาเสรี"
+                value={electiveId}
+                options={electives.map((elective) => ({
+                  value: elective.id,
+                  label: elective.name,
+                }))}
+                onChange={setElectiveId}
+              />
+            ) : event.selection?.type === 'multiple' ? (
+              <div className="grid gap-3">
+                <h2 className="text-lg font-bold">
+                  เลือก {event.selection.min}–{event.selection.max} ข้อ
+                  <span className="muted text-sm font-normal">
+                    {' '}
+                    (เลือกแล้ว {selectedIds.length} ข้อ)
+                  </span>
+                </h2>
+                {choices.map((choice) => (
+                  <PlayerCheckbox
+                    key={choice.id}
+                    checked={selectedIds.includes(choice.id)}
+                    disabled={
+                      !selectedIds.includes(choice.id) &&
+                      selectedIds.length >= maxSelections
+                    }
+                    onChange={(checked) =>
+                      setSelectedIds((current) =>
+                        checked
+                          ? [...current, choice.id]
+                          : current.filter((id) => id !== choice.id),
+                      )
+                    }
+                  >
                     <span>{choice.text}</span>
                     <EffectList
                       lines={describeChoiceEffects(choice, save.stats)}
                     />
-                  </span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p className="muted">ยังไม่มีตัวเลือกที่ใช้ได้ในเหตุการณ์นี้</p>
-          )}
+                  </PlayerCheckbox>
+                ))}
+              </div>
+            ) : choices.length ? (
+              <div className="grid gap-3">
+                <h2 className="text-lg font-bold">คุณจะทำอย่างไร?</h2>
+                {choices.map((choice) => (
+                  <button
+                    key={choice.id}
+                    type="button"
+                    className="player-option"
+                    onClick={() => onChoose(choice.id)}
+                  >
+                    <span className="player-option-body">
+                      <span>{choice.text}</span>
+                      <EffectList
+                        lines={describeChoiceEffects(choice, save.stats)}
+                      />
+                    </span>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p className="muted">ยังไม่มีตัวเลือกที่ใช้ได้ในเหตุการณ์นี้</p>
+            )}
+          </div>
         </div>
         {lastLine && event.selection?.type === 'program' && (
           <div className="player-choice-footer">

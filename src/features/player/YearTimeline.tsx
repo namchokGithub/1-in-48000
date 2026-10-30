@@ -72,8 +72,8 @@ export function YearTimeline({ currentYear }: { currentYear: number }) {
   }, [currentYear, targetYear])
 
   return (
-    <section className="mb-4" aria-label="เส้นทางการศึกษา">
-      <div className="mb-2 flex items-baseline justify-between gap-3 text-sm">
+    <section className="year-timeline" aria-label="เส้นทางการศึกษา">
+      <div className="year-timeline-heading">
         <strong>เส้นทางมหาวิทยาลัย</strong>
         <span className="muted">เป้าหมายปี {targetYear}</span>
       </div>
