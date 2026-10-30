@@ -197,7 +197,11 @@ describe('BO program and player catalogs', () => {
     ) as Array<{ id: string; name: string; effects: unknown[] }>
     const names = JSON.parse(
       await readFile(join(dir, 'names.json'), 'utf8'),
-    ) as Array<{ id: string; name: string; portraitAssetId?: string }>
+    ) as Array<{
+      id: string
+      name: string
+      portraits?: { casual?: string; student?: string }
+    }>
     const assets = JSON.parse(
       await readFile(join(dir, 'assets.json'), 'utf8'),
     ) as Array<{ id: string; kind: string; path: string }>
@@ -226,7 +230,7 @@ describe('BO program and player catalogs', () => {
     const name = {
       id: 'fah_new',
       name: 'ฟ้าใหม่',
-      portraitAssetId: portrait.id,
+      portraits: { casual: portrait.id, student: portrait.id },
     }
     const portraitFile = join(root, 'public', portrait.path.slice(1))
     await mkdir(dirname(portraitFile), { recursive: true })
@@ -294,7 +298,7 @@ describe('BO program and player catalogs', () => {
     const names = JSON.parse(before) as Array<{
       id: string
       name: string
-      portraitAssetId?: string
+      portraits?: { casual?: string; student?: string }
     }>
     await expect(
       saveBoContent(root, 'names', [
@@ -302,13 +306,20 @@ describe('BO program and player catalogs', () => {
         {
           id: 'new_player',
           name: 'นิสิตใหม่',
-          portraitAssetId: 'missing_portrait',
+          portraits: {
+            casual: 'missing_portrait',
+            student: 'missing_portrait',
+          },
         },
       ]),
     ).rejects.toMatchObject({
       issues: [
         {
-          path: `names.${names.length}.portraitAssetId`,
+          path: `names.${names.length}.portraits.casual`,
+          message: 'Unknown portrait asset: missing_portrait',
+        },
+        {
+          path: `names.${names.length}.portraits.student`,
           message: 'Unknown portrait asset: missing_portrait',
         },
       ],
