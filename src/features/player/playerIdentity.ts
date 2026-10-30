@@ -34,16 +34,29 @@ export function playerProgram(
   return faculty && major ? `${faculty.name} · ${major.name}` : undefined
 }
 
-// The line's speaker stands on the left and the player on the right. A line
-// that already shows the player's own picture leaves it on the player's side.
-export function scenePortraits(
-  speakerPath: string | undefined,
-  playerPath: string | undefined,
-  hidePlayer: boolean,
-): { speaker: string | undefined; player: string | undefined } {
+// An NPC speaker stands on the left of the scene and the player on the right;
+// the narrator stands beside the dialogue box instead. A line that already
+// shows the player's own picture leaves it on the player's side.
+export function scenePortraits({
+  speakerPath,
+  speakerIsNarrator,
+  playerPath,
+  hidePlayer,
+}: {
+  speakerPath: string | undefined
+  speakerIsNarrator: boolean
+  playerPath: string | undefined
+  hidePlayer: boolean
+}): {
+  speaker: string | undefined
+  narrator: string | undefined
+  player: string | undefined
+} {
   const player = hidePlayer ? undefined : playerPath
+  const shown = speakerPath && speakerPath === player ? undefined : speakerPath
   return {
-    speaker: speakerPath && speakerPath === player ? undefined : speakerPath,
+    speaker: speakerIsNarrator ? undefined : shown,
+    narrator: speakerIsNarrator ? shown : undefined,
     player,
   }
 }

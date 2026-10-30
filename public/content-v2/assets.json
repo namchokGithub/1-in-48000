@@ -55,6 +55,11 @@
     "path": "/assets/scene/bang-saen-beach.png"
   },
   {
+    "id": "bang_saen_beach_loy_krathong",
+    "kind": "scene",
+    "path": "/assets/scene/bang-saen-beach-loy-krathong.png"
+  },
+  {
     "id": "bang_saen_coffee_truck",
     "kind": "scene",
     "path": "/assets/scene/bang-saen-coffee-truck.png"

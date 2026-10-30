@@ -4,8 +4,11 @@ import { statChanges, type StatChange } from './statChanges'
 export type YearSummary = {
   year: number
   changes: StatChange[]
+  // The two largest changes among the 0–100 stats, for the headline cards.
+  highlights: StatChange[]
   moneyIn: number
   moneyOut: number
+  // Every event visit of the year in play order, repeats included.
   events: string[]
 }
 
@@ -16,18 +19,22 @@ export function yearSummary(
 ): YearSummary | null {
   const finished = save.finishedYear
   if (!finished || finished.year !== save.currentTime.year - 1) return null
-  const visited = new Set(
-    save.history
-      .filter((entry) => entry.time?.year === finished.year)
-      .map((entry) => entry.eventId),
-  )
+  const changes = statChanges(finished.startStats, finished.endStats)
   return {
     year: finished.year,
-    changes: statChanges(finished.startStats, finished.endStats),
+    changes,
+    highlights: changes
+      .filter(({ stat }) => stat !== 'money' && stat !== 'debt')
+      .sort((a, b) => Math.abs(b.amount) - Math.abs(a.amount))
+      .slice(0, 2),
     moneyIn: finished.moneyIn,
     moneyOut: finished.moneyOut,
-    events: [...visited].map(
-      (id) => events.find((event) => event.id === id)?.title ?? id,
-    ),
+    events: save.history
+      .filter((entry) => entry.time?.year === finished.year)
+      .map(
+        (entry) =>
+          events.find((event) => event.id === entry.eventId)?.title ??
+          entry.eventId,
+      ),
   }
 }

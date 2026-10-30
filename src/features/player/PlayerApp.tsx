@@ -192,6 +192,15 @@ function PlayerShell({
           loanRatePercent={content.config.loan.annualRatePercent}
           recaps={getV2LastRecaps(content, save)}
           fadeScene={fadeScene}
+          notice={
+            toast && (
+              <StatToast
+                key={toast.key}
+                changes={toast.changes}
+                onDone={clearToast}
+              />
+            )
+          }
           error={actionError}
           onChoose={choose}
           onChooseMany={chooseMany}
@@ -309,13 +318,6 @@ function PlayerShell({
           </div>
         </header>
         <main id="player-content">{body}</main>
-        {toast && view === 'play' && (
-          <StatToast
-            key={toast.key}
-            changes={toast.changes}
-            onDone={clearToast}
-          />
-        )}
         {confirmHome && (
           <PlayerConfirmDialog
             title="กลับหน้าแรก?"

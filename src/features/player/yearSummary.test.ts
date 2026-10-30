@@ -25,6 +25,7 @@ const events = [
 
 describe('year summary', () => {
   it('summarizes the finished year once the next year has started', () => {
+    // Events count every visit; highlights are the two largest bar-stat changes.
     const save = {
       currentTime: { year: 2, period: 'term1' },
       history: [
@@ -36,7 +37,13 @@ describe('year summary', () => {
       finishedYear: {
         year: 1,
         startStats: stats,
-        endStats: { ...stats, study: 62, money: 400 },
+        endStats: {
+          ...stats,
+          study: 62,
+          health: 70,
+          stress: 15,
+          money: 400,
+        },
         moneyIn: 300,
         moneyOut: 900,
       },
@@ -45,11 +52,17 @@ describe('year summary', () => {
       year: 1,
       changes: [
         { stat: 'study', amount: 12 },
+        { stat: 'health', amount: -10 },
+        { stat: 'stress', amount: -5 },
         { stat: 'money', amount: -600 },
+      ],
+      highlights: [
+        { stat: 'study', amount: 12 },
+        { stat: 'health', amount: -10 },
       ],
       moneyIn: 300,
       moneyOut: 900,
-      events: ['ปฐมนิเทศ', 'สอบกลางภาค'],
+      events: ['ปฐมนิเทศ', 'สอบกลางภาค', 'สอบกลางภาค'],
     })
   })
 

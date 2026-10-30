@@ -122,7 +122,12 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 - 41.5 A small notification lists the stats that rose or fell after a choice, including delayed effects that came due.
 - 41.6 A year summary appears when a new year starts: stat changes for the year, money in and out, events passed, and "ต่อไป" (40.6).
 - 41.7 Ending timeline: an ⓘ button explains that each year opens and closes.
+- 41.8 The stat change toast sits in the top-right corner of the scene.
+- 41.9 The narrator's portrait stands beside the dialogue box instead of in the scene; NPCs stay in the scene.
+- 41.10 Year summary redesign (`docs/image/LOCAL/`): the main facts fit without much scrolling (the two largest stat changes, the event count, change bars, money in and out), and the full event list expands on demand. Only real summary data; no score or grade.
 
 **Done when:** the author accepts each screen by eye at mobile and desktop widths.
 
-2026-10-30: 41.1, 41.2 (fade-in), 41.5, 41.6, and 41.7 implemented, waiting for the author's check; 41.2 portraits, 41.3, and 41.4 were done with 40. The Home button asks to confirm in a modal; the scene image fades in only when the scene changes; a toast lists the stats changed by a choice (`statChanges`, including delayed effects that came due); a new year first shows the summary of the year before (`yearSummary`) until "ต่อไป"; and the ending timeline has an ⓘ note. The toast and year summary are in the Player only, not the BO preview. The year summary shows again after a refresh in that year, because which summary was closed is client state.
+2026-10-30: 41.1, 41.2 (fade-in), 41.5, 41.6, and 41.7 implemented, waiting for the author's check; 41.2 portraits, 41.3, and 41.4 were done with 40. The Home button asks to confirm in a modal; the scene image fades in only when the scene changes; a toast lists the stats changed by a choice (`statChanges`, including delayed effects that came due); a new year first shows the summary of the year before (`yearSummary`) until "ต่อไป"; and the ending timeline has an ⓘ note. The toast and year summary are in the Player only, not the BO preview. The year summary shows again after a refresh in that year, because which summary was closed is client state. The author checked 41.1–41.7 and asked for 41.8–41.10.
+
+2026-10-30: 41.8–41.10 implemented, waiting for the author's check. The toast renders inside the scene's top-right corner; `scenePortraits` returns the narrator separately so its portrait stands beside the dialogue box; and the year summary follows the mockup, with `yearSummary` now counting every event visit and returning the two largest bar-stat changes as highlights. The summary scrolls inside the fixed-height desktop play screen if it is taller.

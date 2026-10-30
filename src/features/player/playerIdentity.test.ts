@@ -59,24 +59,48 @@ describe('player program label', () => {
 })
 
 describe('scene portraits', () => {
+  const place = (
+    speaker: string | undefined,
+    player: string | undefined,
+    options: { hidePlayer?: boolean; narrator?: boolean } = {},
+  ) =>
+    scenePortraits({
+      speakerPath: speaker,
+      speakerIsNarrator: options.narrator ?? false,
+      playerPath: player,
+      hidePlayer: options.hidePlayer ?? false,
+    })
+
   it('puts the speaker on the left and the player on the right', () => {
-    expect(scenePortraits('/mali.png', '/fah.png', false)).toEqual({
+    expect(place('/mali.png', '/fah.png')).toEqual({
       speaker: '/mali.png',
+      narrator: undefined,
       player: '/fah.png',
     })
-    expect(scenePortraits(undefined, '/fah.png', false)).toEqual({
+    expect(place(undefined, '/fah.png')).toEqual({
       speaker: undefined,
+      narrator: undefined,
+      player: '/fah.png',
+    })
+  })
+
+  it('moves the narrator beside the dialogue box', () => {
+    expect(place('/monkey.png', '/fah.png', { narrator: true })).toEqual({
+      speaker: undefined,
+      narrator: '/monkey.png',
       player: '/fah.png',
     })
   })
 
   it('hides the player when the event asks, and never shows one picture twice', () => {
-    expect(scenePortraits('/mali.png', '/fah.png', true)).toEqual({
+    expect(place('/mali.png', '/fah.png', { hidePlayer: true })).toEqual({
       speaker: '/mali.png',
+      narrator: undefined,
       player: undefined,
     })
-    expect(scenePortraits('/fah.png', '/fah.png', false)).toEqual({
+    expect(place('/fah.png', '/fah.png')).toEqual({
       speaker: undefined,
+      narrator: undefined,
       player: '/fah.png',
     })
   })

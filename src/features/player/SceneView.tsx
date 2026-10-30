@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { V2Content, V2Event } from '../../content/v2/schema'
 import { getV2ChoiceOptions } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
@@ -30,6 +30,8 @@ type Props = {
   // Recaps of the last choice, shown with the first line only.
   recaps: string[]
   fadeScene?: boolean
+  // Shown in the top-right corner of the scene, such as the stat toast.
+  notice?: ReactNode
   error: string | null
   onChoose: (choiceId: string) => void
   onChooseMany: (choiceIds: string[]) => void
@@ -51,6 +53,7 @@ export function SceneView({
   loanRatePercent,
   recaps,
   fadeScene = false,
+  notice,
   error,
   onChoose,
   onChooseMany,
@@ -85,11 +88,12 @@ export function SceneView({
     save.nameId,
     event.outfit,
   )
-  const portraits = scenePortraits(
-    portraitAsset?.path,
-    playerPortrait,
-    event.hidePlayer === true,
-  )
+  const portraits = scenePortraits({
+    speakerPath: portraitAsset?.path,
+    speakerIsNarrator: speaker?.isNarrator === true,
+    playerPath: playerPortrait,
+    hidePlayer: event.hidePlayer === true,
+  })
   const choices = getV2ChoiceOptions(event, save)
   const catalogs = { faculties, majors, electives }
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
@@ -150,6 +154,7 @@ export function SceneView({
         />
         <div className="scene-frame">
           <div className="scene-stage">
+            {notice}
             {sceneAsset && (
               <img
                 className="scene-image"
@@ -178,37 +183,46 @@ export function SceneView({
           className="player-dialogue rounded-2xl border border-[var(--color-line)]"
           aria-live="polite"
         >
-          <div className="flex items-baseline justify-between gap-3">
-            <p className="eyebrow">{speaker?.name ?? 'เรื่องราว'}</p>
-            <p className="muted text-xs">
-              {lineIndex + 1} / {event.lines.length}
+          {portraits.narrator && (
+            <img
+              className="player-dialogue-portrait"
+              src={portraits.narrator}
+              alt={speaker?.name ?? 'ผู้บรรยาย'}
+            />
+          )}
+          <div className="player-dialogue-body">
+            <div className="flex items-baseline justify-between gap-3">
+              <p className="eyebrow">{speaker?.name ?? 'เรื่องราว'}</p>
+              <p className="muted text-xs">
+                {lineIndex + 1} / {event.lines.length}
+              </p>
+            </div>
+            {lineIndex === 0 && recaps.length > 0 && (
+              <div className="player-recap">
+                {recaps.map((recap, index) => (
+                  <p key={index}>{recap}</p>
+                ))}
+              </div>
+            )}
+            {/* Focusable so a long line can be scrolled with the keyboard. */}
+            <p
+              className="player-dialogue-text mt-2 text-lg leading-relaxed"
+              tabIndex={0}
+            >
+              {line.text}
             </p>
+            {!lastLine && (
+              <div className="mt-2 flex justify-end">
+                <button
+                  type="button"
+                  className="button button-primary"
+                  onClick={() => setLineIndex((index) => index + 1)}
+                >
+                  อ่านต่อ
+                </button>
+              </div>
+            )}
           </div>
-          {lineIndex === 0 && recaps.length > 0 && (
-            <div className="player-recap">
-              {recaps.map((recap, index) => (
-                <p key={index}>{recap}</p>
-              ))}
-            </div>
-          )}
-          {/* Focusable so a long line can be scrolled with the keyboard. */}
-          <p
-            className="player-dialogue-text mt-2 text-lg leading-relaxed"
-            tabIndex={0}
-          >
-            {line.text}
-          </p>
-          {!lastLine && (
-            <div className="mt-2 flex justify-end">
-              <button
-                type="button"
-                className="button button-primary"
-                onClick={() => setLineIndex((index) => index + 1)}
-              >
-                อ่านต่อ
-              </button>
-            </div>
-          )}
         </div>
       </section>
       <section className="panel player-choice-panel" aria-label="ตัวเลือก">
