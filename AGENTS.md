@@ -48,7 +48,6 @@ Layout established by Step 1 scaffold.
 
 ```
 public/content-v2/   # Active game content JSON
-public/content/      # Archived V1 JSON; Player and BO do not load it
 public/assets/       # Images, music, sound files referenced by Asset ID
 src/engine/          # Pure TS game logic: conditions, effects, progression, RNG, endings
 src/content/         # Zod schemas, content types, loader, validators

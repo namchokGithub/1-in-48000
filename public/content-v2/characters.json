@@ -2,11 +2,12 @@
   {
     "id": "mali",
     "name": "มะลิ",
-    "portraitAssetId": "mali_private"
+    "portraitAssetId": "mali_university_student"
   },
   {
     "id": "nap-dow",
-    "name": "นับดาว"
+    "name": "นับดาว",
+    "portraitAssetId": "nap_dow_university_student"
   },
   {
     "id": "narrator",

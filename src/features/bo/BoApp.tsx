@@ -230,7 +230,7 @@ export function BoApp() {
         <section className="panel mx-auto max-w-xl p-7" role="alert">
           <h1 className="text-2xl font-extrabold">โหลดเนื้อหา BO ไม่ได้</h1>
           <p className="muted mt-2">
-            ตรวจไฟล์ JSON ใน public/content แล้วลองใหม่
+            ตรวจไฟล์ JSON ใน public/content-v2 แล้วลองใหม่
           </p>
           <button
             className="button button-primary mt-5"

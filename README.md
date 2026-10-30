@@ -78,7 +78,7 @@ Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Pla
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO use the shared content in `public/content-v2`. It carries 38 events, including program selection, a Year 2 multi-select event, and a Year 3 elective; seven pixel scenes, player portrait placeholders, previous endings, debt/lucky stats, and a Year 8 dismissal ending are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.2.0`; Years 5–8 story content will mix adapted earlier story beats with newly authored events and remains future work. The old JSON in `public/content` remains as a historical archive; Player and BO no longer load it. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The Player and BO use the shared content in `public/content-v2`. It carries 38 events, including program selection, a Year 2 multi-select event, and a Year 3 elective; seven pixel scenes, player portrait placeholders, previous endings, debt/lucky stats, and a Year 8 dismissal ending are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.2.0`; Years 5–8 story content will mix adapted earlier story beats with newly authored events and remains future work. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 

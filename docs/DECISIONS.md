@@ -159,3 +159,7 @@ A character can be marked `isNarrator`, and at most one may be. A line without a
 The stat icons and the Home art are part of the Player's interface, not story content: no event or BO tab refers to them, and an author never swaps them per event. They live in `src/features/player/assets/` and are imported by the Player components, so Vite fingerprints them and they ship only with the Player. This is a deliberate exception to "reference images only by Asset ID": that rule covers content that authors pick and the BO validates. An image that content can choose still belongs in `assets.json`.
 
 The create screen rolls the game seed when it opens and starts the game with that seed, so the name and portrait it shows are the ones the game uses (`previewV2Name` shares the engine's name roll).
+
+## 2026-10-30 — Remove the V1 content archive
+
+Delete `public/content/`. Player and BO load and write only `public/content-v2/`, no code or test reads the V1 JSON, and the V1 engine and save migrations that used it were removed earlier. Keeping it shipped stale files with the public build, and edits to it could be mistaken for live content. The files remain in Git history.

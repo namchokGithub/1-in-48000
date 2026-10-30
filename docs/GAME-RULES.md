@@ -52,7 +52,7 @@ Random selection uses the saved `rngState` and updates it after each roll, so co
 
 ## Content and saves
 
-Content is versioned JSON in `public/content/`: `config.json`, `events.json`, `characters.json`, `assets.json`, and `endings.json`. Events and characters refer to media by Asset ID; paths appear only in `assets.json`. The four-year MVP has 35 authored events, seven pixel scenes, Mali's portrait, and BGM through the manifest. Audio volume settings live under a separate localStorage key and are not part of the player save.
+Content is versioned JSON in `public/content-v2/`: `config.json`, `events.json`, `flow.json`, `characters.json`, `assets.json`, `endings.json`, `faculties.json`, `majors.json`, `electives.json`, and `names.json`. Events and characters refer to media by Asset ID; paths appear only in `assets.json`. The four-year MVP has 35 authored events, seven pixel scenes, Mali's portrait, and BGM through the manifest. Audio volume settings live under a separate localStorage key and are not part of the player save.
 
 The player save is separate from content and has `saveVersion: 2`, `contentVersion`, selected `backgroundId`, current time/event, stats, boolean flags, choice history, pending effects, and both `rngSeed` and `rngState`. Storing the current RNG state lets the engine resume without changing future rolls. Content version `0.4.0` adds the full four-year story; loading earlier `0.1.0`/v1 or `0.2.0`–`0.3.0`/v2 saves migrates their content version while preserving progress and RNG state.
 
@@ -60,7 +60,7 @@ The save store writes one localStorage slot when a game starts or restarts and a
 
 ## V2 data contract (Step 11)
 
-`src/content/v2/schema.ts` defines the shared Player and BO contract; `src/content/v2/sample-content.json` remains a small test sample. The earlier `0.5.0` content was authored in `public/content-v2`. The V1 JSON in `public/content` remains only as an archive.
+`src/content/v2/schema.ts` defines the shared Player and BO contract; `src/content/v2/sample-content.json` remains a small test sample. The earlier `0.5.0` content was authored in `public/content-v2`.
 
 All seven stats are integers and can be negative. `study`, `health`, `stress`, `relationships`, and `lucky` retain a maximum of 100; `money` and the single `debt` balance have no upper bound. Debt covers student loans (กยศ./กรอ.), borrowing from friends, and gambling debt. Background presets provide deltas for all seven stats.
 

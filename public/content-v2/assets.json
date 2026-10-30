@@ -35,6 +35,11 @@
     "path": "/assets/scene/graduation-stage.png"
   },
   {
+    "id": "h2m_bang_saen",
+    "kind": "scene",
+    "path": "/assets/scene/h2m-bang-saen.png"
+  },
+  {
     "id": "bang_phra_reservoir",
     "kind": "scene",
     "path": "/assets/scene/bang-phra-reservoir.png"
@@ -128,6 +133,16 @@
     "id": "mali_university_student",
     "kind": "portrait",
     "path": "/assets/portrait/mali-university-student.png"
+  },
+  {
+    "id": "nap_dow_private",
+    "kind": "portrait",
+    "path": "/assets/portrait/nap-dow-private.png"
+  },
+  {
+    "id": "nap_dow_university_student",
+    "kind": "portrait",
+    "path": "/assets/portrait/nap-dow-university-student.png"
   },
   {
     "id": "man_private_01",
