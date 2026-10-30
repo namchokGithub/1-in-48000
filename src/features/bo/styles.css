@@ -35,21 +35,79 @@
   color: var(--color-muted);
   font-size: 0.85rem;
 }
-.bo-tabs {
+.bo-header-main {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid var(--color-line);
-  overflow-x: auto;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  flex-wrap: wrap;
+  min-width: 0;
 }
-.bo-tabs button {
-  flex: 0 0 auto;
-  border: 0;
-  border-bottom: 3px solid transparent;
-  padding: 0.7rem 1rem;
+.bo-tabs {
+  position: relative;
+  min-width: 0;
+}
+.bo-tab-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  padding: 0.6rem 1rem;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 800;
+}
+.bo-tab-trigger[aria-expanded='true'] {
+  border-color: var(--color-primary);
+}
+.bo-tab-trigger-group {
+  color: var(--color-muted);
+}
+.bo-tab-dirty {
+  color: var(--color-accent);
+}
+.bo-tab-menu {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: var(--z-dropdown);
+  display: grid;
+  gap: 0.75rem;
+  width: min(40rem, calc(100vw - 2rem));
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  padding: 0.9rem;
+  background: var(--color-surface);
+  box-shadow: 0 16px 36px rgba(23, 53, 68, 0.16);
+}
+.bo-tab-group {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+.bo-tab-group-label {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.bo-tab-group-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.bo-tab-group-items button {
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  padding: 0.45rem 0.8rem;
   background: transparent;
   color: var(--color-muted);
   font-weight: 800;
+}
+.bo-tab-group-items button:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-ink);
 }
 .bo-id-actions {
   display: flex;
@@ -277,8 +335,9 @@
 .bo-add-at-end {
   justify-self: start;
 }
-.bo-tabs button[aria-pressed='true'] {
-  border-bottom-color: var(--color-primary);
+.bo-tab-group-items button[aria-pressed='true'] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
   color: var(--color-ink);
 }
 .bo-events-tools {
@@ -987,6 +1046,13 @@
   gap: 0.5rem;
 }
 @media (max-width: 600px) {
+  .bo-tab-menu {
+    width: calc(100vw - 2rem);
+  }
+  .bo-tab-group {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
   .bo-toolbar,
   .bo-toolbar-actions,
   .bo-toolbar-actions .button {

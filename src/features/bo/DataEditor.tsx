@@ -7,7 +7,7 @@ import { randomId } from './randomId'
 export type DataSection = 'speakers' | 'backgrounds' | 'portraits' | 'sounds'
 
 const labels: Record<DataSection, string> = {
-  speakers: 'ผู้พูด',
+  speakers: 'ตัวละคร (NPC)',
   backgrounds: 'ภาพฉาก',
   portraits: 'ภาพตัวละคร',
   sounds: 'เสียง',

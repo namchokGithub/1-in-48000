@@ -1,4 +1,4 @@
-import { useEffect, useState, type SetStateAction } from 'react'
+import { useEffect, useRef, useState, type SetStateAction } from 'react'
 import { loadV2Content } from '../../content/v2/loader'
 import {
   v2ContentSchema,
@@ -37,7 +37,7 @@ type ValidationIssue = { path: string; message: string }
 function sectionFromUrl(): Section {
   const tab = new URLSearchParams(window.location.search).get('tab')
   if (
-    tab === 'flow' ||
+    tab === 'events' ||
     tab === 'endings' ||
     tab === 'speakers' ||
     tab === 'backgrounds' ||
@@ -50,7 +50,7 @@ function sectionFromUrl(): Section {
   ) {
     return tab
   }
-  return 'events'
+  return 'flow'
 }
 
 function sectionFile(section: Section): EditableFile {
@@ -120,6 +120,8 @@ export function BoApp() {
     action: () => void
   } | null>(null)
   const [previewEventId, setPreviewEventId] = useState<string | null>(null)
+  const [tabMenuOpen, setTabMenuOpen] = useState(false)
+  const tabMenuRef = useRef<HTMLElement>(null)
 
   function setDraft(change: SetStateAction<V2Content | null>) {
     setHistory((current) => {
@@ -132,7 +134,7 @@ export function BoApp() {
 
   function selectSection(next: Section) {
     const url = new URL(window.location.href)
-    if (next === 'events') url.searchParams.delete('tab')
+    if (next === 'flow') url.searchParams.delete('tab')
     else url.searchParams.set('tab', next)
     window.history.replaceState(window.history.state, '', url)
     setSection(next)
@@ -175,6 +177,23 @@ export function BoApp() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   })
+
+  useEffect(() => {
+    if (!tabMenuOpen) return
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') setTabMenuOpen(false)
+    }
+    function onPointerDown(event: PointerEvent) {
+      if (!tabMenuRef.current?.contains(event.target as Node))
+        setTabMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('pointerdown', onPointerDown)
+    return () => {
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('pointerdown', onPointerDown)
+    }
+  }, [tabMenuOpen])
 
   if (loadError) {
     return (
@@ -254,7 +273,7 @@ export function BoApp() {
     flow: 'Flow เรื่อง',
     endings: 'ตอนจบ',
     backgrounds: 'ภาพฉาก',
-    speakers: 'ผู้พูด',
+    speakers: 'ตัวละคร (NPC)',
     names: 'ชื่อผู้เล่น',
     portraits: 'ภาพตัวละคร',
     sounds: 'เสียง',
@@ -262,6 +281,68 @@ export function BoApp() {
     majors: 'สาขา',
     electives: 'วิชาเสรี',
   }
+  const assetCount = (kinds: string[]) =>
+    draft.assets.filter((asset) => kinds.includes(asset.kind)).length
+  const tabGroups: {
+    label: string
+    tabs: { section: Section; count: number; dirty: boolean }[]
+  }[] = [
+    {
+      label: 'เรื่องราว',
+      tabs: [
+        { section: 'flow', count: draft.flow.nodes.length, dirty: dirtyFlow },
+        { section: 'events', count: draft.events.length, dirty: dirtyEvents },
+        {
+          section: 'endings',
+          count: draft.endings.length,
+          dirty: dirtyEndings,
+        },
+      ],
+    },
+    {
+      label: 'ตัวละคร',
+      tabs: [
+        { section: 'names', count: draft.names.length, dirty: dirtyNames },
+        {
+          section: 'speakers',
+          count: draft.characters.length,
+          dirty: dirtyCharacters,
+        },
+      ],
+    },
+    {
+      label: 'สื่อ',
+      tabs: [
+        {
+          section: 'backgrounds',
+          count: assetCount(['scene']),
+          dirty: dirtyAssets,
+        },
+        {
+          section: 'portraits',
+          count: assetCount(['portrait']),
+          dirty: dirtyAssets,
+        },
+        {
+          section: 'sounds',
+          count: assetCount(['bgm', 'sfx']),
+          dirty: dirtyAssets,
+        },
+      ],
+    },
+    {
+      label: 'หลักสูตร',
+      tabs: (['faculties', 'majors', 'electives'] as const).map((catalog) => ({
+        section: catalog,
+        count: draft[catalog].length,
+        dirty: dirtyFiles[catalog],
+      })),
+    },
+  ]
+  const currentGroup = tabGroups.find((group) =>
+    group.tabs.some((tab) => tab.section === section),
+  )
+  const currentTab = currentGroup?.tabs.find((tab) => tab.section === section)
   const event = draft.events[eventIndex]
   const ending = draft.endings[endingIndex]
   const eventIds = draft.events.map((item) => item.id)
@@ -442,7 +523,7 @@ export function BoApp() {
         events: 'เหตุการณ์',
         flow: 'Flow เรื่อง',
         endings: 'ตอนจบ',
-        characters: 'ผู้พูด',
+        characters: 'ตัวละคร (NPC)',
         assets: 'Asset',
         faculties: 'คณะ',
         majors: 'สาขา',
@@ -461,12 +542,61 @@ export function BoApp() {
     <main className={`app-shell${section === 'flow' ? ' bo-fill' : ''}`}>
       <div className="app-wrap bo-wrap">
         <header className="bo-header">
-          <div>
-            <h1 className="text-xl font-extrabold">BO · 1 ใน 48,000</h1>
-            <p className="muted text-xs">
-              เครื่องมือบนเครื่องผู้เขียน · Content{' '}
-              {draft.config.contentVersion} · แก้ JSON โดยตรงหลังตรวจข้อมูล
-            </p>
+          <div className="bo-header-main">
+            <div>
+              <h1 className="text-xl font-extrabold">BO · 1 ใน 48,000</h1>
+              <p className="muted text-xs">
+                เครื่องมือบนเครื่องผู้เขียน · Content{' '}
+                {draft.config.contentVersion} · แก้ JSON โดยตรงหลังตรวจข้อมูล
+              </p>
+            </div>
+            <nav className="bo-tabs" aria-label="ชนิดเนื้อหา" ref={tabMenuRef}>
+              <button
+                type="button"
+                className="bo-tab-trigger"
+                aria-expanded={tabMenuOpen}
+                aria-controls="bo-tab-menu"
+                onClick={() => setTabMenuOpen((open) => !open)}
+              >
+                <span className="bo-tab-trigger-group">
+                  {currentGroup?.label} ›
+                </span>
+                <span>
+                  {sectionLabels[section]} {currentTab?.count}
+                </span>
+                {dirtyAny && (
+                  <span className="bo-tab-dirty" title="มีหน้าที่ยังไม่บันทึก">
+                    •
+                  </span>
+                )}
+                <span aria-hidden="true">▾</span>
+              </button>
+              {tabMenuOpen && (
+                <div id="bo-tab-menu" className="bo-tab-menu">
+                  {tabGroups.map((group) => (
+                    <div key={group.label} className="bo-tab-group">
+                      <p className="bo-tab-group-label">{group.label}</p>
+                      <div className="bo-tab-group-items">
+                        {group.tabs.map((tab) => (
+                          <button
+                            key={tab.section}
+                            type="button"
+                            aria-pressed={section === tab.section}
+                            onClick={() => {
+                              selectSection(tab.section)
+                              setTabMenuOpen(false)
+                            }}
+                          >
+                            {sectionLabels[tab.section]} {tab.count}
+                            {tab.dirty ? ' •' : ''}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </nav>
           </div>
           <div
             className="bo-toolbar"
@@ -520,84 +650,6 @@ export function BoApp() {
             </div>
           </div>
         </header>
-        <nav className="bo-tabs" aria-label="ชนิดเนื้อหา">
-          <button
-            aria-pressed={section === 'events'}
-            type="button"
-            onClick={() => selectSection('events')}
-          >
-            เหตุการณ์ {draft.events.length}
-            {dirtyEvents ? ' •' : ''}
-          </button>
-          <button
-            aria-pressed={section === 'flow'}
-            type="button"
-            onClick={() => selectSection('flow')}
-          >
-            Flow เรื่อง {draft.flow.nodes.length}
-            {dirtyFlow ? ' •' : ''}
-          </button>
-          <button
-            aria-pressed={section === 'endings'}
-            type="button"
-            onClick={() => selectSection('endings')}
-          >
-            ตอนจบ {draft.endings.length}
-            {dirtyEndings ? ' •' : ''}
-          </button>
-          <button
-            aria-pressed={section === 'speakers'}
-            type="button"
-            onClick={() => selectSection('speakers')}
-          >
-            ผู้พูด {draft.characters.length}
-            {dirtyCharacters ? ' •' : ''}
-          </button>
-          <button
-            aria-pressed={section === 'backgrounds'}
-            type="button"
-            onClick={() => selectSection('backgrounds')}
-          >
-            ภาพฉาก{' '}
-            {draft.assets.filter((asset) => asset.kind === 'scene').length}
-            {dirtyAssets ? ' •' : ''}
-          </button>
-          <button
-            aria-pressed={section === 'sounds'}
-            type="button"
-            onClick={() => selectSection('sounds')}
-          >
-            เสียง{' '}
-            {
-              draft.assets.filter(
-                (asset) => asset.kind === 'bgm' || asset.kind === 'sfx',
-              ).length
-            }
-            {dirtyAssets ? ' •' : ''}
-          </button>
-          <button
-            aria-pressed={section === 'portraits'}
-            type="button"
-            onClick={() => selectSection('portraits')}
-          >
-            ภาพตัวละคร{' '}
-            {draft.assets.filter((asset) => asset.kind === 'portrait').length}
-            {dirtyAssets ? ' •' : ''}
-          </button>
-          {(['faculties', 'majors', 'electives', 'names'] as const).map(
-            (catalog) => (
-              <button
-                key={catalog}
-                aria-pressed={section === catalog}
-                type="button"
-                onClick={() => selectSection(catalog)}
-              >
-                {sectionLabels[catalog]} {draft[catalog].length}
-                {dirtyFiles[catalog] ? ' •' : ''}
-              </button>
-            ),
-          )}
-        </nav>
         {section === 'events' && (
           <div className="bo-events-tools">
             <label className="bo-event-search">
