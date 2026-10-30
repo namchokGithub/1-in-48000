@@ -77,7 +77,7 @@ Accepted by the author on 2026-10-29.
 
 **Status:** Done
 
-UI only; no automated tests. Source: `docs/BO-UX-DESIGN.md`.
+UI only; no automated tests. Source: `docs/legacy/BO-UX-DESIGN.md`.
 
 - Make the Flow tab fill the screen height.
 - Add a toggle to collapse and expand the event library; keep the state in React state only.

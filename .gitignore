@@ -153,6 +153,7 @@ vite.config.ts.timestamp-*
 
 # Other
 LOCAL.md
+docs/image/LOCAL/*
 
 # Mac
 .DS_Store

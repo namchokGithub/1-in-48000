@@ -15,7 +15,7 @@ V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 | 37  | BO Flow edge styles | In progress | 35         |
 | 38  | Player UX/UI pass   | In progress | 33         |
 
-V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/legacy/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
+V4 order: rules and engine with the story conversion first (27–28), then the validator (29), then the BO Flow editor (31–32) and the author's review of the converted flow (30), then Player check (33). BO Flow board UX follows `docs/legacy/BO-UX-DESIGN.md`: layout first (34), then focus and readability (35) and undo/redo (36), which do not depend on each other. Requirements source: `docs/legacy/REQUIREMENT-V4.md`. The production release is still deferred while the author makes further adjustments.
 
 ## Open decisions
 
@@ -49,7 +49,7 @@ Group Flow board edges by meaning, derived from the source card type, port, and 
 
 **Status:** In progress
 
-Source: `docs/PLAY_UXUI_DESIGN.md`.
+Source: `docs/legacy/PLAY_UXUI_DESIGN.md`.
 
 - 38.1 Fix `first_class.take_notes`: it scheduled an effect after `orientation`, which always comes first, so the choice always failed.
 - 38.2 Player UI kit in `src/features/player/ui/` (custom select, checkbox, stat icon), separate from BO.
