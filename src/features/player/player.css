@@ -343,9 +343,19 @@
   object-position: bottom;
   image-rendering: pixelated;
 }
+.player-create-header {
+  display: grid;
+  align-items: center;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .player-create-header {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+  }
+}
 .player-create-identity {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 1rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--color-line);

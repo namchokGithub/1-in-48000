@@ -47,29 +47,33 @@ export function CharacterForm({
 
   return (
     <section className="panel w-full p-5 sm:p-8 lg:p-10">
-      <p className="eyebrow">สร้างตัวละคร</p>
-      <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-        ชีวิตนี้เริ่มที่คุณ
-      </h1>
-      <p className="muted mt-2">เลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู</p>
-      <div className="player-create-identity mt-6">
-        {portraitPath ? (
-          <img
-            className="player-identity-portrait"
-            src={portraitPath}
-            alt={`ภาพผู้เล่น ${name.name}`}
-          />
-        ) : (
-          <span
-            className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] text-2xl"
-            aria-hidden="true"
-          >
-            {name.name.slice(0, 1)}
-          </span>
-        )}
-        <div className="min-w-0">
-          <p className="eyebrow">ชื่อของคุณ</p>
-          <p className="truncate text-2xl font-extrabold">{name.name}</p>
+      <div className="player-create-header">
+        <div>
+          <p className="eyebrow">สร้างตัวละคร</p>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            ชีวิตนี้เริ่มที่คุณ
+          </h1>
+          <p className="muted mt-2">เลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู</p>
+        </div>
+        <div className="player-create-identity">
+          {portraitPath ? (
+            <img
+              className="player-identity-portrait"
+              src={portraitPath}
+              alt={`ภาพผู้เล่น ${name.name}`}
+            />
+          ) : (
+            <span
+              className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary-soft)] text-2xl"
+              aria-hidden="true"
+            >
+              {name.name.slice(0, 1)}
+            </span>
+          )}
+          <div className="min-w-0">
+            <p className="eyebrow">ชื่อของคุณ</p>
+            <p className="truncate text-2xl font-extrabold">{name.name}</p>
+          </div>
         </div>
       </div>
       <form className="mt-7 space-y-7" onSubmit={submit} noValidate>
