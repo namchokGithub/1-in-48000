@@ -433,6 +433,7 @@ export const v2ContentSchema = z
         id: idSchema,
         name: textSchema,
         portraitAssetId: idSchema.optional(),
+        isNarrator: z.boolean().optional(),
       }),
     ),
     assets: v2AssetListSchema,
@@ -568,7 +569,13 @@ export const v2ContentSchema = z
         checkAsset(id, 'portrait', path)
       })
     })
+    let narratorCount = 0
     content.characters.forEach((character, index) => {
+      if (character.isNarrator && ++narratorCount > 1)
+        report(
+          ['characters', index, 'isNarrator'],
+          'Only one character can be the narrator',
+        )
       checkAsset(character.portraitAssetId, 'portrait', [
         'characters',
         index,

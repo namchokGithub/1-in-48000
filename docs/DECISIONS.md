@@ -149,3 +149,7 @@ Edges are grouped by meaning on the board only: normal, fallback, Condition pass
 ## 2026-10-30 — Player outfits chosen per event
 
 Each player name pairs one portrait per outfit, `casual` and `student`, in `names.json` (`portraits`). The pair is explicit content rather than matched by the number in a file name, so renaming or renumbering image files cannot silently pair the wrong pictures. An event picks the outfit with an optional `outfit` field, next to its scene and music; an event without one uses `student`. The outfit lives on the event, not on the Flow node, because each event is placed on the board once and the scene view already has the event, so the engine and save stay unchanged. The ending screen uses the default outfit. A name either has no portraits or has both, so no scene falls back to a missing picture. A line's own `portraitAssetId` still overrides the player portrait.
+
+## 2026-10-30 — Narrator as a character
+
+A character can be marked `isNarrator`, and at most one may be. A line without a speaker uses that character's name and portrait, in the Player and in the BO line preview; without a narrator it reads "เรื่องราว" with no portrait as before. The flag lives in `characters.json`, not `config.json`, because the BO saves the NPC tab to `characters.json` and has no editor that writes `config.json`. The narrator uses one portrait for every outfit, and a line's own `portraitAssetId` still overrides it.

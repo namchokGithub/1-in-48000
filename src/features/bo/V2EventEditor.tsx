@@ -5,6 +5,7 @@ import { v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
 import { randomId } from './randomId'
 import { reorder } from './reorder'
+import { lineSpeaker } from '../../content/v2/lineSpeaker'
 import { V2ConditionList } from './V2ConditionList'
 import { V2EffectList } from './V2EffectList'
 import { conditionSummary, effectSummary } from './storySummary'
@@ -27,6 +28,7 @@ export function V2EventEditor({
   onDelete: () => void
 }) {
   const [expandedChoice, setExpandedChoice] = useState<number | null>(0)
+  const narrator = characters.find((item) => item.isNarrator)
   const update = (change: (next: V2Event) => void) => {
     const next = structuredClone(event)
     change(next)
@@ -396,9 +398,7 @@ export function V2EventEditor({
         </div>
         <div className="bo-story-cards">
           {event.lines.map((line, index) => {
-            const speaker = characters.find(
-              (item) => item.id === line.speakerId,
-            )
+            const speaker = lineSpeaker(line, characters)
             const portrait = assets.find(
               (item) =>
                 item.id ===
@@ -483,7 +483,9 @@ export function V2EventEditor({
                         })
                       }
                     >
-                      <option value="">ผู้บรรยาย</option>
+                      <option value="">
+                        ผู้บรรยาย{narrator ? ` (${narrator.name})` : ''}
+                      </option>
                       {characters.map((item) => (
                         <option key={item.id} value={item.id}>
                           {item.name}

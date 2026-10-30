@@ -333,4 +333,18 @@ describe('V2 content contract', () => {
       }).success,
     ).toBe(false)
   })
+
+  it('allows at most one narrator among the characters', () => {
+    const narrator = { id: 'narrator', name: 'ผู้บรรยาย', isNarrator: true }
+    const base = { ...sample, names }
+    expect(
+      v2ContentSchema.safeParse({ ...base, characters: [narrator] }).success,
+    ).toBe(true)
+    expect(
+      v2ContentSchema.safeParse({
+        ...base,
+        characters: [narrator, { ...narrator, id: 'second' }],
+      }).success,
+    ).toBe(false)
+  })
 })

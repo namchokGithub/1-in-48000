@@ -115,6 +115,11 @@
     "path": "/assets/scene/won-napha-beach.png"
   },
   {
+    "id": "narrator",
+    "kind": "portrait",
+    "path": "/assets/portrait/monkey-mascot.png"
+  },
+  {
     "id": "mali_private",
     "kind": "portrait",
     "path": "/assets/portrait/mali-private.png"

@@ -7,6 +7,7 @@ import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
 import { YearTimeline } from './YearTimeline'
 import { playerPortraitPath } from './playerIdentity'
+import { lineSpeaker } from '../../content/v2/lineSpeaker'
 
 type Props = {
   event: V2Event
@@ -55,9 +56,7 @@ export function SceneView({
   const [electiveId, setElectiveId] = useState(electives[0]?.id ?? '')
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const line = event.lines[lineIndex]
-  const speaker = characters.find(
-    (character) => character.id === line.speakerId,
-  )
+  const speaker = lineSpeaker(line, characters)
   const sceneAsset = assets.find(
     (asset) => asset.id === event.sceneAssetId && asset.kind === 'scene',
   )

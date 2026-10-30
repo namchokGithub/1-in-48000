@@ -136,6 +136,7 @@ export function DataEditor({
               <small>
                 {item.id}
                 {'kind' in item ? ` · ${item.kind.toUpperCase()}` : ''}
+                {'isNarrator' in item && item.isNarrator ? ' · ผู้บรรยาย' : ''}
               </small>
             </button>
           ))}
@@ -233,6 +234,26 @@ export function DataEditor({
                           </option>
                         ))}
                     </BoDropdown>
+                  </label>
+                  <label className="bo-checkbox-field">
+                    <input
+                      type="checkbox"
+                      checked={speaker.isNarrator === true}
+                      onChange={(event) => {
+                        const next = structuredClone(content)
+                        next.characters = next.characters.map(
+                          (item, itemIndex) => {
+                            const copy = { ...item }
+                            delete copy.isNarrator
+                            return itemIndex === index && event.target.checked
+                              ? { ...copy, isNarrator: true }
+                              : copy
+                          },
+                        )
+                        onChange(next)
+                      }}
+                    />
+                    <span>ใช้เป็นผู้บรรยาย (บรรทัดที่ไม่ระบุผู้พูด)</span>
                   </label>
                 </>
               ) : asset ? (
