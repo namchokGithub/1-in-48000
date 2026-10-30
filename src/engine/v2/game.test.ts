@@ -16,6 +16,7 @@ import {
   chooseV2Program,
   createV2Game,
   getV2EffectiveChancePercent,
+  getV2GoalYear,
   pickV2StartOption,
   previewV2Name,
   getV2CurrentEvent,
@@ -160,6 +161,16 @@ describe('V4 flow engine', () => {
         createV2Game(sampleContent, seed).nameId,
       )
     }
+  })
+
+  it('aims at the program length, then at each study review year', () => {
+    expect(getV2GoalYear(4, 1)).toBe(4)
+    expect(getV2GoalYear(4, 4)).toBe(4)
+    expect(getV2GoalYear(4, 5)).toBe(6)
+    expect(getV2GoalYear(4, 7)).toBe(8)
+    expect(getV2GoalYear(6, 1)).toBe(6)
+    expect(getV2GoalYear(6, 6)).toBe(6)
+    expect(getV2GoalYear(6, 7)).toBe(8)
   })
 
   it('starts at the first event linked from Start', () => {

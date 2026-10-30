@@ -41,6 +41,22 @@ describe('audio controller', () => {
     ).toBe(true)
   })
 
+  it('keeps a fade-in running when the volume does not change', () => {
+    const created: FakeSound[] = []
+    const controller = createAudioController((options) => {
+      const sound = new FakeSound(options)
+      created.push(sound)
+      return sound
+    })
+    controller.setVolume(0.4)
+    controller.sync('campus_music', assets)
+    controller.setVolume(0.4)
+    expect(created[0].volumeSets).toBe(0)
+    controller.setVolume(0.1)
+    expect(created[0].volumeSets).toBe(0)
+    expect(created[0].fades.at(-1)).toEqual([0.4, 0.1])
+  })
+
   it('does not play a non-music asset', () => {
     const created: FakeSound[] = []
     const controller = createAudioController((options) => {
@@ -59,6 +75,7 @@ class FakeSound {
   loop: boolean
   level: number
   plays = 0
+  volumeSets = 0
   stopped = false
   fades: [number, number][] = []
   constructor(options: SoundOptions) {
@@ -76,6 +93,7 @@ class FakeSound {
   }
   volume(value?: number) {
     if (value === undefined) return this.level
+    this.volumeSets += 1
     this.level = value
     return this
   }

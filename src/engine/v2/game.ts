@@ -261,6 +261,12 @@ function reviewStudy(
   return year === 8 ? 'dismiss' : 'extend'
 }
 
+// The year of the next study review: the program length, then every even
+// year until year 8, matching reviewStudy.
+export function getV2GoalYear(programYears: number, year: number): number {
+  return year <= programYears ? programYears : Math.min(8, year + (year % 2))
+}
+
 function studyScore(save: V2PlayerSave): number {
   return save.stats.study - Math.max(save.stats.stress, 0) / 10
 }

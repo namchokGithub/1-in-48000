@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { getV2GoalYear } from '../../engine/v2/game'
 
 type IconKind = 'book' | 'people' | 'compass' | 'cap' | 'calendar'
 
@@ -56,8 +57,14 @@ function YearIcon({ kind }: { kind: IconKind }) {
   )
 }
 
-export function YearTimeline({ currentYear }: { currentYear: number }) {
-  const targetYear = currentYear <= 4 ? 4 : currentYear <= 6 ? 6 : 8
+export function YearTimeline({
+  currentYear,
+  programYears,
+}: {
+  currentYear: number
+  programYears: number
+}) {
+  const targetYear = getV2GoalYear(programYears, currentYear)
   const viewportRef = useRef<HTMLOListElement>(null)
   const currentRef = useRef<HTMLLIElement>(null)
 

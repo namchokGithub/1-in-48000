@@ -48,8 +48,11 @@ export function createAudioController(
   return {
     sync,
     setVolume(next: number) {
-      volume = Math.max(0, Math.min(1, next))
-      track?.sound.volume(volume)
+      const level = Math.max(0, Math.min(1, next))
+      if (level === volume) return
+      volume = level
+      // Fade instead of setting the volume, which would cut a running fade.
+      track?.sound.fade(track.sound.volume() as number, volume, FADE_MS)
     },
     stop: fadeOut,
   }

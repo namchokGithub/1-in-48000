@@ -124,7 +124,12 @@ export function SceneView({
             {homeLabel}
           </button>
         </div>
-        <YearTimeline currentYear={save.currentTime.year} />
+        <YearTimeline
+          currentYear={save.currentTime.year}
+          programYears={
+            majors.find((major) => major.id === save.majorId)?.programYears ?? 4
+          }
+        />
         <div className="scene-frame">
           <div className="scene-stage">
             {sceneAsset && (
