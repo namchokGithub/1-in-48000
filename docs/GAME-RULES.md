@@ -29,6 +29,8 @@ An event or choice may have conditions. All conditions in its array must hold; a
 - `flag`: compare a named boolean flag. An unset flag is treated as `false`.
 - `pastEvent`: check whether an event was visited, using the save history.
 
+A choice whose conditions do not hold is hidden unless it sets `showWhenLocked: true`. Then the Player shows it disabled with a reason built from the unmet conditions, for example "ต้องมีเงินอย่างน้อย 500 ฿"; `flag` and `pastEvent` conditions read only "ยังไม่เข้าเงื่อนไข" so the story is not revealed. The engine still rejects choosing it.
+
 Every event has at least one line and one choice. A choice may have no effects when it only changes dialogue. The event kinds are `main`, `conditional`, `holiday`, and `random`. Event selection and condition evaluation belong to Step 3.
 
 ## Effects

@@ -690,6 +690,9 @@ export function V2EventEditor({
                 {choice.conditions.length
                   ? choice.conditions.map(conditionSummary).join(', ')
                   : 'ไม่มีเงื่อนไข'}
+                {choice.showWhenLocked && choice.conditions.length > 0
+                  ? ' · แสดงแม้ไม่เข้าเงื่อนไข'
+                  : ''}
               </p>
               {expandedChoice === index && (
                 <div className="bo-choice-body bo-stack">
@@ -802,6 +805,24 @@ export function V2EventEditor({
                           })
                         }
                       />
+                      <label className="bo-checkbox-field mt-3">
+                        <input
+                          type="checkbox"
+                          checked={choice.showWhenLocked === true}
+                          disabled={!choice.conditions.length}
+                          onChange={(input) =>
+                            update((next) => {
+                              if (input.target.checked)
+                                next.choices[index].showWhenLocked = true
+                              else delete next.choices[index].showWhenLocked
+                            })
+                          }
+                        />
+                        <span>
+                          แสดงแม้ไม่เข้าเงื่อนไข (ผู้เล่นเห็นแต่กดไม่ได้
+                          พร้อมเหตุผล)
+                        </span>
+                      </label>
                     </div>
                   </details>
                   <div className="bo-nested">

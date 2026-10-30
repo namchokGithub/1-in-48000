@@ -186,6 +186,7 @@ export const v2EventSchema = z
           id: storyIdSchema,
           text: textSchema,
           conditions: z.array(v2ConditionSchema),
+          showWhenLocked: z.boolean().optional(),
           effects: z.array(v2EffectSchema),
         }),
       )

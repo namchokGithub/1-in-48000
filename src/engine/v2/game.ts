@@ -75,35 +75,33 @@ function compare(
 }
 
 function matches(conditions: V2Condition[], save: V2PlayerSave): boolean {
-  return conditions.every((condition) => {
-    switch (condition.type) {
-      case 'year':
-        return compare(
-          save.currentTime.year,
-          condition.operator,
-          condition.value,
-        )
-      case 'stat':
-        return compare(
-          save.stats[condition.stat],
-          condition.operator,
-          condition.value,
-        )
-      case 'flag':
-        return (save.flags[condition.flagId] ?? false) === condition.value
-      case 'pastEvent':
-        return (
-          save.history.some((entry) => entry.eventId === condition.eventId) ===
-          condition.visited
-        )
-      case 'faculty':
-        return save.facultyId === condition.facultyId
-      case 'major':
-        return save.majorId === condition.majorId
-      case 'elective':
-        return save.electiveId === condition.electiveId
-    }
-  })
+  return conditions.every((condition) => conditionMet(condition, save))
+}
+
+function conditionMet(condition: V2Condition, save: V2PlayerSave): boolean {
+  switch (condition.type) {
+    case 'year':
+      return compare(save.currentTime.year, condition.operator, condition.value)
+    case 'stat':
+      return compare(
+        save.stats[condition.stat],
+        condition.operator,
+        condition.value,
+      )
+    case 'flag':
+      return (save.flags[condition.flagId] ?? false) === condition.value
+    case 'pastEvent':
+      return (
+        save.history.some((entry) => entry.eventId === condition.eventId) ===
+        condition.visited
+      )
+    case 'faculty':
+      return save.facultyId === condition.facultyId
+    case 'major':
+      return save.majorId === condition.majorId
+    case 'elective':
+      return save.electiveId === condition.electiveId
+  }
 }
 
 export function createV2Game(
@@ -167,6 +165,20 @@ export function getV2AvailableChoices(
   save: V2PlayerSave,
 ): V2Choice[] {
   return event.choices.filter((choice) => matches(choice.conditions, save))
+}
+
+// Choices to show: every available choice, plus a locked one when its author
+// asked to show it anyway, with the conditions it does not meet yet.
+export function getV2ChoiceOptions(
+  event: V2Event,
+  save: V2PlayerSave,
+): { choice: V2Choice; unmet: V2Condition[] }[] {
+  return event.choices.flatMap((choice) => {
+    const unmet = choice.conditions.filter(
+      (condition) => !conditionMet(condition, save),
+    )
+    return unmet.length && !choice.showWhenLocked ? [] : [{ choice, unmet }]
+  })
 }
 
 export function getV2EffectiveChancePercent(

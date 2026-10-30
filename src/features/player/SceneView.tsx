@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import type { V2Content, V2Event } from '../../content/v2/schema'
-import { getV2AvailableChoices } from '../../engine/v2/game'
+import { getV2ChoiceOptions } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
+import { lockedReason } from './lockedReason'
 import { YearTimeline } from './YearTimeline'
 import { playerPortraitPath, playerProgram } from './playerIdentity'
 import { lineSpeaker } from '../../content/v2/lineSpeaker'
@@ -73,7 +74,8 @@ export function SceneView({
     save.nameId,
     event.outfit,
   )
-  const choices = getV2AvailableChoices(event, save)
+  const choices = getV2ChoiceOptions(event, save)
+  const catalogs = { faculties, majors, electives }
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
   const maxSelections =
     event.selection?.type === 'multiple' ? event.selection.max : 0
@@ -240,13 +242,14 @@ export function SceneView({
                     (เลือกแล้ว {selectedIds.length} ข้อ)
                   </span>
                 </h2>
-                {choices.map((choice) => (
+                {choices.map(({ choice, unmet }) => (
                   <PlayerCheckbox
                     key={choice.id}
                     checked={selectedIds.includes(choice.id)}
                     disabled={
-                      !selectedIds.includes(choice.id) &&
-                      selectedIds.length >= maxSelections
+                      unmet.length > 0 ||
+                      (!selectedIds.includes(choice.id) &&
+                        selectedIds.length >= maxSelections)
                     }
                     onChange={(checked) =>
                       setSelectedIds((current) =>
@@ -257,27 +260,40 @@ export function SceneView({
                     }
                   >
                     <span>{choice.text}</span>
-                    <EffectList
-                      lines={describeChoiceEffects(choice, save.stats)}
-                    />
+                    {unmet.length ? (
+                      <span className="player-option-locked">
+                        {lockedReason(unmet, catalogs)}
+                      </span>
+                    ) : (
+                      <EffectList
+                        lines={describeChoiceEffects(choice, save.stats)}
+                      />
+                    )}
                   </PlayerCheckbox>
                 ))}
               </div>
             ) : choices.length ? (
               <div className="grid gap-3">
                 <h2 className="text-lg font-bold">คุณจะทำอย่างไร?</h2>
-                {choices.map((choice) => (
+                {choices.map(({ choice, unmet }) => (
                   <button
                     key={choice.id}
                     type="button"
                     className="player-option"
+                    disabled={unmet.length > 0}
                     onClick={() => onChoose(choice.id)}
                   >
                     <span className="player-option-body">
                       <span>{choice.text}</span>
-                      <EffectList
-                        lines={describeChoiceEffects(choice, save.stats)}
-                      />
+                      {unmet.length ? (
+                        <span className="player-option-locked">
+                          {lockedReason(unmet, catalogs)}
+                        </span>
+                      ) : (
+                        <EffectList
+                          lines={describeChoiceEffects(choice, save.stats)}
+                        />
+                      )}
                     </span>
                   </button>
                 ))}

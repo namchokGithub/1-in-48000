@@ -15,6 +15,7 @@ import {
   chooseV2Many,
   chooseV2Program,
   createV2Game,
+  getV2ChoiceOptions,
   getV2EffectiveChancePercent,
   getV2GoalYear,
   pickV2StartOption,
@@ -171,6 +172,33 @@ describe('V4 flow engine', () => {
     expect(getV2GoalYear(6, 1)).toBe(6)
     expect(getV2GoalYear(6, 6)).toBe(6)
     expect(getV2GoalYear(6, 7)).toBe(8)
+  })
+
+  it('lists locked choices only when they ask to be shown', () => {
+    const base = event('shop', [], ['buy', 'hidden', 'shown'])
+    const rich = { type: 'stat', stat: 'money', operator: 'gte', value: 99999 }
+    const locked = v2EventSchema.parse({
+      ...base,
+      choices: [
+        base.choices[0],
+        { ...base.choices[1], conditions: [rich] },
+        { ...base.choices[2], conditions: [rich], showWhenLocked: true },
+      ],
+    })
+    const content = single([locked])
+    const save = createV2Game(content, 1)
+    expect(
+      getV2ChoiceOptions(locked, save).map(({ choice, unmet }) => [
+        choice.id,
+        unmet,
+      ]),
+    ).toEqual([
+      ['buy', []],
+      ['shown', [rich]],
+    ])
+    expect(() => chooseV2(content, save, 'shown')).toThrow(
+      'Unavailable choice: shown',
+    )
   })
 
   it('starts at the first event linked from Start', () => {
