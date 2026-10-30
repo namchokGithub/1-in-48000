@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { V2Event, V2Stats } from '../../content/v2/schema'
 import { v2IdSchema, v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
+import { eventOptions } from './eventOptions'
 import { v2StatOptions } from './v2StatOptions'
 import { effectSummary } from './storySummary'
 
@@ -40,24 +41,30 @@ function makeEffect(type: Effect['type'], eventIds: string[]): Effect {
 function StateEffectEditor({
   effect,
   onChange,
+  showType = true,
 }: {
   effect: StateEffect
   onChange: (next: StateEffect) => void
+  showType?: boolean
 }) {
   return (
     <div className="bo-form-grid">
-      <label className="bo-field">
-        <span>ชนิดผลลัพธ์</span>
-        <BoDropdown
-          value={effect.type}
-          onChange={(event) =>
-            onChange(makeStateEffect(event.target.value as StateEffect['type']))
-          }
-        >
-          <option value="statDelta">เปลี่ยนค่าสถานะ</option>
-          <option value="setFlag">ตั้ง Flag</option>
-        </BoDropdown>
-      </label>
+      {showType && (
+        <label className="bo-field">
+          <span>ชนิดผลลัพธ์</span>
+          <BoDropdown
+            value={effect.type}
+            onChange={(event) =>
+              onChange(
+                makeStateEffect(event.target.value as StateEffect['type']),
+              )
+            }
+          >
+            <option value="statDelta">เปลี่ยนค่าสถานะ</option>
+            <option value="setFlag">ตั้ง Flag</option>
+          </BoDropdown>
+        </label>
+      )}
       {effect.type === 'statDelta' ? (
         <>
           <label className="bo-field">
@@ -252,6 +259,7 @@ export function V2EffectList({
               {(effect.type === 'statDelta' || effect.type === 'setFlag') && (
                 <StateEffectEditor
                   effect={effect}
+                  showType={false}
                   onChange={(next) => replace(index, next)}
                 />
               )}
@@ -286,14 +294,8 @@ export function V2EffectList({
                     {effect.trigger.type === 'afterEvent' ? (
                       <label className="bo-field">
                         <span>Event ID</span>
-                        <input
-                          className="field"
+                        <BoDropdown
                           value={effect.trigger.eventId}
-                          aria-invalid={
-                            !v2StoryIdSchema.safeParse(effect.trigger.eventId)
-                              .success ||
-                            !eventIds.includes(effect.trigger.eventId)
-                          }
                           onChange={(event) =>
                             replace(index, {
                               ...effect,
@@ -303,7 +305,9 @@ export function V2EffectList({
                               },
                             })
                           }
-                        />
+                        >
+                          {eventOptions(eventIds, effect.trigger.eventId)}
+                        </BoDropdown>
                         {(!v2StoryIdSchema.safeParse(effect.trigger.eventId)
                           .success ||
                           !eventIds.includes(effect.trigger.eventId)) && (

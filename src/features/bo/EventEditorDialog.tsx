@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type ComponentProps } from 'react'
 import { V2EventEditor } from './V2EventEditor'
+import { useBackdropClose } from './useBackdropClose'
 
 export function EventEditorDialog({
   onClose,
@@ -12,6 +13,7 @@ export function EventEditorDialog({
   const dialogRef = useRef<HTMLDialogElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
   const titleId = useId()
+  const backdrop = useBackdropClose(onClose)
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -27,6 +29,7 @@ export function EventEditorDialog({
       ref={dialogRef}
       className="bo-preview-dialog"
       aria-labelledby={titleId}
+      {...backdrop}
       onCancel={(cancelEvent) => {
         cancelEvent.preventDefault()
         onClose()

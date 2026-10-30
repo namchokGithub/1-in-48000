@@ -13,6 +13,7 @@ import { EndingView } from '../player/EndingView'
 import { SceneView } from '../player/SceneView'
 import { playerPortraitPath } from '../player/playerIdentity'
 import { createV2PreviewSession } from './preview'
+import { useBackdropClose } from './useBackdropClose'
 import { describeFlowStep, previewErrorMessage, tracedPath } from './flowTrace'
 
 type Session = {
@@ -42,6 +43,7 @@ export function PreviewDialog({
   const closeRef = useRef<HTMLButtonElement>(null)
   const titleId = useId()
   const descriptionId = useId()
+  const backdrop = useBackdropClose(onClose)
 
   function start(run: number): Session {
     try {
@@ -131,6 +133,7 @@ export function PreviewDialog({
     <dialog
       ref={dialogRef}
       className="bo-preview-dialog"
+      {...backdrop}
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
       onCancel={(cancelEvent) => {

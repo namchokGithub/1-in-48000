@@ -111,6 +111,7 @@
 }
 .bo-id-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
   gap: 0.5rem;
 }
@@ -130,8 +131,8 @@
   font-size: 0.75rem;
 }
 .bo-id-actions .field {
-  min-width: 0;
-  flex: 1;
+  min-width: 9rem;
+  flex: 1 1 9rem;
 }
 .bo-id-actions .button {
   flex: 0 0 auto;
@@ -761,6 +762,9 @@
   right: 1rem;
 }
 @media (min-width: 900px) {
+  .bo-id-field {
+    grid-column: span 2;
+  }
   .bo-fill {
     display: flex;
     flex-direction: column;
@@ -901,7 +905,8 @@
 .bo-select-list {
   position: fixed;
   z-index: var(--z-dropdown);
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-control);
   padding: 0.3rem;
@@ -909,6 +914,18 @@
   box-shadow: 0 16px 34px rgba(23, 53, 68, 0.18);
   scrollbar-color: #88aaa9 var(--color-surface);
   scrollbar-width: thin;
+}
+.bo-select-search {
+  position: sticky;
+  top: -0.3rem;
+  z-index: 1;
+  width: 100%;
+  margin-bottom: 0.3rem;
+  padding-block: 0.45rem;
+  box-shadow: 0 -0.3rem 0 var(--color-surface);
+}
+.bo-select-option {
+  overflow-wrap: anywhere;
 }
 .bo-select-option,
 .bo-select-empty {
@@ -933,6 +950,10 @@
 .bo-select-empty {
   margin: 0;
   color: var(--color-muted);
+}
+/* Tailwind's reset removes the browser's centering margin from <dialog>. */
+dialog {
+  margin: auto;
 }
 .bo-confirm-dialog {
   width: min(28rem, calc(100vw - 2rem));
@@ -1038,7 +1059,15 @@
   padding: clamp(0.75rem, 2vw, 1.5rem);
 }
 .bo-preview-dialog-heading {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   gap: 1rem;
+  margin: calc(-1 * clamp(0.75rem, 2vw, 1.5rem));
+  margin-bottom: 0;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-surface);
 }
 .bo-preview-dialog-actions {
   display: flex;

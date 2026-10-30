@@ -1,6 +1,7 @@
 import type { V2Content, V2Event } from '../../content/v2/schema'
 import { v2IdSchema, v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
+import { eventOptions } from './eventOptions'
 import { v2StatOptions } from './v2StatOptions'
 import { conditionSummary } from './storySummary'
 
@@ -197,21 +198,20 @@ export function V2ConditionList({
                   />
                   <span>เคยพบ</span>
                 </label>
-                <input
-                  className="field bo-medium-field"
-                  aria-label="Event ID"
-                  aria-invalid={
-                    !v2StoryIdSchema.safeParse(condition.eventId).success ||
-                    !eventIds.includes(condition.eventId)
-                  }
-                  value={condition.eventId}
-                  onChange={(event) =>
-                    replace(index, {
-                      ...condition,
-                      eventId: event.target.value,
-                    })
-                  }
-                />
+                <div className="bo-medium-field">
+                  <BoDropdown
+                    label="Event ID"
+                    value={condition.eventId}
+                    onChange={(event) =>
+                      replace(index, {
+                        ...condition,
+                        eventId: event.target.value,
+                      })
+                    }
+                  >
+                    {eventOptions(eventIds, condition.eventId)}
+                  </BoDropdown>
+                </div>
                 {(!v2StoryIdSchema.safeParse(condition.eventId).success ||
                   !eventIds.includes(condition.eventId)) && (
                   <small className="bo-field-error">

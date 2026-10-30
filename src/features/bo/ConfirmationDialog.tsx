@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef } from 'react'
+import { useBackdropClose } from './useBackdropClose'
 
 export function ConfirmationDialog({
   title,
@@ -17,6 +18,7 @@ export function ConfirmationDialog({
   const cancelRef = useRef<HTMLButtonElement>(null)
   const titleId = useId()
   const descriptionId = useId()
+  const backdrop = useBackdropClose(onCancel)
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -33,6 +35,7 @@ export function ConfirmationDialog({
       className="bo-confirm-dialog panel"
       aria-labelledby={titleId}
       aria-describedby={descriptionId}
+      {...backdrop}
       onCancel={(event) => {
         event.preventDefault()
         onCancel()

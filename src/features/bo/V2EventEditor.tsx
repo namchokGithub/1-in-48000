@@ -88,7 +88,7 @@ export function V2EventEditor({
         </div>
       </div>
       <div className="bo-form-grid">
-        <div className="bo-field">
+        <div className="bo-field bo-id-field">
           <label htmlFor="bo-v2-event-id">Event ID</label>
           <div className="bo-id-actions">
             <input
