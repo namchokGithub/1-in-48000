@@ -34,14 +34,21 @@ export function CatalogEditor({
   content,
   onChange,
   onDelete,
+  initialId,
 }: {
   section: CatalogSection
   content: V2Content
   onChange: (next: V2Content) => void
   onDelete: (title: string, description: string, action: () => void) => void
+  initialId?: string
 }) {
-  const [storedIndex, setIndex] = useState(0)
   const items = content[section]
+  const [storedIndex, setIndex] = useState(() =>
+    Math.max(
+      0,
+      items.findIndex((item) => item.id === initialId),
+    ),
+  )
   const index = Math.min(storedIndex, Math.max(0, items.length - 1))
   const selected = items[index] as CatalogItem | undefined
 

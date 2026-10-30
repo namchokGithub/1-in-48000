@@ -28,6 +28,7 @@ import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
 import { matchesStoryQuery } from './timelineFilters'
 import { DataEditor, type DataSection } from './DataEditor'
 import { CatalogEditor, type CatalogSection } from './CatalogEditor'
+import { issueTarget, type IssueTarget } from './issueTarget'
 
 type Section = 'events' | 'flow' | 'endings' | DataSection | CatalogSection
 type EditableFile =
@@ -122,6 +123,13 @@ export function BoApp() {
   const [previewEventId, setPreviewEventId] = useState<string | null>(null)
   const [tabMenuOpen, setTabMenuOpen] = useState(false)
   const tabMenuRef = useRef<HTMLElement>(null)
+  const issuesRef = useRef<HTMLElement>(null)
+  const [failedSaves, setFailedSaves] = useState(0)
+  const [issueJump, setIssueJump] = useState<
+    (IssueTarget & { seq: number }) | null
+  >(null)
+  const unsaved =
+    !!draft && !!saved && JSON.stringify(draft) !== JSON.stringify(saved)
 
   function setDraft(change: SetStateAction<V2Content | null>) {
     setHistory((current) => {
@@ -177,6 +185,21 @@ export function BoApp() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   })
+
+  useEffect(() => {
+    if (!unsaved) return
+    function onBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault()
+    }
+    window.addEventListener('beforeunload', onBeforeUnload)
+    return () => window.removeEventListener('beforeunload', onBeforeUnload)
+  }, [unsaved])
+
+  useEffect(() => {
+    if (!failedSaves) return
+    issuesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    issuesRef.current?.focus({ preventScroll: true })
+  }, [failedSaves])
 
   useEffect(() => {
     if (!tabMenuOpen) return
@@ -489,11 +512,24 @@ export function BoApp() {
     setServerIssues([])
   }
 
+  function goToIssue(target: IssueTarget) {
+    selectSection(target.section)
+    if (target.section === 'events' && target.index !== undefined)
+      setEventIndex(target.index)
+    if (target.section === 'endings' && target.index !== undefined)
+      setEndingIndex(target.index)
+    setIssueJump((current) => ({ ...target, seq: (current?.seq ?? 0) + 1 }))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   async function saveFile(target: EditableFile) {
     setShowIssues(true)
     setServerIssues([])
     setNotice('')
-    if (issues.length) return
+    if (issues.length) {
+      setFailedSaves((count) => count + 1)
+      return
+    }
     setSaving(true)
     try {
       const files = filesToSave(target, dirtyFiles)
@@ -506,8 +542,10 @@ export function BoApp() {
         if (!response.ok) {
           const body: unknown = await response.json()
           const found = responseIssues(body)
-          if (found.length) setServerIssues(found)
-          else setNotice('บันทึกไม่ได้ โปรดตรวจ dev server แล้วลองอีกครั้ง')
+          if (found.length) {
+            setServerIssues(found)
+            setFailedSaves((count) => count + 1)
+          } else setNotice('บันทึกไม่ได้ โปรดตรวจ dev server แล้วลองอีกครั้ง')
           return
         }
         setSaved(
@@ -603,8 +641,16 @@ export function BoApp() {
             role="toolbar"
             aria-label="เครื่องมือแก้ไข"
           >
-            <span className="bo-status" role="status">
-              {dirtyAny ? 'มีร่างที่ยังไม่บันทึก' : 'บันทึกแล้ว'}
+            <span
+              className="bo-status"
+              role="status"
+              data-issues={visibleIssues.length > 0 || undefined}
+            >
+              {visibleIssues.length > 0
+                ? `ต้องแก้ ${visibleIssues.length} จุดก่อนบันทึก`
+                : dirtyAny
+                  ? 'มีร่างที่ยังไม่บันทึก'
+                  : 'บันทึกแล้ว'}
             </span>
             <div className="bo-toolbar-actions">
               <button
@@ -681,16 +727,36 @@ export function BoApp() {
           </p>
         )}
         {visibleIssues.length > 0 && (
-          <section className="bo-issues panel" role="alert">
+          <section
+            ref={issuesRef}
+            className="bo-issues panel"
+            role="alert"
+            tabIndex={-1}
+          >
             <h2 className="font-extrabold">
               ต้องแก้ {visibleIssues.length} จุดก่อนบันทึก
             </h2>
             <ul>
-              {visibleIssues.map((issue, index) => (
-                <li key={`${issue.path}-${index}`}>
-                  <code>{issue.path}</code> — {issue.message}
-                </li>
-              ))}
+              {visibleIssues.map((issue, index) => {
+                const target = issueTarget(issue.path, draft)
+                return (
+                  <li key={`${issue.path}-${index}`}>
+                    {target ? (
+                      <button
+                        type="button"
+                        className="bo-issue-link"
+                        onClick={() => goToIssue(target)}
+                      >
+                        <strong>{target.label}</strong>
+                        {target.field && <code>{target.field}</code>}
+                      </button>
+                    ) : (
+                      <code>{issue.path}</code>
+                    )}{' '}
+                    — {issue.message}
+                  </li>
+                )
+              })}
             </ul>
           </section>
         )}
@@ -699,8 +765,11 @@ export function BoApp() {
         section === 'portraits' ||
         section === 'sounds' ? (
           <DataEditor
-            key={section}
+            key={`${section}-${issueJump?.seq ?? 0}`}
             section={section}
+            initialId={
+              issueJump?.section === section ? issueJump.id : undefined
+            }
             content={draft}
             onChange={(next) => {
               setDraft(next)
@@ -721,8 +790,11 @@ export function BoApp() {
           section === 'electives' ||
           section === 'names' ? (
           <CatalogEditor
-            key={section}
+            key={`${section}-${issueJump?.seq ?? 0}`}
             section={section}
+            initialId={
+              issueJump?.section === section ? issueJump.id : undefined
+            }
             content={draft}
             onChange={(next) => {
               setDraft(next)

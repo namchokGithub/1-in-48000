@@ -222,8 +222,18 @@
   min-height: 4.5rem;
 }
 .bo-drag-handle {
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.4rem;
   color: var(--color-muted);
   font-size: 1.15rem;
+  cursor: grab;
+}
+.bo-drag-handle:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-ink);
+}
+.bo-drag-handle:active {
+  cursor: grabbing;
 }
 .bo-story-advanced,
 .bo-nested {
@@ -1038,6 +1048,26 @@ dialog {
 }
 .bo-issues code {
   overflow-wrap: anywhere;
+}
+.bo-issues:focus-visible {
+  outline-offset: 2px;
+}
+.bo-issue-link {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--color-primary-dark);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bo-status[data-issues] {
+  color: var(--color-danger);
+  font-weight: 800;
 }
 .bo-preview-dialog {
   width: min(100% - 1rem, 70rem);

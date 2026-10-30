@@ -18,13 +18,14 @@ export function DataEditor({
   content,
   onChange,
   onDelete,
+  initialId,
 }: {
   section: DataSection
   content: V2Content
   onChange: (next: V2Content) => void
   onDelete: (title: string, description: string, action: () => void) => void
+  initialId?: string
 }) {
-  const [storedIndex, setIndex] = useState(0)
   const items =
     section === 'speakers'
       ? content.characters
@@ -35,6 +36,12 @@ export function DataEditor({
               ? asset.kind === 'portrait'
               : asset.kind === 'bgm' || asset.kind === 'sfx',
         )
+  const [storedIndex, setIndex] = useState(() =>
+    Math.max(
+      0,
+      items.findIndex((item) => item.id === initialId),
+    ),
+  )
   const index = Math.min(storedIndex, Math.max(0, items.length - 1))
   const selected = items[index]
   const file = section === 'speakers' ? 'characters' : 'assets'

@@ -43,6 +43,18 @@ export function V2EventEditor({
       )
       next.choices.splice(index + 1, 0, copy)
     })
+  // Cards move by their ⠿ handle only, so selecting text in a card's fields
+  // never starts a drag. The whole card is the drag image.
+  const startDrag = (
+    dragEvent: DragEvent,
+    group: 'line' | 'choice',
+    index: number,
+  ) => {
+    dragEvent.dataTransfer.effectAllowed = 'move'
+    dragEvent.dataTransfer.setData('text/plain', `${group}:${index}`)
+    const card = (dragEvent.target as HTMLElement).closest('article')
+    if (card) dragEvent.dataTransfer.setDragImage(card, 24, 24)
+  }
   const drop = (
     dropEvent: DragEvent,
     group: 'line' | 'choice',
@@ -409,11 +421,6 @@ export function V2EventEditor({
               <article
                 key={index}
                 className="bo-story-card"
-                draggable
-                onDragStart={(e) => {
-                  e.dataTransfer.effectAllowed = 'move'
-                  e.dataTransfer.setData('text/plain', `line:${index}`)
-                }}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => drop(e, 'line', index)}
               >
@@ -432,7 +439,12 @@ export function V2EventEditor({
                     <strong>{speaker?.name ?? 'ผู้บรรยาย'}</strong>
                   </div>
                   <div className="bo-story-card-actions">
-                    <span className="bo-drag-handle" aria-hidden="true">
+                    <span
+                      className="bo-drag-handle"
+                      aria-hidden="true"
+                      draggable
+                      onDragStart={(e) => startDrag(e, 'line', index)}
+                    >
                       ⠿
                     </span>
                     <details className="bo-more">
@@ -592,11 +604,6 @@ export function V2EventEditor({
             <article
               key={index}
               className="bo-story-card bo-choice-card"
-              draggable
-              onDragStart={(e) => {
-                e.dataTransfer.effectAllowed = 'move'
-                e.dataTransfer.setData('text/plain', `choice:${index}`)
-              }}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => drop(e, 'choice', index)}
             >
@@ -619,7 +626,12 @@ export function V2EventEditor({
                   </span>
                 </button>
                 <div className="bo-story-card-actions">
-                  <span className="bo-drag-handle" aria-hidden="true">
+                  <span
+                    className="bo-drag-handle"
+                    aria-hidden="true"
+                    draggable
+                    onDragStart={(e) => startDrag(e, 'choice', index)}
+                  >
                     ⠿
                   </span>
                   <details className="bo-more">
