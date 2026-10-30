@@ -179,6 +179,7 @@ export const v2EventSchema = z
     sceneAssetId: idSchema.optional(),
     bgmAssetId: idSchema.optional(),
     outfit: v2OutfitSchema.optional(),
+    hidePlayer: z.boolean().optional(),
     conditions: z.array(v2ConditionSchema),
     lines: z
       .array(

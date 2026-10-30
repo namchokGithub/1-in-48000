@@ -33,6 +33,8 @@ A choice whose conditions do not hold is hidden unless it sets `showWhenLocked: 
 
 A choice may carry an optional `recap`, written by the author. The next event shows the recaps of the choices picked in the last resolved event, in authored order, with its first line only; a choice without one shows nothing. The recap comes from the save history, so a refresh keeps it.
 
+The scene shows the line's speaker (an NPC, or the narrator for a line without one) on the left and the player, in the event's outfit, on the right. An event can hide the player with `hidePlayer: true`. Either picture alone keeps its side, and a line that already shows the player's own picture is not drawn twice.
+
 Every event has at least one line and one choice. A choice may have no effects when it only changes dialogue. The event kinds are `main`, `conditional`, `holiday`, and `random`. Event selection and condition evaluation belong to Step 3.
 
 ## Loans

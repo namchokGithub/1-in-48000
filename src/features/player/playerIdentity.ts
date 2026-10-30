@@ -33,3 +33,17 @@ export function playerProgram(
   const major = majors.find((item) => item.id === majorId)
   return faculty && major ? `${faculty.name} · ${major.name}` : undefined
 }
+
+// The line's speaker stands on the left and the player on the right. A line
+// that already shows the player's own picture leaves it on the player's side.
+export function scenePortraits(
+  speakerPath: string | undefined,
+  playerPath: string | undefined,
+  hidePlayer: boolean,
+): { speaker: string | undefined; player: string | undefined } {
+  const player = hidePlayer ? undefined : playerPath
+  return {
+    speaker: speakerPath && speakerPath === player ? undefined : speakerPath,
+    player,
+  }
+}

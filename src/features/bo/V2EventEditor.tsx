@@ -279,6 +279,19 @@ export function V2EventEditor({
             <option value="student">ชุดนักศึกษา</option>
           </BoDropdown>
         </label>
+        <label className="bo-checkbox-field">
+          <input
+            type="checkbox"
+            checked={event.hidePlayer === true}
+            onChange={(input) =>
+              update((next) => {
+                if (input.target.checked) next.hidePlayer = true
+                else delete next.hidePlayer
+              })
+            }
+          />
+          <span>ซ่อนภาพผู้เล่นในฉากนี้</span>
+        </label>
         <label className="bo-field">
           <span>เพลง</span>
           <BoDropdown

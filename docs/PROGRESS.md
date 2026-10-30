@@ -108,12 +108,14 @@ Each item adds the Zod schema, engine handling where needed, BO support, and foc
 
 2026-10-30: 40.4 implemented, waiting for the author's check, with 41.4. A choice gets an optional `recap`; `getV2LastRecaps` reads the last history entry, and the next event shows the recaps in a thin frame with its first line only. BO edits the recap under the choice text.
 
+2026-10-30: 40.5 implemented, waiting for the author's check, with the portrait part of 41.2. Events get an optional `hidePlayer`; `scenePortraits` places the speaker left and the player right, and drops a speaker picture that is the player's own. BO sets it next to the outfit. The scene fade-in in 41.2 is still open.
+
 ## 41. Player features for local feedback
 
 **Status:** Todo
 
 - 41.1 Home button opens a confirm modal: "กลับหน้าแรก? เกมนี้จะจบลงและเล่นต่อไม่ได้", with "เล่นต่อ" and "กลับหน้าแรก".
-- 41.2 The scene image fades in when the scene changes (off with reduced motion), and the speaker and player portraits follow 40.5.
+- 41.2 The scene image fades in when the scene changes (off with reduced motion), and the speaker and player portraits follow 40.5 (portraits done with 40.5).
 - 41.3 Locked choices appear disabled with their reason (40.2; done with 40.2). A negative money balance reads as a loan with its interest, and the Ending shows the debt settlement (40.3; done with 40.3).
 - 41.4 The dialogue box shows the previous choice's recap (40.4) in a thin frame, with the first line only (done with 40.4).
 - 41.5 A small notification lists the stats that rose or fell after a choice, including delayed effects that came due.

@@ -7,7 +7,11 @@ import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
 import { lockedReason } from './lockedReason'
 import { YearTimeline } from './YearTimeline'
-import { playerPortraitPath, playerProgram } from './playerIdentity'
+import {
+  playerPortraitPath,
+  playerProgram,
+  scenePortraits,
+} from './playerIdentity'
 import { lineSpeaker } from '../../content/v2/lineSpeaker'
 import { EffectList } from './ui/EffectList'
 import { PlayerCheckbox } from './ui/PlayerCheckbox'
@@ -79,6 +83,11 @@ export function SceneView({
     save.nameId,
     event.outfit,
   )
+  const portraits = scenePortraits(
+    portraitAsset?.path,
+    playerPortrait,
+    event.hidePlayer === true,
+  )
   const choices = getV2ChoiceOptions(event, save)
   const catalogs = { faculties, majors, electives }
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
@@ -142,11 +151,18 @@ export function SceneView({
             {sceneAsset && (
               <img className="scene-image" src={sceneAsset.path} alt="" />
             )}
-            {portraitAsset && (
+            {portraits.speaker && (
               <img
-                className="portrait-image"
-                src={portraitAsset.path}
+                className="portrait-image portrait-speaker"
+                src={portraits.speaker}
                 alt={speaker?.name ?? 'ตัวละคร'}
+              />
+            )}
+            {portraits.player && (
+              <img
+                className="portrait-image portrait-player"
+                src={portraits.player}
+                alt={`ภาพผู้เล่น ${save.playerName}`}
               />
             )}
           </div>

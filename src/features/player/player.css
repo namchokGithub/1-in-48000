@@ -257,7 +257,9 @@
   position: relative;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  gap: 4%;
+  padding-inline: 4%;
   /* Scene art is 320 × 180: keep 16:9 so nothing is cropped, and cap the
      height on short screens by narrowing the stage instead. */
   aspect-ratio: 16 / 9;
@@ -330,6 +332,10 @@
   object-fit: contain;
   object-position: bottom;
   image-rendering: pixelated;
+}
+/* The speaker stands on the left; the player keeps the right side. */
+.scene-stage img.portrait-player {
+  margin-left: auto;
 }
 .stat-track {
   height: 0.55rem;

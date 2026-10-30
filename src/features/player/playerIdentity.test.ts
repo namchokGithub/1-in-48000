@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import names from '../../../public/content-v2/names.json'
 import assets from '../../../public/content-v2/assets.json'
-import { playerPortraitPath, playerProgram } from './playerIdentity'
+import {
+  playerPortraitPath,
+  playerProgram,
+  scenePortraits,
+} from './playerIdentity'
 
 const pathOf = (id: string | undefined) =>
   assets.find((asset) => asset.id === id)?.path
@@ -51,5 +55,29 @@ describe('player program label', () => {
     expect(playerProgram(faculties, majors, null, null)).toBeUndefined()
     expect(playerProgram(faculties, majors, 'humanities', null)).toBeUndefined()
     expect(playerProgram(faculties, majors, 'missing', 'thai')).toBeUndefined()
+  })
+})
+
+describe('scene portraits', () => {
+  it('puts the speaker on the left and the player on the right', () => {
+    expect(scenePortraits('/mali.png', '/fah.png', false)).toEqual({
+      speaker: '/mali.png',
+      player: '/fah.png',
+    })
+    expect(scenePortraits(undefined, '/fah.png', false)).toEqual({
+      speaker: undefined,
+      player: '/fah.png',
+    })
+  })
+
+  it('hides the player when the event asks, and never shows one picture twice', () => {
+    expect(scenePortraits('/mali.png', '/fah.png', true)).toEqual({
+      speaker: '/mali.png',
+      player: undefined,
+    })
+    expect(scenePortraits('/fah.png', '/fah.png', false)).toEqual({
+      speaker: undefined,
+      player: '/fah.png',
+    })
   })
 })
