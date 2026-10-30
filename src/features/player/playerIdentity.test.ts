@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import names from '../../../public/content-v2/names.json'
 import assets from '../../../public/content-v2/assets.json'
-import { playerPortraitPath } from './playerIdentity'
+import { playerPortraitPath, playerProgram } from './playerIdentity'
 
 const pathOf = (id: string | undefined) =>
   assets.find((asset) => asset.id === id)?.path
@@ -34,5 +34,22 @@ describe('player portrait lookup', () => {
         'other',
       ),
     ).toBeUndefined()
+  })
+})
+
+describe('player program label', () => {
+  const faculties = [{ id: 'humanities', name: 'คณะมนุษยศาสตร์' }]
+  const majors = [{ id: 'thai', name: 'ภาษาไทย' }]
+
+  it('names the chosen faculty and major', () => {
+    expect(playerProgram(faculties, majors, 'humanities', 'thai')).toBe(
+      'คณะมนุษยศาสตร์ · ภาษาไทย',
+    )
+  })
+
+  it('is empty before the program is chosen or when an ID is unknown', () => {
+    expect(playerProgram(faculties, majors, null, null)).toBeUndefined()
+    expect(playerProgram(faculties, majors, 'humanities', null)).toBeUndefined()
+    expect(playerProgram(faculties, majors, 'missing', 'thai')).toBeUndefined()
   })
 })

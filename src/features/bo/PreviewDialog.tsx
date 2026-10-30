@@ -11,7 +11,7 @@ import {
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { EndingView } from '../player/EndingView'
 import { SceneView } from '../player/SceneView'
-import { playerPortraitPath } from '../player/playerIdentity'
+import { playerPortraitPath, playerProgram } from '../player/playerIdentity'
 import { createV2PreviewSession } from './preview'
 import { useBackdropClose } from './useBackdropClose'
 import { describeFlowStep, previewErrorMessage, tracedPath } from './flowTrace'
@@ -177,6 +177,12 @@ export function PreviewDialog({
               session.content.names,
               session.content.assets,
               session.save?.nameId ?? '',
+            )}
+            program={playerProgram(
+              session.content.faculties,
+              session.content.majors,
+              session.save?.facultyId ?? null,
+              session.save?.majorId ?? null,
             )}
             onRestart={restart}
           />

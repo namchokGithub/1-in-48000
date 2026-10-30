@@ -16,7 +16,7 @@ import { AudioControls } from './AudioControls'
 import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
 import { SceneView } from './SceneView'
-import { playerPortraitPath } from './playerIdentity'
+import { playerPortraitPath, playerProgram } from './playerIdentity'
 import homeArt from './assets/home-campus.png'
 
 type View = 'home' | 'create' | 'play' | 'ending'
@@ -165,6 +165,12 @@ function PlayerShell({
           content.names,
           content.assets,
           save.nameId,
+        )}
+        program={playerProgram(
+          content.faculties,
+          content.majors,
+          save.facultyId,
+          save.majorId,
         )}
         onRestart={() => {
           syncMusic(null)

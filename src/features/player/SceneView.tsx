@@ -6,7 +6,7 @@ import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
 import { YearTimeline } from './YearTimeline'
-import { playerPortraitPath } from './playerIdentity'
+import { playerPortraitPath, playerProgram } from './playerIdentity'
 import { lineSpeaker } from '../../content/v2/lineSpeaker'
 import { EffectList } from './ui/EffectList'
 import { PlayerCheckbox } from './ui/PlayerCheckbox'
@@ -325,7 +325,16 @@ export function SceneView({
       <aside className="player-scene-stats">
         <StatPanel
           stats={save.stats}
-          identity={{ name: save.playerName, portraitPath: playerPortrait }}
+          identity={{
+            name: save.playerName,
+            portraitPath: playerPortrait,
+            program: playerProgram(
+              faculties,
+              majors,
+              save.facultyId,
+              save.majorId,
+            ),
+          }}
         />
       </aside>
     </div>

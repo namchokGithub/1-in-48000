@@ -17,7 +17,7 @@ export function StatPanel({
   identity,
 }: {
   stats: V2Stats
-  identity?: { name: string; portraitPath?: string }
+  identity?: { name: string; portraitPath?: string; program?: string }
 }) {
   return (
     <section className="panel player-stat-panel" aria-label="ค่าสถานะ">
@@ -40,6 +40,11 @@ export function StatPanel({
           <div className="min-w-0">
             <p className="eyebrow">นิสิต ม.บารพู</p>
             <p className="truncate text-lg font-bold">{identity.name}</p>
+            {identity.program && (
+              <p className="muted mt-0.5 text-xs leading-snug">
+                {identity.program}
+              </p>
+            )}
           </div>
         </div>
       )}

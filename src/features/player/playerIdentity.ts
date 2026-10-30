@@ -19,3 +19,17 @@ export function playerPortraitPath(
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )?.path
 }
+
+type Named = { id: string; name: string }
+
+// "คณะ · สาขา" once both are chosen; undefined before that.
+export function playerProgram(
+  faculties: Named[],
+  majors: Named[],
+  facultyId: string | null,
+  majorId: string | null,
+): string | undefined {
+  const faculty = faculties.find((item) => item.id === facultyId)
+  const major = majors.find((item) => item.id === majorId)
+  return faculty && major ? `${faculty.name} · ${major.name}` : undefined
+}

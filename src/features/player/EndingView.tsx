@@ -5,6 +5,7 @@ import { periodLabels } from './labels'
 type Props = {
   summary: V2LifeSummary
   portraitPath?: string
+  program?: string
   onRestart: () => void
 }
 
@@ -21,7 +22,12 @@ function groupByYear(timeline: Entry[]) {
   return groups
 }
 
-export function EndingView({ summary, portraitPath, onRestart }: Props) {
+export function EndingView({
+  summary,
+  portraitPath,
+  program,
+  onRestart,
+}: Props) {
   const years = groupByYear(summary.timeline)
   return (
     <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
@@ -109,7 +115,7 @@ export function EndingView({ summary, portraitPath, onRestart }: Props) {
       </div>
       <StatPanel
         stats={summary.stats}
-        identity={{ name: summary.playerName, portraitPath }}
+        identity={{ name: summary.playerName, portraitPath, program }}
       />
     </div>
   )
