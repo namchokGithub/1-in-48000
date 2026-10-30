@@ -23,9 +23,11 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 - **Progression** — Year 1–4, split by term and key events, with semester breaks and summer sessions.
 - **Stats** — study, money, health, stress, relationships.
 - **Events** — main events, conditional events, Thai holiday events, and random events.
-- **Choices** — immediate effects, delayed effects (good or bad), or dialogue-only changes.
+- **Choices** — immediate effects, delayed effects (good or bad), or dialogue-only changes. Some locked choices show why they cannot be picked yet, and a choice can leave a short recap for the next scene.
+- **Money and loans** — money can go below 0 as an automatic loan with yearly interest; debt is settled from money at the ending.
+- **Feedback** — a toast lists stat changes after each choice, and each new year opens with a summary of the year before.
 - **Story memory** — the game remembers decisions such as helping a friend, joining a club, or taking a part-time job. They do not always pay off.
-- **Graphics** — seven pixel-art scenes and character portraits referenced by Asset ID.
+- **Graphics** — 25 pixel-art scenes and 25 character portraits referenced by Asset ID.
 - **Sound** — looping background music with a simple on/off control.
 - **Save** — checkpoint decisions and restore an unfinished run after refreshing the same tab.
 - **Ending** — a life summary covering grades, relationships, and your path after graduation.
@@ -42,8 +44,9 @@ A content authoring and testing tool that runs **only on the author's machine**,
 - Preview Player dialogue and try choices in a modal without writing a player save; the preview lists the path taken with pass/fail reasons and highlights it on the board.
 - Validate JSON: duplicate IDs, broken event links, missing assets, and Flow errors (unconnected choices) and warnings (unreachable cards, possible dead ends).
 - Save JSON directly to the content files — no manual import/export.
+- List every flag with where it is set and checked, and edit the loan rate and days per period in game settings.
 
-The current BO edits `events.json`, `endings.json`, `characters.json`, `assets.json`, and `flow.json` in `public/content-v2`; config remains read-only. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The Flow board decides story order: edges from the same choice are checked in file order, Random cards draw from an event pool, and Next Period cards advance time and run the study review. It supports focus on nearby paths, cards colored by kind, go-to search, keyboard shortcuts, Undo/Redo, and drag-to-reconnect edges. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` before publishing content changes.
+The current BO edits `config.json` (loan settings), `events.json`, `endings.json`, `characters.json`, `assets.json`, and `flow.json` in `public/content-v2`. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The Flow board decides story order: edges from the same choice are checked in file order, Random cards draw from an event pool, and Next Period cards advance time and run the study review. It supports focus on nearby paths, cards colored by kind, go-to search, keyboard shortcuts, Undo/Redo, and drag-to-reconnect edges. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` before publishing content changes.
 
 ## Tech Stack
 
@@ -78,7 +81,7 @@ Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Pla
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO use the shared content in `public/content-v2`. It carries 38 events, including program selection, a Year 2 multi-select event, and a Year 3 elective; seven pixel scenes, player portrait placeholders, previous endings, debt/lucky stats, and a Year 8 dismissal ending are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.2.0`; Years 5–8 story content will mix adapted earlier story beats with newly authored events and remains future work. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The Player and BO use the shared content in `public/content-v2`. It carries 38 events, including program selection, a Year 2 multi-select event, and a Year 3 elective; 25 pixel scenes, 25 portraits for players and NPCs, 6 endings including a Year 8 dismissal, and debt/lucky stats are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.3.0`; Years 5–8 story content will mix adapted earlier story beats with newly authored events and remains future work. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 
@@ -128,7 +131,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major selection is active; clubs and relationship routes come later.
 
-**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). The author accepted the BO Flow edge styles (Step 37) and Player UX/UI pass, including the responsive check (Step 38), on 2026-10-30. Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). The author accepted the BO Flow edge styles (Step 37) and Player UX/UI pass, including the responsive check (Step 38), on 2026-10-30, followed by local feedback: Player fixes, flags, locked choices, automatic loans, recaps, scene portraits, and the year summary (Steps 39–41). Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 
