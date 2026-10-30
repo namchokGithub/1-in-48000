@@ -110,6 +110,9 @@ export function DataEditor({
     file === 'characters'
       ? (selected as V2Content['characters'][number] | undefined)
       : undefined
+  const speakerPortrait = content.assets.find(
+    (item) => item.id === speaker?.portraitAssetId && item.kind === 'portrait',
+  )
 
   return (
     <div className="bo-layout bo-data-layout">
@@ -295,6 +298,13 @@ export function DataEditor({
                 </>
               ) : null}
             </div>
+            {speakerPortrait && (
+              <img
+                className="bo-asset-preview"
+                src={speakerPortrait.path}
+                alt={`ตัวอย่างภาพตัวละคร ${speaker?.name}`}
+              />
+            )}
             {(asset?.kind === 'scene' || asset?.kind === 'portrait') &&
               asset.path.startsWith('/assets/') && (
                 <img
