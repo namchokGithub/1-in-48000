@@ -128,15 +128,38 @@
   align-self: stretch;
   width: auto;
   max-width: 28%;
-  height: 100%;
+  height: min(100%, clamp(5rem, 12vw, 10rem));
   object-fit: contain;
   object-position: bottom;
   border-radius: 0.6rem;
   image-rendering: pixelated;
 }
+/* มือถือ */
+@media (max-width: 639px) {
+  .player-dialogue-portrait {
+    max-width: 24%;
+    height: 70%;
+  }
+}
+
+/* iPad Mini แนวตั้งและจอขนาดกลาง */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .player-dialogue-portrait {
+    max-width: 26%;
+    height: 80%;
+  }
+}
+
+/* iPad Pro แนวตั้งและจอขนาดใกล้เคียง */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .player-dialogue-portrait {
+    max-width: 28%;
+    height: 90%;
+  }
+}
 @media (min-width: 640px) {
   .player-dialogue {
-    padding: 1.5rem;
+    padding: 0.5rem;
   }
 }
 .player-scene-heading {
@@ -395,6 +418,59 @@
 /* The speaker stands on the left; the player keeps the right side. */
 .scene-stage img.portrait-player {
   margin-left: auto;
+  transform: translate(3vw, -2vw);
+}
+/* มือถือ */
+@media (max-width: 639px) {
+  .scene-stage img.portrait-player {
+    width: 28%;
+    max-height: 32vw;
+    transform: translateX(6vw);
+  }
+}
+/* iPad Mini แนวตั้ง (กว้าง 768px) และจอขนาดกลาง */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .scene-stage img.portrait-player {
+    width: 28%;
+    max-height: 32vw;
+    transform: translateX(6vw);
+  }
+}
+/* iPad Pro แนวตั้งและจอขนาดใกล้เคียง */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .scene-stage img.portrait-player {
+    width: 28%;
+    max-height: 24vw;
+    transform: translateX(4vw);
+  }
+}
+.scene-stage img.portrait-speaker {
+  margin-right: auto;
+  transform: translate(-3vw, -2vw);
+}
+/* มือถือ */
+@media (max-width: 639px) {
+  .scene-stage img.portrait-speaker {
+    width: 28%;
+    max-height: 32vw;
+    transform: translateX(-6vw);
+  }
+}
+/* iPad Mini แนวตั้ง (กว้าง 768px) และจอขนาดกลาง */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .scene-stage img.portrait-speaker {
+    width: 28%;
+    max-height: 32vw;
+    transform: translateX(-6vw);
+  }
+}
+/* iPad Pro แนวตั้งและจอขนาดใกล้เคียง */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .scene-stage img.portrait-speaker {
+    width: 28%;
+    max-height: 24vw;
+    transform: translateX(-4vw);
+  }
 }
 .stat-track {
   height: 0.55rem;
