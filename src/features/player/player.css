@@ -762,16 +762,24 @@
 
 /* Desktop play screen fits the viewport: the scene, dialogue, and choice list
    shrink or scroll inside instead of the page. Short or narrow screens keep
-   the normal page scroll. */
+   the normal page scroll. The game stops growing at 1110px, or sooner when
+   the width already limits the 16:9 scene (370px is the stats column, gap,
+   and panel padding beside the scene; 456px is the heading, dialogue overlap,
+   key guide, and footer around it). The shell keeps its full-height
+   background, so any spare space sits below the footer. */
 @media (min-width: 1024px) and (min-height: 600px) {
   .player-shell[data-view='play'] {
     --page-max: 96rem;
-    height: 100svh;
     padding-block: 1rem;
   }
   .player-shell[data-view='play'] > .app-wrap {
     display: flex;
-    height: 100%;
+    height: min(
+      100svh - 2rem,
+      1110px - 2rem,
+      (min(100vw - 2 * clamp(1rem, 3vw, 2.25rem), 96rem) - 370px) * 9 / 16 +
+        456px
+    );
     flex-direction: column;
   }
   .player-shell[data-view='play'] .player-header {
@@ -820,11 +828,16 @@
   .player-shell[data-view='play'] .year-stepper {
     padding-bottom: 0;
   }
+  /* The frame is never taller than the 16:9 scene, so spare height falls
+     below the dialogue instead of opening a gap above the picture. It still
+     shrinks on short screens, where the scene narrows to fit. */
   .player-shell[data-view='play'] .scene-frame {
     display: flex;
-    flex: 1;
-    align-items: center;
+    flex: 0 1 auto;
+    align-items: flex-end;
     justify-content: center;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     min-height: 0;
     container-type: size;
   }
