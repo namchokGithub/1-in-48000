@@ -869,10 +869,6 @@
     flex: 1;
     min-height: 0;
   }
-  .player-shell[data-view='play'] .player-year-summary {
-    max-height: 100%;
-    overflow-y: auto;
-  }
   .player-shell[data-view='play'] > .app-wrap > footer {
     margin-top: 0.5rem;
     line-height: 1.35;

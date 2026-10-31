@@ -162,6 +162,9 @@ function PlayerShell({
     resolve(() => store.getState().chooseElective(electiveId))
 
   let body
+  // The year summary uses normal page flow, not the fitted play screen, so the
+  // footer follows the card instead of the bottom of the play area.
+  let shellView: View | 'summary' = view
   if (view === 'create') {
     body = (
       <CharacterForm
@@ -175,6 +178,7 @@ function PlayerShell({
   } else if (view === 'play' && save) {
     const event = currentEventOrNull(content, save)
     const year = yearSummary(content.events, save)
+    if (year && year.year !== seenYear) shellView = 'summary'
     body =
       year && year.year !== seenYear ? (
         <YearSummaryView summary={year} onNext={() => setSeenYear(year.year)} />
@@ -283,7 +287,11 @@ function PlayerShell({
   }
 
   return (
-    <div className="app-shell player-shell" data-theme={theme} data-view={view}>
+    <div
+      className="app-shell player-shell"
+      data-theme={theme}
+      data-view={shellView}
+    >
       <div className="app-wrap">
         <header className="player-header mb-6 flex flex-wrap items-center justify-between gap-3">
           <span className="text-sm font-extrabold tracking-wide">
