@@ -6,6 +6,7 @@ import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
 import { lockedReason } from './lockedReason'
+import { nextEnabledIndex } from './choiceNavigation'
 import { YearTimeline } from './YearTimeline'
 import {
   playerPortraitPath,
@@ -101,7 +102,112 @@ export function SceneView({
     event.selection?.type === 'multiple' ? event.selection.max : 0
   const lastLine = lineIndex === event.lines.length - 1
   const scrollRef = useRef<HTMLDivElement>(null)
+  const confirmManyRef = useRef<HTMLButtonElement>(null)
+  // Set when the keyboard reads the last line, so the first choice gets focus.
+  const focusFirstChoice = useRef(false)
   const [more, setMore] = useState({ above: false, below: false })
+
+  function choiceElements() {
+    return [
+      ...(scrollRef.current?.querySelectorAll<
+        HTMLButtonElement | HTMLInputElement
+      >('button.player-option, .player-checkbox input') ?? []),
+    ]
+  }
+
+  function focusChoice(element: HTMLElement | undefined) {
+    element?.focus()
+    element?.scrollIntoView({ block: 'nearest' })
+  }
+
+  function readNext(byKeyboard: boolean) {
+    focusFirstChoice.current = byKeyboard
+    setLineIndex((index) => Math.min(index + 1, event.lines.length - 1))
+  }
+
+  useEffect(() => {
+    if (!lastLine || !focusFirstChoice.current) return
+    focusFirstChoice.current = false
+    const options = choiceElements()
+    focusChoice(
+      options[
+        nextEnabledIndex(
+          options.map((option) => option.disabled),
+          -1,
+          1,
+        )
+      ],
+    )
+  }, [lastLine])
+
+  // Space or Enter reads on and picks; arrows move between choices. Keys stay
+  // with text fields, the program and elective dropdowns, and open dialogs.
+  useEffect(() => {
+    function onKeyDown(keyEvent: KeyboardEvent) {
+      const { key } = keyEvent
+      const press = key === ' ' || key === 'Enter'
+      const arrow = key === 'ArrowDown' || key === 'ArrowUp'
+      if (!press && !arrow) return
+      if (keyEvent.defaultPrevented || keyEvent.altKey) return
+      if (keyEvent.ctrlKey || keyEvent.metaKey) return
+      if (document.querySelector('dialog[open]')) return
+      const target = keyEvent.target as HTMLElement
+      if (
+        target.closest(
+          'textarea, select, [role="combobox"], [role="listbox"], input:not([type="checkbox"])',
+        )
+      )
+        return
+      // A focused button or checkbox already handles Space and Enter itself.
+      const nativePress =
+        target.closest('button') !== null ||
+        (key === ' ' && target.matches('input[type="checkbox"]'))
+
+      if (!lastLine) {
+        if (press && !nativePress) {
+          keyEvent.preventDefault()
+          readNext(true)
+        }
+        return
+      }
+      const options = choiceElements()
+      if (!options.length) return
+      const current = options.indexOf(target as HTMLButtonElement)
+      if (arrow) {
+        keyEvent.preventDefault()
+        focusChoice(
+          options[
+            nextEnabledIndex(
+              options.map((option) => option.disabled),
+              current,
+              key === 'ArrowDown' ? 1 : -1,
+            )
+          ],
+        )
+        return
+      }
+      if (nativePress) return
+      keyEvent.preventDefault()
+      if (event.selection?.type === 'multiple' && key === 'Enter') {
+        confirmManyRef.current?.click()
+        return
+      }
+      const pick =
+        options[
+          current >= 0
+            ? current
+            : nextEnabledIndex(
+                options.map((option) => option.disabled),
+                -1,
+                1,
+              )
+        ]
+      focusChoice(pick)
+      pick?.click()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  })
 
   // Fade the edges of the choice list while more choices are out of view,
   // because its scrollbar is hidden.
@@ -216,7 +322,8 @@ export function SceneView({
                 <button
                   type="button"
                   className="button button-primary"
-                  onClick={() => setLineIndex((index) => index + 1)}
+                  // detail is 0 when the click comes from the keyboard.
+                  onClick={(click) => readNext(click.detail === 0)}
                 >
                   อ่านต่อ
                 </button>
@@ -224,6 +331,10 @@ export function SceneView({
             )}
           </div>
         </div>
+        <p className="player-key-guide">
+          <kbd>Space</kbd> อ่านต่อ / เลือก · <kbd>↑</kbd>
+          <kbd>↓</kbd> เลือกตัวเลือก
+        </p>
       </section>
       <section className="panel player-choice-panel" aria-label="ตัวเลือก">
         {error && (
@@ -379,6 +490,7 @@ export function SceneView({
         {lastLine && event.selection?.type === 'multiple' && (
           <div className="player-choice-footer">
             <button
+              ref={confirmManyRef}
               type="button"
               className="button button-primary w-full"
               disabled={

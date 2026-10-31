@@ -68,12 +68,52 @@
   min-width: 7.5rem;
 }
 .player-dialogue {
+  position: relative;
+  z-index: 1;
   background: var(--color-dialogue);
   display: flex;
   gap: 1rem;
   height: 12rem;
-  margin-top: 1rem;
+  /* Overlap the bottom of the scene a little, like a visual novel. */
+  margin-top: -1.5rem;
+  margin-inline: 0.5rem;
   padding: 1.25rem;
+  box-shadow: 0 -0.5rem 1.5rem #0002;
+}
+@media (min-width: 640px) {
+  .player-dialogue {
+    margin-top: -2.5rem;
+    margin-inline: 1rem;
+  }
+}
+.player-key-guide {
+  margin-top: 0.6rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+.player-key-guide kbd {
+  display: inline-block;
+  min-width: 1.5rem;
+  margin-inline: 0.1rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--color-line);
+  border-bottom-width: 2px;
+  border-radius: 0.35rem;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 0.7rem;
+  text-align: center;
+}
+/* Shortcuts need a keyboard; touch devices hide the guide. */
+@media (hover: none) {
+  .player-key-guide {
+    display: none;
+  }
+}
+.player-option:focus-visible {
+  outline: 3px solid var(--color-focus, var(--color-accent));
+  outline-offset: 3px;
 }
 .player-dialogue-body {
   display: flex;
@@ -794,8 +834,11 @@
   }
   .player-shell[data-view='play'] .player-dialogue {
     height: clamp(8rem, 24vh, 12rem);
-    margin-top: 0.75rem;
+    margin-top: -2.5rem;
     padding: 1rem 1.25rem;
+  }
+  .player-shell[data-view='play'] .player-key-guide {
+    margin-top: 0.4rem;
   }
   .player-shell[data-view='play'] .player-scene-stats {
     min-height: 0;

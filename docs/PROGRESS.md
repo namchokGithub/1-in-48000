@@ -12,7 +12,9 @@ V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
 Steps 37–41 were accepted by the author on 2026-10-30.
 
-No open steps.
+| #   | Step                    | Status      | Depends on |
+| --- | ----------------------- | ----------- | ---------- |
+| 42  | Play keyboard shortcuts | In progress | —          |
 
 The production release is still deferred while the author makes further adjustments; Years 5–8 story content remains future work (see `README.md`).
 
@@ -30,3 +32,19 @@ V4 decisions 1–9 were resolved on 2026-10-29 and are recorded in `docs/DECISIO
 Resolved choices are recorded in `docs/DECISIONS.md`.
 
 Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](COMPLETE-LOG.md).
+
+## 42. Play keyboard shortcuts
+
+**Status:** In progress
+
+Source: `docs/LOCAL.md` (`docs/image/LOCAL/1793375039054.png`).
+
+- Space or Enter reads the next line; on the last line it picks the highlighted choice, which starts at the first choice that can be picked.
+- ↑ and ↓ move the highlight between choices and skip locked ones. In a multi-select event, Space ticks the highlighted choice and Enter confirms.
+- Shortcuts stay off while typing, inside the program and elective dropdowns, in a dialog, and on the year summary.
+- A key guide under the dialogue box, hidden on devices without a keyboard.
+- The dialogue box overlaps the bottom of the scene a little, like a visual novel.
+
+**Done when:** the author can play an event with the keyboard alone and accepts the layout by eye.
+
+2026-10-31: Implemented, waiting for the author's check. `nextEnabledIndex` moves the highlight past locked choices (focused test); the highlight is real focus, so a focused button or checkbox keeps its own Space and Enter. Reading the last line with the keyboard focuses the first choice that can be picked. Shortcuts are off in the BO preview because it runs inside a dialog.
