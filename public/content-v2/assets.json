@@ -127,127 +127,127 @@
   {
     "id": "narrator",
     "kind": "portrait",
-    "path": "/assets/portrait/monkey-mascot.png"
+    "path": "/assets/gif/monkey-mascot.gif"
   },
   {
     "id": "mali_private",
     "kind": "portrait",
-    "path": "/assets/portrait/mali-private.png"
+    "path": "/assets/gif/mali-private.gif"
   },
   {
     "id": "mali_university_student",
     "kind": "portrait",
-    "path": "/assets/portrait/mali-university-student.png"
+    "path": "/assets/gif/mali-university-student.gif"
   },
   {
     "id": "nap_dow_private",
     "kind": "portrait",
-    "path": "/assets/portrait/nap-dow-private.png"
+    "path": "/assets/gif/nap-dow-private.gif"
   },
   {
     "id": "nap_dow_university_student",
     "kind": "portrait",
-    "path": "/assets/portrait/nap-dow-university-student.png"
+    "path": "/assets/gif/nap-dow-university-student.gif"
   },
   {
     "id": "man_private_01",
     "kind": "portrait",
-    "path": "/assets/portrait/man-private-01.png"
+    "path": "/assets/gif/man-private-01.gif"
   },
   {
     "id": "man_private_02",
     "kind": "portrait",
-    "path": "/assets/portrait/man-private-02.png"
+    "path": "/assets/gif/man-private-02.gif"
   },
   {
     "id": "man_private_03",
     "kind": "portrait",
-    "path": "/assets/portrait/man-private-03.png"
+    "path": "/assets/gif/man-private-03.gif"
   },
   {
     "id": "man_private_04",
     "kind": "portrait",
-    "path": "/assets/portrait/man-private-04.png"
+    "path": "/assets/gif/man-private-04.gif"
   },
   {
     "id": "man_private_05",
     "kind": "portrait",
-    "path": "/assets/portrait/man-private-05.png"
+    "path": "/assets/gif/man-private-05.gif"
   },
   {
     "id": "man_university_student_01",
     "kind": "portrait",
-    "path": "/assets/portrait/man-university-student-01.png"
+    "path": "/assets/gif/man-university-student-01.gif"
   },
   {
     "id": "man_university_student_02",
     "kind": "portrait",
-    "path": "/assets/portrait/man-university-student-02.png"
+    "path": "/assets/gif/man-university-student-02.gif"
   },
   {
     "id": "man_university_student_03",
     "kind": "portrait",
-    "path": "/assets/portrait/man-university-student-03.png"
+    "path": "/assets/gif/man-university-student-03.gif"
   },
   {
     "id": "man_university_student_04",
     "kind": "portrait",
-    "path": "/assets/portrait/man-university-student-04.png"
+    "path": "/assets/gif/man-university-student-04.gif"
   },
   {
     "id": "man_university_student_05",
     "kind": "portrait",
-    "path": "/assets/portrait/man-university-student-05.png"
+    "path": "/assets/gif/man-university-student-05.gif"
   },
   {
     "id": "woman_private_01",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-private-01.png"
+    "path": "/assets/gif/woman-private-01.gif"
   },
   {
     "id": "woman_private_02",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-private-02.png"
+    "path": "/assets/gif/woman-private-02.gif"
   },
   {
     "id": "woman_private_03",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-private-03.png"
+    "path": "/assets/gif/woman-private-03.gif"
   },
   {
     "id": "woman_private_04",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-private-04.png"
+    "path": "/assets/gif/woman-private-04.gif"
   },
   {
     "id": "woman_private_05",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-private-05.png"
+    "path": "/assets/gif/woman-private-05.gif"
   },
   {
     "id": "woman_university_student_01",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-university-student-01.png"
+    "path": "/assets/gif/woman-university-student-01.gif"
   },
   {
     "id": "woman_university_student_02",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-university-student-02.png"
+    "path": "/assets/gif/woman-university-student-02.gif"
   },
   {
     "id": "woman_university_student_03",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-university-student-03.png"
+    "path": "/assets/gif/woman-university-student-03.gif"
   },
   {
     "id": "woman_university_student_04",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-university-student-04.png"
+    "path": "/assets/gif/woman-university-student-04.gif"
   },
   {
     "id": "woman_university_student_05",
     "kind": "portrait",
-    "path": "/assets/portrait/woman-university-student-05.png"
+    "path": "/assets/gif/woman-university-student-05.gif"
   },
   {
     "id": "kanto_daydream",

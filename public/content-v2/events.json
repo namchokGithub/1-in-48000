@@ -1567,6 +1567,7 @@
     "title": "คืนลอยกระทงที่ ม.บารพู",
     "sceneAssetId": "bang_saen_beach_loy_krathong",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1611,8 +1612,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "project_pitch",

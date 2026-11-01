@@ -268,7 +268,7 @@ export const v2AssetListSchema = z.array(
     path: z
       .string()
       .regex(
-        /^\/assets\/(?:[a-z0-9_-]+\/)*[a-z0-9_-]+\.(?:webp|png|mp3|ogg|wav)$/i,
+        /^\/assets\/(?:[a-z0-9_-]+\/)*[a-z0-9_-]+\.(?:webp|png|mp3|ogg|wav|gif)$/i,
       ),
   }),
 )

@@ -3,6 +3,7 @@ import names from '../../../public/content-v2/names.json'
 import sampleContent from './sample-content.json'
 import sampleFlow from './sample-flow.json'
 import {
+  v2AssetListSchema,
   v2ContentSchema,
   v2EventSchema,
   v2NamesSchema,
@@ -117,6 +118,14 @@ describe('V2 content contract', () => {
         assets: [{ id: 'rain', kind: 'ambience', path: '/assets/rain.mp3' }],
       }).success,
     ).toBe(false)
+  })
+
+  it('accepts animated GIF images but not other image formats', () => {
+    const asset = (path: string) =>
+      v2AssetListSchema.safeParse([{ id: 'mali', kind: 'portrait', path }])
+        .success
+    expect(asset('/assets/gif/mali-private.gif')).toBe(true)
+    expect(asset('/assets/portrait/mali-private.jpg')).toBe(false)
   })
 
   it('rejects duplicate or blank random names', () => {
