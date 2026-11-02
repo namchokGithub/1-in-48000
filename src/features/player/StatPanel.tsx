@@ -12,6 +12,15 @@ const statLabels: { key: keyof V2Stats; label: string }[] = [
   { key: 'debt', label: 'หนี้' },
 ]
 
+// A 0–100 stat bar. Values above 100 fill the bar. A negative value splits
+// it: what is left on the left (−88 leaves 12%) and the deficit as a faded
+// red part on the right; below −100 the whole bar is the faded deficit.
+function barParts(value: number): { fill: number; deficit: number } {
+  if (value >= 0) return { fill: Math.min(100, value), deficit: 0 }
+  const deficit = Math.min(100, -value)
+  return { fill: 100 - deficit, deficit }
+}
+
 export function StatPanel({
   stats,
   identity,
@@ -65,21 +74,26 @@ export function StatPanel({
                 </span>
                 <span className="font-bold tabular-nums">{stats[key]}</span>
               </div>
-              {stats[key] >= 0 && (
+              <div
+                className="stat-track"
+                role="meter"
+                aria-label={label}
+                aria-valuemin={Math.min(0, stats[key])}
+                aria-valuemax={Math.max(100, stats[key])}
+                aria-valuenow={stats[key]}
+              >
                 <div
-                  className="stat-track"
-                  role="meter"
-                  aria-label={label}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={stats[key]}
-                >
+                  className="stat-fill"
+                  data-negative={stats[key] < 0 || undefined}
+                  style={{ width: `${barParts(stats[key]).fill}%` }}
+                />
+                {stats[key] < 0 && (
                   <div
-                    className="stat-fill"
-                    style={{ width: `${Math.min(100, stats[key])}%` }}
+                    className="stat-deficit"
+                    style={{ width: `${barParts(stats[key]).deficit}%` }}
                   />
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ))}
       </div>

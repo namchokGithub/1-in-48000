@@ -16,6 +16,7 @@
   --color-dialogue: #fffdf7;
   --color-save-card: #fbf0d4;
   --color-track: #eadfbe;
+  --color-stat-deficit: #eac5be;
   --color-shadow: rgba(91, 69, 30, 0.09);
   --scene-sky-a: #e6d9b8;
   --scene-sky-b: #f5e9ca;
@@ -46,6 +47,7 @@
   --color-dialogue: #34312b;
   --color-save-card: #393327;
   --color-track: #4b4435;
+  --color-stat-deficit: #5e3f39;
   --color-shadow: rgba(0, 0, 0, 0.2);
   --scene-sky-a: #3d3b32;
   --scene-sky-b: #5a513c;
@@ -473,6 +475,7 @@
   }
 }
 .stat-track {
+  display: flex;
   height: 0.55rem;
   overflow: hidden;
   border-radius: 99px;
@@ -482,6 +485,15 @@
   height: 100%;
   border-radius: inherit;
   background: var(--color-primary);
+}
+.stat-fill[data-negative] {
+  background: var(--color-track);
+}
+.stat-deficit {
+  margin-left: auto;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-stat-deficit);
 }
 
 /* Home */
