@@ -1,6 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import type { V2Content } from '../../content/v2/schema'
-import { pickV2StartOption, previewV2Name } from '../../engine/v2/game'
+import {
+  pickV2Backgrounds,
+  pickV2StartOption,
+  previewV2Name,
+} from '../../engine/v2/game'
 import { formatStatChange } from './choicePreview'
 import { playerPortraitPath } from './playerIdentity'
 import { EffectList } from './ui/EffectList'
@@ -24,13 +28,14 @@ export function CharacterForm({
   const [seed] = useState(() => crypto.getRandomValues(new Uint32Array(1))[0])
   const name = previewV2Name({ names }, seed)
   const portraitPath = playerPortraitPath(names, assets, name.id, 'casual')
-  const [backgroundId, setBackgroundId] = useState(backgrounds[0].id)
+  const offered = pickV2Backgrounds(backgrounds, seed)
+  const [backgroundId, setBackgroundId] = useState(offered[0].id)
   const [randomBackground, setRandomBackground] = useState(false)
   const [actionError, setActionError] = useState('')
 
   function randomize() {
     const random = crypto.getRandomValues(new Uint32Array(1))[0]
-    setBackgroundId(pickV2StartOption(backgrounds, random).id)
+    setBackgroundId(pickV2StartOption(offered, random).id)
     setRandomBackground(true)
   }
 
@@ -96,7 +101,7 @@ export function CharacterForm({
             role="group"
             aria-label="เลือกพื้นฐานตัวละคร"
           >
-            {backgrounds.map((background) => (
+            {offered.map((background) => (
               <label
                 key={background.id}
                 className="background-card"

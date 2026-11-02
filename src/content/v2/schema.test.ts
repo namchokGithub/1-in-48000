@@ -128,6 +128,23 @@ describe('V2 content contract', () => {
     expect(asset('/assets/portrait/mali-private.jpg')).toBe(false)
   })
 
+  it('requires the fixed balanced background', () => {
+    const result = v2ContentSchema.safeParse({
+      ...sample,
+      names,
+      config: {
+        ...sample.config,
+        backgrounds: sample.config.backgrounds.filter(
+          (item) => item.id !== 'balanced',
+        ),
+      },
+    })
+    expect(result.success).toBe(false)
+    expect(result.error?.issues.map((issue) => issue.message)).toContain(
+      'Missing background: balanced',
+    )
+  })
+
   it('rejects duplicate or blank random names', () => {
     expect(v2NamesSchema.safeParse([names[0], names[0]]).success).toBe(false)
     expect(v2NamesSchema.safeParse([{ ...names[0], name: ' ' }]).success).toBe(

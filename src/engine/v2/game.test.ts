@@ -19,6 +19,7 @@ import {
   getV2EffectiveChancePercent,
   getV2LastRecaps,
   getV2GoalYear,
+  pickV2Backgrounds,
   pickV2StartOption,
   previewV2Name,
   getV2CurrentEvent,
@@ -155,6 +156,35 @@ describe('V4 flow engine', () => {
   it('picks a start option from a supplied random value', () => {
     expect(pickV2StartOption(['ฟ้า', 'มายด์', 'อิม'], 4)).toBe('มายด์')
     expect(() => pickV2StartOption([], 0)).toThrow('No starting options')
+  })
+
+  it('offers the balanced background first and two others drawn from the seed', () => {
+    const backgrounds = ['balanced', 'a', 'b', 'c', 'd', 'e'].map((id) => ({
+      id,
+    }))
+    for (const seed of [0, 1, 2, 7, 4_294_967_295]) {
+      const offered = pickV2Backgrounds(backgrounds, seed).map(
+        (item) => item.id,
+      )
+      expect(offered).toHaveLength(3)
+      expect(offered[0]).toBe('balanced')
+      expect(new Set(offered).size).toBe(3)
+      expect(
+        pickV2Backgrounds(backgrounds, seed).map((item) => item.id),
+      ).toEqual(offered)
+    }
+    const seen = new Set(
+      Array.from(
+        { length: 40 },
+        (_, seed) => pickV2Backgrounds(backgrounds, seed)[1].id,
+      ),
+    )
+    expect(seen.size).toBeGreaterThan(1)
+    expect(
+      pickV2Backgrounds([{ id: 'x' }, { id: 'balanced' }], 3).map(
+        (item) => item.id,
+      ),
+    ).toEqual(['balanced', 'x'])
   })
 
   it('previews the same player name the game starts with', () => {

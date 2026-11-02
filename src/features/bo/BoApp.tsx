@@ -35,6 +35,7 @@ import { periodLabels } from './periodLabels'
 import { filterOptionIndexes } from './dropdownFilter'
 import { FlagIdOptions, FlagList } from './FlagList'
 import { GameSettingsEditor } from './GameSettingsEditor'
+import { BackgroundEditor } from './BackgroundEditor'
 import { flagUsage } from './flagUsage'
 
 type Section =
@@ -43,6 +44,7 @@ type Section =
   | 'endings'
   | 'flags'
   | 'settings'
+  | 'origins'
   | DataSection
   | CatalogSection
 type EditableFile =
@@ -62,6 +64,7 @@ function sectionFromUrl(): Section {
     tab === 'endings' ||
     tab === 'flags' ||
     tab === 'settings' ||
+    tab === 'origins' ||
     tab === 'speakers' ||
     tab === 'backgrounds' ||
     tab === 'portraits' ||
@@ -78,7 +81,7 @@ function sectionFromUrl(): Section {
 
 function sectionFile(section: Section): EditableFile | null {
   if (section === 'flags') return null
-  if (section === 'settings') return 'config'
+  if (section === 'settings' || section === 'origins') return 'config'
   if (section === 'speakers') return 'characters'
   if (
     section === 'backgrounds' ||
@@ -329,6 +332,7 @@ export function BoApp() {
     endings: 'ตอนจบ',
     flags: 'ตัวแปร (Flag)',
     settings: 'ตั้งค่าเกม',
+    origins: 'พื้นฐานตัวละคร',
     backgrounds: 'ภาพฉาก',
     speakers: 'ตัวละคร (NPC)',
     names: 'ชื่อผู้เล่น',
@@ -365,6 +369,11 @@ export function BoApp() {
       label: 'ตัวละคร',
       tabs: [
         { section: 'names', count: draft.names.length, dirty: dirtyNames },
+        {
+          section: 'origins',
+          count: draft.config.backgrounds.length,
+          dirty: dirtyConfig,
+        },
         {
           section: 'speakers',
           count: draft.characters.length,
@@ -799,6 +808,27 @@ export function BoApp() {
               setNotice('')
               setServerIssues([])
             }}
+          />
+        ) : section === 'origins' ? (
+          <BackgroundEditor
+            key={`${section}-${issueJump?.seq ?? 0}`}
+            initialId={
+              issueJump?.section === section ? issueJump.id : undefined
+            }
+            content={draft}
+            onChange={(next) => {
+              setDraft(next)
+              setNotice('')
+              setServerIssues([])
+            }}
+            onDelete={(title, description, action) =>
+              setConfirmation({
+                title,
+                description,
+                confirmLabel: 'ลบจากร่าง',
+                action,
+              })
+            }
           />
         ) : section === 'speakers' ||
           section === 'backgrounds' ||

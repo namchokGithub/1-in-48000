@@ -171,3 +171,7 @@ Money may go below 0, and the negative balance is the automatic loan, so a choic
 ## 2026-11-01 — Animated GIF content images
 
 Content assets may also be `.gif`, so portraits and scenes can move without a CSS animation per picture. The asset path rule in `src/content/v2/schema.ts` is the only gate: the Player and BO show every content image with a plain `<img>`, which plays GIFs as they are. The 25 portraits now point to `/assets/gif/`; their Asset IDs did not change, so characters, names, and events need no edit. A GIF keeps playing under reduced motion, unlike the CSS animations; stopping it would need a still frame per picture and is not done. Animated WebP was already allowed and stays an option.
+
+## 2026-11-02 — Offered character backgrounds
+
+Content may hold any number of character backgrounds, but the start screen offers three so the choice stays quick. The `balanced` background is fixed by ID rather than by a new `pinned` field: it is the neutral default, the schema requires it, and BO locks its ID and blocks its removal. The other two are drawn from the game seed the start screen already rolls for the player name, with the seed mixed first so nearby seeds do not offer the same pair. Randomize picks among the three shown, so the player sees what they may get.

@@ -8,10 +8,12 @@ type IssueContent = {
   faculties: Named[]
   majors: Named[]
   electives: Named[]
+  config?: { backgrounds: Named[] }
 }
 
 export type IssueSection =
   | 'settings'
+  | 'origins'
   | 'events'
   | 'endings'
   | 'flow'
@@ -56,6 +58,24 @@ export function issueTarget(
   content: IssueContent,
 ): IssueTarget | null {
   const [file, rawIndex, ...rest] = path.split('.')
+  if (file === 'config' && rawIndex === 'backgrounds') {
+    const [rawItem, ...fieldPath] = rest
+    const index = Number(rawItem)
+    const item = content.config?.backgrounds[index]
+    if (!item)
+      return {
+        section: 'origins',
+        label: 'พื้นฐานตัวละคร',
+        field: rest.join('.'),
+      }
+    return {
+      section: 'origins',
+      index,
+      id: item.id,
+      label: `พื้นฐานตัวละคร “${item.title}” (${item.id})`,
+      field: fieldPath.join('.'),
+    }
+  }
   if (file === 'config')
     return {
       section: 'settings',

@@ -22,5 +22,141 @@
       "casual": "woman_private_03",
       "student": "woman_university_student_03"
     }
+  },
+  {
+    "id": "jane",
+    "name": "เจน",
+    "portraits": {
+      "casual": "woman_private_04",
+      "student": "woman_university_student_04"
+    }
+  },
+  {
+    "id": "ploy",
+    "name": "พลอย",
+    "portraits": {
+      "casual": "woman_private_05",
+      "student": "woman_university_student_05"
+    }
+  },
+  {
+    "id": "noey",
+    "name": "เนย",
+    "portraits": {
+      "casual": "woman_private_04",
+      "student": "woman_university_student_04"
+    }
+  },
+  {
+    "id": "bew",
+    "name": "บิว",
+    "portraits": {
+      "casual": "woman_private_01",
+      "student": "woman_university_student_01"
+    }
+  },
+  {
+    "id": "praew",
+    "name": "แพรว",
+    "portraits": {
+      "casual": "woman_private_02",
+      "student": "woman_university_student_02"
+    }
+  },
+  {
+    "id": "grace",
+    "name": "เกรซ",
+    "portraits": {
+      "casual": "woman_private_03",
+      "student": "woman_university_student_03"
+    }
+  },
+  {
+    "id": "whale",
+    "name": "วาฬ",
+    "portraits": {
+      "casual": "woman_private_05",
+      "student": "woman_university_student_05"
+    }
+  },
+  {
+    "id": "nont",
+    "name": "นนท์",
+    "portraits": {
+      "casual": "man_private_01",
+      "student": "man_university_student_01"
+    }
+  },
+  {
+    "id": "james",
+    "name": "เจมส์",
+    "portraits": {
+      "casual": "man_private_02",
+      "student": "man_university_student_02"
+    }
+  },
+  {
+    "id": "top",
+    "name": "ท็อป",
+    "portraits": {
+      "casual": "man_private_03",
+      "student": "man_university_student_03"
+    }
+  },
+  {
+    "id": "arm",
+    "name": "อาร์ม",
+    "portraits": {
+      "casual": "man_private_04",
+      "student": "man_university_student_04"
+    }
+  },
+  {
+    "id": "mark",
+    "name": "มาร์ค",
+    "portraits": {
+      "casual": "man_private_05",
+      "student": "man_university_student_05"
+    }
+  },
+  {
+    "id": "win",
+    "name": "วิน",
+    "portraits": {
+      "casual": "man_private_01",
+      "student": "man_university_student_01"
+    }
+  },
+  {
+    "id": "best",
+    "name": "เบสท์",
+    "portraits": {
+      "casual": "man_private_02",
+      "student": "man_university_student_02"
+    }
+  },
+  {
+    "id": "north",
+    "name": "นอร์ธ",
+    "portraits": {
+      "casual": "man_private_04",
+      "student": "man_university_student_04"
+    }
+  },
+  {
+    "id": "copper",
+    "name": "คอปเปอร์",
+    "portraits": {
+      "casual": "man_private_03",
+      "student": "man_university_student_03"
+    }
+  },
+  {
+    "id": "ray",
+    "name": "เรย์",
+    "portraits": {
+      "casual": "man_private_05",
+      "student": "man_university_student_05"
+    }
   }
 ]

@@ -14,6 +14,12 @@ const content = {
   faculties: [{ id: 'science', name: 'วิทยาศาสตร์' }],
   majors: [],
   electives: [],
+  config: {
+    backgrounds: [
+      { id: 'balanced', title: 'ค่อย ๆ หาทางของตัวเอง' },
+      { id: 'scholar', title: 'สายเรียน' },
+    ],
+  },
 }
 
 describe('issue target', () => {
@@ -32,6 +38,21 @@ describe('issue target', () => {
       section: 'settings',
       label: 'ตั้งค่าเกม',
       field: 'loan.annualRatePercent',
+    })
+  })
+
+  it('points a background issue at the character background', () => {
+    expect(issueTarget('config.backgrounds.1.title', content)).toEqual({
+      section: 'origins',
+      index: 1,
+      id: 'scholar',
+      label: 'พื้นฐานตัวละคร “สายเรียน” (scholar)',
+      field: 'title',
+    })
+    expect(issueTarget('config.backgrounds', content)).toEqual({
+      section: 'origins',
+      label: 'พื้นฐานตัวละคร',
+      field: '',
     })
   })
 

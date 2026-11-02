@@ -14,7 +14,7 @@ This document records historical rules and the active data contract for "1 ใ�
 
 The engine will clamp bounded stats to 0–100 after applying effects. Money and debt have no bounds: money below 0 is an automatic loan (see Loans). Negative `statDelta` values are allowed so choices can reduce a stat. The schema validates stored values; it does not apply effects.
 
-Starting backgrounds are authored in `config.json`. Each preset names a family situation, personality, and skill, and supplies integer deltas for all five starting stats. The Player may pick one or randomize. The engine applies its deltas to `initialStats`, then clamps the result using the same stat bounds. New saves reference the selected preset by ID.
+Starting backgrounds are authored in `config.json`. Each preset names a family situation, personality, and skill, and supplies integer deltas for all five starting stats. Content must include the `balanced` preset, and may include any number of others. The start screen offers three: `balanced` first, then two others drawn from the game seed, so reopening the same start screen offers the same set. The Player may pick one of the three or randomize among them. The engine applies its deltas to `initialStats`, then clamps the result using the same stat bounds. New saves reference the selected preset by ID.
 
 ## Time
 

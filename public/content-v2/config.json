@@ -17,10 +17,10 @@
   "backgrounds": [
     {
       "id": "balanced",
-      "title": "ค่อย ๆ หาทางของตัวเอง",
-      "family": "ครอบครัวพอประมาณ",
-      "personality": "รอบคอบ",
-      "skill": "จัดเวลา",
+      "title": "เริ่มต้นชีวิตในแบบของเรา",
+      "family": "บ้านฐานะกลาง ๆ",
+      "personality": "เป็นคนรอบคอบ",
+      "skill": "แบ่งเวลาเป็น",
       "statDeltas": {
         "study": 0,
         "money": 0,

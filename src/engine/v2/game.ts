@@ -36,6 +36,30 @@ export function pickV2StartOption<T>(options: readonly T[], roll: number): T {
   return options[roll % options.length]
 }
 
+export const V2_FIXED_BACKGROUND_ID = 'balanced'
+
+// The backgrounds offered on the start screen: the fixed one first, then
+// others drawn from the game seed, so the same seed offers the same set.
+export function pickV2Backgrounds<T extends { id: string }>(
+  backgrounds: readonly T[],
+  rngSeed: number,
+  count = 3,
+): T[] {
+  const fixed = backgrounds.find((item) => item.id === V2_FIXED_BACKGROUND_ID)
+  const rest = backgrounds.filter((item) => item !== fixed)
+  const picked = fixed ? [fixed] : []
+  // Mix the seed so nearby seeds do not offer the same set.
+  let state = Math.imul(rngSeed ^ (rngSeed >>> 16), 0x45d9f3b) >>> 0
+  state = Math.imul(state ^ (state >>> 16), 0x45d9f3b) >>> 0
+  state = (state ^ (state >>> 16)) >>> 0
+  while (picked.length < count && rest.length) {
+    const roll = rollIndex(state, rest.length)
+    state = roll.nextState
+    picked.push(rest.splice(roll.index, 1)[0])
+  }
+  return picked
+}
+
 // The player name a game started with this seed will get.
 export function previewV2Name(
   content: Pick<V2GameContent, 'names'>,

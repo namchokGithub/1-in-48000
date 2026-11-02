@@ -479,6 +479,8 @@ export const v2ContentSchema = z
     uniqueIds(content.assets, ['assets'])
     uniqueIds(content.endings, ['endings'])
     uniqueIds(content.config.backgrounds, ['config', 'backgrounds'])
+    if (!content.config.backgrounds.some((item) => item.id === 'balanced'))
+      report(['config', 'backgrounds'], 'Missing background: balanced')
     uniqueIds(content.faculties, ['faculties'])
     uniqueIds(content.majors, ['majors'])
     uniqueIds(content.electives, ['electives'])
