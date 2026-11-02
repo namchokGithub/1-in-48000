@@ -1,4 +1,122 @@
 [
-  { "id": "humanities", "name": "คณะมนุษยศาสตร์", "supportsSixYear": false },
-  { "id": "medicine", "name": "คณะแพทยศาสตร์", "supportsSixYear": true }
+  {
+    "id": "medicine",
+    "name": "คณะแพทยศาสตร์",
+    "supportsSixYear": true
+  },
+  {
+    "id": "pharmacy",
+    "name": "คณะเภสัชศาสตร์",
+    "supportsSixYear": true
+  },
+  {
+    "id": "nursing",
+    "name": "คณะพยาบาลศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "dentistry",
+    "name": "คณะทันตแพทยศาสตร์",
+    "supportsSixYear": true
+  },
+  {
+    "id": "allied_health_sciences",
+    "name": "คณะสหเวชศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "public_health",
+    "name": "คณะสาธารณสุขศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "sport_science",
+    "name": "คณะวิทยาศาสตร์การกีฬา",
+    "supportsSixYear": false
+  },
+  {
+    "id": "science",
+    "name": "คณะวิทยาศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "engineering",
+    "name": "คณะวิศวกรรมศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "informatics",
+    "name": "คณะวิทยาการสารสนเทศ",
+    "supportsSixYear": false
+  },
+  {
+    "id": "logistics",
+    "name": "คณะโลจิสติกส์",
+    "supportsSixYear": true
+  },
+  {
+    "id": "marine_technology",
+    "name": "คณะเทคโนโลยีทางทะเล",
+    "supportsSixYear": false
+  },
+  {
+    "id": "gems",
+    "name": "คณะอัญมณี",
+    "supportsSixYear": false
+  },
+  {
+    "id": "agricultural_technology",
+    "name": "คณะเทคโนโลยีการเกษตร",
+    "supportsSixYear": false
+  },
+  {
+    "id": "science_arts",
+    "name": "คณะวิทยาศาสตร์และศิลปศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "science_social_sciences",
+    "name": "คณะวิทยาศาสตร์และสังคมศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "humanities",
+    "name": "คณะมนุษยศาสตร์และสังคมศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "education",
+    "name": "คณะศึกษาศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "business",
+    "name": "คณะบริหารธุรกิจ",
+    "supportsSixYear": false
+  },
+  {
+    "id": "law",
+    "name": "คณะนิติศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "political_science",
+    "name": "คณะรัฐศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "fine_arts",
+    "name": "คณะศิลปกรรมศาสตร์",
+    "supportsSixYear": false
+  },
+  {
+    "id": "music_performing_arts",
+    "name": "คณะดนตรีและการแสดง",
+    "supportsSixYear": false
+  },
+  {
+    "id": "international_college",
+    "name": "วิทยาลัยนานาชาติ",
+    "supportsSixYear": false
+  }
 ]

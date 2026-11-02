@@ -1,14 +1,296 @@
 [
   {
+    "id": "medicine",
+    "facultyId": "medicine",
+    "name": "แพทยศาสตร์",
+    "programYears": 6
+  },
+  {
+    "id": "clinical_medicine",
+    "facultyId": "medicine",
+    "name": "เวชศาสตร์คลินิก",
+    "programYears": 6
+  },
+  {
+    "id": "pharmacy",
+    "facultyId": "pharmacy",
+    "name": "เภสัชศาสตร์",
+    "programYears": 6
+  },
+  {
+    "id": "cosmetic_science",
+    "facultyId": "pharmacy",
+    "name": "วิทยาศาสตร์และเทคโนโลยีเครื่องสำอาง",
+    "programYears": 4
+  },
+  {
+    "id": "nursing",
+    "facultyId": "nursing",
+    "name": "พยาบาลศาสตร์",
+    "programYears": 4
+  },
+  {
+    "id": "nursing_english",
+    "facultyId": "nursing",
+    "name": "พยาบาลศาสตร์ (หลักสูตรภาษาอังกฤษ)",
+    "programYears": 4
+  },
+  {
+    "id": "dentistry",
+    "facultyId": "dentistry",
+    "name": "ทันตแพทยศาสตร์",
+    "programYears": 6
+  },
+  {
+    "id": "dental_health",
+    "facultyId": "dentistry",
+    "name": "ทันตสุขภาพ",
+    "programYears": 4
+  },
+  {
+    "id": "medical_technology",
+    "facultyId": "allied_health_sciences",
+    "name": "เทคนิคการแพทย์",
+    "programYears": 4
+  },
+  {
+    "id": "medical_science",
+    "facultyId": "allied_health_sciences",
+    "name": "วิทยาศาสตร์การแพทย์",
+    "programYears": 4
+  },
+  {
+    "id": "community_public_health",
+    "facultyId": "public_health",
+    "name": "การสาธารณสุขชุมชน",
+    "programYears": 4
+  },
+  {
+    "id": "occupational_health",
+    "facultyId": "public_health",
+    "name": "สุขศาสตร์อุตสาหกรรมและความปลอดภัย",
+    "programYears": 4
+  },
+  {
+    "id": "exercise_sport_science",
+    "facultyId": "sport_science",
+    "name": "วิทยาศาสตร์การออกกำลังกายและการกีฬา",
+    "programYears": 4
+  },
+  {
+    "id": "sport_management",
+    "facultyId": "sport_science",
+    "name": "การจัดการกีฬาและการเป็นผู้ฝึกสอนกีฬา",
+    "programYears": 4
+  },
+  {
+    "id": "biology",
+    "facultyId": "science",
+    "name": "ชีววิทยา",
+    "programYears": 4
+  },
+  {
+    "id": "chemistry",
+    "facultyId": "science",
+    "name": "เคมี",
+    "programYears": 4
+  },
+  {
+    "id": "mechanical_engineering",
+    "facultyId": "engineering",
+    "name": "วิศวกรรมเครื่องกล",
+    "programYears": 4
+  },
+  {
+    "id": "electrical_engineering",
+    "facultyId": "engineering",
+    "name": "วิศวกรรมไฟฟ้า",
+    "programYears": 4
+  },
+  {
+    "id": "computer_science",
+    "facultyId": "informatics",
+    "name": "วิทยาการคอมพิวเตอร์",
+    "programYears": 4
+  },
+  {
+    "id": "software_engineering",
+    "facultyId": "informatics",
+    "name": "วิศวกรรมซอฟต์แวร์",
+    "programYears": 4
+  },
+  {
+    "id": "information_technology",
+    "facultyId": "informatics",
+    "name": "เทคโนโลยีสารสนเทศ",
+    "programYears": 4
+  },
+  {
+    "id": "logistics_supply_chain",
+    "facultyId": "logistics",
+    "name": "การจัดการโลจิสติกส์และโซ่อุปทาน",
+    "programYears": 4
+  },
+  {
+    "id": "nautical_science",
+    "facultyId": "logistics",
+    "name": "วิทยาการเดินเรือ",
+    "programYears": 6
+  },
+  {
+    "id": "marine_technology",
+    "facultyId": "marine_technology",
+    "name": "เทคโนโลยีทางทะเล",
+    "programYears": 4
+  },
+  {
+    "id": "marine_conservation",
+    "facultyId": "marine_technology",
+    "name": "การอนุรักษ์ทรัพยากรทางทะเล",
+    "programYears": 4
+  },
+  {
+    "id": "gem_technology",
+    "facultyId": "gems",
+    "name": "เทคโนโลยีอัญมณีเครื่องประดับและความเป็นผู้ประกอบการ",
+    "programYears": 4
+  },
+  {
+    "id": "jewelry_design",
+    "facultyId": "gems",
+    "name": "การออกแบบเครื่องประดับ",
+    "programYears": 4
+  },
+  {
+    "id": "agricultural_innovation",
+    "facultyId": "agricultural_technology",
+    "name": "นวัตกรรมเกษตร",
+    "programYears": 4
+  },
+  {
+    "id": "food_product_development",
+    "facultyId": "agricultural_technology",
+    "name": "พัฒนาผลิตภัณฑ์อาหารและผลิตภัณฑ์ธรรมชาติ",
+    "programYears": 4
+  },
+  {
+    "id": "information_technology_data_science",
+    "facultyId": "science_arts",
+    "name": "เทคโนโลยีสารสนเทศและวิทยาการข้อมูล",
+    "programYears": 4
+  },
+  {
+    "id": "business_english",
+    "facultyId": "science_arts",
+    "name": "ภาษาอังกฤษเพื่อการสื่อสารทางธุรกิจ",
+    "programYears": 4
+  },
+  {
+    "id": "industrial_environmental_management",
+    "facultyId": "science_social_sciences",
+    "name": "การจัดการสิ่งแวดล้อมอุตสาหกรรม",
+    "programYears": 4
+  },
+  {
+    "id": "business_it_innovation",
+    "facultyId": "science_social_sciences",
+    "name": "เทคโนโลยีสารสนเทศและนวัตกรรมทางธุรกิจ",
+    "programYears": 4
+  },
+  {
     "id": "thai_language",
     "facultyId": "humanities",
     "name": "ภาษาไทย",
     "programYears": 4
   },
   {
-    "id": "medicine",
-    "facultyId": "medicine",
-    "name": "แพทยศาสตร์",
-    "programYears": 6
+    "id": "japanese_language",
+    "facultyId": "humanities",
+    "name": "ภาษาญี่ปุ่น",
+    "programYears": 4
+  },
+  {
+    "id": "early_childhood_education",
+    "facultyId": "education",
+    "name": "การศึกษาปฐมวัย",
+    "programYears": 4
+  },
+  {
+    "id": "social_studies_education",
+    "facultyId": "education",
+    "name": "สังคมศึกษา",
+    "programYears": 4
+  },
+  {
+    "id": "business_administration",
+    "facultyId": "business",
+    "name": "บริหารธุรกิจ",
+    "programYears": 4
+  },
+  {
+    "id": "accounting",
+    "facultyId": "business",
+    "name": "การบัญชี",
+    "programYears": 4
+  },
+  {
+    "id": "law",
+    "facultyId": "law",
+    "name": "นิติศาสตร์",
+    "programYears": 4
+  },
+  {
+    "id": "business_law",
+    "facultyId": "law",
+    "name": "กฎหมายธุรกิจ",
+    "programYears": 4
+  },
+  {
+    "id": "political_science",
+    "facultyId": "political_science",
+    "name": "รัฐศาสตร์",
+    "programYears": 4
+  },
+  {
+    "id": "local_administration",
+    "facultyId": "political_science",
+    "name": "การบริหารงานท้องถิ่น",
+    "programYears": 4
+  },
+  {
+    "id": "product_design",
+    "facultyId": "fine_arts",
+    "name": "การออกแบบผลิตภัณฑ์",
+    "programYears": 4
+  },
+  {
+    "id": "visual_communication_design",
+    "facultyId": "fine_arts",
+    "name": "นิเทศศิลป์",
+    "programYears": 4
+  },
+  {
+    "id": "western_music",
+    "facultyId": "music_performing_arts",
+    "name": "ดนตรีตะวันตก",
+    "programYears": 4
+  },
+  {
+    "id": "applied_performing_arts",
+    "facultyId": "music_performing_arts",
+    "name": "ศิลปะการแสดงประยุกต์",
+    "programYears": 4
+  },
+  {
+    "id": "international_business",
+    "facultyId": "international_college",
+    "name": "บริหารธุรกิจ (หลักสูตรนานาชาติ)",
+    "programYears": 4
+  },
+  {
+    "id": "international_logistics",
+    "facultyId": "international_college",
+    "name": "การจัดการโลจิสติกส์และโซ่อุปทาน (หลักสูตรนานาชาติ)",
+    "programYears": 4
   }
 ]
