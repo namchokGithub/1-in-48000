@@ -1,3 +1,5 @@
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { Info } from 'lucide-react'
 import { useState } from 'react'
 import type { V2LifeSummary } from '../../engine/v2/game'
 import { StatPanel } from './StatPanel'
@@ -33,9 +35,12 @@ export function EndingView({
   onRestart,
 }: Props) {
   const years = groupByYear(summary.timeline)
-  const [showHelp, setShowHelp] = useState(false)
+  const [tooltipLayer, setTooltipLayer] = useState<HTMLDivElement | null>(null)
   return (
-    <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div
+      ref={setTooltipLayer}
+      className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]"
+    >
       <div className="grid min-w-0 gap-5">
         <section className="panel p-6 sm:p-10">
           <p className="eyebrow">บทสรุปชีวิตที่ ม.บารพู</p>
@@ -77,26 +82,34 @@ export function EndingView({
         <section className="panel p-6 sm:p-10" aria-label="ไทม์ไลน์ชีวิต">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-extrabold">เส้นทางชีวิตของคุณ</h2>
-            <button
-              type="button"
-              className="player-info-button"
-              aria-label="วิธีดูเส้นทางชีวิต"
-              aria-expanded={showHelp}
-              aria-controls="ending-timeline-help"
-              onClick={() => setShowHelp((open) => !open)}
-            >
-              ⓘ
-            </button>
+            <Tooltip.Provider delayDuration={150}>
+              <Tooltip.Root>
+                <Tooltip.Trigger asChild>
+                  <button
+                    type="button"
+                    className="player-info-button"
+                    aria-label="วิธีดูเส้นทางชีวิต"
+                  >
+                    <Info aria-hidden="true" size={16} strokeWidth={1.8} />
+                  </button>
+                </Tooltip.Trigger>
+                <Tooltip.Portal container={tooltipLayer}>
+                  <Tooltip.Content
+                    className="player-tooltip"
+                    side="bottom"
+                    sideOffset={8}
+                  >
+                    แต่ละปีเปิดและปิดได้ กดที่ชื่อปีเพื่อดูเหตุการณ์ของปีนั้น
+                    แล้วกดอีกครั้งเพื่อซ่อน
+                    <Tooltip.Arrow className="player-tooltip-arrow" />
+                  </Tooltip.Content>
+                </Tooltip.Portal>
+              </Tooltip.Root>
+            </Tooltip.Provider>
           </div>
           <p className="muted mt-1 text-sm">
             เหตุการณ์และทางเลือกที่พามาถึงวันนี้
           </p>
-          {showHelp && (
-            <p id="ending-timeline-help" className="player-info-note">
-              แต่ละปีเปิดและปิดได้ กดที่ชื่อปีเพื่อดูเหตุการณ์ของปีนั้น
-              แล้วกดอีกครั้งเพื่อซ่อน
-            </p>
-          )}
           <div className="mt-5 grid gap-3">
             {years.map((group, groupIndex) => (
               <details
