@@ -798,13 +798,53 @@
 .player-select-list {
   position: fixed;
   z-index: var(--z-dropdown);
-  overflow-y: auto;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
   padding: 0.3rem;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-control);
   background: var(--color-surface);
   color: var(--color-ink);
   box-shadow: 0 14px 34px var(--color-shadow);
+}
+.player-select-search {
+  position: relative;
+  padding: 0.25rem;
+}
+.player-select-search-input {
+  width: 100%;
+  min-height: 38px;
+  padding: 0.45rem 2.25rem 0.45rem 0.65rem;
+  border: 1px solid var(--color-line);
+  border-radius: calc(var(--radius-control) - 0.2rem);
+  background: var(--color-dialogue);
+  color: var(--color-ink);
+}
+.player-select-search-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+.player-select-search-clear {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  place-items: center;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  color: var(--color-muted);
+}
+.player-select-search-clear:hover,
+.player-select-search-clear:focus-visible {
+  background: var(--color-primary-soft);
+  color: var(--color-ink);
+}
+.player-select-options {
+  min-height: 0;
+  overflow-y: auto;
 }
 .player-select-option {
   padding: 0.65rem 0.8rem;
@@ -816,6 +856,12 @@
 }
 .player-select-option[aria-selected='true'] {
   box-shadow: inset 3px 0 0 var(--color-primary);
+}
+.player-select-empty {
+  margin: 0;
+  padding: 0.8rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
 }
 
 /* Ending timeline */

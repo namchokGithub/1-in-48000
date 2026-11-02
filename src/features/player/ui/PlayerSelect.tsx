@@ -7,6 +7,7 @@ import {
   type KeyboardEvent,
 } from 'react'
 import { createPortal } from 'react-dom'
+import { filterPlayerSelectOptions } from './playerSelectFilter'
 
 type Option = { value: string; label: string }
 type Position = { top: number; left: number; width: number; maxHeight: number }
@@ -16,20 +17,25 @@ export function PlayerSelect({
   value,
   options,
   onChange,
+  searchable = false,
 }: {
   label: string
   value: string
   options: Option[]
   onChange: (value: string) => void
+  searchable?: boolean
 }) {
   const id = useId()
   const triggerRef = useRef<HTMLButtonElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLInputElement>(null)
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(0)
+  const [query, setQuery] = useState('')
   const [position, setPosition] = useState<Position | null>(null)
   const [layer, setLayer] = useState<HTMLElement | null>(null)
   const selected = options.findIndex((option) => option.value === value)
+  const visibleOptions = filterPlayerSelectOptions(options, query)
 
   useLayoutEffect(() => {
     if (!open) return
@@ -79,30 +85,36 @@ export function PlayerSelect({
     listRef.current
       ?.querySelector<HTMLElement>(`[data-option-index="${active}"]`)
       ?.scrollIntoView({ block: 'nearest' })
-  }, [open, active, position])
+  }, [open, active, position, query])
+
+  useEffect(() => {
+    if (open && position && searchable) searchRef.current?.focus()
+  }, [open, position, searchable])
 
   function openList() {
+    setQuery('')
     setActive(Math.max(0, selected))
     setOpen(true)
   }
 
   function commit(index: number) {
-    const option = options[index]
+    const option = visibleOptions[index]
     if (option && option.value !== value) onChange(option.value)
+    setQuery('')
     setOpen(false)
     triggerRef.current?.focus()
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
-    if (!options.length) return
+    if (!visibleOptions.length) return
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault()
       if (!open) return openList()
       const step = event.key === 'ArrowDown' ? 1 : -1
-      setActive((active + step + options.length) % options.length)
+      setActive((active + step + visibleOptions.length) % visibleOptions.length)
     } else if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault()
-      setActive(event.key === 'Home' ? 0 : options.length - 1)
+      setActive(event.key === 'Home' ? 0 : visibleOptions.length - 1)
       setOpen(true)
     } else if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault()
@@ -154,22 +166,60 @@ export function PlayerSelect({
             className="player-select-list"
             style={position}
           >
-            {options.map((option, index) => (
-              <div
-                key={option.value}
-                id={`${id}-option-${index}`}
-                role="option"
-                aria-selected={option.value === value}
-                data-active={index === active}
-                data-option-index={index}
-                className="player-select-option"
-                onMouseEnter={() => setActive(index)}
-                onMouseDown={(event) => event.preventDefault()}
-                onClick={() => commit(index)}
-              >
-                {option.label}
+            {searchable && (
+              <div className="player-select-search">
+                <input
+                  ref={searchRef}
+                  type="search"
+                  className="player-select-search-input"
+                  value={query}
+                  placeholder={`ค้นหา${label}`}
+                  aria-label={`ค้นหา${label}`}
+                  onChange={(event) => {
+                    setQuery(event.target.value)
+                    setActive(0)
+                  }}
+                />
+                {query && (
+                  <button
+                    type="button"
+                    className="player-select-search-clear"
+                    aria-label={`ล้างคำค้นหา${label}`}
+                    onClick={() => {
+                      setQuery('')
+                      setActive(Math.max(0, selected))
+                      searchRef.current?.focus()
+                    }}
+                  >
+                    ×
+                  </button>
+                )}
               </div>
-            ))}
+            )}
+            <div className="player-select-options">
+              {visibleOptions.length ? (
+                visibleOptions.map((option, index) => (
+                  <div
+                    key={option.value}
+                    id={`${id}-option-${index}`}
+                    role="option"
+                    aria-selected={option.value === value}
+                    data-active={index === active}
+                    data-option-index={index}
+                    className="player-select-option"
+                    onMouseEnter={() => setActive(index)}
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => commit(index)}
+                  >
+                    {option.label}
+                  </div>
+                ))
+              ) : (
+                <p className="player-select-empty" role="status">
+                  ไม่พบคณะที่ค้นหา
+                </p>
+              )}
+            </div>
           </div>,
           layer,
         )}

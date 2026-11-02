@@ -365,6 +365,7 @@ export function SceneView({
                     value: faculty.id,
                     label: faculty.name,
                   }))}
+                  searchable
                   onChange={(nextId) => {
                     setFacultyId(nextId)
                     setMajorId(
