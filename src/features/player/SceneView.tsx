@@ -392,6 +392,7 @@ export function SceneView({
                   value: elective.id,
                   label: elective.name,
                 }))}
+                searchable
                 onChange={setElectiveId}
               />
             ) : event.selection?.type === 'multiple' ? (

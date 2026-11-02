@@ -2,7 +2,13 @@
   {
     "id": "creative_writing",
     "name": "การเขียนสร้างสรรค์",
-    "effects": [{ "type": "statDelta", "stat": "study", "amount": 2 }]
+    "effects": [
+      {
+        "type": "statDelta",
+        "stat": "study",
+        "amount": 2
+      }
+    ]
   },
   {
     "id": "community_service",
@@ -13,6 +19,166 @@
         "flagId": "studied_community_service",
         "value": true
       }
+    ]
+  },
+  {
+    "id": "daily_psychology",
+    "name": "จิตวิทยาในชีวิตประจำวัน",
+    "effects": [
+      { "type": "statDelta", "stat": "stress", "amount": -5 },
+      { "type": "statDelta", "stat": "relationships", "amount": 5 }
+    ]
+  },
+  {
+    "id": "personal_finance",
+    "name": "การเงินส่วนบุคคลและการออม",
+    "effects": [
+      { "type": "statDelta", "stat": "money", "amount": 300 },
+      { "type": "statDelta", "stat": "debt", "amount": -100 }
+    ]
+  },
+  {
+    "id": "basic_photography",
+    "name": "การถ่ายภาพเบื้องต้น",
+    "effects": [
+      { "type": "statDelta", "stat": "relationships", "amount": 5 },
+      { "type": "statDelta", "stat": "stress", "amount": -3 }
+    ]
+  },
+  {
+    "id": "basic_graphic_design",
+    "name": "การออกแบบกราฟิกเบื้องต้น",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 5 },
+      { "type": "statDelta", "stat": "stress", "amount": 3 }
+    ]
+  },
+  {
+    "id": "japanese_communication",
+    "name": "ภาษาญี่ปุ่นเพื่อการสื่อสาร",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 5 },
+      { "type": "statDelta", "stat": "relationships", "amount": 3 }
+    ]
+  },
+  {
+    "id": "korean_communication",
+    "name": "ภาษาเกาหลีเพื่อการสื่อสาร",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 5 },
+      { "type": "statDelta", "stat": "relationships", "amount": 3 }
+    ]
+  },
+  {
+    "id": "daily_english",
+    "name": "ภาษาอังกฤษในชีวิตประจำวัน",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 7 },
+      { "type": "statDelta", "stat": "relationships", "amount": 3 }
+    ]
+  },
+  {
+    "id": "intro_programming",
+    "name": "การเขียนโปรแกรมเบื้องต้น",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 8 },
+      { "type": "statDelta", "stat": "stress", "amount": 5 }
+    ]
+  },
+  {
+    "id": "everyday_ai",
+    "name": "ปัญญาประดิษฐ์ในชีวิตประจำวัน",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 7 },
+      { "type": "statDelta", "stat": "stress", "amount": -3 }
+    ]
+  },
+  {
+    "id": "intro_web_development",
+    "name": "การสร้างเว็บไซต์เบื้องต้น",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 8 },
+      { "type": "statDelta", "stat": "stress", "amount": 5 }
+    ]
+  },
+  {
+    "id": "public_speaking",
+    "name": "การพูดในที่สาธารณะ",
+    "effects": [
+      { "type": "statDelta", "stat": "relationships", "amount": 8 },
+      { "type": "statDelta", "stat": "stress", "amount": 3 }
+    ]
+  },
+  {
+    "id": "intro_entrepreneurship",
+    "name": "การเป็นผู้ประกอบการเบื้องต้น",
+    "effects": [
+      { "type": "statDelta", "stat": "money", "amount": 200 },
+      { "type": "statDelta", "stat": "study", "amount": 5 }
+    ]
+  },
+  {
+    "id": "social_media_marketing",
+    "name": "การตลาดผ่านสื่อสังคมออนไลน์",
+    "effects": [
+      { "type": "statDelta", "stat": "money", "amount": 200 },
+      { "type": "statDelta", "stat": "relationships", "amount": 5 }
+    ]
+  },
+  {
+    "id": "cooking_nutrition",
+    "name": "การทำอาหารและโภชนาการ",
+    "effects": [
+      { "type": "statDelta", "stat": "health", "amount": 8 },
+      { "type": "statDelta", "stat": "money", "amount": 100 }
+    ]
+  },
+  {
+    "id": "music_singing",
+    "name": "ดนตรีและการขับร้องเบื้องต้น",
+    "effects": [
+      { "type": "statDelta", "stat": "stress", "amount": -8 },
+      { "type": "statDelta", "stat": "relationships", "amount": 5 }
+    ]
+  },
+  {
+    "id": "film_storytelling",
+    "name": "ภาพยนตร์และการเล่าเรื่อง",
+    "effects": [
+      { "type": "statDelta", "stat": "stress", "amount": -5 },
+      { "type": "statDelta", "stat": "study", "amount": 3 }
+    ]
+  },
+  {
+    "id": "fitness_health",
+    "name": "การออกกำลังกายเพื่อสุขภาพ",
+    "effects": [
+      { "type": "statDelta", "stat": "health", "amount": 10 },
+      { "type": "statDelta", "stat": "stress", "amount": -5 }
+    ]
+  },
+  {
+    "id": "time_management",
+    "name": "การจัดการเวลาและพัฒนาตนเอง",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 8 },
+      { "type": "statDelta", "stat": "stress", "amount": -5 }
+    ]
+  },
+  {
+    "id": "creative_thinking",
+    "name": "การคิดเชิงสร้างสรรค์",
+    "effects": [
+      { "type": "statDelta", "stat": "study", "amount": 5 },
+      { "type": "statDelta", "stat": "lucky", "amount": 3 }
+    ]
+  },
+  {
+    "id": "love_relationships",
+    "name": "ความรักและความสัมพันธ์ในวัยเรียน",
+    "effects": [
+      { "type": "statDelta", "stat": "relationships", "amount": 10 },
+      { "type": "statDelta", "stat": "stress", "amount": -3 }
     ]
   }
 ]

@@ -170,7 +170,8 @@ export function PlayerSelect({
               <div className="player-select-search">
                 <input
                   ref={searchRef}
-                  type="search"
+                  type="text"
+                  inputMode="search"
                   className="player-select-search-input"
                   value={query}
                   placeholder={`ค้นหา${label}`}
