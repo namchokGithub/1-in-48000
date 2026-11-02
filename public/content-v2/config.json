@@ -6,10 +6,10 @@
     "period": "term1"
   },
   "initialStats": {
-    "study": 50,
+    "study": 30,
     "money": 1200,
     "health": 80,
-    "stress": 20,
+    "stress": 10,
     "relationships": 50,
     "debt": 0,
     "lucky": 0
@@ -33,15 +33,15 @@
     },
     {
       "id": "supported",
-      "title": "ทุนพร้อม เรียนเต็มที่",
-      "family": "มีเงินช่วยจากบ้าน",
-      "personality": "มุ่งมั่น",
+      "title": "มีบ้านคอยซัพพอร์ต",
+      "family": "ที่บ้านช่วยเรื่องค่าใช้จ่าย",
+      "personality": "ตั้งใจทำอะไรแล้วทำจริง",
       "skill": "เรียนรู้ไว",
       "statDeltas": {
-        "study": 5,
-        "money": 800,
-        "health": 0,
-        "stress": 5,
+        "study": 0,
+        "money": 3000,
+        "health": -10,
+        "stress": -5,
         "relationships": 0,
         "debt": 0,
         "lucky": 0
@@ -49,35 +49,138 @@
     },
     {
       "id": "outgoing",
-      "title": "เริ่มจากเพื่อนใหม่",
-      "family": "พี่น้องใกล้ชิด",
-      "personality": "เข้ากับคนง่าย",
-      "skill": "ชวนคนร่วมมือ",
+      "title": "ชีวิตมหาลัย เพื่อนต้องมาก่อน",
+      "family": "โตมาในบ้านที่สนิทกัน",
+      "personality": "คุยเก่ง เข้ากับคนง่าย",
+      "skill": "ชวนคนมาทำอะไรด้วยกัน",
       "statDeltas": {
-        "study": -5,
+        "study": -10,
         "money": 0,
         "health": 0,
-        "stress": 0,
-        "relationships": 10,
+        "stress": -10,
+        "relationships": 50,
         "debt": 0,
         "lucky": 0
+      }
+    },
+    {
+      "id": "hardworking",
+      "title": "ชีวิตนี้ต้องสร้างเอง",
+      "family": "บ้านไม่ได้มีเงินเหลือให้ใช้สบาย ๆ",
+      "personality": "อดทน ไม่ยอมแพ้ง่าย ๆ",
+      "skill": "หาเงินระหว่างเรียน",
+      "statDeltas": {
+        "study": 20,
+        "money": 0,
+        "health": -5,
+        "stress": 10,
+        "relationships": 0,
+        "debt": 0,
+        "lucky": 0
+      }
+    },
+    {
+      "id": "privileged",
+      "title": "เกิดมาพร้อมแต้มต่อ",
+      "family": "ที่บ้านมีกำลังซัพพอร์ตเต็มที่",
+      "personality": "มั่นใจในตัวเอง",
+      "skill": "ใช้คอนเนกชันเป็น",
+      "statDeltas": {
+        "study": 5,
+        "money": 500,
+        "health": 5,
+        "stress": -5,
+        "relationships": 5,
+        "debt": 0,
+        "lucky": 5
+      }
+    },
+    {
+      "id": "academic",
+      "title": "เรื่องเรียนไว้ก่อน เรื่องอื่นค่อยว่ากัน",
+      "family": "ที่บ้านคาดหวังเรื่องเรียนค่อนข้างสูง",
+      "personality": "จริงจังกับทุกเรื่อง",
+      "skill": "อ่านหนังสือจับประเด็นเก่ง",
+      "statDeltas": {
+        "study": 15,
+        "money": 0,
+        "health": -10,
+        "stress": 30,
+        "relationships": -5,
+        "debt": 0,
+        "lucky": 0
+      }
+    },
+    {
+      "id": "social",
+      "title": "รู้จักคนเยอะ ก็มีเรื่องให้ทำเยอะ",
+      "family": "บ้านค่อนข้างเปิดกว้าง ให้อิสระในการใช้ชีวิต",
+      "personality": "คุยเก่ง เข้ากับคนง่าย",
+      "skill": "สร้างความสัมพันธ์",
+      "statDeltas": {
+        "study": -5,
+        "money": -300,
+        "health": 0,
+        "stress": -10,
+        "relationships": 20,
+        "debt": 0,
+        "lucky": 0
+      }
+    },
+    {
+      "id": "free_spirit",
+      "title": "ชีวิตมันต้องลองสักครั้ง",
+      "family": "ที่บ้านไม่ได้บังคับว่าต้องเดินทางไหน",
+      "personality": "รักอิสระ ชอบลองอะไรใหม่ ๆ",
+      "skill": "ปรับตัวเก่ง",
+      "statDeltas": {
+        "study": -5,
+        "money": -500,
+        "health": 5,
+        "stress": -10,
+        "relationships": 5,
+        "debt": 0,
+        "lucky": 0
+      }
+    },
+    {
+      "id": "extremely_lucky",
+      "title": "เกิดมาดวงดีเกินต้าน",
+      "family": "บ้านธรรมดา แต่เหมือนมีโชคช่วยตลอด",
+      "personality": "มองโลกในแง่ดี",
+      "skill": "เอาตัวรอดด้วยดวง",
+      "statDeltas": {
+        "study": 0,
+        "money": 500,
+        "health": 0,
+        "stress": -10,
+        "relationships": 0,
+        "debt": 0,
+        "lucky": 88
+      }
+    },
+    {
+      "id": "extremely_unlucky",
+      "title": "ชีวิตนี้ดวงซวยจัด",
+      "family": "บ้านธรรมดา แต่เรื่องซวยไม่เคยขาด",
+      "personality": "ระแวงไว้ก่อน เพราะเจ็บมาเยอะ",
+      "skill": "รับมือเรื่องไม่คาดคิด",
+      "statDeltas": {
+        "study": 0,
+        "money": -500,
+        "health": 0,
+        "stress": 10,
+        "relationships": 0,
+        "debt": 0,
+        "lucky": -88
       }
     }
   ],
   "timeModel": {
     "standardYears": 4,
     "maximumYears": 8,
-    "reviewYears": [
-      4,
-      6,
-      8
-    ],
-    "periods": [
-      "term1",
-      "break",
-      "term2",
-      "summer"
-    ]
+    "reviewYears": [4, 6, 8],
+    "periods": ["term1", "break", "term2", "summer"]
   },
   "loan": {
     "annualRatePercent": 22,

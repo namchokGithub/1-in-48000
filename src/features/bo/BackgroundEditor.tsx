@@ -37,6 +37,9 @@ export function BackgroundEditor({
     ),
   )
   const [query, setQuery] = useState('')
+  const [statInputValues, setStatInputValues] = useState<
+    Record<string, string>
+  >({})
   const index = Math.min(storedIndex, Math.max(0, items.length - 1))
   const selected = items[index] as Background | undefined
   const fixed = selected?.id === V2_FIXED_BACKGROUND_ID
@@ -265,16 +268,48 @@ export function BackgroundEditor({
                       className="field"
                       type="number"
                       step="1"
-                      value={selected.statDeltas[stat.id]}
-                      onChange={(event) =>
+                      value={
+                        statInputValues[`${selected.id}:${stat.id}`] ??
+                        selected.statDeltas[stat.id]
+                      }
+                      onChange={(event) => {
+                        const inputKey = `${selected.id}:${stat.id}`
+                        const value = event.target.value
+                        setStatInputValues((current) => ({
+                          ...current,
+                          [inputKey]: value,
+                        }))
+
+                        if (value === '' || !Number.isFinite(Number(value))) {
+                          return
+                        }
+
                         replace({
                           ...selected,
                           statDeltas: {
                             ...selected.statDeltas,
-                            [stat.id]: Math.trunc(Number(event.target.value)),
+                            [stat.id]: Math.trunc(Number(value)),
                           },
                         })
-                      }
+                      }}
+                      onBlur={(event) => {
+                        const inputKey = `${selected.id}:${stat.id}`
+                        const value = Number(event.target.value)
+                        setStatInputValues((current) => {
+                          const next = { ...current }
+                          delete next[inputKey]
+                          return next
+                        })
+                        replace({
+                          ...selected,
+                          statDeltas: {
+                            ...selected.statDeltas,
+                            [stat.id]: Number.isFinite(value)
+                              ? Math.trunc(value)
+                              : 0,
+                          },
+                        })
+                      }}
                     />
                   </label>
                 ))}

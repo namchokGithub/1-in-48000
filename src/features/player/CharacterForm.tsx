@@ -144,7 +144,7 @@ export function CharacterForm({
                   />
                 ) : (
                   <span className="mt-3 block text-sm">
-                    ค่าสถานะเริ่มต้นไม่เปลี่ยน
+                    เริ่มต้นแบบไม่มีโบนัส
                   </span>
                 )}
               </label>
