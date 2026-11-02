@@ -524,6 +524,11 @@
   object-position: bottom;
   image-rendering: pixelated;
 }
+.player-stat-portrait {
+  height: 3rem;
+  object-fit: cover;
+  object-position: top;
+}
 .player-create-header {
   display: grid;
   align-items: center;
@@ -961,6 +966,13 @@
     object-fit: contain;
     image-rendering: pixelated;
   }
+  .player-shell[data-view='play']
+    .player-stat-identity
+    .player-identity-portrait.player-stat-portrait {
+    height: 2.25rem;
+    object-fit: cover;
+    object-position: top;
+  }
   .player-shell[data-view='play'] .player-scene-layout {
     grid-template-columns: minmax(0, 1fr) 19.5rem;
   }
@@ -1012,6 +1024,11 @@
     .player-identity-portrait {
     width: 2.5rem;
     height: 3.75rem;
+  }
+  .player-shell[data-view='play']
+    .player-stat-identity
+    .player-identity-portrait.player-stat-portrait {
+    height: 1.875rem;
   }
   .player-shell[data-view='play'] .player-stat-list {
     gap: 0.4rem 0.9rem;

@@ -38,7 +38,7 @@ export function StatPanel({
         <div className="player-stat-identity">
           {identity.portraitPath ? (
             <img
-              className="player-identity-portrait"
+              className="player-identity-portrait player-stat-portrait"
               src={identity.portraitPath}
               alt={`ภาพผู้เล่น ${identity.name}`}
             />

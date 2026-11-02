@@ -10,12 +10,7 @@ Every item not `Done`. Update this section whenever an item's status changes.
 
 V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
-Steps 37–41 were accepted by the author on 2026-10-30.
-
-| #   | Step                        | Status      | Depends on |
-| --- | --------------------------- | ----------- | ---------- |
-| 42  | Play keyboard shortcuts     | In progress | —          |
-| 43  | Character backgrounds in BO | In progress | —          |
+Steps 37–41 were accepted by the author on 2026-10-30, and Steps 42–43 on 2026-11-02. No steps are open.
 
 The production release is still deferred while the author makes further adjustments; Years 5–8 story content remains future work (see `README.md`).
 
@@ -33,32 +28,3 @@ V4 decisions 1–9 were resolved on 2026-10-29 and are recorded in `docs/DECISIO
 Resolved choices are recorded in `docs/DECISIONS.md`.
 
 Implementation details for completed steps are recorded in [`COMPLETE-LOG.md`](COMPLETE-LOG.md).
-
-## 42. Play keyboard shortcuts
-
-**Status:** In progress
-
-Source: `docs/LOCAL.md` (`docs/image/LOCAL/1793375039054.png`).
-
-- Space or Enter reads the next line; on the last line it picks the highlighted choice, which starts at the first choice that can be picked.
-- ↑ and ↓ move the highlight between choices and skip locked ones. In a multi-select event, Space ticks the highlighted choice and Enter confirms.
-- Shortcuts stay off while typing, inside the program and elective dropdowns, in a dialog, and on the year summary.
-- A key guide under the dialogue box, hidden on devices without a keyboard.
-- The dialogue box overlaps the bottom of the scene a little, like a visual novel.
-
-**Done when:** the author can play an event with the keyboard alone and accepts the layout by eye.
-
-2026-10-31: Implemented, waiting for the author's check. `nextEnabledIndex` moves the highlight past locked choices (focused test); the highlight is real focus, so a focused button or checkbox keeps its own Space and Enter. Reading the last line with the keyboard focuses the first choice that can be picked. Shortcuts are off in the BO preview because it runs inside a dialog. The desktop play screen stops growing at 1110px tall, or sooner when the width already limits the 16:9 scene, and the scene frame is never taller than the scene; the content stays at the top, the dialogue box always overlaps the picture, and spare space falls below the footer. Checked in the browser at 1280×1300, 1366×768, 1600×1400, 1920×1080, and 2400×1600.
-
-## 43. Character backgrounds in BO
-
-**Status:** In progress — awaiting the author's visual check
-
-- BO tab "พื้นฐานตัวละคร" (character group) adds, edits, reorders, and removes backgrounds in `config.json`: ID, title, family, personality, skill, and all seven stat deltas.
-- `balanced` is required by the content schema, cannot be removed, and its ID is locked.
-- The Player start screen offers three backgrounds: `balanced` first and two others drawn from the game seed (`pickV2Backgrounds`). Randomize picks among the three shown.
-- Validation issues under `config.backgrounds` jump to the new tab.
-
-**Done when:** the author can add more than three backgrounds in BO and the start screen shows `balanced` plus two others.
-
-2026-11-02: Implemented. Focused tests cover the picker (fixed first, distinct, repeatable per seed, varied across seeds, fewer than three), the required `balanced` background, and the issue jump.
