@@ -189,6 +189,15 @@ export function removeFlowEdges(flow: V2Flow, ids: string[]): V2Flow {
   return { ...flow, edges: flow.edges.filter((edge) => !ids.includes(edge.id)) }
 }
 
+export function finishReconnectEdge(
+  flow: V2Flow,
+  edgeId: string,
+  reconnected: boolean,
+): V2Flow {
+  if (reconnected || !flow.edges.some((edge) => edge.id === edgeId)) return flow
+  return removeFlowEdges(flow, [edgeId])
+}
+
 export function moveFlowNodes(
   flow: V2Flow,
   positions: Record<string, Position>,

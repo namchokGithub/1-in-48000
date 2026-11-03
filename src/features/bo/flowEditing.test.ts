@@ -6,6 +6,7 @@ import {
   addFlowNode,
   connectPorts,
   edgeStyle,
+  finishReconnectEdge,
   filesToSave,
   flowPorts,
   focusedFlow,
@@ -131,6 +132,14 @@ describe('BO flow board editing', () => {
     expect(removeFlowEdges(flow, ['e_kyos']).edges).toHaveLength(
       flow.edges.length - 1,
     )
+  })
+
+  it('removes an edge when reconnecting it ends on the pane', () => {
+    const edgeId = flow.edges[0].id
+    expect(finishReconnectEdge(flow, edgeId, false).edges).toHaveLength(
+      flow.edges.length - 1,
+    )
+    expect(finishReconnectEdge(flow, edgeId, true)).toBe(flow)
   })
 
   it('moves cards to rounded positions and lays them out by distance from Start', () => {

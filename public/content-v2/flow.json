@@ -560,8 +560,8 @@
     {
       "id": "n_new_event_2",
       "position": {
-        "x": 1280,
-        "y": 63
+        "x": 1365,
+        "y": 471
       },
       "type": "event",
       "eventId": "new_event_2"
@@ -579,12 +579,6 @@
       "from": "n_choose_program",
       "port": "next",
       "to": "n_orientation"
-    },
-    {
-      "id": "e_n_orientation_join_group",
-      "from": "n_orientation",
-      "port": "join_group",
-      "to": "n_first_class"
     },
     {
       "id": "e_n_first_class_take_notes",
@@ -1330,6 +1324,12 @@
       "id": "e_n_new_event_2_continue",
       "from": "n_new_event_2",
       "port": "continue",
+      "to": "n_first_class"
+    },
+    {
+      "id": "e_n_orientation_join_group",
+      "from": "n_orientation",
+      "port": "join_group",
       "to": "n_first_class"
     }
   ]

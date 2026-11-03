@@ -42,6 +42,7 @@ import {
   addFlowNode,
   connectPorts,
   edgeStyle,
+  finishReconnectEdge,
   flowPorts,
   focusedFlow,
   issuesByNode,
@@ -173,7 +174,7 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
           <Handle type="target" position={Position.Top} id="in-top" />
         </>
       )}
-      <div className="bo-flow-card-head">
+      <div className="bo-flow-card-head bo-drag-handle">
         <span className="bo-flow-kind">{data.kind}</span>
         {data.eventKind && (
           <span className="bo-flow-event-kind">
@@ -189,9 +190,13 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
           </span>
         )}
       </div>
-      <strong className="bo-flow-title">{data.title}</strong>
+      <strong className="bo-flow-title bo-drag-handle">{data.title}</strong>
       {data.thumbnail && (
-        <img className="bo-flow-thumb" src={data.thumbnail} alt="" />
+        <img
+          className="bo-flow-thumb bo-drag-handle"
+          src={data.thumbnail}
+          alt=""
+        />
       )}
       {data.text && <p className="bo-flow-text">{data.text}</p>}
       {data.ports.length > 0 && (
@@ -347,6 +352,8 @@ function Board({
   const [goTo, setGoTo] = useState('')
   const goToRef = useRef<HTMLInputElement>(null)
   const addMenuRef = useRef<HTMLDetailsElement>(null)
+  const reconnectingEdgeId = useRef<string | null>(null)
+  const reconnectSucceeded = useRef(false)
 
   const report = useMemo(
     () => validateV2Flow(flow, content.events),
@@ -388,7 +395,7 @@ function Board({
           id: node.id,
           type: 'card',
           position: node.position,
-          dragHandle: '.bo-flow-card-head',
+          dragHandle: '.bo-drag-handle',
           deletable: node.type !== 'start',
           className:
             [
@@ -1002,7 +1009,12 @@ function Board({
               edgeTypes={edgeTypes}
               onNodesChange={onNodesChange}
               onConnect={onConnect}
+              onReconnectStart={(_, edge) => {
+                reconnectingEdgeId.current = edge.id
+                reconnectSucceeded.current = false
+              }}
               onReconnect={(edge, connection) => {
+                reconnectSucceeded.current = true
                 if (!connection.sourceHandle) return
                 const next = reconnectEdge(
                   flow,
@@ -1013,6 +1025,15 @@ function Board({
                 )
                 if (next === flow) setMessage('ต่อเส้นไปที่นั่นไม่ได้')
                 else change(next)
+              }}
+              onReconnectEnd={(_, edge) => {
+                const next = finishReconnectEdge(
+                  flow,
+                  reconnectingEdgeId.current ?? edge.id,
+                  reconnectSucceeded.current,
+                )
+                reconnectingEdgeId.current = null
+                if (next !== flow) change(next)
               }}
               onNodesDelete={(deleted) =>
                 change(
