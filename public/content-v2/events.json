@@ -2268,19 +2268,20 @@
     "lines": [
       {
         "speakerId": "nap-dow",
-        "text": "สวัสดียินดีที่ได้รู้จัก"
+        "text": "สวัสดี! เราเพิ่งเจอกันครั้งแรกใช่ไหม ยินดีที่ได้รู้จักนะ"
       }
     ],
     "choices": [
       {
         "id": "choice_0dcdb31f",
-        "text": "เขิน.. เดินหนี",
+        "text": "เขินจนทำตัวไม่ถูก แล้วรีบเดินหนี",
         "conditions": [],
+        "recap": "คุณเขินจนรีบเดินหนีไปซะก่อน เลยอดทำความรู้จักเพื่อนใหม่เลย",
         "effects": [
           {
             "type": "statDelta",
             "stat": "relationships",
-            "amount": -10
+            "amount": -6
           },
           {
             "type": "statDelta",
@@ -2291,9 +2292,16 @@
       },
       {
         "id": "continue",
-        "text": "ต่อไป",
+        "text": "ยิ้มทักทายกลับ ก่อนจะเดินต่อ",
         "conditions": [],
-        "effects": []
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ],
+        "recap": "ยังไม่ทันได้รู้จักชื่อ คุณก็เดินหนีไปซะแล้ว... น่าเสียดายจัง"
       }
     ]
   }

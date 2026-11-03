@@ -1,6 +1,7 @@
 type Named = { id: string; name?: string; title?: string }
 type IssueContent = {
   events: Named[]
+  flow?: { nodes: { type: string; eventId?: string }[] }
   endings: Named[]
   characters: Named[]
   assets: { id: string; kind: string }[]
@@ -82,12 +83,23 @@ export function issueTarget(
       label: 'ตั้งค่าเกม',
       field: [rawIndex, ...rest].filter(Boolean).join('.'),
     }
-  if (file === 'flow')
+  if (file === 'flow') {
+    const node =
+      rawIndex === 'nodes' && /^\d+$/.test(rest[0] ?? '')
+        ? content.flow?.nodes[Number(rest[0])]
+        : undefined
+    const eventId = node?.type === 'event' ? node.eventId : undefined
+    const event = eventId
+      ? content.events.find((item) => item.id === eventId)
+      : undefined
     return {
       section: 'flow',
-      label: 'Story Flow',
+      label: eventId
+        ? `Story Flow · เหตุการณ์${event?.title ? ` “${event.title}”` : ''} (${eventId})`
+        : 'Story Flow',
       field: [rawIndex, ...rest].filter(Boolean).join('.'),
     }
+  }
   const index = Number(rawIndex)
   const field = rest.join('.')
   if (file === 'assets') {

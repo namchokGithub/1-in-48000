@@ -3,6 +3,13 @@ import { issueTarget } from './issueTarget'
 
 const content = {
   events: [{ id: 'orientation', title: 'วันปฐมนิเทศ' }],
+  flow: {
+    nodes: [
+      { type: 'event', eventId: 'orientation' },
+      { type: 'event', eventId: 'missing' },
+      { type: 'condition' },
+    ],
+  },
   endings: [{ id: 'dismissal', title: 'พ้นสภาพ' }],
   characters: [{ id: 'mali', name: 'มะลิ' }],
   assets: [
@@ -89,6 +96,19 @@ describe('issue target', () => {
       label: 'Story Flow',
       field: 'edges.3.to',
     })
+  })
+
+  it('names the event referenced by a flow node and handles missing references', () => {
+    expect(issueTarget('flow.nodes.0', content)).toEqual({
+      section: 'flow',
+      label: 'Story Flow · เหตุการณ์ “วันปฐมนิเทศ” (orientation)',
+      field: 'nodes.0',
+    })
+    expect(issueTarget('flow.nodes.1', content)?.label).toBe(
+      'Story Flow · เหตุการณ์ (missing)',
+    )
+    expect(issueTarget('flow.nodes.2', content)?.label).toBe('Story Flow')
+    expect(issueTarget('flow.nodes.99', content)?.label).toBe('Story Flow')
   })
 
   it('has no target for an unknown file or a missing item', () => {
