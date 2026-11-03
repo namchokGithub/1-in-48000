@@ -1,5 +1,18 @@
+import type { V2Content } from '../../content/v2/schema'
+import { describeV2Decision } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
-import { statChanges, type StatChange } from './statChanges'
+import {
+  recordedStatChanges,
+  statChanges,
+  type StatChange,
+} from '../../engine/v2/statChanges'
+
+export type YearMemory = {
+  title: string
+  choiceText: string
+  // Stat changes from this decision alone; empty when it changed nothing.
+  changes: StatChange[]
+}
 
 export type YearSummary = {
   year: number
@@ -9,12 +22,12 @@ export type YearSummary = {
   moneyIn: number
   moneyOut: number
   // Every event visit of the year in play order, repeats included.
-  events: string[]
+  events: YearMemory[]
 }
 
 // The year that just ended, while the player is in the year after it.
 export function yearSummary(
-  events: { id: string; title: string }[],
+  content: Pick<V2Content, 'events' | 'faculties' | 'majors' | 'electives'>,
   save: Pick<V2PlayerSave, 'currentTime' | 'history' | 'finishedYear'>,
 ): YearSummary | null {
   const finished = save.finishedYear
@@ -31,10 +44,13 @@ export function yearSummary(
     moneyOut: finished.moneyOut,
     events: save.history
       .filter((entry) => entry.time?.year === finished.year)
-      .map(
-        (entry) =>
-          events.find((event) => event.id === entry.eventId)?.title ??
-          entry.eventId,
-      ),
+      .map((entry) => {
+        const { eventTitle, choiceText } = describeV2Decision(content, entry)
+        return {
+          title: eventTitle,
+          choiceText,
+          changes: recordedStatChanges(entry.statChanges),
+        }
+      }),
   }
 }

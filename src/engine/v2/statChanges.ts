@@ -19,3 +19,13 @@ export function statChanges(before: V2Stats, after: V2Stats): StatChange[] {
     return amount ? [{ stat, amount }] : []
   })
 }
+
+// A decision's recorded changes (save history `statChanges`) in panel order.
+export function recordedStatChanges(
+  recorded: Partial<V2Stats> | undefined,
+): StatChange[] {
+  return order.flatMap((stat) => {
+    const amount = recorded?.[stat] ?? 0
+    return amount ? [{ stat, amount }] : []
+  })
+}

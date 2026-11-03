@@ -714,6 +714,7 @@ describe('V4 flow engine', () => {
         choiceIds: ['continue_story'],
         choiceText: 'ต่อไป',
         chanceOutcomes: [],
+        changes: [],
       },
     ])
     expect(summary.title).toBe('เรียนจบ')

@@ -17,7 +17,7 @@ import { createPlayerThemeStore } from '../../save/v2/themeSettings'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { createAudioController } from '../../shared/audio'
 import { AudioControls } from './AudioControls'
-import { statChanges, type StatChange } from './statChanges'
+import { statChanges, type StatChange } from '../../engine/v2/statChanges'
 import { yearSummary } from './yearSummary'
 import { YearSummaryView } from './YearSummaryView'
 import { PlayerConfirmDialog } from './ui/PlayerConfirmDialog'
@@ -177,7 +177,7 @@ function PlayerShell({
     )
   } else if (view === 'play' && save) {
     const event = currentEventOrNull(content, save)
-    const year = yearSummary(content.events, save)
+    const year = yearSummary(content, save)
     if (year && year.year !== seenYear) shellView = 'summary'
     body =
       year && year.year !== seenYear ? (

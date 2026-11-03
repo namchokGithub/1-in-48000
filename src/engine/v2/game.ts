@@ -9,6 +9,7 @@ import type {
 import { v2PlayerSaveSchema, type V2PlayerSave } from '../../save/v2/schema'
 import { rollIndex } from '../rng'
 import { compareTime } from '../time'
+import { recordedStatChanges, type StatChange } from './statChanges'
 import type { z } from 'zod'
 
 type V2Time = z.infer<typeof v2TimeSchema>
@@ -231,6 +232,21 @@ export function getV2EffectiveChancePercent(
   lucky: number,
 ): number {
   return Math.max(0, Math.min(100, successPercent + lucky / 10))
+}
+
+type StatChanges = NonNullable<V2PlayerSave['history'][number]['statChanges']>
+
+function addStatChanges(
+  into: StatChanges,
+  before: V2PlayerSave['stats'],
+  after: V2PlayerSave['stats'],
+): StatChanges {
+  for (const stat of Object.keys(after) as (keyof V2PlayerSave['stats'])[]) {
+    const amount = (into[stat] ?? 0) + after[stat] - before[stat]
+    if (amount) into[stat] = amount
+    else delete into[stat]
+  }
+  return into
 }
 
 function applyStateEffect(save: V2PlayerSave, effect: V2StateEffect): void {
@@ -568,6 +584,7 @@ function resolveChoices(
         applyStateEffect(save, effect)
       }
     })
+  entry.statChanges = addStatChanges({}, previous.stats, save.stats)
   applyPending(
     save,
     (pending) =>
@@ -686,8 +703,34 @@ export function chooseV2Elective(
   }
   for (const effect of elective.effects) applyStateEffect(prepared, effect)
   const next = resolveChoices(content, prepared, [choice], trace)
-  next.history.at(-1)!.electiveId = electiveId
+  const entry = next.history.at(-1)!
+  entry.electiveId = electiveId
+  addStatChanges((entry.statChanges ??= {}), previous.stats, prepared.stats)
   return next
+}
+
+// Event title and the chosen answer as the player saw it: the program or
+// elective name for selection events, otherwise the choice texts.
+export function describeV2Decision(
+  content: Pick<V2Content, 'events' | 'faculties' | 'majors' | 'electives'>,
+  entry: V2PlayerSave['history'][number],
+): { eventTitle: string; choiceText: string } {
+  const event = content.events.find((item) => item.id === entry.eventId)
+  const choices = entry.choiceIds.map(
+    (id) => event?.choices.find((item) => item.id === id)?.text ?? id,
+  )
+  const faculty = content.faculties.find((item) => item.id === entry.facultyId)
+  const major = content.majors.find((item) => item.id === entry.majorId)
+  const elective = content.electives.find(
+    (item) => item.id === entry.electiveId,
+  )
+  return {
+    eventTitle: event?.title ?? entry.eventId,
+    choiceText:
+      faculty && major
+        ? `${faculty.name} · ${major.name}`
+        : (elective?.name ?? choices.join(', ')),
+  }
 }
 
 export type V2LifeSummary = {
@@ -706,6 +749,8 @@ export type V2LifeSummary = {
     choiceIds: string[]
     choiceText: string
     chanceOutcomes: V2PlayerSave['history'][number]['chanceOutcomes']
+    // This decision's own stat changes, in stat panel order.
+    changes: StatChange[]
   }>
 }
 
@@ -726,28 +771,15 @@ export function summarizeV2Life(
     eventsVisited: new Set(save.history.map((entry) => entry.eventId)).size,
     choicesMade: save.history.length,
     timeline: save.history.map((entry) => {
-      const event = content.events.find((item) => item.id === entry.eventId)
-      const choices = entry.choiceIds.map(
-        (id) => event?.choices.find((item) => item.id === id)?.text ?? id,
-      )
-      const faculty = content.faculties.find(
-        (item) => item.id === entry.facultyId,
-      )
-      const major = content.majors.find((item) => item.id === entry.majorId)
-      const elective = content.electives.find(
-        (item) => item.id === entry.electiveId,
-      )
-      const choiceText =
-        faculty && major
-          ? `${faculty.name} · ${major.name}`
-          : (elective?.name ?? choices.join(', '))
+      const { eventTitle, choiceText } = describeV2Decision(content, entry)
       return {
         time: entry.time ? { ...entry.time } : null,
         eventId: entry.eventId,
-        eventTitle: event?.title ?? entry.eventId,
+        eventTitle,
         choiceIds: [...entry.choiceIds],
         choiceText,
         chanceOutcomes: entry.chanceOutcomes.map((outcome) => ({ ...outcome })),
+        changes: recordedStatChanges(entry.statChanges),
       }
     }),
   }

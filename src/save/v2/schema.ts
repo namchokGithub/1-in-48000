@@ -49,6 +49,10 @@ export const v2PlayerSaveSchema = z.object({
           effectivePercent: z.number().min(0).max(100),
         }),
       ),
+      // Net stat change from this decision's own effects, for the year summary.
+      statChanges: z
+        .partialRecord(v2StatsSchema.keyof(), z.number())
+        .optional(),
     }),
   ),
   pendingEffects: z.array(

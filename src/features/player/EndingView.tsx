@@ -3,6 +3,7 @@ import { Info } from 'lucide-react'
 import { useState } from 'react'
 import type { V2LifeSummary } from '../../engine/v2/game'
 import { StatPanel } from './StatPanel'
+import { StatChangeChips } from './ui/StatChangeChips'
 import { periodLabels } from './labels'
 
 type Props = {
@@ -129,7 +130,10 @@ export function EndingView({
                 </summary>
                 <ol className="player-timeline">
                   {group.entries.map((entry, index) => (
-                    <li key={`${entry.eventId}-${index}`}>
+                    <li
+                      key={`${entry.eventId}-${index}`}
+                      data-empty={entry.changes.length ? undefined : ''}
+                    >
                       {entry.time && (
                         <p className="muted text-xs">
                           {periodLabels[entry.time.period]}
@@ -151,6 +155,7 @@ export function EndingView({
                           % · {outcome.succeeded ? 'สำเร็จ' : 'ไม่สำเร็จ'}
                         </p>
                       ))}
+                      <StatChangeChips changes={entry.changes} />
                     </li>
                   ))}
                 </ol>

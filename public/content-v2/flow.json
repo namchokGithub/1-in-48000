@@ -502,8 +502,8 @@
     {
       "id": "check_community_path",
       "position": {
-        "x": 18320,
-        "y": -60
+        "x": 18335,
+        "y": 185
       },
       "type": "condition",
       "join": "and",
@@ -524,8 +524,8 @@
     {
       "id": "end_academic_path",
       "position": {
-        "x": 18320,
-        "y": 185
+        "x": 18322,
+        "y": 13
       },
       "type": "ending",
       "endingId": "academic_path"
@@ -533,8 +533,8 @@
     {
       "id": "end_community_path",
       "position": {
-        "x": 18640,
-        "y": -31
+        "x": 18690,
+        "y": 188
       },
       "type": "ending",
       "endingId": "community_path"
@@ -542,8 +542,8 @@
     {
       "id": "end_graduation",
       "position": {
-        "x": 18640,
-        "y": 157
+        "x": 18676,
+        "y": 384
       },
       "type": "ending",
       "endingId": "graduation"

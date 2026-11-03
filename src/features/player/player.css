@@ -1290,12 +1290,12 @@
   width: 2px;
   background: var(--color-line);
 }
-.player-year-timeline li {
+.player-year-timeline > li {
   position: relative;
   display: grid;
   font-size: 0.9rem;
 }
-.player-year-timeline li::before {
+.player-year-timeline > li::before {
   content: '';
   position: absolute;
   top: 0.4rem;
@@ -1305,11 +1305,42 @@
   border-radius: 50%;
   background: var(--color-muted);
 }
-.player-year-timeline li:first-child::before {
+.player-year-timeline > li:first-child::before {
   background: var(--color-accent);
 }
 .player-year-timeline small {
   font-size: 0.72rem;
+}
+.player-year-timeline > li[data-empty],
+.player-timeline > li[data-empty] {
+  opacity: 0.55;
+}
+.player-stat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+.player-stat-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-surface);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.player-stat-chips .player-stat-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+.player-stat-chips li[data-direction='up'] {
+  color: var(--color-primary-dark);
+}
+.player-stat-chips li[data-direction='down'] {
+  color: var(--color-danger);
 }
 .player-info-button {
   display: inline-flex;

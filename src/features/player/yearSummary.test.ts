@@ -11,27 +11,39 @@ const stats = {
   debt: 0,
   lucky: 0,
 }
-const entry = (eventId: string, year: number) => ({
+const entry = (
+  eventId: string,
+  year: number,
+  statChanges?: Record<string, number>,
+) => ({
   eventId,
   choiceIds: ['continue'],
   time: { year, period: 'term1' as const },
   chanceOutcomes: [],
+  statChanges,
 })
-const events = [
-  { id: 'orientation', title: 'ปฐมนิเทศ' },
-  { id: 'exam', title: 'สอบกลางภาค' },
-  { id: 'year_two', title: 'ปีสองเริ่มแล้ว' },
-]
+const choices = [{ id: 'continue', text: 'ไปต่อ' }]
+const content = {
+  events: [
+    { id: 'orientation', title: 'ปฐมนิเทศ', choices },
+    { id: 'exam', title: 'สอบกลางภาค', choices },
+    { id: 'year_two', title: 'ปีสองเริ่มแล้ว', choices },
+  ],
+  faculties: [],
+  majors: [],
+  electives: [],
+} as unknown as Parameters<typeof yearSummary>[0]
 
 describe('year summary', () => {
   it('summarizes the finished year once the next year has started', () => {
-    // Events count every visit; highlights are the two largest bar-stat changes.
+    // Events count every visit with the stat changes of that decision alone;
+    // highlights are the two largest bar-stat changes of the year.
     const save = {
       currentTime: { year: 2, period: 'term1' },
       history: [
         entry('orientation', 1),
-        entry('exam', 1),
-        entry('exam', 1),
+        entry('exam', 1, { money: -600, study: 12 }),
+        entry('exam', 1, {}),
         entry('year_two', 2),
       ],
       finishedYear: {
@@ -48,7 +60,7 @@ describe('year summary', () => {
         moneyOut: 900,
       },
     } as unknown as V2PlayerSave
-    expect(yearSummary(events, save)).toEqual({
+    expect(yearSummary(content, save)).toEqual({
       year: 1,
       changes: [
         { stat: 'study', amount: 12 },
@@ -62,7 +74,18 @@ describe('year summary', () => {
       ],
       moneyIn: 300,
       moneyOut: 900,
-      events: ['ปฐมนิเทศ', 'สอบกลางภาค', 'สอบกลางภาค'],
+      events: [
+        { title: 'ปฐมนิเทศ', choiceText: 'ไปต่อ', changes: [] },
+        {
+          title: 'สอบกลางภาค',
+          choiceText: 'ไปต่อ',
+          changes: [
+            { stat: 'study', amount: 12 },
+            { stat: 'money', amount: -600 },
+          ],
+        },
+        { title: 'สอบกลางภาค', choiceText: 'ไปต่อ', changes: [] },
+      ],
     })
   })
 
@@ -72,9 +95,9 @@ describe('year summary', () => {
       history: [],
       finishedYear: null,
     } as unknown as V2PlayerSave
-    expect(yearSummary(events, save)).toBeNull()
+    expect(yearSummary(content, save)).toBeNull()
     expect(
-      yearSummary(events, {
+      yearSummary(content, {
         ...save,
         finishedYear: {
           year: 1,

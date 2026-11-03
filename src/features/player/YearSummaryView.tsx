@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { statLabels } from './choicePreview'
+import { StatChangeChips } from './ui/StatChangeChips'
 import { StatIcon } from './ui/StatIcon'
 import type { YearSummary } from './yearSummary'
 
@@ -165,10 +166,16 @@ export function YearSummaryView({
           </div>
           {summary.events.length ? (
             <ol id="year-memory-list" className="player-year-timeline">
-              {shownEvents.map((title, index) => (
-                <li key={index}>
-                  <span>{title}</span>
-                  <small className="muted">เหตุการณ์ที่ {index + 1}</small>
+              {shownEvents.map((memory, index) => (
+                <li
+                  key={index}
+                  data-empty={memory.changes.length ? undefined : ''}
+                >
+                  <span>{memory.title}</span>
+                  <small className="muted">
+                    เหตุการณ์ที่ {index + 1} · เลือก: {memory.choiceText}
+                  </small>
+                  <StatChangeChips changes={memory.changes} />
                 </li>
               ))}
             </ol>

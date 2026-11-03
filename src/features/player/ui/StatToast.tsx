@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { formatStatChange } from '../choicePreview'
-import type { StatChange } from '../statChanges'
+import type { StatChange } from '../../../engine/v2/statChanges'
 import { StatIcon } from './StatIcon'
 
 export function StatToast({
