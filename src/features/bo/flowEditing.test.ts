@@ -12,6 +12,7 @@ import {
   focusedFlow,
   issuesByNode,
   LAYOUT_COLUMN,
+  LAYOUT_GAP,
   LAYOUT_ROW,
   countFlowCrossings,
   layoutFlow,
@@ -193,6 +194,64 @@ describe('BO flow board editing', () => {
     expect(['start', 'ask', 'detour', 'merge'].map(column)).toEqual([
       0, 1, 2, 3,
     ])
+  })
+
+  it('lays out top to bottom and spaces ranks by the measured card sizes', () => {
+    const node = (id: string) => ({
+      id,
+      type: 'nextPeriod' as const,
+      position: { x: 0, y: 0 },
+    })
+    const edge = (from: string, to: string) => ({
+      id: `${from}-${to}`,
+      from,
+      to,
+      port: 'next',
+    })
+    const branch = {
+      nodes: [
+        { id: 'start', type: 'start' as const, position: { x: 0, y: 0 } },
+        node('tall'),
+        node('short'),
+        node('after'),
+      ],
+      edges: [
+        edge('start', 'tall'),
+        edge('start', 'short'),
+        edge('tall', 'after'),
+        edge('short', 'after'),
+      ],
+    }
+    const sizes = {
+      start: { width: 240, height: 100 },
+      tall: { width: 240, height: 500 },
+      short: { width: 300, height: 150 },
+      after: { width: 240, height: 100 },
+    }
+    const position = (laid: typeof flow, id: string) =>
+      laid.nodes.find((item) => item.id === id)!.position
+
+    const vertical = layoutFlow(branch, { direction: 'vertical', sizes })
+    expect(position(vertical, 'start').y).toBe(0)
+    expect(position(vertical, 'tall').y).toBe(100 + LAYOUT_GAP)
+    expect(position(vertical, 'short').y).toBe(100 + LAYOUT_GAP)
+    expect(position(vertical, 'after').y).toBe(100 + 500 + LAYOUT_GAP * 2)
+    const [left, right] = ['tall', 'short']
+      .map((id) => ({ id, x: position(vertical, id).x }))
+      .sort((a, b) => a.x - b.x)
+    expect(right.x - left.x).toBe(
+      sizes[left.id as 'tall' | 'short'].width + LAYOUT_GAP,
+    )
+
+    const horizontal = layoutFlow(branch, { sizes })
+    expect(position(horizontal, 'tall').x).toBe(240 + LAYOUT_GAP)
+    expect(position(horizontal, 'after').x).toBe(240 + 300 + LAYOUT_GAP * 2)
+    const [top, bottom] = ['tall', 'short']
+      .map((id) => ({ id, y: position(horizontal, id).y }))
+      .sort((a, b) => a.y - b.y)
+    expect(bottom.y - top.y).toBe(
+      sizes[top.id as 'tall' | 'short'].height + LAYOUT_GAP,
+    )
   })
 
   it('orders cards in each column to cross fewer edges, the same way every time', () => {

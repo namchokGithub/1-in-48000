@@ -209,8 +209,14 @@ export function moveFlowNodes(
   }
 }
 
-export const LAYOUT_COLUMN = 320
-export const LAYOUT_ROW = 200
+export type LayoutDirection = 'horizontal' | 'vertical'
+export type CardSize = { width: number; height: number }
+
+/** Card size used when the board has not measured a card yet. */
+export const LAYOUT_CARD: CardSize = { width: 240, height: 120 }
+export const LAYOUT_GAP = 80
+export const LAYOUT_COLUMN = LAYOUT_CARD.width + LAYOUT_GAP
+export const LAYOUT_ROW = LAYOUT_CARD.height + LAYOUT_GAP
 
 /**
  * Column of each card reachable from Start: the longest path from Start,
@@ -257,7 +263,13 @@ function longestPathColumns(flow: V2Flow): Map<string, number> {
   return depth
 }
 
-export function layoutFlow(flow: V2Flow): V2Flow {
+export function layoutFlow(
+  flow: V2Flow,
+  {
+    direction = 'horizontal',
+    sizes = {},
+  }: { direction?: LayoutDirection; sizes?: Record<string, CardSize> } = {},
+): V2Flow {
   const depth = longestPathColumns(flow)
   const unreachableColumn = Math.max(-1, ...depth.values()) + 1
   const columns: string[][] = []
@@ -269,16 +281,30 @@ export function layoutFlow(flow: V2Flow): V2Flow {
     Array.from(columns, (ids) => ids ?? []),
     flow.edges,
   )
-  const tallest = Math.max(0, ...ordered.map((ids) => ids.length))
-  const positions: Record<string, Position> = {}
-  ordered.forEach((ids, column) =>
-    ids.forEach((id, row) => {
-      positions[id] = {
-        x: column * LAYOUT_COLUMN,
-        y: (row + (tallest - ids.length) / 2) * LAYOUT_ROW,
-      }
-    }),
+
+  // Ranks run along the main axis; cards in one rank spread on the cross axis.
+  const vertical = direction === 'vertical'
+  const size = (id: string) => sizes[id] ?? LAYOUT_CARD
+  const main = (id: string) => (vertical ? size(id).height : size(id).width)
+  const cross = (id: string) => (vertical ? size(id).width : size(id).height)
+  const spans = ordered.map(
+    (ids) =>
+      ids.reduce((sum, id) => sum + cross(id), 0) +
+      LAYOUT_GAP * Math.max(0, ids.length - 1),
   )
+  const widest = Math.max(0, ...spans)
+  const positions: Record<string, Position> = {}
+  let rankStart = 0
+  ordered.forEach((ids, rank) => {
+    let crossStart = (widest - spans[rank]) / 2
+    for (const id of ids) {
+      positions[id] = vertical
+        ? { x: crossStart, y: rankStart }
+        : { x: rankStart, y: crossStart }
+      crossStart += cross(id) + LAYOUT_GAP
+    }
+    rankStart += Math.max(0, ...ids.map(main)) + LAYOUT_GAP
+  })
   return moveFlowNodes(flow, positions)
 }
 

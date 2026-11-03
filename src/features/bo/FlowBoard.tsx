@@ -46,6 +46,8 @@ import {
   focusedFlow,
   issuesByNode,
   layoutFlow,
+  type CardSize,
+  type LayoutDirection,
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
@@ -565,6 +567,28 @@ function Board({
     })
   }
 
+  function autoLayout(direction: LayoutDirection) {
+    // Measure cards at full detail: far zoom hides parts of each card, and a
+    // layout from those smaller sizes would overlap once zoomed back in.
+    const sizes: Record<string, CardSize> = {}
+    const board = boardRef.current
+    const zoom = board?.getAttribute('data-zoom')
+    if (board && zoom) board.removeAttribute('data-zoom')
+    board
+      ?.querySelectorAll<HTMLElement>('.react-flow__node[data-id]')
+      .forEach((element) => {
+        if (element.offsetWidth && element.offsetHeight)
+          sizes[element.dataset.id!] = {
+            width: element.offsetWidth,
+            height: element.offsetHeight,
+          }
+      })
+    if (board && zoom) board.setAttribute('data-zoom', zoom)
+    change(layoutFlow(flow, { direction, sizes }))
+    setMessage('จัดตำแหน่งแล้ว · กด Cmd+Z (Ctrl+Z) เพื่อย้อน')
+    window.requestAnimationFrame(() => fitView({ duration: 300 }))
+  }
+
   function fitSelected() {
     const ids = selectedNode
       ? [selectedNode.id]
@@ -904,17 +928,11 @@ function Board({
                 >
                   พอดีจอเฉพาะที่เลือก
                 </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    change(layoutFlow(flow))
-                    setMessage('จัดตำแหน่งแล้ว · กด Cmd+Z (Ctrl+Z) เพื่อย้อน')
-                    window.requestAnimationFrame(() =>
-                      fitView({ duration: 300 }),
-                    )
-                  }}
-                >
-                  จัดตำแหน่งอัตโนมัติ
+                <button type="button" onClick={() => autoLayout('horizontal')}>
+                  จัดแนวนอน (ซ้ายไปขวา)
+                </button>
+                <button type="button" onClick={() => autoLayout('vertical')}>
+                  จัดแนวตั้ง (บนลงล่าง)
                 </button>
               </div>
             </details>
