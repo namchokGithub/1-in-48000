@@ -131,6 +131,7 @@ function responseIssues(body: unknown): ValidationIssue[] {
 export function BoApp() {
   const [themeStore] = useState(createBoThemeStore)
   const theme = useStore(themeStore, (state) => state.theme)
+  const flowBackground = useStore(themeStore, (state) => state.flowBackground)
   useLayoutEffect(() => {
     document.documentElement.dataset.boTheme = theme
     return () => {
@@ -808,6 +809,31 @@ export function BoApp() {
                       </button>
                     ))}
                   </div>
+                  <div
+                    className="bo-background-settings"
+                    role="group"
+                    aria-label="พื้นหลัง Story Flow"
+                  >
+                    <p className="bo-theme-heading">พื้นหลัง Story Flow</p>
+                    <div className="bo-background-options">
+                      {(['dots', 'cross', 'lines'] as const).map((value) => (
+                        <button
+                          key={value}
+                          type="button"
+                          aria-pressed={flowBackground === value}
+                          onClick={() =>
+                            themeStore.getState().setFlowBackground(value)
+                          }
+                        >
+                          {value === 'dots'
+                            ? 'Dots'
+                            : value === 'cross'
+                              ? 'Cross'
+                              : 'Lines'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -989,6 +1015,7 @@ export function BoApp() {
           />
         ) : section === 'flow' ? (
           <FlowBoard
+            background={flowBackground}
             content={draft}
             schemaIssues={
               checked.success

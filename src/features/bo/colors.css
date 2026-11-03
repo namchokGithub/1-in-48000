@@ -25,6 +25,11 @@
   --scene-ground: #528f86;
   --bo-dialog-backdrop: #142e29b8;
   --bo-flow-dark: #172b2a;
+  --bo-flow-grid: color-mix(
+    in srgb,
+    var(--color-ink) 16%,
+    var(--color-dialogue)
+  );
   --bo-dialog-shadow: #18292355;
   --bo-kind-main: #087f79;
   --bo-edge-focus: #087f79;

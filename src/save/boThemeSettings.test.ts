@@ -47,3 +47,25 @@ describe('BO theme setting', () => {
     expect(store.getState().theme).toBe('midnight-slate')
   })
 })
+
+describe('BO Flow background setting', () => {
+  it('defaults to dots and remembers each supported pattern', () => {
+    const saved = new Map<string, string>()
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        saved.set(key, value)
+      },
+    }
+    const store = createBoThemeStore(storage)
+    expect(store.getState().flowBackground).toBe('dots')
+    for (const pattern of ['dots', 'cross', 'lines'] as const) {
+      store.getState().setFlowBackground(pattern)
+      expect(createBoThemeStore(storage).getState().flowBackground).toBe(
+        pattern,
+      )
+    }
+    saved.set('1-in-48000:bo-flow-background', 'invalid')
+    expect(createBoThemeStore(storage).getState().flowBackground).toBe('dots')
+  })
+})

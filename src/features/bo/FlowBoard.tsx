@@ -10,6 +10,7 @@ import {
 import { toast } from 'sonner'
 import {
   Background,
+  BackgroundVariant,
   BaseEdge,
   Controls,
   Handle,
@@ -83,6 +84,7 @@ import {
   type LayoutDirection,
 } from './elkLayout'
 import type { PreviewPath } from './PreviewDialog'
+import type { FlowBackground } from '../../save/boThemeSettings'
 import { periodLabels } from './periodLabels'
 
 type CardData = {
@@ -384,6 +386,7 @@ const nodeTypes = { card: FlowCard, group: FlowGroup }
 const edgeTypes = { flow: FlowLineEdge }
 
 type BoardProps = {
+  background: FlowBackground
   content: V2Content
   schemaIssues: V2FlowIssue[]
   onChange: (flow: V2Flow) => void
@@ -404,6 +407,7 @@ export function FlowBoard(props: BoardProps) {
 }
 
 function Board({
+  background,
   content,
   schemaIssues,
   onChange,
@@ -1348,7 +1352,17 @@ function Board({
               fitView
               fitViewOptions={{ nodes: openingNodes, maxZoom: 1, padding: 0.2 }}
             >
-              <Background gap={FLOW_GRID} />
+              <Background
+                color="var(--bo-flow-grid)"
+                gap={FLOW_GRID}
+                variant={
+                  {
+                    dots: BackgroundVariant.Dots,
+                    cross: BackgroundVariant.Cross,
+                    lines: BackgroundVariant.Lines,
+                  }[background]
+                }
+              />
               <Controls />
               {!selectedNode && !selectedEdge && <MiniMap pannable zoomable />}
               <Panel position="bottom-center">

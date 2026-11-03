@@ -1,5 +1,8 @@
 import { createStore } from 'zustand/vanilla'
 
+export const BO_FLOW_BACKGROUND_KEY = '1-in-48000:bo-flow-background'
+export type FlowBackground = 'dots' | 'cross' | 'lines'
+
 export const BO_THEME_KEY = '1-in-48000:bo-theme'
 export const BO_THEMES = [
   'warm-ivory',
@@ -24,17 +27,37 @@ export function createBoThemeStore(
   } catch {
     initial = 'misty-mint'
   }
-  return createStore<{ theme: BoTheme; setTheme: (theme: BoTheme) => void }>(
-    (set) => ({
-      theme: initial,
-      setTheme: (theme) => {
-        set({ theme })
-        try {
-          storage.setItem(BO_THEME_KEY, theme)
-        } catch {
-          /* Keep the theme for this session. */
-        }
-      },
-    }),
-  )
+  let flowBackground: FlowBackground = 'dots'
+  try {
+    const saved = storage.getItem(BO_FLOW_BACKGROUND_KEY)
+    if (saved === 'dots' || saved === 'cross' || saved === 'lines')
+      flowBackground = saved
+  } catch {
+    /* Use the default when storage is unavailable. */
+  }
+  return createStore<{
+    theme: BoTheme
+    setTheme: (theme: BoTheme) => void
+    flowBackground: FlowBackground
+    setFlowBackground: (value: FlowBackground) => void
+  }>((set) => ({
+    theme: initial,
+    flowBackground,
+    setFlowBackground: (value) => {
+      set({ flowBackground: value })
+      try {
+        storage.setItem(BO_FLOW_BACKGROUND_KEY, value)
+      } catch {
+        /* Keep the setting for this session. */
+      }
+    },
+    setTheme: (theme) => {
+      set({ theme })
+      try {
+        storage.setItem(BO_THEME_KEY, theme)
+      } catch {
+        /* Keep the theme for this session. */
+      }
+    },
+  }))
 }
