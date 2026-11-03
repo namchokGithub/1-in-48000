@@ -196,8 +196,21 @@ export function BoApp() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
-      if (!(event.metaKey || event.ctrlKey) || event.altKey || saving) return
       const target = event.target as HTMLElement | null
+      const modifier = event.metaKey || event.ctrlKey
+      if (modifier && event.code === 'KeyS' && !event.altKey) {
+        event.preventDefault()
+        if (
+          !draft ||
+          !saved ||
+          saving ||
+          target?.closest('input, textarea, select, [contenteditable="true"]')
+        )
+          return
+        if (file && dirty) void saveFile(file)
+        return
+      }
+      if (!modifier || event.altKey || saving) return
       if (target?.closest('input, textarea, select, [contenteditable="true"]'))
         return
       const redo =

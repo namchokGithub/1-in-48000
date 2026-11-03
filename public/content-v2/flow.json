@@ -6,9 +6,9 @@
         "x": 64,
         "y": 115
       },
+      "parentId": "group",
       "type": "event",
-      "eventId": "choose_program",
-      "parentId": "group"
+      "eventId": "choose_program"
     },
     {
       "id": "n_orientation",
@@ -16,9 +16,9 @@
         "x": 394,
         "y": 111
       },
+      "parentId": "group",
       "type": "event",
-      "eventId": "orientation",
-      "parentId": "group"
+      "eventId": "orientation"
     },
     {
       "id": "n_first_class",
@@ -570,14 +570,14 @@
     },
     {
       "id": "group",
+      "position": {
+        "x": 333,
+        "y": -39
+      },
       "type": "group",
       "title": "กลุ่ม A",
       "width": 678,
-      "height": 494,
-      "position": {
-        "x": 320,
-        "y": -46
-      }
+      "height": 494
     }
   ],
   "edges": [
