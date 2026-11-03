@@ -4,6 +4,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type DragEvent,
 } from 'react'
 import { toast } from 'sonner'
@@ -132,6 +133,22 @@ const typeLabels: Record<V2FlowNode['type'], string> = {
   ending: 'Ending',
   group: 'Sub Flow',
 }
+const groupColorOptions = [
+  { id: 'gray', label: 'เทา', value: '#6b7280' },
+  { id: 'red', label: 'แดง', value: '#ef4444' },
+  { id: 'orange', label: 'ส้ม', value: '#f97316' },
+  { id: 'yellow', label: 'เหลือง', value: '#f59e0b' },
+  { id: 'green', label: 'เขียว', value: '#22a06b' },
+  { id: 'teal', label: 'ทีล', value: '#14b8a6' },
+  { id: 'blue', label: 'น้ำเงิน', value: '#3b82f6' },
+  { id: 'indigo', label: 'คราม', value: '#6366f1' },
+  { id: 'purple', label: 'ม่วง', value: '#a855f7' },
+  { id: 'pink', label: 'ชมพู', value: '#ec4899' },
+] as const satisfies readonly {
+  id: Extract<V2FlowNode, { type: 'group' }>['color']
+  label: string
+  value: string
+}[]
 
 function cardText(node: V2FlowNode, content: V2Content): string {
   switch (node.type) {
@@ -247,8 +264,15 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
 }
 
 function FlowGroup({ data, selected }: NodeProps<Group>) {
+  const color =
+    groupColorOptions.find((option) => option.id === data.node.color)?.value ??
+    '#22a06b'
   return (
-    <div className="bo-flow-subflow" data-selected={selected}>
+    <div
+      className="bo-flow-subflow bo-drag-handle"
+      data-selected={selected}
+      style={{ '--bo-subflow-color': color } as CSSProperties}
+    >
       <NodeResizer
         isVisible={selected}
         minWidth={160}
@@ -257,7 +281,7 @@ function FlowGroup({ data, selected }: NodeProps<Group>) {
         lineClassName="bo-flow-subflow-resize-line"
         onResizeEnd={(_, { width, height }) => data.onResize(width, height)}
       />
-      <div className="bo-flow-subflow-head bo-drag-handle">
+      <div className="bo-flow-subflow-head">
         <span>Sub Flow</span>
         <strong>{data.node.title}</strong>
       </div>
@@ -449,6 +473,7 @@ function Board({
               position: node.position,
               dragHandle: '.bo-drag-handle',
               deletable: true,
+              className: 'bo-flow-subflow-node',
               style: { width: node.width, height: node.height },
               data: {
                 node,
@@ -1107,7 +1132,7 @@ function Board({
             }}
             onDrop={onDrop}
           >
-            <ReactFlow<Card, FlowLine>
+            <ReactFlow<BoardNode, FlowLine>
               nodes={nodes}
               edges={edges}
               nodeTypes={nodeTypes}
@@ -1492,6 +1517,28 @@ function NodeDetail({
               }
             />
           </label>
+          <div className="bo-field">
+            <span>สี</span>
+            <div
+              className="bo-flow-color-palette"
+              role="radiogroup"
+              aria-label="สี Sub Flow"
+            >
+              {groupColorOptions.map((color) => (
+                <button
+                  key={color.id}
+                  type="button"
+                  className="bo-flow-color-swatch"
+                  role="radio"
+                  aria-checked={node.color === color.id}
+                  aria-label={color.label}
+                  title={color.label}
+                  style={{ backgroundColor: color.value }}
+                  onClick={() => onChange({ ...node, color: color.id })}
+                />
+              ))}
+            </div>
+          </div>
           <div className="bo-form-grid">
             <label className="bo-field">
               <span>กว้าง</span>

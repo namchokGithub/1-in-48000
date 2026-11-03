@@ -99,6 +99,7 @@ describe('V4 flow validator', () => {
         id: 'year_one',
         type: 'group',
         title: 'ปี 1',
+        color: 'green',
         width: 560,
         height: 420,
         position: at,

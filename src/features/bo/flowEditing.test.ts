@@ -81,6 +81,7 @@ describe('BO flow board editing', () => {
       id: 'group',
       type: 'group',
       title: 'กลุ่มย่อย',
+      color: 'green',
       width: 560,
       height: 420,
     })

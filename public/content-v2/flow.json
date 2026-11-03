@@ -571,11 +571,12 @@
     {
       "id": "group",
       "position": {
-        "x": 333,
-        "y": -39
+        "x": 306,
+        "y": -30
       },
       "type": "group",
       "title": "กลุ่ม A",
+      "color": "green",
       "width": 678,
       "height": 494
     }

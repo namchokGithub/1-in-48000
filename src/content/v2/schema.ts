@@ -310,6 +310,20 @@ export const v2FlowNodeSchema = z.discriminatedUnion('type', [
     ...nodeBase,
     type: z.literal('group'),
     title: textSchema,
+    color: z
+      .enum([
+        'gray',
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'teal',
+        'blue',
+        'indigo',
+        'purple',
+        'pink',
+      ])
+      .default('green'),
     width: z.number().positive(),
     height: z.number().positive(),
   }),

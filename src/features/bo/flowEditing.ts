@@ -101,7 +101,15 @@ export function addFlowNode(
       position,
     }
   } else if (type === 'group') {
-    node = { id, type, title: 'กลุ่มย่อย', width: 560, height: 420, position }
+    node = {
+      id,
+      type,
+      title: 'กลุ่มย่อย',
+      color: 'green',
+      width: 560,
+      height: 420,
+      position,
+    }
   } else {
     node = { id, type, position }
   }

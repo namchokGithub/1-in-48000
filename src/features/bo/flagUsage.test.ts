@@ -7,6 +7,7 @@ const content: Pick<V2Content, 'events' | 'electives' | 'flow'> = {
     {
       id: 'club_fair',
       kind: 'main',
+      randomizeChoices: true,
       time: { year: 1, period: 'term1' },
       title: 'งานชมรม',
       conditions: [{ type: 'flag', flagId: 'met_mali', value: true }],

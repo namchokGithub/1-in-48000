@@ -191,3 +191,5 @@ Each event has `randomizeChoices`, defaulting to true in the content schema and 
 ## 2026-11-03 — BO Flow Sub Flows
 
 `group` is a visual-only Flow node for organising the BO board. A regular card may reference one group through `parentId`; its saved position is relative to that group's position, so moving the group moves its cards together. Groups cannot nest, cannot contain Start, and cannot own or receive an edge. The engine consequently never follows a group, and validation ignores groups when checking missing edges and reachability. Deleting a group keeps its cards and converts their positions back to board coordinates. This deliberately matches React Flow's parent-node grouping without changing the authored story graph or player runtime.
+
+Each Sub Flow stores a named palette color, defaulting to green. The board renders that color at low opacity for its background and a muted border so it remains an organisational aid rather than competing with Story Flow cards and paths.

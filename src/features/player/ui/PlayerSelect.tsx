@@ -111,8 +111,10 @@ export function PlayerSelect({
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault()
       if (!open) return openList()
+      const direction =
+        event.key === 'ArrowDown' ? 'ArrowDown' : ('ArrowUp' as const)
       setActive((current) =>
-        nextPlayerSelectIndex(current, visibleOptions.length, event.key),
+        nextPlayerSelectIndex(current, visibleOptions.length, direction),
       )
     } else if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault()
@@ -133,8 +135,10 @@ export function PlayerSelect({
   function onSearchKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault()
+      const direction =
+        event.key === 'ArrowDown' ? 'ArrowDown' : ('ArrowUp' as const)
       setActive((current) =>
-        nextPlayerSelectIndex(current, visibleOptions.length, event.key),
+        nextPlayerSelectIndex(current, visibleOptions.length, direction),
       )
     } else if (event.key === 'Enter') {
       event.preventDefault()

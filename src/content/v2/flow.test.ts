@@ -66,6 +66,7 @@ describe('V4 story flow contract', () => {
         id: 'year_one',
         type: 'group',
         title: 'ปี 1',
+        color: 'green',
         width: 560,
         height: 420,
         position: { x: 0, y: 0 },
@@ -74,6 +75,9 @@ describe('V4 story flow contract', () => {
       event.parentId = 'year_one'
     })
     expect(v2FlowSchema.safeParse(grouped).success).toBe(true)
+    expect(
+      v2FlowSchema.parse(grouped).nodes.find((node) => node.id === 'year_one'),
+    ).toMatchObject({ color: 'green' })
     expect(
       v2FlowSchema.safeParse(
         withFlow((copy) => {
