@@ -1,4 +1,13 @@
-import { useEffect, useRef, useState, type SetStateAction } from 'react'
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type SetStateAction,
+} from 'react'
+import { useStore } from 'zustand'
+import { createBoThemeStore, type BoTheme } from '../../save/boThemeSettings'
+import { Check, Palette } from 'lucide-react'
 import { Toaster, toast } from 'sonner'
 import { loadV2Content } from '../../content/v2/loader'
 import {
@@ -120,6 +129,14 @@ function responseIssues(body: unknown): ValidationIssue[] {
 }
 
 export function BoApp() {
+  const [themeStore] = useState(createBoThemeStore)
+  const theme = useStore(themeStore, (state) => state.theme)
+  useLayoutEffect(() => {
+    document.documentElement.dataset.boTheme = theme
+    return () => {
+      delete document.documentElement.dataset.boTheme
+    }
+  }, [theme])
   const [saved, setSaved] = useState<V2Content | null>(null)
   const [history, setHistory] = useState<DraftHistory<V2Content> | null>(null)
   const draft = history?.present ?? null
@@ -149,6 +166,9 @@ export function BoApp() {
     action: () => void
   } | null>(null)
   const [previewEventId, setPreviewEventId] = useState<string | null>(null)
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
+  const themeMenuRef = useRef<HTMLDivElement>(null)
+  const themeTriggerRef = useRef<HTMLButtonElement>(null)
   const [tabMenuOpen, setTabMenuOpen] = useState(false)
   const tabMenuRef = useRef<HTMLElement>(null)
   const issuesRef = useRef<HTMLElement>(null)
@@ -242,6 +262,26 @@ export function BoApp() {
     issuesRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
     issuesRef.current?.focus({ preventScroll: true })
   }, [failedSaves])
+
+  useEffect(() => {
+    if (!themeMenuOpen) return
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setThemeMenuOpen(false)
+        themeTriggerRef.current?.focus()
+      }
+    }
+    function onPointerDown(event: PointerEvent) {
+      if (!themeMenuRef.current?.contains(event.target as Node))
+        setThemeMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('pointerdown', onPointerDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('pointerdown', onPointerDown)
+    }
+  }, [themeMenuOpen])
 
   useEffect(() => {
     if (!tabMenuOpen) return
@@ -711,6 +751,66 @@ export function BoApp() {
                 </div>
               )}
             </nav>
+            <div className="bo-theme-menu" ref={themeMenuRef}>
+              <button
+                ref={themeTriggerRef}
+                type="button"
+                className="bo-theme-trigger"
+                aria-label="เลือกธีม BO"
+                aria-expanded={themeMenuOpen}
+                aria-controls="bo-theme-options"
+                title="เลือกธีม BO"
+                onClick={() => setThemeMenuOpen((open) => !open)}
+              >
+                <Palette size={18} aria-hidden="true" />
+              </button>
+              {themeMenuOpen && (
+                <div
+                  id="bo-theme-options"
+                  className="bo-theme-panel"
+                  role="group"
+                  aria-label="เลือกธีม BO"
+                >
+                  <p className="bo-theme-heading">เลือกธีม</p>
+                  <div className="bo-theme-grid">
+                    {(
+                      [
+                        ['warm-ivory', 'Warm Ivory'],
+                        ['misty-mint', 'Misty Mint'],
+                        ['cloud-blue', 'Cloud Blue'],
+                        ['charcoal-gold', 'Charcoal Gold'],
+                        ['midnight-slate', 'Midnight Slate'],
+                      ] as const satisfies readonly (readonly [
+                        BoTheme,
+                        string,
+                      ])[]
+                    ).map(([value, label]) => (
+                      <button
+                        key={value}
+                        type="button"
+                        className="bo-theme-option"
+                        data-theme-preview={value}
+                        aria-pressed={theme === value}
+                        onClick={() => {
+                          themeStore.getState().setTheme(value)
+                          setThemeMenuOpen(false)
+                          themeTriggerRef.current?.focus()
+                        }}
+                      >
+                        <span className="bo-theme-swatch" aria-hidden="true">
+                          {theme === value && (
+                            <span className="bo-theme-check">
+                              <Check size={12} />
+                            </span>
+                          )}
+                        </span>
+                        <span className="bo-theme-name">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div
             className="bo-toolbar"

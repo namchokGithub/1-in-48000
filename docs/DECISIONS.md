@@ -199,3 +199,7 @@ Each event has `randomizeChoices`, defaulting to true in the content schema and 
 Each Sub Flow stores a named palette color, defaulting to green. The board renders that color at low opacity for its background and a muted border so it remains an organisational aid rather than competing with Story Flow cards and paths.
 
 Cards are not constrained to a Sub Flow's visual boundary. Releasing a card outside every group removes its `parentId` and preserves its absolute board position; releasing it over another group moves it to that group. This makes drag-and-drop membership explicit while retaining React Flow's parent positioning model.
+
+## 2026-11-03 — Independent BO themes
+
+BO offers five palettes, with Misty Mint as the default. Its selection persists separately from Player settings and is applied at the document root so portal menus and dialogs inherit it. Flow type and edge status colors remain independent of the theme primary color, with dark-mode variants where needed.

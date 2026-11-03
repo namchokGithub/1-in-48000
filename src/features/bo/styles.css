@@ -689,7 +689,7 @@
 .bo-flow-subflow-resize-handle {
   width: 10px;
   height: 10px;
-  border: 2px solid var(--surface);
+  border: 2px solid var(--color-surface);
   border-radius: 999px;
   background: var(--bo-subflow-color);
 }
@@ -723,7 +723,7 @@
   border-style: dashed;
 }
 .bo-flow-card[data-type='ending'] {
-  border-color: var(--color-accent);
+  border-color: var(--bo-ending);
 }
 .bo-flow-card[data-selected='true'] {
   outline: 2px solid var(--color-primary);
@@ -738,7 +738,7 @@
 }
 .bo-flow-card[data-kind],
 .bo-flow-legend span[data-kind] {
-  --bo-event-kind: var(--color-primary);
+  --bo-event-kind: var(--bo-kind-main);
 }
 .bo-flow-card[data-kind='conditional'],
 .bo-flow-legend span[data-kind='conditional'] {
@@ -792,7 +792,7 @@
   opacity: 0.15;
 }
 .bo-flow-edge-focus .react-flow__edge-path {
-  stroke: var(--color-primary);
+  stroke: var(--bo-edge-focus);
   stroke-width: 2.5;
 }
 .bo-flow-canvas[data-zoom='far'] .bo-flow-thumb,
@@ -892,7 +892,7 @@
   stroke-width: 2;
 }
 :where(.bo-flow-edge-key) .react-flow__edge-path {
-  stroke: var(--color-ink);
+  stroke: var(--bo-edge-key);
   stroke-width: 2.5;
 }
 .bo-flow-legend-sep {
@@ -919,7 +919,7 @@
   border-top: 2px dotted var(--bo-edge-fail);
 }
 .bo-flow-legend span[data-edge='key']::before {
-  border-top: 3px solid var(--color-ink);
+  border-top: 3px solid var(--bo-edge-key);
 }
 .bo-flow-edge-conditional .react-flow__edge-path {
   stroke-dasharray: 6 4;
@@ -1405,4 +1405,120 @@ dialog {
     border-top: 0;
     padding-top: 0;
   }
+}
+
+.bo-theme-menu {
+  position: relative;
+}
+.bo-theme-trigger {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  border: 1px solid var(--color-line);
+  border-radius: 0.7rem;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+.bo-theme-trigger:hover,
+.bo-theme-trigger[aria-expanded='true'] {
+  border-color: var(--color-primary);
+}
+.bo-theme-panel {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: min(18rem, calc(100vw - 2rem));
+  padding: 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.9rem;
+  background: var(--color-surface);
+  box-shadow: 0 12px 30px var(--bo-shadow-18);
+}
+.bo-theme-heading {
+  margin: 0 0 0.6rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+.bo-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.bo-theme-option {
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+.bo-theme-option:hover,
+.bo-theme-option[aria-pressed='true'] {
+  border-color: var(--color-primary);
+}
+.bo-theme-option[aria-pressed='true'] {
+  box-shadow: 0 0 0 2px var(--color-primary-soft);
+}
+.bo-theme-swatch {
+  position: relative;
+  display: block;
+  height: 2.75rem;
+}
+.bo-theme-option[data-theme-preview='warm-ivory'] .bo-theme-swatch {
+  background: #fff2d0;
+}
+.bo-theme-option[data-theme-preview='misty-mint'] .bo-theme-swatch {
+  background: #e3f4ee;
+}
+.bo-theme-option[data-theme-preview='cloud-blue'] .bo-theme-swatch {
+  background: #e7effa;
+}
+.bo-theme-option[data-theme-preview='charcoal-gold'] .bo-theme-swatch {
+  background: #2b2925;
+}
+.bo-theme-option[data-theme-preview='midnight-slate'] .bo-theme-swatch {
+  background: #222b36;
+}
+.bo-theme-check {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  display: grid;
+  width: 1.1rem;
+  height: 1.1rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-button-text);
+}
+.bo-theme-name {
+  display: block;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .bo-theme-panel {
+    right: auto;
+    left: 0;
+  }
+}
+.bo-flow-canvas .react-flow__controls button {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border-color: var(--color-line);
+  fill: currentColor;
+}
+.bo-flow-canvas .react-flow__controls button:hover {
+  background: var(--color-primary-soft);
+}
+.bo-flow-canvas .react-flow__minimap {
+  background: var(--color-surface);
+}
+:root[data-bo-theme='charcoal-gold'] .button-danger:hover,
+:root[data-bo-theme='midnight-slate'] .button-danger:hover {
+  background: var(--bo-danger-soft);
 }

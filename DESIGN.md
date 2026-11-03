@@ -55,7 +55,7 @@ The Player reads like a personal field guide to one student's years at ม.บ�
 
 ## Runtime ownership
 
-`src/shared/styles.css` owns the CSS variables. The flat `colors` values above remain the BO/base palette. `playerLight` and `playerDark` map to `.player-shell` and `.player-shell[data-theme='dark']` overrides in that stylesheet; this file records their intent. Tailwind handles layout utilities. Shared `.button`, `.panel`, and `.stat-*` classes consume CSS variables so the screens do not repeat raw colors.
+`src/shared/styles.css` provides base variables and controls. `src/features/bo/colors.css` owns the five BO palettes, selected on the document root; Flow types and edge statuses use separate semantic colors. The Player themes are scoped to `.player-shell` in `src/features/player/player.css`. Tailwind handles layout utilities. Shared `.button`, `.panel`, and `.stat-*` classes consume CSS variables so the screens do not repeat raw colors.
 
 ## Layout and type
 
@@ -71,7 +71,7 @@ The V2 story form uses compact ordered cards for dialogue and choices. Speaker p
 
 ## Visual language
 
-The Player uses a Cozy campus palette: ivory canvas and cream cards in light mode, charcoal canvas and gray cards in dark mode. Soft gold marks primary actions, selected states, and study progress; large neutral areas keep both themes calm. A connected year stepper uses small line icons for Freshman through Senior and a generic calendar icon for Years 5–8. The scene placeholder keeps its geometric campus silhouette in theme-aware tones until asset IDs point to real art. The BO retains its teal palette. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
+The Player uses a Cozy campus palette: ivory canvas and cream cards in light mode, charcoal canvas and gray cards in dark mode. Soft gold marks primary actions, selected states, and study progress; large neutral areas keep both themes calm. A connected year stepper uses small line icons for Freshman through Senior and a generic calendar icon for Years 5–8. The scene placeholder keeps its geometric campus silhouette in theme-aware tones until asset IDs point to real art. BO defaults to Misty Mint and also offers Warm Ivory, Cloud Blue, Charcoal Gold, and Midnight Slate; its selection is stored separately from the Player theme. Rounded panels and fine borders carry hierarchy; shadows stay subtle.
 
 ## Interaction states
 

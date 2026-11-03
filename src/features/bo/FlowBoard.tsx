@@ -136,9 +136,9 @@ const edgeColors: Record<FlowEdgeStyle | 'traced' | 'focus', string> = {
   fallback: 'var(--bo-edge-normal)',
   pass: 'var(--bo-edge-pass)',
   fail: 'var(--bo-edge-fail)',
-  key: 'var(--color-ink)',
-  traced: 'var(--color-accent)',
-  focus: 'var(--color-primary)',
+  key: 'var(--bo-edge-key)',
+  traced: 'var(--bo-edge-traced)',
+  focus: 'var(--bo-edge-focus)',
 }
 const typeLabels: Record<V2FlowNode['type'], string> = {
   start: 'Start',
