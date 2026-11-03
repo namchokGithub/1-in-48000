@@ -29,6 +29,7 @@ export function V2EventEditor({
   onDelete: () => void
 }) {
   const [expandedChoice, setExpandedChoice] = useState<number | null>(0)
+  const [activeLine, setActiveLine] = useState<number | null>(0)
   const narrator = characters.find((item) => item.isNarrator)
   const sceneAsset = assets.find(
     (item) => item.id === event.sceneAssetId && item.kind === 'scene',
@@ -415,13 +416,14 @@ export function V2EventEditor({
           </p>
         )}
       </div>
-      <details className="bo-nested">
+      <details className="bo-nested bo-event-conditions">
         <summary>เงื่อนไขแสดงเหตุการณ์ · {event.conditions.length}</summary>
         <div className="mt-3">
           <V2ConditionList
             value={event.conditions}
             eventIds={eventIds}
             catalogs={catalogs}
+            focusMode
             onChange={(conditions) =>
               update((next) => {
                 next.conditions = conditions
@@ -456,7 +458,17 @@ export function V2EventEditor({
             return (
               <article
                 key={index}
-                className="bo-story-card"
+                className={`bo-story-card bo-line-card${
+                  activeLine === index ? ' bo-line-card-active' : ''
+                }${
+                  event.lines.length > 1 &&
+                  activeLine !== null &&
+                  activeLine !== index
+                    ? ' bo-line-card-dimmed'
+                    : ''
+                }`}
+                onFocusCapture={() => setActiveLine(index)}
+                onPointerDownCapture={() => setActiveLine(index)}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => drop(e, 'line', index)}
               >
@@ -617,11 +629,12 @@ export function V2EventEditor({
         <button
           type="button"
           className="button button-secondary bo-add-at-end"
-          onClick={() =>
+          onClick={() => {
             update((next) => {
               next.lines.push({ text: 'บทสนทนาใหม่' })
             })
-          }
+            setActiveLine(event.lines.length)
+          }}
         >
           + เพิ่มบรรทัด
         </button>
@@ -639,7 +652,15 @@ export function V2EventEditor({
           {event.choices.map((choice, index) => (
             <article
               key={index}
-              className="bo-story-card bo-choice-card"
+              className={`bo-story-card bo-choice-card${
+                expandedChoice === index ? ' bo-choice-card-active' : ''
+              }${
+                event.choices.length > 1 &&
+                expandedChoice !== null &&
+                expandedChoice !== index
+                  ? ' bo-choice-card-dimmed'
+                  : ''
+              }`}
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => drop(e, 'choice', index)}
             >

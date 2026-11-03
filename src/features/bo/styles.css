@@ -326,6 +326,53 @@
 .bo-choice-toggle small {
   overflow-wrap: anywhere;
 }
+.bo-choice-card-dimmed {
+  opacity: 0.52;
+  filter: saturate(0.55);
+  transition:
+    opacity 160ms ease,
+    filter 160ms ease;
+}
+.bo-choice-card-dimmed:hover,
+.bo-choice-card-dimmed:focus-within {
+  opacity: 0.8;
+  filter: none;
+}
+.bo-choice-card-active {
+  border: 2px solid var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: 0 5px 16px rgba(23, 53, 68, 0.08);
+}
+.bo-choice-card-active .bo-story-advanced,
+.bo-choice-card-active .bo-nested {
+  background: var(--color-surface);
+}
+.bo-line-card-active,
+.bo-event-conditions[open] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: 0 5px 16px rgba(23, 53, 68, 0.08);
+}
+.bo-line-card-dimmed,
+.bo-condition-row-dimmed {
+  opacity: 0.52;
+  filter: saturate(0.55);
+  transition:
+    opacity 160ms ease,
+    filter 160ms ease;
+}
+.bo-line-card-dimmed:hover,
+.bo-line-card-dimmed:focus-within,
+.bo-condition-row-dimmed:hover,
+.bo-condition-row-dimmed:focus-within {
+  opacity: 0.8;
+  filter: none;
+}
+.bo-condition-row-active {
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
 .bo-choice-body,
 .bo-effect-body {
   border-top: 1px solid var(--color-line);

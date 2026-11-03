@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { V2Content, V2Event } from '../../content/v2/schema'
 import { v2IdSchema, v2StoryIdSchema } from '../../content/v2/schema'
 import { BoDropdown } from './Select'
@@ -37,18 +38,30 @@ export function V2ConditionList({
   eventIds,
   catalogs,
   onChange,
+  focusMode = false,
 }: {
   value: Condition[]
   eventIds: string[]
   catalogs: Catalogs
   onChange: (next: Condition[]) => void
+  focusMode?: boolean
 }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(0)
   const replace = (index: number, next: Condition) =>
     onChange(value.map((item, position) => (position === index ? next : item)))
   return (
     <div className="bo-stack">
       {value.map((condition, index) => (
-        <div className="bo-condition-row" key={index}>
+        <div
+          className={`bo-condition-row${
+            focusMode && value.length > 1 && activeIndex !== index
+              ? ' bo-condition-row-dimmed'
+              : ''
+          }${focusMode && activeIndex === index ? ' bo-condition-row-active' : ''}`}
+          key={index}
+          onFocusCapture={() => focusMode && setActiveIndex(index)}
+          onPointerDownCapture={() => focusMode && setActiveIndex(index)}
+        >
           <div className="bo-condition-sentence">
             <span className="muted">เมื่อ</span>
             <BoDropdown
@@ -275,9 +288,10 @@ export function V2ConditionList({
             type="button"
             className="bo-text-button bo-danger"
             aria-label={`ลบเงื่อนไข ${conditionSummary(condition)}`}
-            onClick={() =>
+            onClick={() => {
               onChange(value.filter((_, position) => position !== index))
-            }
+              if (focusMode) setActiveIndex(null)
+            }}
           >
             ลบ
           </button>
@@ -286,9 +300,10 @@ export function V2ConditionList({
       <button
         type="button"
         className="button button-secondary bo-add-at-end"
-        onClick={() =>
+        onClick={() => {
           onChange([...value, makeCondition('year', eventIds, catalogs)])
-        }
+          if (focusMode) setActiveIndex(value.length)
+        }}
       >
         + เพิ่มเงื่อนไข
       </button>
