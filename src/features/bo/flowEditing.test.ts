@@ -99,6 +99,13 @@ describe('BO flow board editing', () => {
     expect(laidOut.nodes.find((node) => node.id === childId)?.position).toEqual(
       { x: 380, y: -200 },
     )
+    const ungrouped = reparentFlowNode(reparented, childId)
+    expect(ungrouped.nodes.find((node) => node.id === childId)).toMatchObject({
+      position: { x: 480, y: 0 },
+    })
+    expect(
+      ungrouped.nodes.find((node) => node.id === childId),
+    ).not.toHaveProperty('parentId')
     const removed = removeFlowNodes(reparented, [group.id])
     expect(removed.nodes.find((node) => node.id === childId)).toMatchObject({
       position: { x: 480, y: 0 },

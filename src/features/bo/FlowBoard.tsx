@@ -494,7 +494,7 @@ function Board({
             type: 'card',
             position: node.position,
             parentId: node.parentId,
-            extent: node.parentId ? 'parent' : undefined,
+            // extent: node.parentId ? 'parent' : undefined,
             dragHandle: '.bo-drag-handle',
             deletable: node.type !== 'start',
             className:
@@ -1175,16 +1175,16 @@ function Board({
               }
               onNodeDragStop={(_, dragged) => {
                 const node = flow.nodes.find((item) => item.id === dragged.id)
-                if (!node || node.type === 'group' || node.parentId) return
+                if (!node || node.type === 'group') return
                 const group = getIntersectingNodes(dragged).find(
                   (candidate) => candidate.type === 'group',
                 )
-                if (group)
+                if (group?.id !== node.parentId)
                   change(
                     reparentFlowNode(
                       moveFlowNodes(flow, { [node.id]: dragged.position }),
                       node.id,
-                      group.id,
+                      group?.id,
                     ),
                   )
               }}

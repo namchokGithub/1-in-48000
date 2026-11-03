@@ -13,12 +13,12 @@
     {
       "id": "n_orientation",
       "position": {
-        "x": 394,
-        "y": 111
+        "x": 393,
+        "y": 106
       },
-      "parentId": "group",
       "type": "event",
-      "eventId": "orientation"
+      "eventId": "orientation",
+      "parentId": "group"
     },
     {
       "id": "n_first_class",
@@ -571,8 +571,8 @@
     {
       "id": "group",
       "position": {
-        "x": 306,
-        "y": -30
+        "x": 302,
+        "y": -40
       },
       "type": "group",
       "title": "กลุ่ม A",
