@@ -203,3 +203,11 @@ Cards are not constrained to a Sub Flow's visual boundary. Releasing a card outs
 ## 2026-11-03 — Independent BO themes
 
 BO offers five palettes, with Misty Mint as the default. Its selection persists separately from Player settings and is applied at the document root so portal menus and dialogs inherit it. Flow type and edge status colors remain independent of the theme primary color, with dark-mode variants where needed.
+
+## 2026-11-03 — BO Simulation beside the Story Flow board
+
+Trying an event in the BO opens Simulation, a panel beside the Story Flow board, instead of a modal dialog, so the author sees the path on the board while playing and can try another answer without closing anything. The Events tab and the event editor open the same Simulation in the Story Flow tab; the old preview dialog is removed. Simulation is held in BoApp, so it stays open while the author switches tabs to fix content.
+
+The session logic lives in `src/features/bo/simulation.ts`, separate from the panel. It keeps the save after each decision, so going back to a decision restores the exact save and RNG state from that point and the shared engine resolves the new answer. Choosing the same answer again therefore gives the same random results; "สุ่ม seed ใหม่" restarts with a new seed to see other outcomes. Restart keeps the current seed. The session plays a sandbox copy of the draft and never writes the player save or the draft.
+
+The session keeps the draft it started from. If the draft changes in a way the engine reads, the panel says so and offers a restart with the latest draft, instead of locking editing or restarting by itself. Moving, resizing, or recoloring cards, Sub Flows, and edge routes does not count as a change. The board highlights the path taken, marks the card being played, and pans to it; leaving Simulation clears the highlight.

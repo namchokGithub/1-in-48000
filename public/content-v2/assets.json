@@ -1,5 +1,10 @@
 [
   {
+    "id": "campus_gif",
+    "kind": "scene",
+    "path": "/assets/scene/scene.gif"
+  },
+  {
     "id": "campus_orientation",
     "kind": "scene",
     "path": "/assets/scene/campus-orientation.png"

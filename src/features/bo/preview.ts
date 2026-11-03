@@ -17,11 +17,12 @@ function previewNodeId(content: V2GameContent, eventId: string): string {
 export function createV2PreviewSave(
   content: V2GameContent,
   eventId: string,
+  seed = 1,
 ): V2PlayerSave {
   const event = content.events.find((entry) => entry.id === eventId)
   if (!event || event.active === false)
     throw new Error(`Unavailable event: ${eventId}`)
-  const save = createV2Game(content, 1)
+  const save = createV2Game(content, seed)
   const nodeId = previewNodeId(content, eventId)
   const conditions = [
     ...event.conditions,
@@ -57,7 +58,11 @@ export function createV2PreviewSave(
   }
 }
 
-export function createV2PreviewSession(content: V2Content, eventId: string) {
+export function createV2PreviewSession(
+  content: V2Content,
+  eventId: string,
+  seed = 1,
+) {
   const selected = content.events.find((event) => event.id === eventId)
   if (!selected) {
     throw new Error(`Unknown event: ${eventId}`)
@@ -86,6 +91,6 @@ export function createV2PreviewSession(content: V2Content, eventId: string) {
           ],
         },
   }
-  const save = createV2PreviewSave(sandbox, eventId)
+  const save = createV2PreviewSave(sandbox, eventId, seed)
   return { content: sandbox, save, placed, startNodeId: save.currentNodeId }
 }

@@ -93,7 +93,12 @@ export function describeFlowStep(
   }
 }
 
-export function tracedPath(steps: V2FlowStep[], startNodeId: string | null) {
+export type PreviewPath = { nodeIds: string[]; edgeIds: string[] }
+
+export function tracedPath(
+  steps: V2FlowStep[],
+  startNodeId: string | null,
+): PreviewPath {
   const nodeIds = new Set<string>(startNodeId ? [startNodeId] : [])
   const edgeIds = new Set<string>()
   for (const step of steps) {

@@ -635,6 +635,98 @@
   flex: 1;
   min-height: 28rem;
 }
+.bo-flow-board {
+  position: relative;
+  display: grid;
+  min-height: 28rem;
+}
+.bo-flow-stage[data-simulation='open'] {
+  gap: 0.75rem;
+}
+.bo-simulation-resize {
+  display: none;
+}
+@media (min-width: 900px) {
+  .bo-flow-stage[data-simulation='open'] {
+    gap: 0;
+    /* Drag keeps at least 20rem of board and 22rem of panel. */
+    grid-template-columns:
+      minmax(0, 1fr) 0.75rem
+      clamp(22rem, var(--bo-simulation-width, 50%), calc(100% - 20.75rem));
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .bo-simulation-resize {
+    position: relative;
+    display: block;
+    cursor: col-resize;
+    touch-action: none;
+  }
+  .bo-simulation-resize::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.25rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: var(--color-line);
+    content: '';
+    transform: translate(-50%, -50%);
+  }
+  .bo-simulation-resize:hover::after,
+  .bo-simulation-resize:focus-visible::after {
+    background: var(--color-primary);
+  }
+  .bo-simulation-resize:focus-visible {
+    outline: none;
+  }
+}
+.bo-simulation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  padding: 0.75rem;
+  background: var(--color-surface);
+}
+.bo-simulation-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.bo-simulation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-items: flex-start;
+}
+.bo-simulation-history ol {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.375rem;
+}
+.bo-simulation-history > ol > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--color-line);
+  padding-bottom: 0.5rem;
+}
+.bo-simulation-history > ol > li > div {
+  display: grid;
+}
+.bo-simulation-history .bo-trace {
+  grid-column: 1 / -1;
+  border-top: 0;
+  padding-top: 0;
+}
+.bo-simulation-scene {
+  min-width: 0;
+}
 .bo-flow-canvas {
   min-height: 0;
   border: 1px solid var(--color-line);
@@ -1330,6 +1422,11 @@ dialog {
 }
 .bo-flow-traced .bo-flow-card {
   box-shadow: 0 0 0 3px var(--color-accent);
+}
+.bo-flow-current .bo-flow-card {
+  box-shadow:
+    0 0 0 3px var(--color-accent),
+    0 0 0 7px color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
 .bo-flow-edge-traced .react-flow__edge-path {
   stroke: var(--color-accent);

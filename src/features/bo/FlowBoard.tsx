@@ -83,7 +83,8 @@ import {
   type CardMeasure,
   type LayoutDirection,
 } from './elkLayout'
-import type { PreviewPath } from './PreviewDialog'
+import { SimulationPanel } from './SimulationPanel'
+import { simulationPath, simulationSave, type Simulation } from './simulation'
 import type { FlowBackground } from '../../save/boThemeSettings'
 import { periodLabels } from './periodLabels'
 
@@ -393,9 +394,10 @@ type BoardProps = {
   onSelectEvent: (eventId: string | null) => void
   onEditEvent: (eventId: string) => void
   onCreateEvent: (position: V2FlowNode['position']) => void
+  /** Starts a simulation from this event. */
   onPreview: (eventId: string) => void
-  highlight: PreviewPath | null
-  onClearHighlight: () => void
+  simulation: Simulation | null
+  onSimulationChange: (simulation: Simulation | null) => void
 }
 
 export function FlowBoard(props: BoardProps) {
@@ -415,13 +417,29 @@ function Board({
   onEditEvent,
   onCreateEvent,
   onPreview,
-  highlight,
-  onClearHighlight,
+  simulation,
+  onSimulationChange,
 }: BoardProps) {
   const flow = content.flow
+  const highlight = useMemo(
+    () => (simulation ? simulationPath(simulation) : null),
+    [simulation],
+  )
+  const currentNodeId = simulation
+    ? simulationSave(simulation).currentNodeId
+    : null
   const boardRef = useRef<HTMLDivElement>(null)
-  const { screenToFlowPosition, fitView, getIntersectingNodes, setCenter } =
-    useReactFlow<BoardNode, FlowLine>()
+  const stageRef = useRef<HTMLDivElement>(null)
+  // Simulation panel width in px; null keeps the default half of the stage.
+  const [simulationWidth, setSimulationWidth] = useState<number | null>(null)
+  const {
+    screenToFlowPosition,
+    fitView,
+    getIntersectingNodes,
+    setCenter,
+    getInternalNode,
+    getZoom,
+  } = useReactFlow<BoardNode, FlowLine>()
   // The board opens on the start of the story at a readable zoom: the Start
   // card and the cards up to four steps after it.
   const [openingNodes] = useState(() => {
@@ -536,6 +554,7 @@ function Board({
             className:
               [
                 highlight?.nodeIds.includes(node.id) ? 'bo-flow-traced' : '',
+                node.id === currentNodeId ? 'bo-flow-current' : '',
                 focusView && !focusView.nodeIds.includes(node.id)
                   ? 'bo-flow-dimmed'
                   : '',
@@ -558,7 +577,15 @@ function Board({
             },
           }
         }),
-    [flow.nodes, content, issues, highlight, focusView, updateNode],
+    [
+      flow.nodes,
+      content,
+      issues,
+      highlight,
+      currentNodeId,
+      focusView,
+      updateNode,
+    ],
   )
   const [nodes, setNodes] = useState<BoardNode[]>(cards)
   const [shownCards, setShownCards] = useState(cards)
@@ -722,6 +749,18 @@ function Board({
       },
     )
   }
+
+  // Follow the simulation: keep the card being played in view.
+  useEffect(() => {
+    const node = currentNodeId ? getInternalNode(currentNodeId) : undefined
+    if (!node) return
+    const { x, y } = node.internals.positionAbsolute
+    setCenter(
+      x + (node.measured.width ?? 0) / 2,
+      y + (node.measured.height ?? 0) / 2,
+      { zoom: Math.max(getZoom(), 0.6), duration: 300 },
+    )
+  }, [currentNodeId, getInternalNode, getZoom, setCenter])
 
   async function autoLayout(direction: LayoutDirection) {
     // Measure cards at full detail: far zoom hides parts of each card, and a
@@ -1123,15 +1162,6 @@ function Board({
             )}
           </div>
           <span className="bo-flow-actions-gap" />
-          {highlight && (
-            <button
-              type="button"
-              className="button button-secondary"
-              onClick={onClearHighlight}
-            >
-              ล้างไฮไลต์เส้นทาง
-            </button>
-          )}
           <div className="bo-flow-group" role="group" aria-label="มุมมอง">
             <BoDropdown
               label="ระยะโฟกัส"
@@ -1216,296 +1246,366 @@ function Board({
             )}
           </ul>
         )}
-        <div className="bo-flow-stage">
-          <div
-            ref={boardRef}
-            className="bo-flow-canvas"
-            data-zoom={zoomedOut ? 'far' : undefined}
-            onDragOver={(event) => {
-              if (event.dataTransfer.types.includes(EVENT_DRAG_TYPE)) {
-                event.preventDefault()
-                event.dataTransfer.dropEffect = 'copy'
-              }
-            }}
-            onDrop={onDrop}
-          >
-            <ReactFlow<BoardNode, FlowLine>
-              nodes={nodes}
-              edges={edges}
-              nodeTypes={nodeTypes}
-              edgeTypes={edgeTypes}
-              onNodesChange={onNodesChange}
-              snapToGrid
-              snapGrid={[FLOW_GRID, FLOW_GRID]}
-              onConnect={onConnect}
-              onReconnectStart={(_, edge) => {
-                reconnectingEdgeId.current = edge.id
-                reconnectSucceeded.current = false
+        <div
+          ref={stageRef}
+          className="bo-flow-stage"
+          data-simulation={simulation ? 'open' : undefined}
+          style={
+            simulationWidth === null
+              ? undefined
+              : ({
+                  '--bo-simulation-width': `${simulationWidth}px`,
+                } as CSSProperties)
+          }
+        >
+          <div className="bo-flow-board">
+            <div
+              ref={boardRef}
+              className="bo-flow-canvas"
+              data-zoom={zoomedOut ? 'far' : undefined}
+              onDragOver={(event) => {
+                if (event.dataTransfer.types.includes(EVENT_DRAG_TYPE)) {
+                  event.preventDefault()
+                  event.dataTransfer.dropEffect = 'copy'
+                }
               }}
-              onReconnect={(edge, connection) => {
-                reconnectSucceeded.current = true
-                if (!connection.sourceHandle) return
-                const next = reconnectEdge(
-                  flow,
-                  edge.id,
-                  connection.source,
-                  portFromHandle(connection.sourceHandle),
-                  connection.target,
-                )
-                if (next === flow) toast.error('ต่อเส้นไปที่นั่นไม่ได้')
-                else change(next)
-              }}
-              onReconnectEnd={(_, edge) => {
-                const next = finishReconnectEdge(
-                  flow,
-                  reconnectingEdgeId.current ?? edge.id,
-                  reconnectSucceeded.current,
-                )
-                reconnectingEdgeId.current = null
-                if (next !== flow) change(next)
-              }}
-              onNodesDelete={(deleted) =>
-                change(
-                  removeFlowNodes(
+              onDrop={onDrop}
+            >
+              <ReactFlow<BoardNode, FlowLine>
+                nodes={nodes}
+                edges={edges}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                onNodesChange={onNodesChange}
+                snapToGrid
+                snapGrid={[FLOW_GRID, FLOW_GRID]}
+                onConnect={onConnect}
+                onReconnectStart={(_, edge) => {
+                  reconnectingEdgeId.current = edge.id
+                  reconnectSucceeded.current = false
+                }}
+                onReconnect={(edge, connection) => {
+                  reconnectSucceeded.current = true
+                  if (!connection.sourceHandle) return
+                  const next = reconnectEdge(
                     flow,
-                    deleted.map((node) => node.id),
-                  ),
-                )
-              }
-              onNodeDragStop={(_, dragged) => {
-                const node = flow.nodes.find((item) => item.id === dragged.id)
-                if (!node || node.type === 'group') return
-                const group = getIntersectingNodes(dragged).find(
-                  (candidate) => candidate.type === 'group',
-                )
-                if (group?.id !== node.parentId)
+                    edge.id,
+                    connection.source,
+                    portFromHandle(connection.sourceHandle),
+                    connection.target,
+                  )
+                  if (next === flow) toast.error('ต่อเส้นไปที่นั่นไม่ได้')
+                  else change(next)
+                }}
+                onReconnectEnd={(_, edge) => {
+                  const next = finishReconnectEdge(
+                    flow,
+                    reconnectingEdgeId.current ?? edge.id,
+                    reconnectSucceeded.current,
+                  )
+                  reconnectingEdgeId.current = null
+                  if (next !== flow) change(next)
+                }}
+                onNodesDelete={(deleted) =>
                   change(
-                    reparentFlowNode(
-                      moveFlowNodes(flow, { [node.id]: dragged.position }),
-                      node.id,
-                      group?.id,
+                    removeFlowNodes(
+                      flow,
+                      deleted.map((node) => node.id),
+                    ),
+                  )
+                }
+                onNodeDragStop={(_, dragged) => {
+                  const node = flow.nodes.find((item) => item.id === dragged.id)
+                  if (!node || node.type === 'group') return
+                  const group = getIntersectingNodes(dragged).find(
+                    (candidate) => candidate.type === 'group',
+                  )
+                  if (group?.id !== node.parentId)
+                    change(
+                      reparentFlowNode(
+                        moveFlowNodes(flow, { [node.id]: dragged.position }),
+                        node.id,
+                        group?.id,
+                      ),
+                    )
+                }}
+                onEdgesDelete={(deleted) =>
+                  change(
+                    removeFlowEdges(
+                      flow,
+                      deleted.map((edge) => edge.id),
+                    ),
+                  )
+                }
+                onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
+                onNodeContextMenu={(event, node) => {
+                  if (event.shiftKey) return
+                  event.preventDefault()
+                  select({ kind: 'node', id: node.id })
+                  setContextMenu({
+                    kind: 'node',
+                    id: node.id,
+                    ...menuPosition(event),
+                  })
+                }}
+                onNodeDoubleClick={(_, node) => {
+                  if (node.data.node.type === 'event')
+                    onEditEvent(node.data.node.eventId)
+                }}
+                zoomOnDoubleClick={false}
+                onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
+                onEdgeContextMenu={(event, edge) => {
+                  if (event.shiftKey) return
+                  event.preventDefault()
+                  select({ kind: 'edge', id: edge.id })
+                  setContextMenu({
+                    kind: 'edge',
+                    id: edge.id,
+                    ...menuPosition(event),
+                  })
+                }}
+                onEdgeMouseEnter={(_, edge) => setHoveredEdge(edge.id)}
+                onEdgeMouseLeave={() => setHoveredEdge(null)}
+                onPaneClick={() => {
+                  setContextMenu(null)
+                  select(null)
+                }}
+                onPaneContextMenu={(event) => {
+                  if (event.shiftKey) return
+                  event.preventDefault()
+                  const client =
+                    'nativeEvent' in event ? event.nativeEvent : event
+                  setContextMenu({
+                    kind: 'pane',
+                    ...menuPosition(client),
+                    position: screenToFlowPosition({
+                      x: client.clientX,
+                      y: client.clientY,
+                    }),
+                  })
+                }}
+                selectionOnDrag={true}
+                selectionMode={SelectionMode.Partial}
+                panOnDrag={[1, 2]}
+                panOnScroll={true}
+                multiSelectionKeyCode={['Meta', 'Control']}
+                deleteKeyCode={['Backspace', 'Delete']}
+                minZoom={0.15}
+                fitView
+                fitViewOptions={{
+                  nodes: openingNodes,
+                  maxZoom: 1,
+                  padding: 0.2,
+                }}
+              >
+                <Background
+                  color="var(--bo-flow-grid)"
+                  gap={FLOW_GRID}
+                  variant={
+                    {
+                      dots: BackgroundVariant.Dots,
+                      cross: BackgroundVariant.Cross,
+                      lines: BackgroundVariant.Lines,
+                    }[background]
+                  }
+                />
+                <Controls />
+                {!selectedNode && !selectedEdge && (
+                  <MiniMap pannable zoomable />
+                )}
+                <Panel position="bottom-center">
+                  <details className="bo-flow-legend-toggle">
+                    <summary>คำอธิบายสัญลักษณ์</summary>
+                    <div className="bo-flow-legend">
+                      {Object.entries(eventKindLabels).map(([kind, label]) => (
+                        <span key={kind} data-kind={kind}>
+                          {label}
+                        </span>
+                      ))}
+                      <span className="bo-flow-legend-sep" aria-hidden="true" />
+                      <span data-edge="conditional">มีเงื่อนไข</span>
+                      {Object.entries(edgeStyleLabels).map(([style, label]) => (
+                        <span key={style} data-edge={style}>
+                          {label}
+                        </span>
+                      ))}
+                    </div>
+                  </details>
+                </Panel>
+                {!selectedNode && !selectedEdge && (
+                  <Panel position="top-left" className="bo-flow-hint">
+                    เลือกการ์ดหรือเส้นเพื่อแก้
+                    ลากจากจุดขวาของตัวเลือกไปยังการ์ดถัดไปเพื่อเชื่อมเส้น ·
+                    คีย์ลัด / ค้นหา · F พอดีจอ · Esc ยกเลิกการเลือก
+                  </Panel>
+                )}
+              </ReactFlow>
+            </div>
+            {(selectedNode || selectedEdge) && (
+              <aside className="bo-flow-drawer" aria-label="รายละเอียดที่เลือก">
+                <button
+                  type="button"
+                  className="bo-text-button bo-flow-drawer-close"
+                  onClick={() => select(null)}
+                >
+                  ปิด ✕
+                </button>
+                {selectedNode ? (
+                  <NodeDetail
+                    node={selectedNode}
+                    content={content}
+                    pools={pools}
+                    eventIds={eventIds}
+                    groups={flow.nodes.filter(
+                      (item): item is Extract<V2FlowNode, { type: 'group' }> =>
+                        item.type === 'group',
+                    )}
+                    issues={issues.get(selectedNode.id)}
+                    onChange={updateNode}
+                    onReparent={(parentId) =>
+                      change(reparentFlowNode(flow, selectedNode.id, parentId))
+                    }
+                    onRemove={() => {
+                      change(removeFlowNodes(flow, [selectedNode.id]))
+                      select(null)
+                    }}
+                    onEditEvent={onEditEvent}
+                    onPreview={onPreview}
+                  />
+                ) : selectedEdge ? (
+                  <div className="bo-stack">
+                    <p className="eyebrow">เส้นเชื่อม</p>
+                    <h2 className="text-lg font-extrabold">
+                      {cardTitle(
+                        flow.nodes.find(
+                          (node) => node.id === selectedEdge.from,
+                        )!,
+                        content,
+                      )}{' '}
+                      →{' '}
+                      {cardTitle(
+                        flow.nodes.find((node) => node.id === selectedEdge.to)!,
+                        content,
+                      )}
+                    </h2>
+                    <p className="muted text-sm">
+                      ทาง:{' '}
+                      {flowPorts(
+                        flow.nodes.find(
+                          (node) => node.id === selectedEdge.from,
+                        )!,
+                        content.events,
+                      ).find((port) => port.id === selectedEdge.port)?.label ??
+                        selectedEdge.port}
+                    </p>
+                    <section className="bo-editor-section">
+                      <h3>เงื่อนไขบนเส้น (ไม่เกิน 1 ข้อ)</h3>
+                      <V2ConditionList
+                        value={
+                          selectedEdge.condition ? [selectedEdge.condition] : []
+                        }
+                        eventIds={eventIds}
+                        catalogs={content}
+                        onChange={(conditions) =>
+                          change({
+                            ...flow,
+                            edges: flow.edges.map((edge) => {
+                              if (edge.id !== selectedEdge.id) return edge
+                              const { condition: _removed, ...rest } = edge
+                              void _removed
+                              const condition = conditions.at(-1)
+                              return condition ? { ...rest, condition } : rest
+                            }),
+                          })
+                        }
+                      />
+                    </section>
+                    <p className="muted text-xs">
+                      เส้นจากทางเดียวกันตรวจตามลำดับ
+                      เส้นแรกที่เงื่อนไขผ่านจะถูกใช้
+                      เส้นที่ไม่มีเงื่อนไขทำหน้าที่เป็นทางสำรอง
+                    </p>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        className="button button-secondary"
+                        onClick={() =>
+                          change(moveEdgeOrder(flow, selectedEdge.id, -1))
+                        }
+                      >
+                        ↑ ตรวจก่อน
+                      </button>
+                      <button
+                        type="button"
+                        className="button button-secondary"
+                        onClick={() =>
+                          change(moveEdgeOrder(flow, selectedEdge.id, 1))
+                        }
+                      >
+                        ↓ ตรวจทีหลัง
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      className="button button-danger"
+                      onClick={() => {
+                        change(removeFlowEdges(flow, [selectedEdge.id]))
+                        select(null)
+                      }}
+                    >
+                      ลบเส้น
+                    </button>
+                  </div>
+                ) : null}
+              </aside>
+            )}
+          </div>
+          {simulation && (
+            <div
+              className="bo-simulation-resize"
+              role="separator"
+              aria-orientation="vertical"
+              aria-label="ปรับความกว้างแผง Simulation"
+              title="ลากเพื่อปรับความกว้าง · ดับเบิลคลิกเพื่อกลับไปครึ่งจอ"
+              tabIndex={0}
+              onPointerDown={(event) => {
+                event.preventDefault()
+                event.currentTarget.setPointerCapture(event.pointerId)
+              }}
+              onPointerMove={(event) => {
+                if (!event.currentTarget.hasPointerCapture(event.pointerId))
+                  return
+                const stage = stageRef.current?.getBoundingClientRect()
+                if (stage)
+                  setSimulationWidth(
+                    Math.round(
+                      stage.right -
+                        event.clientX -
+                        event.currentTarget.offsetWidth / 2,
                     ),
                   )
               }}
-              onEdgesDelete={(deleted) =>
-                change(
-                  removeFlowEdges(
-                    flow,
-                    deleted.map((edge) => edge.id),
-                  ),
+              onDoubleClick={() => setSimulationWidth(null)}
+              onKeyDown={(event) => {
+                if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')
+                  return
+                event.preventDefault()
+                const panel = event.currentTarget
+                  .nextElementSibling as HTMLElement | null
+                const width = panel?.offsetWidth ?? 0
+                setSimulationWidth(
+                  width + (event.key === 'ArrowLeft' ? FLOW_GRID : -FLOW_GRID),
                 )
-              }
-              onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
-              onNodeContextMenu={(event, node) => {
-                if (event.shiftKey) return
-                event.preventDefault()
-                select({ kind: 'node', id: node.id })
-                setContextMenu({
-                  kind: 'node',
-                  id: node.id,
-                  ...menuPosition(event),
-                })
               }}
-              onNodeDoubleClick={(_, node) => {
-                if (node.data.node.type === 'event')
-                  onEditEvent(node.data.node.eventId)
-              }}
-              zoomOnDoubleClick={false}
-              onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
-              onEdgeContextMenu={(event, edge) => {
-                if (event.shiftKey) return
-                event.preventDefault()
-                select({ kind: 'edge', id: edge.id })
-                setContextMenu({
-                  kind: 'edge',
-                  id: edge.id,
-                  ...menuPosition(event),
-                })
-              }}
-              onEdgeMouseEnter={(_, edge) => setHoveredEdge(edge.id)}
-              onEdgeMouseLeave={() => setHoveredEdge(null)}
-              onPaneClick={() => {
-                setContextMenu(null)
-                select(null)
-              }}
-              onPaneContextMenu={(event) => {
-                if (event.shiftKey) return
-                event.preventDefault()
-                const client =
-                  'nativeEvent' in event ? event.nativeEvent : event
-                setContextMenu({
-                  kind: 'pane',
-                  ...menuPosition(client),
-                  position: screenToFlowPosition({
-                    x: client.clientX,
-                    y: client.clientY,
-                  }),
-                })
-              }}
-              selectionOnDrag={true}
-              selectionMode={SelectionMode.Partial}
-              panOnDrag={[1, 2]}
-              panOnScroll={true}
-              multiSelectionKeyCode={['Meta', 'Control']}
-              deleteKeyCode={['Backspace', 'Delete']}
-              minZoom={0.15}
-              fitView
-              fitViewOptions={{ nodes: openingNodes, maxZoom: 1, padding: 0.2 }}
-            >
-              <Background
-                color="var(--bo-flow-grid)"
-                gap={FLOW_GRID}
-                variant={
-                  {
-                    dots: BackgroundVariant.Dots,
-                    cross: BackgroundVariant.Cross,
-                    lines: BackgroundVariant.Lines,
-                  }[background]
-                }
-              />
-              <Controls />
-              {!selectedNode && !selectedEdge && <MiniMap pannable zoomable />}
-              <Panel position="bottom-center">
-                <details className="bo-flow-legend-toggle">
-                  <summary>คำอธิบายสัญลักษณ์</summary>
-                  <div className="bo-flow-legend">
-                    {Object.entries(eventKindLabels).map(([kind, label]) => (
-                      <span key={kind} data-kind={kind}>
-                        {label}
-                      </span>
-                    ))}
-                    <span className="bo-flow-legend-sep" aria-hidden="true" />
-                    <span data-edge="conditional">มีเงื่อนไข</span>
-                    {Object.entries(edgeStyleLabels).map(([style, label]) => (
-                      <span key={style} data-edge={style}>
-                        {label}
-                      </span>
-                    ))}
-                  </div>
-                </details>
-              </Panel>
-              {!selectedNode && !selectedEdge && (
-                <Panel position="top-left" className="bo-flow-hint">
-                  เลือกการ์ดหรือเส้นเพื่อแก้
-                  ลากจากจุดขวาของตัวเลือกไปยังการ์ดถัดไปเพื่อเชื่อมเส้น ·
-                  คีย์ลัด / ค้นหา · F พอดีจอ · Esc ยกเลิกการเลือก
-                </Panel>
-              )}
-            </ReactFlow>
-          </div>
-          {(selectedNode || selectedEdge) && (
-            <aside className="bo-flow-drawer" aria-label="รายละเอียดที่เลือก">
-              <button
-                type="button"
-                className="bo-text-button bo-flow-drawer-close"
-                onClick={() => select(null)}
-              >
-                ปิด ✕
-              </button>
-              {selectedNode ? (
-                <NodeDetail
-                  node={selectedNode}
-                  content={content}
-                  pools={pools}
-                  eventIds={eventIds}
-                  groups={flow.nodes.filter(
-                    (item): item is Extract<V2FlowNode, { type: 'group' }> =>
-                      item.type === 'group',
-                  )}
-                  issues={issues.get(selectedNode.id)}
-                  onChange={updateNode}
-                  onReparent={(parentId) =>
-                    change(reparentFlowNode(flow, selectedNode.id, parentId))
-                  }
-                  onRemove={() => {
-                    change(removeFlowNodes(flow, [selectedNode.id]))
-                    select(null)
-                  }}
-                  onEditEvent={onEditEvent}
-                  onPreview={onPreview}
-                />
-              ) : selectedEdge ? (
-                <div className="bo-stack">
-                  <p className="eyebrow">เส้นเชื่อม</p>
-                  <h2 className="text-lg font-extrabold">
-                    {cardTitle(
-                      flow.nodes.find((node) => node.id === selectedEdge.from)!,
-                      content,
-                    )}{' '}
-                    →{' '}
-                    {cardTitle(
-                      flow.nodes.find((node) => node.id === selectedEdge.to)!,
-                      content,
-                    )}
-                  </h2>
-                  <p className="muted text-sm">
-                    ทาง:{' '}
-                    {flowPorts(
-                      flow.nodes.find((node) => node.id === selectedEdge.from)!,
-                      content.events,
-                    ).find((port) => port.id === selectedEdge.port)?.label ??
-                      selectedEdge.port}
-                  </p>
-                  <section className="bo-editor-section">
-                    <h3>เงื่อนไขบนเส้น (ไม่เกิน 1 ข้อ)</h3>
-                    <V2ConditionList
-                      value={
-                        selectedEdge.condition ? [selectedEdge.condition] : []
-                      }
-                      eventIds={eventIds}
-                      catalogs={content}
-                      onChange={(conditions) =>
-                        change({
-                          ...flow,
-                          edges: flow.edges.map((edge) => {
-                            if (edge.id !== selectedEdge.id) return edge
-                            const { condition: _removed, ...rest } = edge
-                            void _removed
-                            const condition = conditions.at(-1)
-                            return condition ? { ...rest, condition } : rest
-                          }),
-                        })
-                      }
-                    />
-                  </section>
-                  <p className="muted text-xs">
-                    เส้นจากทางเดียวกันตรวจตามลำดับ
-                    เส้นแรกที่เงื่อนไขผ่านจะถูกใช้
-                    เส้นที่ไม่มีเงื่อนไขทำหน้าที่เป็นทางสำรอง
-                  </p>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      className="button button-secondary"
-                      onClick={() =>
-                        change(moveEdgeOrder(flow, selectedEdge.id, -1))
-                      }
-                    >
-                      ↑ ตรวจก่อน
-                    </button>
-                    <button
-                      type="button"
-                      className="button button-secondary"
-                      onClick={() =>
-                        change(moveEdgeOrder(flow, selectedEdge.id, 1))
-                      }
-                    >
-                      ↓ ตรวจทีหลัง
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    className="button button-danger"
-                    onClick={() => {
-                      change(removeFlowEdges(flow, [selectedEdge.id]))
-                      select(null)
-                    }}
-                  >
-                    ลบเส้น
-                  </button>
-                </div>
-              ) : null}
-            </aside>
+            />
+          )}
+          {simulation && (
+            <SimulationPanel
+              simulation={simulation}
+              draft={content}
+              onChange={onSimulationChange}
+              onExit={() => onSimulationChange(null)}
+            />
           )}
         </div>
       </section>

@@ -17,7 +17,7 @@ import {
 } from '../../content/v2/schema'
 import { V2EndingEditor } from './V2EndingEditor'
 import { V2EventEditor } from './V2EventEditor'
-import { PreviewDialog, type PreviewPath } from './PreviewDialog'
+import { startSimulation, type Simulation } from './simulation'
 import { FlowBoard } from './FlowBoard'
 import { EventEditorDialog } from './EventEditorDialog'
 import { ConfirmationDialog } from './ConfirmationDialog'
@@ -146,7 +146,7 @@ export function BoApp() {
   const [section, setSection] = useState<Section>(sectionFromUrl)
   const [flowEventId, setFlowEventId] = useState<string | null>(null)
   const [editEventId, setEditEventId] = useState<string | null>(null)
-  const [previewPath, setPreviewPath] = useState<PreviewPath | null>(null)
+  const [simulation, setSimulation] = useState<Simulation | null>(null)
   const [eventQuery, setEventQuery] = useState('')
   const [endingQuery, setEndingQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
@@ -166,7 +166,6 @@ export function BoApp() {
     confirmLabel: string
     action: () => void
   } | null>(null)
-  const [previewEventId, setPreviewEventId] = useState<string | null>(null)
   const [themeMenuOpen, setThemeMenuOpen] = useState(false)
   const themeMenuRef = useRef<HTMLDivElement>(null)
   const themeTriggerRef = useRef<HTMLButtonElement>(null)
@@ -331,6 +330,18 @@ export function BoApp() {
   }
 
   const currentDraft = draft
+
+  /** Opens Simulation beside the Story Flow board, from this event. */
+  function simulate(eventId: string) {
+    const next = startSimulation(currentDraft, eventId)
+    if (typeof next === 'string') {
+      toast.error('ทดลองไม่ได้', { description: next })
+      return
+    }
+    setSimulation(next)
+    setEditEventId(null)
+    if (section !== 'flow') selectSection('flow')
+  }
 
   const checked = v2ContentSchema.safeParse(draft)
   const issues: ValidationIssue[] = checked.success
@@ -881,8 +892,8 @@ export function BoApp() {
                 }
                 onClick={() =>
                   section === 'flow'
-                    ? flowEventId && setPreviewEventId(flowEventId)
-                    : event && setPreviewEventId(event.id)
+                    ? flowEventId && simulate(flowEventId)
+                    : event && simulate(event.id)
                 }
               >
                 ทดลองเหตุการณ์
@@ -1034,9 +1045,9 @@ export function BoApp() {
             onSelectEvent={setFlowEventId}
             onEditEvent={setEditEventId}
             onCreateEvent={addEventToFlow}
-            onPreview={setPreviewEventId}
-            highlight={previewPath}
-            onClearHighlight={() => setPreviewPath(null)}
+            onPreview={simulate}
+            simulation={simulation}
+            onSimulationChange={setSimulation}
           />
         ) : (
           <div className="bo-layout mt-3">
@@ -1232,20 +1243,11 @@ export function BoApp() {
                 onDelete={() =>
                   confirmDeleteEvent(editing, () => setEditEventId(null))
                 }
-                onPreview={() => setPreviewEventId(editing.id)}
+                onPreview={() => simulate(editing.id)}
                 onClose={() => setEditEventId(null)}
               />
             )
           })()}
-        {previewEventId && (
-          <PreviewDialog
-            key={previewEventId}
-            content={draft}
-            eventId={previewEventId}
-            onClose={() => setPreviewEventId(null)}
-            onTrace={setPreviewPath}
-          />
-        )}
         {confirmation && (
           <ConfirmationDialog
             title={confirmation.title}
