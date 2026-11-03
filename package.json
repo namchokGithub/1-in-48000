@@ -8,7 +8,8 @@
     "dev": "BROWSER=\"Google Chrome\" vite --open",
     "build": "tsc -b && vite build",
     "test": "vitest run --passWithNoTests",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "generate:flow": "node scripts/generate-flow-summary.mjs"
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.4.1",
