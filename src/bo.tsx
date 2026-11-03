@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BoApp } from './features/bo/BoApp'
 import './shared/styles.css'
 import './features/player/player.css'
+import './features/bo/colors.css'
 import './features/bo/styles.css'
 
 createRoot(document.getElementById('root')!).render(

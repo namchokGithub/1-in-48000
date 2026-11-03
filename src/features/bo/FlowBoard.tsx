@@ -132,13 +132,13 @@ const edgeStyleLabels: Record<Exclude<FlowEdgeStyle, 'normal'>, string> = {
   key: 'ผลการเรียน / ตอนจบ',
 }
 const edgeColors: Record<FlowEdgeStyle | 'traced' | 'focus', string> = {
-  normal: '#b1b1b7',
-  fallback: '#b1b1b7',
-  pass: '#3d8b3d',
-  fail: '#5f6b73',
-  key: '#173544',
-  traced: '#e8a36b',
-  focus: '#087f79',
+  normal: 'var(--bo-edge-normal)',
+  fallback: 'var(--bo-edge-normal)',
+  pass: 'var(--bo-edge-pass)',
+  fail: 'var(--bo-edge-fail)',
+  key: 'var(--color-ink)',
+  traced: 'var(--color-accent)',
+  focus: 'var(--color-primary)',
 }
 const typeLabels: Record<V2FlowNode['type'], string> = {
   start: 'Start',
@@ -150,16 +150,16 @@ const typeLabels: Record<V2FlowNode['type'], string> = {
   group: 'Sub Flow',
 }
 const groupColorOptions = [
-  { id: 'gray', label: 'เทา', value: '#6b7280' },
-  { id: 'red', label: 'แดง', value: '#ef4444' },
-  { id: 'orange', label: 'ส้ม', value: '#f97316' },
-  { id: 'yellow', label: 'เหลือง', value: '#f59e0b' },
-  { id: 'green', label: 'เขียว', value: '#22a06b' },
-  { id: 'teal', label: 'ทีล', value: '#14b8a6' },
-  { id: 'blue', label: 'น้ำเงิน', value: '#3b82f6' },
-  { id: 'indigo', label: 'คราม', value: '#6366f1' },
-  { id: 'purple', label: 'ม่วง', value: '#a855f7' },
-  { id: 'pink', label: 'ชมพู', value: '#ec4899' },
+  { id: 'gray', label: 'เทา', value: 'var(--bo-group-gray)' },
+  { id: 'red', label: 'แดง', value: 'var(--bo-group-red)' },
+  { id: 'orange', label: 'ส้ม', value: 'var(--bo-group-orange)' },
+  { id: 'yellow', label: 'เหลือง', value: 'var(--bo-group-yellow)' },
+  { id: 'green', label: 'เขียว', value: 'var(--bo-group-green)' },
+  { id: 'teal', label: 'ทีล', value: 'var(--bo-group-teal)' },
+  { id: 'blue', label: 'น้ำเงิน', value: 'var(--bo-group-blue)' },
+  { id: 'indigo', label: 'คราม', value: 'var(--bo-group-indigo)' },
+  { id: 'purple', label: 'ม่วง', value: 'var(--bo-group-purple)' },
+  { id: 'pink', label: 'ชมพู', value: 'var(--bo-group-pink)' },
 ] as const satisfies readonly {
   id: Extract<V2FlowNode, { type: 'group' }>['color']
   label: string
@@ -282,7 +282,7 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
 function FlowGroup({ data, selected }: NodeProps<Group>) {
   const color =
     groupColorOptions.find((option) => option.id === data.node.color)?.value ??
-    '#22a06b'
+    'var(--bo-group-green)'
   return (
     <div
       className="bo-flow-subflow bo-drag-handle"
