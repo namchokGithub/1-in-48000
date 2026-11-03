@@ -6,7 +6,7 @@ import {
   v2FlowEdgeSchema,
   type V2Flow,
 } from '../../content/v2/schema'
-import { applyElkLayout, elkGraph, elkLayoutFlow } from './elkLayout'
+import { applyElkLayout, elkGraph, elkLayoutFlow, FLOW_GRID } from './elkLayout'
 import { addFlowNode, flowPorts, reparentFlowNode } from './flowEditing'
 
 const content = v2ContentSchema.parse({ ...sample, names, flow: sampleFlow })
@@ -125,6 +125,16 @@ describe('BO flow board ELK layout', () => {
             `${a.id} overlaps ${b.id}`,
           ).toBe(false)
 
+      for (const node of laid.nodes) {
+        expect(node.position.x % FLOW_GRID, node.id).toBe(0)
+        expect(node.position.y % FLOW_GRID, node.id).toBe(0)
+        // An empty Sub Flow keeps the size the author gave it.
+        if (node.type === 'group' && node.id !== 'group_2') {
+          expect(node.width % FLOW_GRID, node.id).toBe(0)
+          expect(node.height % FLOW_GRID, node.id).toBe(0)
+        }
+      }
+
       const group = laid.nodes.find((node) => node.id === 'group')!
       expect(group.type === 'group' && group.width).toBeGreaterThan(240)
       for (const child of laid.nodes.filter((node) => node.parentId)) {
@@ -166,6 +176,78 @@ describe('BO flow board ELK layout', () => {
       ).toEqual(laid)
     },
   )
+
+  it('moves route ends with their snapped cards and keeps every segment straight', () => {
+    const two = {
+      nodes: [
+        { id: 'start', type: 'start' as const, position: { x: 0, y: 0 } },
+        { id: 'next', type: 'nextPeriod' as const, position: { x: 0, y: 0 } },
+      ],
+      edges: [{ id: 'e', from: 'start', port: 'next', to: 'next' }],
+    }
+    const laidOut = (
+      bendPoints: { x: number; y: number }[],
+      endY: number,
+      nextY = endY - 60,
+      nextHeight = 120,
+    ) =>
+      applyElkLayout(two, {
+        id: '#root',
+        children: [
+          { id: 'start', x: 10, y: 5, width: 240, height: 120 },
+          { id: 'next', x: 340, y: nextY, width: 240, height: nextHeight },
+        ],
+        edges: [
+          {
+            id: 'e',
+            sources: ['start::next'],
+            targets: ['next::#in'],
+            sections: [
+              {
+                id: 's',
+                startPoint: { x: 250, y: 65 },
+                endPoint: { x: 340, y: endY },
+                bendPoints,
+              },
+            ],
+          },
+        ],
+      })
+
+    const straight = laidOut([], 65)
+    expect(straight.nodes.map((node) => node.position)).toEqual([
+      { x: 0, y: 0 },
+      { x: 336, y: 0 },
+    ])
+    expect(straight.edges[0].route).toEqual([
+      { x: 240, y: 60 },
+      { x: 336, y: 60 },
+    ])
+
+    const stepped = laidOut([], 65, 15, 100)
+    expect(stepped.nodes[1].position).toEqual({ x: 336, y: 24 })
+    expect(stepped.edges[0].route).toEqual([
+      { x: 240, y: 60 },
+      { x: 288, y: 60 },
+      { x: 288, y: 74 },
+      { x: 336, y: 74 },
+    ])
+
+    const bent = laidOut(
+      [
+        { x: 300, y: 65 },
+        { x: 300, y: 200 },
+      ],
+      200,
+    )
+    expect(bent.nodes[1].position).toEqual({ x: 336, y: 144 })
+    expect(bent.edges[0].route).toEqual([
+      { x: 240, y: 60 },
+      { x: 300, y: 60 },
+      { x: 300, y: 204 },
+      { x: 336, y: 204 },
+    ])
+  })
 
   it('drops old routes of edges the layout did not route', () => {
     const routed = {

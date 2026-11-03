@@ -78,6 +78,7 @@ import {
 } from './flowEdgeGeometry'
 import {
   elkLayoutFlow,
+  FLOW_GRID,
   type CardMeasure,
   type LayoutDirection,
 } from './elkLayout'
@@ -1184,6 +1185,8 @@ function Board({
               nodeTypes={nodeTypes}
               edgeTypes={edgeTypes}
               onNodesChange={onNodesChange}
+              snapToGrid
+              snapGrid={[FLOW_GRID, FLOW_GRID]}
               onConnect={onConnect}
               onReconnectStart={(_, edge) => {
                 reconnectingEdgeId.current = edge.id
@@ -1262,7 +1265,7 @@ function Board({
               fitView
               fitViewOptions={{ nodes: openingNodes, maxZoom: 1, padding: 0.2 }}
             >
-              <Background gap={24} />
+              <Background gap={FLOW_GRID} />
               <Controls />
               {!selectedNode && !selectedEdge && <MiniMap pannable zoomable />}
               <Panel position="bottom-center">
