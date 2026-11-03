@@ -111,8 +111,8 @@
     {
       "id": "n_club_invitation",
       "position": {
-        "x": 3845,
-        "y": 286
+        "x": 3840,
+        "y": 200
       },
       "type": "event",
       "eventId": "club_invitation"
@@ -120,8 +120,8 @@
     {
       "id": "random_y1_term1_life",
       "position": {
-        "x": 3867,
-        "y": 580
+        "x": 3840,
+        "y": 400
       },
       "type": "random",
       "poolId": "y1_term1_life"

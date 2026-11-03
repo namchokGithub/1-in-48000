@@ -212,34 +212,176 @@ export function moveFlowNodes(
 export const LAYOUT_COLUMN = 320
 export const LAYOUT_ROW = 200
 
-export function layoutFlow(flow: V2Flow): V2Flow {
+/**
+ * Column of each card reachable from Start: the longest path from Start,
+ * so every forward edge points right. Edges that loop back to a card on the
+ * current DFS path are left out, so loops cannot stretch the board.
+ */
+function longestPathColumns(flow: V2Flow): Map<string, number> {
   const next = new Map<string, string[]>()
   for (const edge of flow.edges)
     next.set(edge.from, [...(next.get(edge.from) ?? []), edge.to])
   const depth = new Map<string, number>()
   const start = flow.nodes.find((node) => node.type === 'start')
-  if (start) {
-    const queue = [start.id]
-    depth.set(start.id, 0)
-    while (queue.length) {
-      const id = queue.shift()!
-      for (const to of next.get(id) ?? []) {
-        if (depth.has(to)) continue
-        depth.set(to, depth.get(id)! + 1)
-        queue.push(to)
-      }
+  if (!start) return depth
+
+  const known = new Set(flow.nodes.map((node) => node.id))
+  const onPath = new Set<string>()
+  const done = new Set<string>()
+  const finished: string[] = []
+  const forward: [string, string][] = []
+  const visit = (id: string) => {
+    onPath.add(id)
+    for (const to of next.get(id) ?? []) {
+      if (!known.has(to) || onPath.has(to)) continue
+      forward.push([id, to])
+      if (!done.has(to)) visit(to)
     }
+    onPath.delete(id)
+    done.add(id)
+    finished.push(id)
   }
+  visit(start.id)
+
+  const incoming = new Map<string, string[]>()
+  for (const [from, to] of forward)
+    incoming.set(to, [...(incoming.get(to) ?? []), from])
+  for (const id of finished.reverse())
+    depth.set(
+      id,
+      Math.max(
+        0,
+        ...(incoming.get(id) ?? []).map((from) => depth.get(from)! + 1),
+      ),
+    )
+  return depth
+}
+
+export function layoutFlow(flow: V2Flow): V2Flow {
+  const depth = longestPathColumns(flow)
   const unreachableColumn = Math.max(-1, ...depth.values()) + 1
-  const rows = new Map<number, number>()
-  const positions: Record<string, Position> = {}
+  const columns: string[][] = []
   for (const node of flow.nodes) {
     const column = depth.get(node.id) ?? unreachableColumn
-    const row = rows.get(column) ?? 0
-    rows.set(column, row + 1)
-    positions[node.id] = { x: column * LAYOUT_COLUMN, y: row * LAYOUT_ROW }
+    ;(columns[column] ??= []).push(node.id)
   }
+  const ordered = orderColumns(
+    Array.from(columns, (ids) => ids ?? []),
+    flow.edges,
+  )
+  const tallest = Math.max(0, ...ordered.map((ids) => ids.length))
+  const positions: Record<string, Position> = {}
+  ordered.forEach((ids, column) =>
+    ids.forEach((id, row) => {
+      positions[id] = {
+        x: column * LAYOUT_COLUMN,
+        y: (row + (tallest - ids.length) / 2) * LAYOUT_ROW,
+      }
+    }),
+  )
   return moveFlowNodes(flow, positions)
+}
+
+const LAYOUT_SWEEPS = 4
+
+/** Centered row of each card, so columns of different heights compare. */
+function columnRows(columns: string[][]): Map<string, number> {
+  const rows = new Map<string, number>()
+  for (const ids of columns)
+    ids.forEach((id, row) => rows.set(id, row - (ids.length - 1) / 2))
+  return rows
+}
+
+/**
+ * Counts crossings between edges that join the same pair of columns.
+ * Edges inside one column are ignored.
+ */
+export function countFlowCrossings(
+  columns: string[][],
+  edges: Pick<V2Flow['edges'][number], 'from' | 'to'>[],
+): number {
+  const rows = columnRows(columns)
+  const columnOf = new Map<string, number>()
+  columns.forEach((ids, column) =>
+    ids.forEach((id) => columnOf.set(id, column)),
+  )
+  const groups = new Map<string, [number, number][]>()
+  for (const edge of edges) {
+    const from = columnOf.get(edge.from)
+    const to = columnOf.get(edge.to)
+    if (from === undefined || to === undefined || from === to) continue
+    const [left, right] =
+      from < to ? [edge.from, edge.to] : [edge.to, edge.from]
+    const key = `${Math.min(from, to)}:${Math.max(from, to)}`
+    groups.set(key, [
+      ...(groups.get(key) ?? []),
+      [rows.get(left)!, rows.get(right)!],
+    ])
+  }
+  let crossings = 0
+  for (const lines of groups.values())
+    for (let a = 0; a < lines.length; a++)
+      for (let b = a + 1; b < lines.length; b++)
+        if ((lines[a][0] - lines[b][0]) * (lines[a][1] - lines[b][1]) < 0)
+          crossings++
+  return crossings
+}
+
+/**
+ * Barycenter ordering: sweeps left to right, then right to left, sorting each
+ * column by the mean row of its neighbors on the side already placed, and
+ * keeps the order with the fewest crossings. Ties keep the current order.
+ */
+function orderColumns(columns: string[][], edges: V2Flow['edges']): string[][] {
+  const columnOf = new Map<string, number>()
+  columns.forEach((ids, column) =>
+    ids.forEach((id) => columnOf.set(id, column)),
+  )
+  const neighbors = new Map<string, string[]>()
+  for (const edge of edges) {
+    if (!columnOf.has(edge.from) || !columnOf.has(edge.to)) continue
+    if (columnOf.get(edge.from) === columnOf.get(edge.to)) continue
+    neighbors.set(edge.from, [...(neighbors.get(edge.from) ?? []), edge.to])
+    neighbors.set(edge.to, [...(neighbors.get(edge.to) ?? []), edge.from])
+  }
+
+  let current = columns.map((ids) => [...ids])
+  let best = current
+  let bestCrossings = countFlowCrossings(best, edges)
+
+  const sortColumn = (column: number, side: 'left' | 'right') => {
+    const rows = columnRows(current)
+    const score = (id: string) => {
+      const placed = (neighbors.get(id) ?? []).filter((other) =>
+        side === 'left'
+          ? columnOf.get(other)! < column
+          : columnOf.get(other)! > column,
+      )
+      if (!placed.length) return rows.get(id)!
+      return (
+        placed.reduce((sum, other) => sum + rows.get(other)!, 0) / placed.length
+      )
+    }
+    const ids = current[column]
+    const scored = ids.map((id, at) => ({ id, at, score: score(id) }))
+    scored.sort((a, b) => a.score - b.score || a.at - b.at)
+    current = current.map((other, at) =>
+      at === column ? scored.map((item) => item.id) : other,
+    )
+  }
+
+  for (let sweep = 0; sweep < LAYOUT_SWEEPS; sweep++) {
+    for (let column = 1; column < current.length; column++)
+      sortColumn(column, 'left')
+    for (let column = current.length - 2; column >= 0; column--)
+      sortColumn(column, 'right')
+    const crossings = countFlowCrossings(current, edges)
+    if (crossings < bestCrossings) {
+      best = current
+      bestCrossings = crossings
+    }
+  }
+  return best
 }
 
 export type FlowNodeIssues = { errors: string[]; warnings: string[] }
