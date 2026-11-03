@@ -2261,7 +2261,7 @@
   {
     "id": "new_event_2",
     "kind": "main",
-    "randomizeChoices": true,
+    "randomizeChoices": false,
     "time": {
       "year": 1,
       "period": "term1"

@@ -86,7 +86,7 @@ describe('issue target', () => {
     expect(issueTarget('faculties.0.name', content)?.section).toBe('faculties')
     expect(issueTarget('flow.edges.3.to', content)).toEqual({
       section: 'flow',
-      label: 'Flow เรื่อง',
+      label: 'Story Flow',
       field: 'edges.3.to',
     })
   })

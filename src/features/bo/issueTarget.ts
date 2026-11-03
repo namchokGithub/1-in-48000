@@ -85,7 +85,7 @@ export function issueTarget(
   if (file === 'flow')
     return {
       section: 'flow',
-      label: 'Flow เรื่อง',
+      label: 'Story Flow',
       field: [rawIndex, ...rest].filter(Boolean).join('.'),
     }
   const index = Number(rawIndex)

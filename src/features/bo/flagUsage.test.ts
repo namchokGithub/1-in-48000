@@ -115,7 +115,7 @@ describe('flag usage', () => {
         checks: [
           {
             section: 'flow',
-            label: 'Flow เรื่อง',
+            label: 'Story Flow',
             field: 'การ์ด Condition check_club',
           },
         ],
@@ -126,7 +126,7 @@ describe('flag usage', () => {
         checks: [
           {
             section: 'flow',
-            label: 'Flow เรื่อง',
+            label: 'Story Flow',
             field: 'เส้น check_club → club_fair',
           },
         ],

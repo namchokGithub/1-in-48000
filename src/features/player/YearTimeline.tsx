@@ -46,7 +46,7 @@ export function YearTimeline({
   return (
     <section className="year-timeline" aria-label="เส้นทางการศึกษา">
       <div className="year-timeline-heading">
-        <strong>เส้นทางมหาวิทยาลัย</strong>
+        <strong>เส้นทางชีวิตมหา'ลัย</strong>
         <span className="muted">เป้าหมายปี {targetYear}</span>
       </div>
       <ol className="year-stepper" ref={viewportRef}>

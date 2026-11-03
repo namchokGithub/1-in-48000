@@ -109,7 +109,7 @@ describe('BO preview trace', () => {
     expect(
       previewErrorMessage('No path from n_student_loan (apply_kro)', content),
     ).toBe(
-      'การ์ด “ทุนเรียนต่อ” ยังไม่มีเส้นที่ใช้ได้จากทาง “apply_kro” ลากเส้นหรือเพิ่มเส้นที่ไม่มีเงื่อนไขในแท็บ Flow เรื่อง',
+      'การ์ด “ทุนเรียนต่อ” ยังไม่มีเส้นที่ใช้ได้จากทาง “apply_kro” ลากเส้นหรือเพิ่มเส้นที่ไม่มีเงื่อนไขในแท็บ Story Flow',
     )
     expect(previewErrorMessage('Other error', content)).toBe('Other error')
   })

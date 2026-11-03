@@ -56,9 +56,11 @@ export function CharacterForm({
         <div>
           <p className="eyebrow">สร้างตัวละคร</p>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">
-            ชีวิตนี้เริ่มที่คุณ
+            เรื่องราวของคุณ เริ่มตรงนี้
           </h1>
-          <p className="muted mt-2">เลือกพื้นฐานก่อนก้าวเข้าสู่ ม.บารพู</p>
+          <p className="muted mt-2">
+            สร้างตัวละครในแบบที่คุณชอบ แล้วเตรียมพบกับชีวิตใหม่ที่ ม.บารพู
+          </p>
         </div>
         <div className="player-create-identity">
           {portraitPath ? (
@@ -86,7 +88,9 @@ export function CharacterForm({
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="font-bold">พื้นฐานตัวละคร</h2>
-              <p className="muted text-sm">แต่ละแบบส่งผลต่อค่าสถานะเริ่มต้น</p>
+              <p className="muted text-sm">
+                ทุกคนมีจุดเริ่มต้นต่างกัน แล้วคุณล่ะ?
+              </p>
             </div>
             <button
               type="button"

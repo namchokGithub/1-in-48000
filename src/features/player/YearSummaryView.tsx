@@ -75,7 +75,7 @@ export function YearSummaryView({
             หนึ่งปีผ่านไป...
           </h1>
           <p className="muted text-sm">
-            บทสรุปเส้นทางมหาวิทยาลัยปีที่ {summary.year}
+            บทสรุปเส้นทางชีวิตมหา'ลัยปีที่ {summary.year}
           </p>
         </div>
         <span className="player-year-badge">

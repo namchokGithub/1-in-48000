@@ -49,7 +49,7 @@ export function FlagList({
         <h2 className="font-extrabold">ตัวแปร (Flag) {flags.length}</h2>
       </div>
       <p className="muted text-sm">
-        รวมจากเหตุการณ์ วิชาเสรี และ Flow เรื่อง แก้ Flag ได้ที่ตำแหน่งที่ใช้
+        รวมจากเหตุการณ์ วิชาเสรี และ Story Flow แก้ Flag ได้ที่ตำแหน่งที่ใช้
       </p>
       <ListSearch label="ค้นหา Flag" value={query} onChange={setQuery} />
       {visible.length ? (

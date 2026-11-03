@@ -117,5 +117,5 @@ export function previewErrorMessage(
   const [, nodeId, port] = noPath
   if (nodeId === 'bo_preview_event')
     return 'เหตุการณ์นี้ยังไม่ได้วางบนกระดาน Flow จึงไปต่อไม่ได้ วางการ์ดและลากเส้นจากตัวเลือกก่อนทดลองต่อ'
-  return `การ์ด “${nodeName(content, nodeId)}” ยังไม่มีเส้นที่ใช้ได้จากทาง “${port}” ลากเส้นหรือเพิ่มเส้นที่ไม่มีเงื่อนไขในแท็บ Flow เรื่อง`
+  return `การ์ด “${nodeName(content, nodeId)}” ยังไม่มีเส้นที่ใช้ได้จากทาง “${port}” ลากเส้นหรือเพิ่มเส้นที่ไม่มีเงื่อนไขในแท็บ Story Flow`
 }

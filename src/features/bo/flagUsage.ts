@@ -75,14 +75,14 @@ export function flagUsage(
     if (node.type === 'condition')
       add('checks', checkedFlags(node.conditions), {
         section: 'flow',
-        label: 'Flow เรื่อง',
+        label: 'Story Flow',
         field: `การ์ด Condition ${node.id}`,
       })
   for (const edge of content.flow.edges)
     if (edge.condition)
       add('checks', checkedFlags([edge.condition]), {
         section: 'flow',
-        label: 'Flow เรื่อง',
+        label: 'Story Flow',
         field: `เส้น ${edge.from} → ${edge.to}`,
       })
 

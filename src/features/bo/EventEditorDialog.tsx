@@ -38,12 +38,12 @@ export function EventEditorDialog({
       <div className="bo-preview-dialog-inner">
         <div className="bo-section-heading bo-preview-dialog-heading">
           <div>
-            <p className="eyebrow">Flow เรื่อง · แก้ในร่าง</p>
+            <p className="eyebrow">Story Flow · แก้ในร่าง</p>
             <h2 id={titleId} className="text-xl font-extrabold">
               แก้เหตุการณ์
             </h2>
             <p className="muted text-sm">
-              การ์ดบนกระดานอัปเดตทันที กดบันทึก Flow เรื่องเพื่อเขียนไฟล์
+              การ์ดบนกระดานอัปเดตทันที กดบันทึก Story Flowเพื่อเขียนไฟล์
             </p>
           </div>
           <div className="bo-preview-dialog-actions">

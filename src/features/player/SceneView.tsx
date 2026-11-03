@@ -359,7 +359,7 @@ export function SceneView({
           >
             {!lastLine ? (
               <p className="muted text-sm" role="status">
-                อ่านบทสนทนาให้จบก่อนเลือกทางต่อ
+                อ่านบทสนทนาให้จบก่อนเลือก
               </p>
             ) : event.selection?.type === 'program' ? (
               <div className="grid gap-4">

@@ -328,7 +328,7 @@ export function BoApp() {
   const dirtyAny = Object.values(dirtyFiles).some(Boolean)
   const sectionLabels: Record<Section, string> = {
     events: 'เหตุการณ์',
-    flow: 'Flow เรื่อง',
+    flow: 'Story Flow',
     endings: 'ตอนจบ',
     flags: 'ตัวแปร (Flag)',
     settings: 'ตั้งค่าเกม',
@@ -617,7 +617,7 @@ export function BoApp() {
       const names = {
         config: 'ตั้งค่าเกม',
         events: 'เหตุการณ์',
-        flow: 'Flow เรื่อง',
+        flow: 'Story Flow',
         endings: 'ตอนจบ',
         characters: 'ตัวละคร (NPC)',
         assets: 'Asset',
@@ -994,7 +994,7 @@ export function BoApp() {
                 (ending && section === 'endings')) && (
                 <div className="bo-order-actions" aria-label="ลำดับในไฟล์">
                   <span className="muted text-xs">
-                    ลำดับในไฟล์ใช้จัดรายการ เส้นทางเรื่องกำหนดในแท็บ Flow เรื่อง
+                    ลำดับในไฟล์ใช้จัดรายการ เส้นทางเรื่องกำหนดในแท็บ Story Flow
                   </span>
                   <div className="flex gap-2">
                     <button
