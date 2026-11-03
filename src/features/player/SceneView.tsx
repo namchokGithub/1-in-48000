@@ -6,7 +6,7 @@ import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
 import { describeChoiceEffects } from './choicePreview'
 import { lockedReason } from './lockedReason'
-import { nextEnabledIndex } from './choiceNavigation'
+import { keyboardChoiceSelector, nextEnabledIndex } from './choiceNavigation'
 import { YearTimeline } from './YearTimeline'
 import {
   playerPortraitPath,
@@ -111,7 +111,7 @@ export function SceneView({
     return [
       ...(scrollRef.current?.querySelectorAll<
         HTMLButtonElement | HTMLInputElement
-      >('button.player-option, .player-checkbox input') ?? []),
+      >(keyboardChoiceSelector) ?? []),
     ]
   }
 

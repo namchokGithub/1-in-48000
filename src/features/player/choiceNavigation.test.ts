@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { nextEnabledIndex } from './choiceNavigation'
+import { keyboardChoiceSelector, nextEnabledIndex } from './choiceNavigation'
 
 describe('choice navigation', () => {
   const locked = [false, true, false, true]
@@ -14,5 +14,9 @@ describe('choice navigation', () => {
   it('has no choice when every one is locked', () => {
     expect(nextEnabledIndex([true, true], -1, 1)).toBe(-1)
     expect(nextEnabledIndex([], -1, 1)).toBe(-1)
+  })
+
+  it('includes dropdown triggers in the keyboard choice order', () => {
+    expect(keyboardChoiceSelector).toContain('.player-select-trigger')
   })
 })

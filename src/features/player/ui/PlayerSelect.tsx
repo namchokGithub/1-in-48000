@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { createPortal } from 'react-dom'
 import { filterPlayerSelectOptions } from './playerSelectFilter'
+import { nextPlayerSelectIndex } from './playerSelectNavigation'
 
 type Option = { value: string; label: string }
 type Position = { top: number; left: number; width: number; maxHeight: number }
@@ -110,8 +111,9 @@ export function PlayerSelect({
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault()
       if (!open) return openList()
-      const step = event.key === 'ArrowDown' ? 1 : -1
-      setActive((active + step + visibleOptions.length) % visibleOptions.length)
+      setActive((current) =>
+        nextPlayerSelectIndex(current, visibleOptions.length, event.key),
+      )
     } else if (event.key === 'Home' || event.key === 'End') {
       event.preventDefault()
       setActive(event.key === 'Home' ? 0 : visibleOptions.length - 1)
@@ -125,6 +127,22 @@ export function PlayerSelect({
       setOpen(false)
     } else if (event.key === 'Tab') {
       setOpen(false)
+    }
+  }
+
+  function onSearchKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault()
+      setActive((current) =>
+        nextPlayerSelectIndex(current, visibleOptions.length, event.key),
+      )
+    } else if (event.key === 'Enter') {
+      event.preventDefault()
+      commit(active)
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      setOpen(false)
+      triggerRef.current?.focus()
     }
   }
 
@@ -176,6 +194,7 @@ export function PlayerSelect({
                   value={query}
                   placeholder={`ค้นหา${label}`}
                   aria-label={`ค้นหา${label}`}
+                  onKeyDown={onSearchKeyDown}
                   onChange={(event) => {
                     setQuery(event.target.value)
                     setActive(0)
