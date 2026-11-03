@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type SetStateAction } from 'react'
+import { Toaster, toast } from 'sonner'
 import { loadV2Content } from '../../content/v2/loader'
 import {
   v2ContentSchema,
@@ -141,7 +142,6 @@ export function BoApp() {
   const [saving, setSaving] = useState(false)
   const [showIssues, setShowIssues] = useState(false)
   const [serverIssues, setServerIssues] = useState<ValidationIssue[]>([])
-  const [notice, setNotice] = useState('')
   const [confirmation, setConfirmation] = useState<{
     title: string
     description: string
@@ -440,7 +440,6 @@ export function BoApp() {
           flow: syncEventChange(current.flow, current.events[target], next),
         },
     )
-    setNotice('')
     setServerIssues([])
   }
 
@@ -460,7 +459,6 @@ export function BoApp() {
           flow: removeEventFromFlow(currentDraft.flow, target.id),
         })
         afterDelete()
-        setNotice('')
       },
     })
   }
@@ -488,7 +486,6 @@ export function BoApp() {
     if (typeof flow === 'string') return
     setDraft({ ...currentDraft, events, flow })
     setEditEventId(newEvent.id)
-    setNotice('')
     setServerIssues([])
   }
 
@@ -502,7 +499,6 @@ export function BoApp() {
           ),
         },
     )
-    setNotice('')
     setServerIssues([])
   }
 
@@ -512,7 +508,6 @@ export function BoApp() {
     setDraft({ ...currentDraft, events: [...currentDraft.events, newEvent] })
     selectSection('events')
     setEventQuery('')
-    setNotice('')
   }
 
   function addEnding() {
@@ -527,7 +522,6 @@ export function BoApp() {
     setEndingIndex(currentDraft.endings.length)
     setDraft({ ...currentDraft, endings: [...currentDraft.endings, newEnding] })
     selectSection('endings')
-    setNotice('')
   }
 
   function moveSelected(direction: -1 | 1) {
@@ -554,19 +548,20 @@ export function BoApp() {
       setDraft({ ...currentDraft, endings })
       setEndingIndex(target)
     }
-    setNotice('')
   }
 
   function undoDraft() {
+    if (!history?.past.length) return
     setHistory((current) => (current ? undoHistory(current) : null))
-    setNotice('')
     setServerIssues([])
+    toast.success('เลิกทำแล้ว')
   }
 
   function redoDraft() {
+    if (!history?.future.length) return
     setHistory((current) => (current ? redoHistory(current) : null))
-    setNotice('')
     setServerIssues([])
+    toast.success('ทำซ้ำแล้ว')
   }
 
   function goToIssue(target: IssueTarget) {
@@ -582,9 +577,11 @@ export function BoApp() {
   async function saveFile(target: EditableFile) {
     setShowIssues(true)
     setServerIssues([])
-    setNotice('')
     if (issues.length) {
       setFailedSaves((count) => count + 1)
+      toast.error('บันทึกไม่ได้', {
+        description: `ต้องแก้ ${issues.length} จุดก่อนบันทึก`,
+      })
       return
     }
     setSaving(true)
@@ -602,7 +599,10 @@ export function BoApp() {
           if (found.length) {
             setServerIssues(found)
             setFailedSaves((count) => count + 1)
-          } else setNotice('บันทึกไม่ได้ โปรดตรวจ dev server แล้วลองอีกครั้ง')
+          } else
+            toast.error('บันทึกไม่ได้', {
+              description: 'โปรดตรวจ dev server แล้วลองอีกครั้ง',
+            })
           return
         }
         setSaved(
@@ -626,9 +626,13 @@ export function BoApp() {
         electives: 'วิชาเสรี',
         names: 'ชื่อผู้เล่น',
       }
-      setNotice(`บันทึก${files.map((file) => names[file]).join(' และ ')}แล้ว`)
+      toast.success(
+        `บันทึก${files.map((file) => names[file]).join(' และ ')}แล้ว`,
+      )
     } catch {
-      setNotice('ติดต่อ dev server ไม่ได้ โปรดลองอีกครั้ง')
+      toast.error('ติดต่อ dev server ไม่ได้', {
+        description: 'โปรดลองอีกครั้ง',
+      })
     } finally {
       setSaving(false)
     }
@@ -636,6 +640,7 @@ export function BoApp() {
 
   return (
     <main className={`app-shell${section === 'flow' ? ' bo-fill' : ''}`}>
+      <Toaster position="top-right" richColors closeButton />
       <div className="app-wrap bo-wrap">
         <header className="bo-header">
           <div className="bo-header-main">
@@ -756,14 +761,6 @@ export function BoApp() {
             </div>
           </div>
         </header>
-        {notice && (
-          <p
-            className="bo-notice"
-            role={notice.includes('ไม่ได้') ? 'alert' : 'status'}
-          >
-            {notice}
-          </p>
-        )}
         {visibleIssues.length > 0 && (
           <section
             ref={issuesRef}
@@ -806,7 +803,6 @@ export function BoApp() {
             config={draft.config}
             onChange={(config) => {
               setDraft({ ...currentDraft, config })
-              setNotice('')
               setServerIssues([])
             }}
           />
@@ -819,7 +815,6 @@ export function BoApp() {
             content={draft}
             onChange={(next) => {
               setDraft(next)
-              setNotice('')
               setServerIssues([])
             }}
             onDelete={(title, description, action) =>
@@ -844,7 +839,6 @@ export function BoApp() {
             content={draft}
             onChange={(next) => {
               setDraft(next)
-              setNotice('')
               setServerIssues([])
             }}
             onDelete={(title, description, action) =>
@@ -869,7 +863,6 @@ export function BoApp() {
             content={draft}
             onChange={(next) => {
               setDraft(next)
-              setNotice('')
               setServerIssues([])
             }}
             onDelete={(title, description, action) =>
@@ -896,7 +889,6 @@ export function BoApp() {
             }
             onChange={(flow) => {
               setDraft({ ...currentDraft, flow })
-              setNotice('')
               setServerIssues([])
             }}
             onSelectEvent={setFlowEventId}
@@ -1069,7 +1061,6 @@ export function BoApp() {
                           ),
                         })
                         setEndingIndex(Math.max(0, endingIndex - 1))
-                        setNotice('')
                       },
                     })
                   }

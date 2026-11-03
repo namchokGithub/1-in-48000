@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react'
+import { toast } from 'sonner'
 import {
   Background,
   BaseEdge,
@@ -343,7 +344,6 @@ function Board({
     kind: 'node' | 'edge'
     id: string
   } | null>(null)
-  const [message, setMessage] = useState('')
   const [showIssues, setShowIssues] = useState(false)
   const [libraryOpen, setLibraryOpen] = useState(true)
   const [focusDepth, setFocusDepth] = useState(1)
@@ -521,7 +521,6 @@ function Board({
   const eventIds = content.events.map((event) => event.id)
 
   function change(next: V2Flow) {
-    setMessage('')
     onChange(next)
   }
 
@@ -545,7 +544,7 @@ function Board({
   function place(eventId: string, position = boardCenter()) {
     const next = placeEvent(flow, content.events, eventId, position)
     if (typeof next === 'string') {
-      setMessage(next)
+      toast.error(next)
       return
     }
     change(next)
@@ -593,7 +592,9 @@ function Board({
       })
     if (board && zoom) board.setAttribute('data-zoom', zoom)
     change(layoutFlow(flow, { direction, sizes }))
-    setMessage('จัดตำแหน่งแล้ว · กด Cmd+Z (Ctrl+Z) เพื่อย้อน')
+    toast.success('จัดตำแหน่งแล้ว', {
+      description: 'กด Cmd+Z (Ctrl+Z) เพื่อย้อน',
+    })
     window.requestAnimationFrame(() => fitView({ duration: 300 }))
   }
 
@@ -694,6 +695,30 @@ function Board({
       level: 'warning' as const,
     })),
   ]
+
+  function inspectFlow() {
+    if (showIssues) {
+      setShowIssues(false)
+      return
+    }
+    const total = allIssues.length
+    if (!total) {
+      setShowIssues(false)
+      toast.success('Story Flow ถูกต้อง')
+      return
+    }
+    const description = [
+      errors.length ? `ผิด ${errors.length} จุด` : '',
+      report.warnings.length ? `เตือน ${report.warnings.length} จุด` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ')
+    const notify = errors.length ? toast.error : toast.warning
+    notify('พบจุดที่ต้องตรวจใน Story Flow', {
+      description,
+      action: { label: 'ดูรายการ', onClick: () => setShowIssues(true) },
+    })
+  }
 
   return (
     <div
@@ -949,16 +974,11 @@ function Board({
             type="button"
             className="button button-secondary"
             aria-pressed={showIssues}
-            onClick={() => setShowIssues((value) => !value)}
+            onClick={inspectFlow}
           >
             ตรวจ · {errors.length} ผิด · {report.warnings.length} เตือน
           </button>
         </div>
-        {message && (
-          <p className="bo-notice" role="status">
-            {message}
-          </p>
-        )}
         {showIssues && (
           <ul className="bo-flow-issues">
             {allIssues.length ? (
@@ -1023,7 +1043,7 @@ function Board({
                   portFromHandle(connection.sourceHandle),
                   connection.target,
                 )
-                if (next === flow) setMessage('ต่อเส้นไปที่นั่นไม่ได้')
+                if (next === flow) toast.error('ต่อเส้นไปที่นั่นไม่ได้')
                 else change(next)
               }}
               onReconnectEnd={(_, edge) => {
