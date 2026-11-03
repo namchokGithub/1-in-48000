@@ -213,6 +213,36 @@ export function getV2ChoiceOptions(
   })
 }
 
+function choiceOrderState(rngSeed: number, eventId: string): number {
+  let state = rngSeed
+  for (const character of eventId) {
+    state = Math.imul(state ^ character.charCodeAt(0), 0x45d9f3b) >>> 0
+  }
+  return state
+}
+
+// Display order derives from the run seed, not the live RNG state, so refresh
+// cannot reorder choices or affect a later game roll.
+export function orderV2ChoiceOptions<T>(
+  choices: readonly T[],
+  randomizeChoices: boolean,
+  rngSeed: number,
+  eventId: string,
+): T[] {
+  if (!randomizeChoices) return [...choices]
+  const ordered = [...choices]
+  let state = choiceOrderState(rngSeed, eventId)
+  for (let index = ordered.length - 1; index > 0; index -= 1) {
+    const roll = rollIndex(state, index + 1)
+    state = roll.nextState
+    ;[ordered[index], ordered[roll.index]] = [
+      ordered[roll.index],
+      ordered[index],
+    ]
+  }
+  return ordered
+}
+
 // Author-written recaps of the choices picked in the last resolved event, for
 // the next event to show.
 export function getV2LastRecaps(

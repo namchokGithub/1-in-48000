@@ -469,6 +469,7 @@ export function BoApp() {
     return {
       id: nextId('new_event', eventIds),
       kind: 'main',
+      randomizeChoices: true,
       time: { year: 1, period: 'term1' },
       title: 'เหตุการณ์ใหม่',
       sceneAssetId: currentDraft.assets.find((asset) => asset.kind === 'scene')

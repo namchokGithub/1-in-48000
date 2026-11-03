@@ -183,3 +183,7 @@ Auto layout places each card one column right of the farthest card that leads to
 ## 2026-11-03 — Stat changes per decision in the year memory
 
 The engine records the stat change of each decision in the save history (`statChanges`) instead of the year memory deriving it from content effects. Deriving it would miss caps and clamping, multi-select totals, and elective effects, and could not tell which chance branch ran without repeating the engine's rules in the UI. The record covers only the decision's own effects: effects that wait for the event and Next Period changes, such as loan interest, belong to other causes. The year memory shows real amounts even for `statsOnly` chance effects, because the outcome is already known when the year is reviewed. The field is optional, so no save migration is needed.
+
+## 2026-11-03 — Randomized Player choice display
+
+Each event has `randomizeChoices`, defaulting to true in the content schema and in new BO event drafts. The Player deterministically shuffles only the displayed eligible choices from the game seed plus Event ID; it never advances the saved RNG state, so refreshes preserve the visible order and cannot alter later chance or Flow Random results. Turning the BO setting off preserves the authored choice order. Program and elective catalogs keep their existing order.

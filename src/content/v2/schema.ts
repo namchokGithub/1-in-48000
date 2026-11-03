@@ -162,6 +162,7 @@ export const v2EventSchema = z
     id: storyIdSchema,
     active: z.boolean().optional(),
     kind: z.enum(['main', 'conditional', 'holiday', 'random']),
+    randomizeChoices: z.boolean().default(true),
     time: v2TimeSchema,
     pool: storyIdSchema.optional(),
     title: textSchema,

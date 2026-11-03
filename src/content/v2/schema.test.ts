@@ -61,6 +61,15 @@ describe('V2 content contract', () => {
     ).toBe(true)
   })
 
+  it('randomizes an event choice order by default but permits it to be disabled', () => {
+    const event = sample.events[0]
+    expect(v2EventSchema.parse(event).randomizeChoices).toBe(true)
+    expect(
+      v2EventSchema.parse({ ...event, randomizeChoices: false })
+        .randomizeChoices,
+    ).toBe(false)
+  })
+
   it('allows inactive stories off the board but rejects placed ones', () => {
     const content = v2ContentSchema.parse({ ...sample, names })
     content.events.push({

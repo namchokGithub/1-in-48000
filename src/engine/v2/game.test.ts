@@ -18,6 +18,7 @@ import {
   getV2EffectiveChancePercent,
   getV2LastRecaps,
   getV2GoalYear,
+  orderV2ChoiceOptions,
   pickV2Backgrounds,
   pickV2StartOption,
   previewV2Name,
@@ -228,6 +229,32 @@ describe('V4 flow engine', () => {
     ])
     expect(() => chooseV2(content, save, 'shown')).toThrow(
       'Unavailable choice: shown',
+    )
+  })
+
+  it('orders an event choice list from its seed without changing the authored list', () => {
+    const choices = [
+      'know_each_other',
+      'explore_campus',
+      'visit_library',
+      'go_home',
+    ]
+    const first = orderV2ChoiceOptions(choices, true, 1, 'orientation')
+
+    expect(first).toHaveLength(4)
+    expect(new Set(first)).toEqual(new Set(choices))
+    expect(choices).toEqual([
+      'know_each_other',
+      'explore_campus',
+      'visit_library',
+      'go_home',
+    ])
+    expect(orderV2ChoiceOptions(choices, true, 1, 'orientation')).toEqual(first)
+    expect(orderV2ChoiceOptions(choices, false, 1, 'orientation')).toEqual(
+      choices,
+    )
+    expect(orderV2ChoiceOptions(choices, true, 2, 'orientation')).not.toEqual(
+      first,
     )
   })
 

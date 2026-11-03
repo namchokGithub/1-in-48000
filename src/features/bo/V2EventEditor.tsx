@@ -172,6 +172,18 @@ export function V2EventEditor({
             <option value="random">สุ่ม</option>
           </BoDropdown>
         </label>
+        <label className="bo-checkbox-field">
+          <input
+            type="checkbox"
+            checked={event.randomizeChoices}
+            onChange={(input) =>
+              update((next) => {
+                next.randomizeChoices = input.target.checked
+              })
+            }
+          />
+          <span>สุ่มลำดับตัวเลือกใน Player</span>
+        </label>
         <label className="bo-field">
           <span>ปี</span>
           <NumberInput

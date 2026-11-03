@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { V2Content, V2Event } from '../../content/v2/schema'
-import { getV2ChoiceOptions } from '../../engine/v2/game'
+import { getV2ChoiceOptions, orderV2ChoiceOptions } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
@@ -95,7 +95,12 @@ export function SceneView({
     playerPath: playerPortrait,
     hidePlayer: event.hidePlayer === true,
   })
-  const choices = getV2ChoiceOptions(event, save)
+  const choices = orderV2ChoiceOptions(
+    getV2ChoiceOptions(event, save),
+    event.randomizeChoices,
+    save.rngSeed,
+    event.id,
+  )
   const catalogs = { faculties, majors, electives }
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
   const maxSelections =
