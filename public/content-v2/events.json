@@ -2260,7 +2260,7 @@
       "year": 1,
       "period": "term1"
     },
-    "title": "ทักทายเพื่อนใหม่",
+    "title": "เพื่อนใหม่ที่หอสมุด",
     "sceneAssetId": "campus_library",
     "bgmAssetId": "kanto_daydream",
     "hidePlayer": true,
@@ -2294,14 +2294,21 @@
         "id": "continue",
         "text": "ยิ้มทักทายกลับ ก่อนจะเดินต่อ",
         "conditions": [],
+        "recap": "ยังไม่ทันได้รู้จักชื่อ คุณก็เดินหนีไปซะแล้ว... น่าเสียดายจัง",
         "effects": [
           {
             "type": "statDelta",
             "stat": "relationships",
             "amount": 1
           }
-        ],
-        "recap": "ยังไม่ทันได้รู้จักชื่อ คุณก็เดินหนีไปซะแล้ว... น่าเสียดายจัง"
+        ]
+      },
+      {
+        "id": "choice_9ef83c8f",
+        "text": "ทำเป็นไม่สนใจแล้วเดินผ่านไป",
+        "conditions": [],
+        "effects": [],
+        "recap": "คุณทำเป็นไม่เห็นเธอแล้วเดินผ่านไป โดยไม่ได้ทักทายอะไรกลับ"
       }
     ]
   }

@@ -1311,6 +1311,20 @@ dialog {
   margin-bottom: 1rem;
   padding: 0.9rem 1rem;
 }
+.bo-recovery {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+}
+.bo-recovery-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 .bo-notice {
   border: 1px solid var(--color-line);
   border-radius: var(--radius-control);

@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
-import { saveBoContent, BoValidationError } from './bo-server'
+import { saveBoContent, saveBoFiles, BoValidationError } from './bo-server'
 import { loadV2Content } from './src/content/v2/loader'
 import {
   chooseV2,
@@ -396,5 +396,83 @@ describe('BO flow writing', () => {
       BoValidationError,
     )
     expect(await readFile(join(dir, 'flow.json'), 'utf8')).toBe(written)
+  })
+})
+
+describe('BO saves dependent files together', () => {
+  async function newChoiceWithEdge(dir: string) {
+    const events = JSON.parse(
+      await readFile(join(dir, 'events.json'), 'utf8'),
+    ) as V2Event[]
+    const flow = JSON.parse(
+      await readFile(join(dir, 'flow.json'), 'utf8'),
+    ) as V2Content['flow']
+    const node = flow.nodes.find(
+      (item) =>
+        item.type === 'event' &&
+        events.some(
+          (event) =>
+            event.id === item.eventId &&
+            !event.selection &&
+            event.active !== false &&
+            event.choices.length,
+        ),
+    ) as Extract<V2Content['flow']['nodes'][number], { type: 'event' }>
+    const event = events.find((item) => item.id === node.eventId)!
+    const edge = flow.edges.find((item) => item.from === node.id)!
+    const choice = { ...event.choices[0], id: 'bo_test_new_choice' }
+    return {
+      events: events.map((item) =>
+        item.id === event.id
+          ? { ...item, choices: [...item.choices, choice] }
+          : item,
+      ),
+      flow: {
+        ...flow,
+        edges: [
+          ...flow.edges,
+          {
+            id: 'e_bo_test_new_choice',
+            from: node.id,
+            port: choice.id,
+            to: edge.to,
+          },
+        ],
+      },
+    }
+  }
+
+  it('saves a new choice and its edge together when each alone fails', async () => {
+    const dir = await fixture()
+    const { events, flow } = await newChoiceWithEdge(dir)
+    await expect(saveBoContent(root, 'events', events)).rejects.toBeInstanceOf(
+      BoValidationError,
+    )
+    await expect(saveBoContent(root, 'flow', flow)).rejects.toBeInstanceOf(
+      BoValidationError,
+    )
+
+    await saveBoFiles(root, { events, flow })
+    expect(
+      JSON.parse(await readFile(join(dir, 'events.json'), 'utf8')),
+    ).toEqual(events)
+    expect(JSON.parse(await readFile(join(dir, 'flow.json'), 'utf8'))).toEqual(
+      flow,
+    )
+  })
+
+  it('writes none of the files when the set is invalid', async () => {
+    const dir = await fixture()
+    const { events, flow } = await newChoiceWithEdge(dir)
+    const beforeEvents = await readFile(join(dir, 'events.json'), 'utf8')
+    const beforeFlow = await readFile(join(dir, 'flow.json'), 'utf8')
+    await expect(
+      saveBoFiles(root, {
+        events,
+        flow: { ...flow, edges: flow.edges.slice(0, -1) },
+      }),
+    ).rejects.toBeInstanceOf(BoValidationError)
+    expect(await readFile(join(dir, 'events.json'), 'utf8')).toBe(beforeEvents)
+    expect(await readFile(join(dir, 'flow.json'), 'utf8')).toBe(beforeFlow)
   })
 })

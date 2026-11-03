@@ -7,6 +7,11 @@ import {
 } from 'react'
 import { useStore } from 'zustand'
 import { createBoThemeStore, type BoTheme } from '../../save/boThemeSettings'
+import {
+  contentFingerprint,
+  createBoDraftStore,
+  type StoredBoDraft,
+} from '../../save/boDraft'
 import { Check, Palette } from 'lucide-react'
 import { Toaster, toast } from 'sonner'
 import { loadV2Content } from '../../content/v2/loader'
@@ -139,6 +144,10 @@ export function BoApp() {
     }
   }, [theme])
   const [saved, setSaved] = useState<V2Content | null>(null)
+  const [draftStore] = useState(() => createBoDraftStore())
+  // A kept draft found at load, waiting for the author to restore or drop it.
+  const [recovery, setRecovery] = useState<StoredBoDraft | null>(null)
+  const draftWriteFailed = useRef(false)
   const [history, setHistory] = useState<DraftHistory<V2Content> | null>(null)
   const draft = history?.present ?? null
   const [loadError, setLoadError] = useState(false)
@@ -205,6 +214,10 @@ export function BoApp() {
         setSaved(content)
         setHistory(createHistory(structuredClone(content)))
         setLoadError(false)
+        const kept = draftStore.read()
+        if (kept && JSON.stringify(kept.draft) !== JSON.stringify(content))
+          setRecovery(kept)
+        else draftStore.clear()
       })
       .catch(() => {
         if (active) setLoadError(true)
@@ -212,7 +225,30 @@ export function BoApp() {
     return () => {
       active = false
     }
-  }, [retry])
+  }, [retry, draftStore])
+
+  // Keep the unsaved draft so a reload or dev server restart cannot lose it.
+  // Paused while a kept draft waits for restore, so it is not overwritten.
+  useEffect(() => {
+    if (!draft || !saved || recovery) return
+    if (!unsaved) {
+      draftStore.clear()
+      return
+    }
+    const keep = () => {
+      if (draftStore.write(draft, saved) || draftWriteFailed.current) return
+      draftWriteFailed.current = true
+      toast.error('เก็บร่างสำรองไม่ได้', {
+        description: 'ร่างนี้จะหายถ้า reload ก่อนบันทึก',
+      })
+    }
+    const timer = window.setTimeout(keep, 500)
+    window.addEventListener('pagehide', keep)
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('pagehide', keep)
+    }
+  }, [draft, saved, unsaved, recovery, draftStore])
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -652,32 +688,38 @@ export function BoApp() {
     setSaving(true)
     try {
       const files = filesToSave(target, dirtyFiles)
-      for (const file of files) {
-        const response = await fetch(`/__bo/v2/content/${file}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(currentDraft[file]),
-        })
-        if (!response.ok) {
-          const body: unknown = await response.json()
-          const found = responseIssues(body)
-          if (found.length) {
-            setServerIssues(found)
-            setFailedSaves((count) => count + 1)
-          } else
-            toast.error('บันทึกไม่ได้', {
-              description: 'โปรดตรวจ dev server แล้วลองอีกครั้ง',
-            })
-          return
-        }
-        setSaved(
-          (current) =>
-            current && {
-              ...current,
-              [file]: structuredClone(currentDraft[file]),
-            },
-        )
+      // One request for all files: the server checks them together, so a
+      // new choice in events and its edge in flow never block each other.
+      const response = await fetch('/__bo/v2/content', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          files: Object.fromEntries(
+            files.map((file) => [file, currentDraft[file]]),
+          ),
+        }),
+      })
+      if (!response.ok) {
+        const body: unknown = await response.json()
+        const found = responseIssues(body)
+        if (found.length) {
+          setServerIssues(found)
+          setFailedSaves((count) => count + 1)
+        } else
+          toast.error('บันทึกไม่ได้', {
+            description: 'โปรดตรวจ dev server แล้วลองอีกครั้ง',
+          })
+        return
       }
+      setSaved(
+        (current) =>
+          current && {
+            ...current,
+            ...Object.fromEntries(
+              files.map((file) => [file, structuredClone(currentDraft[file])]),
+            ),
+          },
+      )
       setShowIssues(false)
       const names = {
         config: 'ตั้งค่าเกม',
@@ -911,6 +953,49 @@ export function BoApp() {
             </div>
           </div>
         </header>
+        {recovery && (
+          <section className="bo-notice bo-recovery panel" role="status">
+            <div>
+              <strong>พบร่างที่ยังไม่บันทึก</strong>
+              <p className="muted text-sm">
+                เก็บไว้เมื่อ{' '}
+                {new Date(recovery.savedAt).toLocaleString('th-TH', {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                })}
+              </p>
+              {recovery.base !== contentFingerprint(saved) && (
+                <p className="bo-flow-warning">
+                  ไฟล์เนื้อหาเปลี่ยนหลังเก็บร่างนี้ ถ้ากู้คืนแล้วบันทึก
+                  จะเขียนทับไฟล์ที่เปลี่ยน
+                </p>
+              )}
+            </div>
+            <div className="bo-recovery-actions">
+              <button
+                type="button"
+                className="button button-primary"
+                onClick={() => {
+                  setHistory(createHistory(structuredClone(recovery.draft)))
+                  setRecovery(null)
+                  toast.success('กู้คืนร่างแล้ว')
+                }}
+              >
+                กู้คืนร่าง
+              </button>
+              <button
+                type="button"
+                className="button button-secondary"
+                onClick={() => {
+                  draftStore.clear()
+                  setRecovery(null)
+                }}
+              >
+                ทิ้งร่าง
+              </button>
+            </div>
+          </section>
+        )}
         {visibleIssues.length > 0 && (
           <section
             ref={issuesRef}

@@ -562,8 +562,8 @@
     {
       "id": "n_new_event_2",
       "position": {
-        "x": 1104,
-        "y": 480
+        "x": 1152,
+        "y": 408
       },
       "type": "event",
       "eventId": "new_event_2"
@@ -3290,6 +3290,12 @@
       "id": "e_n_orientation_join_group",
       "from": "n_orientation",
       "port": "join_group",
+      "to": "n_first_class"
+    },
+    {
+      "id": "e_n_new_event_2_choice_9ef83c8f",
+      "from": "n_new_event_2",
+      "port": "choice_9ef83c8f",
       "to": "n_first_class"
     }
   ]

@@ -41,20 +41,33 @@ export class BoValidationError extends Error {
   }
 }
 
-export async function saveBoContent(
+export type BoFileChanges = Partial<Record<EditableFile, unknown>>
+
+export function isEditableFile(name: string): name is EditableFile {
+  return (files as readonly string[]).includes(name)
+}
+
+/**
+ * Saves several content files as one change. The files are checked together
+ * with the rest of the content on disk, so edits that depend on each other
+ * (a new choice in events and its edge in flow) pass together. Nothing is
+ * written unless the whole set is valid.
+ */
+export async function saveBoFiles(
   root: string,
-  file: EditableFile,
-  value: unknown,
+  changes: BoFileChanges,
 ): Promise<void> {
+  const changed = Object.keys(changes).filter(isEditableFile)
+  if (!changed.length) return
   const contentDir = join(root, 'public', 'content-v2')
   const entries = await Promise.all(
     files.map(async (name) => {
+      if (name in changes) return [name, changes[name]] as const
       const text = await readFile(join(contentDir, `${name}.json`), 'utf8')
       return [name, JSON.parse(text) as unknown] as const
     }),
   )
   const content = Object.fromEntries(entries)
-  content[file] = value
   const parsed = v2ContentSchema.safeParse(content)
   const issues: ValidationIssue[] = parsed.success
     ? []
@@ -75,17 +88,35 @@ export async function saveBoContent(
   }
   if (issues.length) throw new BoValidationError(issues)
 
-  const target = join(contentDir, `${file}.json`)
-  const temporary = `${target}.${randomUUID()}.tmp`
+  // Write every file to a temporary name first, then swap them in, so a
+  // failed write leaves the content files untouched.
+  const written: { temporary: string; target: string }[] = []
   try {
-    await writeFile(temporary, `${JSON.stringify(value, null, 2)}\n`, {
-      flag: 'wx',
-    })
-    await rename(temporary, target)
+    for (const file of changed) {
+      const target = join(contentDir, `${file}.json`)
+      const temporary = `${target}.${randomUUID()}.tmp`
+      await writeFile(
+        temporary,
+        `${JSON.stringify(changes[file], null, 2)}\n`,
+        { flag: 'wx' },
+      )
+      written.push({ temporary, target })
+    }
+    for (const { temporary, target } of written) await rename(temporary, target)
   } catch (error) {
-    await unlink(temporary).catch(() => undefined)
+    await Promise.all(
+      written.map(({ temporary }) => unlink(temporary).catch(() => undefined)),
+    )
     throw error
   }
+}
+
+export async function saveBoContent(
+  root: string,
+  file: EditableFile,
+  value: unknown,
+): Promise<void> {
+  await saveBoFiles(root, { [file]: value })
 }
 
 function respond(res: ServerResponse, status: number, body: unknown) {
@@ -151,13 +182,13 @@ export function boContentPlugin(): Plugin {
           return
         }
         const match = path?.match(
-          /^\/__bo\/v2\/content\/(config|events|endings|characters|assets|faculties|majors|electives|names|flow)$/,
+          /^\/__bo\/v2\/content(?:\/(config|events|endings|characters|assets|faculties|majors|electives|names|flow))?$/,
         )
-        const file = match?.[1] as EditableFile | undefined
-        if (!file) {
+        if (!match) {
           next()
           return
         }
+        const file = match[1] as EditableFile | undefined
         if (req.method !== 'PUT') {
           respond(res, 405, { error: 'Method not allowed' })
           return
@@ -173,7 +204,21 @@ export function boContentPlugin(): Plugin {
         }
         try {
           const value = await readBody(req)
-          await saveBoContent(server.config.root, file, value)
+          if (file) await saveBoContent(server.config.root, file, value)
+          else {
+            const changes = (value as { files?: unknown } | null)?.files
+            if (
+              !changes ||
+              typeof changes !== 'object' ||
+              Array.isArray(changes) ||
+              !Object.keys(changes).length ||
+              !Object.keys(changes).every(isEditableFile)
+            ) {
+              respond(res, 400, { error: 'Invalid content files' })
+              return
+            }
+            await saveBoFiles(server.config.root, changes as BoFileChanges)
+          }
           respond(res, 200, { ok: true })
         } catch (error) {
           if (error instanceof BoValidationError) {
