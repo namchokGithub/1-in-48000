@@ -2181,5 +2181,86 @@
         "effects": []
       }
     ]
+  },
+  {
+    "id": "new_event",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "เหตุการณ์ใหม่",
+    "sceneAssetId": "campus_library_exterior",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คุณได้เดินทางมาเยี่ยมชมหอสมุด โอ๊ะ นั้นเพื่อนใหม่ ไปทักทายดีไหม"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "ทักทาย",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 10
+          }
+        ]
+      },
+      {
+        "id": "choice_53cc4cc0",
+        "text": "ไปต่อ",
+        "conditions": [],
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "new_event_2",
+    "kind": "main",
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "ทักทายเพื่อนใหม่",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "hidePlayer": true,
+    "conditions": [],
+    "lines": [
+      {
+        "speakerId": "nap-dow",
+        "text": "สวัสดียินดีที่ได้รู้จัก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "choice_0dcdb31f",
+        "text": "เขิน.. เดินหนี",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -10
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -5
+          }
+        ]
+      },
+      {
+        "id": "continue",
+        "text": "ต่อไป",
+        "conditions": [],
+        "effects": []
+      }
+    ]
   }
 ]

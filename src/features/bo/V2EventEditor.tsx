@@ -9,6 +9,7 @@ import { lineSpeaker } from '../../content/v2/lineSpeaker'
 import { V2ConditionList } from './V2ConditionList'
 import { V2EffectList } from './V2EffectList'
 import { conditionSummary, effectSummary } from './storySummary'
+import { NumberInput } from './NumberInput'
 
 export function V2EventEditor({
   event,
@@ -173,15 +174,15 @@ export function V2EventEditor({
         </label>
         <label className="bo-field">
           <span>ปี</span>
-          <input
+          <NumberInput
             className="field"
-            type="number"
+            integer
             min="1"
             max="8"
             value={event.time.year}
-            onChange={(input) =>
+            onValueChange={(year) =>
               update((next) => {
-                next.time.year = Number(input.target.value)
+                next.time.year = year
               })
             }
           />
@@ -346,9 +347,9 @@ export function V2EventEditor({
             <div className="bo-form-grid">
               <label className="bo-field">
                 <span>เลือกอย่างน้อย</span>
-                <input
+                <NumberInput
                   className="field"
-                  type="number"
+                  integer
                   min="1"
                   max={event.choices.length}
                   value={event.selection.min}
@@ -356,19 +357,19 @@ export function V2EventEditor({
                     event.selection.min < 1 ||
                     event.selection.min > event.selection.max
                   }
-                  onChange={(input) =>
+                  onValueChange={(min) =>
                     update((next) => {
                       if (next.selection?.type === 'multiple')
-                        next.selection.min = Number(input.target.value)
+                        next.selection.min = min
                     })
                   }
                 />
               </label>
               <label className="bo-field">
                 <span>เลือกได้สูงสุด</span>
-                <input
+                <NumberInput
                   className="field"
-                  type="number"
+                  integer
                   min="1"
                   max={event.choices.length}
                   value={event.selection.max}
@@ -376,10 +377,10 @@ export function V2EventEditor({
                     event.selection.max < event.selection.min ||
                     event.selection.max > event.choices.length
                   }
-                  onChange={(input) =>
+                  onValueChange={(max) =>
                     update((next) => {
                       if (next.selection?.type === 'multiple')
-                        next.selection.max = Number(input.target.value)
+                        next.selection.max = max
                     })
                   }
                 />

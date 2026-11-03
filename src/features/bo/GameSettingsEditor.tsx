@@ -1,5 +1,6 @@
 import type { V2Content } from '../../content/v2/schema'
 import { periodLabels } from './periodLabels'
+import { NumberInput } from './NumberInput'
 
 type Config = V2Content['config']
 type Period = keyof Config['loan']['periodDays']
@@ -36,19 +37,15 @@ export function GameSettingsEditor({
         </p>
         <label className="bo-field bo-medium-field">
           <span>อัตราดอกเบี้ยต่อปี (%)</span>
-          <input
+          <NumberInput
             className="field"
-            type="number"
             min={0}
             max={100}
             step="0.1"
             value={loan.annualRatePercent}
             aria-invalid={!rateValid}
-            onChange={(input) =>
-              setLoan({
-                ...loan,
-                annualRatePercent: input.target.valueAsNumber,
-              })
+            onValueChange={(annualRatePercent) =>
+              setLoan({ ...loan, annualRatePercent })
             }
           />
           {!rateValid && <small className="bo-field-error">ใส่ 0–100</small>}
@@ -64,20 +61,16 @@ export function GameSettingsEditor({
               return (
                 <label key={period} className="bo-field">
                   <span>{periodLabels[period]}</span>
-                  <input
+                  <NumberInput
                     className="field"
-                    type="number"
                     min={0}
                     step={1}
                     value={days}
                     aria-invalid={!valid}
-                    onChange={(input) =>
+                    onValueChange={(value) =>
                       setLoan({
                         ...loan,
-                        periodDays: {
-                          ...loan.periodDays,
-                          [period]: input.target.valueAsNumber,
-                        },
+                        periodDays: { ...loan.periodDays, [period]: value },
                       })
                     }
                   />

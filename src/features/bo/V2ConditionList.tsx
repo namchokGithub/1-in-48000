@@ -4,6 +4,7 @@ import { BoDropdown } from './Select'
 import { eventOptions } from './eventOptions'
 import { v2StatOptions } from './v2StatOptions'
 import { conditionSummary } from './storySummary'
+import { NumberInput } from './NumberInput'
 
 type Condition = V2Event['conditions'][number]
 type Catalogs = Pick<V2Content, 'faculties' | 'majors' | 'electives'>
@@ -88,18 +89,15 @@ export function V2ConditionList({
                   <option value="gte">อย่างน้อย</option>
                   <option value="lte">ไม่เกิน</option>
                 </BoDropdown>
-                <input
+                <NumberInput
                   className="field bo-short-field"
-                  type="number"
+                  integer
                   min="1"
                   max="8"
                   aria-label="ปี"
                   value={condition.value}
-                  onChange={(event) =>
-                    replace(index, {
-                      ...condition,
-                      value: Number(event.target.value),
-                    })
+                  onValueChange={(value) =>
+                    replace(index, { ...condition, value })
                   }
                 />
               </>
@@ -138,16 +136,13 @@ export function V2ConditionList({
                   <option value="lt">น้อยกว่า</option>
                   <option value="lte">ไม่เกิน</option>
                 </BoDropdown>
-                <input
+                <NumberInput
                   className="field bo-short-field"
-                  type="number"
+                  integer
                   aria-label="ค่า"
                   value={condition.value}
-                  onChange={(event) =>
-                    replace(index, {
-                      ...condition,
-                      value: Number(event.target.value),
-                    })
+                  onValueChange={(value) =>
+                    replace(index, { ...condition, value })
                   }
                 />
               </>

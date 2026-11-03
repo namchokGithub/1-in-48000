@@ -5,6 +5,7 @@ import { BoDropdown } from './Select'
 import { eventOptions } from './eventOptions'
 import { v2StatOptions } from './v2StatOptions'
 import { effectSummary } from './storySummary'
+import { NumberInput } from './NumberInput'
 
 type Effect = V2Event['choices'][number]['effects'][number]
 type StateEffect = Extract<Effect, { type: 'statDelta' | 'setFlag' }>
@@ -87,13 +88,11 @@ function StateEffectEditor({
           </label>
           <label className="bo-field">
             <span>จำนวนที่เปลี่ยน</span>
-            <input
+            <NumberInput
               className="field"
-              type="number"
+              integer
               value={effect.amount}
-              onChange={(event) =>
-                onChange({ ...effect, amount: Number(event.target.value) })
-              }
+              onValueChange={(amount) => onChange({ ...effect, amount })}
             />
           </label>
         </>
@@ -321,22 +320,19 @@ export function V2EffectList({
                       <div className="bo-form-grid">
                         <label className="bo-field">
                           <span>ปี</span>
-                          <input
+                          <NumberInput
                             className="field"
-                            type="number"
+                            integer
                             min="1"
                             max="8"
                             value={effect.trigger.time.year}
-                            onChange={(event) => {
+                            onValueChange={(year) => {
                               if (effect.trigger.type !== 'atPeriod') return
                               replace(index, {
                                 ...effect,
                                 trigger: {
                                   type: 'atPeriod',
-                                  time: {
-                                    ...effect.trigger.time,
-                                    year: Number(event.target.value),
-                                  },
+                                  time: { ...effect.trigger.time, year },
                                 },
                               })
                             }}
@@ -383,18 +379,14 @@ export function V2EffectList({
                   <div className="bo-form-grid">
                     <label className="bo-field">
                       <span>โอกาสสำเร็จ (%)</span>
-                      <input
+                      <NumberInput
                         className="field"
-                        type="number"
                         min="0"
                         max="100"
                         step="0.1"
                         value={effect.successPercent}
-                        onChange={(event) =>
-                          replace(index, {
-                            ...effect,
-                            successPercent: Number(event.target.value),
-                          })
+                        onValueChange={(successPercent) =>
+                          replace(index, { ...effect, successPercent })
                         }
                       />
                     </label>
