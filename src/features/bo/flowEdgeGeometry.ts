@@ -39,3 +39,61 @@ export function floatingTarget(
     side: horizontal ? (dx < 0 ? 'left' : 'right') : dy < 0 ? 'top' : 'bottom',
   }
 }
+
+type Point = { x: number; y: number }
+
+/**
+ * SVG path through route points with rounded corners, and the point halfway
+ * along the line for the label.
+ */
+export function routePath(
+  points: Point[],
+  radius = 8,
+): { path: string; labelX: number; labelY: number } {
+  const [first, ...rest] = points
+  let path = `M ${first.x} ${first.y}`
+  rest.forEach((point, index) => {
+    const next = rest[index + 1]
+    if (!next) {
+      path += ` L ${point.x} ${point.y}`
+      return
+    }
+    const previous = points[index]
+    const before = Math.hypot(point.x - previous.x, point.y - previous.y)
+    const after = Math.hypot(next.x - point.x, next.y - point.y)
+    const bend = Math.min(radius, before / 2, after / 2)
+    if (!bend) {
+      path += ` L ${point.x} ${point.y}`
+      return
+    }
+    const enter = {
+      x: point.x - ((point.x - previous.x) / before) * bend,
+      y: point.y - ((point.y - previous.y) / before) * bend,
+    }
+    const leave = {
+      x: point.x + ((next.x - point.x) / after) * bend,
+      y: point.y + ((next.y - point.y) / after) * bend,
+    }
+    path += ` L ${enter.x} ${enter.y} Q ${point.x} ${point.y} ${leave.x} ${leave.y}`
+  })
+
+  const lengths = points
+    .slice(1)
+    .map((point, index) =>
+      Math.hypot(point.x - points[index].x, point.y - points[index].y),
+    )
+  let left = lengths.reduce((sum, length) => sum + length, 0) / 2
+  for (const [index, length] of lengths.entries()) {
+    if (left <= length && length > 0) {
+      const from = points[index]
+      const to = points[index + 1]
+      return {
+        path,
+        labelX: from.x + ((to.x - from.x) * left) / length,
+        labelY: from.y + ((to.y - from.y) * left) / length,
+      }
+    }
+    left -= length
+  }
+  return { path, labelX: first.x, labelY: first.y }
+}

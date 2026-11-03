@@ -56,9 +56,6 @@ import {
   flowPorts,
   focusedFlow,
   issuesByNode,
-  layoutFlow,
-  type CardSize,
-  type LayoutDirection,
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
@@ -75,9 +72,15 @@ import {
   floatingTarget,
   outputSide,
   portFromHandle,
+  routePath,
   type Box,
   type Side,
 } from './flowEdgeGeometry'
+import {
+  elkLayoutFlow,
+  type CardMeasure,
+  type LayoutDirection,
+} from './elkLayout'
 import type { PreviewPath } from './PreviewDialog'
 import { periodLabels } from './periodLabels'
 
@@ -100,7 +103,10 @@ type Group = Node<
   'group'
 >
 type BoardNode = Card | Group
-type FlowLine = Edge<{ port: string }, 'flow'>
+type FlowLine = Edge<
+  { port: string; route?: V2Flow['edges'][number]['route'] },
+  'flow'
+>
 
 const EVENT_DRAG_TYPE = 'application/x-bo-event'
 const eventKindLabels: Record<V2Event['kind'], string> = {
@@ -316,6 +322,21 @@ function FlowLineEdge({
   const from = useInternalNode(source)
   const to = useInternalNode(target)
   if (!from || !to || !data) return null
+  if (data.route) {
+    // Auto layout routed this edge around the cards; draw that route.
+    const { path, labelX, labelY } = routePath(data.route)
+    return (
+      <BaseEdge
+        id={id}
+        path={path}
+        label={label}
+        labelX={labelX}
+        labelY={labelY}
+        style={style}
+        markerEnd={markerEnd}
+      />
+    )
+  }
   const fromBox = nodeBox(from)
   const toBox = nodeBox(to)
   const side = outputSide(fromBox, toBox)
@@ -568,7 +589,7 @@ function Board({
           target: edge.to,
           targetHandle: 'in',
           type: 'flow',
-          data: { port: edge.port },
+          data: { port: edge.port, route: edge.route },
           label: label || undefined,
           selected: selected?.kind === 'edge' && selected.id === edge.id,
           animated: traced,
@@ -678,24 +699,43 @@ function Board({
     )
   }
 
-  function autoLayout(direction: LayoutDirection) {
+  async function autoLayout(direction: LayoutDirection) {
     // Measure cards at full detail: far zoom hides parts of each card, and a
     // layout from those smaller sizes would overlap once zoomed back in.
-    const sizes: Record<string, CardSize> = {}
+    const sizes: Record<string, CardMeasure> = {}
     const board = boardRef.current
     const zoom = board?.getAttribute('data-zoom')
     if (board && zoom) board.removeAttribute('data-zoom')
     board
       ?.querySelectorAll<HTMLElement>('.react-flow__node[data-id]')
       .forEach((element) => {
-        if (element.offsetWidth && element.offsetHeight)
-          sizes[element.dataset.id!] = {
-            width: element.offsetWidth,
-            height: element.offsetHeight,
-          }
+        if (!element.offsetWidth || !element.offsetHeight) return
+        const box = element.getBoundingClientRect()
+        const scale = box.width / element.offsetWidth || 1
+        const handles: CardMeasure['handles'] = {}
+        element
+          .querySelectorAll<HTMLElement>('.react-flow__handle[data-handleid]')
+          .forEach((handle) => {
+            const rect = handle.getBoundingClientRect()
+            if (!rect.width && !rect.height) return
+            handles[handle.dataset.handleid!] = {
+              x: (rect.left + rect.width / 2 - box.left) / scale,
+              y: (rect.top + rect.height / 2 - box.top) / scale,
+            }
+          })
+        sizes[element.dataset.id!] = {
+          width: element.offsetWidth,
+          height: element.offsetHeight,
+          handles,
+        }
       })
     if (board && zoom) board.setAttribute('data-zoom', zoom)
-    change(layoutFlow(flow, { direction, sizes }))
+    try {
+      change(await elkLayoutFlow(flow, content.events, { direction, sizes }))
+    } catch {
+      toast.error('จัดตำแหน่งไม่สำเร็จ')
+      return
+    }
     toast.success('จัดตำแหน่งแล้ว', {
       description: 'กด Cmd+Z (Ctrl+Z) เพื่อย้อน',
     })
@@ -1071,10 +1111,16 @@ function Board({
                 >
                   พอดีจอเฉพาะที่เลือก
                 </button>
-                <button type="button" onClick={() => autoLayout('horizontal')}>
+                <button
+                  type="button"
+                  onClick={() => void autoLayout('horizontal')}
+                >
                   จัดแนวนอน (ซ้ายไปขวา)
                 </button>
-                <button type="button" onClick={() => autoLayout('vertical')}>
+                <button
+                  type="button"
+                  onClick={() => void autoLayout('vertical')}
+                >
                   จัดแนวตั้ง (บนลงล่าง)
                 </button>
               </div>

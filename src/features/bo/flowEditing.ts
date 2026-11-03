@@ -186,7 +186,7 @@ export function reconnectEdge(
   return {
     ...flow,
     edges: flow.edges.map((item) =>
-      item.id === edgeId ? { ...item, from, port, to } : item,
+      item.id === edgeId ? { ...withoutRoute(item), from, port, to } : item,
     ),
   }
 }
@@ -283,226 +283,43 @@ export function finishReconnectEdge(
   return removeFlowEdges(flow, [edgeId])
 }
 
+function withoutRoute<T extends { route?: unknown }>(
+  edge: T,
+): Omit<T, 'route'> {
+  const { route: _route, ...rest } = edge
+  void _route
+  return rest
+}
+
+/**
+ * Moves cards. Auto-layout routes of edges that touch a moved card, or a card
+ * inside a moved Sub Flow, no longer fit and are dropped.
+ */
 export function moveFlowNodes(
   flow: V2Flow,
   positions: Record<string, Position>,
 ): V2Flow {
+  const moved = new Set<string>()
+  const nodes = flow.nodes.map((node) => {
+    const next = positions[node.id]
+    if (!next) return node
+    const position = { x: Math.round(next.x), y: Math.round(next.y) }
+    if (position.x === node.position.x && position.y === node.position.y)
+      return node
+    moved.add(node.id)
+    return { ...node, position }
+  })
+  if (!moved.size) return flow
+  for (const node of flow.nodes)
+    if (node.parentId && moved.has(node.parentId)) moved.add(node.id)
   return {
-    ...flow,
-    nodes: flow.nodes.map((node) =>
-      positions[node.id]
-        ? {
-            ...node,
-            position: {
-              x: Math.round(positions[node.id].x),
-              y: Math.round(positions[node.id].y),
-            },
-          }
-        : node,
+    nodes,
+    edges: flow.edges.map((edge) =>
+      edge.route && (moved.has(edge.from) || moved.has(edge.to))
+        ? withoutRoute(edge)
+        : edge,
     ),
   }
-}
-
-export type LayoutDirection = 'horizontal' | 'vertical'
-export type CardSize = { width: number; height: number }
-
-/** Card size used when the board has not measured a card yet. */
-export const LAYOUT_CARD: CardSize = { width: 240, height: 120 }
-export const LAYOUT_GAP = 80
-export const LAYOUT_COLUMN = LAYOUT_CARD.width + LAYOUT_GAP
-export const LAYOUT_ROW = LAYOUT_CARD.height + LAYOUT_GAP
-
-/**
- * Column of each card reachable from Start: the longest path from Start,
- * so every forward edge points right. Edges that loop back to a card on the
- * current DFS path are left out, so loops cannot stretch the board.
- */
-function longestPathColumns(flow: V2Flow): Map<string, number> {
-  const next = new Map<string, string[]>()
-  for (const edge of flow.edges)
-    next.set(edge.from, [...(next.get(edge.from) ?? []), edge.to])
-  const depth = new Map<string, number>()
-  const start = flow.nodes.find((node) => node.type === 'start')
-  if (!start) return depth
-
-  const known = new Set(flow.nodes.map((node) => node.id))
-  const onPath = new Set<string>()
-  const done = new Set<string>()
-  const finished: string[] = []
-  const forward: [string, string][] = []
-  const visit = (id: string) => {
-    onPath.add(id)
-    for (const to of next.get(id) ?? []) {
-      if (!known.has(to) || onPath.has(to)) continue
-      forward.push([id, to])
-      if (!done.has(to)) visit(to)
-    }
-    onPath.delete(id)
-    done.add(id)
-    finished.push(id)
-  }
-  visit(start.id)
-
-  const incoming = new Map<string, string[]>()
-  for (const [from, to] of forward)
-    incoming.set(to, [...(incoming.get(to) ?? []), from])
-  for (const id of finished.reverse())
-    depth.set(
-      id,
-      Math.max(
-        0,
-        ...(incoming.get(id) ?? []).map((from) => depth.get(from)! + 1),
-      ),
-    )
-  return depth
-}
-
-export function layoutFlow(
-  flow: V2Flow,
-  {
-    direction = 'horizontal',
-    sizes = {},
-  }: { direction?: LayoutDirection; sizes?: Record<string, CardSize> } = {},
-): V2Flow {
-  const depth = longestPathColumns(flow)
-  const unreachableColumn = Math.max(-1, ...depth.values()) + 1
-  const columns: string[][] = []
-  for (const node of flow.nodes) {
-    if (node.type === 'group' || node.parentId) continue
-    const column = depth.get(node.id) ?? unreachableColumn
-    ;(columns[column] ??= []).push(node.id)
-  }
-  const ordered = orderColumns(
-    Array.from(columns, (ids) => ids ?? []),
-    flow.edges,
-  )
-
-  // Ranks run along the main axis; cards in one rank spread on the cross axis.
-  const vertical = direction === 'vertical'
-  const size = (id: string) => sizes[id] ?? LAYOUT_CARD
-  const main = (id: string) => (vertical ? size(id).height : size(id).width)
-  const cross = (id: string) => (vertical ? size(id).width : size(id).height)
-  const spans = ordered.map(
-    (ids) =>
-      ids.reduce((sum, id) => sum + cross(id), 0) +
-      LAYOUT_GAP * Math.max(0, ids.length - 1),
-  )
-  const widest = Math.max(0, ...spans)
-  const positions: Record<string, Position> = {}
-  let rankStart = 0
-  ordered.forEach((ids, rank) => {
-    let crossStart = (widest - spans[rank]) / 2
-    for (const id of ids) {
-      positions[id] = vertical
-        ? { x: crossStart, y: rankStart }
-        : { x: rankStart, y: crossStart }
-      crossStart += cross(id) + LAYOUT_GAP
-    }
-    rankStart += Math.max(0, ...ids.map(main)) + LAYOUT_GAP
-  })
-  return moveFlowNodes(flow, positions)
-}
-
-const LAYOUT_SWEEPS = 4
-
-/** Centered row of each card, so columns of different heights compare. */
-function columnRows(columns: string[][]): Map<string, number> {
-  const rows = new Map<string, number>()
-  for (const ids of columns)
-    ids.forEach((id, row) => rows.set(id, row - (ids.length - 1) / 2))
-  return rows
-}
-
-/**
- * Counts crossings between edges that join the same pair of columns.
- * Edges inside one column are ignored.
- */
-export function countFlowCrossings(
-  columns: string[][],
-  edges: Pick<V2Flow['edges'][number], 'from' | 'to'>[],
-): number {
-  const rows = columnRows(columns)
-  const columnOf = new Map<string, number>()
-  columns.forEach((ids, column) =>
-    ids.forEach((id) => columnOf.set(id, column)),
-  )
-  const groups = new Map<string, [number, number][]>()
-  for (const edge of edges) {
-    const from = columnOf.get(edge.from)
-    const to = columnOf.get(edge.to)
-    if (from === undefined || to === undefined || from === to) continue
-    const [left, right] =
-      from < to ? [edge.from, edge.to] : [edge.to, edge.from]
-    const key = `${Math.min(from, to)}:${Math.max(from, to)}`
-    groups.set(key, [
-      ...(groups.get(key) ?? []),
-      [rows.get(left)!, rows.get(right)!],
-    ])
-  }
-  let crossings = 0
-  for (const lines of groups.values())
-    for (let a = 0; a < lines.length; a++)
-      for (let b = a + 1; b < lines.length; b++)
-        if ((lines[a][0] - lines[b][0]) * (lines[a][1] - lines[b][1]) < 0)
-          crossings++
-  return crossings
-}
-
-/**
- * Barycenter ordering: sweeps left to right, then right to left, sorting each
- * column by the mean row of its neighbors on the side already placed, and
- * keeps the order with the fewest crossings. Ties keep the current order.
- */
-function orderColumns(columns: string[][], edges: V2Flow['edges']): string[][] {
-  const columnOf = new Map<string, number>()
-  columns.forEach((ids, column) =>
-    ids.forEach((id) => columnOf.set(id, column)),
-  )
-  const neighbors = new Map<string, string[]>()
-  for (const edge of edges) {
-    if (!columnOf.has(edge.from) || !columnOf.has(edge.to)) continue
-    if (columnOf.get(edge.from) === columnOf.get(edge.to)) continue
-    neighbors.set(edge.from, [...(neighbors.get(edge.from) ?? []), edge.to])
-    neighbors.set(edge.to, [...(neighbors.get(edge.to) ?? []), edge.from])
-  }
-
-  let current = columns.map((ids) => [...ids])
-  let best = current
-  let bestCrossings = countFlowCrossings(best, edges)
-
-  const sortColumn = (column: number, side: 'left' | 'right') => {
-    const rows = columnRows(current)
-    const score = (id: string) => {
-      const placed = (neighbors.get(id) ?? []).filter((other) =>
-        side === 'left'
-          ? columnOf.get(other)! < column
-          : columnOf.get(other)! > column,
-      )
-      if (!placed.length) return rows.get(id)!
-      return (
-        placed.reduce((sum, other) => sum + rows.get(other)!, 0) / placed.length
-      )
-    }
-    const ids = current[column]
-    const scored = ids.map((id, at) => ({ id, at, score: score(id) }))
-    scored.sort((a, b) => a.score - b.score || a.at - b.at)
-    current = current.map((other, at) =>
-      at === column ? scored.map((item) => item.id) : other,
-    )
-  }
-
-  for (let sweep = 0; sweep < LAYOUT_SWEEPS; sweep++) {
-    for (let column = 1; column < current.length; column++)
-      sortColumn(column, 'left')
-    for (let column = current.length - 2; column >= 0; column--)
-      sortColumn(column, 'right')
-    const crossings = countFlowCrossings(current, edges)
-    if (crossings < bestCrossings) {
-      best = current
-      bestCrossings = crossings
-    }
-  }
-  return best
 }
 
 export type FlowNodeIssues = { errors: string[]; warnings: string[] }

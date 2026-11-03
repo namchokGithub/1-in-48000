@@ -4,6 +4,7 @@ import {
   floatingTarget,
   outputSide,
   portFromHandle,
+  routePath,
 } from './flowEdgeGeometry'
 
 const card = { x: 0, y: 0, width: 240, height: 160 }
@@ -38,5 +39,29 @@ describe('BO flow edge geometry', () => {
   it('maps bottom handles back to their port', () => {
     expect(portFromHandle(bottomHandleId('apply_kyos'))).toBe('apply_kyos')
     expect(portFromHandle('apply_kyos')).toBe('apply_kyos')
+  })
+
+  it('draws a route with rounded corners and labels it halfway along', () => {
+    expect(
+      routePath([
+        { x: 0, y: 0 },
+        { x: 100, y: 0 },
+      ]),
+    ).toEqual({ path: 'M 0 0 L 100 0', labelX: 50, labelY: 0 })
+
+    const corner = routePath([
+      { x: 0, y: 0 },
+      { x: 40, y: 0 },
+      { x: 40, y: 60 },
+    ])
+    expect(corner.path).toBe('M 0 0 L 32 0 Q 40 0 40 8 L 40 60')
+    expect([corner.labelX, corner.labelY]).toEqual([40, 10])
+
+    const tight = routePath([
+      { x: 0, y: 0 },
+      { x: 6, y: 0 },
+      { x: 6, y: 60 },
+    ])
+    expect(tight.path).toBe('M 0 0 L 3 0 Q 6 0 6 3 L 6 60')
   })
 })

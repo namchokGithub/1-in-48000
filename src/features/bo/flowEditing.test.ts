@@ -11,11 +11,6 @@ import {
   flowPorts,
   focusedFlow,
   issuesByNode,
-  LAYOUT_COLUMN,
-  LAYOUT_GAP,
-  LAYOUT_ROW,
-  countFlowCrossings,
-  layoutFlow,
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
@@ -92,13 +87,6 @@ describe('BO flow board editing', () => {
       parentId: group.id,
       position: { x: 380, y: -200 },
     })
-    const laidOut = layoutFlow(reparented)
-    expect(
-      laidOut.nodes.find((node) => node.id === group.id)?.position,
-    ).toEqual(group.position)
-    expect(laidOut.nodes.find((node) => node.id === childId)?.position).toEqual(
-      { x: 380, y: -200 },
-    )
     const ungrouped = reparentFlowNode(reparented, childId)
     expect(ungrouped.nodes.find((node) => node.id === childId)).toMatchObject({
       position: { x: 480, y: 0 },
@@ -184,191 +172,46 @@ describe('BO flow board editing', () => {
     expect(finishReconnectEdge(flow, edgeId, true)).toBe(flow)
   })
 
-  it('moves cards to rounded positions and lays them out by distance from Start', () => {
+  it('moves cards to rounded positions and drops routes that no longer fit', () => {
     const moved = moveFlowNodes(flow, { review: { x: 10.6, y: -3.2 } })
     expect(moved.nodes.find((node) => node.id === 'review')?.position).toEqual({
       x: 11,
       y: -3,
     })
-    const island = {
-      ...flow,
-      nodes: [
-        ...flow.nodes,
-        {
-          id: 'island',
-          type: 'nextPeriod' as const,
-          position: { x: 0, y: 0 },
-        },
-      ],
-    }
-    const laidOut = layoutFlow(island)
-    const x = (id: string) =>
-      laidOut.nodes.find((node) => node.id === id)!.position.x
-    expect(x('start')).toBe(0)
-    expect(x('n_choose_program')).toBe(LAYOUT_COLUMN)
-    expect(x('n_student_loan')).toBe(LAYOUT_COLUMN * 2)
-    expect(x('island')).toBeGreaterThan(x('end_study_complete'))
-  })
 
-  it('places each card right of every card that leads to it and ignores loops', () => {
-    const node = (id: string) => ({
-      id,
-      type: 'nextPeriod' as const,
-      position: { x: 0, y: 0 },
-    })
-    const edge = (from: string, to: string) => ({
-      id: `${from}-${to}`,
-      from,
-      to,
-      port: 'next',
-    })
-    const shortcut = {
-      nodes: [
-        { id: 'start', type: 'start' as const, position: { x: 0, y: 0 } },
-        node('ask'),
-        node('detour'),
-        node('merge'),
-      ],
-      edges: [
-        edge('start', 'ask'),
-        edge('ask', 'merge'),
-        edge('ask', 'detour'),
-        edge('detour', 'merge'),
-        edge('merge', 'ask'),
-        edge('merge', 'merge'),
-      ],
-    }
-    const laidOut = layoutFlow(shortcut)
-    const column = (id: string) =>
-      laidOut.nodes.find((item) => item.id === id)!.position.x / LAYOUT_COLUMN
-    expect(['start', 'ask', 'detour', 'merge'].map(column)).toEqual([
-      0, 1, 2, 3,
-    ])
-  })
-
-  it('lays out top to bottom and spaces ranks by the measured card sizes', () => {
-    const node = (id: string) => ({
-      id,
-      type: 'nextPeriod' as const,
-      position: { x: 0, y: 0 },
-    })
-    const edge = (from: string, to: string) => ({
-      id: `${from}-${to}`,
-      from,
-      to,
-      port: 'next',
-    })
-    const branch = {
-      nodes: [
-        { id: 'start', type: 'start' as const, position: { x: 0, y: 0 } },
-        node('tall'),
-        node('short'),
-        node('after'),
-      ],
-      edges: [
-        edge('start', 'tall'),
-        edge('start', 'short'),
-        edge('tall', 'after'),
-        edge('short', 'after'),
-      ],
-    }
-    const sizes = {
-      start: { width: 240, height: 100 },
-      tall: { width: 240, height: 500 },
-      short: { width: 300, height: 150 },
-      after: { width: 240, height: 100 },
-    }
-    const position = (laid: typeof flow, id: string) =>
-      laid.nodes.find((item) => item.id === id)!.position
-
-    const vertical = layoutFlow(branch, { direction: 'vertical', sizes })
-    expect(position(vertical, 'start').y).toBe(0)
-    expect(position(vertical, 'tall').y).toBe(100 + LAYOUT_GAP)
-    expect(position(vertical, 'short').y).toBe(100 + LAYOUT_GAP)
-    expect(position(vertical, 'after').y).toBe(100 + 500 + LAYOUT_GAP * 2)
-    const [left, right] = ['tall', 'short']
-      .map((id) => ({ id, x: position(vertical, id).x }))
-      .sort((a, b) => a.x - b.x)
-    expect(right.x - left.x).toBe(
-      sizes[left.id as 'tall' | 'short'].width + LAYOUT_GAP,
+    const route = [
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+    ]
+    const grouped = reparentFlowNode(
+      addFlowNode(flow, content, 'group', { x: -500, y: -500 }),
+      'n_student_loan',
+      'group',
     )
-
-    const horizontal = layoutFlow(branch, { sizes })
-    expect(position(horizontal, 'tall').x).toBe(240 + LAYOUT_GAP)
-    expect(position(horizontal, 'after').x).toBe(240 + 300 + LAYOUT_GAP * 2)
-    const [top, bottom] = ['tall', 'short']
-      .map((id) => ({ id, y: position(horizontal, id).y }))
-      .sort((a, b) => a.y - b.y)
-    expect(bottom.y - top.y).toBe(
-      sizes[top.id as 'tall' | 'short'].height + LAYOUT_GAP,
-    )
-  })
-
-  it('orders cards in each column to cross fewer edges, the same way every time', () => {
-    const node = (id: string) => ({
-      id,
-      type: 'nextPeriod' as const,
-      position: { x: 0, y: 0 },
-    })
-    const edge = (from: string, to: string) => ({
-      id: `${from}-${to}`,
-      from,
-      to,
-      port: 'next',
-    })
-    const crossed = {
-      nodes: [
-        { id: 'start', type: 'start' as const, position: { x: 0, y: 0 } },
-        node('a'),
-        node('b'),
-        node('a_next'),
-        node('b_next'),
-      ],
-      edges: [
-        edge('start', 'a'),
-        edge('start', 'b'),
-        edge('a', 'b_next'),
-        edge('b', 'a_next'),
-      ],
+    const routed = {
+      ...grouped,
+      edges: grouped.edges.map((edge) => ({ ...edge, route })),
     }
-    const before = [['start'], ['a', 'b'], ['a_next', 'b_next']]
-    expect(countFlowCrossings(before, crossed.edges)).toBe(1)
+    const touches = (edge: (typeof flow.edges)[number], id: string) =>
+      edge.from === id || edge.to === id
+    const group = routed.nodes.find((node) => node.id === 'group')!
+    expect(moveFlowNodes(routed, { group: group.position })).toBe(routed)
 
-    const laidOut = layoutFlow(crossed)
-    const position = (id: string) =>
-      laidOut.nodes.find((item) => item.id === id)!.position
-    const byRow = (ids: string[]) =>
-      [...ids].sort((a, b) => position(a).y - position(b).y)
-    const after = [['start'], byRow(['a', 'b']), byRow(['a_next', 'b_next'])]
-    expect(countFlowCrossings(after, crossed.edges)).toBe(0)
-    expect(position('b_next').x).toBe(LAYOUT_COLUMN * 2)
-    expect(position('start').y).toBe(LAYOUT_ROW / 2)
-    expect(layoutFlow(crossed)).toEqual(laidOut)
-  })
+    const afterGroupMove = moveFlowNodes(routed, { group: { x: 0, y: 0 } })
+    for (const edge of afterGroupMove.edges)
+      expect(edge.route).toEqual(
+        touches(edge, 'n_student_loan') ? undefined : route,
+      )
 
-  it('never lays out the sample flow with more crossings than its card order', () => {
-    const columnsOf = (laid: typeof flow) => {
-      const columns = new Map<number, typeof laid.nodes>()
-      for (const item of laid.nodes)
-        columns.set(item.position.x, [
-          ...(columns.get(item.position.x) ?? []),
-          item,
-        ])
-      return [...columns.entries()]
-        .sort(([a], [b]) => a - b)
-        .map(([, items]) =>
-          [...items]
-            .sort((a, b) => a.position.y - b.position.y)
-            .map((item) => item.id),
-        )
-    }
-    const laidOut = layoutFlow(flow)
-    const fileOrder = columnsOf(laidOut).map((ids) =>
-      flow.nodes.map((item) => item.id).filter((id) => ids.includes(id)),
+    const reconnected = reconnectEdge(
+      routed,
+      routed.edges[0].id,
+      routed.edges[0].from,
+      routed.edges[0].port,
+      'review',
     )
-    expect(
-      countFlowCrossings(columnsOf(laidOut), flow.edges),
-    ).toBeLessThanOrEqual(countFlowCrossings(fileOrder, flow.edges))
+    expect(reconnected.edges[0]).not.toHaveProperty('route')
+    expect(reconnected.edges[1].route).toEqual(route)
   })
 
   it('groups node and edge issues by card', () => {

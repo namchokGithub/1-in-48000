@@ -335,6 +335,8 @@ export const v2FlowEdgeSchema = z.strictObject({
   port: z.string().min(1),
   to: v2IdSchema,
   condition: v2ConditionSchema.optional(),
+  /** BO-only drawing hint from auto layout: board points from start to end. */
+  route: z.array(positionSchema).min(2).optional(),
 })
 
 type FlowNode = z.infer<typeof v2FlowNodeSchema>
