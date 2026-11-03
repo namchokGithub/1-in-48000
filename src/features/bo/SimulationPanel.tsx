@@ -78,8 +78,9 @@ export function SimulationPanel({
             type="button"
             className="button button-secondary"
             onClick={onExit}
+            title="กด Esc เพื่อออก"
           >
-            ออก
+            ออก <kbd className="bo-simulation-kbd">Esc</kbd>
           </button>
         </div>
       </div>

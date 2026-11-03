@@ -704,6 +704,14 @@
   gap: 0.375rem;
   align-items: flex-start;
 }
+.bo-simulation-kbd {
+  margin-left: 0.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.25rem;
+  padding: 0 0.3rem;
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
 .bo-simulation-history ol {
   display: grid;
   gap: 0.5rem;

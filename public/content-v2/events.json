@@ -2,7 +2,7 @@
   {
     "id": "orientation",
     "kind": "main",
-    "randomizeChoices": true,
+    "randomizeChoices": false,
     "time": {
       "year": 1,
       "period": "term1"
@@ -13,29 +13,20 @@
     "conditions": [],
     "lines": [
       {
-        "text": "กระเป๋ายังหนักอยู่บนบ่า ลานหน้าอาคารเต็มไปด้วยคนที่เพิ่งมาถึงเหมือนกัน"
+        "text": "คุณสะพายกระเป๋าใบหนักไว้บนบ่า มองไปรอบ ๆ ก็เห็นนักศึกษาใหม่ทยอยเดินเข้ามาเต็มลานหน้าอาคาร ตื่นเต้นไปหมด ไม่รู้เลยว่าชีวิตมหา'ลัยต่อจากนี้จะเป็นยังไงบ้าง"
       },
       {
         "speakerId": "mali",
-        "text": "ยินดีต้อนรับสู่ ม.บารพู มานั่งด้วยกันไหม?"
+        "text": "ยินดีต้อนรับสู่ ม.บารพู นะ! ตรงนี้ยังมีที่ว่างอยู่ มานั่งด้วยกันสิ"
       }
     ],
     "choices": [
       {
         "id": "join_group",
-        "text": "เข้าไปทำความรู้จักเพื่อนใหม่",
+        "text": "เดินเข้าไปทักทายเพื่อน ๆ",
         "conditions": [],
+        "recap": "คุณได้รับการต้อนรับอย่างเป็นกันเองจากเพื่อนใหม่ ความประหม่าตอนแรกเริ่มหายไปบ้าง อย่างน้อยวันแรกที่ ม.บารพู ก็ดูไม่แย่อย่างที่คิด",
         "effects": [
-          {
-            "type": "setFlag",
-            "flagId": "met_mali",
-            "value": true
-          },
-          {
-            "type": "statDelta",
-            "stat": "relationships",
-            "amount": 3
-          },
           {
             "type": "schedule",
             "trigger": {
@@ -54,18 +45,7 @@
         "id": "explore_campus",
         "text": "เดินสำรวจมหาวิทยาลัยก่อน",
         "conditions": [],
-        "effects": [
-          {
-            "type": "statDelta",
-            "stat": "study",
-            "amount": 2
-          },
-          {
-            "type": "statDelta",
-            "stat": "stress",
-            "amount": -1
-          }
-        ]
+        "effects": []
       }
     ]
   },
@@ -2179,13 +2159,13 @@
     "conditions": [],
     "lines": [
       {
-        "text": "วันแรกที่ ม.บารพู คุณมองรายชื่อคณะและสาขาที่จะเลือกเรียน"
+        "text": "ชีวิตมหาวิทยาลัยกำลังจะเริ่มต้นขึ้น แต่ก่อนอื่น... จะเลือกเรียนคณะไหนดีล่ะ?"
       }
     ],
     "choices": [
       {
         "id": "confirm_program",
-        "text": "ไปต่อ",
+        "text": "ต่อไป",
         "conditions": [],
         "effects": []
       }
@@ -2221,14 +2201,14 @@
     ]
   },
   {
-    "id": "new_event",
+    "id": "explore_library_and_find_food",
     "kind": "main",
     "randomizeChoices": false,
     "time": {
       "year": 1,
       "period": "term1"
     },
-    "title": "เหตุการณ์ใหม่",
+    "title": "ไปเดินเล่นแถวหอสมุด หาอะไรกินดีกว่า",
     "sceneAssetId": "campus_library_exterior",
     "bgmAssetId": "kanto_daydream",
     "conditions": [],
@@ -2240,14 +2220,21 @@
     "choices": [
       {
         "id": "continue",
-        "text": "เข้าไปทักทาย",
+        "text": "เดินเข้าไปทักทายเพื่อนใหม่",
         "conditions": [],
-        "effects": []
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "met_nap_dow",
+            "value": true
+          }
+        ]
       },
       {
         "id": "choice_53cc4cc0",
-        "text": "ไปต่อ",
+        "text": "ไม่เข้าไปทัก แล้วเดินต่อไป",
         "conditions": [],
+        "recap": "คุณตัดสินใจไม่เข้าไปทักทาย แล้วเดินสำรวจหอสมุดต่อไป โดยที่เพื่อนคนนั้นยังไม่ทันสังเกตเห็นคุณ",
         "effects": []
       }
     ]
@@ -2269,6 +2256,9 @@
       {
         "speakerId": "nap-dow",
         "text": "สวัสดี! เราเพิ่งเจอกันครั้งแรกใช่ไหม ยินดีที่ได้รู้จักนะ"
+      },
+      {
+        "text": "เอ๊ะ! เธอเป็นฝ่ายเดินเข้ามาทักก่อนซะงั้น จะทำยังไงดีล่ะ?"
       }
     ],
     "choices": [
@@ -2281,12 +2271,12 @@
           {
             "type": "statDelta",
             "stat": "relationships",
-            "amount": -6
+            "amount": -3
           },
           {
             "type": "statDelta",
             "stat": "stress",
-            "amount": -5
+            "amount": -2
           }
         ]
       },
@@ -2307,8 +2297,73 @@
         "id": "choice_9ef83c8f",
         "text": "ทำเป็นไม่สนใจแล้วเดินผ่านไป",
         "conditions": [],
-        "effects": [],
-        "recap": "คุณทำเป็นไม่เห็นเธอแล้วเดินผ่านไป โดยไม่ได้ทักทายอะไรกลับ"
+        "recap": "คุณทำเป็นไม่เห็นเธอแล้วเดินผ่านไป โดยไม่ได้ทักทายอะไรกลับ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "meet_new_friend",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "ทำความรู้จักเพื่อนใหม่",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "speakerId": "mali",
+        "text": "สวัสดี... เราเคยเจอกันตอนปฐมนิเทศใช่ไหม? ดีจังที่ได้เจอกันอีก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "ยิ้มทักทายกลับ แล้วขอตัวไปต่อ",
+        "conditions": [],
+        "recap": "คุณยิ้มทักทายเพื่อนใหม่กลับ ก่อนจะขอตัวเดินต่อไป ไว้มีโอกาสค่อยคุยกันใหม่นะ",
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "met_mali",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "new_event",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "title": "เหตุการณ์ใหม่",
+    "sceneAssetId": "campus_gif",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เขียนบทสนทนา"
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "text": "ต่อไป",
+        "conditions": [],
+        "effects": []
       }
     ]
   }

@@ -870,9 +870,14 @@ function Board({
         if (selected) fitSelected()
         else fitView({ duration: 300 })
       } else if (event.key === 'Escape') {
-        addMenuRef.current?.removeAttribute('open')
-        setContextMenu(null)
-        select(null)
+        // Close the topmost thing first; a dropdown that handled Escape
+        // already called preventDefault.
+        if (event.defaultPrevented) return
+        if (addMenuRef.current?.open || contextMenu || selected) {
+          addMenuRef.current?.removeAttribute('open')
+          setContextMenu(null)
+          select(null)
+        } else if (simulation) onSimulationChange(null)
       }
     }
     function onPointerDown(event: PointerEvent) {
