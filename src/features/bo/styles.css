@@ -521,6 +521,47 @@
   cursor: not-allowed;
   opacity: 0.6;
 }
+.bo-flow-context-menu {
+  position: fixed;
+  z-index: calc(var(--z-dropdown) + 2);
+  display: grid;
+  min-width: 13.5rem;
+  max-width: min(18rem, calc(100vw - 1rem));
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  padding: 0.3rem;
+  background: var(--color-surface);
+  box-shadow: 0 12px 28px rgba(23, 53, 68, 0.18);
+}
+.bo-flow-context-menu button {
+  border: 0;
+  border-radius: 0.45rem;
+  padding: 0.5rem 0.6rem;
+  background: transparent;
+  color: var(--color-ink);
+  text-align: left;
+}
+.bo-flow-context-menu button:hover,
+.bo-flow-context-menu button:focus-visible {
+  background: var(--color-primary-soft);
+}
+.bo-flow-context-label {
+  margin: 0.1rem 0.35rem 0.25rem;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.bo-flow-context-menu .bo-flow-context-danger {
+  margin-top: 0.2rem;
+  color: var(--color-danger);
+}
+.bo-flow-context-menu .bo-flow-context-danger:hover,
+.bo-flow-context-menu .bo-flow-context-danger:focus-visible {
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+}
 /* The view menu sits at the right of the toolbar, so it opens leftward. */
 [aria-label='มุมมอง'] .bo-flow-menu-list {
   right: 0;

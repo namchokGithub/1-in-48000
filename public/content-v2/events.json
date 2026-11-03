@@ -2240,15 +2240,9 @@
     "choices": [
       {
         "id": "continue",
-        "text": "ทักทาย",
+        "text": "เข้าไปทักทาย",
         "conditions": [],
-        "effects": [
-          {
-            "type": "statDelta",
-            "stat": "relationships",
-            "amount": 10
-          }
-        ]
+        "effects": []
       },
       {
         "id": "choice_53cc4cc0",

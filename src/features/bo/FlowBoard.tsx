@@ -108,6 +108,15 @@ type FlowLine = Edge<
   { port: string; route?: V2Flow['edges'][number]['route'] },
   'flow'
 >
+type FlowContextMenu =
+  | { kind: 'node'; id: string; x: number; y: number }
+  | { kind: 'edge'; id: string; x: number; y: number }
+  | {
+      kind: 'pane'
+      x: number
+      y: number
+      position: V2FlowNode['position']
+    }
 
 const EVENT_DRAG_TYPE = 'application/x-bo-event'
 const eventKindLabels: Record<V2Event['kind'], string> = {
@@ -435,6 +444,7 @@ function Board({
   const [libraryOpen, setLibraryOpen] = useState(false)
   const [focusDepth, setFocusDepth] = useState(1)
   const [hoveredEdge, setHoveredEdge] = useState<string | null>(null)
+  const [contextMenu, setContextMenu] = useState<FlowContextMenu | null>(null)
   const zoomedOut = useStore((state) => state.transform[2] < 0.45)
   const [goTo, setGoTo] = useState('')
   const goToRef = useRef<HTMLInputElement>(null)
@@ -641,6 +651,14 @@ function Board({
     ),
   ]
   const eventIds = content.events.map((event) => event.id)
+  const contextNode =
+    contextMenu?.kind === 'node'
+      ? flow.nodes.find((node) => node.id === contextMenu.id)
+      : undefined
+  const contextEdge =
+    contextMenu?.kind === 'edge'
+      ? flow.edges.find((edge) => edge.id === contextMenu.id)
+      : undefined
 
   function change(next: V2Flow) {
     onChange(next)
@@ -675,8 +693,9 @@ function Board({
 
   function add(
     type: 'condition' | 'random' | 'nextPeriod' | 'ending' | 'group',
+    position = boardCenter(),
   ) {
-    const next = addFlowNode(flow, content, type, boardCenter())
+    const next = addFlowNode(flow, content, type, position)
     change(next)
     select({ kind: 'node', id: next.nodes.at(-1)!.id })
   }
@@ -772,6 +791,27 @@ function Board({
     goToRef.current?.blur()
   }
 
+  function menuPosition(event: { clientX: number; clientY: number }) {
+    return {
+      x: Math.min(event.clientX, window.innerWidth - 236),
+      y: Math.min(event.clientY, window.innerHeight - 280),
+    }
+  }
+
+  async function copyFromMenu(value: string, label: string) {
+    try {
+      await navigator.clipboard.writeText(value)
+      toast.success(`คัดลอก ${label} แล้ว`)
+    } catch {
+      toast.error(`คัดลอก ${label} ไม่ได้`)
+    }
+  }
+
+  function runContextAction(action: () => void) {
+    action()
+    setContextMenu(null)
+  }
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.metaKey || event.ctrlKey || event.altKey) return
@@ -788,6 +828,7 @@ function Board({
         else fitView({ duration: 300 })
       } else if (event.key === 'Escape') {
         addMenuRef.current?.removeAttribute('open')
+        setContextMenu(null)
         select(null)
       }
     }
@@ -795,6 +836,11 @@ function Board({
       const menu = addMenuRef.current
       if (menu?.open && !menu.contains(event.target as globalThis.Node))
         menu.removeAttribute('open')
+      if (
+        contextMenu &&
+        !(event.target as HTMLElement).closest('.bo-flow-context-menu')
+      )
+        setContextMenu(null)
     }
     window.addEventListener('keydown', onKeyDown)
     window.addEventListener('pointerdown', onPointerDown)
@@ -1246,15 +1292,52 @@ function Board({
                 )
               }
               onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
+              onNodeContextMenu={(event, node) => {
+                if (event.shiftKey) return
+                event.preventDefault()
+                select({ kind: 'node', id: node.id })
+                setContextMenu({
+                  kind: 'node',
+                  id: node.id,
+                  ...menuPosition(event),
+                })
+              }}
               onNodeDoubleClick={(_, node) => {
                 if (node.data.node.type === 'event')
                   onEditEvent(node.data.node.eventId)
               }}
               zoomOnDoubleClick={false}
               onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
+              onEdgeContextMenu={(event, edge) => {
+                if (event.shiftKey) return
+                event.preventDefault()
+                select({ kind: 'edge', id: edge.id })
+                setContextMenu({
+                  kind: 'edge',
+                  id: edge.id,
+                  ...menuPosition(event),
+                })
+              }}
               onEdgeMouseEnter={(_, edge) => setHoveredEdge(edge.id)}
               onEdgeMouseLeave={() => setHoveredEdge(null)}
-              onPaneClick={() => select(null)}
+              onPaneClick={() => {
+                setContextMenu(null)
+                select(null)
+              }}
+              onPaneContextMenu={(event) => {
+                if (event.shiftKey) return
+                event.preventDefault()
+                const client =
+                  'nativeEvent' in event ? event.nativeEvent : event
+                setContextMenu({
+                  kind: 'pane',
+                  ...menuPosition(client),
+                  position: screenToFlowPosition({
+                    x: client.clientX,
+                    y: client.clientY,
+                  }),
+                })
+              }}
               selectionOnDrag={true}
               selectionMode={SelectionMode.Partial}
               panOnDrag={[1, 2]}
@@ -1412,6 +1495,203 @@ function Board({
           )}
         </div>
       </section>
+      {contextMenu && (
+        <div
+          className="bo-flow-context-menu"
+          role="menu"
+          style={{ left: contextMenu.x, top: contextMenu.y }}
+          onContextMenu={(event) => event.preventDefault()}
+        >
+          {contextNode && (
+            <>
+              <p className="bo-flow-context-label">
+                {typeLabels[contextNode.type]}
+              </p>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  runContextAction(() =>
+                    select({ kind: 'node', id: contextNode.id }),
+                  )
+                }
+              >
+                ดูรายละเอียด
+              </button>
+              {contextNode.type === 'event' && (
+                <>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() =>
+                      runContextAction(() => onEditEvent(contextNode.eventId))
+                    }
+                  >
+                    แก้เหตุการณ์
+                  </button>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() =>
+                      runContextAction(() => onPreview(contextNode.eventId))
+                    }
+                  >
+                    ทดลองเหตุการณ์
+                  </button>
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={() =>
+                      runContextAction(() => {
+                        void copyFromMenu(contextNode.eventId, 'Event ID')
+                      })
+                    }
+                  >
+                    คัดลอก Event ID
+                  </button>
+                </>
+              )}
+              {contextNode.type === 'group' && (
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={() =>
+                    runContextAction(() =>
+                      fitView({
+                        nodes: [{ id: contextNode.id }],
+                        duration: 300,
+                        maxZoom: 1,
+                      }),
+                    )
+                  }
+                >
+                  พอดีจอกลุ่มนี้
+                </button>
+              )}
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  runContextAction(() => {
+                    void copyFromMenu(contextNode.id, 'Node ID')
+                  })
+                }
+              >
+                คัดลอก Node ID
+              </button>
+              {contextNode.type !== 'start' && (
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="bo-flow-context-danger"
+                  onClick={() =>
+                    runContextAction(() => {
+                      change(removeFlowNodes(flow, [contextNode.id]))
+                      select(null)
+                    })
+                  }
+                >
+                  {contextNode.type === 'group'
+                    ? 'ลบ Sub Flow'
+                    : 'นำออกจากกระดาน'}
+                </button>
+              )}
+            </>
+          )}
+          {contextEdge && (
+            <>
+              <p className="bo-flow-context-label">เส้นเชื่อม</p>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  runContextAction(() =>
+                    select({ kind: 'edge', id: contextEdge.id }),
+                  )
+                }
+              >
+                แก้เงื่อนไขบนเส้น
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  runContextAction(() =>
+                    change(moveEdgeOrder(flow, contextEdge.id, -1)),
+                  )
+                }
+              >
+                ↑ ตรวจก่อน
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  runContextAction(() =>
+                    change(moveEdgeOrder(flow, contextEdge.id, 1)),
+                  )
+                }
+              >
+                ↓ ตรวจทีหลัง
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                className="bo-flow-context-danger"
+                onClick={() =>
+                  runContextAction(() => {
+                    change(removeFlowEdges(flow, [contextEdge.id]))
+                    select(null)
+                  })
+                }
+              >
+                ลบเส้น
+              </button>
+            </>
+          )}
+          {contextMenu.kind === 'pane' && (
+            <>
+              <p className="bo-flow-context-label">เพิ่มบนกระดาน</p>
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() =>
+                  runContextAction(() => onCreateEvent(contextMenu.position))
+                }
+              >
+                เหตุการณ์ใหม่
+              </button>
+              {(
+                [
+                  'condition',
+                  'random',
+                  'nextPeriod',
+                  'ending',
+                  'group',
+                ] as const
+              ).map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  role="menuitem"
+                  onClick={() =>
+                    runContextAction(() => add(type, contextMenu.position))
+                  }
+                >
+                  {typeLabels[type]}
+                </button>
+              ))}
+              <button
+                type="button"
+                role="menuitem"
+                onClick={() => runContextAction(() => setLibraryOpen(true))}
+              >
+                เปิดคลังเหตุการณ์
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </div>
   )
 }
