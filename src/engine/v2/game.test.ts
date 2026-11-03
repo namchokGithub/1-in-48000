@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import sample from '../../content/v2/sample-content.json'
+import { names, sample } from '../../content/v2/testSample'
 import sampleFlow from '../../content/v2/sample-flow.json'
-import names from '../../../public/content-v2/names.json'
 import {
   v2EventSchema,
   v2ContentSchema,

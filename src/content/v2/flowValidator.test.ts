@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import liveEvents from '../../../public/content-v2/events.json'
 import liveFlow from '../../../public/content-v2/flow.json'
-import names from '../../../public/content-v2/names.json'
-import sample from './sample-content.json'
+import { names, sample } from './testSample'
 import sampleFlow from './sample-flow.json'
 import { validateV2Flow } from './flowValidator'
 import {

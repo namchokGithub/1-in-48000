@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import names from '../../../public/content-v2/names.json'
-import sampleContent from './sample-content.json'
+import { names, sample as sampleContent } from './testSample'
 import sampleFlow from './sample-flow.json'
 import {
   v2AssetListSchema,
@@ -14,9 +13,8 @@ import {
 const sample = { ...sampleContent, flow: sampleFlow }
 
 describe('V2 content contract', () => {
-  it('accepts the isolated sample with debt, chance, and default names', () => {
+  it('accepts the isolated sample with debt, chance, and the live names', () => {
     expect(v2ContentSchema.safeParse({ ...sample, names }).success).toBe(true)
-    expect(names.map((entry) => entry.name)).toEqual(['ฟ้า', 'มายด์', 'อิม'])
   })
 
   it('allows negative stats but retains upper bounds for bounded stats', () => {

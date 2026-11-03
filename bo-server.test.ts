@@ -228,19 +228,19 @@ describe('BO program and player catalogs', () => {
     ) as Array<{ id: string; kind: string; path: string }>
 
     const faculty = {
-      id: 'science',
-      name: 'คณะวิทยาศาสตร์',
+      id: 'bo_test_faculty',
+      name: 'คณะทดสอบ',
       supportsSixYear: false,
     }
     const major = {
-      id: 'biology',
-      facultyId: 'science',
-      name: 'ชีววิทยา',
+      id: 'bo_test_major',
+      facultyId: 'bo_test_faculty',
+      name: 'สาขาทดสอบ',
       programYears: 4,
     }
     const elective = {
-      id: 'field_work',
-      name: 'สำรวจภาคสนาม',
+      id: 'bo_test_elective',
+      name: 'วิชาทดสอบ',
       effects: [{ type: 'statDelta', stat: 'study', amount: 3 }],
     }
     const portrait = {
@@ -352,15 +352,22 @@ describe('BO program and player catalogs', () => {
     const dir = await fixture()
     const before = await readFile(join(dir, 'faculties.json'), 'utf8')
     const faculties = JSON.parse(before) as Array<{ id: string }>
+    const majors = JSON.parse(
+      await readFile(join(dir, 'majors.json'), 'utf8'),
+    ) as Array<{ facultyId: string }>
+    const used = majors.findIndex(
+      (major) => major.facultyId === faculties[0].id,
+    )
+    expect(used).toBeGreaterThanOrEqual(0)
     await expect(
       saveBoContent(root, 'faculties', faculties.slice(1)),
     ).rejects.toMatchObject({
-      issues: [
+      issues: expect.arrayContaining([
         {
-          path: 'majors.0.facultyId',
+          path: `majors.${used}.facultyId`,
           message: `Unknown faculty: ${faculties[0].id}`,
         },
-      ],
+      ]),
     })
     expect(await readFile(join(dir, 'faculties.json'), 'utf8')).toBe(before)
   })

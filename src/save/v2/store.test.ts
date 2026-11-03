@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import sample from '../../content/v2/sample-content.json'
+import { names, sample } from '../../content/v2/testSample'
 import flow from '../../content/v2/sample-flow.json'
 import { v2ContentSchema } from '../../content/v2/schema'
-import names from '../../../public/content-v2/names.json'
 import { createV2GameStore } from './store'
 
 const content = v2ContentSchema.parse({ ...sample, names, flow })
