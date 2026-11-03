@@ -640,7 +640,7 @@ export function BoApp() {
 
   return (
     <main className={`app-shell${section === 'flow' ? ' bo-fill' : ''}`}>
-      <Toaster position="top-right" richColors closeButton />
+      <Toaster position="top-center" richColors />
       <div className="app-wrap bo-wrap">
         <header className="bo-header">
           <div className="bo-header-main">

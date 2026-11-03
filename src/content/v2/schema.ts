@@ -276,7 +276,11 @@ export const v2AssetListSchema = z.array(
 
 const positionSchema = z.strictObject({ x: z.number(), y: z.number() })
 
-const nodeBase = { id: v2IdSchema, position: positionSchema }
+const nodeBase = {
+  id: v2IdSchema,
+  position: positionSchema,
+  parentId: v2IdSchema.optional(),
+}
 
 export const v2FlowNodeSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...nodeBase, type: z.literal('start') }),
@@ -302,6 +306,13 @@ export const v2FlowNodeSchema = z.discriminatedUnion('type', [
     type: z.literal('ending'),
     endingId: v2IdSchema,
   }),
+  z.strictObject({
+    ...nodeBase,
+    type: z.literal('group'),
+    title: textSchema,
+    width: z.number().positive(),
+    height: z.number().positive(),
+  }),
 ])
 
 export const v2FlowEdgeSchema = z.strictObject({
@@ -320,6 +331,7 @@ const fixedPorts: Record<Exclude<FlowNode['type'], 'event'>, string[]> = {
   random: ['after', 'fallback'],
   nextPeriod: ['next', 'graduate', 'extend'],
   ending: [],
+  group: [],
 }
 
 export const v2FlowSchema = z
@@ -340,6 +352,17 @@ export const v2FlowSchema = z
     if (startCount !== 1)
       report(['nodes'], 'Flow must have exactly one Start node')
 
+    flow.nodes.forEach((node, index) => {
+      if (node.type === 'group' && node.parentId)
+        report(['nodes', index, 'parentId'], 'Groups cannot be nested')
+      if (!node.parentId) return
+      const parent = nodes.get(node.parentId)
+      if (!parent || parent.type !== 'group')
+        report(['nodes', index, 'parentId'], `Unknown group: ${node.parentId}`)
+      else if (node.type === 'start')
+        report(['nodes', index, 'parentId'], 'Start cannot belong to a group')
+    })
+
     const edgeIds = new Set<string>()
     flow.edges.forEach((edge, index) => {
       const base = ['edges', index]
@@ -348,6 +371,8 @@ export const v2FlowSchema = z
       edgeIds.add(edge.id)
       const source = nodes.get(edge.from)
       if (!source) report([...base, 'from'], `Unknown node: ${edge.from}`)
+      else if (source.type === 'group')
+        report([...base, 'from'], 'Groups cannot have edges')
       else if (
         source.type !== 'event' &&
         !fixedPorts[source.type].includes(edge.port)
@@ -356,6 +381,8 @@ export const v2FlowSchema = z
       }
       const target = nodes.get(edge.to)
       if (!target) report([...base, 'to'], `Unknown node: ${edge.to}`)
+      else if (target.type === 'group')
+        report([...base, 'to'], 'Groups cannot have edges')
       else if (target.type === 'start')
         report([...base, 'to'], 'Edges cannot enter the Start node')
     })

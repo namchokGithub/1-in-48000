@@ -7,7 +7,7 @@ import type {
 } from '../../content/v2/schema'
 
 type Position = V2FlowNode['position']
-type AddableType = 'condition' | 'random' | 'nextPeriod' | 'ending'
+type AddableType = 'condition' | 'random' | 'nextPeriod' | 'ending' | 'group'
 
 export type FlowPort = { id: string; label: string }
 
@@ -27,6 +27,7 @@ const fixedPorts: Record<Exclude<V2FlowNode['type'], 'event'>, FlowPort[]> = {
     { id: 'extend', label: 'เรียนต่อ' },
   ],
   ending: [],
+  group: [],
 }
 
 export function flowPorts(
@@ -99,6 +100,8 @@ export function addFlowNode(
       endingId: content.endings[0]?.id ?? 'new_ending',
       position,
     }
+  } else if (type === 'group') {
+    node = { id, type, title: 'กลุ่มย่อย', width: 560, height: 420, position }
   } else {
     node = { id, type, position }
   }
@@ -113,7 +116,14 @@ export function connectPorts(
 ): V2Flow {
   const source = flow.nodes.find((node) => node.id === from)
   const target = flow.nodes.find((node) => node.id === to)
-  if (!source || !target || source.type === 'ending' || target.type === 'start')
+  if (
+    !source ||
+    !target ||
+    source.type === 'ending' ||
+    source.type === 'group' ||
+    target.type === 'start' ||
+    target.type === 'group'
+  )
     return flow
   if (
     flow.edges.some(
@@ -147,7 +157,9 @@ export function reconnectEdge(
     !source ||
     !target ||
     source.type === 'ending' ||
-    target.type === 'start'
+    source.type === 'group' ||
+    target.type === 'start' ||
+    target.type === 'group'
   )
     return flow
   if (edge.from === from && edge.port === port && edge.to === to) return flow
@@ -178,10 +190,75 @@ export function removeFlowNodes(flow: V2Flow, ids: string[]): V2Flow {
       .map((node) => node.id),
   )
   return {
-    nodes: flow.nodes.filter((node) => !removed.has(node.id)),
+    nodes: flow.nodes
+      .filter((node) => !removed.has(node.id))
+      .map((node) => {
+        if (!node.parentId || !removed.has(node.parentId)) return node
+        const parent = flow.nodes.find((item) => item.id === node.parentId)
+        const { parentId: _parentId, ...ungrouped } = node
+        void _parentId
+        return parent?.type === 'group'
+          ? {
+              ...ungrouped,
+              position: {
+                x: node.position.x + parent.position.x,
+                y: node.position.y + parent.position.y,
+              },
+            }
+          : ungrouped
+      }),
     edges: flow.edges.filter(
       (edge) => !removed.has(edge.from) && !removed.has(edge.to),
     ),
+  }
+}
+
+export function reparentFlowNode(
+  flow: V2Flow,
+  nodeId: string,
+  parentId?: string,
+): V2Flow {
+  const node = flow.nodes.find((item) => item.id === nodeId)
+  const parent = parentId
+    ? flow.nodes.find((item) => item.id === parentId)
+    : undefined
+  if (
+    !node ||
+    node.type === 'start' ||
+    node.type === 'group' ||
+    (parentId && parent?.type !== 'group') ||
+    node.parentId === parentId
+  )
+    return flow
+  const oldParent = node.parentId
+    ? flow.nodes.find((item) => item.id === node.parentId)
+    : undefined
+  const absolute = {
+    x:
+      node.position.x +
+      (oldParent?.type === 'group' ? oldParent.position.x : 0),
+    y:
+      node.position.y +
+      (oldParent?.type === 'group' ? oldParent.position.y : 0),
+  }
+  return {
+    ...flow,
+    nodes: flow.nodes.map((item) => {
+      if (item.id !== nodeId) return item
+      if (!parent) {
+        const { parentId: _parentId, ...ungrouped } = item
+        void _parentId
+        return { ...ungrouped, position: absolute }
+      }
+      return {
+        ...item,
+        parentId,
+        position: {
+          x: absolute.x - parent.position.x,
+          y: absolute.y - parent.position.y,
+        },
+      }
+    }),
   }
 }
 
@@ -283,6 +360,7 @@ export function layoutFlow(
   const unreachableColumn = Math.max(-1, ...depth.values()) + 1
   const columns: string[][] = []
   for (const node of flow.nodes) {
+    if (node.type === 'group' || node.parentId) continue
     const column = depth.get(node.id) ?? unreachableColumn
     ;(columns[column] ??= []).push(node.id)
   }

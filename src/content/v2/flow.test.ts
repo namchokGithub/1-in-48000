@@ -60,6 +60,38 @@ describe('V4 story flow contract', () => {
     ).toBe(false)
   })
 
+  it('allows visual groups but requires a valid group parent and no edges', () => {
+    const grouped = withFlow((copy) => {
+      copy.nodes.push({
+        id: 'year_one',
+        type: 'group',
+        title: 'ปี 1',
+        width: 560,
+        height: 420,
+        position: { x: 0, y: 0 },
+      })
+      const event = copy.nodes.find((node) => node.type === 'event')!
+      event.parentId = 'year_one'
+    })
+    expect(v2FlowSchema.safeParse(grouped).success).toBe(true)
+    expect(
+      v2FlowSchema.safeParse(
+        withFlow((copy) => {
+          copy.nodes[1].parentId = 'missing_group'
+        }),
+      ).success,
+    ).toBe(false)
+    expect(
+      v2FlowSchema.safeParse({
+        ...grouped,
+        edges: [
+          ...grouped.edges,
+          { id: 'e_group', from: 'year_one', port: 'next', to: 'start' },
+        ],
+      }).success,
+    ).toBe(false)
+  })
+
   it('rejects duplicate node and edge IDs', () => {
     expect(
       v2FlowSchema.safeParse(

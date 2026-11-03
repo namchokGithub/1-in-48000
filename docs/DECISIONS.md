@@ -187,3 +187,7 @@ The engine records the stat change of each decision in the save history (`statCh
 ## 2026-11-03 — Randomized Player choice display
 
 Each event has `randomizeChoices`, defaulting to true in the content schema and in new BO event drafts. The Player deterministically shuffles only the displayed eligible choices from the game seed plus Event ID; it never advances the saved RNG state, so refreshes preserve the visible order and cannot alter later chance or Flow Random results. Turning the BO setting off preserves the authored choice order. Program and elective catalogs keep their existing order.
+
+## 2026-11-03 — BO Flow Sub Flows
+
+`group` is a visual-only Flow node for organising the BO board. A regular card may reference one group through `parentId`; its saved position is relative to that group's position, so moving the group moves its cards together. Groups cannot nest, cannot contain Start, and cannot own or receive an edge. The engine consequently never follows a group, and validation ignores groups when checking missing edges and reachability. Deleting a group keeps its cards and converts their positions back to board coordinates. This deliberately matches React Flow's parent-node grouping without changing the authored story graph or player runtime.

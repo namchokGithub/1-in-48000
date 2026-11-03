@@ -3,20 +3,22 @@
     {
       "id": "n_choose_program",
       "position": {
-        "x": 386,
-        "y": 55
+        "x": 64,
+        "y": 115
       },
       "type": "event",
-      "eventId": "choose_program"
+      "eventId": "choose_program",
+      "parentId": "group"
     },
     {
       "id": "n_orientation",
       "position": {
-        "x": 732,
-        "y": 52
+        "x": 394,
+        "y": 111
       },
       "type": "event",
-      "eventId": "orientation"
+      "eventId": "orientation",
+      "parentId": "group"
     },
     {
       "id": "n_first_class",
@@ -565,6 +567,17 @@
       },
       "type": "event",
       "eventId": "new_event_2"
+    },
+    {
+      "id": "group",
+      "type": "group",
+      "title": "กลุ่ม A",
+      "width": 678,
+      "height": 494,
+      "position": {
+        "x": 320,
+        "y": -46
+      }
     }
   ],
   "edges": [

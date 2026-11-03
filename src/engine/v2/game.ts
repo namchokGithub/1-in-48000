@@ -540,6 +540,8 @@ function enterNode(
           endingId: node.endingId,
         })
         return
+      case 'group':
+        throw new Error('Flow cannot enter a visual group')
     }
   }
   throw new Error('Flow did not reach an event or ending')

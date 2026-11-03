@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type DragEvent,
+} from 'react'
 import { toast } from 'sonner'
 import {
   Background,
@@ -13,6 +20,7 @@ import {
   ReactFlowProvider,
   applyNodeChanges,
   MarkerType,
+  NodeResizer,
   getSmoothStepPath,
   useInternalNode,
   useReactFlow,
@@ -53,6 +61,7 @@ import {
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
+  reparentFlowNode,
   reconnectEdge,
   removeFlowEdges,
   removeFlowNodes,
@@ -82,6 +91,14 @@ type CardData = {
   issues?: FlowNodeIssues
 }
 type Card = Node<CardData, 'card'>
+type Group = Node<
+  {
+    node: Extract<V2FlowNode, { type: 'group' }>
+    onResize: (width: number, height: number) => void
+  },
+  'group'
+>
+type BoardNode = Card | Group
 type FlowLine = Edge<{ port: string }, 'flow'>
 
 const EVENT_DRAG_TYPE = 'application/x-bo-event'
@@ -113,6 +130,7 @@ const typeLabels: Record<V2FlowNode['type'], string> = {
   random: 'Random',
   nextPeriod: 'Next Period',
   ending: 'Ending',
+  group: 'Sub Flow',
 }
 
 function cardText(node: V2FlowNode, content: V2Content): string {
@@ -137,6 +155,8 @@ function cardText(node: V2FlowNode, content: V2Content): string {
         content.endings.find((ending) => ending.id === node.endingId)
           ?.summary ?? ''
       )
+    case 'group':
+      return 'กลุ่มสำหรับจัดระเบียบการ์ดบนกระดานเท่านั้น'
   }
 }
 
@@ -151,6 +171,7 @@ function cardTitle(node: V2FlowNode, content: V2Content): string {
       content.endings.find((ending) => ending.id === node.endingId)?.title ??
       node.endingId
     )
+  if (node.type === 'group') return node.title
   return typeLabels[node.type]
 }
 
@@ -225,6 +246,25 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
   )
 }
 
+function FlowGroup({ data, selected }: NodeProps<Group>) {
+  return (
+    <div className="bo-flow-subflow" data-selected={selected}>
+      <NodeResizer
+        isVisible={selected}
+        minWidth={160}
+        minHeight={120}
+        handleClassName="bo-flow-subflow-resize-handle"
+        lineClassName="bo-flow-subflow-resize-line"
+        onResizeEnd={(_, { width, height }) => data.onResize(width, height)}
+      />
+      <div className="bo-flow-subflow-head bo-drag-handle">
+        <span>Sub Flow</span>
+        <strong>{data.node.title}</strong>
+      </div>
+    </div>
+  )
+}
+
 const sidePositions: Record<Side, Position> = {
   top: Position.Top,
   right: Position.Right,
@@ -285,7 +325,7 @@ function FlowLineEdge({
   )
 }
 
-const nodeTypes = { card: FlowCard }
+const nodeTypes = { card: FlowCard, group: FlowGroup }
 const edgeTypes = { flow: FlowLineEdge }
 
 type BoardProps = {
@@ -321,7 +361,8 @@ function Board({
 }: BoardProps) {
   const flow = content.flow
   const boardRef = useRef<HTMLDivElement>(null)
-  const { screenToFlowPosition, fitView, setCenter } = useReactFlow()
+  const { screenToFlowPosition, fitView, getIntersectingNodes, setCenter } =
+    useReactFlow<BoardNode, FlowLine>()
   // The board opens on the start of the story at a readable zoom: the Start
   // card and the cards up to four steps after it.
   const [openingNodes] = useState(() => {
@@ -377,6 +418,15 @@ function Board({
     () => issuesByNode(flow, errors, report.warnings),
     [flow, errors, report.warnings],
   )
+  const updateNode = useCallback(
+    (next: V2FlowNode) => {
+      onChange({
+        ...flow,
+        nodes: flow.nodes.map((node) => (node.id === next.id ? next : node)),
+      })
+    },
+    [flow, onChange],
+  )
 
   const focusView = useMemo(
     () =>
@@ -384,47 +434,72 @@ function Board({
     [flow, selected, focusDepth],
   )
 
-  const cards = useMemo<Card[]>(
+  const cards = useMemo<BoardNode[]>(
     () =>
-      flow.nodes.map((node) => {
-        const event =
-          node.type === 'event'
-            ? content.events.find((item) => item.id === node.eventId)
-            : undefined
-        return {
-          id: node.id,
-          type: 'card',
-          position: node.position,
-          dragHandle: '.bo-drag-handle',
-          deletable: node.type !== 'start',
-          className:
-            [
-              highlight?.nodeIds.includes(node.id) ? 'bo-flow-traced' : '',
-              focusView && !focusView.nodeIds.includes(node.id)
-                ? 'bo-flow-dimmed'
-                : '',
-            ]
-              .filter(Boolean)
-              .join(' ') || undefined,
-          data: {
-            node,
-            title: cardTitle(node, content),
-            kind: event
-              ? `ปี ${event.time.year} · ${periodLabels[event.time.period]}`
-              : typeLabels[node.type],
-            eventKind: event?.kind,
-            text: cardText(node, content),
-            thumbnail: content.assets.find(
-              (asset) => asset.id === event?.sceneAssetId,
-            )?.path,
-            ports: flowPorts(node, content.events),
-            issues: issues.get(node.id),
-          },
-        }
-      }),
-    [flow.nodes, content, issues, highlight, focusView],
+      [...flow.nodes]
+        .sort(
+          (left, right) =>
+            Number(right.type === 'group') - Number(left.type === 'group'),
+        )
+        .map((node) => {
+          if (node.type === 'group')
+            return {
+              id: node.id,
+              type: 'group' as const,
+              position: node.position,
+              dragHandle: '.bo-drag-handle',
+              deletable: true,
+              style: { width: node.width, height: node.height },
+              data: {
+                node,
+                onResize: (width, height) =>
+                  updateNode({
+                    ...node,
+                    width: Math.round(width),
+                    height: Math.round(height),
+                  }),
+              },
+            }
+          const event =
+            node.type === 'event'
+              ? content.events.find((item) => item.id === node.eventId)
+              : undefined
+          return {
+            id: node.id,
+            type: 'card',
+            position: node.position,
+            parentId: node.parentId,
+            extent: node.parentId ? 'parent' : undefined,
+            dragHandle: '.bo-drag-handle',
+            deletable: node.type !== 'start',
+            className:
+              [
+                highlight?.nodeIds.includes(node.id) ? 'bo-flow-traced' : '',
+                focusView && !focusView.nodeIds.includes(node.id)
+                  ? 'bo-flow-dimmed'
+                  : '',
+              ]
+                .filter(Boolean)
+                .join(' ') || undefined,
+            data: {
+              node,
+              title: cardTitle(node, content),
+              kind: event
+                ? `ปี ${event.time.year} · ${periodLabels[event.time.period]}`
+                : typeLabels[node.type],
+              eventKind: event?.kind,
+              text: cardText(node, content),
+              thumbnail: content.assets.find(
+                (asset) => asset.id === event?.sceneAssetId,
+              )?.path,
+              ports: flowPorts(node, content.events),
+              issues: issues.get(node.id),
+            },
+          }
+        }),
+    [flow.nodes, content, issues, highlight, focusView, updateNode],
   )
-  const [nodes, setNodes] = useState<Card[]>(cards)
+  const [nodes, setNodes] = useState<BoardNode[]>(cards)
   const [shownCards, setShownCards] = useState(cards)
   if (shownCards !== cards) {
     setShownCards(cards)
@@ -551,27 +626,31 @@ function Board({
     select({ kind: 'node', id: next.nodes.at(-1)!.id })
   }
 
-  function add(type: 'condition' | 'random' | 'nextPeriod' | 'ending') {
+  function add(
+    type: 'condition' | 'random' | 'nextPeriod' | 'ending' | 'group',
+  ) {
     const next = addFlowNode(flow, content, type, boardCenter())
     change(next)
     select({ kind: 'node', id: next.nodes.at(-1)!.id })
   }
 
-  function updateNode(next: V2FlowNode) {
-    change({
-      ...flow,
-      nodes: flow.nodes.map((node) => (node.id === next.id ? next : node)),
-    })
-  }
-
   function focus(id: string) {
     const node = flow.nodes.find((item) => item.id === id)
     if (!node) return
+    const parent = node.parentId
+      ? flow.nodes.find((item) => item.id === node.parentId)
+      : undefined
     select({ kind: 'node', id })
-    setCenter(node.position.x + 120, node.position.y + 80, {
-      zoom: 1,
-      duration: 300,
-    })
+    setCenter(
+      node.position.x +
+        (parent?.type === 'group' ? parent.position.x : 0) +
+        120,
+      node.position.y + (parent?.type === 'group' ? parent.position.y : 0) + 80,
+      {
+        zoom: 1,
+        duration: 300,
+      },
+    )
   }
 
   function autoLayout(direction: LayoutDirection) {
@@ -659,7 +738,7 @@ function Board({
     }
   })
 
-  function onNodesChange(changes: NodeChange<Card>[]) {
+  function onNodesChange(changes: NodeChange<BoardNode>[]) {
     setNodes((current) => applyNodeChanges(changes, current))
     const moved: Record<string, V2FlowNode['position']> = {}
     for (const item of changes) {
@@ -867,20 +946,26 @@ function Board({
                 >
                   เหตุการณ์ใหม่
                 </button>
-                {(['condition', 'random', 'nextPeriod', 'ending'] as const).map(
-                  (type) => (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => {
-                        addMenuRef.current?.removeAttribute('open')
-                        add(type)
-                      }}
-                    >
-                      {typeLabels[type]}
-                    </button>
-                  ),
-                )}
+                {(
+                  [
+                    'condition',
+                    'random',
+                    'nextPeriod',
+                    'ending',
+                    'group',
+                  ] as const
+                ).map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => {
+                      addMenuRef.current?.removeAttribute('open')
+                      add(type)
+                    }}
+                  >
+                    {typeLabels[type]}
+                  </button>
+                ))}
               </div>
             </details>
           </div>
@@ -1063,6 +1148,21 @@ function Board({
                   ),
                 )
               }
+              onNodeDragStop={(_, dragged) => {
+                const node = flow.nodes.find((item) => item.id === dragged.id)
+                if (!node || node.type === 'group' || node.parentId) return
+                const group = getIntersectingNodes(dragged).find(
+                  (candidate) => candidate.type === 'group',
+                )
+                if (group)
+                  change(
+                    reparentFlowNode(
+                      moveFlowNodes(flow, { [node.id]: dragged.position }),
+                      node.id,
+                      group.id,
+                    ),
+                  )
+              }}
               onEdgesDelete={(deleted) =>
                 change(
                   removeFlowEdges(
@@ -1137,8 +1237,15 @@ function Board({
                   content={content}
                   pools={pools}
                   eventIds={eventIds}
+                  groups={flow.nodes.filter(
+                    (item): item is Extract<V2FlowNode, { type: 'group' }> =>
+                      item.type === 'group',
+                  )}
                   issues={issues.get(selectedNode.id)}
                   onChange={updateNode}
+                  onReparent={(parentId) =>
+                    change(reparentFlowNode(flow, selectedNode.id, parentId))
+                  }
                   onRemove={() => {
                     change(removeFlowNodes(flow, [selectedNode.id]))
                     select(null)
@@ -1240,8 +1347,10 @@ function NodeDetail({
   content,
   pools,
   eventIds,
+  groups,
   issues,
   onChange,
+  onReparent,
   onRemove,
   onEditEvent,
   onPreview,
@@ -1250,8 +1359,10 @@ function NodeDetail({
   content: V2Content
   pools: string[]
   eventIds: string[]
+  groups: Extract<V2FlowNode, { type: 'group' }>[]
   issues?: FlowNodeIssues
   onChange: (node: V2FlowNode) => void
+  onReparent: (parentId?: string) => void
   onRemove: () => void
   onEditEvent: (eventId: string) => void
   onPreview: (eventId: string) => void
@@ -1368,6 +1479,71 @@ function NodeDetail({
           ใช้ “ช่วงถัดไป” ตามปกติ เมื่อจบซัมเมอร์ของปีที่ต้องตรวจผลการเรียน
           ระบบเลือก “จบการศึกษา” หรือ “เรียนต่อ” เอง
         </p>
+      )}
+      {node.type === 'group' && (
+        <>
+          <label className="bo-field">
+            <span>ชื่อ Sub Flow</span>
+            <input
+              className="field"
+              value={node.title}
+              onChange={(input) =>
+                onChange({ ...node, title: input.target.value })
+              }
+            />
+          </label>
+          <div className="bo-form-grid">
+            <label className="bo-field">
+              <span>กว้าง</span>
+              <input
+                className="field"
+                type="number"
+                min="160"
+                value={node.width}
+                onChange={(input) =>
+                  onChange({
+                    ...node,
+                    width: Math.max(160, Number(input.target.value) || 160),
+                  })
+                }
+              />
+            </label>
+            <label className="bo-field">
+              <span>สูง</span>
+              <input
+                className="field"
+                type="number"
+                min="120"
+                value={node.height}
+                onChange={(input) =>
+                  onChange({
+                    ...node,
+                    height: Math.max(120, Number(input.target.value) || 120),
+                  })
+                }
+              />
+            </label>
+          </div>
+          <p className="muted text-sm">
+            กลุ่มนี้ไม่เปลี่ยนเส้นทางที่ผู้เล่นเล่น
+          </p>
+        </>
+      )}
+      {node.type !== 'start' && node.type !== 'group' && (
+        <label className="bo-field">
+          <span>Sub Flow</span>
+          <BoDropdown
+            value={node.parentId ?? ''}
+            onChange={(input) => onReparent(input.target.value || undefined)}
+          >
+            <option value="">ไม่อยู่ใน Sub Flow</option>
+            {groups.map((group) => (
+              <option key={group.id} value={group.id}>
+                {group.title}
+              </option>
+            ))}
+          </BoDropdown>
+        </label>
       )}
       {node.type !== 'start' && (
         <button

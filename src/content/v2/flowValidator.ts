@@ -12,6 +12,7 @@ export function validateV2Flow(flow: V2Flow, events: V2Event[]): V2FlowReport {
   }
 
   flow.nodes.forEach((node, index) => {
+    if (node.type === 'group') return
     const path = ['nodes', index]
     const edges = outgoing.get(node.id) ?? []
     const portEdges = (port: string) =>
@@ -74,6 +75,7 @@ export function validateV2Flow(flow: V2Flow, events: V2Event[]): V2FlowReport {
     for (const edge of outgoing.get(id) ?? []) queue.push(edge.to)
   }
   flow.nodes.forEach((node, index) => {
+    if (node.type === 'group') return
     if (!reachable.has(node.id))
       warnings.push({
         path: ['nodes', index],

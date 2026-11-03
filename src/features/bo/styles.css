@@ -564,6 +564,40 @@
   box-shadow: 0 6px 16px var(--color-shadow);
   font-size: 0.8rem;
 }
+.bo-flow-subflow {
+  width: 100%;
+  height: 100%;
+  border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+.bo-flow-subflow[data-selected='true'] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+.bo-flow-subflow-head {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  padding: 9px 12px;
+  color: var(--accent-dark);
+}
+.bo-flow-subflow-head span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.bo-flow-subflow-resize-handle {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--surface);
+  border-radius: 999px;
+  background: var(--accent);
+}
+.bo-flow-subflow-resize-line {
+  border-color: color-mix(in srgb, var(--accent) 65%, transparent);
+}
 .bo-flow-card[data-type='start'],
 .bo-flow-card[data-type='nextPeriod'] {
   background: var(--color-primary-soft);

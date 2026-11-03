@@ -19,6 +19,7 @@ import {
   moveEdgeOrder,
   moveFlowNodes,
   placeEvent,
+  reparentFlowNode,
   reconnectEdge,
   removeEventFromFlow,
   removeFlowEdges,
@@ -71,6 +72,39 @@ describe('BO flow board editing', () => {
       'string',
     )
     expect(typeof placeEvent(flow, draft.events, 'missing', at)).toBe('string')
+  })
+
+  it('adds visual groups and keeps children when a group is deleted', () => {
+    const grouped = addFlowNode(flow, content, 'group', { x: 100, y: 200 })
+    const group = grouped.nodes.at(-1)!
+    expect(group).toMatchObject({
+      id: 'group',
+      type: 'group',
+      title: 'กลุ่มย่อย',
+      width: 560,
+      height: 420,
+    })
+
+    const childId = 'n_student_loan'
+    const reparented = reparentFlowNode(grouped, childId, group.id)
+    expect(reparented.nodes.find((node) => node.id === childId)).toMatchObject({
+      parentId: group.id,
+      position: { x: 380, y: -200 },
+    })
+    const laidOut = layoutFlow(reparented)
+    expect(
+      laidOut.nodes.find((node) => node.id === group.id)?.position,
+    ).toEqual(group.position)
+    expect(laidOut.nodes.find((node) => node.id === childId)?.position).toEqual(
+      { x: 380, y: -200 },
+    )
+    const removed = removeFlowNodes(reparented, [group.id])
+    expect(removed.nodes.find((node) => node.id === childId)).toMatchObject({
+      position: { x: 480, y: 0 },
+    })
+    expect(
+      removed.nodes.find((node) => node.id === childId),
+    ).not.toHaveProperty('parentId')
   })
 
   it('adds Condition, Random, Next Period, and Ending cards with unique IDs', () => {

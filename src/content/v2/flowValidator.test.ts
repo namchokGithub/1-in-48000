@@ -93,6 +93,20 @@ describe('V4 flow validator', () => {
     ])
   })
 
+  it('does not require visual groups to be connected or reachable', () => {
+    const result = report((copy) => {
+      copy.nodes.push({
+        id: 'year_one',
+        type: 'group',
+        title: 'ปี 1',
+        width: 560,
+        height: 420,
+        position: at,
+      })
+    })
+    expect(result).toEqual({ errors: [], warnings: [] })
+  })
+
   it('warns about nodes that cannot be reached from Start', () => {
     const result = report((copy) => {
       copy.nodes.push({
