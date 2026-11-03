@@ -3,8 +3,8 @@
     {
       "id": "n_choose_program",
       "position": {
-        "x": 48,
-        "y": 72
+        "x": 24,
+        "y": 96
       },
       "parentId": "group",
       "type": "event",
@@ -13,8 +13,8 @@
     {
       "id": "n_orientation",
       "position": {
-        "x": 312,
-        "y": 168
+        "x": 360,
+        "y": 96
       },
       "parentId": "group",
       "type": "event",
@@ -33,7 +33,7 @@
       "id": "n_dorm_evening",
       "position": {
         "x": 2064,
-        "y": 336
+        "y": 360
       },
       "type": "event",
       "eventId": "dorm_evening"
@@ -466,8 +466,8 @@
     {
       "id": "start",
       "position": {
-        "x": 24,
-        "y": 96
+        "x": -288,
+        "y": 144
       },
       "type": "start"
     },
@@ -553,8 +553,8 @@
     {
       "id": "n_new_event",
       "position": {
-        "x": 1056,
-        "y": 408
+        "x": 720,
+        "y": 480
       },
       "type": "event",
       "eventId": "new_event"
@@ -562,8 +562,8 @@
     {
       "id": "n_new_event_2",
       "position": {
-        "x": 1392,
-        "y": 504
+        "x": 1104,
+        "y": 480
       },
       "type": "event",
       "eventId": "new_event_2"
@@ -571,11 +571,11 @@
     {
       "id": "group",
       "position": {
-        "x": 360,
-        "y": 24
+        "x": 24,
+        "y": 0
       },
       "type": "group",
-      "title": "กลุ่ม A",
+      "title": "เริ่มต้น",
       "color": "green",
       "width": 624,
       "height": 480
@@ -586,145 +586,37 @@
       "id": "e_start_next",
       "from": "start",
       "port": "next",
-      "to": "n_choose_program",
-      "route": [
-        {
-          "x": 264,
-          "y": 208
-        },
-        {
-          "x": 336,
-          "y": 208
-        },
-        {
-          "x": 336,
-          "y": 213
-        },
-        {
-          "x": 408,
-          "y": 213
-        }
-      ]
+      "to": "n_choose_program"
     },
     {
       "id": "e_n_choose_program_next",
       "from": "n_choose_program",
       "port": "next",
-      "to": "n_orientation",
-      "route": [
-        {
-          "x": 648,
-          "y": 308
-        },
-        {
-          "x": 660,
-          "y": 308
-        },
-        {
-          "x": 660,
-          "y": 320
-        },
-        {
-          "x": 672,
-          "y": 320
-        }
-      ]
+      "to": "n_orientation"
     },
     {
       "id": "e_n_first_class_take_notes",
       "from": "n_first_class",
       "port": "take_notes",
-      "to": "n_dorm_evening",
-      "route": [
-        {
-          "x": 1968,
-          "y": 476
-        },
-        {
-          "x": 2016,
-          "y": 476
-        },
-        {
-          "x": 2016,
-          "y": 464
-        },
-        {
-          "x": 2064,
-          "y": 464
-        }
-      ]
+      "to": "n_dorm_evening"
     },
     {
       "id": "e_n_first_class_ask_friend",
       "from": "n_first_class",
       "port": "ask_friend",
-      "to": "n_dorm_evening",
-      "route": [
-        {
-          "x": 1968,
-          "y": 499
-        },
-        {
-          "x": 1986,
-          "y": 499
-        },
-        {
-          "x": 1986,
-          "y": 464
-        },
-        {
-          "x": 2064,
-          "y": 464
-        }
-      ]
+      "to": "n_dorm_evening"
     },
     {
       "id": "e_n_dorm_evening_unpack",
       "from": "n_dorm_evening",
       "port": "unpack",
-      "to": "n_cafeteria_budget",
-      "route": [
-        {
-          "x": 2304,
-          "y": 548
-        },
-        {
-          "x": 2352,
-          "y": 548
-        },
-        {
-          "x": 2352,
-          "y": 560
-        },
-        {
-          "x": 2400,
-          "y": 560
-        }
-      ]
+      "to": "n_cafeteria_budget"
     },
     {
       "id": "e_n_dorm_evening_rest",
       "from": "n_dorm_evening",
       "port": "rest",
-      "to": "n_cafeteria_budget",
-      "route": [
-        {
-          "x": 2304,
-          "y": 571
-        },
-        {
-          "x": 2322,
-          "y": 571
-        },
-        {
-          "x": 2322,
-          "y": 560
-        },
-        {
-          "x": 2400,
-          "y": 560
-        }
-      ]
+      "to": "n_cafeteria_budget"
     },
     {
       "id": "e_n_cafeteria_budget_simple_meal",
@@ -3368,153 +3260,37 @@
       "id": "e_n_orientation_explore_campus",
       "from": "n_orientation",
       "port": "explore_campus",
-      "to": "n_new_event",
-      "route": [
-        {
-          "x": 912,
-          "y": 427
-        },
-        {
-          "x": 978,
-          "y": 427
-        },
-        {
-          "x": 978,
-          "y": 536
-        },
-        {
-          "x": 1056,
-          "y": 536
-        }
-      ]
+      "to": "n_new_event"
     },
     {
       "id": "e_n_new_event_choice_53cc4cc0",
       "from": "n_new_event",
       "port": "choice_53cc4cc0",
-      "to": "n_first_class",
-      "route": [
-        {
-          "x": 1296,
-          "y": 643
-        },
-        {
-          "x": 1314,
-          "y": 643
-        },
-        {
-          "x": 1314,
-          "y": 760
-        },
-        {
-          "x": 1650,
-          "y": 760
-        },
-        {
-          "x": 1650,
-          "y": 392
-        },
-        {
-          "x": 1728,
-          "y": 392
-        }
-      ]
+      "to": "n_first_class"
     },
     {
       "id": "e_n_new_event_continue",
       "from": "n_new_event",
       "port": "continue",
-      "to": "n_new_event_2",
-      "route": [
-        {
-          "x": 1296,
-          "y": 620
-        },
-        {
-          "x": 1344,
-          "y": 620
-        },
-        {
-          "x": 1344,
-          "y": 622
-        },
-        {
-          "x": 1392,
-          "y": 622
-        }
-      ]
+      "to": "n_new_event_2"
     },
     {
       "id": "e_n_new_event_2_choice_0dcdb31f",
       "from": "n_new_event_2",
       "port": "choice_0dcdb31f",
-      "to": "n_first_class",
-      "route": [
-        {
-          "x": 1632,
-          "y": 697
-        },
-        {
-          "x": 1650,
-          "y": 697
-        },
-        {
-          "x": 1650,
-          "y": 392
-        },
-        {
-          "x": 1728,
-          "y": 392
-        }
-      ]
+      "to": "n_first_class"
     },
     {
       "id": "e_n_new_event_2_continue",
       "from": "n_new_event_2",
       "port": "continue",
-      "to": "n_first_class",
-      "route": [
-        {
-          "x": 1632,
-          "y": 720
-        },
-        {
-          "x": 1650,
-          "y": 720
-        },
-        {
-          "x": 1650,
-          "y": 392
-        },
-        {
-          "x": 1728,
-          "y": 392
-        }
-      ]
+      "to": "n_first_class"
     },
     {
       "id": "e_n_orientation_join_group",
       "from": "n_orientation",
       "port": "join_group",
-      "to": "n_first_class",
-      "route": [
-        {
-          "x": 912,
-          "y": 404
-        },
-        {
-          "x": 1320,
-          "y": 404
-        },
-        {
-          "x": 1320,
-          "y": 392
-        },
-        {
-          "x": 1728,
-          "y": 392
-        }
-      ]
+      "to": "n_first_class"
     }
   ]
 }

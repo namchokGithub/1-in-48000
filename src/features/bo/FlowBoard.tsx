@@ -432,7 +432,7 @@ function Board({
     id: string
   } | null>(null)
   const [showIssues, setShowIssues] = useState(false)
-  const [libraryOpen, setLibraryOpen] = useState(true)
+  const [libraryOpen, setLibraryOpen] = useState(false)
   const [focusDepth, setFocusDepth] = useState(1)
   const [hoveredEdge, setHoveredEdge] = useState<string | null>(null)
   const zoomedOut = useStore((state) => state.transform[2] < 0.45)
