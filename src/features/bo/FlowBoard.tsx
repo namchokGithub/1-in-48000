@@ -388,6 +388,7 @@ function Board({
           id: node.id,
           type: 'card',
           position: node.position,
+          dragHandle: '.bo-flow-card-head',
           deletable: node.type !== 'start',
           className:
             [
