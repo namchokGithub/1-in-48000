@@ -12,7 +12,7 @@ V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
 Steps 37–41 were accepted by the author on 2026-10-30, and Steps 42–43 on 2026-11-02. No steps are open.
 
-The production release is still deferred while the author makes further adjustments; Years 5–8 story content remains future work (see `README.md`).
+Years 5–8 story content is complete across all four periods of each year, including the Year 6 and Year 8 reviews. The production release is still deferred while the author makes further adjustments (see `README.md`).
 
 ## Open decisions
 

@@ -2100,6 +2100,990 @@
       "type": "start"
     },
     {
+      "id": "n_extra_y5_term1_study_map",
+      "position": {
+        "x": 39936,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y5_term1_study_map"
+    },
+    {
+      "id": "n_extra_y5_term1_advisor_note",
+      "position": {
+        "x": 40272,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y5_term1_advisor_note"
+    },
+    {
+      "id": "n_extra_y5_term1_old_exam",
+      "position": {
+        "x": 40608,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y5_term1_old_exam"
+    },
+    {
+      "id": "n_extra_y5_term1_study_group",
+      "position": {
+        "x": 40944,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y5_term1_study_group"
+    },
+    {
+      "id": "n_extra_y5_term1_peer_correction",
+      "position": {
+        "x": 41280,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y5_term1_peer_correction"
+    },
+    {
+      "id": "n_extra_y5_term1_first_checkpoint",
+      "position": {
+        "x": 41616,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y5_term1_first_checkpoint"
+    },
+    {
+      "id": "next_y5_term1",
+      "position": {
+        "x": 41952,
+        "y": 4500
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y5_break_result_sheet",
+      "position": {
+        "x": 39936,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y5_break_result_sheet"
+    },
+    {
+      "id": "n_extra_y5_break_teacher_reply",
+      "position": {
+        "x": 40272,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y5_break_teacher_reply"
+    },
+    {
+      "id": "n_extra_y5_break_quiet_library",
+      "position": {
+        "x": 40608,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y5_break_quiet_library"
+    },
+    {
+      "id": "n_extra_y5_break_shared_cheatsheet",
+      "position": {
+        "x": 40944,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y5_break_shared_cheatsheet"
+    },
+    {
+      "id": "n_extra_y5_break_sheet_followup",
+      "position": {
+        "x": 41280,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y5_break_sheet_followup"
+    },
+    {
+      "id": "n_extra_y5_break_break_return",
+      "position": {
+        "x": 41616,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y5_break_break_return"
+    },
+    {
+      "id": "next_y5_break",
+      "position": {
+        "x": 41952,
+        "y": 5400
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y5_term2_course_restart",
+      "position": {
+        "x": 39936,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y5_term2_course_restart"
+    },
+    {
+      "id": "n_extra_y5_term2_class_note",
+      "position": {
+        "x": 40272,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y5_term2_class_note"
+    },
+    {
+      "id": "n_extra_y5_term2_problem_set",
+      "position": {
+        "x": 40608,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y5_term2_problem_set"
+    },
+    {
+      "id": "n_extra_y5_term2_practice_pair",
+      "position": {
+        "x": 40944,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y5_term2_practice_pair"
+    },
+    {
+      "id": "n_extra_y5_term2_pair_question",
+      "position": {
+        "x": 41280,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y5_term2_pair_question"
+    },
+    {
+      "id": "n_extra_y5_term2_term2_review",
+      "position": {
+        "x": 41616,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y5_term2_term2_review"
+    },
+    {
+      "id": "next_y5_term2",
+      "position": {
+        "x": 41952,
+        "y": 6300
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y5_summer_summer_plan",
+      "position": {
+        "x": 39936,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y5_summer_summer_plan"
+    },
+    {
+      "id": "n_extra_y5_summer_resource_tip",
+      "position": {
+        "x": 40272,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y5_summer_resource_tip"
+    },
+    {
+      "id": "n_extra_y5_summer_short_project",
+      "position": {
+        "x": 40608,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y5_summer_short_project"
+    },
+    {
+      "id": "n_extra_y5_summer_show_progress",
+      "position": {
+        "x": 40944,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y5_summer_show_progress"
+    },
+    {
+      "id": "n_extra_y5_summer_progress_reply",
+      "position": {
+        "x": 41280,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y5_summer_progress_reply"
+    },
+    {
+      "id": "n_extra_y5_summer_year5_close",
+      "position": {
+        "x": 41616,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y5_summer_year5_close"
+    },
+    {
+      "id": "next_y5_summer",
+      "position": {
+        "x": 41952,
+        "y": 7200
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y6_term1_review_calendar",
+      "position": {
+        "x": 42936,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y6_term1_review_calendar"
+    },
+    {
+      "id": "n_extra_y6_term1_office_answer",
+      "position": {
+        "x": 43272,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y6_term1_office_answer"
+    },
+    {
+      "id": "n_extra_y6_term1_core_concept",
+      "position": {
+        "x": 43608,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y6_term1_core_concept"
+    },
+    {
+      "id": "n_extra_y6_term1_study_exchange",
+      "position": {
+        "x": 43944,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y6_term1_study_exchange"
+    },
+    {
+      "id": "n_extra_y6_term1_diagram_reply",
+      "position": {
+        "x": 44280,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y6_term1_diagram_reply"
+    },
+    {
+      "id": "n_extra_y6_term1_term1_marker",
+      "position": {
+        "x": 44616,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y6_term1_term1_marker"
+    },
+    {
+      "id": "next_y6_term1",
+      "position": {
+        "x": 44952,
+        "y": 4500
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y6_break_break_feedback",
+      "position": {
+        "x": 42936,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y6_break_break_feedback"
+    },
+    {
+      "id": "n_extra_y6_break_teacher_example",
+      "position": {
+        "x": 43272,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y6_break_teacher_example"
+    },
+    {
+      "id": "n_extra_y6_break_quiet_morning",
+      "position": {
+        "x": 43608,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y6_break_quiet_morning"
+    },
+    {
+      "id": "n_extra_y6_break_peer_chart",
+      "position": {
+        "x": 43944,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y6_break_peer_chart"
+    },
+    {
+      "id": "n_extra_y6_break_chart_followup",
+      "position": {
+        "x": 44280,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y6_break_chart_followup"
+    },
+    {
+      "id": "n_extra_y6_break_break_summary",
+      "position": {
+        "x": 44616,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y6_break_break_summary"
+    },
+    {
+      "id": "next_y6_break",
+      "position": {
+        "x": 44952,
+        "y": 5400
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y6_term2_final_course",
+      "position": {
+        "x": 42936,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y6_term2_final_course"
+    },
+    {
+      "id": "n_extra_y6_term2_rubric_reply",
+      "position": {
+        "x": 43272,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y6_term2_rubric_reply"
+    },
+    {
+      "id": "n_extra_y6_term2_evidence_table",
+      "position": {
+        "x": 43608,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y6_term2_evidence_table"
+    },
+    {
+      "id": "n_extra_y6_term2_peer_trial",
+      "position": {
+        "x": 43944,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y6_term2_peer_trial"
+    },
+    {
+      "id": "n_extra_y6_term2_trial_reply",
+      "position": {
+        "x": 44280,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y6_term2_trial_reply"
+    },
+    {
+      "id": "n_extra_y6_term2_submit_term",
+      "position": {
+        "x": 44616,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y6_term2_submit_term"
+    },
+    {
+      "id": "next_y6_term2",
+      "position": {
+        "x": 44952,
+        "y": 6300
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y6_summer_review_notice",
+      "position": {
+        "x": 42936,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y6_summer_review_notice"
+    },
+    {
+      "id": "n_extra_y6_summer_record_check",
+      "position": {
+        "x": 43272,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y6_summer_record_check"
+    },
+    {
+      "id": "n_extra_y6_summer_portfolio_audit",
+      "position": {
+        "x": 43608,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y6_summer_portfolio_audit"
+    },
+    {
+      "id": "n_extra_y6_summer_share_lessons",
+      "position": {
+        "x": 43944,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y6_summer_share_lessons"
+    },
+    {
+      "id": "n_extra_y6_summer_lesson_reply",
+      "position": {
+        "x": 44280,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y6_summer_lesson_reply"
+    },
+    {
+      "id": "n_extra_y6_summer_review_eve",
+      "position": {
+        "x": 44616,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y6_summer_review_eve"
+    },
+    {
+      "id": "next_y6_summer",
+      "position": {
+        "x": 44952,
+        "y": 7200
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y7_term1_new_cohort",
+      "position": {
+        "x": 45936,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y7_term1_new_cohort"
+    },
+    {
+      "id": "n_extra_y7_term1_lecturer_plan",
+      "position": {
+        "x": 46272,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y7_term1_lecturer_plan"
+    },
+    {
+      "id": "n_extra_y7_term1_changed_material",
+      "position": {
+        "x": 46608,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y7_term1_changed_material"
+    },
+    {
+      "id": "n_extra_y7_term1_junior_discussion",
+      "position": {
+        "x": 46944,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y7_term1_junior_discussion"
+    },
+    {
+      "id": "n_extra_y7_term1_method_reply",
+      "position": {
+        "x": 47280,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y7_term1_method_reply"
+    },
+    {
+      "id": "n_extra_y7_term1_first_week_seven",
+      "position": {
+        "x": 47616,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y7_term1_first_week_seven"
+    },
+    {
+      "id": "next_y7_term1",
+      "position": {
+        "x": 47952,
+        "y": 4500
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y7_break_midyear_note",
+      "position": {
+        "x": 45936,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y7_break_midyear_note"
+    },
+    {
+      "id": "n_extra_y7_break_practice_link",
+      "position": {
+        "x": 46272,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y7_break_practice_link"
+    },
+    {
+      "id": "n_extra_y7_break_campus_empty",
+      "position": {
+        "x": 46608,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y7_break_campus_empty"
+    },
+    {
+      "id": "n_extra_y7_break_shared_outline",
+      "position": {
+        "x": 46944,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y7_break_shared_outline"
+    },
+    {
+      "id": "n_extra_y7_break_outline_reply",
+      "position": {
+        "x": 47280,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y7_break_outline_reply"
+    },
+    {
+      "id": "n_extra_y7_break_return_seven",
+      "position": {
+        "x": 47616,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y7_break_return_seven"
+    },
+    {
+      "id": "next_y7_break",
+      "position": {
+        "x": 47952,
+        "y": 5400
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y7_term2_course_goal",
+      "position": {
+        "x": 45936,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y7_term2_course_goal"
+    },
+    {
+      "id": "n_extra_y7_term2_sample_rubric",
+      "position": {
+        "x": 46272,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y7_term2_sample_rubric"
+    },
+    {
+      "id": "n_extra_y7_term2_rework_report",
+      "position": {
+        "x": 46608,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y7_term2_rework_report"
+    },
+    {
+      "id": "n_extra_y7_term2_small_group",
+      "position": {
+        "x": 46944,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y7_term2_small_group"
+    },
+    {
+      "id": "n_extra_y7_term2_reader_reply",
+      "position": {
+        "x": 47280,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y7_term2_reader_reply"
+    },
+    {
+      "id": "n_extra_y7_term2_term_seven_end",
+      "position": {
+        "x": 47616,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y7_term2_term_seven_end"
+    },
+    {
+      "id": "next_y7_term2",
+      "position": {
+        "x": 47952,
+        "y": 6300
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y7_summer_summer_seven_plan",
+      "position": {
+        "x": 45936,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y7_summer_summer_seven_plan"
+    },
+    {
+      "id": "n_extra_y7_summer_office_list",
+      "position": {
+        "x": 46272,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y7_summer_office_list"
+    },
+    {
+      "id": "n_extra_y7_summer_skill_trace",
+      "position": {
+        "x": 46608,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y7_summer_skill_trace"
+    },
+    {
+      "id": "n_extra_y7_summer_peer_message",
+      "position": {
+        "x": 46944,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y7_summer_peer_message"
+    },
+    {
+      "id": "n_extra_y7_summer_friend_reply",
+      "position": {
+        "x": 47280,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y7_summer_friend_reply"
+    },
+    {
+      "id": "n_extra_y7_summer_year7_close",
+      "position": {
+        "x": 47616,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y7_summer_year7_close"
+    },
+    {
+      "id": "next_y7_summer",
+      "position": {
+        "x": 47952,
+        "y": 7200
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y8_term1_last_plan",
+      "position": {
+        "x": 48936,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y8_term1_last_plan"
+    },
+    {
+      "id": "n_extra_y8_term1_advisor_minutes",
+      "position": {
+        "x": 49272,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y8_term1_advisor_minutes"
+    },
+    {
+      "id": "n_extra_y8_term1_first_assignment",
+      "position": {
+        "x": 49608,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y8_term1_first_assignment"
+    },
+    {
+      "id": "n_extra_y8_term1_study_partner",
+      "position": {
+        "x": 49944,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y8_term1_study_partner"
+    },
+    {
+      "id": "n_extra_y8_term1_partner_reply",
+      "position": {
+        "x": 50280,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y8_term1_partner_reply"
+    },
+    {
+      "id": "n_extra_y8_term1_term1_eight_close",
+      "position": {
+        "x": 50616,
+        "y": 4500
+      },
+      "type": "event",
+      "eventId": "extra_y8_term1_term1_eight_close"
+    },
+    {
+      "id": "next_y8_term1",
+      "position": {
+        "x": 50952,
+        "y": 4500
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y8_break_interim_notice",
+      "position": {
+        "x": 48936,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y8_break_interim_notice"
+    },
+    {
+      "id": "n_extra_y8_break_office_hint",
+      "position": {
+        "x": 49272,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y8_break_office_hint"
+    },
+    {
+      "id": "n_extra_y8_break_quiet_rewrite",
+      "position": {
+        "x": 49608,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y8_break_quiet_rewrite"
+    },
+    {
+      "id": "n_extra_y8_break_read_together",
+      "position": {
+        "x": 49944,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y8_break_read_together"
+    },
+    {
+      "id": "n_extra_y8_break_exchange_reply",
+      "position": {
+        "x": 50280,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y8_break_exchange_reply"
+    },
+    {
+      "id": "n_extra_y8_break_break_eight_close",
+      "position": {
+        "x": 50616,
+        "y": 5400
+      },
+      "type": "event",
+      "eventId": "extra_y8_break_break_eight_close"
+    },
+    {
+      "id": "next_y8_break",
+      "position": {
+        "x": 50952,
+        "y": 5400
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y8_term2_final_rubric",
+      "position": {
+        "x": 48936,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y8_term2_final_rubric"
+    },
+    {
+      "id": "n_extra_y8_term2_rubric_detail",
+      "position": {
+        "x": 49272,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y8_term2_rubric_detail"
+    },
+    {
+      "id": "n_extra_y8_term2_last_report",
+      "position": {
+        "x": 49608,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y8_term2_last_report"
+    },
+    {
+      "id": "n_extra_y8_term2_peer_read",
+      "position": {
+        "x": 49944,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y8_term2_peer_read"
+    },
+    {
+      "id": "n_extra_y8_term2_last_comment",
+      "position": {
+        "x": 50280,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y8_term2_last_comment"
+    },
+    {
+      "id": "n_extra_y8_term2_final_submission",
+      "position": {
+        "x": 50616,
+        "y": 6300
+      },
+      "type": "event",
+      "eventId": "extra_y8_term2_final_submission"
+    },
+    {
+      "id": "next_y8_term2",
+      "position": {
+        "x": 50952,
+        "y": 6300
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_extra_y8_summer_last_review_notice",
+      "position": {
+        "x": 48936,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y8_summer_last_review_notice"
+    },
+    {
+      "id": "n_extra_y8_summer_document_reply",
+      "position": {
+        "x": 49272,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y8_summer_document_reply"
+    },
+    {
+      "id": "n_extra_y8_summer_work_archive",
+      "position": {
+        "x": 49608,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y8_summer_work_archive"
+    },
+    {
+      "id": "n_extra_y8_summer_tell_friend",
+      "position": {
+        "x": 49944,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y8_summer_tell_friend"
+    },
+    {
+      "id": "n_extra_y8_summer_friend_check",
+      "position": {
+        "x": 50280,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y8_summer_friend_check"
+    },
+    {
+      "id": "n_extra_y8_summer_final_eve",
+      "position": {
+        "x": 50616,
+        "y": 7200
+      },
+      "type": "event",
+      "eventId": "extra_y8_summer_final_eve"
+    },
+    {
       "id": "next_extra_years",
       "position": {
         "x": 39936,
@@ -4358,13 +5342,13 @@
       "id": "e_next_y4_summer_extend",
       "from": "next_y4_summer",
       "port": "extend",
-      "to": "next_extra_years"
+      "to": "n_extra_y5_term1_study_map"
     },
     {
       "id": "e_next_y4_summer_next",
       "from": "next_y4_summer",
       "port": "next",
-      "to": "next_extra_years"
+      "to": "n_extra_y5_term1_study_map"
     },
     {
       "id": "e_next_extra_years_graduate",
@@ -5265,6 +6249,1260 @@
       "from": "n_y4_summer_last_evening",
       "port": "stay_online",
       "to": "n_graduation_day"
+    },
+    {
+      "id": "e_n_extra_y5_term1_study_map_extra_y5_term1_study_map_act_n_extra_y5_term1_advisor_note",
+      "from": "n_extra_y5_term1_study_map",
+      "port": "extra_y5_term1_study_map_act",
+      "to": "n_extra_y5_term1_advisor_note"
+    },
+    {
+      "id": "e_n_extra_y5_term1_study_map_extra_y5_term1_study_map_wait_n_extra_y5_term1_old_exam",
+      "from": "n_extra_y5_term1_study_map",
+      "port": "extra_y5_term1_study_map_wait",
+      "to": "n_extra_y5_term1_old_exam"
+    },
+    {
+      "id": "e_n_extra_y5_term1_advisor_note_extra_y5_term1_advisor_note_act_n_extra_y5_term1_old_exam",
+      "from": "n_extra_y5_term1_advisor_note",
+      "port": "extra_y5_term1_advisor_note_act",
+      "to": "n_extra_y5_term1_old_exam"
+    },
+    {
+      "id": "e_n_extra_y5_term1_advisor_note_extra_y5_term1_advisor_note_wait_n_extra_y5_term1_old_exam",
+      "from": "n_extra_y5_term1_advisor_note",
+      "port": "extra_y5_term1_advisor_note_wait",
+      "to": "n_extra_y5_term1_old_exam"
+    },
+    {
+      "id": "e_n_extra_y5_term1_old_exam_extra_y5_term1_old_exam_act_n_extra_y5_term1_study_group",
+      "from": "n_extra_y5_term1_old_exam",
+      "port": "extra_y5_term1_old_exam_act",
+      "to": "n_extra_y5_term1_study_group"
+    },
+    {
+      "id": "e_n_extra_y5_term1_old_exam_extra_y5_term1_old_exam_wait_n_extra_y5_term1_study_group",
+      "from": "n_extra_y5_term1_old_exam",
+      "port": "extra_y5_term1_old_exam_wait",
+      "to": "n_extra_y5_term1_study_group"
+    },
+    {
+      "id": "e_n_extra_y5_term1_study_group_extra_y5_term1_study_group_act_n_extra_y5_term1_peer_correction",
+      "from": "n_extra_y5_term1_study_group",
+      "port": "extra_y5_term1_study_group_act",
+      "to": "n_extra_y5_term1_peer_correction"
+    },
+    {
+      "id": "e_n_extra_y5_term1_study_group_extra_y5_term1_study_group_wait_n_extra_y5_term1_first_checkpoint",
+      "from": "n_extra_y5_term1_study_group",
+      "port": "extra_y5_term1_study_group_wait",
+      "to": "n_extra_y5_term1_first_checkpoint"
+    },
+    {
+      "id": "e_n_extra_y5_term1_peer_correction_extra_y5_term1_peer_correction_act_n_extra_y5_term1_first_checkpoint",
+      "from": "n_extra_y5_term1_peer_correction",
+      "port": "extra_y5_term1_peer_correction_act",
+      "to": "n_extra_y5_term1_first_checkpoint"
+    },
+    {
+      "id": "e_n_extra_y5_term1_peer_correction_extra_y5_term1_peer_correction_wait_n_extra_y5_term1_first_checkpoint",
+      "from": "n_extra_y5_term1_peer_correction",
+      "port": "extra_y5_term1_peer_correction_wait",
+      "to": "n_extra_y5_term1_first_checkpoint"
+    },
+    {
+      "id": "e_n_extra_y5_term1_first_checkpoint_extra_y5_term1_first_checkpoint_act_next_y5_term1",
+      "from": "n_extra_y5_term1_first_checkpoint",
+      "port": "extra_y5_term1_first_checkpoint_act",
+      "to": "next_y5_term1"
+    },
+    {
+      "id": "e_n_extra_y5_term1_first_checkpoint_extra_y5_term1_first_checkpoint_wait_next_y5_term1",
+      "from": "n_extra_y5_term1_first_checkpoint",
+      "port": "extra_y5_term1_first_checkpoint_wait",
+      "to": "next_y5_term1"
+    },
+    {
+      "id": "e_next_y5_term1_next_n_extra_y5_break_result_sheet",
+      "from": "next_y5_term1",
+      "port": "next",
+      "to": "n_extra_y5_break_result_sheet"
+    },
+    {
+      "id": "e_n_extra_y5_break_result_sheet_extra_y5_break_result_sheet_act_n_extra_y5_break_teacher_reply",
+      "from": "n_extra_y5_break_result_sheet",
+      "port": "extra_y5_break_result_sheet_act",
+      "to": "n_extra_y5_break_teacher_reply"
+    },
+    {
+      "id": "e_n_extra_y5_break_result_sheet_extra_y5_break_result_sheet_wait_n_extra_y5_break_quiet_library",
+      "from": "n_extra_y5_break_result_sheet",
+      "port": "extra_y5_break_result_sheet_wait",
+      "to": "n_extra_y5_break_quiet_library"
+    },
+    {
+      "id": "e_n_extra_y5_break_teacher_reply_extra_y5_break_teacher_reply_act_n_extra_y5_break_quiet_library",
+      "from": "n_extra_y5_break_teacher_reply",
+      "port": "extra_y5_break_teacher_reply_act",
+      "to": "n_extra_y5_break_quiet_library"
+    },
+    {
+      "id": "e_n_extra_y5_break_teacher_reply_extra_y5_break_teacher_reply_wait_n_extra_y5_break_quiet_library",
+      "from": "n_extra_y5_break_teacher_reply",
+      "port": "extra_y5_break_teacher_reply_wait",
+      "to": "n_extra_y5_break_quiet_library"
+    },
+    {
+      "id": "e_n_extra_y5_break_quiet_library_extra_y5_break_quiet_library_act_n_extra_y5_break_shared_cheatsheet",
+      "from": "n_extra_y5_break_quiet_library",
+      "port": "extra_y5_break_quiet_library_act",
+      "to": "n_extra_y5_break_shared_cheatsheet"
+    },
+    {
+      "id": "e_n_extra_y5_break_quiet_library_extra_y5_break_quiet_library_wait_n_extra_y5_break_shared_cheatsheet",
+      "from": "n_extra_y5_break_quiet_library",
+      "port": "extra_y5_break_quiet_library_wait",
+      "to": "n_extra_y5_break_shared_cheatsheet"
+    },
+    {
+      "id": "e_n_extra_y5_break_shared_cheatsheet_extra_y5_break_shared_cheatsheet_act_n_extra_y5_break_sheet_followup",
+      "from": "n_extra_y5_break_shared_cheatsheet",
+      "port": "extra_y5_break_shared_cheatsheet_act",
+      "to": "n_extra_y5_break_sheet_followup"
+    },
+    {
+      "id": "e_n_extra_y5_break_shared_cheatsheet_extra_y5_break_shared_cheatsheet_wait_n_extra_y5_break_break_return",
+      "from": "n_extra_y5_break_shared_cheatsheet",
+      "port": "extra_y5_break_shared_cheatsheet_wait",
+      "to": "n_extra_y5_break_break_return"
+    },
+    {
+      "id": "e_n_extra_y5_break_sheet_followup_extra_y5_break_sheet_followup_act_n_extra_y5_break_break_return",
+      "from": "n_extra_y5_break_sheet_followup",
+      "port": "extra_y5_break_sheet_followup_act",
+      "to": "n_extra_y5_break_break_return"
+    },
+    {
+      "id": "e_n_extra_y5_break_sheet_followup_extra_y5_break_sheet_followup_wait_n_extra_y5_break_break_return",
+      "from": "n_extra_y5_break_sheet_followup",
+      "port": "extra_y5_break_sheet_followup_wait",
+      "to": "n_extra_y5_break_break_return"
+    },
+    {
+      "id": "e_n_extra_y5_break_break_return_extra_y5_break_break_return_act_next_y5_break",
+      "from": "n_extra_y5_break_break_return",
+      "port": "extra_y5_break_break_return_act",
+      "to": "next_y5_break"
+    },
+    {
+      "id": "e_n_extra_y5_break_break_return_extra_y5_break_break_return_wait_next_y5_break",
+      "from": "n_extra_y5_break_break_return",
+      "port": "extra_y5_break_break_return_wait",
+      "to": "next_y5_break"
+    },
+    {
+      "id": "e_next_y5_break_next_n_extra_y5_term2_course_restart",
+      "from": "next_y5_break",
+      "port": "next",
+      "to": "n_extra_y5_term2_course_restart"
+    },
+    {
+      "id": "e_n_extra_y5_term2_course_restart_extra_y5_term2_course_restart_act_n_extra_y5_term2_class_note",
+      "from": "n_extra_y5_term2_course_restart",
+      "port": "extra_y5_term2_course_restart_act",
+      "to": "n_extra_y5_term2_class_note"
+    },
+    {
+      "id": "e_n_extra_y5_term2_course_restart_extra_y5_term2_course_restart_wait_n_extra_y5_term2_problem_set",
+      "from": "n_extra_y5_term2_course_restart",
+      "port": "extra_y5_term2_course_restart_wait",
+      "to": "n_extra_y5_term2_problem_set"
+    },
+    {
+      "id": "e_n_extra_y5_term2_class_note_extra_y5_term2_class_note_act_n_extra_y5_term2_problem_set",
+      "from": "n_extra_y5_term2_class_note",
+      "port": "extra_y5_term2_class_note_act",
+      "to": "n_extra_y5_term2_problem_set"
+    },
+    {
+      "id": "e_n_extra_y5_term2_class_note_extra_y5_term2_class_note_wait_n_extra_y5_term2_problem_set",
+      "from": "n_extra_y5_term2_class_note",
+      "port": "extra_y5_term2_class_note_wait",
+      "to": "n_extra_y5_term2_problem_set"
+    },
+    {
+      "id": "e_n_extra_y5_term2_problem_set_extra_y5_term2_problem_set_act_n_extra_y5_term2_practice_pair",
+      "from": "n_extra_y5_term2_problem_set",
+      "port": "extra_y5_term2_problem_set_act",
+      "to": "n_extra_y5_term2_practice_pair"
+    },
+    {
+      "id": "e_n_extra_y5_term2_problem_set_extra_y5_term2_problem_set_wait_n_extra_y5_term2_practice_pair",
+      "from": "n_extra_y5_term2_problem_set",
+      "port": "extra_y5_term2_problem_set_wait",
+      "to": "n_extra_y5_term2_practice_pair"
+    },
+    {
+      "id": "e_n_extra_y5_term2_practice_pair_extra_y5_term2_practice_pair_act_n_extra_y5_term2_pair_question",
+      "from": "n_extra_y5_term2_practice_pair",
+      "port": "extra_y5_term2_practice_pair_act",
+      "to": "n_extra_y5_term2_pair_question"
+    },
+    {
+      "id": "e_n_extra_y5_term2_practice_pair_extra_y5_term2_practice_pair_wait_n_extra_y5_term2_term2_review",
+      "from": "n_extra_y5_term2_practice_pair",
+      "port": "extra_y5_term2_practice_pair_wait",
+      "to": "n_extra_y5_term2_term2_review"
+    },
+    {
+      "id": "e_n_extra_y5_term2_pair_question_extra_y5_term2_pair_question_act_n_extra_y5_term2_term2_review",
+      "from": "n_extra_y5_term2_pair_question",
+      "port": "extra_y5_term2_pair_question_act",
+      "to": "n_extra_y5_term2_term2_review"
+    },
+    {
+      "id": "e_n_extra_y5_term2_pair_question_extra_y5_term2_pair_question_wait_n_extra_y5_term2_term2_review",
+      "from": "n_extra_y5_term2_pair_question",
+      "port": "extra_y5_term2_pair_question_wait",
+      "to": "n_extra_y5_term2_term2_review"
+    },
+    {
+      "id": "e_n_extra_y5_term2_term2_review_extra_y5_term2_term2_review_act_next_y5_term2",
+      "from": "n_extra_y5_term2_term2_review",
+      "port": "extra_y5_term2_term2_review_act",
+      "to": "next_y5_term2"
+    },
+    {
+      "id": "e_n_extra_y5_term2_term2_review_extra_y5_term2_term2_review_wait_next_y5_term2",
+      "from": "n_extra_y5_term2_term2_review",
+      "port": "extra_y5_term2_term2_review_wait",
+      "to": "next_y5_term2"
+    },
+    {
+      "id": "e_next_y5_term2_next_n_extra_y5_summer_summer_plan",
+      "from": "next_y5_term2",
+      "port": "next",
+      "to": "n_extra_y5_summer_summer_plan"
+    },
+    {
+      "id": "e_n_extra_y5_summer_summer_plan_extra_y5_summer_summer_plan_act_n_extra_y5_summer_resource_tip",
+      "from": "n_extra_y5_summer_summer_plan",
+      "port": "extra_y5_summer_summer_plan_act",
+      "to": "n_extra_y5_summer_resource_tip"
+    },
+    {
+      "id": "e_n_extra_y5_summer_summer_plan_extra_y5_summer_summer_plan_wait_n_extra_y5_summer_short_project",
+      "from": "n_extra_y5_summer_summer_plan",
+      "port": "extra_y5_summer_summer_plan_wait",
+      "to": "n_extra_y5_summer_short_project"
+    },
+    {
+      "id": "e_n_extra_y5_summer_resource_tip_extra_y5_summer_resource_tip_act_n_extra_y5_summer_short_project",
+      "from": "n_extra_y5_summer_resource_tip",
+      "port": "extra_y5_summer_resource_tip_act",
+      "to": "n_extra_y5_summer_short_project"
+    },
+    {
+      "id": "e_n_extra_y5_summer_resource_tip_extra_y5_summer_resource_tip_wait_n_extra_y5_summer_short_project",
+      "from": "n_extra_y5_summer_resource_tip",
+      "port": "extra_y5_summer_resource_tip_wait",
+      "to": "n_extra_y5_summer_short_project"
+    },
+    {
+      "id": "e_n_extra_y5_summer_short_project_extra_y5_summer_short_project_act_n_extra_y5_summer_show_progress",
+      "from": "n_extra_y5_summer_short_project",
+      "port": "extra_y5_summer_short_project_act",
+      "to": "n_extra_y5_summer_show_progress"
+    },
+    {
+      "id": "e_n_extra_y5_summer_short_project_extra_y5_summer_short_project_wait_n_extra_y5_summer_show_progress",
+      "from": "n_extra_y5_summer_short_project",
+      "port": "extra_y5_summer_short_project_wait",
+      "to": "n_extra_y5_summer_show_progress"
+    },
+    {
+      "id": "e_n_extra_y5_summer_show_progress_extra_y5_summer_show_progress_act_n_extra_y5_summer_progress_reply",
+      "from": "n_extra_y5_summer_show_progress",
+      "port": "extra_y5_summer_show_progress_act",
+      "to": "n_extra_y5_summer_progress_reply"
+    },
+    {
+      "id": "e_n_extra_y5_summer_show_progress_extra_y5_summer_show_progress_wait_n_extra_y5_summer_year5_close",
+      "from": "n_extra_y5_summer_show_progress",
+      "port": "extra_y5_summer_show_progress_wait",
+      "to": "n_extra_y5_summer_year5_close"
+    },
+    {
+      "id": "e_n_extra_y5_summer_progress_reply_extra_y5_summer_progress_reply_act_n_extra_y5_summer_year5_close",
+      "from": "n_extra_y5_summer_progress_reply",
+      "port": "extra_y5_summer_progress_reply_act",
+      "to": "n_extra_y5_summer_year5_close"
+    },
+    {
+      "id": "e_n_extra_y5_summer_progress_reply_extra_y5_summer_progress_reply_wait_n_extra_y5_summer_year5_close",
+      "from": "n_extra_y5_summer_progress_reply",
+      "port": "extra_y5_summer_progress_reply_wait",
+      "to": "n_extra_y5_summer_year5_close"
+    },
+    {
+      "id": "e_n_extra_y5_summer_year5_close_extra_y5_summer_year5_close_act_next_y5_summer",
+      "from": "n_extra_y5_summer_year5_close",
+      "port": "extra_y5_summer_year5_close_act",
+      "to": "next_y5_summer"
+    },
+    {
+      "id": "e_n_extra_y5_summer_year5_close_extra_y5_summer_year5_close_wait_next_y5_summer",
+      "from": "n_extra_y5_summer_year5_close",
+      "port": "extra_y5_summer_year5_close_wait",
+      "to": "next_y5_summer"
+    },
+    {
+      "id": "e_next_y5_summer_next_n_extra_y6_term1_review_calendar",
+      "from": "next_y5_summer",
+      "port": "next",
+      "to": "n_extra_y6_term1_review_calendar"
+    },
+    {
+      "id": "e_n_extra_y6_term1_review_calendar_extra_y6_term1_review_calendar_act_n_extra_y6_term1_office_answer",
+      "from": "n_extra_y6_term1_review_calendar",
+      "port": "extra_y6_term1_review_calendar_act",
+      "to": "n_extra_y6_term1_office_answer"
+    },
+    {
+      "id": "e_n_extra_y6_term1_review_calendar_extra_y6_term1_review_calendar_wait_n_extra_y6_term1_core_concept",
+      "from": "n_extra_y6_term1_review_calendar",
+      "port": "extra_y6_term1_review_calendar_wait",
+      "to": "n_extra_y6_term1_core_concept"
+    },
+    {
+      "id": "e_n_extra_y6_term1_office_answer_extra_y6_term1_office_answer_act_n_extra_y6_term1_core_concept",
+      "from": "n_extra_y6_term1_office_answer",
+      "port": "extra_y6_term1_office_answer_act",
+      "to": "n_extra_y6_term1_core_concept"
+    },
+    {
+      "id": "e_n_extra_y6_term1_office_answer_extra_y6_term1_office_answer_wait_n_extra_y6_term1_core_concept",
+      "from": "n_extra_y6_term1_office_answer",
+      "port": "extra_y6_term1_office_answer_wait",
+      "to": "n_extra_y6_term1_core_concept"
+    },
+    {
+      "id": "e_n_extra_y6_term1_core_concept_extra_y6_term1_core_concept_act_n_extra_y6_term1_study_exchange",
+      "from": "n_extra_y6_term1_core_concept",
+      "port": "extra_y6_term1_core_concept_act",
+      "to": "n_extra_y6_term1_study_exchange"
+    },
+    {
+      "id": "e_n_extra_y6_term1_core_concept_extra_y6_term1_core_concept_wait_n_extra_y6_term1_study_exchange",
+      "from": "n_extra_y6_term1_core_concept",
+      "port": "extra_y6_term1_core_concept_wait",
+      "to": "n_extra_y6_term1_study_exchange"
+    },
+    {
+      "id": "e_n_extra_y6_term1_study_exchange_extra_y6_term1_study_exchange_act_n_extra_y6_term1_diagram_reply",
+      "from": "n_extra_y6_term1_study_exchange",
+      "port": "extra_y6_term1_study_exchange_act",
+      "to": "n_extra_y6_term1_diagram_reply"
+    },
+    {
+      "id": "e_n_extra_y6_term1_study_exchange_extra_y6_term1_study_exchange_wait_n_extra_y6_term1_term1_marker",
+      "from": "n_extra_y6_term1_study_exchange",
+      "port": "extra_y6_term1_study_exchange_wait",
+      "to": "n_extra_y6_term1_term1_marker"
+    },
+    {
+      "id": "e_n_extra_y6_term1_diagram_reply_extra_y6_term1_diagram_reply_act_n_extra_y6_term1_term1_marker",
+      "from": "n_extra_y6_term1_diagram_reply",
+      "port": "extra_y6_term1_diagram_reply_act",
+      "to": "n_extra_y6_term1_term1_marker"
+    },
+    {
+      "id": "e_n_extra_y6_term1_diagram_reply_extra_y6_term1_diagram_reply_wait_n_extra_y6_term1_term1_marker",
+      "from": "n_extra_y6_term1_diagram_reply",
+      "port": "extra_y6_term1_diagram_reply_wait",
+      "to": "n_extra_y6_term1_term1_marker"
+    },
+    {
+      "id": "e_n_extra_y6_term1_term1_marker_extra_y6_term1_term1_marker_act_next_y6_term1",
+      "from": "n_extra_y6_term1_term1_marker",
+      "port": "extra_y6_term1_term1_marker_act",
+      "to": "next_y6_term1"
+    },
+    {
+      "id": "e_n_extra_y6_term1_term1_marker_extra_y6_term1_term1_marker_wait_next_y6_term1",
+      "from": "n_extra_y6_term1_term1_marker",
+      "port": "extra_y6_term1_term1_marker_wait",
+      "to": "next_y6_term1"
+    },
+    {
+      "id": "e_next_y6_term1_next_n_extra_y6_break_break_feedback",
+      "from": "next_y6_term1",
+      "port": "next",
+      "to": "n_extra_y6_break_break_feedback"
+    },
+    {
+      "id": "e_n_extra_y6_break_break_feedback_extra_y6_break_break_feedback_act_n_extra_y6_break_teacher_example",
+      "from": "n_extra_y6_break_break_feedback",
+      "port": "extra_y6_break_break_feedback_act",
+      "to": "n_extra_y6_break_teacher_example"
+    },
+    {
+      "id": "e_n_extra_y6_break_break_feedback_extra_y6_break_break_feedback_wait_n_extra_y6_break_quiet_morning",
+      "from": "n_extra_y6_break_break_feedback",
+      "port": "extra_y6_break_break_feedback_wait",
+      "to": "n_extra_y6_break_quiet_morning"
+    },
+    {
+      "id": "e_n_extra_y6_break_teacher_example_extra_y6_break_teacher_example_act_n_extra_y6_break_quiet_morning",
+      "from": "n_extra_y6_break_teacher_example",
+      "port": "extra_y6_break_teacher_example_act",
+      "to": "n_extra_y6_break_quiet_morning"
+    },
+    {
+      "id": "e_n_extra_y6_break_teacher_example_extra_y6_break_teacher_example_wait_n_extra_y6_break_quiet_morning",
+      "from": "n_extra_y6_break_teacher_example",
+      "port": "extra_y6_break_teacher_example_wait",
+      "to": "n_extra_y6_break_quiet_morning"
+    },
+    {
+      "id": "e_n_extra_y6_break_quiet_morning_extra_y6_break_quiet_morning_act_n_extra_y6_break_peer_chart",
+      "from": "n_extra_y6_break_quiet_morning",
+      "port": "extra_y6_break_quiet_morning_act",
+      "to": "n_extra_y6_break_peer_chart"
+    },
+    {
+      "id": "e_n_extra_y6_break_quiet_morning_extra_y6_break_quiet_morning_wait_n_extra_y6_break_peer_chart",
+      "from": "n_extra_y6_break_quiet_morning",
+      "port": "extra_y6_break_quiet_morning_wait",
+      "to": "n_extra_y6_break_peer_chart"
+    },
+    {
+      "id": "e_n_extra_y6_break_peer_chart_extra_y6_break_peer_chart_act_n_extra_y6_break_chart_followup",
+      "from": "n_extra_y6_break_peer_chart",
+      "port": "extra_y6_break_peer_chart_act",
+      "to": "n_extra_y6_break_chart_followup"
+    },
+    {
+      "id": "e_n_extra_y6_break_peer_chart_extra_y6_break_peer_chart_wait_n_extra_y6_break_break_summary",
+      "from": "n_extra_y6_break_peer_chart",
+      "port": "extra_y6_break_peer_chart_wait",
+      "to": "n_extra_y6_break_break_summary"
+    },
+    {
+      "id": "e_n_extra_y6_break_chart_followup_extra_y6_break_chart_followup_act_n_extra_y6_break_break_summary",
+      "from": "n_extra_y6_break_chart_followup",
+      "port": "extra_y6_break_chart_followup_act",
+      "to": "n_extra_y6_break_break_summary"
+    },
+    {
+      "id": "e_n_extra_y6_break_chart_followup_extra_y6_break_chart_followup_wait_n_extra_y6_break_break_summary",
+      "from": "n_extra_y6_break_chart_followup",
+      "port": "extra_y6_break_chart_followup_wait",
+      "to": "n_extra_y6_break_break_summary"
+    },
+    {
+      "id": "e_n_extra_y6_break_break_summary_extra_y6_break_break_summary_act_next_y6_break",
+      "from": "n_extra_y6_break_break_summary",
+      "port": "extra_y6_break_break_summary_act",
+      "to": "next_y6_break"
+    },
+    {
+      "id": "e_n_extra_y6_break_break_summary_extra_y6_break_break_summary_wait_next_y6_break",
+      "from": "n_extra_y6_break_break_summary",
+      "port": "extra_y6_break_break_summary_wait",
+      "to": "next_y6_break"
+    },
+    {
+      "id": "e_next_y6_break_next_n_extra_y6_term2_final_course",
+      "from": "next_y6_break",
+      "port": "next",
+      "to": "n_extra_y6_term2_final_course"
+    },
+    {
+      "id": "e_n_extra_y6_term2_final_course_extra_y6_term2_final_course_act_n_extra_y6_term2_rubric_reply",
+      "from": "n_extra_y6_term2_final_course",
+      "port": "extra_y6_term2_final_course_act",
+      "to": "n_extra_y6_term2_rubric_reply"
+    },
+    {
+      "id": "e_n_extra_y6_term2_final_course_extra_y6_term2_final_course_wait_n_extra_y6_term2_evidence_table",
+      "from": "n_extra_y6_term2_final_course",
+      "port": "extra_y6_term2_final_course_wait",
+      "to": "n_extra_y6_term2_evidence_table"
+    },
+    {
+      "id": "e_n_extra_y6_term2_rubric_reply_extra_y6_term2_rubric_reply_act_n_extra_y6_term2_evidence_table",
+      "from": "n_extra_y6_term2_rubric_reply",
+      "port": "extra_y6_term2_rubric_reply_act",
+      "to": "n_extra_y6_term2_evidence_table"
+    },
+    {
+      "id": "e_n_extra_y6_term2_rubric_reply_extra_y6_term2_rubric_reply_wait_n_extra_y6_term2_evidence_table",
+      "from": "n_extra_y6_term2_rubric_reply",
+      "port": "extra_y6_term2_rubric_reply_wait",
+      "to": "n_extra_y6_term2_evidence_table"
+    },
+    {
+      "id": "e_n_extra_y6_term2_evidence_table_extra_y6_term2_evidence_table_act_n_extra_y6_term2_peer_trial",
+      "from": "n_extra_y6_term2_evidence_table",
+      "port": "extra_y6_term2_evidence_table_act",
+      "to": "n_extra_y6_term2_peer_trial"
+    },
+    {
+      "id": "e_n_extra_y6_term2_evidence_table_extra_y6_term2_evidence_table_wait_n_extra_y6_term2_peer_trial",
+      "from": "n_extra_y6_term2_evidence_table",
+      "port": "extra_y6_term2_evidence_table_wait",
+      "to": "n_extra_y6_term2_peer_trial"
+    },
+    {
+      "id": "e_n_extra_y6_term2_peer_trial_extra_y6_term2_peer_trial_act_n_extra_y6_term2_trial_reply",
+      "from": "n_extra_y6_term2_peer_trial",
+      "port": "extra_y6_term2_peer_trial_act",
+      "to": "n_extra_y6_term2_trial_reply"
+    },
+    {
+      "id": "e_n_extra_y6_term2_peer_trial_extra_y6_term2_peer_trial_wait_n_extra_y6_term2_submit_term",
+      "from": "n_extra_y6_term2_peer_trial",
+      "port": "extra_y6_term2_peer_trial_wait",
+      "to": "n_extra_y6_term2_submit_term"
+    },
+    {
+      "id": "e_n_extra_y6_term2_trial_reply_extra_y6_term2_trial_reply_act_n_extra_y6_term2_submit_term",
+      "from": "n_extra_y6_term2_trial_reply",
+      "port": "extra_y6_term2_trial_reply_act",
+      "to": "n_extra_y6_term2_submit_term"
+    },
+    {
+      "id": "e_n_extra_y6_term2_trial_reply_extra_y6_term2_trial_reply_wait_n_extra_y6_term2_submit_term",
+      "from": "n_extra_y6_term2_trial_reply",
+      "port": "extra_y6_term2_trial_reply_wait",
+      "to": "n_extra_y6_term2_submit_term"
+    },
+    {
+      "id": "e_n_extra_y6_term2_submit_term_extra_y6_term2_submit_term_act_next_y6_term2",
+      "from": "n_extra_y6_term2_submit_term",
+      "port": "extra_y6_term2_submit_term_act",
+      "to": "next_y6_term2"
+    },
+    {
+      "id": "e_n_extra_y6_term2_submit_term_extra_y6_term2_submit_term_wait_next_y6_term2",
+      "from": "n_extra_y6_term2_submit_term",
+      "port": "extra_y6_term2_submit_term_wait",
+      "to": "next_y6_term2"
+    },
+    {
+      "id": "e_next_y6_term2_next_n_extra_y6_summer_review_notice",
+      "from": "next_y6_term2",
+      "port": "next",
+      "to": "n_extra_y6_summer_review_notice"
+    },
+    {
+      "id": "e_n_extra_y6_summer_review_notice_extra_y6_summer_review_notice_act_n_extra_y6_summer_record_check",
+      "from": "n_extra_y6_summer_review_notice",
+      "port": "extra_y6_summer_review_notice_act",
+      "to": "n_extra_y6_summer_record_check"
+    },
+    {
+      "id": "e_n_extra_y6_summer_review_notice_extra_y6_summer_review_notice_wait_n_extra_y6_summer_portfolio_audit",
+      "from": "n_extra_y6_summer_review_notice",
+      "port": "extra_y6_summer_review_notice_wait",
+      "to": "n_extra_y6_summer_portfolio_audit"
+    },
+    {
+      "id": "e_n_extra_y6_summer_record_check_extra_y6_summer_record_check_act_n_extra_y6_summer_portfolio_audit",
+      "from": "n_extra_y6_summer_record_check",
+      "port": "extra_y6_summer_record_check_act",
+      "to": "n_extra_y6_summer_portfolio_audit"
+    },
+    {
+      "id": "e_n_extra_y6_summer_record_check_extra_y6_summer_record_check_wait_n_extra_y6_summer_portfolio_audit",
+      "from": "n_extra_y6_summer_record_check",
+      "port": "extra_y6_summer_record_check_wait",
+      "to": "n_extra_y6_summer_portfolio_audit"
+    },
+    {
+      "id": "e_n_extra_y6_summer_portfolio_audit_extra_y6_summer_portfolio_audit_act_n_extra_y6_summer_share_lessons",
+      "from": "n_extra_y6_summer_portfolio_audit",
+      "port": "extra_y6_summer_portfolio_audit_act",
+      "to": "n_extra_y6_summer_share_lessons"
+    },
+    {
+      "id": "e_n_extra_y6_summer_portfolio_audit_extra_y6_summer_portfolio_audit_wait_n_extra_y6_summer_share_lessons",
+      "from": "n_extra_y6_summer_portfolio_audit",
+      "port": "extra_y6_summer_portfolio_audit_wait",
+      "to": "n_extra_y6_summer_share_lessons"
+    },
+    {
+      "id": "e_n_extra_y6_summer_share_lessons_extra_y6_summer_share_lessons_act_n_extra_y6_summer_lesson_reply",
+      "from": "n_extra_y6_summer_share_lessons",
+      "port": "extra_y6_summer_share_lessons_act",
+      "to": "n_extra_y6_summer_lesson_reply"
+    },
+    {
+      "id": "e_n_extra_y6_summer_share_lessons_extra_y6_summer_share_lessons_wait_n_extra_y6_summer_review_eve",
+      "from": "n_extra_y6_summer_share_lessons",
+      "port": "extra_y6_summer_share_lessons_wait",
+      "to": "n_extra_y6_summer_review_eve"
+    },
+    {
+      "id": "e_n_extra_y6_summer_lesson_reply_extra_y6_summer_lesson_reply_act_n_extra_y6_summer_review_eve",
+      "from": "n_extra_y6_summer_lesson_reply",
+      "port": "extra_y6_summer_lesson_reply_act",
+      "to": "n_extra_y6_summer_review_eve"
+    },
+    {
+      "id": "e_n_extra_y6_summer_lesson_reply_extra_y6_summer_lesson_reply_wait_n_extra_y6_summer_review_eve",
+      "from": "n_extra_y6_summer_lesson_reply",
+      "port": "extra_y6_summer_lesson_reply_wait",
+      "to": "n_extra_y6_summer_review_eve"
+    },
+    {
+      "id": "e_n_extra_y6_summer_review_eve_extra_y6_summer_review_eve_act_next_y6_summer",
+      "from": "n_extra_y6_summer_review_eve",
+      "port": "extra_y6_summer_review_eve_act",
+      "to": "next_y6_summer"
+    },
+    {
+      "id": "e_n_extra_y6_summer_review_eve_extra_y6_summer_review_eve_wait_next_y6_summer",
+      "from": "n_extra_y6_summer_review_eve",
+      "port": "extra_y6_summer_review_eve_wait",
+      "to": "next_y6_summer"
+    },
+    {
+      "id": "e_next_y6_summer_graduate_check_academic_path",
+      "from": "next_y6_summer",
+      "port": "graduate",
+      "to": "check_academic_path"
+    },
+    {
+      "id": "e_next_y6_summer_extend_n_extra_y7_term1_new_cohort",
+      "from": "next_y6_summer",
+      "port": "extend",
+      "to": "n_extra_y7_term1_new_cohort"
+    },
+    {
+      "id": "e_next_y6_summer_next_n_extra_y7_term1_new_cohort",
+      "from": "next_y6_summer",
+      "port": "next",
+      "to": "n_extra_y7_term1_new_cohort"
+    },
+    {
+      "id": "e_n_extra_y7_term1_new_cohort_extra_y7_term1_new_cohort_act_n_extra_y7_term1_lecturer_plan",
+      "from": "n_extra_y7_term1_new_cohort",
+      "port": "extra_y7_term1_new_cohort_act",
+      "to": "n_extra_y7_term1_lecturer_plan"
+    },
+    {
+      "id": "e_n_extra_y7_term1_new_cohort_extra_y7_term1_new_cohort_wait_n_extra_y7_term1_changed_material",
+      "from": "n_extra_y7_term1_new_cohort",
+      "port": "extra_y7_term1_new_cohort_wait",
+      "to": "n_extra_y7_term1_changed_material"
+    },
+    {
+      "id": "e_n_extra_y7_term1_lecturer_plan_extra_y7_term1_lecturer_plan_act_n_extra_y7_term1_changed_material",
+      "from": "n_extra_y7_term1_lecturer_plan",
+      "port": "extra_y7_term1_lecturer_plan_act",
+      "to": "n_extra_y7_term1_changed_material"
+    },
+    {
+      "id": "e_n_extra_y7_term1_lecturer_plan_extra_y7_term1_lecturer_plan_wait_n_extra_y7_term1_changed_material",
+      "from": "n_extra_y7_term1_lecturer_plan",
+      "port": "extra_y7_term1_lecturer_plan_wait",
+      "to": "n_extra_y7_term1_changed_material"
+    },
+    {
+      "id": "e_n_extra_y7_term1_changed_material_extra_y7_term1_changed_material_act_n_extra_y7_term1_junior_discussion",
+      "from": "n_extra_y7_term1_changed_material",
+      "port": "extra_y7_term1_changed_material_act",
+      "to": "n_extra_y7_term1_junior_discussion"
+    },
+    {
+      "id": "e_n_extra_y7_term1_changed_material_extra_y7_term1_changed_material_wait_n_extra_y7_term1_junior_discussion",
+      "from": "n_extra_y7_term1_changed_material",
+      "port": "extra_y7_term1_changed_material_wait",
+      "to": "n_extra_y7_term1_junior_discussion"
+    },
+    {
+      "id": "e_n_extra_y7_term1_junior_discussion_extra_y7_term1_junior_discussion_act_n_extra_y7_term1_method_reply",
+      "from": "n_extra_y7_term1_junior_discussion",
+      "port": "extra_y7_term1_junior_discussion_act",
+      "to": "n_extra_y7_term1_method_reply"
+    },
+    {
+      "id": "e_n_extra_y7_term1_junior_discussion_extra_y7_term1_junior_discussion_wait_n_extra_y7_term1_first_week_seven",
+      "from": "n_extra_y7_term1_junior_discussion",
+      "port": "extra_y7_term1_junior_discussion_wait",
+      "to": "n_extra_y7_term1_first_week_seven"
+    },
+    {
+      "id": "e_n_extra_y7_term1_method_reply_extra_y7_term1_method_reply_act_n_extra_y7_term1_first_week_seven",
+      "from": "n_extra_y7_term1_method_reply",
+      "port": "extra_y7_term1_method_reply_act",
+      "to": "n_extra_y7_term1_first_week_seven"
+    },
+    {
+      "id": "e_n_extra_y7_term1_method_reply_extra_y7_term1_method_reply_wait_n_extra_y7_term1_first_week_seven",
+      "from": "n_extra_y7_term1_method_reply",
+      "port": "extra_y7_term1_method_reply_wait",
+      "to": "n_extra_y7_term1_first_week_seven"
+    },
+    {
+      "id": "e_n_extra_y7_term1_first_week_seven_extra_y7_term1_first_week_seven_act_next_y7_term1",
+      "from": "n_extra_y7_term1_first_week_seven",
+      "port": "extra_y7_term1_first_week_seven_act",
+      "to": "next_y7_term1"
+    },
+    {
+      "id": "e_n_extra_y7_term1_first_week_seven_extra_y7_term1_first_week_seven_wait_next_y7_term1",
+      "from": "n_extra_y7_term1_first_week_seven",
+      "port": "extra_y7_term1_first_week_seven_wait",
+      "to": "next_y7_term1"
+    },
+    {
+      "id": "e_next_y7_term1_next_n_extra_y7_break_midyear_note",
+      "from": "next_y7_term1",
+      "port": "next",
+      "to": "n_extra_y7_break_midyear_note"
+    },
+    {
+      "id": "e_n_extra_y7_break_midyear_note_extra_y7_break_midyear_note_act_n_extra_y7_break_practice_link",
+      "from": "n_extra_y7_break_midyear_note",
+      "port": "extra_y7_break_midyear_note_act",
+      "to": "n_extra_y7_break_practice_link"
+    },
+    {
+      "id": "e_n_extra_y7_break_midyear_note_extra_y7_break_midyear_note_wait_n_extra_y7_break_campus_empty",
+      "from": "n_extra_y7_break_midyear_note",
+      "port": "extra_y7_break_midyear_note_wait",
+      "to": "n_extra_y7_break_campus_empty"
+    },
+    {
+      "id": "e_n_extra_y7_break_practice_link_extra_y7_break_practice_link_act_n_extra_y7_break_campus_empty",
+      "from": "n_extra_y7_break_practice_link",
+      "port": "extra_y7_break_practice_link_act",
+      "to": "n_extra_y7_break_campus_empty"
+    },
+    {
+      "id": "e_n_extra_y7_break_practice_link_extra_y7_break_practice_link_wait_n_extra_y7_break_campus_empty",
+      "from": "n_extra_y7_break_practice_link",
+      "port": "extra_y7_break_practice_link_wait",
+      "to": "n_extra_y7_break_campus_empty"
+    },
+    {
+      "id": "e_n_extra_y7_break_campus_empty_extra_y7_break_campus_empty_act_n_extra_y7_break_shared_outline",
+      "from": "n_extra_y7_break_campus_empty",
+      "port": "extra_y7_break_campus_empty_act",
+      "to": "n_extra_y7_break_shared_outline"
+    },
+    {
+      "id": "e_n_extra_y7_break_campus_empty_extra_y7_break_campus_empty_wait_n_extra_y7_break_shared_outline",
+      "from": "n_extra_y7_break_campus_empty",
+      "port": "extra_y7_break_campus_empty_wait",
+      "to": "n_extra_y7_break_shared_outline"
+    },
+    {
+      "id": "e_n_extra_y7_break_shared_outline_extra_y7_break_shared_outline_act_n_extra_y7_break_outline_reply",
+      "from": "n_extra_y7_break_shared_outline",
+      "port": "extra_y7_break_shared_outline_act",
+      "to": "n_extra_y7_break_outline_reply"
+    },
+    {
+      "id": "e_n_extra_y7_break_shared_outline_extra_y7_break_shared_outline_wait_n_extra_y7_break_return_seven",
+      "from": "n_extra_y7_break_shared_outline",
+      "port": "extra_y7_break_shared_outline_wait",
+      "to": "n_extra_y7_break_return_seven"
+    },
+    {
+      "id": "e_n_extra_y7_break_outline_reply_extra_y7_break_outline_reply_act_n_extra_y7_break_return_seven",
+      "from": "n_extra_y7_break_outline_reply",
+      "port": "extra_y7_break_outline_reply_act",
+      "to": "n_extra_y7_break_return_seven"
+    },
+    {
+      "id": "e_n_extra_y7_break_outline_reply_extra_y7_break_outline_reply_wait_n_extra_y7_break_return_seven",
+      "from": "n_extra_y7_break_outline_reply",
+      "port": "extra_y7_break_outline_reply_wait",
+      "to": "n_extra_y7_break_return_seven"
+    },
+    {
+      "id": "e_n_extra_y7_break_return_seven_extra_y7_break_return_seven_act_next_y7_break",
+      "from": "n_extra_y7_break_return_seven",
+      "port": "extra_y7_break_return_seven_act",
+      "to": "next_y7_break"
+    },
+    {
+      "id": "e_n_extra_y7_break_return_seven_extra_y7_break_return_seven_wait_next_y7_break",
+      "from": "n_extra_y7_break_return_seven",
+      "port": "extra_y7_break_return_seven_wait",
+      "to": "next_y7_break"
+    },
+    {
+      "id": "e_next_y7_break_next_n_extra_y7_term2_course_goal",
+      "from": "next_y7_break",
+      "port": "next",
+      "to": "n_extra_y7_term2_course_goal"
+    },
+    {
+      "id": "e_n_extra_y7_term2_course_goal_extra_y7_term2_course_goal_act_n_extra_y7_term2_sample_rubric",
+      "from": "n_extra_y7_term2_course_goal",
+      "port": "extra_y7_term2_course_goal_act",
+      "to": "n_extra_y7_term2_sample_rubric"
+    },
+    {
+      "id": "e_n_extra_y7_term2_course_goal_extra_y7_term2_course_goal_wait_n_extra_y7_term2_rework_report",
+      "from": "n_extra_y7_term2_course_goal",
+      "port": "extra_y7_term2_course_goal_wait",
+      "to": "n_extra_y7_term2_rework_report"
+    },
+    {
+      "id": "e_n_extra_y7_term2_sample_rubric_extra_y7_term2_sample_rubric_act_n_extra_y7_term2_rework_report",
+      "from": "n_extra_y7_term2_sample_rubric",
+      "port": "extra_y7_term2_sample_rubric_act",
+      "to": "n_extra_y7_term2_rework_report"
+    },
+    {
+      "id": "e_n_extra_y7_term2_sample_rubric_extra_y7_term2_sample_rubric_wait_n_extra_y7_term2_rework_report",
+      "from": "n_extra_y7_term2_sample_rubric",
+      "port": "extra_y7_term2_sample_rubric_wait",
+      "to": "n_extra_y7_term2_rework_report"
+    },
+    {
+      "id": "e_n_extra_y7_term2_rework_report_extra_y7_term2_rework_report_act_n_extra_y7_term2_small_group",
+      "from": "n_extra_y7_term2_rework_report",
+      "port": "extra_y7_term2_rework_report_act",
+      "to": "n_extra_y7_term2_small_group"
+    },
+    {
+      "id": "e_n_extra_y7_term2_rework_report_extra_y7_term2_rework_report_wait_n_extra_y7_term2_small_group",
+      "from": "n_extra_y7_term2_rework_report",
+      "port": "extra_y7_term2_rework_report_wait",
+      "to": "n_extra_y7_term2_small_group"
+    },
+    {
+      "id": "e_n_extra_y7_term2_small_group_extra_y7_term2_small_group_act_n_extra_y7_term2_reader_reply",
+      "from": "n_extra_y7_term2_small_group",
+      "port": "extra_y7_term2_small_group_act",
+      "to": "n_extra_y7_term2_reader_reply"
+    },
+    {
+      "id": "e_n_extra_y7_term2_small_group_extra_y7_term2_small_group_wait_n_extra_y7_term2_term_seven_end",
+      "from": "n_extra_y7_term2_small_group",
+      "port": "extra_y7_term2_small_group_wait",
+      "to": "n_extra_y7_term2_term_seven_end"
+    },
+    {
+      "id": "e_n_extra_y7_term2_reader_reply_extra_y7_term2_reader_reply_act_n_extra_y7_term2_term_seven_end",
+      "from": "n_extra_y7_term2_reader_reply",
+      "port": "extra_y7_term2_reader_reply_act",
+      "to": "n_extra_y7_term2_term_seven_end"
+    },
+    {
+      "id": "e_n_extra_y7_term2_reader_reply_extra_y7_term2_reader_reply_wait_n_extra_y7_term2_term_seven_end",
+      "from": "n_extra_y7_term2_reader_reply",
+      "port": "extra_y7_term2_reader_reply_wait",
+      "to": "n_extra_y7_term2_term_seven_end"
+    },
+    {
+      "id": "e_n_extra_y7_term2_term_seven_end_extra_y7_term2_term_seven_end_act_next_y7_term2",
+      "from": "n_extra_y7_term2_term_seven_end",
+      "port": "extra_y7_term2_term_seven_end_act",
+      "to": "next_y7_term2"
+    },
+    {
+      "id": "e_n_extra_y7_term2_term_seven_end_extra_y7_term2_term_seven_end_wait_next_y7_term2",
+      "from": "n_extra_y7_term2_term_seven_end",
+      "port": "extra_y7_term2_term_seven_end_wait",
+      "to": "next_y7_term2"
+    },
+    {
+      "id": "e_next_y7_term2_next_n_extra_y7_summer_summer_seven_plan",
+      "from": "next_y7_term2",
+      "port": "next",
+      "to": "n_extra_y7_summer_summer_seven_plan"
+    },
+    {
+      "id": "e_n_extra_y7_summer_summer_seven_plan_extra_y7_summer_summer_seven_plan_act_n_extra_y7_summer_office_list",
+      "from": "n_extra_y7_summer_summer_seven_plan",
+      "port": "extra_y7_summer_summer_seven_plan_act",
+      "to": "n_extra_y7_summer_office_list"
+    },
+    {
+      "id": "e_n_extra_y7_summer_summer_seven_plan_extra_y7_summer_summer_seven_plan_wait_n_extra_y7_summer_skill_trace",
+      "from": "n_extra_y7_summer_summer_seven_plan",
+      "port": "extra_y7_summer_summer_seven_plan_wait",
+      "to": "n_extra_y7_summer_skill_trace"
+    },
+    {
+      "id": "e_n_extra_y7_summer_office_list_extra_y7_summer_office_list_act_n_extra_y7_summer_skill_trace",
+      "from": "n_extra_y7_summer_office_list",
+      "port": "extra_y7_summer_office_list_act",
+      "to": "n_extra_y7_summer_skill_trace"
+    },
+    {
+      "id": "e_n_extra_y7_summer_office_list_extra_y7_summer_office_list_wait_n_extra_y7_summer_skill_trace",
+      "from": "n_extra_y7_summer_office_list",
+      "port": "extra_y7_summer_office_list_wait",
+      "to": "n_extra_y7_summer_skill_trace"
+    },
+    {
+      "id": "e_n_extra_y7_summer_skill_trace_extra_y7_summer_skill_trace_act_n_extra_y7_summer_peer_message",
+      "from": "n_extra_y7_summer_skill_trace",
+      "port": "extra_y7_summer_skill_trace_act",
+      "to": "n_extra_y7_summer_peer_message"
+    },
+    {
+      "id": "e_n_extra_y7_summer_skill_trace_extra_y7_summer_skill_trace_wait_n_extra_y7_summer_peer_message",
+      "from": "n_extra_y7_summer_skill_trace",
+      "port": "extra_y7_summer_skill_trace_wait",
+      "to": "n_extra_y7_summer_peer_message"
+    },
+    {
+      "id": "e_n_extra_y7_summer_peer_message_extra_y7_summer_peer_message_act_n_extra_y7_summer_friend_reply",
+      "from": "n_extra_y7_summer_peer_message",
+      "port": "extra_y7_summer_peer_message_act",
+      "to": "n_extra_y7_summer_friend_reply"
+    },
+    {
+      "id": "e_n_extra_y7_summer_peer_message_extra_y7_summer_peer_message_wait_n_extra_y7_summer_year7_close",
+      "from": "n_extra_y7_summer_peer_message",
+      "port": "extra_y7_summer_peer_message_wait",
+      "to": "n_extra_y7_summer_year7_close"
+    },
+    {
+      "id": "e_n_extra_y7_summer_friend_reply_extra_y7_summer_friend_reply_act_n_extra_y7_summer_year7_close",
+      "from": "n_extra_y7_summer_friend_reply",
+      "port": "extra_y7_summer_friend_reply_act",
+      "to": "n_extra_y7_summer_year7_close"
+    },
+    {
+      "id": "e_n_extra_y7_summer_friend_reply_extra_y7_summer_friend_reply_wait_n_extra_y7_summer_year7_close",
+      "from": "n_extra_y7_summer_friend_reply",
+      "port": "extra_y7_summer_friend_reply_wait",
+      "to": "n_extra_y7_summer_year7_close"
+    },
+    {
+      "id": "e_n_extra_y7_summer_year7_close_extra_y7_summer_year7_close_act_next_y7_summer",
+      "from": "n_extra_y7_summer_year7_close",
+      "port": "extra_y7_summer_year7_close_act",
+      "to": "next_y7_summer"
+    },
+    {
+      "id": "e_n_extra_y7_summer_year7_close_extra_y7_summer_year7_close_wait_next_y7_summer",
+      "from": "n_extra_y7_summer_year7_close",
+      "port": "extra_y7_summer_year7_close_wait",
+      "to": "next_y7_summer"
+    },
+    {
+      "id": "e_next_y7_summer_next_n_extra_y8_term1_last_plan",
+      "from": "next_y7_summer",
+      "port": "next",
+      "to": "n_extra_y8_term1_last_plan"
+    },
+    {
+      "id": "e_n_extra_y8_term1_last_plan_extra_y8_term1_last_plan_act_n_extra_y8_term1_advisor_minutes",
+      "from": "n_extra_y8_term1_last_plan",
+      "port": "extra_y8_term1_last_plan_act",
+      "to": "n_extra_y8_term1_advisor_minutes"
+    },
+    {
+      "id": "e_n_extra_y8_term1_last_plan_extra_y8_term1_last_plan_wait_n_extra_y8_term1_first_assignment",
+      "from": "n_extra_y8_term1_last_plan",
+      "port": "extra_y8_term1_last_plan_wait",
+      "to": "n_extra_y8_term1_first_assignment"
+    },
+    {
+      "id": "e_n_extra_y8_term1_advisor_minutes_extra_y8_term1_advisor_minutes_act_n_extra_y8_term1_first_assignment",
+      "from": "n_extra_y8_term1_advisor_minutes",
+      "port": "extra_y8_term1_advisor_minutes_act",
+      "to": "n_extra_y8_term1_first_assignment"
+    },
+    {
+      "id": "e_n_extra_y8_term1_advisor_minutes_extra_y8_term1_advisor_minutes_wait_n_extra_y8_term1_first_assignment",
+      "from": "n_extra_y8_term1_advisor_minutes",
+      "port": "extra_y8_term1_advisor_minutes_wait",
+      "to": "n_extra_y8_term1_first_assignment"
+    },
+    {
+      "id": "e_n_extra_y8_term1_first_assignment_extra_y8_term1_first_assignment_act_n_extra_y8_term1_study_partner",
+      "from": "n_extra_y8_term1_first_assignment",
+      "port": "extra_y8_term1_first_assignment_act",
+      "to": "n_extra_y8_term1_study_partner"
+    },
+    {
+      "id": "e_n_extra_y8_term1_first_assignment_extra_y8_term1_first_assignment_wait_n_extra_y8_term1_study_partner",
+      "from": "n_extra_y8_term1_first_assignment",
+      "port": "extra_y8_term1_first_assignment_wait",
+      "to": "n_extra_y8_term1_study_partner"
+    },
+    {
+      "id": "e_n_extra_y8_term1_study_partner_extra_y8_term1_study_partner_act_n_extra_y8_term1_partner_reply",
+      "from": "n_extra_y8_term1_study_partner",
+      "port": "extra_y8_term1_study_partner_act",
+      "to": "n_extra_y8_term1_partner_reply"
+    },
+    {
+      "id": "e_n_extra_y8_term1_study_partner_extra_y8_term1_study_partner_wait_n_extra_y8_term1_term1_eight_close",
+      "from": "n_extra_y8_term1_study_partner",
+      "port": "extra_y8_term1_study_partner_wait",
+      "to": "n_extra_y8_term1_term1_eight_close"
+    },
+    {
+      "id": "e_n_extra_y8_term1_partner_reply_extra_y8_term1_partner_reply_act_n_extra_y8_term1_term1_eight_close",
+      "from": "n_extra_y8_term1_partner_reply",
+      "port": "extra_y8_term1_partner_reply_act",
+      "to": "n_extra_y8_term1_term1_eight_close"
+    },
+    {
+      "id": "e_n_extra_y8_term1_partner_reply_extra_y8_term1_partner_reply_wait_n_extra_y8_term1_term1_eight_close",
+      "from": "n_extra_y8_term1_partner_reply",
+      "port": "extra_y8_term1_partner_reply_wait",
+      "to": "n_extra_y8_term1_term1_eight_close"
+    },
+    {
+      "id": "e_n_extra_y8_term1_term1_eight_close_extra_y8_term1_term1_eight_close_act_next_y8_term1",
+      "from": "n_extra_y8_term1_term1_eight_close",
+      "port": "extra_y8_term1_term1_eight_close_act",
+      "to": "next_y8_term1"
+    },
+    {
+      "id": "e_n_extra_y8_term1_term1_eight_close_extra_y8_term1_term1_eight_close_wait_next_y8_term1",
+      "from": "n_extra_y8_term1_term1_eight_close",
+      "port": "extra_y8_term1_term1_eight_close_wait",
+      "to": "next_y8_term1"
+    },
+    {
+      "id": "e_next_y8_term1_next_n_extra_y8_break_interim_notice",
+      "from": "next_y8_term1",
+      "port": "next",
+      "to": "n_extra_y8_break_interim_notice"
+    },
+    {
+      "id": "e_n_extra_y8_break_interim_notice_extra_y8_break_interim_notice_act_n_extra_y8_break_office_hint",
+      "from": "n_extra_y8_break_interim_notice",
+      "port": "extra_y8_break_interim_notice_act",
+      "to": "n_extra_y8_break_office_hint"
+    },
+    {
+      "id": "e_n_extra_y8_break_interim_notice_extra_y8_break_interim_notice_wait_n_extra_y8_break_quiet_rewrite",
+      "from": "n_extra_y8_break_interim_notice",
+      "port": "extra_y8_break_interim_notice_wait",
+      "to": "n_extra_y8_break_quiet_rewrite"
+    },
+    {
+      "id": "e_n_extra_y8_break_office_hint_extra_y8_break_office_hint_act_n_extra_y8_break_quiet_rewrite",
+      "from": "n_extra_y8_break_office_hint",
+      "port": "extra_y8_break_office_hint_act",
+      "to": "n_extra_y8_break_quiet_rewrite"
+    },
+    {
+      "id": "e_n_extra_y8_break_office_hint_extra_y8_break_office_hint_wait_n_extra_y8_break_quiet_rewrite",
+      "from": "n_extra_y8_break_office_hint",
+      "port": "extra_y8_break_office_hint_wait",
+      "to": "n_extra_y8_break_quiet_rewrite"
+    },
+    {
+      "id": "e_n_extra_y8_break_quiet_rewrite_extra_y8_break_quiet_rewrite_act_n_extra_y8_break_read_together",
+      "from": "n_extra_y8_break_quiet_rewrite",
+      "port": "extra_y8_break_quiet_rewrite_act",
+      "to": "n_extra_y8_break_read_together"
+    },
+    {
+      "id": "e_n_extra_y8_break_quiet_rewrite_extra_y8_break_quiet_rewrite_wait_n_extra_y8_break_read_together",
+      "from": "n_extra_y8_break_quiet_rewrite",
+      "port": "extra_y8_break_quiet_rewrite_wait",
+      "to": "n_extra_y8_break_read_together"
+    },
+    {
+      "id": "e_n_extra_y8_break_read_together_extra_y8_break_read_together_act_n_extra_y8_break_exchange_reply",
+      "from": "n_extra_y8_break_read_together",
+      "port": "extra_y8_break_read_together_act",
+      "to": "n_extra_y8_break_exchange_reply"
+    },
+    {
+      "id": "e_n_extra_y8_break_read_together_extra_y8_break_read_together_wait_n_extra_y8_break_break_eight_close",
+      "from": "n_extra_y8_break_read_together",
+      "port": "extra_y8_break_read_together_wait",
+      "to": "n_extra_y8_break_break_eight_close"
+    },
+    {
+      "id": "e_n_extra_y8_break_exchange_reply_extra_y8_break_exchange_reply_act_n_extra_y8_break_break_eight_close",
+      "from": "n_extra_y8_break_exchange_reply",
+      "port": "extra_y8_break_exchange_reply_act",
+      "to": "n_extra_y8_break_break_eight_close"
+    },
+    {
+      "id": "e_n_extra_y8_break_exchange_reply_extra_y8_break_exchange_reply_wait_n_extra_y8_break_break_eight_close",
+      "from": "n_extra_y8_break_exchange_reply",
+      "port": "extra_y8_break_exchange_reply_wait",
+      "to": "n_extra_y8_break_break_eight_close"
+    },
+    {
+      "id": "e_n_extra_y8_break_break_eight_close_extra_y8_break_break_eight_close_act_next_y8_break",
+      "from": "n_extra_y8_break_break_eight_close",
+      "port": "extra_y8_break_break_eight_close_act",
+      "to": "next_y8_break"
+    },
+    {
+      "id": "e_n_extra_y8_break_break_eight_close_extra_y8_break_break_eight_close_wait_next_y8_break",
+      "from": "n_extra_y8_break_break_eight_close",
+      "port": "extra_y8_break_break_eight_close_wait",
+      "to": "next_y8_break"
+    },
+    {
+      "id": "e_next_y8_break_next_n_extra_y8_term2_final_rubric",
+      "from": "next_y8_break",
+      "port": "next",
+      "to": "n_extra_y8_term2_final_rubric"
+    },
+    {
+      "id": "e_n_extra_y8_term2_final_rubric_extra_y8_term2_final_rubric_act_n_extra_y8_term2_rubric_detail",
+      "from": "n_extra_y8_term2_final_rubric",
+      "port": "extra_y8_term2_final_rubric_act",
+      "to": "n_extra_y8_term2_rubric_detail"
+    },
+    {
+      "id": "e_n_extra_y8_term2_final_rubric_extra_y8_term2_final_rubric_wait_n_extra_y8_term2_last_report",
+      "from": "n_extra_y8_term2_final_rubric",
+      "port": "extra_y8_term2_final_rubric_wait",
+      "to": "n_extra_y8_term2_last_report"
+    },
+    {
+      "id": "e_n_extra_y8_term2_rubric_detail_extra_y8_term2_rubric_detail_act_n_extra_y8_term2_last_report",
+      "from": "n_extra_y8_term2_rubric_detail",
+      "port": "extra_y8_term2_rubric_detail_act",
+      "to": "n_extra_y8_term2_last_report"
+    },
+    {
+      "id": "e_n_extra_y8_term2_rubric_detail_extra_y8_term2_rubric_detail_wait_n_extra_y8_term2_last_report",
+      "from": "n_extra_y8_term2_rubric_detail",
+      "port": "extra_y8_term2_rubric_detail_wait",
+      "to": "n_extra_y8_term2_last_report"
+    },
+    {
+      "id": "e_n_extra_y8_term2_last_report_extra_y8_term2_last_report_act_n_extra_y8_term2_peer_read",
+      "from": "n_extra_y8_term2_last_report",
+      "port": "extra_y8_term2_last_report_act",
+      "to": "n_extra_y8_term2_peer_read"
+    },
+    {
+      "id": "e_n_extra_y8_term2_last_report_extra_y8_term2_last_report_wait_n_extra_y8_term2_peer_read",
+      "from": "n_extra_y8_term2_last_report",
+      "port": "extra_y8_term2_last_report_wait",
+      "to": "n_extra_y8_term2_peer_read"
+    },
+    {
+      "id": "e_n_extra_y8_term2_peer_read_extra_y8_term2_peer_read_act_n_extra_y8_term2_last_comment",
+      "from": "n_extra_y8_term2_peer_read",
+      "port": "extra_y8_term2_peer_read_act",
+      "to": "n_extra_y8_term2_last_comment"
+    },
+    {
+      "id": "e_n_extra_y8_term2_peer_read_extra_y8_term2_peer_read_wait_n_extra_y8_term2_final_submission",
+      "from": "n_extra_y8_term2_peer_read",
+      "port": "extra_y8_term2_peer_read_wait",
+      "to": "n_extra_y8_term2_final_submission"
+    },
+    {
+      "id": "e_n_extra_y8_term2_last_comment_extra_y8_term2_last_comment_act_n_extra_y8_term2_final_submission",
+      "from": "n_extra_y8_term2_last_comment",
+      "port": "extra_y8_term2_last_comment_act",
+      "to": "n_extra_y8_term2_final_submission"
+    },
+    {
+      "id": "e_n_extra_y8_term2_last_comment_extra_y8_term2_last_comment_wait_n_extra_y8_term2_final_submission",
+      "from": "n_extra_y8_term2_last_comment",
+      "port": "extra_y8_term2_last_comment_wait",
+      "to": "n_extra_y8_term2_final_submission"
+    },
+    {
+      "id": "e_n_extra_y8_term2_final_submission_extra_y8_term2_final_submission_act_next_y8_term2",
+      "from": "n_extra_y8_term2_final_submission",
+      "port": "extra_y8_term2_final_submission_act",
+      "to": "next_y8_term2"
+    },
+    {
+      "id": "e_n_extra_y8_term2_final_submission_extra_y8_term2_final_submission_wait_next_y8_term2",
+      "from": "n_extra_y8_term2_final_submission",
+      "port": "extra_y8_term2_final_submission_wait",
+      "to": "next_y8_term2"
+    },
+    {
+      "id": "e_next_y8_term2_next_n_extra_y8_summer_last_review_notice",
+      "from": "next_y8_term2",
+      "port": "next",
+      "to": "n_extra_y8_summer_last_review_notice"
+    },
+    {
+      "id": "e_n_extra_y8_summer_last_review_notice_extra_y8_summer_last_review_notice_act_n_extra_y8_summer_document_reply",
+      "from": "n_extra_y8_summer_last_review_notice",
+      "port": "extra_y8_summer_last_review_notice_act",
+      "to": "n_extra_y8_summer_document_reply"
+    },
+    {
+      "id": "e_n_extra_y8_summer_last_review_notice_extra_y8_summer_last_review_notice_wait_n_extra_y8_summer_work_archive",
+      "from": "n_extra_y8_summer_last_review_notice",
+      "port": "extra_y8_summer_last_review_notice_wait",
+      "to": "n_extra_y8_summer_work_archive"
+    },
+    {
+      "id": "e_n_extra_y8_summer_document_reply_extra_y8_summer_document_reply_act_n_extra_y8_summer_work_archive",
+      "from": "n_extra_y8_summer_document_reply",
+      "port": "extra_y8_summer_document_reply_act",
+      "to": "n_extra_y8_summer_work_archive"
+    },
+    {
+      "id": "e_n_extra_y8_summer_document_reply_extra_y8_summer_document_reply_wait_n_extra_y8_summer_work_archive",
+      "from": "n_extra_y8_summer_document_reply",
+      "port": "extra_y8_summer_document_reply_wait",
+      "to": "n_extra_y8_summer_work_archive"
+    },
+    {
+      "id": "e_n_extra_y8_summer_work_archive_extra_y8_summer_work_archive_act_n_extra_y8_summer_tell_friend",
+      "from": "n_extra_y8_summer_work_archive",
+      "port": "extra_y8_summer_work_archive_act",
+      "to": "n_extra_y8_summer_tell_friend"
+    },
+    {
+      "id": "e_n_extra_y8_summer_work_archive_extra_y8_summer_work_archive_wait_n_extra_y8_summer_tell_friend",
+      "from": "n_extra_y8_summer_work_archive",
+      "port": "extra_y8_summer_work_archive_wait",
+      "to": "n_extra_y8_summer_tell_friend"
+    },
+    {
+      "id": "e_n_extra_y8_summer_tell_friend_extra_y8_summer_tell_friend_act_n_extra_y8_summer_friend_check",
+      "from": "n_extra_y8_summer_tell_friend",
+      "port": "extra_y8_summer_tell_friend_act",
+      "to": "n_extra_y8_summer_friend_check"
+    },
+    {
+      "id": "e_n_extra_y8_summer_tell_friend_extra_y8_summer_tell_friend_wait_n_extra_y8_summer_final_eve",
+      "from": "n_extra_y8_summer_tell_friend",
+      "port": "extra_y8_summer_tell_friend_wait",
+      "to": "n_extra_y8_summer_final_eve"
+    },
+    {
+      "id": "e_n_extra_y8_summer_friend_check_extra_y8_summer_friend_check_act_n_extra_y8_summer_final_eve",
+      "from": "n_extra_y8_summer_friend_check",
+      "port": "extra_y8_summer_friend_check_act",
+      "to": "n_extra_y8_summer_final_eve"
+    },
+    {
+      "id": "e_n_extra_y8_summer_friend_check_extra_y8_summer_friend_check_wait_n_extra_y8_summer_final_eve",
+      "from": "n_extra_y8_summer_friend_check",
+      "port": "extra_y8_summer_friend_check_wait",
+      "to": "n_extra_y8_summer_final_eve"
+    },
+    {
+      "id": "e_n_extra_y8_summer_final_eve_extra_y8_summer_final_eve_act_next_extra_years",
+      "from": "n_extra_y8_summer_final_eve",
+      "port": "extra_y8_summer_final_eve_act",
+      "to": "next_extra_years"
+    },
+    {
+      "id": "e_n_extra_y8_summer_final_eve_extra_y8_summer_final_eve_wait_next_extra_years",
+      "from": "n_extra_y8_summer_final_eve",
+      "port": "extra_y8_summer_final_eve_wait",
+      "to": "next_extra_years"
     }
   ]
 }

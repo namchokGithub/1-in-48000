@@ -81,7 +81,7 @@ Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Pla
 
 The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO use the shared content in `public/content-v2`. It carries 38 events, including program selection, a Year 2 multi-select event, and a Year 3 elective; 25 pixel scenes, 25 portraits for players and NPCs, 6 endings including a Year 8 dismissal, and debt/lucky stats are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.3.0`; Years 5–8 story content will mix adapted earlier story beats with newly authored events and remains future work. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The Player and BO use the shared content in `public/content-v2`. It carries 249 events, including program selection, a Year 2 multi-select event, a Year 3 elective, and authored story through Years 5–8; 25 pixel scenes, 25 portraits for players and NPCs, 6 endings including a Year 8 dismissal, and debt/lucky stats are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.3.0`. The Player starts music after a user action and keeps it playing across its pages until switched off.
 
 ## Audio Credits
 
@@ -131,7 +131,7 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 
 **MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major selection is active; clubs and relationship routes come later.
 
-**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). The author accepted the BO Flow edge styles (Step 37) and Player UX/UI pass, including the responsive check (Step 38), on 2026-10-30, followed by local feedback: Player fixes, flags, locked choices, automatic loans, recaps, scene portraits, and the year summary (Steps 39–41). Production release is deferred while further adjustments are made; Years 5–8 story content remains open under the agreed mix of adapted and new events. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). The author accepted the BO Flow edge styles (Step 37) and Player UX/UI pass, including the responsive check (Step 38), on 2026-10-30, followed by local feedback: Player fixes, flags, locked choices, automatic loans, recaps, scene portraits, and the year summary (Steps 39–41). Years 5–8 now have authored events across every period and flow through the Year 6 and Year 8 academic reviews. Production release remains deferred while further adjustments are made. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 
