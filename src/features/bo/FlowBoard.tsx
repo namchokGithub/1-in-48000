@@ -8,6 +8,7 @@ import {
   type DragEvent,
 } from 'react'
 import { toast } from 'sonner'
+import { Badge } from '@/components/ui/badge'
 import {
   Background,
   BackgroundVariant,
@@ -1164,17 +1165,18 @@ function Board({
             )}
           </div>
           <p className="bo-flow-counts" aria-label="จำนวนการ์ดบนกระดาน">
-            {cardCounts.map(({ type, count }, index) => (
-              <span key={type}>
-                {index > 0 && ' · '}
-                {typeLabels[type]} <strong>{count}</strong>
-              </span>
+            {cardCounts.map(({ type, count }) => (
+              <Badge key={type} variant="secondary">
+                {typeLabels[type]} {count}
+              </Badge>
             ))}
             {unusedEventCount > 0 && (
-              <span title="เหตุการณ์ที่เปิดใช้อยู่แต่ยังไม่ได้วางบนกระดานหรืออยู่ใน Pool ที่การ์ดสุ่มใช้">
-                {cardCounts.length > 0 && ' · '}
-                ยังไม่ได้ใช้ <strong>{unusedEventCount}</strong>
-              </span>
+              <Badge
+                variant="outline"
+                title="เหตุการณ์ที่เปิดใช้อยู่แต่ยังไม่ได้วางบนกระดานหรืออยู่ใน Pool ที่การ์ดสุ่มใช้"
+              >
+                ยังไม่ได้ใช้ {unusedEventCount}
+              </Badge>
             )}
           </p>
           <span className="bo-flow-actions-gap" />
@@ -1225,11 +1227,17 @@ function Board({
           </div>
           <button
             type="button"
-            className="button button-secondary"
+            className="button button-secondary bo-flow-check"
             aria-pressed={showIssues}
             onClick={inspectFlow}
           >
-            ตรวจ · {errors.length} ผิด · {report.warnings.length} เตือน
+            ตรวจ
+            <Badge variant={errors.length ? 'destructive' : 'outline'}>
+              ผิด {errors.length}
+            </Badge>
+            <Badge variant={report.warnings.length ? 'warning' : 'outline'}>
+              เตือน {report.warnings.length}
+            </Badge>
           </button>
         </div>
         {showIssues && (

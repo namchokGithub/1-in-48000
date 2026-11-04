@@ -132,3 +132,22 @@
   --color-button-text: #172b29;
   --color-dialogue: #293541;
 }
+
+/* shadcn/ui tokens follow the active BO theme. */
+:root {
+  --foreground: var(--color-ink);
+  --muted-foreground: var(--color-muted);
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-button-text);
+  --secondary: var(--color-primary-soft);
+  --secondary-foreground: var(--color-ink);
+  --accent: var(--color-primary-soft);
+  --accent-foreground: var(--color-ink);
+  --destructive: var(--color-danger);
+  --destructive-soft: var(--bo-danger-soft);
+  --destructive-border: var(--bo-danger-border);
+  --warning: var(--bo-warning);
+  --warning-foreground: var(--bo-warning-text);
+  --border: var(--color-line);
+  --ring: var(--color-primary);
+}

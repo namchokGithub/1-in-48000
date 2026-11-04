@@ -1,5 +1,26 @@
 @import 'tailwindcss';
 
+/* shadcn/ui color utilities. Only the BO defines these variables (see
+   src/features/bo/colors.css); no base layer is added, so Player styles stay
+   the same. */
+@theme inline {
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-destructive-border: var(--destructive-border);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+}
+
 :root {
   font-family: 'Noto Sans Thai', sans-serif;
   font-optical-sizing: auto;

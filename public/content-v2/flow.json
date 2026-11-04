@@ -389,6 +389,83 @@
       "eventId": "summer_job"
     },
     {
+      "id": "condition_summer_worked_canteen",
+      "position": {
+        "x": 2976,
+        "y": 816
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "summer_worked_canteen",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_summer_canteen_rush",
+      "position": {
+        "x": 3312,
+        "y": 408
+      },
+      "type": "event",
+      "eventId": "summer_canteen_rush"
+    },
+    {
+      "id": "n_summer_quiet_campus",
+      "position": {
+        "x": 3312,
+        "y": 816
+      },
+      "type": "event",
+      "eventId": "summer_quiet_campus"
+    },
+    {
+      "id": "n_summer_skill_trial",
+      "position": {
+        "x": 3672,
+        "y": 816
+      },
+      "type": "event",
+      "eventId": "summer_skill_trial"
+    },
+    {
+      "id": "condition_summer_workshop",
+      "position": {
+        "x": 4032,
+        "y": 816
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "summer_joined_workshop",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_summer_workshop_followup",
+      "position": {
+        "x": 4392,
+        "y": 408
+      },
+      "type": "event",
+      "eventId": "summer_workshop_followup"
+    },
+    {
+      "id": "n_summer_year_two_notice",
+      "position": {
+        "x": 4392,
+        "y": 816
+      },
+      "type": "event",
+      "eventId": "summer_year_two_notice"
+    },
+    {
       "id": "next_y1_summer",
       "position": {
         "x": 4776,
@@ -1468,12 +1545,126 @@
       "id": "e_n_summer_job_work_canteen",
       "from": "n_summer_job",
       "port": "work_canteen",
-      "to": "next_y1_summer"
+      "to": "condition_summer_worked_canteen"
     },
     {
       "id": "e_n_summer_job_rest_and_read",
       "from": "n_summer_job",
       "port": "rest_and_read",
+      "to": "condition_summer_worked_canteen"
+    },
+    {
+      "id": "e_condition_summer_worked_canteen_pass_n_summer_canteen_rush",
+      "from": "condition_summer_worked_canteen",
+      "port": "pass",
+      "to": "n_summer_canteen_rush"
+    },
+    {
+      "id": "e_condition_summer_worked_canteen_fail_n_summer_quiet_campus",
+      "from": "condition_summer_worked_canteen",
+      "port": "fail",
+      "to": "n_summer_quiet_campus"
+    },
+    {
+      "id": "e_n_summer_canteen_rush_take_extra_shift_n_summer_quiet_campus",
+      "from": "n_summer_canteen_rush",
+      "port": "take_extra_shift",
+      "to": "n_summer_quiet_campus"
+    },
+    {
+      "id": "e_n_summer_canteen_rush_organize_queue_n_summer_quiet_campus",
+      "from": "n_summer_canteen_rush",
+      "port": "organize_queue",
+      "to": "n_summer_quiet_campus"
+    },
+    {
+      "id": "e_n_summer_canteen_rush_decline_extra_shift_n_summer_quiet_campus",
+      "from": "n_summer_canteen_rush",
+      "port": "decline_extra_shift",
+      "to": "n_summer_quiet_campus"
+    },
+    {
+      "id": "e_n_summer_quiet_campus_walk_in_park_n_summer_skill_trial",
+      "from": "n_summer_quiet_campus",
+      "port": "walk_in_park",
+      "to": "n_summer_skill_trial"
+    },
+    {
+      "id": "e_n_summer_quiet_campus_visit_library_n_summer_skill_trial",
+      "from": "n_summer_quiet_campus",
+      "port": "visit_library",
+      "to": "n_summer_skill_trial"
+    },
+    {
+      "id": "e_n_summer_quiet_campus_stay_in_room_n_summer_skill_trial",
+      "from": "n_summer_quiet_campus",
+      "port": "stay_in_room",
+      "to": "n_summer_skill_trial"
+    },
+    {
+      "id": "e_n_summer_skill_trial_join_workshop_condition_summer_workshop",
+      "from": "n_summer_skill_trial",
+      "port": "join_workshop",
+      "to": "condition_summer_workshop"
+    },
+    {
+      "id": "e_n_summer_skill_trial_learn_from_videos_condition_summer_workshop",
+      "from": "n_summer_skill_trial",
+      "port": "learn_from_videos",
+      "to": "condition_summer_workshop"
+    },
+    {
+      "id": "e_n_summer_skill_trial_list_interests_condition_summer_workshop",
+      "from": "n_summer_skill_trial",
+      "port": "list_interests",
+      "to": "condition_summer_workshop"
+    },
+    {
+      "id": "e_condition_summer_workshop_pass_n_summer_workshop_followup",
+      "from": "condition_summer_workshop",
+      "port": "pass",
+      "to": "n_summer_workshop_followup"
+    },
+    {
+      "id": "e_condition_summer_workshop_fail_n_summer_year_two_notice",
+      "from": "condition_summer_workshop",
+      "port": "fail",
+      "to": "n_summer_year_two_notice"
+    },
+    {
+      "id": "e_n_summer_workshop_followup_present_small_project_n_summer_year_two_notice",
+      "from": "n_summer_workshop_followup",
+      "port": "present_small_project",
+      "to": "n_summer_year_two_notice"
+    },
+    {
+      "id": "e_n_summer_workshop_followup_give_feedback_n_summer_year_two_notice",
+      "from": "n_summer_workshop_followup",
+      "port": "give_feedback",
+      "to": "n_summer_year_two_notice"
+    },
+    {
+      "id": "e_n_summer_workshop_followup_read_quietly_n_summer_year_two_notice",
+      "from": "n_summer_workshop_followup",
+      "port": "read_quietly",
+      "to": "n_summer_year_two_notice"
+    },
+    {
+      "id": "e_n_summer_year_two_notice_check_new_schedule_next_y1_summer",
+      "from": "n_summer_year_two_notice",
+      "port": "check_new_schedule",
+      "to": "next_y1_summer"
+    },
+    {
+      "id": "e_n_summer_year_two_notice_buy_supplies_next_y1_summer",
+      "from": "n_summer_year_two_notice",
+      "port": "buy_supplies",
+      "to": "next_y1_summer"
+    },
+    {
+      "id": "e_n_summer_year_two_notice_leave_notification_next_y1_summer",
+      "from": "n_summer_year_two_notice",
+      "port": "leave_notification",
       "to": "next_y1_summer"
     },
     {

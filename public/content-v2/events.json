@@ -1861,8 +1861,14 @@
             "type": "statDelta",
             "stat": "stress",
             "amount": 1
+          },
+          {
+            "type": "setFlag",
+            "flagId": "summer_worked_canteen",
+            "value": true
           }
-        ]
+        ],
+        "recap": "คุณช่วยร้านอาหารในโรงอาหารหลายวัน ได้ค่าจ้างมาเก็บไว้ แต่กลับถึงหอแต่ละเย็นก็แทบไม่อยากขยับ"
       },
       {
         "id": "rest_and_read",
@@ -1879,7 +1885,356 @@
             "stat": "health",
             "amount": 2
           }
+        ],
+        "recap": "คุณใช้วันหยุดพักให้เต็มที่และค่อย ๆ อ่านหนังสือที่ค้างไว้ ร่างกายสดขึ้นพร้อมกับเรื่องที่เริ่มเข้าใจมากกว่าเดิม"
+      }
+    ]
+  },
+  {
+    "id": "summer_canteen_rush",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "summer"
+    },
+    "title": "เที่ยงวันร้านแทบล้น",
+    "sceneAssetId": "canteen_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "summer_worked_canteen",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "วันที่ร้านคนแน่นกว่าปกติ กล่องข้าวเรียงยาวจนคนรับออเดอร์แทบมองไม่เห็นปลายแถว"
+      },
+      {
+        "text": "คนดูแลร้านถามว่าคุณพอช่วยต่ออีกหน่อยได้ไหม ขณะที่เวลาพักของคุณใกล้หมดแล้ว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "take_extra_shift",
+        "text": "อยู่ช่วยต่ออีกกะ",
+        "conditions": [],
+        "recap": "คุณอยู่ช่วยจนคิวสั้นลงและได้ค่าจ้างเพิ่ม 180 บาท แต่กลับหอพร้อมขาที่ล้ากว่าเดิม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 180
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
         ]
+      },
+      {
+        "id": "organize_queue",
+        "text": "ช่วยจัดคิวก่อนกลับ",
+        "conditions": [],
+        "recap": "คุณเขียนป้ายแยกคิวรับอาหารกับคิวสั่งใหม่ คนต่อแถวเริ่มเข้าใจ แต่กว่าจะกลับก็เลยเวลาพักไปนิดหนึ่ง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "decline_extra_shift",
+        "text": "บอกว่าต้องพักแล้ว",
+        "conditions": [],
+        "recap": "คุณบอกคนดูแลร้านว่าพรุ่งนี้ค่อยกลับมาช่วยอีก วันนี้ขอพักตามเวลาที่ตกลงไว้ เขาพยักหน้าแล้วให้คนอื่นรับช่วงต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "summer_quiet_campus",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "summer"
+    },
+    "title": "วันที่มหาวิทยาลัยเงียบลง",
+    "sceneAssetId": "recreation_park",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังเทอมจบ ทางเดินที่เคยต้องหลบคนกลับโล่งจนได้ยินเสียงรองเท้าตัวเอง"
+      },
+      {
+        "text": "ยังมีเวลาอีกหลายวันก่อนปีสอง คุณเลือกใช้บ่ายนี้ได้โดยไม่มีตารางเรียนไล่ตาม"
+      }
+    ],
+    "choices": [
+      {
+        "id": "walk_in_park",
+        "text": "เดินเล่นในสวนแล้วพักสายตา",
+        "conditions": [],
+        "recap": "คุณเดินช้า ๆ ใต้ต้นไม้จนลมหายใจเริ่มสม่ำเสมอ กลับถึงหอแล้วรู้สึกว่าร่างกายได้พักจริง ๆ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "visit_library",
+        "text": "แวะหอสมุดอ่านเรื่องที่สนใจ",
+        "conditions": [],
+        "recap": "คุณเลือกหนังสือเล่มบางมาอ่านจนจบหนึ่งบท ได้ไอเดียใหม่ติดกลับไปแม้วันนี้ไม่มีงานต้องส่ง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "stay_in_room",
+        "text": "กลับหอแล้วเลื่อนหน้าจอไปเรื่อย ๆ",
+        "conditions": [],
+        "recap": "คุณนอนดูคลิปเพลินจนเย็น งานเล็ก ๆ ที่ตั้งใจทำยังอยู่ที่เดิม และหัวก็ยังไม่โล่งเท่าที่หวัง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "summer_skill_trial",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "summer"
+    },
+    "title": "ลองอะไรใหม่ระหว่างปิดเทอม",
+    "sceneAssetId": "campus_library_exterior",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หน้าเว็บกิจกรรมนักศึกษามีเวิร์กช็อปฟรีสั้น ๆ เปิดให้ลงชื่อ ไม่ต้องมีพื้นฐานมาก่อน"
+      },
+      {
+        "text": "คุณยังมีเวลาว่างบางวัน แต่ก็ไม่อยากเปลี่ยนปิดเทอมให้กลายเป็นตารางงานอีกชุด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "join_workshop",
+        "text": "ลงชื่อเรียนเวิร์กช็อปหนึ่งวัน",
+        "conditions": [],
+        "recap": "คุณลงชื่อและเข้าเรียนจนได้ลองทำงานชิ้นเล็กกับคนอื่น สนุกกว่าที่คิด แต่ก็มีงานสั้น ๆ ให้กลับไปทำต่อ",
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "summer_joined_workshop",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "learn_from_videos",
+        "text": "เลือกคลิปสอนแล้วลองทำเอง",
+        "conditions": [],
+        "recap": "คุณดูคลิปหนึ่งตอนและลองทำตามจนจบ แม้ไม่มีคนตรวจงานให้ แต่ก็ได้รู้ว่าหัวข้อนี้น่าสนใจตรงไหน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "list_interests",
+        "text": "จดสิ่งที่อยากลองไว้ก่อน",
+        "conditions": [],
+        "recap": "คุณจดสามเรื่องที่อยากเรียนรู้ลงในมือถือ แล้ววางแผนค่อยเลือกเมื่อรู้ตารางปีสองชัดขึ้น",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "summer_workshop_followup",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "summer"
+    },
+    "title": "งานชิ้นเล็กหลังเวิร์กช็อป",
+    "sceneAssetId": "campus_library_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "summer_joined_workshop",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "กลุ่มเวิร์กช็อปส่งข้อความชวนกันดูงานที่ทำไว้ บางคนเพิ่งเริ่ม บางคนส่งรูปผลงานมาเต็มแชต"
+      },
+      {
+        "text": "คุณมีงานชิ้นเล็กของตัวเองอยู่ จะใช้เวลาที่เหลือกับกลุ่มอย่างไร"
+      }
+    ],
+    "choices": [
+      {
+        "id": "present_small_project",
+        "text": "เล่างานของตัวเองให้กลุ่มฟัง",
+        "conditions": [],
+        "recap": "คุณเล่าว่าลองทำอะไรและติดตรงไหน คนในกลุ่มช่วยชี้จุดที่แก้ได้ แม้ตอนเริ่มพูดจะเกร็งอยู่บ้าง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "give_feedback",
+        "text": "ดูงานคนอื่นแล้วให้ข้อเสนอแนะ",
+        "conditions": [],
+        "recap": "คุณเปิดดูงานเพื่อนสองคนและพิมพ์ความเห็นที่ช่วยให้เขาลองแก้ต่อ ทั้งคู่ตอบกลับมาขอบคุณ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "read_quietly",
+        "text": "อ่านแชตแล้วเก็บไอเดียไว้",
+        "conditions": [],
+        "recap": "คุณไล่ดูผลงานที่คนอื่นส่งมาและบันทึกไอเดียสองสามอย่างไว้ โดยยังไม่ได้ส่งข้อความในกลุ่ม",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "summer_year_two_notice",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "summer"
+    },
+    "title": "แจ้งเตือนก่อนขึ้นปีสอง",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระบบนักศึกษาแจ้งวันเปิดเรียนปีสองพร้อมตารางเบื้องต้น ปิดเทอมที่เคยดูยาวเริ่มเหลือเป็นวันนับได้"
+      },
+      {
+        "text": "ข้างโต๊ะยังมีสมุดเก่าและของที่ต้องเตรียม คุณจะจัดการอะไรก่อน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "check_new_schedule",
+        "text": "เช็กวันเรียนและห้องให้ชัด",
+        "conditions": [],
+        "recap": "คุณไล่ตารางใหม่ จดห้องเรียนกับเวลาออกจากหอไว้ครบ พอปิดหน้าเว็บก็รู้ว่าต้องเตรียมอะไรต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "buy_supplies",
+        "text": "ซื้อของเรียนที่ขาดอยู่",
+        "conditions": [],
+        "recap": "คุณซื้อสมุดกับปากกาที่หมดไป 120 บาท ของพร้อมใช้ แต่ยอดเงินในบัญชีก็ลดลงตามจริง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -120
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "leave_notification",
+        "text": "เก็บแจ้งเตือนไว้ดูพรุ่งนี้",
+        "conditions": [],
+        "recap": "คุณบันทึกแจ้งเตือนไว้แล้วปิดมือถือ คืนนี้ขอใช้เวลาที่เหลือของปิดเทอมก่อน",
+        "effects": []
       }
     ]
   },

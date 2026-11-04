@@ -360,6 +360,109 @@ describe('live V2 content', () => {
     })
   })
 
+  it('keeps every first-summer choice recapped', () => {
+    const summerIds = [
+      'summer_job',
+      'summer_canteen_rush',
+      'summer_quiet_campus',
+      'summer_skill_trial',
+      'summer_workshop_followup',
+      'summer_year_two_notice',
+    ]
+    const summerEvents = events.filter((event) => summerIds.includes(event.id))
+    expect(summerEvents).toHaveLength(summerIds.length)
+    for (const event of summerEvents) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(4)
+      expect(
+        event.choices.every(
+          (choice) => 'recap' in choice && Boolean(choice.recap),
+        ),
+      ).toBe(true)
+    }
+  })
+
+  it('plays first-summer side stories and rejoins year two', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (choices: Record<string, string>) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 1, period: 'summer' },
+        currentNodeId: 'n_summer_job',
+        currentEventId: 'summer_job',
+      }
+      const seen: string[] = []
+      for (let step = 0; step < 8; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'sophomore_welcome') break
+        seen.push(event.id)
+        save = chooseV2(content, save, choices[event.id])
+      }
+      expect(save.currentEventId).toBe('sophomore_welcome')
+      expect(save.currentTime.year).toBe(2)
+      expect(save.currentTime.period).toBe('term1')
+      return {
+        seen,
+        workedCanteen: save.flags.summer_worked_canteen,
+        joinedWorkshop: save.flags.summer_joined_workshop,
+      }
+    }
+
+    expect(
+      play({
+        summer_job: 'work_canteen',
+        summer_canteen_rush: 'decline_extra_shift',
+        summer_quiet_campus: 'walk_in_park',
+        summer_skill_trial: 'join_workshop',
+        summer_workshop_followup: 'give_feedback',
+        summer_year_two_notice: 'check_new_schedule',
+      }),
+    ).toEqual({
+      seen: [
+        'summer_job',
+        'summer_canteen_rush',
+        'summer_quiet_campus',
+        'summer_skill_trial',
+        'summer_workshop_followup',
+        'summer_year_two_notice',
+      ],
+      workedCanteen: true,
+      joinedWorkshop: true,
+    })
+    expect(
+      play({
+        summer_job: 'rest_and_read',
+        summer_quiet_campus: 'stay_in_room',
+        summer_skill_trial: 'list_interests',
+        summer_year_two_notice: 'leave_notification',
+      }),
+    ).toEqual({
+      seen: [
+        'summer_job',
+        'summer_quiet_campus',
+        'summer_skill_trial',
+        'summer_year_two_notice',
+      ],
+      workedCanteen: undefined,
+      joinedWorkshop: undefined,
+    })
+  })
+
   it('loads the authored story with the shared V2 schema', async () => {
     const files: Record<string, unknown> = {
       config,

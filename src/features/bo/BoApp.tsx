@@ -14,6 +14,7 @@ import {
   type StoredBoDraft,
 } from '../../save/boDraft'
 import { Check, Palette } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import { Toaster, toast } from 'sonner'
 import { loadV2Content } from '../../content/v2/loader'
 import {
@@ -878,9 +879,10 @@ export function BoApp() {
                       >
                         <span className="bo-theme-swatch" aria-hidden="true">
                           {theme === value && (
-                            <span className="bo-theme-check">
-                              <Check size={12} />
-                            </span>
+                            <Badge className="bo-theme-check">
+                              <Check aria-hidden="true" />
+                              ใช้อยู่
+                            </Badge>
                           )}
                         </span>
                         <span className="bo-theme-name">{label}</span>
@@ -908,6 +910,11 @@ export function BoApp() {
                             : value === 'cross'
                               ? 'Cross'
                               : 'Lines'}
+                          {flowBackground === value && (
+                            <Badge className="px-1" aria-label="ใช้อยู่">
+                              <Check aria-hidden="true" />
+                            </Badge>
+                          )}
                         </button>
                       ))}
                     </div>
