@@ -861,7 +861,7 @@ describe('live V2 content', () => {
     )
     let save = createV2Game(content, 42)
     const seen = new Set<string>()
-    for (let step = 0; step < 100 && !save.endingId; step += 1) {
+    for (let step = 0; step < 150 && !save.endingId; step += 1) {
       const event = getV2CurrentEvent(content, save)
       expect(event).not.toBeNull()
       seen.add(event!.id)
