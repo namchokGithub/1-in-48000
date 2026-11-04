@@ -1104,6 +1104,9 @@
   align-items: start;
   gap: 1rem;
 }
+.bo-event-resize {
+  display: none;
+}
 .bo-sidebar,
 .bo-editor {
   min-width: 0;
@@ -1448,6 +1451,36 @@ dialog {
 @media (min-width: 800px) {
   .bo-layout {
     grid-template-columns: 15rem minmax(0, 1fr);
+  }
+  .bo-events-layout {
+    gap: 0;
+    grid-template-columns: minmax(
+        0,
+        var(--bo-event-panel-width, 40%)
+      ) 1rem minmax(0, 1fr);
+  }
+  .bo-event-resize {
+    position: sticky;
+    top: 7rem;
+    display: block;
+    height: 5rem;
+    cursor: col-resize;
+    touch-action: none;
+  }
+  .bo-event-resize::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.25rem;
+    height: 3rem;
+    border-radius: 999px;
+    background: var(--color-line);
+    content: '';
+    transform: translate(-50%, -50%);
+  }
+  .bo-event-resize:hover::after,
+  .bo-event-resize:focus-visible::after {
+    background: var(--color-primary);
   }
   /* The list stays beside a long form while the page scrolls. */
   .bo-sidebar {

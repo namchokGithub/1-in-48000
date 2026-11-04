@@ -66,9 +66,9 @@
         "x": 72,
         "y": 72
       },
+      "parentId": "group_5",
       "type": "event",
-      "eventId": "library_study",
-      "parentId": "group_5"
+      "eventId": "library_study"
     },
     {
       "id": "n_group_project",
@@ -76,9 +76,9 @@
         "x": 288,
         "y": 432
       },
+      "parentId": "group_5",
       "type": "event",
-      "eventId": "group_project",
-      "parentId": "group_5"
+      "eventId": "group_project"
     },
     {
       "id": "n_rainy_commute",
@@ -86,51 +86,55 @@
         "x": 504,
         "y": 72
       },
+      "parentId": "group_5",
       "type": "event",
-      "eventId": "rainy_commute",
-      "parentId": "group_5"
+      "eventId": "rainy_commute"
     },
     {
       "id": "n_midterm_prep",
       "position": {
-        "x": 3624,
-        "y": 48
+        "x": 72,
+        "y": 72
       },
       "type": "event",
-      "eventId": "midterm_prep"
+      "eventId": "midterm_prep",
+      "parentId": "group_6"
     },
     {
       "id": "n_midterm_exam",
       "position": {
-        "x": 4008,
-        "y": 24
+        "x": 456,
+        "y": 72
       },
       "type": "event",
-      "eventId": "midterm_exam"
+      "eventId": "midterm_exam",
+      "parentId": "group_6"
     },
     {
       "id": "n_mali_checkin",
       "position": {
-        "x": 3600,
-        "y": 624
+        "x": 72,
+        "y": 432
       },
       "type": "event",
-      "eventId": "mali_checkin"
+      "eventId": "mali_checkin",
+      "parentId": "group_6"
     },
     {
       "id": "n_club_invitation",
       "position": {
-        "x": 4032,
-        "y": 576
+        "x": 456,
+        "y": 432
       },
       "type": "event",
-      "eventId": "club_invitation"
+      "eventId": "club_invitation",
+      "parentId": "group_6"
     },
     {
       "id": "random_y1_term1_life",
       "position": {
-        "x": 4584,
-        "y": 360
+        "x": 4560,
+        "y": 312
       },
       "type": "random",
       "poolId": "y1_term1_life"
@@ -138,7 +142,7 @@
     {
       "id": "next_y1_term1",
       "position": {
-        "x": 5040,
+        "x": 4872,
         "y": 312
       },
       "type": "nextPeriod"
@@ -637,13 +641,25 @@
     },
     {
       "id": "group_5",
+      "position": {
+        "x": 2568,
+        "y": 0
+      },
       "type": "group",
       "title": "ชีวิตมหาฯลัย",
       "color": "green",
       "width": 848,
+      "height": 756
+    },
+    {
+      "id": "group_6",
+      "type": "group",
+      "title": "สอบกลางภาค",
+      "color": "green",
+      "width": 800,
       "height": 756,
       "position": {
-        "x": 2568,
+        "x": 3504,
         "y": 0
       }
     }
@@ -2888,6 +2904,18 @@
       "from": "n_rainy_commute",
       "port": "choice_9bfdac1b",
       "to": "n_midterm_prep"
+    },
+    {
+      "id": "e_n_midterm_prep_choice_75dd03ab",
+      "from": "n_midterm_prep",
+      "port": "choice_75dd03ab",
+      "to": "n_midterm_exam"
+    },
+    {
+      "id": "e_n_midterm_exam_choice_80f317fc",
+      "from": "n_midterm_exam",
+      "port": "choice_80f317fc",
+      "to": "random_y1_term1_life"
     }
   ]
 }

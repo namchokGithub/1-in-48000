@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
   type SetStateAction,
+  type CSSProperties,
 } from 'react'
 import { useStore } from 'zustand'
 import { createBoThemeStore, type BoTheme } from '../../save/boThemeSettings'
@@ -186,6 +187,8 @@ export function BoApp() {
   const [themeMenuOpen, setThemeMenuOpen] = useState(false)
   const themeMenuRef = useRef<HTMLDivElement>(null)
   const themeTriggerRef = useRef<HTMLButtonElement>(null)
+  const [eventPanelWidth, setEventPanelWidth] = useState(40)
+  const eventLayoutRef = useRef<HTMLDivElement>(null)
   const [tabMenuOpen, setTabMenuOpen] = useState(false)
   const tabMenuRef = useRef<HTMLElement>(null)
   const issuesRef = useRef<HTMLElement>(null)
@@ -1157,8 +1160,19 @@ export function BoApp() {
             onSimulationChange={setSimulation}
           />
         ) : (
-          <div className="bo-layout mt-3">
+          <div
+            ref={eventLayoutRef}
+            className={`bo-layout mt-3${section === 'events' ? ' bo-events-layout' : ''}`}
+            style={
+              section === 'events'
+                ? ({
+                    '--bo-event-panel-width': `${eventPanelWidth}%`,
+                  } as CSSProperties)
+                : undefined
+            }
+          >
             <aside
+              id={section === 'events' ? 'bo-event-list' : undefined}
               className="panel bo-sidebar"
               aria-label={
                 section === 'events' ? 'รายการเหตุการณ์' : 'รายการตอนจบ'
@@ -1241,6 +1255,65 @@ export function BoApp() {
                 <p className="muted mt-3 text-sm">ไม่พบรายการที่ค้นหา</p>
               )}
             </aside>
+            {section === 'events' && (
+              <div
+                className="bo-event-resize"
+                role="separator"
+                aria-label="ปรับความกว้างรายการเหตุการณ์"
+                aria-orientation="vertical"
+                aria-controls="bo-event-list"
+                aria-valuemin={20}
+                aria-valuemax={70}
+                aria-valuenow={eventPanelWidth}
+                title="ลากเพื่อปรับความกว้าง · ดับเบิลคลิกเพื่อกลับเป็น 40%"
+                tabIndex={0}
+                onPointerDown={(event) => {
+                  event.preventDefault()
+                  event.currentTarget.setPointerCapture(event.pointerId)
+                }}
+                onPointerMove={(event) => {
+                  if (!event.currentTarget.hasPointerCapture(event.pointerId))
+                    return
+                  const bounds = eventLayoutRef.current?.getBoundingClientRect()
+                  if (bounds && bounds.width > 0)
+                    setEventPanelWidth(
+                      Math.max(
+                        20,
+                        Math.min(
+                          70,
+                          Math.round(
+                            ((event.clientX - bounds.left) / bounds.width) *
+                              100,
+                          ),
+                        ),
+                      ),
+                    )
+                }}
+                onDoubleClick={() => setEventPanelWidth(40)}
+                onKeyDown={(event) => {
+                  if (
+                    !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(
+                      event.key,
+                    )
+                  )
+                    return
+                  event.preventDefault()
+                  setEventPanelWidth((width) =>
+                    event.key === 'Home'
+                      ? 20
+                      : event.key === 'End'
+                        ? 70
+                        : Math.max(
+                            20,
+                            Math.min(
+                              70,
+                              width + (event.key === 'ArrowLeft' ? -1 : 1),
+                            ),
+                          ),
+                  )
+                }}
+              />
+            )}
             <section className="panel bo-editor" aria-label="แก้เนื้อหา">
               {((event && section === 'events') ||
                 (ending && section === 'endings')) && (
