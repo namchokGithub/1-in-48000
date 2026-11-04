@@ -882,7 +882,8 @@
             "stat": "stress",
             "amount": -2
           }
-        ]
+        ],
+        "recap": "คุณเขียนเรื่องเล็ก ๆ ที่รอดมาจากเทอมแรกลงสมุด ทั้งวันที่หลงตึกและวันที่สอบเสร็จ พอปิดสมุดลงก็รู้สึกว่าได้วางความเหนื่อยไว้บ้าง"
       },
       {
         "id": "plan_next_term",
@@ -894,7 +895,393 @@
             "stat": "study",
             "amount": 2
           }
+        ],
+        "recap": "คุณจดสิ่งที่อยากลองในเทอมหน้าไว้สองสามข้อ ยังไม่รู้ว่าจะทำได้ครบไหม แต่อย่างน้อยก็มีจุดเริ่มต้นแล้ว"
+      }
+    ]
+  },
+  {
+    "id": "break_first_week",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "วันแรกที่ไม่ต้องตั้งปลุก",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เช้าวันแรกของปิดเทอม มือเอื้อมไปปิดนาฬิกาปลุกทั้งที่วันนี้ไม่มีเรียน"
+      },
+      {
+        "text": "กรุ๊ปห้องเงียบลงจนได้ยินเสียงพัดลม คุณมีเวลาของตัวเองเต็มวันเป็นครั้งแรกในรอบหลายเดือน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "sleep_in",
+        "text": "นอนต่อให้หายเหนื่อย",
+        "conditions": [],
+        "recap": "คุณตื่นอีกทีตอนสาย กินข้าวช้า ๆ และปล่อยให้ร่างกายได้พักจริง ๆ สักวัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
         ]
+      },
+      {
+        "id": "watch_all_day",
+        "text": "ดูซีรีส์ที่ดองไว้ให้จบ",
+        "conditions": [],
+        "recap": "คุณกดตอนต่อไปจนฟ้ามืด สนุกกว่าที่คิด แต่สมุดที่ตั้งใจจะจัดยังวางอยู่ที่เดิม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "sort_photos",
+        "text": "ไล่ดูรูปเทอมแรกในมือถือ",
+        "conditions": [],
+        "recap": "คุณเลื่อนดูรูปตั้งแต่วันปฐมนิเทศจนถึงวันสอบ หัวเราะกับรูปเบลอ ๆ แล้วเก็บมือถือไปทำอย่างอื่นต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "break_message_from_mali",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "ข้อความเสียงจากมะลิ",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "met_mali",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "มะลิส่งข้อความเสียงมาในแชตส่วนตัว บอกว่าเพิ่งตื่นและยังฝันว่าลืมส่งงาน"
+      },
+      {
+        "text": "ท้ายข้อความเธอถามว่า ช่วงปิดเทอมเป็นยังไงบ้าง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "call_mali",
+        "text": "โทรคุยกันสักพัก",
+        "conditions": [],
+        "recap": "คุณโทรกลับไป ต่างคนต่างเล่าเรื่องพลาด ๆ ในเทอมแรกจนหัวเราะออกมา ก่อนวางสายก็นัดกันไว้ว่าเปิดเทอมจะเจอกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "reply_later",
+        "text": "ส่งข้อความว่าขอพักก่อน",
+        "conditions": [],
+        "recap": "คุณพิมพ์บอกมะลิว่าขอนอนต่ออีกหน่อย เธอตอบกลับมาว่าได้เลย ไว้ค่อยคุยกัน",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "break_budget",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "เงินในบัญชีกับวันหยุดที่เหลือ",
+    "sceneAssetId": "canteen",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "พอเปิดแอปธนาคาร คุณเพิ่งนึกได้ว่าปิดเทอมยังมีค่ากิน ค่าเดินทาง และของใช้ที่ต้องซื้อ"
+      },
+      {
+        "text": "ยอดคงเหลือไม่ได้บอกว่าต้องใช้วันหยุดแบบไหน แต่ก็ควรตัดสินใจก่อนกดสั่งอะไรเพิ่ม"
+      }
+    ],
+    "choices": [
+      {
+        "id": "take_short_shift",
+        "text": "รับงานพิเศษสองสามวัน",
+        "conditions": [],
+        "recap": "คุณรับกะช่วยร้านใกล้หอ ได้ค่าจ้างมาพอเติมบัญชี แต่กลับมาถึงห้องก็หลับเกือบคาโทรศัพท์",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 240
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "cook_simple_meals",
+        "text": "ซื้อวัตถุดิบมาทำข้าวง่าย ๆ",
+        "conditions": [],
+        "recap": "คุณจ่ายค่าวัตถุดิบแล้วลองทำข้าวผัดกินเอง หน้าตาไม่เหมือนในคลิป แต่ได้กินอิ่มและเหลือไว้พรุ่งนี้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -60
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "order_delivery",
+        "text": "สั่งของกินที่อยากกินมาฉลอง",
+        "conditions": [],
+        "recap": "คุณกดสั่งมื้อที่เล็งไว้ กินอย่างมีความสุขจนเห็นยอดเงินหลังหักแล้วต้องรีบปิดแอป",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -180
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "break_club_request",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "ชมรมยังไม่ปิดเทอม",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "แชตชมรมเด้งขึ้นมา รุ่นพี่ขอคนช่วยทำโพสต์ประชาสัมพันธ์กิจกรรมเปิดเทอม"
+      },
+      {
+        "text": "งานไม่ใหญ่ แต่กำหนดส่งอยู่กลางสัปดาห์ที่คุณตั้งใจจะพัก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "help_online",
+        "text": "รับทำโพสต์หนึ่งชิ้น",
+        "conditions": [],
+        "recap": "คุณทำโพสต์เสร็จและส่งเข้ากรุ๊ป รุ่นพี่ขอบคุณทันที แม้จะต้องนั่งแก้ตัวหนังสืออยู่หลายรอบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "decline_politely",
+        "text": "บอกว่าช่วงนี้ยังรับงานไม่ไหว",
+        "conditions": [],
+        "recap": "คุณตอบตรง ๆ ว่าอยากพักก่อน รุ่นพี่ส่งสติกเกอร์รับทราบ แล้วให้คนอื่นรับงานต่อ",
+        "effects": []
+      },
+      {
+        "id": "take_extra_work",
+        "text": "อาสาทำทั้งโพสต์และตารางงาน",
+        "conditions": [],
+        "recap": "คุณช่วยจัดทั้งโพสต์และตารางจนชมรมใช้ต่อได้ แต่คืนก่อนส่งงานคุณนอนดึกกว่าที่ตั้งใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "break_low_balance",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "ยอดเงินก่อนสิ้นเดือน",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "stat",
+        "stat": "money",
+        "operator": "lt",
+        "value": 500
+      }
+    ],
+    "lines": [
+      {
+        "text": "พอเช็กยอดอีกครั้ง เงินในบัญชีเหลือน้อยกว่าที่คิด"
+      },
+      {
+        "text": "ยังไม่ถึงวันเปิดเทอม แต่ของจำเป็นบางอย่างก็รอไม่ได้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "sell_old_books",
+        "text": "ลงขายหนังสือที่ไม่ใช้แล้ว",
+        "conditions": [],
+        "recap": "คุณถ่ายรูปหนังสือเก่า ลงขายในกลุ่มนักศึกษา และมีคนรับซื้อสองเล่มในวันเดียวกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 120
+          }
+        ]
+      },
+      {
+        "id": "delay_nonessential",
+        "text": "เลื่อนซื้อของที่ยังไม่จำเป็น",
+        "conditions": [],
+        "recap": "คุณลบของสองชิ้นออกจากตะกร้าแล้วจดไว้ก่อนว่าอะไรจำเป็นจริง ๆ เงินที่มีจึงยังพอใช้ต่อได้",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "break_next_term",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "break"
+    },
+    "title": "คืนก่อนกลับมาเรียน",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ปฏิทินแจ้งว่าอีกไม่นานเทอมสองจะเริ่ม กระเป๋ายังเปิดค้างอยู่ข้างโต๊ะ"
+      },
+      {
+        "text": "คุณมองตารางเรียนใหม่แล้วนึกถึงทั้งเรื่องที่อยากทำและเรื่องที่ยังไม่พร้อมเจอ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "check_schedule",
+        "text": "เช็กตารางและเตรียมของให้ครบ",
+        "conditions": [],
+        "recap": "คุณไล่ดูห้องเรียน จัดเอกสารใส่กระเป๋า และตั้งปลุกไว้เรียบร้อย พรุ่งนี้มีเรื่องให้ลุ้นน้อยลงหนึ่งอย่าง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "meet_friends",
+        "text": "นัดเพื่อนกินข้าวก่อนเปิดเทอม",
+        "conditions": [],
+        "recap": "คุณออกไปกินข้าวกับเพื่อน ได้แลกข่าวช่วงปิดเทอมจนกลับมาดึกหน่อย กระเป๋ายังต้องเก็บต่อพรุ่งนี้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -100
+          }
+        ]
+      },
+      {
+        "id": "pack_in_morning",
+        "text": "พักก่อนแล้วค่อยเก็บของตอนเช้า",
+        "conditions": [],
+        "recap": "คุณปิดไฟและนอนก่อน ตั้งใจว่าจะตื่นมาเก็บของแต่เช้า คืนนี้ขอพักให้เต็มที่ก่อน",
+        "effects": []
       }
     ]
   },

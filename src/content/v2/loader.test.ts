@@ -21,6 +21,108 @@ import {
 } from '../../engine/v2/game'
 
 describe('live V2 content', () => {
+  it('keeps every first-break branch recapped and connected to term two', () => {
+    const breakIds = [
+      'term_reflection',
+      'break_first_week',
+      'break_message_from_mali',
+      'break_budget',
+      'break_club_request',
+      'break_low_balance',
+      'break_next_term',
+    ]
+    const breakEvents = events.filter((event) => breakIds.includes(event.id))
+    expect(breakEvents).toHaveLength(breakIds.length)
+    for (const event of breakEvents) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(4)
+      expect(
+        event.choices.every(
+          (choice) => 'recap' in choice && Boolean(choice.recap),
+        ),
+      ).toBe(true)
+    }
+
+    const seen = new Set<string>()
+    const visit = (nodeId: string, path = new Set<string>()) => {
+      if (nodeId === 'next_y1_break') return
+      expect(path.has(nodeId)).toBe(false)
+      const node = flow.nodes.find((candidate) => candidate.id === nodeId)
+      expect(node).toBeDefined()
+      seen.add(nodeId)
+      const outgoing = flow.edges.filter((edge) => edge.from === nodeId)
+      expect(outgoing.length).toBeGreaterThan(0)
+      const nextPath = new Set([...path, nodeId])
+      for (const edge of outgoing) visit(edge.to, nextPath)
+    }
+    visit('n_term_reflection')
+    for (const eventId of breakIds) expect(seen.has(`n_${eventId}`)).toBe(true)
+  })
+
+  it('plays first-break side stories when eligible and rejoins term two', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (flags: Record<string, boolean>, money: number) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 1, period: 'break' },
+        currentNodeId: 'n_term_reflection',
+        currentEventId: 'term_reflection',
+        flags,
+        stats: { ...save.stats, money },
+      }
+      const seen: string[] = []
+      for (let step = 0; step < 10; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'return_to_campus') break
+        seen.push(event.id)
+        const choiceIds: Record<string, string> = {
+          term_reflection: 'keep_journal',
+          break_first_week: 'sort_photos',
+          break_message_from_mali: 'reply_later',
+          break_budget: 'cook_simple_meals',
+          break_club_request: 'decline_politely',
+          break_low_balance: 'delay_nonessential',
+          break_next_term: 'pack_in_morning',
+        }
+        save = chooseV2(content, save, choiceIds[event.id])
+      }
+      expect(save.currentEventId).toBe('return_to_campus')
+      expect(save.currentTime.period).toBe('term2')
+      return seen
+    }
+
+    expect(play({ met_mali: true, joined_club: true }, 100)).toEqual([
+      'term_reflection',
+      'break_first_week',
+      'break_message_from_mali',
+      'break_budget',
+      'break_club_request',
+      'break_low_balance',
+      'break_next_term',
+    ])
+    expect(play({}, 1200)).toEqual([
+      'term_reflection',
+      'break_first_week',
+      'break_budget',
+      'break_next_term',
+    ])
+  })
+
   it('loads the authored story with the shared V2 schema', async () => {
     const files: Record<string, unknown> = {
       config,

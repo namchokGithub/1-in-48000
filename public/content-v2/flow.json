@@ -96,9 +96,9 @@
         "x": 72,
         "y": 72
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "midterm_prep",
-      "parentId": "group_6"
+      "eventId": "midterm_prep"
     },
     {
       "id": "n_midterm_exam",
@@ -106,9 +106,9 @@
         "x": 456,
         "y": 72
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "midterm_exam",
-      "parentId": "group_6"
+      "eventId": "midterm_exam"
     },
     {
       "id": "n_mali_checkin",
@@ -116,9 +116,9 @@
         "x": 72,
         "y": 432
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "mali_checkin",
-      "parentId": "group_6"
+      "eventId": "mali_checkin"
     },
     {
       "id": "n_club_invitation",
@@ -126,15 +126,15 @@
         "x": 456,
         "y": 432
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "club_invitation",
-      "parentId": "group_6"
+      "eventId": "club_invitation"
     },
     {
       "id": "random_y1_term1_life",
       "position": {
-        "x": 4560,
-        "y": 312
+        "x": 4104,
+        "y": 240
       },
       "type": "random",
       "poolId": "y1_term1_life"
@@ -142,33 +142,136 @@
     {
       "id": "next_y1_term1",
       "position": {
-        "x": 4872,
-        "y": 312
+        "x": 4416,
+        "y": 240
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_term_reflection",
       "position": {
-        "x": 6096,
-        "y": 912
+        "x": 4776,
+        "y": 240
       },
       "type": "event",
       "eventId": "term_reflection"
     },
     {
+      "id": "n_break_first_week",
+      "position": {
+        "x": 5064,
+        "y": 240
+      },
+      "type": "event",
+      "eventId": "break_first_week"
+    },
+    {
+      "id": "condition_break_mali",
+      "position": {
+        "x": 4896,
+        "y": 600
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "met_mali",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_break_message_from_mali",
+      "position": {
+        "x": 5376,
+        "y": 600
+      },
+      "type": "event",
+      "eventId": "break_message_from_mali"
+    },
+    {
+      "id": "n_break_budget",
+      "position": {
+        "x": 5376,
+        "y": 240
+      },
+      "type": "event",
+      "eventId": "break_budget"
+    },
+    {
+      "id": "condition_break_club",
+      "position": {
+        "x": 5736,
+        "y": 360
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "joined_club",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_break_club_request",
+      "position": {
+        "x": 5376,
+        "y": 1128
+      },
+      "type": "event",
+      "eventId": "break_club_request"
+    },
+    {
+      "id": "condition_break_money",
+      "position": {
+        "x": 5664,
+        "y": 1128
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "stat",
+          "stat": "money",
+          "operator": "lt",
+          "value": 500
+        }
+      ]
+    },
+    {
+      "id": "n_break_low_balance",
+      "position": {
+        "x": 5976,
+        "y": 1032
+      },
+      "type": "event",
+      "eventId": "break_low_balance"
+    },
+    {
+      "id": "n_break_next_term",
+      "position": {
+        "x": 6024,
+        "y": 528
+      },
+      "type": "event",
+      "eventId": "break_next_term"
+    },
+    {
       "id": "next_y1_break",
       "position": {
-        "x": 6432,
-        "y": 1032
+        "x": 6528,
+        "y": 624
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_return_to_campus",
       "position": {
-        "x": 6768,
-        "y": 1008
+        "x": 6864,
+        "y": 624
       },
       "type": "event",
       "eventId": "return_to_campus"
@@ -176,8 +279,8 @@
     {
       "id": "n_year_one_final",
       "position": {
-        "x": 7104,
-        "y": 1104
+        "x": 6864,
+        "y": 984
       },
       "type": "event",
       "eventId": "year_one_final"
@@ -185,8 +288,8 @@
     {
       "id": "n_scholarship_notice",
       "position": {
-        "x": 7440,
-        "y": 1176
+        "x": 6864,
+        "y": 1368
       },
       "type": "event",
       "eventId": "scholarship_notice"
@@ -477,8 +580,8 @@
     {
       "id": "start",
       "position": {
-        "x": -648,
-        "y": 144
+        "x": -1104,
+        "y": 72
       },
       "type": "start"
     },
@@ -584,8 +687,8 @@
     {
       "id": "group",
       "position": {
-        "x": -336,
-        "y": 0
+        "x": -792,
+        "y": -72
       },
       "type": "group",
       "title": "เริ่มต้น",
@@ -606,8 +709,8 @@
     {
       "id": "group_2",
       "position": {
-        "x": 360,
-        "y": 0
+        "x": -96,
+        "y": -72
       },
       "type": "group",
       "title": "ทักทายเพื่อนใหม่",
@@ -618,8 +721,8 @@
     {
       "id": "group_3",
       "position": {
-        "x": 1176,
-        "y": 0
+        "x": 720,
+        "y": -72
       },
       "type": "group",
       "title": "วันแรกของชีวิต",
@@ -630,8 +733,8 @@
     {
       "id": "group_4",
       "position": {
-        "x": 2064,
-        "y": 168
+        "x": 1608,
+        "y": 96
       },
       "type": "group",
       "title": "การตัดสินใจที่ส่งผล",
@@ -642,8 +745,8 @@
     {
       "id": "group_5",
       "position": {
-        "x": 2568,
-        "y": 0
+        "x": 2112,
+        "y": -72
       },
       "type": "group",
       "title": "ชีวิตมหาฯลัย",
@@ -653,15 +756,15 @@
     },
     {
       "id": "group_6",
+      "position": {
+        "x": 3048,
+        "y": -72
+      },
       "type": "group",
       "title": "สอบกลางภาค",
       "color": "green",
       "width": 800,
-      "height": 756,
-      "position": {
-        "x": 3504,
-        "y": 0
-      }
+      "height": 756
     }
   ],
   "edges": [
@@ -855,121 +958,163 @@
       "id": "e_n_term_reflection_keep_journal",
       "from": "n_term_reflection",
       "port": "keep_journal",
-      "to": "next_y1_break",
-      "route": [
-        {
-          "x": 6336,
-          "y": 1124
-        },
-        {
-          "x": 6384,
-          "y": 1124
-        },
-        {
-          "x": 6384,
-          "y": 1121
-        },
-        {
-          "x": 6432,
-          "y": 1121
-        }
-      ]
+      "to": "n_break_first_week"
     },
     {
       "id": "e_n_term_reflection_plan_next_term",
       "from": "n_term_reflection",
       "port": "plan_next_term",
-      "to": "next_y1_break",
-      "route": [
-        {
-          "x": 6336,
-          "y": 1148
-        },
-        {
-          "x": 6354,
-          "y": 1148
-        },
-        {
-          "x": 6354,
-          "y": 1121
-        },
-        {
-          "x": 6432,
-          "y": 1121
-        }
-      ]
+      "to": "n_break_first_week"
+    },
+    {
+      "id": "e_n_break_first_week_sleep_in_condition_break_mali",
+      "from": "n_break_first_week",
+      "port": "sleep_in",
+      "to": "condition_break_mali"
+    },
+    {
+      "id": "e_n_break_first_week_watch_all_day_condition_break_mali",
+      "from": "n_break_first_week",
+      "port": "watch_all_day",
+      "to": "condition_break_mali"
+    },
+    {
+      "id": "e_n_break_first_week_sort_photos_condition_break_mali",
+      "from": "n_break_first_week",
+      "port": "sort_photos",
+      "to": "condition_break_mali"
+    },
+    {
+      "id": "e_condition_break_mali_pass_n_break_message_from_mali",
+      "from": "condition_break_mali",
+      "port": "pass",
+      "to": "n_break_message_from_mali"
+    },
+    {
+      "id": "e_condition_break_mali_fail_n_break_budget",
+      "from": "condition_break_mali",
+      "port": "fail",
+      "to": "n_break_budget"
+    },
+    {
+      "id": "e_n_break_message_from_mali_call_mali_n_break_budget",
+      "from": "n_break_message_from_mali",
+      "port": "call_mali",
+      "to": "n_break_budget"
+    },
+    {
+      "id": "e_n_break_message_from_mali_reply_later_n_break_budget",
+      "from": "n_break_message_from_mali",
+      "port": "reply_later",
+      "to": "n_break_budget"
+    },
+    {
+      "id": "e_n_break_budget_take_short_shift_condition_break_club",
+      "from": "n_break_budget",
+      "port": "take_short_shift",
+      "to": "condition_break_club"
+    },
+    {
+      "id": "e_n_break_budget_cook_simple_meals_condition_break_club",
+      "from": "n_break_budget",
+      "port": "cook_simple_meals",
+      "to": "condition_break_club"
+    },
+    {
+      "id": "e_n_break_budget_order_delivery_condition_break_club",
+      "from": "n_break_budget",
+      "port": "order_delivery",
+      "to": "condition_break_club"
+    },
+    {
+      "id": "e_condition_break_club_pass_n_break_club_request",
+      "from": "condition_break_club",
+      "port": "pass",
+      "to": "n_break_club_request"
+    },
+    {
+      "id": "e_condition_break_club_fail_condition_break_money",
+      "from": "condition_break_club",
+      "port": "fail",
+      "to": "condition_break_money"
+    },
+    {
+      "id": "e_n_break_club_request_help_online_condition_break_money",
+      "from": "n_break_club_request",
+      "port": "help_online",
+      "to": "condition_break_money"
+    },
+    {
+      "id": "e_n_break_club_request_decline_politely_condition_break_money",
+      "from": "n_break_club_request",
+      "port": "decline_politely",
+      "to": "condition_break_money"
+    },
+    {
+      "id": "e_n_break_club_request_take_extra_work_condition_break_money",
+      "from": "n_break_club_request",
+      "port": "take_extra_work",
+      "to": "condition_break_money"
+    },
+    {
+      "id": "e_condition_break_money_pass_n_break_low_balance",
+      "from": "condition_break_money",
+      "port": "pass",
+      "to": "n_break_low_balance"
+    },
+    {
+      "id": "e_condition_break_money_fail_n_break_next_term",
+      "from": "condition_break_money",
+      "port": "fail",
+      "to": "n_break_next_term"
+    },
+    {
+      "id": "e_n_break_low_balance_sell_old_books_n_break_next_term",
+      "from": "n_break_low_balance",
+      "port": "sell_old_books",
+      "to": "n_break_next_term"
+    },
+    {
+      "id": "e_n_break_low_balance_delay_nonessential_n_break_next_term",
+      "from": "n_break_low_balance",
+      "port": "delay_nonessential",
+      "to": "n_break_next_term"
+    },
+    {
+      "id": "e_n_break_next_term_check_schedule_next_y1_break",
+      "from": "n_break_next_term",
+      "port": "check_schedule",
+      "to": "next_y1_break"
+    },
+    {
+      "id": "e_n_break_next_term_meet_friends_next_y1_break",
+      "from": "n_break_next_term",
+      "port": "meet_friends",
+      "to": "next_y1_break"
+    },
+    {
+      "id": "e_n_break_next_term_pack_in_morning_next_y1_break",
+      "from": "n_break_next_term",
+      "port": "pack_in_morning",
+      "to": "next_y1_break"
     },
     {
       "id": "e_next_y1_break_next",
       "from": "next_y1_break",
       "port": "next",
-      "to": "n_return_to_campus",
-      "route": [
-        {
-          "x": 6672,
-          "y": 1143
-        },
-        {
-          "x": 6720,
-          "y": 1143
-        },
-        {
-          "x": 6720,
-          "y": 1136
-        },
-        {
-          "x": 6768,
-          "y": 1136
-        }
-      ]
+      "to": "n_return_to_campus"
     },
     {
       "id": "e_n_return_to_campus_budget_semester",
       "from": "n_return_to_campus",
       "port": "budget_semester",
-      "to": "n_year_one_final",
-      "route": [
-        {
-          "x": 7008,
-          "y": 1220
-        },
-        {
-          "x": 7056,
-          "y": 1220
-        },
-        {
-          "x": 7056,
-          "y": 1232
-        },
-        {
-          "x": 7104,
-          "y": 1232
-        }
-      ]
+      "to": "n_year_one_final"
     },
     {
       "id": "e_n_return_to_campus_take_more_classes",
       "from": "n_return_to_campus",
       "port": "take_more_classes",
-      "to": "n_year_one_final",
-      "route": [
-        {
-          "x": 7008,
-          "y": 1244
-        },
-        {
-          "x": 7026,
-          "y": 1244
-        },
-        {
-          "x": 7026,
-          "y": 1232
-        },
-        {
-          "x": 7104,
-          "y": 1232
-        }
-      ]
+      "to": "n_year_one_final"
     },
     {
       "id": "e_n_year_one_final_review_notes_n_scholarship_notice",
@@ -981,49 +1126,13 @@
         "stat": "money",
         "operator": "lt",
         "value": 1000
-      },
-      "route": [
-        {
-          "x": 7344,
-          "y": 1316
-        },
-        {
-          "x": 7392,
-          "y": 1316
-        },
-        {
-          "x": 7392,
-          "y": 1304
-        },
-        {
-          "x": 7440,
-          "y": 1304
-        }
-      ]
+      }
     },
     {
       "id": "e_n_year_one_final_review_notes_next_y1_term2",
       "from": "n_year_one_final",
       "port": "review_notes",
-      "to": "next_y1_term2",
-      "route": [
-        {
-          "x": 7344,
-          "y": 1316
-        },
-        {
-          "x": 7362,
-          "y": 1316
-        },
-        {
-          "x": 7362,
-          "y": 1169
-        },
-        {
-          "x": 7776,
-          "y": 1169
-        }
-      ]
+      "to": "next_y1_term2"
     },
     {
       "id": "e_n_year_one_final_rest_before_exam_n_scholarship_notice",
@@ -1035,105 +1144,25 @@
         "stat": "money",
         "operator": "lt",
         "value": 1000
-      },
-      "route": [
-        {
-          "x": 7344,
-          "y": 1340
-        },
-        {
-          "x": 7362,
-          "y": 1340
-        },
-        {
-          "x": 7362,
-          "y": 1304
-        },
-        {
-          "x": 7440,
-          "y": 1304
-        }
-      ]
+      }
     },
     {
       "id": "e_n_year_one_final_rest_before_exam_next_y1_term2",
       "from": "n_year_one_final",
       "port": "rest_before_exam",
-      "to": "next_y1_term2",
-      "route": [
-        {
-          "x": 7344,
-          "y": 1340
-        },
-        {
-          "x": 7362,
-          "y": 1340
-        },
-        {
-          "x": 7362,
-          "y": 1464
-        },
-        {
-          "x": 7698,
-          "y": 1464
-        },
-        {
-          "x": 7698,
-          "y": 1169
-        },
-        {
-          "x": 7776,
-          "y": 1169
-        }
-      ]
+      "to": "next_y1_term2"
     },
     {
       "id": "e_n_scholarship_notice_apply_aid",
       "from": "n_scholarship_notice",
       "port": "apply_aid",
-      "to": "next_y1_term2",
-      "route": [
-        {
-          "x": 7680,
-          "y": 1388
-        },
-        {
-          "x": 7698,
-          "y": 1388
-        },
-        {
-          "x": 7698,
-          "y": 1169
-        },
-        {
-          "x": 7776,
-          "y": 1169
-        }
-      ]
+      "to": "next_y1_term2"
     },
     {
       "id": "e_n_scholarship_notice_find_extra_shift",
       "from": "n_scholarship_notice",
       "port": "find_extra_shift",
-      "to": "next_y1_term2",
-      "route": [
-        {
-          "x": 7680,
-          "y": 1412
-        },
-        {
-          "x": 7698,
-          "y": 1412
-        },
-        {
-          "x": 7698,
-          "y": 1169
-        },
-        {
-          "x": 7776,
-          "y": 1169
-        }
-      ]
+      "to": "next_y1_term2"
     },
     {
       "id": "e_next_y1_term2_next",
