@@ -181,6 +181,8 @@ export const v2EventSchema = z
     bgmAssetId: idSchema.optional(),
     outfit: v2OutfitSchema.optional(),
     hidePlayer: z.boolean().optional(),
+    /** Hide the stat-change preview under every choice of this event. */
+    hideStatChanges: z.boolean().optional(),
     conditions: z.array(v2ConditionSchema),
     lines: z
       .array(

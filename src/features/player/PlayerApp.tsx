@@ -13,6 +13,7 @@ import {
   createSessionStorageAdapter,
 } from '../../save/storage'
 import { createV2AudioSettingsStore } from '../../save/v2/audioSettings'
+import { createStatPreviewStore } from '../../save/v2/statPreviewSettings'
 import { createPlayerThemeStore } from '../../save/v2/themeSettings'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { createAudioController } from '../../shared/audio'
@@ -67,6 +68,11 @@ function PlayerShell({
   const [audio] = useState(createAudioController)
   const [audioSettings] = useState(createV2AudioSettingsStore)
   const musicSettings = useStore(audioSettings, (state) => state.settings)
+  const [statPreview] = useState(createStatPreviewStore)
+  const showStatChanges = useStore(
+    statPreview,
+    (state) => state.showStatChanges,
+  )
   const theme = useStore(themeSettings, (state) => state.theme)
   const save = useStore(store, (state) => state.save)
   const [view, setView] = useState<View>(() =>
@@ -195,6 +201,7 @@ function PlayerShell({
           names={content.names}
           loanRatePercent={content.config.loan.annualRatePercent}
           recaps={getV2LastRecaps(content, save)}
+          showStatChanges={showStatChanges}
           fadeScene={fadeScene}
           notice={
             toast && (
@@ -321,6 +328,18 @@ function PlayerShell({
             >
               <span aria-hidden="true">{theme === 'dark' ? '☾' : '☀'}</span>
               ธีม{theme === 'dark' ? 'มืด' : 'สว่าง'}
+            </button>
+            <button
+              type="button"
+              className="button button-secondary player-header-button"
+              aria-pressed={showStatChanges}
+              title="แสดงค่าสถานะที่จะเปลี่ยนใต้ตัวเลือก"
+              onClick={() =>
+                statPreview.getState().setShowStatChanges(!showStatChanges)
+              }
+            >
+              <span aria-hidden="true">{showStatChanges ? '◉' : '○'}</span>
+              {showStatChanges ? 'เห็นผลสถานะ' : 'ซ่อนผลสถานะ'}
             </button>
             <AudioControls
               enabled={musicSettings.musicEnabled}

@@ -224,3 +224,12 @@ The BO also keeps the unsaved draft in browser storage through `src/save/boDraft
 The BO uses shadcn/ui components, starting with `Badge` (`src/components/ui/badge.tsx`), for counts and status chips. The setup was written by hand instead of with `shadcn init`, because `init` adds shadcn's own color variables and a base layer to `src/shared/styles.css`, which the Player also loads, and would change Player styles. Components are added with `pnpm dlx shadcn@latest add <name>`; `components.json` points `utils` at `@/lib/utils`, and new files must import `cn` from there (the CLI once installed the unrelated npm package `cn` instead).
 
 Shadcn color names (`--primary`, `--secondary`, `--destructive`, `--border`, …) are defined only in `src/features/bo/colors.css` and point at the BO theme colors, so components follow every BO theme without `dark:` classes. `src/shared/styles.css` maps them to Tailwind color utilities with `@theme inline`, and adds no base layer. Tailwind also writes `--color-primary` and `--color-accent` into its theme layer; the unlayered values in `:root` still win, so existing Player and BO colors stay the same. Components get BO-specific variants, such as `warning`, instead of shadcn's default colors.
+
+## 2026-11-04 — Hiding stat changes under choices
+
+The Player shows each choice's stat changes before the player picks it. Two settings can hide this preview, and it is shown only when both allow it (`showsStatChanges` in `src/features/player/choicePreview.ts`):
+
+- The event's optional `hideStatChanges` field, set in the BO with "แสดงผลต่อสถานะใต้ตัวเลือก". It applies to every choice of the event, and it is written only when true, like `hidePlayer`, so existing content does not change.
+- The player's own setting, a header button kept in browser storage through `src/save/v2/statPreviewSettings.ts`. It belongs to the device, not the save, and defaults to showing.
+
+When hidden, nothing replaces the preview, and chance effects hide their success percentage and outcomes too. Only the preview is hidden: the stat panel and the change notice after a choice still show the result, and author-written recaps are unchanged. The BO Simulation follows the event setting and always assumes the player chose to see changes.

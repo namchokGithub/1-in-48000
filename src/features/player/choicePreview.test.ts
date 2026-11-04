@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { V2Event, V2Stats } from '../../content/v2/schema'
-import { describeChoiceEffects, formatStatChange } from './choicePreview'
+import {
+  describeChoiceEffects,
+  formatStatChange,
+  showsStatChanges,
+} from './choicePreview'
 
 const stats: V2Stats = {
   study: 50,
@@ -78,5 +82,13 @@ describe('Player choice information', () => {
       { stat: null, text: 'สำเร็จ: เงิน +100 ฿' },
       { stat: null, text: 'ไม่สำเร็จ: ไม่มีผลต่อค่าสถานะ' },
     ])
+  })
+
+  it('shows stat changes only when both the player and the event allow it', () => {
+    expect(showsStatChanges({}, true)).toBe(true)
+    expect(showsStatChanges({ hideStatChanges: false }, true)).toBe(true)
+    expect(showsStatChanges({ hideStatChanges: true }, true)).toBe(false)
+    expect(showsStatChanges({}, false)).toBe(false)
+    expect(showsStatChanges({ hideStatChanges: true }, false)).toBe(false)
   })
 })

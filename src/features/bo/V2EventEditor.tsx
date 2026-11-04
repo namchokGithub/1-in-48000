@@ -185,6 +185,19 @@ export function V2EventEditor({
           />
           <span>สุ่มลำดับตัวเลือกใน Player</span>
         </label>
+        <label className="bo-checkbox-field">
+          <input
+            type="checkbox"
+            checked={event.hideStatChanges !== true}
+            onChange={(input) =>
+              update((next) => {
+                if (input.target.checked) delete next.hideStatChanges
+                else next.hideStatChanges = true
+              })
+            }
+          />
+          <span>แสดงผลต่อสถานะใต้ตัวเลือก</span>
+        </label>
         <label className="bo-field">
           <span>ปี</span>
           <NumberInput

@@ -4,7 +4,7 @@ import { getV2ChoiceOptions, orderV2ChoiceOptions } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { formatGameTime } from './labels'
 import { StatPanel } from './StatPanel'
-import { describeChoiceEffects } from './choicePreview'
+import { describeChoiceEffects, showsStatChanges } from './choicePreview'
 import { lockedReason } from './lockedReason'
 import { keyboardChoiceSelector, nextEnabledIndex } from './choiceNavigation'
 import { YearTimeline } from './YearTimeline'
@@ -30,6 +30,8 @@ type Props = {
   loanRatePercent: number
   // Recaps of the last choice, shown with the first line only.
   recaps: string[]
+  /** The player's own choice to see stat changes under choices. */
+  showStatChanges?: boolean
   fadeScene?: boolean
   // Shown in the top-right corner of the scene, such as the stat toast.
   notice?: ReactNode
@@ -53,6 +55,7 @@ export function SceneView({
   names,
   loanRatePercent,
   recaps,
+  showStatChanges: playerShowsStats = true,
   fadeScene = false,
   notice,
   error,
@@ -75,6 +78,7 @@ export function SceneView({
   const [electiveId, setElectiveId] = useState(electives[0]?.id ?? '')
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const line = event.lines[lineIndex]
+  const statsShown = showsStatChanges(event, playerShowsStats)
   const speaker = lineSpeaker(line, characters)
   const sceneAsset = assets.find(
     (asset) => asset.id === event.sceneAssetId && asset.kind === 'scene',
@@ -433,7 +437,11 @@ export function SceneView({
                       </span>
                     ) : (
                       <EffectList
-                        lines={describeChoiceEffects(choice, save.stats)}
+                        lines={
+                          statsShown
+                            ? describeChoiceEffects(choice, save.stats)
+                            : []
+                        }
                       />
                     )}
                   </PlayerCheckbox>
@@ -458,7 +466,11 @@ export function SceneView({
                         </span>
                       ) : (
                         <EffectList
-                          lines={describeChoiceEffects(choice, save.stats)}
+                          lines={
+                            statsShown
+                              ? describeChoiceEffects(choice, save.stats)
+                              : []
+                          }
                         />
                       )}
                     </span>

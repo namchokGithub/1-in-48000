@@ -978,16 +978,16 @@
     {
       "id": "next_y3_term1",
       "position": {
-        "x": 17376,
-        "y": 1872
+        "x": 18888,
+        "y": 1920
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_festival_visit",
       "position": {
-        "x": 17712,
-        "y": 1848
+        "x": 19224,
+        "y": 1896
       },
       "type": "event",
       "eventId": "festival_visit"
@@ -995,16 +995,16 @@
     {
       "id": "next_y3_break",
       "position": {
-        "x": 18048,
-        "y": 1968
+        "x": 21528,
+        "y": 2040
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_project_pitch",
       "position": {
-        "x": 18384,
-        "y": 1968
+        "x": 21864,
+        "y": 2040
       },
       "type": "event",
       "eventId": "project_pitch"
@@ -1012,8 +1012,8 @@
     {
       "id": "n_mentor_feedback",
       "position": {
-        "x": 18720,
-        "y": 2040
+        "x": 22200,
+        "y": 2112
       },
       "type": "event",
       "eventId": "mentor_feedback"
@@ -1021,16 +1021,16 @@
     {
       "id": "next_y3_term2",
       "position": {
-        "x": 19056,
-        "y": 1920
+        "x": 24336,
+        "y": 2064
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_internship_result",
       "position": {
-        "x": 19392,
-        "y": 1920
+        "x": 24672,
+        "y": 2064
       },
       "type": "event",
       "eventId": "internship_result"
@@ -1038,16 +1038,16 @@
     {
       "id": "next_y3_summer",
       "position": {
-        "x": 19728,
-        "y": 2040
+        "x": 27072,
+        "y": 2376
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_thesis_topic",
       "position": {
-        "x": 20064,
-        "y": 1992
+        "x": 27408,
+        "y": 2328
       },
       "type": "event",
       "eventId": "thesis_topic"
@@ -1055,8 +1055,8 @@
     {
       "id": "n_career_fair",
       "position": {
-        "x": 20400,
-        "y": 2088
+        "x": 27744,
+        "y": 2424
       },
       "type": "event",
       "eventId": "career_fair"
@@ -1064,24 +1064,24 @@
     {
       "id": "next_y4_term1",
       "position": {
-        "x": 20736,
-        "y": 2208
+        "x": 29760,
+        "y": 2616
       },
       "type": "nextPeriod"
     },
     {
       "id": "next_y4_break",
       "position": {
-        "x": 21072,
-        "y": 2232
+        "x": 32640,
+        "y": 2928
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_thesis_defense",
       "position": {
-        "x": 21408,
-        "y": 2184
+        "x": 32976,
+        "y": 2880
       },
       "type": "event",
       "eventId": "thesis_defense"
@@ -1089,8 +1089,8 @@
     {
       "id": "n_farewell_dinner",
       "position": {
-        "x": 21744,
-        "y": 2280
+        "x": 33312,
+        "y": 2976
       },
       "type": "event",
       "eventId": "farewell_dinner"
@@ -1098,16 +1098,16 @@
     {
       "id": "next_y4_term2",
       "position": {
-        "x": 22080,
-        "y": 2400
+        "x": 35832,
+        "y": 3504
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_graduation_day",
       "position": {
-        "x": 22416,
-        "y": 2376
+        "x": 36168,
+        "y": 3480
       },
       "type": "event",
       "eventId": "graduation_day"
@@ -1115,8 +1115,8 @@
     {
       "id": "next_y4_summer",
       "position": {
-        "x": 22752,
-        "y": 2496
+        "x": 38232,
+        "y": 3360
       },
       "type": "nextPeriod"
     },
@@ -1131,16 +1131,16 @@
     {
       "id": "next_extra_years",
       "position": {
-        "x": 23088,
-        "y": 2568
+        "x": 39936,
+        "y": 3360
       },
       "type": "nextPeriod"
     },
     {
       "id": "check_academic_path",
       "position": {
-        "x": 23448,
-        "y": 2616
+        "x": 40296,
+        "y": 3408
       },
       "type": "condition",
       "join": "and",
@@ -1161,8 +1161,8 @@
     {
       "id": "check_community_path",
       "position": {
-        "x": 23784,
-        "y": 2856
+        "x": 40632,
+        "y": 3648
       },
       "type": "condition",
       "join": "and",
@@ -1183,8 +1183,8 @@
     {
       "id": "end_academic_path",
       "position": {
-        "x": 23784,
-        "y": 2688
+        "x": 40632,
+        "y": 3480
       },
       "type": "ending",
       "endingId": "academic_path"
@@ -1192,8 +1192,8 @@
     {
       "id": "end_community_path",
       "position": {
-        "x": 24120,
-        "y": 2928
+        "x": 40968,
+        "y": 3720
       },
       "type": "ending",
       "endingId": "community_path"
@@ -1201,8 +1201,8 @@
     {
       "id": "end_graduation",
       "position": {
-        "x": 24120,
-        "y": 3072
+        "x": 40968,
+        "y": 3864
       },
       "type": "ending",
       "endingId": "graduation"

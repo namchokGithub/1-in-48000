@@ -40,6 +40,17 @@ function describeOutcome(effects: StateEffect[], showAmounts: boolean): string {
     .join(' · ')
 }
 
+/**
+ * Choices show their stat changes only when the player wants to see them and
+ * the event does not hide them.
+ */
+export function showsStatChanges(
+  event: Pick<V2Event, 'hideStatChanges'>,
+  playerShows: boolean,
+): boolean {
+  return playerShows && event.hideStatChanges !== true
+}
+
 // `stat` is set for a single stat change so the Player can show its icon.
 export type ChoiceEffectLine = { stat: Stat | null; text: string }
 
