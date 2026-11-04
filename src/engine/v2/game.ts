@@ -77,7 +77,10 @@ function findEvent(content: V2GameContent, id: string): V2Event {
 }
 
 function bounded(stat: keyof V2Stats, value: number): number {
-  return stat === 'money' || stat === 'debt' ? value : Math.min(100, value)
+  if (stat === 'money') return value
+  // Debt below zero would mean the bank owes the player, so it stops at zero.
+  if (stat === 'debt') return Math.max(0, value)
+  return Math.min(100, value)
 }
 
 function compare(

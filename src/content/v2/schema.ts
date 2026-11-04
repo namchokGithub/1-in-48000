@@ -26,7 +26,7 @@ export const v2StatsSchema = z.object({
   health: boundedStatSchema,
   stress: boundedStatSchema,
   relationships: boundedStatSchema,
-  debt: z.int(),
+  debt: z.int().min(0),
   lucky: boundedStatSchema,
 })
 

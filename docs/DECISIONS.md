@@ -38,7 +38,7 @@ Extend the shared main line to graduation with 35 events and seven scene assets.
 
 ## 2026-10-27 — Isolated V2 content contract
 
-Define V2 schemas and sample data beside the current playable V1 content. This keeps the published game, BO, and save compatible while Steps 12–18 adopt the new contract. Permit negative integers for all seven stats; retain 100 as the upper bound for study, health, stress, relationships, and lucky, while money and debt remain unbounded above. Use one debt balance for every debt source. Keep the chance effect's branches limited to stat and flag changes so it cannot nest chance, schedule, or story jumps. Store the nominal percentage and a choice display mode in content; calculate the lucky adjustment later in the engine. Admit Years 1–8 with review points at Years 4, 6, and 8, leaving the exact graduation formula and Year 8 outcome open until Step 12. V2 excludes the ambience asset type and event field; runtime audio and setting migration follow in later steps.
+Define V2 schemas and sample data beside the current playable V1 content. This keeps the published game, BO, and save compatible while Steps 12–18 adopt the new contract. Permit negative integers for all seven stats (debt was later limited to 0 and above; see "Debt never goes below zero"); retain 100 as the upper bound for study, health, stress, relationships, and lucky, while money and debt remain unbounded above. Use one debt balance for every debt source. Keep the chance effect's branches limited to stat and flag changes so it cannot nest chance, schedule, or story jumps. Store the nominal percentage and a choice display mode in content; calculate the lucky adjustment later in the engine. Admit Years 1–8 with review points at Years 4, 6, and 8, leaving the exact graduation formula and Year 8 outcome open until Step 12. V2 excludes the ambience asset type and event field; runtime audio and setting migration follow in later steps.
 
 ## 2026-10-27 — V2 graduation, chance rolls, and save v3
 
@@ -233,3 +233,8 @@ The Player shows each choice's stat changes before the player picks it. Two sett
 - The player's own setting, a header button kept in browser storage through `src/save/v2/statPreviewSettings.ts`. It belongs to the device, not the save, and defaults to showing.
 
 When hidden, nothing replaces the preview, and chance effects hide their success percentage and outcomes too. Only the preview is hidden: the stat panel and the change notice after a choice still show the result, and author-written recaps are unchanged. The BO Simulation follows the event setting and always assumes the player chose to see changes.
+
+## 2026-11-04 — Debt never goes below zero
+
+Debt stops at 0. A negative debt would mean the bank owes the player, which reads as a balance in their favor and belongs in money instead. The engine limits debt to 0 whenever a stat changes, including when a background starts the game, and the stats schema rejects a negative debt in content and saves. Paying 500 against a debt of 300 leaves 0, and the change shown to the player is the 300 actually paid. Every other stat keeps its earlier rule: study, health, stress, relationships, and lucky may go below 0 and stop at 100, and money has no limit.
+

@@ -17,17 +17,20 @@ describe('V2 content contract', () => {
     expect(v2ContentSchema.safeParse({ ...sample, names }).success).toBe(true)
   })
 
-  it('allows negative stats but retains upper bounds for bounded stats', () => {
+  it('allows negative stats except debt and retains upper bounds', () => {
     const stats = {
       study: -20,
       money: -500,
       health: -5,
       stress: -10,
       relationships: -1,
-      debt: -100,
+      debt: 0,
       lucky: -2,
     }
     expect(v2StatsSchema.safeParse(stats).success).toBe(true)
+    expect(v2StatsSchema.safeParse({ ...stats, debt: -100 }).success).toBe(
+      false,
+    )
     expect(v2StatsSchema.safeParse({ ...stats, health: 101 }).success).toBe(
       false,
     )

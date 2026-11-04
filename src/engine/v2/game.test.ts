@@ -598,6 +598,20 @@ describe('V4 flow engine', () => {
     })
   })
 
+  it('stops debt at zero when it is paid off by more than is owed', () => {
+    const content = single([
+      event('opening', [
+        { type: 'statDelta', stat: 'debt', amount: 300 },
+        { type: 'statDelta', stat: 'debt', amount: -500 },
+        { type: 'statDelta', stat: 'stress', amount: -1000 },
+      ]),
+    ])
+    const next = chooseV2(content, createV2Game(content, 7), 'continue_story')
+    expect(next.stats.debt).toBe(0)
+    expect(next.stats.stress).toBeLessThan(0)
+    expect(next.history[0].statChanges?.debt).toBeUndefined()
+  })
+
   it('uses lucky in a saved chance roll and replays the same outcome', () => {
     expect(getV2EffectiveChancePercent(3, 10)).toBe(4)
     expect(getV2EffectiveChancePercent(99, 20)).toBe(100)
