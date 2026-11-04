@@ -15,6 +15,21 @@
     "path": "/assets/scene/campus-orientation-v2.png"
   },
   {
+    "id": "campus_orientation_v3",
+    "kind": "scene",
+    "path": "/assets/scene/campus-orientation-v3.png"
+  },
+  {
+    "id": "campus_orientation_v4",
+    "kind": "scene",
+    "path": "/assets/scene/campus-orientation-v4.png"
+  },
+  {
+    "id": "campus_orientation_v5",
+    "kind": "scene",
+    "path": "/assets/scene/campus-orientation-v5.png"
+  },
+  {
     "id": "classroom",
     "kind": "scene",
     "path": "/assets/scene/classroom.png"
@@ -40,14 +55,39 @@
     "path": "/assets/scene/campus-library.png"
   },
   {
+    "id": "campus_library_v2",
+    "kind": "scene",
+    "path": "/assets/scene/campus-library-v2.png"
+  },
+  {
     "id": "canteen",
     "kind": "scene",
     "path": "/assets/scene/canteen.png"
   },
   {
+    "id": "canteen_v2",
+    "kind": "scene",
+    "path": "/assets/scene/canteen-v2.png"
+  },
+  {
+    "id": "canteen_v3",
+    "kind": "scene",
+    "path": "/assets/scene/canteen-v3.png"
+  },
+  {
     "id": "bus_stop",
     "kind": "scene",
     "path": "/assets/scene/bus-stop.png"
+  },
+  {
+    "id": "bus_stop_v2",
+    "kind": "scene",
+    "path": "/assets/scene/bus-stop-v2.png"
+  },
+  {
+    "id": "bus_stop_v3",
+    "kind": "scene",
+    "path": "/assets/scene/bus-stop-v3.png"
   },
   {
     "id": "graduation_stage",

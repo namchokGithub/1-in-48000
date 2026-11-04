@@ -23,71 +23,78 @@
     {
       "id": "n_first_class",
       "position": {
-        "x": 1704,
-        "y": 96
+        "x": 72,
+        "y": 192
       },
+      "parentId": "group_3",
       "type": "event",
       "eventId": "first_class"
     },
     {
       "id": "n_dorm_evening",
       "position": {
-        "x": 1704,
-        "y": 504
+        "x": 408,
+        "y": 480
       },
+      "parentId": "group_3",
       "type": "event",
       "eventId": "dorm_evening"
     },
     {
       "id": "n_cafeteria_budget",
       "position": {
-        "x": 2400,
-        "y": 432
+        "x": 408,
+        "y": 48
       },
+      "parentId": "group_3",
       "type": "event",
       "eventId": "cafeteria_budget"
     },
     {
       "id": "n_club_fair",
       "position": {
-        "x": 2736,
-        "y": 504
+        "x": 96,
+        "y": 96
       },
+      "parentId": "group_4",
       "type": "event",
       "eventId": "club_fair"
     },
     {
       "id": "n_library_study",
       "position": {
-        "x": 3072,
-        "y": 600
+        "x": 72,
+        "y": 72
       },
       "type": "event",
-      "eventId": "library_study"
+      "eventId": "library_study",
+      "parentId": "group_5"
     },
     {
       "id": "n_group_project",
       "position": {
-        "x": 3408,
-        "y": 672
+        "x": 288,
+        "y": 432
       },
       "type": "event",
-      "eventId": "group_project"
+      "eventId": "group_project",
+      "parentId": "group_5"
     },
     {
       "id": "n_rainy_commute",
       "position": {
-        "x": 3744,
-        "y": 768
+        "x": 504,
+        "y": 72
       },
       "type": "event",
-      "eventId": "rainy_commute"
+      "eventId": "rainy_commute",
+      "parentId": "group_5"
     },
     {
       "id": "n_midterm_prep",
       "position": {
-        "x": 4080,
-        "y": 840
+        "x": 3624,
+        "y": 48
       },
       "type": "event",
       "eventId": "midterm_prep"
@@ -95,8 +102,8 @@
     {
       "id": "n_midterm_exam",
       "position": {
-        "x": 4416,
-        "y": 936
+        "x": 4008,
+        "y": 24
       },
       "type": "event",
       "eventId": "midterm_exam"
@@ -104,8 +111,8 @@
     {
       "id": "n_mali_checkin",
       "position": {
-        "x": 4416,
-        "y": 1320
+        "x": 3600,
+        "y": 624
       },
       "type": "event",
       "eventId": "mali_checkin"
@@ -113,8 +120,8 @@
     {
       "id": "n_club_invitation",
       "position": {
-        "x": 5184,
-        "y": 1344
+        "x": 4032,
+        "y": 576
       },
       "type": "event",
       "eventId": "club_invitation"
@@ -122,8 +129,8 @@
     {
       "id": "random_y1_term1_life",
       "position": {
-        "x": 4968,
-        "y": 912
+        "x": 4584,
+        "y": 360
       },
       "type": "random",
       "poolId": "y1_term1_life"
@@ -131,8 +138,8 @@
     {
       "id": "next_y1_term1",
       "position": {
-        "x": 5760,
-        "y": 936
+        "x": 5040,
+        "y": 312
       },
       "type": "nextPeriod"
     },
@@ -466,7 +473,7 @@
     {
       "id": "start",
       "position": {
-        "x": -288,
+        "x": -648,
         "y": 144
       },
       "type": "start"
@@ -556,9 +563,9 @@
         "x": 96,
         "y": 360
       },
+      "parentId": "group_2",
       "type": "event",
-      "eventId": "explore_library_and_find_food",
-      "parentId": "group_2"
+      "eventId": "explore_library_and_find_food"
     },
     {
       "id": "n_new_event_2",
@@ -566,14 +573,14 @@
         "x": 432,
         "y": 360
       },
+      "parentId": "group_2",
       "type": "event",
-      "eventId": "new_event_2",
-      "parentId": "group_2"
+      "eventId": "new_event_2"
     },
     {
       "id": "group",
       "position": {
-        "x": 24,
+        "x": -336,
         "y": 0
       },
       "type": "group",
@@ -588,20 +595,56 @@
         "x": 240,
         "y": 48
       },
+      "parentId": "group_2",
       "type": "event",
-      "eventId": "meet_new_friend",
-      "parentId": "group_2"
+      "eventId": "meet_new_friend"
     },
     {
       "id": "group_2",
+      "position": {
+        "x": 360,
+        "y": 0
+      },
       "type": "group",
       "title": "ทักทายเพื่อนใหม่",
-      "color": "blue",
+      "color": "green",
       "width": 752,
-      "height": 732,
+      "height": 732
+    },
+    {
+      "id": "group_3",
       "position": {
-        "x": 720,
-        "y": 48
+        "x": 1176,
+        "y": 0
+      },
+      "type": "group",
+      "title": "วันแรกของชีวิต",
+      "color": "green",
+      "width": 800,
+      "height": 780
+    },
+    {
+      "id": "group_4",
+      "position": {
+        "x": 2064,
+        "y": 168
+      },
+      "type": "group",
+      "title": "การตัดสินใจที่ส่งผล",
+      "color": "purple",
+      "width": 440,
+      "height": 420
+    },
+    {
+      "id": "group_5",
+      "type": "group",
+      "title": "ชีวิตมหาฯลัย",
+      "color": "green",
+      "width": 848,
+      "height": 756,
+      "position": {
+        "x": 2568,
+        "y": 0
       }
     }
   ],
@@ -619,316 +662,58 @@
       "to": "n_orientation"
     },
     {
-      "id": "e_n_first_class_take_notes",
-      "from": "n_first_class",
-      "port": "take_notes",
-      "to": "n_dorm_evening"
-    },
-    {
-      "id": "e_n_first_class_ask_friend",
-      "from": "n_first_class",
-      "port": "ask_friend",
-      "to": "n_dorm_evening"
-    },
-    {
-      "id": "e_n_dorm_evening_unpack",
-      "from": "n_dorm_evening",
-      "port": "unpack",
-      "to": "n_cafeteria_budget"
-    },
-    {
-      "id": "e_n_dorm_evening_rest",
-      "from": "n_dorm_evening",
-      "port": "rest",
-      "to": "n_cafeteria_budget"
-    },
-    {
-      "id": "e_n_cafeteria_budget_simple_meal",
-      "from": "n_cafeteria_budget",
-      "port": "simple_meal",
-      "to": "n_club_fair",
-      "route": [
-        {
-          "x": 2640,
-          "y": 644
-        },
-        {
-          "x": 2688,
-          "y": 644
-        },
-        {
-          "x": 2688,
-          "y": 632
-        },
-        {
-          "x": 2736,
-          "y": 632
-        }
-      ]
-    },
-    {
-      "id": "e_n_cafeteria_budget_treat_friend",
-      "from": "n_cafeteria_budget",
-      "port": "treat_friend",
-      "to": "n_club_fair",
-      "route": [
-        {
-          "x": 2640,
-          "y": 667
-        },
-        {
-          "x": 2658,
-          "y": 667
-        },
-        {
-          "x": 2658,
-          "y": 632
-        },
-        {
-          "x": 2736,
-          "y": 632
-        }
-      ]
-    },
-    {
       "id": "e_n_club_fair_join_club",
       "from": "n_club_fair",
       "port": "join_club",
-      "to": "n_library_study",
-      "route": [
-        {
-          "x": 2976,
-          "y": 716
-        },
-        {
-          "x": 3024,
-          "y": 716
-        },
-        {
-          "x": 3024,
-          "y": 728
-        },
-        {
-          "x": 3072,
-          "y": 728
-        }
-      ]
+      "to": "n_library_study"
     },
     {
       "id": "e_n_club_fair_keep_schedule",
       "from": "n_club_fair",
       "port": "keep_schedule",
-      "to": "n_library_study",
-      "route": [
-        {
-          "x": 2976,
-          "y": 739
-        },
-        {
-          "x": 2994,
-          "y": 739
-        },
-        {
-          "x": 2994,
-          "y": 728
-        },
-        {
-          "x": 3072,
-          "y": 728
-        }
-      ]
+      "to": "n_library_study"
     },
     {
       "id": "e_n_library_study_study_together",
       "from": "n_library_study",
       "port": "study_together",
-      "to": "n_group_project",
-      "route": [
-        {
-          "x": 3312,
-          "y": 812
-        },
-        {
-          "x": 3360,
-          "y": 812
-        },
-        {
-          "x": 3360,
-          "y": 800
-        },
-        {
-          "x": 3408,
-          "y": 800
-        }
-      ]
+      "to": "n_group_project"
     },
     {
       "id": "e_n_library_study_solo_notes",
       "from": "n_library_study",
       "port": "solo_notes",
-      "to": "n_group_project",
-      "route": [
-        {
-          "x": 3312,
-          "y": 835
-        },
-        {
-          "x": 3330,
-          "y": 835
-        },
-        {
-          "x": 3330,
-          "y": 800
-        },
-        {
-          "x": 3408,
-          "y": 800
-        }
-      ]
-    },
-    {
-      "id": "e_n_group_project_share_work",
-      "from": "n_group_project",
-      "port": "share_work",
-      "to": "n_rainy_commute",
-      "route": [
-        {
-          "x": 3648,
-          "y": 884
-        },
-        {
-          "x": 3696,
-          "y": 884
-        },
-        {
-          "x": 3696,
-          "y": 896
-        },
-        {
-          "x": 3744,
-          "y": 896
-        }
-      ]
+      "to": "n_group_project"
     },
     {
       "id": "e_n_group_project_finish_alone",
       "from": "n_group_project",
       "port": "finish_alone",
-      "to": "n_rainy_commute",
-      "route": [
-        {
-          "x": 3648,
-          "y": 907
-        },
-        {
-          "x": 3666,
-          "y": 907
-        },
-        {
-          "x": 3666,
-          "y": 896
-        },
-        {
-          "x": 3744,
-          "y": 896
-        }
-      ]
+      "to": "n_rainy_commute"
     },
     {
       "id": "e_n_rainy_commute_walk_in_rain",
       "from": "n_rainy_commute",
       "port": "walk_in_rain",
-      "to": "n_midterm_prep",
-      "route": [
-        {
-          "x": 3984,
-          "y": 980
-        },
-        {
-          "x": 4032,
-          "y": 980
-        },
-        {
-          "x": 4032,
-          "y": 968
-        },
-        {
-          "x": 4080,
-          "y": 968
-        }
-      ]
+      "to": "n_midterm_prep"
     },
     {
       "id": "e_n_rainy_commute_wait_bus",
       "from": "n_rainy_commute",
       "port": "wait_bus",
-      "to": "n_midterm_prep",
-      "route": [
-        {
-          "x": 3984,
-          "y": 1003
-        },
-        {
-          "x": 4002,
-          "y": 1003
-        },
-        {
-          "x": 4002,
-          "y": 968
-        },
-        {
-          "x": 4080,
-          "y": 968
-        }
-      ]
+      "to": "n_midterm_prep"
     },
     {
       "id": "e_n_midterm_prep_review_alone",
       "from": "n_midterm_prep",
       "port": "review_alone",
-      "to": "n_midterm_exam",
-      "route": [
-        {
-          "x": 4320,
-          "y": 1052
-        },
-        {
-          "x": 4368,
-          "y": 1052
-        },
-        {
-          "x": 4368,
-          "y": 1064
-        },
-        {
-          "x": 4416,
-          "y": 1064
-        }
-      ]
+      "to": "n_midterm_exam"
     },
     {
       "id": "e_n_midterm_prep_review_with_mali",
       "from": "n_midterm_prep",
       "port": "review_with_mali",
-      "to": "n_midterm_exam",
-      "route": [
-        {
-          "x": 4320,
-          "y": 1075
-        },
-        {
-          "x": 4338,
-          "y": 1075
-        },
-        {
-          "x": 4338,
-          "y": 1064
-        },
-        {
-          "x": 4416,
-          "y": 1064
-        }
-      ]
+      "to": "n_midterm_exam"
     },
     {
       "id": "e_n_midterm_exam_trust_preparation_n_mali_checkin",
@@ -1048,25 +833,7 @@
       "id": "e_next_y1_term1_next",
       "from": "next_y1_term1",
       "port": "next",
-      "to": "n_term_reflection",
-      "route": [
-        {
-          "x": 6000,
-          "y": 1047
-        },
-        {
-          "x": 6048,
-          "y": 1047
-        },
-        {
-          "x": 6048,
-          "y": 1040
-        },
-        {
-          "x": 6096,
-          "y": 1040
-        }
-      ]
+      "to": "n_term_reflection"
     },
     {
       "id": "e_n_term_reflection_keep_journal",
@@ -3049,6 +2816,78 @@
       "from": "n_first_class",
       "port": "choice_612503f7",
       "to": "n_dorm_evening"
+    },
+    {
+      "id": "e_n_first_class_ask_friend",
+      "from": "n_first_class",
+      "port": "ask_friend",
+      "to": "n_cafeteria_budget"
+    },
+    {
+      "id": "e_n_first_class_take_notes",
+      "from": "n_first_class",
+      "port": "take_notes",
+      "to": "n_dorm_evening"
+    },
+    {
+      "id": "e_n_dorm_evening_unpack_2",
+      "from": "n_dorm_evening",
+      "port": "unpack",
+      "to": "n_club_fair"
+    },
+    {
+      "id": "e_n_dorm_evening_rest",
+      "from": "n_dorm_evening",
+      "port": "rest",
+      "to": "n_club_fair"
+    },
+    {
+      "id": "e_n_cafeteria_budget_simple_meal",
+      "from": "n_cafeteria_budget",
+      "port": "simple_meal",
+      "to": "n_club_fair"
+    },
+    {
+      "id": "e_n_cafeteria_budget_treat_friend",
+      "from": "n_cafeteria_budget",
+      "port": "treat_friend",
+      "to": "n_club_fair"
+    },
+    {
+      "id": "e_n_cafeteria_budget_choice_36198460",
+      "from": "n_cafeteria_budget",
+      "port": "choice_36198460",
+      "to": "n_dorm_evening"
+    },
+    {
+      "id": "e_n_new_event_3_choice_9c98bddd",
+      "from": "n_new_event_3",
+      "port": "choice_9c98bddd",
+      "to": "n_new_event_2"
+    },
+    {
+      "id": "e_n_library_study_choice_37239af7",
+      "from": "n_library_study",
+      "port": "choice_37239af7",
+      "to": "n_rainy_commute"
+    },
+    {
+      "id": "e_n_group_project_choice_7b5dc293",
+      "from": "n_group_project",
+      "port": "choice_7b5dc293",
+      "to": "n_rainy_commute"
+    },
+    {
+      "id": "e_n_group_project_share_work",
+      "from": "n_group_project",
+      "port": "share_work",
+      "to": "n_midterm_prep"
+    },
+    {
+      "id": "e_n_rainy_commute_choice_9bfdac1b",
+      "from": "n_rainy_commute",
+      "port": "choice_9bfdac1b",
+      "to": "n_midterm_prep"
     }
   ]
 }

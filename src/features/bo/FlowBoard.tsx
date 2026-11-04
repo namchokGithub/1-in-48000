@@ -871,6 +871,11 @@ function Board({
       if (event.code === 'Slash') {
         event.preventDefault()
         goToRef.current?.focus()
+      } else if (event.code === 'KeyS' && event.shiftKey) {
+        // event.code keeps this working on a Thai keyboard layout.
+        event.preventDefault()
+        if (selectedNode?.type === 'event') onPreview(selectedNode.eventId)
+        else toast.info('เลือกการ์ดเหตุการณ์ก่อน แล้วกด Shift+S')
       } else if (event.code === 'KeyF') {
         event.preventDefault()
         if (selected) fitSelected()
@@ -1637,7 +1642,8 @@ function Board({
                       runContextAction(() => onPreview(contextNode.eventId))
                     }
                   >
-                    ทดลองเหตุการณ์
+                    ทดลองเหตุการณ์{' '}
+                    <kbd className="bo-simulation-kbd">Shift+S</kbd>
                   </button>
                   <button
                     type="button"
@@ -1862,8 +1868,9 @@ function NodeDetail({
             type="button"
             className="button button-secondary"
             onClick={() => onPreview(node.eventId)}
+            title="กด Shift+S เพื่อทดลองการ์ดที่เลือก"
           >
-            ทดลองเหตุการณ์
+            ทดลองเหตุการณ์ <kbd className="bo-simulation-kbd">Shift+S</kbd>
           </button>
         </div>
       )}
