@@ -261,7 +261,7 @@ describe('live V2 content', () => {
     }
   })
 
-  it('plays optional year-two term-one stories and rejoins the break', async () => {
+  it('plays optional year-two term-one stories and reaches term two', async () => {
     const files: Record<string, unknown> = {
       config,
       events,
@@ -292,15 +292,15 @@ describe('live V2 content', () => {
       const seen: string[] = []
       for (let step = 0; step < 12; step += 1) {
         const event = getV2CurrentEvent(content, save)!
-        if (event.id === 'group_research') break
+        if (event.id === 'y2_term2_return_routine') break
         seen.push(event.id)
         save =
           event.id === 'year_two_plans'
             ? chooseV2Many(content, save, ['review_notes', 'rest_well'])
             : chooseV2(content, save, choices[event.id])
       }
-      expect(save.currentEventId).toBe('group_research')
-      expect(save.currentTime.period).toBe('break')
+      expect(save.currentEventId).toBe('y2_term2_return_routine')
+      expect(save.currentTime.period).toBe('term2')
       return { seen, ledProject: save.flags.y2_led_project }
     }
 
@@ -460,6 +460,129 @@ describe('live V2 content', () => {
       ],
       workedCanteen: undefined,
       joinedWorkshop: undefined,
+    })
+  })
+
+  it('keeps every year-two term-two choice recapped', () => {
+    const ids = [
+      'y2_term2_return_routine',
+      'group_research',
+      'club_project',
+      'y2_term2_field_notes',
+      'y2_term2_workshop_method',
+      'y2_term2_presentation',
+      'y2_term2_feedback_reply',
+      'y2_term2_exam_week',
+      'y2_term2_term_review',
+    ]
+    const selected = events.filter((event) => ids.includes(event.id))
+    expect(selected).toHaveLength(ids.length)
+    for (const event of selected) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(4)
+      expect(
+        event.choices.every(
+          (choice) => 'recap' in choice && Boolean(choice.recap),
+        ),
+      ).toBe(true)
+    }
+  })
+
+  it('enters year-two term two before its stories and exits into summer', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (
+      flags: Record<string, boolean>,
+      choices: Record<string, string>,
+    ) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 2, period: 'term1' },
+        currentNodeId: 'n_course_choice',
+        currentEventId: 'course_choice',
+        flags,
+      }
+      save = chooseV2(content, save, 'keep_balance')
+      expect(save.currentEventId).toBe('y2_term2_return_routine')
+      expect(save.currentTime.period).toBe('term2')
+
+      const seen: string[] = []
+      for (let step = 0; step < 12; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'internship_application') break
+        seen.push(event.id)
+        save = chooseV2(content, save, choices[event.id])
+      }
+      expect(save.currentEventId).toBe('internship_application')
+      expect(save.currentTime.period).toBe('summer')
+      return { seen, requestedFeedback: save.flags.y2_term2_requested_feedback }
+    }
+
+    expect(
+      play(
+        { joined_club: true, summer_joined_workshop: true },
+        {
+          y2_term2_return_routine: 'check_deadlines',
+          group_research: 'listen_first',
+          club_project: 'share_tasks',
+          y2_term2_field_notes: 'ask_for_feedback',
+          y2_term2_workshop_method: 'adapt_method',
+          y2_term2_presentation: 'rehearse_with_group',
+          y2_term2_feedback_reply: 'revise_section',
+          y2_term2_exam_week: 'sleep_early',
+          y2_term2_term_review: 'archive_notes',
+        },
+      ),
+    ).toEqual({
+      seen: [
+        'y2_term2_return_routine',
+        'group_research',
+        'club_project',
+        'y2_term2_field_notes',
+        'y2_term2_workshop_method',
+        'y2_term2_presentation',
+        'y2_term2_feedback_reply',
+        'y2_term2_exam_week',
+        'y2_term2_term_review',
+      ],
+      requestedFeedback: true,
+    })
+    expect(
+      play(
+        {},
+        {
+          y2_term2_return_routine: 'leave_alarm',
+          group_research: 'draft_quickly',
+          y2_term2_field_notes: 'collect_sources',
+          y2_term2_presentation: 'let_friend_present',
+          y2_term2_exam_week: 'mute_group_chat',
+          y2_term2_term_review: 'postpone_cleanup',
+        },
+      ),
+    ).toEqual({
+      seen: [
+        'y2_term2_return_routine',
+        'group_research',
+        'y2_term2_field_notes',
+        'y2_term2_presentation',
+        'y2_term2_exam_week',
+        'y2_term2_term_review',
+      ],
+      requestedFeedback: undefined,
     })
   })
 

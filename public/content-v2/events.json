@@ -2921,6 +2921,78 @@
     ]
   },
   {
+    "id": "y2_term2_return_routine",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "กลับมาจับจังหวะเทอมสอง",
+    "sceneAssetId": "classroom_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังช่วงพักสั้น ๆ ตารางเรียนเทอมสองขึ้นเต็มหน้าจอ ห้องเรียนหลายวิชาย้ายไปคนละตึก"
+      },
+      {
+        "text": "คุณเปิดแชตที่ค้างไว้ เห็นทั้งกำหนดส่งงานและข้อความชวนกินข้าวจากเพื่อน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "check_deadlines",
+        "text": "จดกำหนดส่งกับห้องเรียนให้ครบ",
+        "conditions": [],
+        "recap": "คุณไล่ประกาศรายวิชาแล้วจดวันส่งงานกับห้องเรียนลงปฏิทิน ความวุ่นในหัวเริ่มเรียงเป็นข้อ ๆ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "meet_classmates",
+        "text": "นัดเพื่อนคุยแผนเรียนที่โรงอาหาร",
+        "conditions": [],
+        "recap": "คุณนั่งคุยตารางใหม่กับเพื่อน ได้รู้ว่าใครอยู่คาบเดียวกันและมีคนนัดเดินไปตึกถัดไปด้วย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -60
+          }
+        ]
+      },
+      {
+        "id": "leave_alarm",
+        "text": "ปิดแจ้งเตือนแล้วค่อยดูตอนเช้า",
+        "conditions": [],
+        "recap": "คุณปิดแจ้งเตือนและวางมือถือไว้ เช้าวันต่อมาต้องรีบไล่อ่านประกาศหลายอันพร้อมกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "group_research",
     "kind": "main",
     "randomizeChoices": true,
@@ -2956,7 +3028,8 @@
             "stat": "study",
             "amount": 4
           }
-        ]
+        ],
+        "recap": "คุณฟังเหตุผลของเพื่อนแต่ละคนก่อนช่วยกันแบ่งงาน กลุ่มได้คำถามวิจัยที่ทุกคนเข้าใจตรงกันและเริ่มหาข้อมูลได้"
       },
       {
         "id": "draft_quickly",
@@ -2973,7 +3046,8 @@
             "stat": "stress",
             "amount": 3
           }
-        ]
+        ],
+        "recap": "คุณรีบเขียนร่างคำถามวิจัยลงไฟล์ให้กลุ่มเห็นภาพ งานเริ่มคืบหน้า แต่ยังมีข้อท้วงติงที่ต้องกลับมาคุยกัน"
       }
     ]
   },
@@ -2991,7 +3065,7 @@
     "conditions": [],
     "lines": [
       {
-        "text": "คนในชมรมชวนจัดกิจกรรมให้รุ่นน้องหลังส่งงานกลุ่ม"
+        "text": "ระหว่างรอเพื่อนส่งส่วนของงานวิจัย คนในชมรมชวนจัดกิจกรรมเล็ก ๆ ให้รุ่นน้อง"
       },
       {
         "text": "คุณช่วยได้หลายแบบ โดยไม่ต้องรับทุกอย่างไว้คนเดียว"
@@ -3013,7 +3087,8 @@
             "stat": "money",
             "amount": -80
           }
-        ]
+        ],
+        "recap": "คุณช่วยจัดกิจกรรมกับเพื่อนชมรมจนรุ่นน้องมีพื้นที่ให้ลองทำอะไรใหม่ ๆ ได้รู้จักคนเพิ่ม แต่เงินค่าของที่ช่วยออกไปก็ลดลง 80 บาท"
       },
       {
         "id": "share_tasks",
@@ -3030,7 +3105,432 @@
             "stat": "study",
             "amount": 2
           }
+        ],
+        "recap": "คุณชวนคนในชมรมแบ่งงานกันตามเวลาว่าง ทุกคนรับผิดชอบส่วนของตัวเองและคุณยังมีเวลาทบทวนงานเรียนต่อ"
+      }
+    ]
+  },
+  {
+    "id": "y2_term2_field_notes",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "ข้อมูลที่หาได้ไม่เหมือนในโจทย์",
+    "sceneAssetId": "campus_library_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "กลุ่มเริ่มหาข้อมูลสำหรับคำถามวิจัย แต่แหล่งแรกที่เจอให้ตัวเลขไม่ตรงกัน"
+      },
+      {
+        "text": "คุณต้องเลือกว่าจะตรวจที่มาให้แน่ใจก่อน หรือทำร่างต่อจากข้อมูลที่มี"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ask_for_feedback",
+        "text": "รวบข้อสงสัยไปถามอาจารย์",
+        "conditions": [],
+        "recap": "คุณจดจุดที่ข้อมูลขัดกันและส่งคำถามให้อาจารย์ก่อนสรุปผล งานช้าลงนิดหน่อย แต่กลุ่มรู้ว่าต้องรอคำตอบเรื่องไหน",
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "y2_term2_requested_feedback",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
         ]
+      },
+      {
+        "id": "collect_sources",
+        "text": "เทียบแหล่งข้อมูลเพิ่มด้วยตัวเอง",
+        "conditions": [],
+        "recap": "คุณเปิดแหล่งข้อมูลอีกหลายแห่งและจดที่มาของแต่ละตัวเลขไว้ชัดเจน กว่าจะเสร็จก็เมื่อยตาไปทั้งบ่าย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "copy_random_links",
+        "text": "เก็บลิงก์ที่เจอไว้ก่อนโดยยังไม่ตรวจ",
+        "conditions": [],
+        "recap": "คุณแปะลิงก์หลายหน้าไว้ในไฟล์อย่างรวดเร็ว แต่พอเพื่อนถามว่าตัวเลขมาจากไหน คุณยังตอบไม่ได้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "y2_term2_workshop_method",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "วิธีจัดข้อมูลจากหน้าร้อน",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "summer_joined_workshop",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "ระหว่างเรียงข้อมูล คุณนึกถึงวิธีแยกหัวข้อที่เคยลองในเวิร์กช็อปช่วงหน้าร้อน"
+      },
+      {
+        "text": "เพื่อนในกลุ่มกำลังสับสนว่าไฟล์ไหนเป็นฉบับล่าสุด คุณอาจช่วยให้ทุกคนเห็นภาพเดียวกัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "adapt_method",
+        "text": "ลองใช้วิธีนั้นจัดไฟล์ของกลุ่ม",
+        "conditions": [],
+        "recap": "คุณแยกไฟล์ตามหัวข้อและใส่วันที่แก้ล่าสุด เพื่อนหาเอกสารเจอง่ายขึ้นและความสับสนในแชตลดลง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "explain_to_group",
+        "text": "เล่าวิธีจัดข้อมูลให้เพื่อนเลือกใช้",
+        "conditions": [],
+        "recap": "คุณอธิบายวิธีที่เคยลองให้กลุ่มฟัง ทุกคนช่วยกันปรับให้เข้ากับงานนี้และเริ่มแบ่งไฟล์ได้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "keep_old_system",
+        "text": "ใช้รูปแบบไฟล์เดิมต่อไปก่อน",
+        "conditions": [],
+        "recap": "คุณกลับไปใช้ไฟล์ที่กลุ่มคุ้นอยู่แล้วและจดไว้ว่าไฟล์ไหนต้องเปิดต่อ ไม่มีใครต้องย้ายงานกลางคัน",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term2_presentation",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "ร่างแรกหน้าห้อง",
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ถึงวันนำเสนอร่างงานวิจัย กลุ่มมีเวลาไม่กี่นาทีให้เล่าทั้งคำถาม วิธีหาข้อมูล และสิ่งที่ยังไม่แน่ใจ"
+      },
+      {
+        "text": "สไลด์พร้อมแล้ว แต่คนในกลุ่มยังถกกันว่าใครจะพูดช่วงที่ยากที่สุด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "rehearse_with_group",
+        "text": "ซ้อมแบ่งช่วงพูดก่อนเข้าห้อง",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนซ้อมสลับช่วงพูดหนึ่งรอบ พอขึ้นหน้าห้องทุกคนรู้คิวของตัวเอง แม้ยังมีอาการตื่นเต้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "wing_it",
+        "text": "รับช่วงยากแล้วพูดสด",
+        "conditions": [],
+        "recap": "คุณรับช่วงอธิบายข้อมูลที่ยังไม่ลงตัว พูดผ่านไปได้แต่ต้องหยุดคิดหลายครั้งและกลับมาสงสัยว่าตกหล่นอะไร",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "id": "let_friend_present",
+        "text": "ช่วยกดสไลด์ให้เพื่อนเป็นคนพูด",
+        "conditions": [],
+        "recap": "คุณช่วยเปิดสไลด์ตามจังหวะให้เพื่อนพูดจนจบ แล้วรับคำถามที่กลุ่มต้องกลับไปหาคำตอบต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term2_feedback_reply",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "คำตอบที่รอจากอาจารย์",
+    "sceneAssetId": "campus_library_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "y2_term2_requested_feedback",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "หลังนำเสนอร่าง อาจารย์ตอบคำถามที่คุณเคยส่งไว้ พร้อมชี้ว่าตัวเลขสองชุดใช้คนละช่วงเวลา"
+      },
+      {
+        "text": "งานยังแก้ทันก่อนส่งจริง แต่คนในกลุ่มเริ่มเหนื่อยกับไฟล์ที่เปลี่ยนอีกแล้ว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "revise_section",
+        "text": "แก้ส่วนข้อมูลตามคำแนะนำ",
+        "conditions": [],
+        "recap": "คุณแก้ตารางและเขียนที่มาของตัวเลขใหม่จนกลุ่มตรวจต่อได้ งานชัดขึ้นแต่กินเวลาพักไปอีกคืน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "discuss_with_group",
+        "text": "ชวนกลุ่มอ่านคำตอบพร้อมกัน",
+        "conditions": [],
+        "recap": "คุณส่งคำตอบของอาจารย์ให้ทุกคนดูแล้วคุยกันว่าควรแก้ตรงไหน เพื่อนช่วยรับแต่ละส่วนไปทำต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "save_for_later",
+        "text": "เก็บคำตอบไว้เปิดดูตอนแก้ไฟล์",
+        "conditions": [],
+        "recap": "คุณปักหมุดข้อความของอาจารย์ไว้ในแชตกลุ่มและบอกเพื่อนว่าจะกลับมาดูตอนรวมไฟล์",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term2_exam_week",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "งานส่งแล้ว สอบยังรออยู่",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "พอส่งงานวิจัยเสร็จ ปฏิทินก็เตือนสอบปลายภาคในอีกไม่กี่วัน"
+      },
+      {
+        "text": "เพื่อนส่งสรุปยาวหลายหน้าเข้ากรุ๊ป คุณมองเวลาแล้วต้องเลือกว่าจะอ่านแบบไหนให้ยังไหว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "review_case_studies",
+        "text": "อ่านกรณีศึกษาที่ออกบ่อย",
+        "conditions": [],
+        "recap": "คุณเลือกอ่านกรณีศึกษาที่เคยตอบพลาดและลองอธิบายด้วยคำของตัวเอง เข้าใจมากขึ้นแต่กว่าจะหยุดก็เริ่มล้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "sleep_early",
+        "text": "ปิดชีตแล้วนอนให้พอ",
+        "conditions": [],
+        "recap": "คุณวางสรุปไว้ข้างกระเป๋าแล้วนอนก่อนดึก เช้ามายังมีข้อที่ไม่แม่น แต่หัวไม่ตื้อเหมือนเมื่อคืน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "mute_group_chat",
+        "text": "ปิดเสียงแชตแล้วจัดของสอบ",
+        "conditions": [],
+        "recap": "คุณปิดเสียงแชต จัดบัตรนักศึกษาและปากกาให้ครบ แล้วเลิกเดาว่าคนอื่นอ่านไปถึงไหน",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term2_term_review",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term2"
+    },
+    "title": "หลังส่งข้อสอบปีสอง",
+    "sceneAssetId": "recreation_park",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "พอส่งข้อสอบวิชาสุดท้าย ทางเดินกลับหอโล่งกว่าที่คิด ปีสองผ่านมาครึ่งทางแล้ว"
+      },
+      {
+        "text": "ยังไม่รู้ผลทุกวิชา แต่คุณเลือกได้ว่าจะเก็บอะไรจากเทอมนี้ไว้ก่อนเข้าสู่หน้าร้อน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "archive_notes",
+        "text": "เก็บงานกับสรุปไว้หาได้ง่าย",
+        "conditions": [],
+        "recap": "คุณเรียงไฟล์งานและสรุปตามวิชา เจอร่างแรกที่เคยแก้จนจำแทบไม่ได้ และปิดคอมได้แบบไม่ค้างใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "visit_friends",
+        "text": "ชวนเพื่อนกินข้าวฉลองจบเทอม",
+        "conditions": [],
+        "recap": "คุณนั่งกินข้าวกับเพื่อนและเล่าเรื่องพลาดระหว่างเทอมจนขำกัน เงินมื้อนี้ลดไป 100 บาทแต่ได้ใช้เวลาด้วยกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -100
+          }
+        ]
+      },
+      {
+        "id": "postpone_cleanup",
+        "text": "กลับหอแล้วพักโดยยังไม่เก็บโต๊ะ",
+        "conditions": [],
+        "recap": "คุณวางกระเป๋าข้างโต๊ะที่ยังมีชีตกองอยู่ แล้วปล่อยให้เรื่องเก็บห้องเป็นของวันพรุ่งนี้",
+        "effects": []
       }
     ]
   },

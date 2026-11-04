@@ -97,6 +97,12 @@
   flex-wrap: wrap;
   gap: 0.4rem;
 }
+.bo-tab-group-items button,
+.bo-tab-trigger-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
 .bo-tab-group-items button {
   border: 1px solid transparent;
   border-radius: var(--radius-control);

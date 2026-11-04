@@ -620,6 +620,23 @@
       "type": "nextPeriod"
     },
     {
+      "id": "next_y2_break_to_term2",
+      "position": {
+        "x": 8112,
+        "y": 1368
+      },
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_y2_term2_return_routine",
+      "position": {
+        "x": 8448,
+        "y": 1368
+      },
+      "type": "event",
+      "eventId": "y2_term2_return_routine"
+    },
+    {
       "id": "n_group_research",
       "position": {
         "x": 8808,
@@ -636,6 +653,92 @@
       },
       "type": "event",
       "eventId": "club_project"
+    },
+    {
+      "id": "n_y2_term2_field_notes",
+      "position": {
+        "x": 10032,
+        "y": 1488
+      },
+      "type": "event",
+      "eventId": "y2_term2_field_notes"
+    },
+    {
+      "id": "condition_y2_term2_workshop",
+      "position": {
+        "x": 10368,
+        "y": 1488
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "summer_joined_workshop",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_y2_term2_workshop_method",
+      "position": {
+        "x": 10704,
+        "y": 1104
+      },
+      "type": "event",
+      "eventId": "y2_term2_workshop_method"
+    },
+    {
+      "id": "n_y2_term2_presentation",
+      "position": {
+        "x": 10704,
+        "y": 1488
+      },
+      "type": "event",
+      "eventId": "y2_term2_presentation"
+    },
+    {
+      "id": "condition_y2_term2_feedback",
+      "position": {
+        "x": 11040,
+        "y": 1848
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "y2_term2_requested_feedback",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_y2_term2_feedback_reply",
+      "position": {
+        "x": 11040,
+        "y": 2208
+      },
+      "type": "event",
+      "eventId": "y2_term2_feedback_reply"
+    },
+    {
+      "id": "n_y2_term2_exam_week",
+      "position": {
+        "x": 10704,
+        "y": 2208
+      },
+      "type": "event",
+      "eventId": "y2_term2_exam_week"
+    },
+    {
+      "id": "n_y2_term2_term_review",
+      "position": {
+        "x": 10368,
+        "y": 2208
+      },
+      "type": "event",
+      "eventId": "y2_term2_term_review"
     },
     {
       "id": "next_y2_term2",
@@ -1857,7 +1960,7 @@
       "id": "e_next_y2_break_next",
       "from": "next_y2_break",
       "port": "next",
-      "to": "n_group_research"
+      "to": "next_y2_break_to_term2"
     },
     {
       "id": "e_n_group_research_listen_first_n_club_project",
@@ -1874,7 +1977,7 @@
       "id": "e_n_group_research_listen_first_next_y2_term2",
       "from": "n_group_research",
       "port": "listen_first",
-      "to": "next_y2_term2"
+      "to": "n_y2_term2_field_notes"
     },
     {
       "id": "e_n_group_research_draft_quickly_n_club_project",
@@ -1891,18 +1994,174 @@
       "id": "e_n_group_research_draft_quickly_next_y2_term2",
       "from": "n_group_research",
       "port": "draft_quickly",
-      "to": "next_y2_term2"
+      "to": "n_y2_term2_field_notes"
     },
     {
       "id": "e_n_club_project_organize_event",
       "from": "n_club_project",
       "port": "organize_event",
-      "to": "next_y2_term2"
+      "to": "n_y2_term2_field_notes"
     },
     {
       "id": "e_n_club_project_share_tasks",
       "from": "n_club_project",
       "port": "share_tasks",
+      "to": "n_y2_term2_field_notes"
+    },
+    {
+      "id": "e_next_y2_break_to_term2_next_n_y2_term2_return_routine",
+      "from": "next_y2_break_to_term2",
+      "port": "next",
+      "to": "n_y2_term2_return_routine"
+    },
+    {
+      "id": "e_n_y2_term2_return_routine_check_deadlines_n_group_research",
+      "from": "n_y2_term2_return_routine",
+      "port": "check_deadlines",
+      "to": "n_group_research"
+    },
+    {
+      "id": "e_n_y2_term2_return_routine_meet_classmates_n_group_research",
+      "from": "n_y2_term2_return_routine",
+      "port": "meet_classmates",
+      "to": "n_group_research"
+    },
+    {
+      "id": "e_n_y2_term2_return_routine_leave_alarm_n_group_research",
+      "from": "n_y2_term2_return_routine",
+      "port": "leave_alarm",
+      "to": "n_group_research"
+    },
+    {
+      "id": "e_n_y2_term2_field_notes_ask_for_feedback_condition_y2_term2_workshop",
+      "from": "n_y2_term2_field_notes",
+      "port": "ask_for_feedback",
+      "to": "condition_y2_term2_workshop"
+    },
+    {
+      "id": "e_n_y2_term2_field_notes_collect_sources_condition_y2_term2_workshop",
+      "from": "n_y2_term2_field_notes",
+      "port": "collect_sources",
+      "to": "condition_y2_term2_workshop"
+    },
+    {
+      "id": "e_n_y2_term2_field_notes_copy_random_links_condition_y2_term2_workshop",
+      "from": "n_y2_term2_field_notes",
+      "port": "copy_random_links",
+      "to": "condition_y2_term2_workshop"
+    },
+    {
+      "id": "e_condition_y2_term2_workshop_pass_n_y2_term2_workshop_method",
+      "from": "condition_y2_term2_workshop",
+      "port": "pass",
+      "to": "n_y2_term2_workshop_method"
+    },
+    {
+      "id": "e_condition_y2_term2_workshop_fail_n_y2_term2_presentation",
+      "from": "condition_y2_term2_workshop",
+      "port": "fail",
+      "to": "n_y2_term2_presentation"
+    },
+    {
+      "id": "e_n_y2_term2_workshop_method_adapt_method_n_y2_term2_presentation",
+      "from": "n_y2_term2_workshop_method",
+      "port": "adapt_method",
+      "to": "n_y2_term2_presentation"
+    },
+    {
+      "id": "e_n_y2_term2_workshop_method_explain_to_group_n_y2_term2_presentation",
+      "from": "n_y2_term2_workshop_method",
+      "port": "explain_to_group",
+      "to": "n_y2_term2_presentation"
+    },
+    {
+      "id": "e_n_y2_term2_workshop_method_keep_old_system_n_y2_term2_presentation",
+      "from": "n_y2_term2_workshop_method",
+      "port": "keep_old_system",
+      "to": "n_y2_term2_presentation"
+    },
+    {
+      "id": "e_n_y2_term2_presentation_rehearse_with_group_condition_y2_term2_feedback",
+      "from": "n_y2_term2_presentation",
+      "port": "rehearse_with_group",
+      "to": "condition_y2_term2_feedback"
+    },
+    {
+      "id": "e_n_y2_term2_presentation_wing_it_condition_y2_term2_feedback",
+      "from": "n_y2_term2_presentation",
+      "port": "wing_it",
+      "to": "condition_y2_term2_feedback"
+    },
+    {
+      "id": "e_n_y2_term2_presentation_let_friend_present_condition_y2_term2_feedback",
+      "from": "n_y2_term2_presentation",
+      "port": "let_friend_present",
+      "to": "condition_y2_term2_feedback"
+    },
+    {
+      "id": "e_condition_y2_term2_feedback_pass_n_y2_term2_feedback_reply",
+      "from": "condition_y2_term2_feedback",
+      "port": "pass",
+      "to": "n_y2_term2_feedback_reply"
+    },
+    {
+      "id": "e_condition_y2_term2_feedback_fail_n_y2_term2_exam_week",
+      "from": "condition_y2_term2_feedback",
+      "port": "fail",
+      "to": "n_y2_term2_exam_week"
+    },
+    {
+      "id": "e_n_y2_term2_feedback_reply_revise_section_n_y2_term2_exam_week",
+      "from": "n_y2_term2_feedback_reply",
+      "port": "revise_section",
+      "to": "n_y2_term2_exam_week"
+    },
+    {
+      "id": "e_n_y2_term2_feedback_reply_discuss_with_group_n_y2_term2_exam_week",
+      "from": "n_y2_term2_feedback_reply",
+      "port": "discuss_with_group",
+      "to": "n_y2_term2_exam_week"
+    },
+    {
+      "id": "e_n_y2_term2_feedback_reply_save_for_later_n_y2_term2_exam_week",
+      "from": "n_y2_term2_feedback_reply",
+      "port": "save_for_later",
+      "to": "n_y2_term2_exam_week"
+    },
+    {
+      "id": "e_n_y2_term2_exam_week_review_case_studies_n_y2_term2_term_review",
+      "from": "n_y2_term2_exam_week",
+      "port": "review_case_studies",
+      "to": "n_y2_term2_term_review"
+    },
+    {
+      "id": "e_n_y2_term2_exam_week_sleep_early_n_y2_term2_term_review",
+      "from": "n_y2_term2_exam_week",
+      "port": "sleep_early",
+      "to": "n_y2_term2_term_review"
+    },
+    {
+      "id": "e_n_y2_term2_exam_week_mute_group_chat_n_y2_term2_term_review",
+      "from": "n_y2_term2_exam_week",
+      "port": "mute_group_chat",
+      "to": "n_y2_term2_term_review"
+    },
+    {
+      "id": "e_n_y2_term2_term_review_archive_notes_next_y2_term2",
+      "from": "n_y2_term2_term_review",
+      "port": "archive_notes",
+      "to": "next_y2_term2"
+    },
+    {
+      "id": "e_n_y2_term2_term_review_visit_friends_next_y2_term2",
+      "from": "n_y2_term2_term_review",
+      "port": "visit_friends",
+      "to": "next_y2_term2"
+    },
+    {
+      "id": "e_n_y2_term2_term_review_postpone_cleanup_next_y2_term2",
+      "from": "n_y2_term2_term_review",
+      "port": "postpone_cleanup",
       "to": "next_y2_term2"
     },
     {

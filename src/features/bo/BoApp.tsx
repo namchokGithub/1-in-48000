@@ -795,8 +795,11 @@ export function BoApp() {
                 <span className="bo-tab-trigger-group">
                   {currentGroup?.label} ›
                 </span>
-                <span>
-                  {sectionLabels[section]} {currentTab?.count}
+                <span className="bo-tab-trigger-name">
+                  {sectionLabels[section]}
+                  {currentTab && (
+                    <Badge variant="secondary">{currentTab.count}</Badge>
+                  )}
                 </span>
                 {dirtyAny && (
                   <span className="bo-tab-dirty" title="มีหน้าที่ยังไม่บันทึก">
@@ -821,8 +824,17 @@ export function BoApp() {
                               setTabMenuOpen(false)
                             }}
                           >
-                            {sectionLabels[tab.section]} {tab.count}
-                            {tab.dirty ? ' •' : ''}
+                            {sectionLabels[tab.section]}
+                            <Badge
+                              variant={
+                                section === tab.section
+                                  ? 'default'
+                                  : 'secondary'
+                              }
+                            >
+                              {tab.count}
+                            </Badge>
+                            {tab.dirty ? '•' : ''}
                           </button>
                         ))}
                       </div>
