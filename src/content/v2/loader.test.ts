@@ -697,6 +697,117 @@ describe('live V2 content', () => {
     })
   })
 
+  it('keeps every year-two summer choice recapped', () => {
+    const ids = [
+      'internship_application',
+      'y2_summer_application_followup',
+      'y2_summer_paid_shift',
+      'y2_summer_calendar_collision',
+      'y2_summer_heat_route',
+      'y2_summer_peer_request',
+      'y2_summer_peer_followup',
+      'y2_summer_portfolio_notes',
+      'y2_summer_last_week',
+    ]
+    const selected = events.filter((event) => ids.includes(event.id))
+    expect(selected).toHaveLength(ids.length)
+    for (const event of selected) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(4)
+      expect(event.choices.every((choice) => Boolean(choice.recap))).toBe(true)
+    }
+  })
+
+  it('plays both summer work routes and optional peer follow-up into year three', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (choices: Record<string, string>) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 2, period: 'summer' },
+        currentNodeId: 'n_internship_application',
+        currentEventId: 'internship_application',
+      }
+      const seen: string[] = []
+      for (let step = 0; step < 12; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'fieldwork_start') break
+        seen.push(event.id)
+        save = chooseV2(content, save, choices[event.id])
+      }
+      expect(save.currentEventId).toBe('fieldwork_start')
+      expect(save.currentTime).toEqual({ year: 3, period: 'term1' })
+      return {
+        seen,
+        applied: save.flags.applied_internship,
+        helpedPeer: save.flags.y2_summer_helped_peer,
+      }
+    }
+
+    expect(
+      play({
+        internship_application: 'apply_internship',
+        y2_summer_application_followup: 'send_documents',
+        y2_summer_calendar_collision: 'block_study_time',
+        y2_summer_heat_route: 'carry_water',
+        y2_summer_peer_request: 'help_outline',
+        y2_summer_peer_followup: 'review_draft',
+        y2_summer_portfolio_notes: 'record_lessons',
+        y2_summer_last_week: 'check_year3_notice',
+      }),
+    ).toEqual({
+      seen: [
+        'internship_application',
+        'y2_summer_application_followup',
+        'y2_summer_calendar_collision',
+        'y2_summer_heat_route',
+        'y2_summer_peer_request',
+        'y2_summer_peer_followup',
+        'y2_summer_portfolio_notes',
+        'y2_summer_last_week',
+      ],
+      applied: true,
+      helpedPeer: true,
+    })
+    expect(
+      play({
+        internship_application: 'take_paid_work',
+        y2_summer_paid_shift: 'keep_regular_hours',
+        y2_summer_calendar_collision: 'drop_plan',
+        y2_summer_heat_route: 'wait_out_heat',
+        y2_summer_peer_request: 'decline_politely',
+        y2_summer_portfolio_notes: 'leave_blank',
+        y2_summer_last_week: 'sleep_in',
+      }),
+    ).toEqual({
+      seen: [
+        'internship_application',
+        'y2_summer_paid_shift',
+        'y2_summer_calendar_collision',
+        'y2_summer_heat_route',
+        'y2_summer_peer_request',
+        'y2_summer_portfolio_notes',
+        'y2_summer_last_week',
+      ],
+      applied: undefined,
+      helpedPeer: undefined,
+    })
+  })
+
   it('loads the authored story with the shared V2 schema', async () => {
     const files: Record<string, unknown> = {
       config,
