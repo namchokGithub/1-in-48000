@@ -2921,6 +2921,465 @@
     ]
   },
   {
+    "id": "y2_break_midterm_feedback",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "หน้าผลสอบที่ยังไม่อยากเปิด",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังเลือกวิชาสำหรับเทอมหน้า ระบบก็แจ้งว่าข้อเสนอแนะจากสอบกลางภาควิชาหนึ่งออกแล้ว"
+      },
+      {
+        "text": "คุณจ้องปุ่มเปิดรายละเอียดอยู่พักใหญ่ ก่อนตัดสินใจว่าจะรับมือกับมันอย่างไร"
+      }
+    ],
+    "choices": [
+      {
+        "id": "review_comments",
+        "text": "เปิดอ่านว่าพลาดตรงไหน",
+        "conditions": [],
+        "recap": "คุณอ่านคำแนะนำทีละข้อและจดหัวข้อที่ยังไม่เข้าใจไว้ พอเห็นจุดที่แก้ได้ ความกังวลก็เริ่มเบาลง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "compare_scores",
+        "text": "ทักถามเพื่อนว่าเขาทำได้เท่าไร",
+        "conditions": [],
+        "recap": "คุณคุยเรื่องคะแนนกับเพื่อนจนรู้ว่าหลายคนก็ติดข้อเดียวกัน แต่พอปิดแชตก็ยังเผลอเอาตัวเองไปเทียบอยู่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "close_portal",
+        "text": "ปิดหน้าเว็บไว้ก่อน",
+        "conditions": [],
+        "recap": "คุณปิดหน้าเว็บแล้วหันไปเก็บของบนโต๊ะ ข้อเสนอแนะยังอยู่ในระบบ รอวันที่คุณพร้อมกลับมาอ่าน",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_break_idle_morning",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "เช้าที่ไม่มีนาฬิกาปลุก",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "วันแรกของช่วงพัก คุณตื่นสายได้อย่างที่บอกตัวเองมาหลายสัปดาห์"
+      },
+      {
+        "text": "แต่ถุงผ้ากองข้างประตูสูงจนเหมือนกำลังจะสมัครเป็นรูมเมตอีกคน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "wash_laundry",
+        "text": "หอบผ้าไปซักก่อนเครื่องจะเต็ม",
+        "conditions": [],
+        "recap": "คุณขนผ้าลงไปทันเครื่องสุดท้ายก่อนคนอื่นจะมาต่อคิว กลับห้องมาพร้อมเสื้อสะอาดและกลิ่นน้ำยาซักผ้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "binge_series",
+        "text": "ดูซีรีส์อีกตอนแล้วค่อยลุก",
+        "conditions": [],
+        "recap": "คุณดูต่อจากหนึ่งตอนเป็นสามตอน พอเงยหน้ามาแดดบ่ายก็ส่องเข้าห้องและผ้ายังอยู่ที่เดิม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "do_nothing",
+        "text": "นั่งนิ่ง ๆ ให้เช้านี้ผ่านไป",
+        "conditions": [],
+        "recap": "คุณเปิดม่านรับแสงแล้วนั่งอยู่กับความเงียบสักพัก ก่อนค่อยตัดสินใจว่าจะเริ่มวันตรงไหน",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_break_mali_checkin",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "ข้อความจากมะลิในวันพัก",
+    "sceneAssetId": "recreation_park",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "met_mali",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "มะลิส่งรูปชีตที่ขีดจนแทบไม่มีที่ว่างมาให้ดู พร้อมถามว่าคุณพักเป็นบ้างหรือยัง"
+      },
+      {
+        "text": "คุณเห็นข้อความแล้วนึกถึงวันที่เคยซ้อมพรีเซนต์ด้วยกัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "reply_honestly",
+        "text": "ตอบว่ากำลังค่อย ๆ พัก",
+        "conditions": [],
+        "recap": "คุณบอกมะลิว่าช่วงนี้ยังมึน ๆ หลังสอบ เธอตอบกลับว่าเธอก็เหมือนกัน แล้วทั้งคู่คุยเรื่องอื่นจนลืมชีตไปพักหนึ่ง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "send_meme",
+        "text": "ส่งมีมเครื่องซักผ้าที่เต็มก่อนถึงคิว",
+        "conditions": [],
+        "recap": "คุณส่งรูปเครื่องซักผ้ากับคำบ่นสั้น ๆ มะลิส่งรูปกองชีตกลับมาและแซวว่าทั้งคู่มีงานบ้านคนละแบบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "read_later",
+        "text": "เก็บข้อความไว้ตอบหลังจัดของ",
+        "conditions": [],
+        "recap": "คุณปักหมุดข้อความของมะลิไว้แล้วกลับไปจัดของบนโต๊ะ แชตยังรอคำตอบอยู่เมื่อคุณหยิบมือถืออีกครั้ง",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_break_notes_request",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "ไฟล์สรุปที่เพื่อนตามหา",
+    "sceneAssetId": "campus_library_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนในวิชาที่เพิ่งสอบทักมาขอสรุปหัวข้อที่อาจารย์แนะนำให้ทบทวนก่อนเปิดเทอม"
+      },
+      {
+        "text": "คุณมีไฟล์ที่จดเองอยู่ แต่ยังมีบางหน้าที่อ่านลายมือตัวเองแทบไม่ออก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "share_summary",
+        "text": "ส่งไฟล์ที่มีพร้อมบอกหน้าที่ยังไม่แน่ใจ",
+        "conditions": [],
+        "recap": "คุณส่งไฟล์และวงหัวข้อที่ต้องตรวจอีกครั้ง เพื่อนขอบคุณที่บอกตรง ๆ ว่าตรงไหนยังไม่ชัวร์",
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "y2_break_sent_notes",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "polish_first",
+        "text": "เรียบเรียงของตัวเองก่อนค่อยตอบ",
+        "conditions": [],
+        "recap": "คุณนั่งจัดสรุปใหม่จนอ่านเข้าใจขึ้น แล้วบอกเพื่อนว่าขอเวลาอีกหน่อยก่อนส่งไฟล์",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "decline_gently",
+        "text": "บอกว่าไฟล์ยังไม่พร้อมให้ใช้ต่อ",
+        "conditions": [],
+        "recap": "คุณตอบเพื่อนว่าโน้ตชุดนี้ยังมีจุดผิดที่ไม่ได้ตรวจ เพื่อนรับรู้แล้วไปหาเอกสารจากแหล่งอื่น",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_break_family_call",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "สายโทรเข้าจากบ้าน",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คนที่บ้านโทรมาถามว่าช่วงพักเป็นอย่างไรบ้าง เสียงปลายสายแทรกกับเสียงรถที่วิ่งผ่านหน้าหอ"
+      },
+      {
+        "text": "คุณมีเวลาเล่าเรื่องสอบ เรื่องเพื่อน หรือจะฟังเรื่องทางบ้านก่อนก็ได้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "tell_them_truth",
+        "text": "เล่าว่าช่วงสอบเหนื่อยกว่าที่คิด",
+        "conditions": [],
+        "recap": "คุณเล่าเรื่องที่กังวลโดยไม่ต้องสรุปให้ดูดี ปลายสายฟังจนจบแล้วชวนคุยเรื่องเล็ก ๆ ที่บ้านต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "say_all_fine",
+        "text": "ตอบสั้น ๆ ว่าทุกอย่างเรียบร้อย",
+        "conditions": [],
+        "recap": "คุณบอกว่าทุกอย่างโอเคแล้วรีบวางสาย เรื่องที่ยังค้างในใจก็กลับมาเมื่อห้องเงียบลง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "ask_about_home",
+        "text": "ถามว่าที่บ้านมีอะไรเกิดขึ้นบ้าง",
+        "conditions": [],
+        "recap": "คุณฟังเรื่องอาหารมื้อเย็นกับของที่ต้องซ่อมที่บ้าน พอวางสายก็ยังนึกภาพโต๊ะกินข้าวออก",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_break_notes_followup",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "คำถามท้ายไฟล์สรุป",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "y2_break_sent_notes",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "เพื่อนที่ได้ไฟล์สรุปส่งข้อความกลับมา เขาสงสัยประโยคหนึ่งที่คุณวงไว้ว่าไม่แน่ใจ"
+      },
+      {
+        "text": "คุณยังมีแหล่งที่มาของโน้ตอยู่ แต่ต้องเปิดดูอีกครั้งก่อนตอบให้ชัด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "answer_question",
+        "text": "เปิดต้นฉบับแล้วช่วยไล่คำตอบ",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนเทียบข้อความในชีตกับประกาศรายวิชา ก่อนแก้ประโยคที่ทำให้เข้าใจผิดในไฟล์ร่วมกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "point_to_source",
+        "text": "ส่งลิงก์ต้นฉบับให้เพื่อนตรวจเอง",
+        "conditions": [],
+        "recap": "คุณส่งลิงก์ประกาศรายวิชาพร้อมบอกหน้าที่เกี่ยวข้อง เพื่อนเปิดอ่านต่อและขอบคุณที่ช่วยชี้ทาง",
+        "effects": []
+      },
+      {
+        "id": "delay_reply",
+        "text": "อ่านแล้วเก็บไว้ตอบหลังพัก",
+        "conditions": [],
+        "recap": "คุณอ่านคำถามแล้ววางมือถือไว้ แต่ระหว่างพักก็เผลอนึกถึงประโยคนั้นหลายรอบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "y2_break_last_evening",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "break"
+    },
+    "title": "คืนก่อนตารางใหม่เริ่ม",
+    "sceneAssetId": "dorm_room",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คืนสุดท้ายของช่วงพัก กระเป๋ายังเปิดอยู่ ส่วนประกาศตารางเทอมสองเด้งขึ้นมาบนหน้าจอ"
+      },
+      {
+        "text": "พรุ่งนี้ต้องกลับไปเดินข้ามตึกอีกครั้ง คุณเลือกได้ว่าจะจบคืนนี้แบบไหน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "pack_essentials",
+        "text": "จัดบัตรกับของเรียนไว้ก่อนนอน",
+        "conditions": [],
+        "recap": "คุณวางบัตรนักศึกษา สมุด และสายชาร์จไว้ในกระเป๋า เช้ามาจะได้ไม่ต้องรื้อหาจนเหงื่อออก",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "meet_friend",
+        "text": "ออกไปกินข้าวกับเพื่อนใกล้หอ",
+        "conditions": [],
+        "recap": "คุณนั่งกินข้าวกับเพื่อนและบ่นเรื่องทางเดินข้ามตึกกันจนหัวเราะ ก่อนจ่ายค่ามื้อเย็นแล้วกลับมาเก็บกระเป๋า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -80
+          }
+        ]
+      },
+      {
+        "id": "leave_for_morning",
+        "text": "ปิดไฟแล้วค่อยจัดของตอนเช้า",
+        "conditions": [],
+        "recap": "คุณวางมือถือข้างหมอนและปิดไฟ กระเป๋ายังเปิดอยู่ให้พรุ่งนี้เช้าค่อยจัดต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
     "id": "y2_term2_return_routine",
     "kind": "main",
     "randomizeChoices": true,

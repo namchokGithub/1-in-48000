@@ -261,7 +261,7 @@ describe('live V2 content', () => {
     }
   })
 
-  it('plays optional year-two term-one stories and reaches term two', async () => {
+  it('plays optional year-two term-one stories and reaches the break', async () => {
     const files: Record<string, unknown> = {
       config,
       events,
@@ -292,15 +292,15 @@ describe('live V2 content', () => {
       const seen: string[] = []
       for (let step = 0; step < 12; step += 1) {
         const event = getV2CurrentEvent(content, save)!
-        if (event.id === 'y2_term2_return_routine') break
+        if (event.id === 'y2_break_midterm_feedback') break
         seen.push(event.id)
         save =
           event.id === 'year_two_plans'
             ? chooseV2Many(content, save, ['review_notes', 'rest_well'])
             : chooseV2(content, save, choices[event.id])
       }
-      expect(save.currentEventId).toBe('y2_term2_return_routine')
-      expect(save.currentTime.period).toBe('term2')
+      expect(save.currentEventId).toBe('y2_break_midterm_feedback')
+      expect(save.currentTime.period).toBe('break')
       return { seen, ledProject: save.flags.y2_led_project }
     }
 
@@ -463,6 +463,117 @@ describe('live V2 content', () => {
     })
   })
 
+  it('keeps every year-two break choice recapped', () => {
+    const ids = [
+      'y2_break_midterm_feedback',
+      'y2_break_idle_morning',
+      'y2_break_mali_checkin',
+      'y2_break_notes_request',
+      'y2_break_family_call',
+      'y2_break_notes_followup',
+      'y2_break_last_evening',
+    ]
+    const selected = events.filter((event) => ids.includes(event.id))
+    expect(selected).toHaveLength(ids.length)
+    for (const event of selected) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(3)
+      expect(event.choices.every((choice) => Boolean(choice.recap))).toBe(true)
+    }
+  })
+
+  it('plays year-two break branches and enters term two', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (
+      flags: Record<string, boolean>,
+      choices: Record<string, string>,
+    ) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 2, period: 'term1' },
+        currentNodeId: 'n_course_choice',
+        currentEventId: 'course_choice',
+        flags,
+      }
+      save = chooseV2(content, save, 'keep_balance')
+      expect(save.currentEventId).toBe('y2_break_midterm_feedback')
+      expect(save.currentTime.period).toBe('break')
+
+      const seen: string[] = []
+      for (let step = 0; step < 10; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'y2_term2_return_routine') break
+        seen.push(event.id)
+        save = chooseV2(content, save, choices[event.id])
+      }
+      expect(save.currentEventId).toBe('y2_term2_return_routine')
+      expect(save.currentTime.period).toBe('term2')
+      return { seen, sentNotes: save.flags.y2_break_sent_notes }
+    }
+
+    expect(
+      play(
+        { met_mali: true },
+        {
+          y2_break_midterm_feedback: 'review_comments',
+          y2_break_idle_morning: 'wash_laundry',
+          y2_break_mali_checkin: 'reply_honestly',
+          y2_break_notes_request: 'share_summary',
+          y2_break_family_call: 'tell_them_truth',
+          y2_break_notes_followup: 'answer_question',
+          y2_break_last_evening: 'pack_essentials',
+        },
+      ),
+    ).toEqual({
+      seen: [
+        'y2_break_midterm_feedback',
+        'y2_break_idle_morning',
+        'y2_break_mali_checkin',
+        'y2_break_notes_request',
+        'y2_break_family_call',
+        'y2_break_notes_followup',
+        'y2_break_last_evening',
+      ],
+      sentNotes: true,
+    })
+    expect(
+      play(
+        {},
+        {
+          y2_break_midterm_feedback: 'close_portal',
+          y2_break_idle_morning: 'do_nothing',
+          y2_break_notes_request: 'decline_gently',
+          y2_break_family_call: 'ask_about_home',
+          y2_break_last_evening: 'leave_for_morning',
+        },
+      ),
+    ).toEqual({
+      seen: [
+        'y2_break_midterm_feedback',
+        'y2_break_idle_morning',
+        'y2_break_notes_request',
+        'y2_break_family_call',
+        'y2_break_last_evening',
+      ],
+      sentNotes: undefined,
+    })
+  })
+
   it('keeps every year-two term-two choice recapped', () => {
     const ids = [
       'y2_term2_return_routine',
@@ -511,12 +622,12 @@ describe('live V2 content', () => {
       let save = createV2Game(content, 42)
       save = {
         ...save,
-        currentTime: { year: 2, period: 'term1' },
-        currentNodeId: 'n_course_choice',
-        currentEventId: 'course_choice',
+        currentTime: { year: 2, period: 'break' },
+        currentNodeId: 'n_y2_break_last_evening',
+        currentEventId: 'y2_break_last_evening',
         flags,
       }
-      save = chooseV2(content, save, 'keep_balance')
+      save = chooseV2(content, save, 'pack_essentials')
       expect(save.currentEventId).toBe('y2_term2_return_routine')
       expect(save.currentTime.period).toBe('term2')
 
