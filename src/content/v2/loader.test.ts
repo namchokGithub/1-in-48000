@@ -235,6 +235,131 @@ describe('live V2 content', () => {
     })
   })
 
+  it('keeps every year-two term-one choice recapped', () => {
+    const ids = [
+      'sophomore_welcome',
+      'year_two_plans',
+      'y2_term1_timetable_shuffle',
+      'y2_term1_club_booth',
+      'y2_term1_group_roles',
+      'y2_term1_team_update',
+      'y2_term1_budget_gap',
+      'y2_term1_mali_practice',
+      'y2_term1_midterm_week',
+      'course_choice',
+    ]
+    const selected = events.filter((event) => ids.includes(event.id))
+    expect(selected).toHaveLength(ids.length)
+    for (const event of selected) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(4)
+      expect(
+        event.choices.every(
+          (choice) => 'recap' in choice && Boolean(choice.recap),
+        ),
+      ).toBe(true)
+    }
+  })
+
+  it('plays optional year-two term-one stories and rejoins the break', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (
+      flags: Record<string, boolean>,
+      choices: Record<string, string>,
+    ) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 2, period: 'term1' },
+        currentNodeId: 'n_sophomore_welcome',
+        currentEventId: 'sophomore_welcome',
+        flags,
+      }
+      const seen: string[] = []
+      for (let step = 0; step < 12; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'group_research') break
+        seen.push(event.id)
+        save =
+          event.id === 'year_two_plans'
+            ? chooseV2Many(content, save, ['review_notes', 'rest_well'])
+            : chooseV2(content, save, choices[event.id])
+      }
+      expect(save.currentEventId).toBe('group_research')
+      expect(save.currentTime.period).toBe('break')
+      return { seen, ledProject: save.flags.y2_led_project }
+    }
+
+    expect(
+      play(
+        { joined_club: true, met_mali: true },
+        {
+          sophomore_welcome: 'guide_newcomers',
+          y2_term1_timetable_shuffle: 'check_room_changes',
+          y2_term1_club_booth: 'help_at_booth',
+          y2_term1_group_roles: 'coordinate_group',
+          y2_term1_team_update: 'talk_to_teammate',
+          y2_term1_budget_gap: 'use_digital_copy',
+          y2_term1_mali_practice: 'practice_together',
+          y2_term1_midterm_week: 'sleep_before_exam',
+          course_choice: 'keep_balance',
+        },
+      ),
+    ).toEqual({
+      seen: [
+        'sophomore_welcome',
+        'year_two_plans',
+        'y2_term1_timetable_shuffle',
+        'y2_term1_club_booth',
+        'y2_term1_group_roles',
+        'y2_term1_team_update',
+        'y2_term1_budget_gap',
+        'y2_term1_mali_practice',
+        'y2_term1_midterm_week',
+        'course_choice',
+      ],
+      ledProject: true,
+    })
+    expect(
+      play(
+        {},
+        {
+          sophomore_welcome: 'prepare_classes',
+          y2_term1_timetable_shuffle: 'ask_classmate',
+          y2_term1_group_roles: 'take_defined_part',
+          y2_term1_budget_gap: 'use_digital_copy',
+          y2_term1_midterm_week: 'leave_exam_chat',
+          course_choice: 'keep_balance',
+        },
+      ),
+    ).toEqual({
+      seen: [
+        'sophomore_welcome',
+        'year_two_plans',
+        'y2_term1_timetable_shuffle',
+        'y2_term1_group_roles',
+        'y2_term1_budget_gap',
+        'y2_term1_midterm_week',
+        'course_choice',
+      ],
+      ledProject: undefined,
+    })
+  })
+
   it('loads the authored story with the shared V2 schema', async () => {
     const files: Record<string, unknown> = {
       config,

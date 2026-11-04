@@ -1919,7 +1919,8 @@
             "stat": "stress",
             "amount": -1
           }
-        ]
+        ],
+        "recap": "คุณพารุ่นน้องเดินไปถึงอาคารที่หาไม่เจอ ระหว่างทางได้คุยกันสั้น ๆ พอเห็นอีกฝ่ายโล่งใจ คุณก็หายเกร็งกับวันเปิดเทอมไปด้วย"
       },
       {
         "id": "prepare_classes",
@@ -1931,7 +1932,8 @@
             "stat": "study",
             "amount": 2
           }
-        ]
+        ],
+        "recap": "คุณแยกมาดูตารางเรียนและทางไปห้องใหม่จนแน่ใจว่าต้องเดินไปตึกไหน วันแรกของปีสองเลยเริ่มแบบไม่ต้องวิ่งหาห้อง"
       }
     ]
   },
@@ -1971,7 +1973,8 @@
             "stat": "study",
             "amount": 3
           }
-        ]
+        ],
+        "recap": "คุณจดช่วงเวลาทบทวนบทเรียนลงในตาราง แล้วเริ่มไล่สรุปวิชาแรกที่ยังไม่แม่น"
       },
       {
         "id": "join_friends",
@@ -1983,7 +1986,8 @@
             "stat": "relationships",
             "amount": 3
           }
-        ]
+        ],
+        "recap": "คุณเว้นช่วงว่างในตารางไว้เจอเพื่อนและตอบรับนัดกินข้าวมื้อแรกของเทอม"
       },
       {
         "id": "rest_well",
@@ -2000,7 +2004,493 @@
             "stat": "stress",
             "amount": -2
           }
+        ],
+        "recap": "คุณกันคืนที่ไม่รับงานเพิ่มไว้ในตารางและเข้านอนตามเวลาที่ตั้งใจหนึ่งคืนเต็ม"
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_timetable_shuffle",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "ห้องเรียนย้ายกะทันหัน",
+    "sceneAssetId": "classroom_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "สัปดาห์แรกของปีสอง ห้องเรียนวิชาบังคับถูกย้ายไปอีกอาคารก่อนเริ่มคาบไม่กี่ชั่วโมง"
+      },
+      {
+        "text": "ในกรุ๊ปห้องมีทั้งรูปประกาศจริงและรูปเก่าจากเทอมก่อน คุณต้องเลือกว่าจะเช็กจากไหน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "check_room_changes",
+        "text": "เปิดประกาศรายวิชาแล้ววางทางเดิน",
+        "conditions": [],
+        "recap": "คุณเช็กห้องจากประกาศล่าสุดและเผื่อเวลาเดินไปอีกตึก จึงไปถึงก่อนอาจารย์เริ่มคาบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
         ]
+      },
+      {
+        "id": "follow_old_message",
+        "text": "เชื่อรูปห้องเรียนที่เพื่อนส่งต่อมา",
+        "conditions": [],
+        "recap": "คุณเดินไปถึงห้องเดิมแล้วเจอประตูปิด ต้องย้อนกลับไปอีกตึกและเข้าคาบช้ากว่าที่ตั้งใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "ask_classmate",
+        "text": "ถามเพื่อนที่เดินผ่านว่าคาบนี้เรียนที่ไหน",
+        "conditions": [],
+        "recap": "คุณถามเพื่อนคนหนึ่งจนได้เลขห้องที่ถูกต้อง แล้วเดินไปพร้อมกันโดยไม่ต้องเดาต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_club_booth",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "บูธชมรมรับรุ่นน้อง",
+    "sceneAssetId": "campus_orientation_v4",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "ชมรมที่คุณเคยสมัครกำลังตั้งบูธรับรุ่นน้อง ป้ายผ้าที่ม้วนไว้เด้งหลุดจากโต๊ะเป็นรอบที่สาม"
+      },
+      {
+        "text": "รุ่นพี่เห็นคุณเดินผ่านจึงโบกมือเรียก ขอคนช่วยอีกสักหน่อยก่อนคาบบ่าย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "help_at_booth",
+        "text": "ช่วยจัดบูธจนเรียบร้อย",
+        "conditions": [],
+        "recap": "คุณช่วยยึดป้ายและจัดโต๊ะจนรับคนได้ รุ่นพี่ขอบคุณ แต่แขนเริ่มล้าก่อนถึงคาบบ่าย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "make_quick_sign",
+        "text": "เขียนป้ายบอกทางให้คนที่เดินหลง",
+        "conditions": [],
+        "recap": "คุณทำป้ายลูกศรแผ่นเล็กติดไว้ข้างบูธ รุ่นน้องหาโต๊ะเจอมากขึ้น แต่คุณต้องรีบเก็บของไปเข้าคาบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "wish_them_well",
+        "text": "ทักทายแล้วขอตัวไปเรียน",
+        "conditions": [],
+        "recap": "คุณทักคนในชมรมและบอกว่ามีคาบต่อ รุ่นพี่พยักหน้าแล้วหันกลับไปจัดบูธต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_group_roles",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "ใครจะดูแลงานกลุ่ม",
+    "sceneAssetId": "campus_library_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "งานกลุ่มวิชาหนึ่งเริ่มด้วยไฟล์เปล่าและกำหนดส่งที่ดูไกล แต่ทุกคนรู้ว่ามันจะมาถึงเร็ว"
+      },
+      {
+        "text": "เพื่อนในกลุ่มถามว่าใครจะช่วยตามงานและรวมไฟล์ ก่อนแชตจะเงียบไปพร้อมกัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "coordinate_group",
+        "text": "รับหน้าที่ประสานงานและรวมไฟล์",
+        "conditions": [],
+        "recap": "คุณเปิดตารางงานกลางและนัดวันที่ทุกคนต้องส่งส่วนของตัวเอง เพื่อนเริ่มตอบกลับทีละคน แต่โทรศัพท์คุณก็เด้งถี่ขึ้น",
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "y2_led_project",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "take_defined_part",
+        "text": "ขอทำหัวข้อที่ถนัดให้ชัดเจน",
+        "conditions": [],
+        "recap": "คุณรับหัวข้อหนึ่งไปทำและส่งโครงร่างให้กลุ่ม เพื่อนรู้แล้วว่าส่วนนี้มีคนดูแล",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "wait_for_assignment",
+        "text": "รอให้กลุ่มตกลงหน้าที่ก่อน",
+        "conditions": [],
+        "recap": "คุณอ่านแชตและรอดูการแบ่งงาน พอมีคนเริ่มจัดหัวข้อ คุณจึงรับส่วนที่ยังว่าง",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_team_update",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "ข้อความทวงงานในกลุ่ม",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "y2_led_project",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "สองสัปดาห์ต่อมา ตารางงานที่คุณเปิดไว้มีหัวข้อหนึ่งยังไม่อัปเดต เพื่อนอีกคนเริ่มถามในแชตว่าไฟล์จะทันไหม"
+      },
+      {
+        "text": "ในฐานะคนประสานงาน คุณต้องตอบก่อนทุกคนจะเดาไปเอง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "talk_to_teammate",
+        "text": "ทักเจ้าของหัวข้อเป็นการส่วนตัว",
+        "conditions": [],
+        "recap": "คุณทักไปถามว่าเขาติดตรงไหน เพื่อนบอกปัญหาที่เจอและส่งงานส่วนที่ทำเสร็จแล้วมาให้ กลุ่มจึงเห็นภาพชัดขึ้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "rewrite_slides",
+        "text": "รับสไลด์ส่วนที่ขาดมาทำเอง",
+        "conditions": [],
+        "recap": "คุณทำสไลด์ส่วนที่ยังว่างจนไฟล์คืบหน้า แต่ต้องนั่งจ้องหน้าจอนานกว่าที่เผื่อไว้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "send_reminder",
+        "text": "ส่งข้อความย้ำกำหนดในกรุ๊ป",
+        "conditions": [],
+        "recap": "คุณย้ำวันส่งและแนบตารางเดิมไว้ในแชต ทุกคนเห็นข้อความแล้ว แต่หัวข้อที่ค้างยังต้องรอคนทำ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_budget_gap",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "ค่าพิมพ์งานกับค่ารถ",
+    "sceneAssetId": "canteen_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "รายงานใกล้ส่ง ร้านถ่ายเอกสารส่งราคาพิมพ์มา ขณะเดียวกันค่าเดินทางไปเรียนก็ยังต้องจ่ายทุกวัน"
+      },
+      {
+        "text": "คุณมีไฟล์ในมือถืออยู่แล้ว แต่ต้องตัดสินใจว่าจะใช้เงินกับงานชิ้นนี้อย่างไร"
+      }
+    ],
+    "choices": [
+      {
+        "id": "print_essentials",
+        "text": "พิมพ์เฉพาะหน้าที่ต้องใช้จริง",
+        "conditions": [],
+        "recap": "คุณเลือกพิมพ์เฉพาะหน้าที่ต้องส่งและจ่ายค่าพิมพ์ไป 80 บาท เหลือไฟล์อื่นไว้เปิดอ่านในมือถือ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -80
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "take_evening_shift",
+        "text": "รับกะงานสั้น ๆ หาเงินเพิ่ม",
+        "conditions": [],
+        "recap": "คุณรับกะช่วยร้านช่วงเย็น ได้ค่าจ้างมาจ่ายรายจ่ายช่วงนี้ แต่กลับถึงหอพร้อมขาที่ล้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 220
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "use_digital_copy",
+        "text": "ใช้ไฟล์ดิจิทัลและเลื่อนพิมพ์ไว้ก่อน",
+        "conditions": [],
+        "recap": "คุณแชร์ไฟล์ให้กลุ่มอ่านในมือถือและจดไว้ว่าเฉพาะส่วนไหนต้องพิมพ์ทีหลัง วันนี้ยังไม่ต้องจ่ายเพิ่ม",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_mali_practice",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "ซ้อมพรีเซนต์กับมะลิ",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "met_mali",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "มะลินั่งซ้อมพูดหน้าห้องสมุด เธอเห็นคุณเดินผ่านจึงถามว่าช่วยฟังสไลด์ให้หน่อยได้ไหม"
+      },
+      {
+        "text": "อีกไม่นานก็ถึงคาบบ่าย คุณพอมีเวลาให้เธออยู่เล็กน้อย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "practice_together",
+        "text": "ผลัดกันซ้อมพูดคนละรอบ",
+        "conditions": [],
+        "recap": "คุณกับมะลิผลัดกันพูดตามสไลด์และชี้จุดที่ยังสะดุด พอครบหนึ่งรอบก็มั่นใจขึ้น แม้จะต้องรีบไปคาบต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "listen_to_mali",
+        "text": "ฟังมะลิซ้อมแล้วให้ข้อเสนอแนะ",
+        "conditions": [],
+        "recap": "คุณฟังจนจบและบอกจุดที่พูดเร็วไป มะลิลองพูดใหม่อีกครั้งก่อนยิ้มขอบคุณ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "wish_luck",
+        "text": "บอกว่าต้องไปเรียนแล้วอวยพรให้",
+        "conditions": [],
+        "recap": "คุณบอกมะลิว่าต้องรีบไปคาบบ่าย เธอโบกมือรับคำอวยพรแล้วกลับไปซ้อมต่อ",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "y2_term1_midterm_week",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 2,
+      "period": "term1"
+    },
+    "title": "สอบกลางภาคปีสอง",
+    "sceneAssetId": "classroom",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "สัปดาห์สอบกลางภาคกลับมาอีกครั้ง คราวนี้คุณจำทางไปห้องสอบได้ แต่โจทย์ก็ไม่ได้ง่ายขึ้นตาม"
+      },
+      {
+        "text": "คืนก่อนสอบ แชตห้องยังเดาหัวข้อกันไม่หยุด คุณมองชีตกับนาฬิกาสลับกัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "review_problems",
+        "text": "ลองทำโจทย์ที่เคยพลาดอีกชุด",
+        "conditions": [],
+        "recap": "คุณไล่ทำโจทย์ที่เคยตอบผิดจนเห็นวิธีคิดชัดขึ้น แต่กว่าจะวางปากกาก็ปวดตาและเริ่มกังวลเรื่องเวลา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "sleep_before_exam",
+        "text": "ปิดชีตแล้วนอนให้พอ",
+        "conditions": [],
+        "recap": "คุณปิดแชตและเข้านอนก่อนดึก เช้ามาอาจยังจำไม่ได้ทุกข้อ แต่ร่างกายพร้อมเดินเข้าห้องสอบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "leave_exam_chat",
+        "text": "ออกจากแชตเดาข้อสอบแล้วจัดของ",
+        "conditions": [],
+        "recap": "คุณปิดแชต จัดบัตรนักศึกษากับปากกาไว้ในกระเป๋า แล้วปล่อยให้หัวข้อที่คนอื่นเดาไว้เป็นเรื่องของพรุ่งนี้",
+        "effects": []
       }
     ]
   },
@@ -2052,7 +2542,8 @@
               "amount": 5
             }
           }
-        ]
+        ],
+        "recap": "คุณลงชื่อในวิชาที่ท้าทายและเก็บรายละเอียดรายวิชามาอ่านต่อ เห็นงานที่ต้องทำแล้วก็ทั้งตื่นเต้นและกดดัน"
       },
       {
         "id": "keep_balance",
@@ -2069,7 +2560,8 @@
             "stat": "stress",
             "amount": -2
           }
-        ]
+        ],
+        "recap": "คุณเลือกวิชาที่เข้ากับตารางชีวิตตอนนี้ พอจัดเวลาเรียนกับเวลาพักลงตัวก็รู้สึกหายตึงไปบ้าง"
       }
     ]
   },

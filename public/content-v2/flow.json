@@ -133,8 +133,8 @@
     {
       "id": "random_y1_term1_life",
       "position": {
-        "x": 4104,
-        "y": 240
+        "x": -1440,
+        "y": -96
       },
       "type": "random",
       "poolId": "y1_term1_life"
@@ -142,16 +142,16 @@
     {
       "id": "next_y1_term1",
       "position": {
-        "x": 4416,
-        "y": 240
+        "x": -1128,
+        "y": -96
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_term_reflection",
       "position": {
-        "x": 4776,
-        "y": 240
+        "x": -768,
+        "y": -96
       },
       "type": "event",
       "eventId": "term_reflection"
@@ -159,8 +159,8 @@
     {
       "id": "n_break_first_week",
       "position": {
-        "x": 5064,
-        "y": 240
+        "x": -480,
+        "y": -96
       },
       "type": "event",
       "eventId": "break_first_week"
@@ -168,8 +168,8 @@
     {
       "id": "condition_break_mali",
       "position": {
-        "x": 4896,
-        "y": 600
+        "x": -648,
+        "y": 264
       },
       "type": "condition",
       "join": "and",
@@ -184,8 +184,8 @@
     {
       "id": "n_break_message_from_mali",
       "position": {
-        "x": 5376,
-        "y": 600
+        "x": -168,
+        "y": 264
       },
       "type": "event",
       "eventId": "break_message_from_mali"
@@ -193,8 +193,8 @@
     {
       "id": "n_break_budget",
       "position": {
-        "x": 5376,
-        "y": 240
+        "x": -168,
+        "y": -96
       },
       "type": "event",
       "eventId": "break_budget"
@@ -202,8 +202,8 @@
     {
       "id": "condition_break_club",
       "position": {
-        "x": 5736,
-        "y": 360
+        "x": 192,
+        "y": 24
       },
       "type": "condition",
       "join": "and",
@@ -218,8 +218,8 @@
     {
       "id": "n_break_club_request",
       "position": {
-        "x": 5376,
-        "y": 1128
+        "x": -168,
+        "y": 792
       },
       "type": "event",
       "eventId": "break_club_request"
@@ -227,8 +227,8 @@
     {
       "id": "condition_break_money",
       "position": {
-        "x": 5664,
-        "y": 1128
+        "x": 120,
+        "y": 792
       },
       "type": "condition",
       "join": "and",
@@ -244,8 +244,8 @@
     {
       "id": "n_break_low_balance",
       "position": {
-        "x": 5976,
-        "y": 1032
+        "x": 432,
+        "y": 696
       },
       "type": "event",
       "eventId": "break_low_balance"
@@ -253,8 +253,8 @@
     {
       "id": "n_break_next_term",
       "position": {
-        "x": 6024,
-        "y": 528
+        "x": 480,
+        "y": 192
       },
       "type": "event",
       "eventId": "break_next_term"
@@ -262,16 +262,16 @@
     {
       "id": "next_y1_break",
       "position": {
-        "x": 6528,
-        "y": 624
+        "x": 984,
+        "y": 288
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_return_to_campus",
       "position": {
-        "x": 6864,
-        "y": 624
+        "x": 1320,
+        "y": 288
       },
       "type": "event",
       "eventId": "return_to_campus"
@@ -279,8 +279,8 @@
     {
       "id": "n_term2_first_assignment",
       "position": {
-        "x": 7200,
-        "y": 624
+        "x": 1656,
+        "y": 288
       },
       "type": "event",
       "eventId": "term2_first_assignment"
@@ -288,8 +288,8 @@
     {
       "id": "condition_term2_club",
       "position": {
-        "x": 7488,
-        "y": 624
+        "x": 1944,
+        "y": 288
       },
       "type": "condition",
       "join": "and",
@@ -304,8 +304,8 @@
     {
       "id": "n_term2_club_open_house",
       "position": {
-        "x": 7776,
-        "y": 408
+        "x": 2232,
+        "y": 72
       },
       "type": "event",
       "eventId": "term2_club_open_house"
@@ -313,8 +313,8 @@
     {
       "id": "n_term2_group_deadline",
       "position": {
-        "x": 7488,
-        "y": 984
+        "x": 1944,
+        "y": 648
       },
       "type": "event",
       "eventId": "term2_group_deadline"
@@ -322,8 +322,8 @@
     {
       "id": "condition_term2_shared_notes",
       "position": {
-        "x": 7488,
-        "y": 1344
+        "x": 1944,
+        "y": 1008
       },
       "type": "condition",
       "join": "and",
@@ -338,8 +338,8 @@
     {
       "id": "n_term2_note_exchange",
       "position": {
-        "x": 7776,
-        "y": 1344
+        "x": 1632,
+        "y": 1512
       },
       "type": "event",
       "eventId": "term2_note_exchange"
@@ -347,8 +347,8 @@
     {
       "id": "n_term2_final_prep",
       "position": {
-        "x": 7200,
-        "y": 1344
+        "x": 1656,
+        "y": 1008
       },
       "type": "event",
       "eventId": "term2_final_prep"
@@ -356,8 +356,8 @@
     {
       "id": "n_year_one_final",
       "position": {
-        "x": 6864,
-        "y": 984
+        "x": 1320,
+        "y": 648
       },
       "type": "event",
       "eventId": "year_one_final"
@@ -365,8 +365,8 @@
     {
       "id": "n_scholarship_notice",
       "position": {
-        "x": 6864,
-        "y": 1368
+        "x": 1320,
+        "y": 1032
       },
       "type": "event",
       "eventId": "scholarship_notice"
@@ -374,16 +374,16 @@
     {
       "id": "next_y1_term2",
       "position": {
-        "x": 7776,
-        "y": 1080
+        "x": 2232,
+        "y": 744
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_summer_job",
       "position": {
-        "x": 8112,
-        "y": 1056
+        "x": 2616,
+        "y": 816
       },
       "type": "event",
       "eventId": "summer_job"
@@ -391,16 +391,16 @@
     {
       "id": "next_y1_summer",
       "position": {
-        "x": 8448,
-        "y": 1176
+        "x": 4776,
+        "y": 864
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_sophomore_welcome",
       "position": {
-        "x": 8784,
-        "y": 1176
+        "x": 5184,
+        "y": 936
       },
       "type": "event",
       "eventId": "sophomore_welcome"
@@ -408,17 +408,128 @@
     {
       "id": "n_year_two_plans",
       "position": {
-        "x": 9120,
-        "y": 1248
+        "x": 5520,
+        "y": 1008
       },
       "type": "event",
       "eventId": "year_two_plans"
     },
     {
+      "id": "n_y2_term1_timetable_shuffle",
+      "position": {
+        "x": 5856,
+        "y": 648
+      },
+      "type": "event",
+      "eventId": "y2_term1_timetable_shuffle"
+    },
+    {
+      "id": "condition_y2_term1_club",
+      "position": {
+        "x": 6144,
+        "y": 648
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "joined_club",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_y2_term1_club_booth",
+      "position": {
+        "x": 6624,
+        "y": -120
+      },
+      "type": "event",
+      "eventId": "y2_term1_club_booth"
+    },
+    {
+      "id": "n_y2_term1_group_roles",
+      "position": {
+        "x": 6624,
+        "y": 288
+      },
+      "type": "event",
+      "eventId": "y2_term1_group_roles"
+    },
+    {
+      "id": "condition_y2_term1_team",
+      "position": {
+        "x": 6912,
+        "y": 288
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "y2_led_project",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_y2_term1_team_update",
+      "position": {
+        "x": 7200,
+        "y": -120
+      },
+      "type": "event",
+      "eventId": "y2_term1_team_update"
+    },
+    {
+      "id": "n_y2_term1_budget_gap",
+      "position": {
+        "x": 7824,
+        "y": 48
+      },
+      "type": "event",
+      "eventId": "y2_term1_budget_gap"
+    },
+    {
+      "id": "condition_y2_term1_mali",
+      "position": {
+        "x": 7824,
+        "y": 408
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "met_mali",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_y2_term1_mali_practice",
+      "position": {
+        "x": 7248,
+        "y": 672
+      },
+      "type": "event",
+      "eventId": "y2_term1_mali_practice"
+    },
+    {
+      "id": "n_y2_term1_midterm_week",
+      "position": {
+        "x": 7632,
+        "y": 792
+      },
+      "type": "event",
+      "eventId": "y2_term1_midterm_week"
+    },
+    {
       "id": "n_course_choice",
       "position": {
-        "x": 9456,
-        "y": 1320
+        "x": 6864,
+        "y": 1056
       },
       "type": "event",
       "eventId": "course_choice"
@@ -426,16 +537,16 @@
     {
       "id": "next_y2_break",
       "position": {
-        "x": 10128,
-        "y": 1464
+        "x": 7752,
+        "y": 1368
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_group_research",
       "position": {
-        "x": 10464,
-        "y": 1464
+        "x": 8808,
+        "y": 1488
       },
       "type": "event",
       "eventId": "group_research"
@@ -443,8 +554,8 @@
     {
       "id": "n_club_project",
       "position": {
-        "x": 10800,
-        "y": 1536
+        "x": 9696,
+        "y": 1104
       },
       "type": "event",
       "eventId": "club_project"
@@ -649,8 +760,8 @@
     {
       "id": "start",
       "position": {
-        "x": -1104,
-        "y": 72
+        "x": -6648,
+        "y": -264
       },
       "type": "start"
     },
@@ -756,8 +867,8 @@
     {
       "id": "group",
       "position": {
-        "x": -792,
-        "y": -72
+        "x": -6336,
+        "y": -408
       },
       "type": "group",
       "title": "เริ่มต้น",
@@ -778,8 +889,8 @@
     {
       "id": "group_2",
       "position": {
-        "x": -96,
-        "y": -72
+        "x": -5640,
+        "y": -408
       },
       "type": "group",
       "title": "ทักทายเพื่อนใหม่",
@@ -790,8 +901,8 @@
     {
       "id": "group_3",
       "position": {
-        "x": 720,
-        "y": -72
+        "x": -4824,
+        "y": -408
       },
       "type": "group",
       "title": "วันแรกของชีวิต",
@@ -802,8 +913,8 @@
     {
       "id": "group_4",
       "position": {
-        "x": 1608,
-        "y": 96
+        "x": -3936,
+        "y": -240
       },
       "type": "group",
       "title": "การตัดสินใจที่ส่งผล",
@@ -814,8 +925,8 @@
     {
       "id": "group_5",
       "position": {
-        "x": 2112,
-        "y": -72
+        "x": -3432,
+        "y": -408
       },
       "type": "group",
       "title": "ชีวิตมหาฯลัย",
@@ -826,8 +937,8 @@
     {
       "id": "group_6",
       "position": {
-        "x": 3048,
-        "y": -72
+        "x": -2496,
+        "y": -408
       },
       "type": "group",
       "title": "สอบกลางภาค",
@@ -1351,193 +1462,211 @@
       "id": "e_next_y1_term2_next",
       "from": "next_y1_term2",
       "port": "next",
-      "to": "n_summer_job",
-      "route": [
-        {
-          "x": 8016,
-          "y": 1191
-        },
-        {
-          "x": 8064,
-          "y": 1191
-        },
-        {
-          "x": 8064,
-          "y": 1184
-        },
-        {
-          "x": 8112,
-          "y": 1184
-        }
-      ]
+      "to": "n_summer_job"
     },
     {
       "id": "e_n_summer_job_work_canteen",
       "from": "n_summer_job",
       "port": "work_canteen",
-      "to": "next_y1_summer",
-      "route": [
-        {
-          "x": 8352,
-          "y": 1268
-        },
-        {
-          "x": 8400,
-          "y": 1268
-        },
-        {
-          "x": 8400,
-          "y": 1265
-        },
-        {
-          "x": 8448,
-          "y": 1265
-        }
-      ]
+      "to": "next_y1_summer"
     },
     {
       "id": "e_n_summer_job_rest_and_read",
       "from": "n_summer_job",
       "port": "rest_and_read",
-      "to": "next_y1_summer",
-      "route": [
-        {
-          "x": 8352,
-          "y": 1292
-        },
-        {
-          "x": 8370,
-          "y": 1292
-        },
-        {
-          "x": 8370,
-          "y": 1265
-        },
-        {
-          "x": 8448,
-          "y": 1265
-        }
-      ]
+      "to": "next_y1_summer"
     },
     {
       "id": "e_next_y1_summer_next",
       "from": "next_y1_summer",
       "port": "next",
-      "to": "n_sophomore_welcome",
-      "route": [
-        {
-          "x": 8688,
-          "y": 1287
-        },
-        {
-          "x": 8736,
-          "y": 1287
-        },
-        {
-          "x": 8736,
-          "y": 1294
-        },
-        {
-          "x": 8784,
-          "y": 1294
-        }
-      ]
+      "to": "n_sophomore_welcome"
     },
     {
       "id": "e_n_sophomore_welcome_guide_newcomers",
       "from": "n_sophomore_welcome",
       "port": "guide_newcomers",
-      "to": "n_year_two_plans",
-      "route": [
-        {
-          "x": 9024,
-          "y": 1369
-        },
-        {
-          "x": 9072,
-          "y": 1369
-        },
-        {
-          "x": 9072,
-          "y": 1365
-        },
-        {
-          "x": 9120,
-          "y": 1365
-        }
-      ]
+      "to": "n_year_two_plans"
     },
     {
       "id": "e_n_sophomore_welcome_prepare_classes",
       "from": "n_sophomore_welcome",
       "port": "prepare_classes",
-      "to": "n_year_two_plans",
-      "route": [
-        {
-          "x": 9024,
-          "y": 1392
-        },
-        {
-          "x": 9042,
-          "y": 1392
-        },
-        {
-          "x": 9042,
-          "y": 1365
-        },
-        {
-          "x": 9120,
-          "y": 1365
-        }
-      ]
+      "to": "n_year_two_plans"
     },
     {
       "id": "e_n_year_two_plans_next",
       "from": "n_year_two_plans",
       "port": "next",
-      "to": "n_course_choice",
-      "route": [
-        {
-          "x": 9360,
-          "y": 1460
-        },
-        {
-          "x": 9408,
-          "y": 1460
-        },
-        {
-          "x": 9408,
-          "y": 1448
-        },
-        {
-          "x": 9456,
-          "y": 1448
-        }
-      ]
+      "to": "n_y2_term1_timetable_shuffle"
+    },
+    {
+      "id": "e_n_y2_term1_timetable_shuffle_check_room_changes_condition_y2_term1_club",
+      "from": "n_y2_term1_timetable_shuffle",
+      "port": "check_room_changes",
+      "to": "condition_y2_term1_club"
+    },
+    {
+      "id": "e_n_y2_term1_timetable_shuffle_follow_old_message_condition_y2_term1_club",
+      "from": "n_y2_term1_timetable_shuffle",
+      "port": "follow_old_message",
+      "to": "condition_y2_term1_club"
+    },
+    {
+      "id": "e_n_y2_term1_timetable_shuffle_ask_classmate_condition_y2_term1_club",
+      "from": "n_y2_term1_timetable_shuffle",
+      "port": "ask_classmate",
+      "to": "condition_y2_term1_club"
+    },
+    {
+      "id": "e_condition_y2_term1_club_pass_n_y2_term1_club_booth",
+      "from": "condition_y2_term1_club",
+      "port": "pass",
+      "to": "n_y2_term1_club_booth"
+    },
+    {
+      "id": "e_condition_y2_term1_club_fail_n_y2_term1_group_roles",
+      "from": "condition_y2_term1_club",
+      "port": "fail",
+      "to": "n_y2_term1_group_roles"
+    },
+    {
+      "id": "e_n_y2_term1_club_booth_help_at_booth_n_y2_term1_group_roles",
+      "from": "n_y2_term1_club_booth",
+      "port": "help_at_booth",
+      "to": "n_y2_term1_group_roles"
+    },
+    {
+      "id": "e_n_y2_term1_club_booth_make_quick_sign_n_y2_term1_group_roles",
+      "from": "n_y2_term1_club_booth",
+      "port": "make_quick_sign",
+      "to": "n_y2_term1_group_roles"
+    },
+    {
+      "id": "e_n_y2_term1_club_booth_wish_them_well_n_y2_term1_group_roles",
+      "from": "n_y2_term1_club_booth",
+      "port": "wish_them_well",
+      "to": "n_y2_term1_group_roles"
+    },
+    {
+      "id": "e_n_y2_term1_group_roles_coordinate_group_condition_y2_term1_team",
+      "from": "n_y2_term1_group_roles",
+      "port": "coordinate_group",
+      "to": "condition_y2_term1_team"
+    },
+    {
+      "id": "e_n_y2_term1_group_roles_take_defined_part_condition_y2_term1_team",
+      "from": "n_y2_term1_group_roles",
+      "port": "take_defined_part",
+      "to": "condition_y2_term1_team"
+    },
+    {
+      "id": "e_n_y2_term1_group_roles_wait_for_assignment_condition_y2_term1_team",
+      "from": "n_y2_term1_group_roles",
+      "port": "wait_for_assignment",
+      "to": "condition_y2_term1_team"
+    },
+    {
+      "id": "e_condition_y2_term1_team_pass_n_y2_term1_team_update",
+      "from": "condition_y2_term1_team",
+      "port": "pass",
+      "to": "n_y2_term1_team_update"
+    },
+    {
+      "id": "e_condition_y2_term1_team_fail_n_y2_term1_budget_gap",
+      "from": "condition_y2_term1_team",
+      "port": "fail",
+      "to": "n_y2_term1_budget_gap"
+    },
+    {
+      "id": "e_n_y2_term1_team_update_talk_to_teammate_n_y2_term1_budget_gap",
+      "from": "n_y2_term1_team_update",
+      "port": "talk_to_teammate",
+      "to": "n_y2_term1_budget_gap"
+    },
+    {
+      "id": "e_n_y2_term1_team_update_rewrite_slides_n_y2_term1_budget_gap",
+      "from": "n_y2_term1_team_update",
+      "port": "rewrite_slides",
+      "to": "n_y2_term1_budget_gap"
+    },
+    {
+      "id": "e_n_y2_term1_team_update_send_reminder_n_y2_term1_budget_gap",
+      "from": "n_y2_term1_team_update",
+      "port": "send_reminder",
+      "to": "n_y2_term1_budget_gap"
+    },
+    {
+      "id": "e_n_y2_term1_budget_gap_print_essentials_condition_y2_term1_mali",
+      "from": "n_y2_term1_budget_gap",
+      "port": "print_essentials",
+      "to": "condition_y2_term1_mali"
+    },
+    {
+      "id": "e_n_y2_term1_budget_gap_take_evening_shift_condition_y2_term1_mali",
+      "from": "n_y2_term1_budget_gap",
+      "port": "take_evening_shift",
+      "to": "condition_y2_term1_mali"
+    },
+    {
+      "id": "e_n_y2_term1_budget_gap_use_digital_copy_condition_y2_term1_mali",
+      "from": "n_y2_term1_budget_gap",
+      "port": "use_digital_copy",
+      "to": "condition_y2_term1_mali"
+    },
+    {
+      "id": "e_condition_y2_term1_mali_pass_n_y2_term1_mali_practice",
+      "from": "condition_y2_term1_mali",
+      "port": "pass",
+      "to": "n_y2_term1_mali_practice"
+    },
+    {
+      "id": "e_condition_y2_term1_mali_fail_n_y2_term1_midterm_week",
+      "from": "condition_y2_term1_mali",
+      "port": "fail",
+      "to": "n_y2_term1_midterm_week"
+    },
+    {
+      "id": "e_n_y2_term1_mali_practice_practice_together_n_y2_term1_midterm_week",
+      "from": "n_y2_term1_mali_practice",
+      "port": "practice_together",
+      "to": "n_y2_term1_midterm_week"
+    },
+    {
+      "id": "e_n_y2_term1_mali_practice_listen_to_mali_n_y2_term1_midterm_week",
+      "from": "n_y2_term1_mali_practice",
+      "port": "listen_to_mali",
+      "to": "n_y2_term1_midterm_week"
+    },
+    {
+      "id": "e_n_y2_term1_mali_practice_wish_luck_n_y2_term1_midterm_week",
+      "from": "n_y2_term1_mali_practice",
+      "port": "wish_luck",
+      "to": "n_y2_term1_midterm_week"
+    },
+    {
+      "id": "e_n_y2_term1_midterm_week_review_problems_n_course_choice",
+      "from": "n_y2_term1_midterm_week",
+      "port": "review_problems",
+      "to": "n_course_choice"
+    },
+    {
+      "id": "e_n_y2_term1_midterm_week_sleep_before_exam_n_course_choice",
+      "from": "n_y2_term1_midterm_week",
+      "port": "sleep_before_exam",
+      "to": "n_course_choice"
+    },
+    {
+      "id": "e_n_y2_term1_midterm_week_leave_exam_chat_n_course_choice",
+      "from": "n_y2_term1_midterm_week",
+      "port": "leave_exam_chat",
+      "to": "n_course_choice"
     },
     {
       "id": "e_next_y2_break_next",
       "from": "next_y2_break",
       "port": "next",
-      "to": "n_group_research",
-      "route": [
-        {
-          "x": 10368,
-          "y": 1575
-        },
-        {
-          "x": 10416,
-          "y": 1575
-        },
-        {
-          "x": 10416,
-          "y": 1592
-        },
-        {
-          "x": 10464,
-          "y": 1592
-        }
-      ]
+      "to": "n_group_research"
     },
     {
       "id": "e_n_group_research_listen_first_n_club_project",
@@ -1548,49 +1677,13 @@
         "type": "flag",
         "flagId": "joined_club",
         "value": true
-      },
-      "route": [
-        {
-          "x": 10704,
-          "y": 1676
-        },
-        {
-          "x": 10752,
-          "y": 1676
-        },
-        {
-          "x": 10752,
-          "y": 1664
-        },
-        {
-          "x": 10800,
-          "y": 1664
-        }
-      ]
+      }
     },
     {
       "id": "e_n_group_research_listen_first_next_y2_term2",
       "from": "n_group_research",
       "port": "listen_first",
-      "to": "next_y2_term2",
-      "route": [
-        {
-          "x": 10704,
-          "y": 1676
-        },
-        {
-          "x": 10722,
-          "y": 1676
-        },
-        {
-          "x": 10722,
-          "y": 1505
-        },
-        {
-          "x": 11136,
-          "y": 1505
-        }
-      ]
+      "to": "next_y2_term2"
     },
     {
       "id": "e_n_group_research_draft_quickly_n_club_project",
@@ -1601,105 +1694,25 @@
         "type": "flag",
         "flagId": "joined_club",
         "value": true
-      },
-      "route": [
-        {
-          "x": 10704,
-          "y": 1700
-        },
-        {
-          "x": 10722,
-          "y": 1700
-        },
-        {
-          "x": 10722,
-          "y": 1664
-        },
-        {
-          "x": 10800,
-          "y": 1664
-        }
-      ]
+      }
     },
     {
       "id": "e_n_group_research_draft_quickly_next_y2_term2",
       "from": "n_group_research",
       "port": "draft_quickly",
-      "to": "next_y2_term2",
-      "route": [
-        {
-          "x": 10704,
-          "y": 1700
-        },
-        {
-          "x": 10722,
-          "y": 1700
-        },
-        {
-          "x": 10722,
-          "y": 1821
-        },
-        {
-          "x": 11058,
-          "y": 1821
-        },
-        {
-          "x": 11058,
-          "y": 1505
-        },
-        {
-          "x": 11136,
-          "y": 1505
-        }
-      ]
+      "to": "next_y2_term2"
     },
     {
       "id": "e_n_club_project_organize_event",
       "from": "n_club_project",
       "port": "organize_event",
-      "to": "next_y2_term2",
-      "route": [
-        {
-          "x": 11040,
-          "y": 1748
-        },
-        {
-          "x": 11058,
-          "y": 1748
-        },
-        {
-          "x": 11058,
-          "y": 1505
-        },
-        {
-          "x": 11136,
-          "y": 1505
-        }
-      ]
+      "to": "next_y2_term2"
     },
     {
       "id": "e_n_club_project_share_tasks",
       "from": "n_club_project",
       "port": "share_tasks",
-      "to": "next_y2_term2",
-      "route": [
-        {
-          "x": 11040,
-          "y": 1772
-        },
-        {
-          "x": 11058,
-          "y": 1772
-        },
-        {
-          "x": 11058,
-          "y": 1505
-        },
-        {
-          "x": 11136,
-          "y": 1505
-        }
-      ]
+      "to": "next_y2_term2"
     },
     {
       "id": "e_next_y2_term2_next",
