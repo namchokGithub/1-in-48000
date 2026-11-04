@@ -24,6 +24,7 @@ import {
   previewV2Name,
   getV2CurrentEvent,
   summarizeV2Life,
+  getV2Grade,
   type V2FlowStep,
   type V2GameContent,
 } from './game'
@@ -299,6 +300,45 @@ describe('V4 flow engine', () => {
       finalMoney: -700,
     })
     expect(summary.stats).toMatchObject({ money: -700, debt: 0 })
+  })
+
+  it('grades the final study stat by band with seeded hundredths', () => {
+    const inBand = (grade: number, band: number) => {
+      expect(grade).toBeGreaterThanOrEqual(band)
+      expect(grade).toBeLessThan(band + 1)
+      expect(Math.round(grade * 100)).toBe(grade * 100)
+    }
+    expect(getV2Grade(100, 5)).toBe(4)
+    inBand(getV2Grade(99, 5), 3)
+    inBand(getV2Grade(80, 5), 3)
+    inBand(getV2Grade(79, 5), 2)
+    inBand(getV2Grade(60, 5), 2)
+    inBand(getV2Grade(59, 5), 1)
+    inBand(getV2Grade(40, 5), 1)
+    inBand(getV2Grade(39, 5), 0)
+    inBand(getV2Grade(0, 5), 0)
+    expect(getV2Grade(-1, 5)).toBe(0)
+
+    // The same run always shows the same grade, and runs differ.
+    expect(getV2Grade(85, 5)).toBe(getV2Grade(85, 5))
+    const grades = new Set(
+      Array.from({ length: 20 }, (_, seed) => getV2Grade(85, seed)),
+    )
+    expect(grades.size).toBeGreaterThan(1)
+  })
+
+  it('shows the grade in the life summary without moving the game RNG', () => {
+    const content = game(
+      [event('only')],
+      [eventNode('only'), ending('study_complete')],
+      [edge('only', 'continue_story', 'end_study_complete')],
+      { stats: { study: 72 } },
+    )
+    const ended = chooseV2(content, createV2Game(content, 9), 'continue_story')
+    const rngState = ended.rngState
+    const summary = summarizeV2Life(content, ended)
+    expect(summary.grade).toBe(getV2Grade(72, ended.rngSeed))
+    expect(ended.rngState).toBe(rngState)
   })
 
   it('recaps the choices picked in the last resolved event', () => {

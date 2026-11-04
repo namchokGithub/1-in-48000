@@ -52,7 +52,13 @@ export function EndingView({
           <p className="mt-8 max-w-2xl text-xl leading-relaxed">
             {summary.summary}
           </p>
-          <div className="mt-8 grid gap-3 border-t border-[var(--color-line)] pt-6 sm:grid-cols-2">
+          <div className="mt-8 grid gap-3 border-t border-[var(--color-line)] pt-6 sm:grid-cols-3">
+            <p>
+              เกรดเฉลี่ย{' '}
+              <strong className="tabular-nums">
+                {summary.grade.toFixed(2)}
+              </strong>
+            </p>
             <p>
               <strong>{summary.eventsVisited}</strong> เหตุการณ์ที่ผ่าน
             </p>

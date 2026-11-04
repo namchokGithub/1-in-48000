@@ -768,6 +768,20 @@ export function describeV2Decision(
   }
 }
 
+/**
+ * Grade point average shown at the ending, from the final study stat: 100 is
+ * 4.00, then 80, 60, 40, and 0 start the 3, 2, 1, and 0 bands, each with
+ * random hundredths. Negative study is 0.00. The hundredths derive from the run
+ * seed, not the live RNG state, so the ending shows the same grade every time.
+ */
+export function getV2Grade(study: number, rngSeed: number): number {
+  if (study >= 100) return 4
+  if (study < 0) return 0
+  const band = study >= 80 ? 3 : study >= 60 ? 2 : study >= 40 ? 1 : 0
+  const hundredths = rollIndex(choiceOrderState(rngSeed, '#grade'), 100).index
+  return (band * 100 + hundredths) / 100
+}
+
 export type V2LifeSummary = {
   playerName: string
   title: string
@@ -775,6 +789,8 @@ export type V2LifeSummary = {
   // Stats after the debt is settled from money.
   stats: V2Stats
   settlement: { money: number; debt: number; finalMoney: number }
+  // Grade point average from the final study stat; see getV2Grade.
+  grade: number
   eventsVisited: number
   choicesMade: number
   timeline: Array<{
@@ -803,6 +819,7 @@ export function summarizeV2Life(
     summary: ending.summary,
     stats: { ...save.stats, money: money - debt, debt: 0 },
     settlement: { money, debt, finalMoney: money - debt },
+    grade: getV2Grade(save.stats.study, save.rngSeed),
     eventsVisited: new Set(save.history.map((entry) => entry.eventId)).size,
     choicesMade: save.history.length,
     timeline: save.history.map((entry) => {

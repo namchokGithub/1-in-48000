@@ -339,7 +339,7 @@ function PlayerShell({
               }
             >
               <span aria-hidden="true">{showStatChanges ? '◉' : '○'}</span>
-              {showStatChanges ? 'เห็นผลสถานะ' : 'ซ่อนผลสถานะ'}
+              {showStatChanges ? 'แสดงผลสถานะ' : 'ซ่อนผลสถานะ'}
             </button>
             <AudioControls
               enabled={musicSettings.musicEnabled}

@@ -238,3 +238,9 @@ When hidden, nothing replaces the preview, and chance effects hide their success
 
 Debt stops at 0. A negative debt would mean the bank owes the player, which reads as a balance in their favor and belongs in money instead. The engine limits debt to 0 whenever a stat changes, including when a background starts the game, and the stats schema rejects a negative debt in content and saves. Paying 500 against a debt of 300 leaves 0, and the change shown to the player is the 300 actually paid. Every other stat keeps its earlier rule: study, health, stress, relationships, and lucky may go below 0 and stop at 100, and money has no limit.
 
+
+## 2026-11-04 — Grade point average at the ending
+
+The ending shows a grade point average derived from the final study stat (`getV2Grade` in `src/engine/v2/game.ts`). Study 100 gives 4.00. Each band starts at its lower bound: 80–99 gives 3.xx, 60–79 gives 2.xx, 40–59 gives 1.xx, and 0–39 gives 0.xx. Negative study gives 0.00. Bands start at their lower bound, matching the graduation check (`≥ 60`), so a graduate always has at least 2.00. The top band is exactly 4.00 because study cannot exceed 100.
+
+The hundredths are random but derive from the run seed (`rngSeed`) instead of the live RNG state, like the choice display order. The grade is the same on every refresh and does not change any later roll. It is computed for the life summary only, so the save has no new field. The grade uses the study stat alone; the graduation check still subtracts a tenth of positive stress.

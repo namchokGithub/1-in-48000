@@ -1434,104 +1434,108 @@
     {
       "id": "n_graduation_day",
       "position": {
-        "x": 36168,
-        "y": 3480
+        "x": 38232,
+        "y": 3864
       },
       "type": "event",
       "eventId": "graduation_day"
     },
     {
       "id": "n_y4_term1_outline",
-      "type": "event",
-      "eventId": "y4_term1_outline",
       "position": {
         "x": 26700,
         "y": 3600
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_outline"
     },
     {
       "id": "n_y4_term1_research_archive",
-      "type": "event",
-      "eventId": "y4_term1_research_archive",
       "position": {
         "x": 27036,
         "y": 3600
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_research_archive"
     },
     {
       "id": "n_y4_term1_advisor_slot",
-      "type": "event",
-      "eventId": "y4_term1_advisor_slot",
       "position": {
         "x": 27372,
         "y": 3600
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_advisor_slot"
     },
     {
       "id": "n_y4_term1_community_contact",
-      "type": "event",
-      "eventId": "y4_term1_community_contact",
       "position": {
         "x": 27708,
         "y": 3600
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_community_contact"
     },
     {
       "id": "n_y4_term1_data_access",
-      "type": "event",
-      "eventId": "y4_term1_data_access",
       "position": {
         "x": 28044,
         "y": 3600
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_data_access"
     },
     {
       "id": "n_y4_term1_group_boundary",
-      "type": "event",
-      "eventId": "y4_term1_group_boundary",
       "position": {
         "x": 28380,
         "y": 3600
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_group_boundary"
     },
     {
       "id": "n_y4_term1_mali_schedule",
-      "type": "event",
-      "eventId": "y4_term1_mali_schedule",
       "position": {
         "x": 26700,
         "y": 3936
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_mali_schedule"
     },
     {
       "id": "n_y4_term1_first_draft",
-      "type": "event",
-      "eventId": "y4_term1_first_draft",
       "position": {
         "x": 27036,
         "y": 3936
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_first_draft"
     },
     {
       "id": "n_y4_term1_outline_reply",
-      "type": "event",
-      "eventId": "y4_term1_outline_reply",
       "position": {
         "x": 27372,
         "y": 3936
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_outline_reply"
     },
     {
       "id": "n_y4_term1_term_check",
-      "type": "event",
-      "eventId": "y4_term1_term_check",
       "position": {
         "x": 27708,
         "y": 3936
-      }
+      },
+      "type": "event",
+      "eventId": "y4_term1_term_check"
     },
     {
       "id": "condition_y4_term1_research",
+      "position": {
+        "x": 28044,
+        "y": 3936
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1540,14 +1544,14 @@
           "flagId": "research_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 28044,
-        "y": 3936
-      }
+      ]
     },
     {
       "id": "condition_y4_term1_community",
+      "position": {
+        "x": 28380,
+        "y": 3936
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1556,14 +1560,14 @@
           "flagId": "community_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 28380,
-        "y": 3936
-      }
+      ]
     },
     {
       "id": "condition_y4_term1_mali",
+      "position": {
+        "x": 26700,
+        "y": 4272
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1572,14 +1576,14 @@
           "flagId": "met_mali",
           "value": true
         }
-      ],
-      "position": {
-        "x": 26700,
-        "y": 4272
-      }
+      ]
     },
     {
       "id": "condition_y4_term1_outline",
+      "position": {
+        "x": 27036,
+        "y": 4272
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1588,122 +1592,122 @@
           "flagId": "y4_term1_shared_outline",
           "value": true
         }
-      ],
-      "position": {
-        "x": 27036,
-        "y": 4272
-      }
+      ]
     },
     {
       "id": "n_y4_break_first_day",
-      "type": "event",
-      "eventId": "y4_break_first_day",
       "position": {
         "x": 29900,
         "y": 4700
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_first_day"
     },
     {
       "id": "n_y4_break_club_request",
-      "type": "event",
-      "eventId": "y4_break_club_request",
       "position": {
         "x": 30236,
         "y": 4700
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_club_request"
     },
     {
       "id": "n_y4_break_job_offer",
-      "type": "event",
-      "eventId": "y4_break_job_offer",
       "position": {
         "x": 30572,
         "y": 4700
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_job_offer"
     },
     {
       "id": "n_y4_break_research_reply",
-      "type": "event",
-      "eventId": "y4_break_research_reply",
       "position": {
         "x": 30908,
         "y": 4700
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_research_reply"
     },
     {
       "id": "n_y4_break_library_notice",
-      "type": "event",
-      "eventId": "y4_break_library_notice",
       "position": {
         "x": 31244,
         "y": 4700
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_library_notice"
     },
     {
       "id": "n_y4_break_community_update",
-      "type": "event",
-      "eventId": "y4_break_community_update",
       "position": {
         "x": 31580,
         "y": 4700
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_community_update"
     },
     {
       "id": "n_y4_break_home_message",
-      "type": "event",
-      "eventId": "y4_break_home_message",
       "position": {
         "x": 29900,
         "y": 5036
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_home_message"
     },
     {
       "id": "n_y4_break_junior_question",
-      "type": "event",
-      "eventId": "y4_break_junior_question",
       "position": {
         "x": 30236,
         "y": 5036
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_junior_question"
     },
     {
       "id": "n_y4_break_junior_followup",
-      "type": "event",
-      "eventId": "y4_break_junior_followup",
       "position": {
         "x": 30572,
         "y": 5036
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_junior_followup"
     },
     {
       "id": "n_y4_break_rainy_commute",
-      "type": "event",
-      "eventId": "y4_break_rainy_commute",
       "position": {
         "x": 30908,
         "y": 5036
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_rainy_commute"
     },
     {
       "id": "n_y4_break_folder_backup",
-      "type": "event",
-      "eventId": "y4_break_folder_backup",
       "position": {
         "x": 31244,
         "y": 5036
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_folder_backup"
     },
     {
       "id": "n_y4_break_return_plan",
-      "type": "event",
-      "eventId": "y4_break_return_plan",
       "position": {
         "x": 31580,
         "y": 5036
-      }
+      },
+      "type": "event",
+      "eventId": "y4_break_return_plan"
     },
     {
       "id": "condition_y4_break_club",
+      "position": {
+        "x": 29900,
+        "y": 5372
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1712,14 +1716,14 @@
           "flagId": "joined_club",
           "value": true
         }
-      ],
-      "position": {
-        "x": 29900,
-        "y": 5372
-      }
+      ]
     },
     {
       "id": "condition_y4_break_research",
+      "position": {
+        "x": 30236,
+        "y": 5372
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1728,14 +1732,14 @@
           "flagId": "research_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 30236,
-        "y": 5372
-      }
+      ]
     },
     {
       "id": "condition_y4_break_community",
+      "position": {
+        "x": 30572,
+        "y": 5372
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1744,14 +1748,14 @@
           "flagId": "community_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 30572,
-        "y": 5372
-      }
+      ]
     },
     {
       "id": "condition_y4_break_junior",
+      "position": {
+        "x": 30908,
+        "y": 5372
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1760,104 +1764,104 @@
           "flagId": "y4_break_helped_junior",
           "value": true
         }
-      ],
-      "position": {
-        "x": 30908,
-        "y": 5372
-      }
+      ]
     },
     {
       "id": "n_y4_term2_mentor_meeting",
-      "type": "event",
-      "eventId": "y4_term2_mentor_meeting",
       "position": {
-        "x": 32900,
-        "y": 5800
-      }
+        "x": 33384,
+        "y": 3936
+      },
+      "type": "event",
+      "eventId": "y4_term2_mentor_meeting"
     },
     {
       "id": "n_y4_term2_research_source",
-      "type": "event",
-      "eventId": "y4_term2_research_source",
       "position": {
-        "x": 33236,
-        "y": 5800
-      }
+        "x": 33720,
+        "y": 3936
+      },
+      "type": "event",
+      "eventId": "y4_term2_research_source"
     },
     {
       "id": "n_y4_term2_method_rework",
-      "type": "event",
-      "eventId": "y4_term2_method_rework",
       "position": {
-        "x": 33572,
-        "y": 5800
-      }
+        "x": 34056,
+        "y": 3936
+      },
+      "type": "event",
+      "eventId": "y4_term2_method_rework"
     },
     {
       "id": "n_y4_term2_community_visit",
-      "type": "event",
-      "eventId": "y4_term2_community_visit",
       "position": {
-        "x": 33908,
-        "y": 5800
-      }
+        "x": 34392,
+        "y": 3936
+      },
+      "type": "event",
+      "eventId": "y4_term2_community_visit"
     },
     {
       "id": "n_y4_term2_draft_review",
-      "type": "event",
-      "eventId": "y4_term2_draft_review",
       "position": {
-        "x": 34244,
-        "y": 5800
-      }
+        "x": 34728,
+        "y": 3936
+      },
+      "type": "event",
+      "eventId": "y4_term2_draft_review"
     },
     {
       "id": "n_y4_term2_review_reply",
-      "type": "event",
-      "eventId": "y4_term2_review_reply",
       "position": {
-        "x": 34580,
-        "y": 5800
-      }
+        "x": 35064,
+        "y": 3936
+      },
+      "type": "event",
+      "eventId": "y4_term2_review_reply"
     },
     {
       "id": "n_y4_term2_rehearsal",
-      "type": "event",
-      "eventId": "y4_term2_rehearsal",
       "position": {
-        "x": 32900,
-        "y": 6136
-      }
+        "x": 33384,
+        "y": 4272
+      },
+      "type": "event",
+      "eventId": "y4_term2_rehearsal"
     },
     {
       "id": "n_y4_term2_mali_rehearsal",
-      "type": "event",
-      "eventId": "y4_term2_mali_rehearsal",
       "position": {
-        "x": 33236,
-        "y": 6136
-      }
+        "x": 33720,
+        "y": 4272
+      },
+      "type": "event",
+      "eventId": "y4_term2_mali_rehearsal"
     },
     {
       "id": "n_y4_term2_revision_list",
-      "type": "event",
-      "eventId": "y4_term2_revision_list",
       "position": {
-        "x": 33572,
-        "y": 6136
-      }
+        "x": 34056,
+        "y": 4272
+      },
+      "type": "event",
+      "eventId": "y4_term2_revision_list"
     },
     {
       "id": "n_y4_term2_submit_archive",
-      "type": "event",
-      "eventId": "y4_term2_submit_archive",
       "position": {
-        "x": 33908,
-        "y": 6136
-      }
+        "x": 34392,
+        "y": 4272
+      },
+      "type": "event",
+      "eventId": "y4_term2_submit_archive"
     },
     {
       "id": "condition_y4_term2_research",
+      "position": {
+        "x": 34728,
+        "y": 4272
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1866,14 +1870,14 @@
           "flagId": "research_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 34244,
-        "y": 6136
-      }
+      ]
     },
     {
       "id": "condition_y4_term2_community",
+      "position": {
+        "x": 35064,
+        "y": 4272
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1882,14 +1886,14 @@
           "flagId": "community_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 34580,
-        "y": 6136
-      }
+      ]
     },
     {
       "id": "condition_y4_term2_review",
+      "position": {
+        "x": 33384,
+        "y": 4608
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1898,14 +1902,14 @@
           "flagId": "y4_term2_requested_review",
           "value": true
         }
-      ],
-      "position": {
-        "x": 32900,
-        "y": 6472
-      }
+      ]
     },
     {
       "id": "condition_y4_term2_mali",
+      "position": {
+        "x": 33720,
+        "y": 4608
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -1914,113 +1918,113 @@
           "flagId": "met_mali",
           "value": true
         }
-      ],
-      "position": {
-        "x": 33236,
-        "y": 6472
-      }
+      ]
     },
     {
       "id": "n_y4_summer_clearance_check",
-      "type": "event",
-      "eventId": "y4_summer_clearance_check",
       "position": {
-        "x": 36000,
-        "y": 6900
-      }
+        "x": 36384,
+        "y": 4392
+      },
+      "type": "event",
+      "eventId": "y4_summer_clearance_check"
     },
     {
       "id": "n_y4_summer_review_reply",
-      "type": "event",
-      "eventId": "y4_summer_review_reply",
       "position": {
-        "x": 36336,
-        "y": 6900
-      }
+        "x": 36720,
+        "y": 4392
+      },
+      "type": "event",
+      "eventId": "y4_summer_review_reply"
     },
     {
       "id": "n_y4_summer_portfolio_export",
-      "type": "event",
-      "eventId": "y4_summer_portfolio_export",
       "position": {
-        "x": 36672,
-        "y": 6900
-      }
+        "x": 37056,
+        "y": 4392
+      },
+      "type": "event",
+      "eventId": "y4_summer_portfolio_export"
     },
     {
       "id": "n_y4_summer_portfolio_feedback",
-      "type": "event",
-      "eventId": "y4_summer_portfolio_feedback",
       "position": {
-        "x": 37008,
-        "y": 6900
-      }
+        "x": 37392,
+        "y": 4392
+      },
+      "type": "event",
+      "eventId": "y4_summer_portfolio_feedback"
     },
     {
       "id": "n_y4_summer_job_search",
-      "type": "event",
-      "eventId": "y4_summer_job_search",
       "position": {
-        "x": 37344,
-        "y": 6900
-      }
+        "x": 37728,
+        "y": 4392
+      },
+      "type": "event",
+      "eventId": "y4_summer_job_search"
     },
     {
       "id": "n_y4_summer_junior_message",
-      "type": "event",
-      "eventId": "y4_summer_junior_message",
       "position": {
-        "x": 37680,
-        "y": 6900
-      }
+        "x": 38064,
+        "y": 4392
+      },
+      "type": "event",
+      "eventId": "y4_summer_junior_message"
     },
     {
       "id": "n_y4_summer_reunion_plan",
-      "type": "event",
-      "eventId": "y4_summer_reunion_plan",
       "position": {
-        "x": 36000,
-        "y": 7236
-      }
+        "x": 36384,
+        "y": 4728
+      },
+      "type": "event",
+      "eventId": "y4_summer_reunion_plan"
     },
     {
       "id": "n_y4_summer_community_contact",
-      "type": "event",
-      "eventId": "y4_summer_community_contact",
       "position": {
-        "x": 36336,
-        "y": 7236
-      }
+        "x": 36720,
+        "y": 4728
+      },
+      "type": "event",
+      "eventId": "y4_summer_community_contact"
     },
     {
       "id": "n_y4_summer_result_wait",
-      "type": "event",
-      "eventId": "y4_summer_result_wait",
       "position": {
-        "x": 36672,
-        "y": 7236
-      }
+        "x": 37056,
+        "y": 4728
+      },
+      "type": "event",
+      "eventId": "y4_summer_result_wait"
     },
     {
       "id": "n_y4_summer_letter_to_self",
-      "type": "event",
-      "eventId": "y4_summer_letter_to_self",
       "position": {
-        "x": 37008,
-        "y": 7236
-      }
+        "x": 37392,
+        "y": 4728
+      },
+      "type": "event",
+      "eventId": "y4_summer_letter_to_self"
     },
     {
       "id": "n_y4_summer_last_evening",
-      "type": "event",
-      "eventId": "y4_summer_last_evening",
       "position": {
-        "x": 37344,
-        "y": 7236
-      }
+        "x": 37728,
+        "y": 4728
+      },
+      "type": "event",
+      "eventId": "y4_summer_last_evening"
     },
     {
       "id": "condition_y4_summer_review",
+      "position": {
+        "x": 38064,
+        "y": 4728
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -2029,14 +2033,14 @@
           "flagId": "y4_term2_requested_review",
           "value": true
         }
-      ],
-      "position": {
-        "x": 37680,
-        "y": 7236
-      }
+      ]
     },
     {
       "id": "condition_y4_summer_portfolio",
+      "position": {
+        "x": 36384,
+        "y": 5064
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -2045,14 +2049,14 @@
           "flagId": "y4_summer_sent_portfolio",
           "value": true
         }
-      ],
-      "position": {
-        "x": 36000,
-        "y": 7572
-      }
+      ]
     },
     {
       "id": "condition_y4_summer_junior",
+      "position": {
+        "x": 36720,
+        "y": 5064
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -2061,14 +2065,14 @@
           "flagId": "y4_break_helped_junior",
           "value": true
         }
-      ],
-      "position": {
-        "x": 36336,
-        "y": 7572
-      }
+      ]
     },
     {
       "id": "condition_y4_summer_community",
+      "position": {
+        "x": 37056,
+        "y": 5064
+      },
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -2077,11 +2081,7 @@
           "flagId": "community_focus",
           "value": true
         }
-      ],
-      "position": {
-        "x": 36672,
-        "y": 7572
-      }
+      ]
     },
     {
       "id": "next_y4_summer",
@@ -3086,16 +3086,16 @@
     {
       "id": "next_extra_years",
       "position": {
-        "x": 39936,
-        "y": 3360
+        "x": 45024,
+        "y": 2088
       },
       "type": "nextPeriod"
     },
     {
       "id": "check_academic_path",
       "position": {
-        "x": 40296,
-        "y": 3408
+        "x": 45024,
+        "y": 2400
       },
       "type": "condition",
       "join": "and",
@@ -3116,8 +3116,8 @@
     {
       "id": "check_community_path",
       "position": {
-        "x": 40632,
-        "y": 3648
+        "x": 45360,
+        "y": 2760
       },
       "type": "condition",
       "join": "and",
@@ -3138,8 +3138,8 @@
     {
       "id": "end_academic_path",
       "position": {
-        "x": 40632,
-        "y": 3480
+        "x": 45360,
+        "y": 2472
       },
       "type": "ending",
       "endingId": "academic_path"
@@ -3147,8 +3147,8 @@
     {
       "id": "end_community_path",
       "position": {
-        "x": 40968,
-        "y": 3720
+        "x": 45696,
+        "y": 2784
       },
       "type": "ending",
       "endingId": "community_path"
@@ -3156,8 +3156,8 @@
     {
       "id": "end_graduation",
       "position": {
-        "x": 40968,
-        "y": 3864
+        "x": 45696,
+        "y": 2952
       },
       "type": "ending",
       "endingId": "graduation"
