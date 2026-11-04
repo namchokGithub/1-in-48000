@@ -634,6 +634,31 @@
 .bo-flow-actions-gap {
   flex: 1;
 }
+.bo-subflow-list {
+  max-height: 20rem;
+  overflow-y: auto;
+}
+.bo-subflow-list button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.bo-subflow-list p {
+  padding: 0.45rem 0.6rem;
+}
+.bo-subflow-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+.bo-subflow-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .bo-flow-counts {
   display: flex;
   flex-wrap: wrap;

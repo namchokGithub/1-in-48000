@@ -290,10 +290,51 @@ function FlowCard({ data, selected }: NodeProps<Card>) {
   )
 }
 
-function FlowGroup({ data, selected }: NodeProps<Group>) {
-  const color =
-    groupColorOptions.find((option) => option.id === data.node.color)?.value ??
+function groupColor(color: string | undefined): string {
+  return (
+    groupColorOptions.find((option) => option.id === color)?.value ??
     'var(--bo-group-green)'
+  )
+}
+
+type GroupNode = Extract<V2FlowNode, { type: 'group' }>
+
+/** Sub Flows in board order (top to bottom, then left to right), each nested
+ * one listed under its parent. */
+function subFlowList(
+  nodes: V2FlowNode[],
+): { group: GroupNode; depth: number; cards: number }[] {
+  const groups = nodes.filter(
+    (node): node is GroupNode => node.type === 'group',
+  )
+  const ids = new Set(groups.map((group) => group.id))
+  const list: { group: GroupNode; depth: number; cards: number }[] = []
+  const visit = (parentId: string | undefined, depth: number) => {
+    for (const group of groups
+      .filter((item) =>
+        parentId
+          ? item.parentId === parentId
+          : !item.parentId || !ids.has(item.parentId),
+      )
+      .sort(
+        (a, b) => a.position.y - b.position.y || a.position.x - b.position.x,
+      )) {
+      list.push({
+        group,
+        depth,
+        cards: nodes.filter(
+          (node) => node.parentId === group.id && node.type !== 'group',
+        ).length,
+      })
+      visit(group.id, depth + 1)
+    }
+  }
+  visit(undefined, 0)
+  return list
+}
+
+function FlowGroup({ data, selected }: NodeProps<Group>) {
+  const color = groupColor(data.node.color)
   return (
     <div
       className="bo-flow-subflow bo-drag-handle"
@@ -478,6 +519,7 @@ function Board({
   const [goTo, setGoTo] = useState('')
   const goToRef = useRef<HTMLInputElement>(null)
   const addMenuRef = useRef<HTMLDetailsElement>(null)
+  const subFlowMenuRef = useRef<HTMLDetailsElement>(null)
   const reconnectingEdgeId = useRef<string | null>(null)
   const reconnectSucceeded = useRef(false)
 
@@ -832,6 +874,14 @@ function Board({
       fitView({ nodes: ids.map((id) => ({ id })), duration: 300, maxZoom: 1 })
   }
 
+  const subFlows = subFlowList(flow.nodes)
+
+  function jumpToSubFlow(id: string) {
+    subFlowMenuRef.current?.removeAttribute('open')
+    select({ kind: 'node', id })
+    fitView({ nodes: [{ id }], duration: 300, maxZoom: 1 })
+  }
+
   const goToQuery = goTo.trim().toLowerCase()
   const goToMatches = goToQuery
     ? flow.nodes
@@ -903,9 +953,10 @@ function Board({
       }
     }
     function onPointerDown(event: PointerEvent) {
-      const menu = addMenuRef.current
-      if (menu?.open && !menu.contains(event.target as globalThis.Node))
-        menu.removeAttribute('open')
+      for (const menu of [addMenuRef.current, subFlowMenuRef.current]) {
+        if (menu?.open && !menu.contains(event.target as globalThis.Node))
+          menu.removeAttribute('open')
+      }
       if (
         contextMenu &&
         !(event.target as HTMLElement).closest('.bo-flow-context-menu')
@@ -1127,6 +1178,37 @@ function Board({
               </div>
             </details>
           </div>
+          <details ref={subFlowMenuRef} className="bo-flow-menu">
+            <summary className="button button-secondary bo-flow-check">
+              Sub Flow
+              <Badge variant="secondary">{subFlows.length}</Badge>
+              <span aria-hidden="true">▾</span>
+            </summary>
+            <div className="bo-flow-menu-list bo-subflow-list">
+              {subFlows.length ? (
+                subFlows.map(({ group, depth, cards }) => (
+                  <button
+                    key={group.id}
+                    type="button"
+                    style={{ paddingLeft: `${0.6 + depth}rem` }}
+                    onClick={() => jumpToSubFlow(group.id)}
+                  >
+                    <span
+                      className="bo-subflow-dot"
+                      style={{ background: groupColor(group.color) }}
+                      aria-hidden="true"
+                    />
+                    <span className="bo-subflow-title">{group.title}</span>
+                    <Badge variant="secondary" title="จำนวนการ์ดข้างใน">
+                      {cards}
+                    </Badge>
+                  </button>
+                ))
+              ) : (
+                <p className="muted text-xs">ยังไม่มี Sub Flow</p>
+              )}
+            </div>
+          </details>
           <div className="bo-flow-goto">
             <input
               ref={goToRef}
