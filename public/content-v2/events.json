@@ -1322,7 +1322,8 @@
             "stat": "stress",
             "amount": -2
           }
-        ]
+        ],
+        "recap": "คุณไล่รายจ่ายกับตารางเรียนใหม่ แล้วนำของที่ยังไม่ได้ใช้ไปคืน เงิน 100 บาทกลับเข้าบัญชี และสัปดาห์แรกก็ดูจัดการได้ง่ายขึ้น"
       },
       {
         "id": "take_more_classes",
@@ -1339,7 +1340,366 @@
             "stat": "stress",
             "amount": 3
           }
+        ],
+        "recap": "คุณลงวิชาท้าทายเพิ่มอีกหนึ่งวิชา ตารางแน่นขึ้นทันที แต่ก็รู้สึกว่าตัวเองได้ลองก้าวไปอีกขั้น"
+      }
+    ]
+  },
+  {
+    "id": "term2_first_assignment",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term2"
+    },
+    "title": "งานชิ้นแรกของเทอมสอง",
+    "sceneAssetId": "classroom_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "อาจารย์อัปโหลดโจทย์งานชิ้นแรกลงระบบตอนที่คุณเพิ่งหาที่นั่งได้"
+      },
+      {
+        "text": "กรุ๊ปห้องเด้งข้อความถามกันว่าส่งวันไหน มีคนส่งรูปตารางผิดวิชาเข้ามาด้วยหนึ่งรูป"
+      }
+    ],
+    "choices": [
+      {
+        "id": "share_notes",
+        "text": "เปิดเอกสารแชร์สรุปกับเพื่อน",
+        "conditions": [],
+        "recap": "คุณเปิดเอกสารร่วมและส่งลิงก์ให้เพื่อนในห้อง มีคนเริ่มเติมหัวข้อที่คุณตกหล่น งานแรกเลยดูรับมือได้มากขึ้น",
+        "effects": [
+          {
+            "type": "setFlag",
+            "flagId": "term2_shared_notes",
+            "value": true
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
         ]
+      },
+      {
+        "id": "work_alone",
+        "text": "เริ่มทำโจทย์เงียบ ๆ คนเดียว",
+        "conditions": [],
+        "recap": "คุณปิดแจ้งเตือนแล้วไล่โจทย์ทีละข้อ งานคืบหน้าไปพอสมควร แต่พอเงยหน้าก็รู้ว่าพักเที่ยงผ่านไปแล้ว",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "ask_for_clarification",
+        "text": "ถามอาจารย์เรื่องกำหนดส่งให้ชัด",
+        "conditions": [],
+        "recap": "คุณถามกำหนดส่งต่อหน้าห้อง อาจารย์ย้ำวันเวลาให้ทุกคนได้ยิน แล้วกรุ๊ปห้องก็หยุดเดากันเสียที",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "term2_club_open_house",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term2"
+    },
+    "title": "ชมรมชวนช่วยเปิดบ้าน",
+    "sceneAssetId": "campus_orientation_v5",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "joined_club",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "ชมรมที่คุณสมัครไว้จัดโต๊ะรับสมาชิกใหม่ รุ่นพี่ส่งข้อความมาถามว่าใครว่างมาช่วยบ้าง"
+      },
+      {
+        "text": "คุณยังมีงานชิ้นแรกค้างอยู่ แต่ก็อยากเห็นว่าคนในชมรมเป็นอย่างไรหลังไม่ได้เจอกันช่วงปิดเทอม"
+      }
+    ],
+    "choices": [
+      {
+        "id": "help_setup",
+        "text": "ไปช่วยจัดโต๊ะและป้าย",
+        "conditions": [],
+        "recap": "คุณช่วยยกโต๊ะและติดป้ายจนบูธพร้อมเปิด รุ่นพี่ขอบคุณหลายรอบ แต่แขนคุณล้าไปทั้งบ่าย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "attend_briefly",
+        "text": "แวะไปทักคนในชมรมสักพัก",
+        "conditions": [],
+        "recap": "คุณแวะคุยที่บูธ เจอหน้าเพื่อนชมรมสองสามคน แล้วขอตัวกลับไปทำงานที่ค้างไว้",
+        "effects": []
+      },
+      {
+        "id": "skip_meeting",
+        "text": "บอกว่าติดงานและขอไม่ไป",
+        "conditions": [],
+        "recap": "คุณส่งข้อความขอโทษและบอกว่าต้องทำงานส่ง รุ่นพี่ตอบว่าเข้าใจ แล้วคุณก็มีเวลาจัดการงานต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "term2_group_deadline",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term2"
+    },
+    "title": "งานกลุ่มกับข้อความที่ยังไม่ตอบ",
+    "sceneAssetId": "campus_library_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ใกล้กำหนดส่งรายงานกลุ่ม ไฟล์รวมมีหัวข้อที่ยังว่าง และแชตเริ่มถามกันว่าใครรับส่วนไหน"
+      },
+      {
+        "text": "ทุกคนมีงานของตัวเอง แต่ถ้าปล่อยไว้แบบนี้ คืนก่อนส่งคงยาวแน่"
+      }
+    ],
+    "choices": [
+      {
+        "id": "divide_tasks",
+        "text": "ชวนทุกคนแบ่งงานใหม่ให้ชัด",
+        "conditions": [],
+        "recap": "คุณรวบหัวข้อที่ยังขาดแล้วชวนเพื่อนแบ่งหน้าที่ ทุกคนตอบรับส่วนของตัวเอง ไฟล์รวมจึงเริ่มเดินต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "finish_for_group",
+        "text": "รับส่วนที่ค้างมาทำเพิ่มเอง",
+        "conditions": [],
+        "recap": "คุณเติมส่วนที่ว่างในรายงานจนคืบหน้า แต่ต้องนั่งหน้าจอนานกว่าที่คิดและเริ่มปวดตา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "leave_message_unread",
+        "text": "ปิดแชตแล้วพักก่อน",
+        "conditions": [],
+        "recap": "คุณวางมือถือไว้ไกลตัวและพักไปหนึ่งช่วง พอกลับมาเปิดแชต หัวข้อที่ยังไม่มีคนรับก็ยังอยู่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "term2_note_exchange",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term2"
+    },
+    "title": "ไฟล์สรุปที่มีคนช่วยเติม",
+    "sceneAssetId": "campus_library",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [
+      {
+        "type": "flag",
+        "flagId": "term2_shared_notes",
+        "value": true
+      }
+    ],
+    "lines": [
+      {
+        "text": "เอกสารสรุปที่คุณเคยแชร์มีคนเติมตัวอย่างโจทย์และคอมเมนต์ไว้หลายจุด"
+      },
+      {
+        "text": "เพื่อนในห้องชวนกันตรวจอีกครั้งก่อนสอบ คุณจะช่วยต่อแค่ไหน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "swap_feedback",
+        "text": "นัดกันตรวจสรุปคนละหัวข้อ",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนช่วยกันไล่จุดที่ยังงงในสรุป เจอคำอธิบายที่เข้าใจง่ายขึ้นและช่วยแก้ให้กันก่อนแยกย้าย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "send_update",
+        "text": "เติมตัวอย่างที่เพิ่งเข้าใจลงไฟล์",
+        "conditions": [],
+        "recap": "คุณพิมพ์ตัวอย่างเพิ่มแล้วส่งบอกในกรุ๊ป เพื่อนกดรับทราบหลายคน แม้คุณจะใช้เวลาพักไปอีกหน่อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "decline_today",
+        "text": "บอกว่าวันนี้ขออ่านของตัวเองก่อน",
+        "conditions": [],
+        "recap": "คุณตอบเพื่อนว่าขออ่านทวนเองคืนนี้ เพื่อนบอกว่าได้เลย แล้วไฟล์สรุปก็ยังเปิดให้คุณกลับมาดูเมื่อพร้อม",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "term2_final_prep",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term2"
+    },
+    "title": "คืนก่อนสอบปลายภาค",
+    "sceneAssetId": "dorm_room_v2",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เดดไลน์งานกลุ่มผ่านไปแล้ว แต่บนโต๊ะยังมีชีตสำหรับสอบปลายภาคกองอยู่"
+      },
+      {
+        "text": "มือถือสั่นเพราะมีคนถามว่าอ่านถึงไหน คุณดูนาฬิกาแล้วคิดว่าจะใช้คืนนี้อย่างไร"
+      }
+    ],
+    "choices": [
+      {
+        "id": "review_weak_topics",
+        "text": "ทวนเฉพาะหัวข้อที่ยังไม่แม่น",
+        "conditions": [],
+        "recap": "คุณวงหัวข้อที่มักตอบผิดแล้วลองทำโจทย์เพิ่ม จับทางได้มากขึ้น แต่กว่าจะปิดชีตก็ดึกกว่าที่ตั้งใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "sleep_early",
+        "text": "ปิดชีตแล้วนอนให้พอ",
+        "conditions": [],
+        "recap": "คุณเก็บชีตไว้ในกระเป๋าและเข้านอนก่อนเที่ยงคืน เช้าขึ้นมาร่างกายสดขึ้นและใจนิ่งกว่าเมื่อคืน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "take_it_easy",
+        "text": "จัดปากกาแล้วพักเงียบ ๆ",
+        "conditions": [],
+        "recap": "คุณเช็กบัตรนักศึกษา จัดปากกาใส่กระเป๋า แล้วนั่งเงียบ ๆ อีกครู่ก่อนปิดไฟ",
+        "effects": []
       }
     ]
   },
@@ -1379,7 +1739,8 @@
             "stat": "stress",
             "amount": 1
           }
-        ]
+        ],
+        "recap": "คุณเปิดสรุปทวนหัวข้อที่ยังไม่แม่นก่อนเข้าห้องสอบ พอเริ่มทำข้อสอบก็จับประเด็นได้เร็วขึ้น แม้ยังมีบางข้อที่ต้องคิดนาน"
       },
       {
         "id": "rest_before_exam",
@@ -1396,7 +1757,8 @@
             "stat": "stress",
             "amount": -2
           }
-        ]
+        ],
+        "recap": "คุณเก็บชีตลงกระเป๋า หลับตาพักและหายใจช้า ๆ ก่อนเข้าห้องสอบ ความล้ากับความกังวลเบาลงพอให้ตั้งสมาธิได้"
       }
     ]
   },
@@ -1436,7 +1798,8 @@
             "stat": "stress",
             "amount": 2
           }
-        ]
+        ],
+        "recap": "คุณรวบรวมเอกสารและยื่นขอทุนครบตามกำหนด หลังเจ้าหน้าที่ตรวจเรื่อง เงินช่วยเหลือ 500 บาทก็เข้าบัญชี แม้ช่วงเตรียมเอกสารจะเครียดไม่น้อย"
       },
       {
         "id": "find_extra_shift",
@@ -1453,7 +1816,8 @@
             "stat": "health",
             "amount": -3
           }
-        ]
+        ],
+        "recap": "คุณรับกะงานเสริมช่วงวันหยุด ได้ค่าจ้าง 300 บาทกลับมา แต่กลับถึงห้องก็เมื่อยจนต้องนั่งพักก่อนอาบน้ำ"
       }
     ]
   },

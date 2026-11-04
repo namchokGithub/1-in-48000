@@ -277,6 +277,83 @@
       "eventId": "return_to_campus"
     },
     {
+      "id": "n_term2_first_assignment",
+      "position": {
+        "x": 7200,
+        "y": 624
+      },
+      "type": "event",
+      "eventId": "term2_first_assignment"
+    },
+    {
+      "id": "condition_term2_club",
+      "position": {
+        "x": 7488,
+        "y": 624
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "joined_club",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_term2_club_open_house",
+      "position": {
+        "x": 7776,
+        "y": 408
+      },
+      "type": "event",
+      "eventId": "term2_club_open_house"
+    },
+    {
+      "id": "n_term2_group_deadline",
+      "position": {
+        "x": 7488,
+        "y": 984
+      },
+      "type": "event",
+      "eventId": "term2_group_deadline"
+    },
+    {
+      "id": "condition_term2_shared_notes",
+      "position": {
+        "x": 7488,
+        "y": 1344
+      },
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "term2_shared_notes",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_term2_note_exchange",
+      "position": {
+        "x": 7776,
+        "y": 1344
+      },
+      "type": "event",
+      "eventId": "term2_note_exchange"
+    },
+    {
+      "id": "n_term2_final_prep",
+      "position": {
+        "x": 7200,
+        "y": 1344
+      },
+      "type": "event",
+      "eventId": "term2_final_prep"
+    },
+    {
       "id": "n_year_one_final",
       "position": {
         "x": 6864,
@@ -345,14 +422,6 @@
       },
       "type": "event",
       "eventId": "course_choice"
-    },
-    {
-      "id": "next_y2_term1",
-      "position": {
-        "x": 9792,
-        "y": 1464
-      },
-      "type": "nextPeriod"
     },
     {
       "id": "next_y2_break",
@@ -1108,12 +1177,126 @@
       "id": "e_n_return_to_campus_budget_semester",
       "from": "n_return_to_campus",
       "port": "budget_semester",
-      "to": "n_year_one_final"
+      "to": "n_term2_first_assignment"
     },
     {
       "id": "e_n_return_to_campus_take_more_classes",
       "from": "n_return_to_campus",
       "port": "take_more_classes",
+      "to": "n_term2_first_assignment"
+    },
+    {
+      "id": "e_n_term2_first_assignment_share_notes_condition_term2_club",
+      "from": "n_term2_first_assignment",
+      "port": "share_notes",
+      "to": "condition_term2_club"
+    },
+    {
+      "id": "e_n_term2_first_assignment_work_alone_condition_term2_club",
+      "from": "n_term2_first_assignment",
+      "port": "work_alone",
+      "to": "condition_term2_club"
+    },
+    {
+      "id": "e_n_term2_first_assignment_ask_for_clarification_condition_term2_club",
+      "from": "n_term2_first_assignment",
+      "port": "ask_for_clarification",
+      "to": "condition_term2_club"
+    },
+    {
+      "id": "e_condition_term2_club_pass_n_term2_club_open_house",
+      "from": "condition_term2_club",
+      "port": "pass",
+      "to": "n_term2_club_open_house"
+    },
+    {
+      "id": "e_condition_term2_club_fail_n_term2_group_deadline",
+      "from": "condition_term2_club",
+      "port": "fail",
+      "to": "n_term2_group_deadline"
+    },
+    {
+      "id": "e_n_term2_club_open_house_help_setup_n_term2_group_deadline",
+      "from": "n_term2_club_open_house",
+      "port": "help_setup",
+      "to": "n_term2_group_deadline"
+    },
+    {
+      "id": "e_n_term2_club_open_house_attend_briefly_n_term2_group_deadline",
+      "from": "n_term2_club_open_house",
+      "port": "attend_briefly",
+      "to": "n_term2_group_deadline"
+    },
+    {
+      "id": "e_n_term2_club_open_house_skip_meeting_n_term2_group_deadline",
+      "from": "n_term2_club_open_house",
+      "port": "skip_meeting",
+      "to": "n_term2_group_deadline"
+    },
+    {
+      "id": "e_n_term2_group_deadline_divide_tasks_condition_term2_shared_notes",
+      "from": "n_term2_group_deadline",
+      "port": "divide_tasks",
+      "to": "condition_term2_shared_notes"
+    },
+    {
+      "id": "e_n_term2_group_deadline_finish_for_group_condition_term2_shared_notes",
+      "from": "n_term2_group_deadline",
+      "port": "finish_for_group",
+      "to": "condition_term2_shared_notes"
+    },
+    {
+      "id": "e_n_term2_group_deadline_leave_message_unread_condition_term2_shared_notes",
+      "from": "n_term2_group_deadline",
+      "port": "leave_message_unread",
+      "to": "condition_term2_shared_notes"
+    },
+    {
+      "id": "e_condition_term2_shared_notes_pass_n_term2_note_exchange",
+      "from": "condition_term2_shared_notes",
+      "port": "pass",
+      "to": "n_term2_note_exchange"
+    },
+    {
+      "id": "e_condition_term2_shared_notes_fail_n_term2_final_prep",
+      "from": "condition_term2_shared_notes",
+      "port": "fail",
+      "to": "n_term2_final_prep"
+    },
+    {
+      "id": "e_n_term2_note_exchange_swap_feedback_n_term2_final_prep",
+      "from": "n_term2_note_exchange",
+      "port": "swap_feedback",
+      "to": "n_term2_final_prep"
+    },
+    {
+      "id": "e_n_term2_note_exchange_send_update_n_term2_final_prep",
+      "from": "n_term2_note_exchange",
+      "port": "send_update",
+      "to": "n_term2_final_prep"
+    },
+    {
+      "id": "e_n_term2_note_exchange_decline_today_n_term2_final_prep",
+      "from": "n_term2_note_exchange",
+      "port": "decline_today",
+      "to": "n_term2_final_prep"
+    },
+    {
+      "id": "e_n_term2_final_prep_review_weak_topics_n_year_one_final",
+      "from": "n_term2_final_prep",
+      "port": "review_weak_topics",
+      "to": "n_year_one_final"
+    },
+    {
+      "id": "e_n_term2_final_prep_sleep_early_n_year_one_final",
+      "from": "n_term2_final_prep",
+      "port": "sleep_early",
+      "to": "n_year_one_final"
+    },
+    {
+      "id": "e_n_term2_final_prep_take_it_easy_n_year_one_final",
+      "from": "n_term2_final_prep",
+      "port": "take_it_easy",
       "to": "n_year_one_final"
     },
     {
@@ -1329,78 +1512,6 @@
         {
           "x": 9456,
           "y": 1448
-        }
-      ]
-    },
-    {
-      "id": "e_n_course_choice_take_hard_course",
-      "from": "n_course_choice",
-      "port": "take_hard_course",
-      "to": "next_y2_term1",
-      "route": [
-        {
-          "x": 9696,
-          "y": 1532
-        },
-        {
-          "x": 9744,
-          "y": 1532
-        },
-        {
-          "x": 9744,
-          "y": 1553
-        },
-        {
-          "x": 9792,
-          "y": 1553
-        }
-      ]
-    },
-    {
-      "id": "e_n_course_choice_keep_balance",
-      "from": "n_course_choice",
-      "port": "keep_balance",
-      "to": "next_y2_term1",
-      "route": [
-        {
-          "x": 9696,
-          "y": 1555
-        },
-        {
-          "x": 9714,
-          "y": 1555
-        },
-        {
-          "x": 9714,
-          "y": 1553
-        },
-        {
-          "x": 9792,
-          "y": 1553
-        }
-      ]
-    },
-    {
-      "id": "e_next_y2_term1_next",
-      "from": "next_y2_term1",
-      "port": "next",
-      "to": "next_y2_break",
-      "route": [
-        {
-          "x": 10032,
-          "y": 1575
-        },
-        {
-          "x": 10080,
-          "y": 1575
-        },
-        {
-          "x": 10080,
-          "y": 1553
-        },
-        {
-          "x": 10128,
-          "y": 1553
         }
       ]
     },
@@ -2945,6 +3056,18 @@
       "from": "n_midterm_exam",
       "port": "choice_80f317fc",
       "to": "random_y1_term1_life"
+    },
+    {
+      "id": "e_n_course_choice_take_hard_course",
+      "from": "n_course_choice",
+      "port": "take_hard_course",
+      "to": "next_y2_break"
+    },
+    {
+      "id": "e_n_course_choice_keep_balance",
+      "from": "n_course_choice",
+      "port": "keep_balance",
+      "to": "next_y2_break"
     }
   ]
 }

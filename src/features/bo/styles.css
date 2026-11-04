@@ -628,6 +628,19 @@
 .bo-flow-actions-gap {
   flex: 1;
 }
+.bo-flow-counts {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.bo-flow-counts strong {
+  color: var(--color-ink);
+}
+@media (max-width: 480px) {
+  .bo-flow-counts {
+    display: none;
+  }
+}
 .bo-flow-issues {
   display: grid;
   gap: 0.25rem;
@@ -1454,10 +1467,9 @@ dialog {
   }
   .bo-events-layout {
     gap: 0;
-    grid-template-columns: minmax(
-        0,
-        var(--bo-event-panel-width, 40%)
-      ) 1rem minmax(0, 1fr);
+    grid-template-columns:
+      minmax(0, var(--bo-event-panel-width, 40%))
+      1rem minmax(0, 1fr);
   }
   .bo-event-resize {
     position: sticky;

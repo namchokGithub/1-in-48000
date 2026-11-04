@@ -123,6 +123,118 @@ describe('live V2 content', () => {
     ])
   })
 
+  it('keeps every year-one term-two choice recapped', () => {
+    const termTwoIds = [
+      'return_to_campus',
+      'term2_first_assignment',
+      'term2_club_open_house',
+      'term2_group_deadline',
+      'term2_note_exchange',
+      'term2_final_prep',
+      'year_one_final',
+      'scholarship_notice',
+    ]
+    const termTwoEvents = events.filter((event) =>
+      termTwoIds.includes(event.id),
+    )
+    expect(termTwoEvents).toHaveLength(termTwoIds.length)
+    for (const event of termTwoEvents) {
+      expect(event.choices.length).toBeGreaterThanOrEqual(2)
+      expect(event.choices.length).toBeLessThanOrEqual(4)
+      expect(
+        event.choices.every(
+          (choice) => 'recap' in choice && Boolean(choice.recap),
+        ),
+      ).toBe(true)
+    }
+  })
+
+  it('routes year-one term-two side stories and rejoins summer', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (
+      flags: Record<string, boolean>,
+      money: number,
+      choices: Record<string, string>,
+    ) => {
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        currentTime: { year: 1, period: 'term2' },
+        currentNodeId: 'n_return_to_campus',
+        currentEventId: 'return_to_campus',
+        flags,
+        stats: { ...save.stats, money },
+      }
+      const seen: string[] = []
+      for (let step = 0; step < 12; step += 1) {
+        const event = getV2CurrentEvent(content, save)!
+        if (event.id === 'summer_job') break
+        seen.push(event.id)
+        save = chooseV2(content, save, choices[event.id])
+      }
+      expect(save.currentEventId).toBe('summer_job')
+      expect(save.currentTime.period).toBe('summer')
+      return { seen, sharedNotes: save.flags.term2_shared_notes }
+    }
+
+    expect(
+      play({ joined_club: true }, 100, {
+        return_to_campus: 'budget_semester',
+        term2_first_assignment: 'share_notes',
+        term2_club_open_house: 'attend_briefly',
+        term2_group_deadline: 'divide_tasks',
+        term2_note_exchange: 'swap_feedback',
+        term2_final_prep: 'sleep_early',
+        year_one_final: 'review_notes',
+        scholarship_notice: 'apply_aid',
+      }),
+    ).toEqual({
+      seen: [
+        'return_to_campus',
+        'term2_first_assignment',
+        'term2_club_open_house',
+        'term2_group_deadline',
+        'term2_note_exchange',
+        'term2_final_prep',
+        'year_one_final',
+        'scholarship_notice',
+      ],
+      sharedNotes: true,
+    })
+    expect(
+      play({}, 1200, {
+        return_to_campus: 'take_more_classes',
+        term2_first_assignment: 'work_alone',
+        term2_group_deadline: 'finish_for_group',
+        term2_final_prep: 'take_it_easy',
+        year_one_final: 'rest_before_exam',
+      }),
+    ).toEqual({
+      seen: [
+        'return_to_campus',
+        'term2_first_assignment',
+        'term2_group_deadline',
+        'term2_final_prep',
+        'year_one_final',
+      ],
+      sharedNotes: undefined,
+    })
+  })
+
   it('loads the authored story with the shared V2 schema', async () => {
     const files: Record<string, unknown> = {
       config,

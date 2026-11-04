@@ -675,6 +675,16 @@ function Board({
     flow.nodes.flatMap((node) => (node.type === 'event' ? [node.eventId] : [])),
   )
   const usedEvents = usedEventIds(flow, content.events)
+  const cardCounts = (Object.keys(typeLabels) as V2FlowNode['type'][])
+    .filter((type) => type !== 'start')
+    .map((type) => ({
+      type,
+      count: flow.nodes.filter((node) => node.type === type).length,
+    }))
+    .filter(({ count }) => count > 0)
+  const unusedEventCount = content.events.filter(
+    (event) => event.active !== false && !usedEvents.has(event.id),
+  ).length
   const library = content.events.filter(
     (event) =>
       matchesStoryQuery(event, query) &&
@@ -1153,6 +1163,20 @@ function Board({
               </ul>
             )}
           </div>
+          <p className="bo-flow-counts" aria-label="จำนวนการ์ดบนกระดาน">
+            {cardCounts.map(({ type, count }, index) => (
+              <span key={type}>
+                {index > 0 && ' · '}
+                {typeLabels[type]} <strong>{count}</strong>
+              </span>
+            ))}
+            {unusedEventCount > 0 && (
+              <span title="เหตุการณ์ที่เปิดใช้อยู่แต่ยังไม่ได้วางบนกระดานหรืออยู่ใน Pool ที่การ์ดสุ่มใช้">
+                {cardCounts.length > 0 && ' · '}
+                ยังไม่ได้ใช้ <strong>{unusedEventCount}</strong>
+              </span>
+            )}
+          </p>
           <span className="bo-flow-actions-gap" />
           <div className="bo-flow-group" role="group" aria-label="มุมมอง">
             <BoDropdown
