@@ -10,14 +10,29 @@
     "path": "/assets/scene/campus-orientation.png"
   },
   {
+    "id": "campus_orientation_v2",
+    "kind": "scene",
+    "path": "/assets/scene/campus-orientation-v2.png"
+  },
+  {
     "id": "classroom",
     "kind": "scene",
     "path": "/assets/scene/classroom.png"
   },
   {
+    "id": "classroom_v2",
+    "kind": "scene",
+    "path": "/assets/scene/classroom-v2.png"
+  },
+  {
     "id": "dorm_room",
     "kind": "scene",
     "path": "/assets/scene/dorm-room.png"
+  },
+  {
+    "id": "dorm_room_v2",
+    "kind": "scene",
+    "path": "/assets/scene/dorm-room-v2.png"
   },
   {
     "id": "campus_library",
@@ -38,6 +53,11 @@
     "id": "graduation_stage",
     "kind": "scene",
     "path": "/assets/scene/graduation-stage.png"
+  },
+  {
+    "id": "graduation_stage_v2",
+    "kind": "scene",
+    "path": "/assets/scene/graduation-stage-v2.png"
   },
   {
     "id": "h2m_bang_saen",

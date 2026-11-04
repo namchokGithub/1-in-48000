@@ -8,7 +8,7 @@
       "period": "term1"
     },
     "title": "วันปฐมนิเทศ",
-    "sceneAssetId": "campus_orientation",
+    "sceneAssetId": "campus_orientation_v2",
     "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [
@@ -63,7 +63,7 @@
     "conditions": [],
     "lines": [
       {
-        "text": "บางเรื่องยังไม่เข้าใจ แต่วันนี้ยังเป็นแค่วันแรก"
+        "text": "คาบแรกผ่านไปพร้อมกับคำถามเต็มหัว บางเรื่องก็ยังไม่ค่อยเข้าใจเท่าไหร่ แต่ไม่เป็นไรหรอก นี่เพิ่งวันแรกเอง"
       },
       {
         "text": "อาจารย์เขียนหัวข้อยาวเต็มกระดาน เสียงเปิดสมุดดังทั่วห้อง"
@@ -71,8 +71,25 @@
     ],
     "choices": [
       {
+        "id": "ask_friend",
+        "text": "หันไปถามคนข้าง ๆ หลังเลิกคาบ",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      },
+      {
         "id": "take_notes",
-        "text": "จดประเด็นที่ยังสงสัยไว้",
+        "text": "จดเรื่องที่ยังไม่เข้าใจไว้ถามทีหลัง",
         "conditions": [],
         "effects": [
           {
@@ -92,24 +109,15 @@
               "amount": 4
             }
           }
-        ]
+        ],
+        "recap": "คุณหยิบสมุดขึ้นมาจดเรื่องที่ยังสงสัยไว้ ถึงตอนนี้จะยังไม่เข้าใจทั้งหมด แต่ไว้ค่อยกลับมาทบทวนอีกทีก็ได้"
       },
       {
-        "id": "ask_friend",
-        "text": "หันไปถามคนข้าง ๆ หลังเลิกคาบ",
+        "id": "choice_612503f7",
+        "text": "แค่นี้เอง เดี๋ยวกลับไปอ่านก็เข้าใจ!",
         "conditions": [],
-        "effects": [
-          {
-            "type": "statDelta",
-            "stat": "study",
-            "amount": 1
-          },
-          {
-            "type": "statDelta",
-            "stat": "relationships",
-            "amount": 2
-          }
-        ]
+        "effects": [],
+        "recap": "คุณตัดสินใจว่าจะกลับไปทำความเข้าใจด้วยตัวเอง ถึงตอนนี้จะยังงง ๆ อยู่บ้าง แต่ก็มั่นใจว่าต้องทำได้แน่นอน... มั้งนะ"
       }
     ]
   },
@@ -2311,7 +2319,7 @@
       "period": "term1"
     },
     "title": "ทำความรู้จักเพื่อนใหม่",
-    "sceneAssetId": "campus_orientation",
+    "sceneAssetId": "campus_orientation_v2",
     "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [

@@ -48,7 +48,14 @@ import { BoDropdown } from './Select'
 import { CopyIdButton } from './CopyIdButton'
 import { V2ConditionList } from './V2ConditionList'
 import { conditionSummary } from './storySummary'
-import { matchesStoryQuery } from './timelineFilters'
+import {
+  allEvents,
+  matchesEventFilter,
+  matchesStoryQuery,
+  usedEventIds,
+  type EventFilter,
+} from './timelineFilters'
+import { EventFilterFields } from './EventFilterFields'
 import {
   addFlowNode,
   connectPorts,
@@ -456,8 +463,7 @@ function Board({
     return [...seen].map((id) => ({ id }))
   })
   const [query, setQuery] = useState('')
-  const [year, setYear] = useState('all')
-  const [period, setPeriod] = useState('all')
+  const [libraryFilter, setLibraryFilter] = useState<EventFilter>(allEvents)
   const [selected, setSelected] = useState<{
     kind: 'node' | 'edge'
     id: string
@@ -668,11 +674,11 @@ function Board({
   const placedEventIds = new Set(
     flow.nodes.flatMap((node) => (node.type === 'event' ? [node.eventId] : [])),
   )
+  const usedEvents = usedEventIds(flow, content.events)
   const library = content.events.filter(
     (event) =>
       matchesStoryQuery(event, query) &&
-      (year === 'all' || event.time.year === Number(year)) &&
-      (period === 'all' || event.time.period === period),
+      matchesEventFilter(event, libraryFilter, usedEvents),
   )
   const pools = [
     ...new Set(
@@ -990,36 +996,12 @@ function Board({
               onChange={(input) => setQuery(input.target.value)}
             />
           </label>
-          <div className="bo-form-grid">
-            <label className="bo-field">
-              <span>ปี</span>
-              <BoDropdown
-                value={year}
-                onChange={(input) => setYear(input.target.value)}
-              >
-                <option value="all">ทุกปี</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((value) => (
-                  <option key={value} value={String(value)}>
-                    ปี {value}
-                  </option>
-                ))}
-              </BoDropdown>
-            </label>
-            <label className="bo-field">
-              <span>ช่วงเวลา</span>
-              <BoDropdown
-                value={period}
-                onChange={(input) => setPeriod(input.target.value)}
-              >
-                <option value="all">ทุกช่วง</option>
-                {Object.entries(periodLabels).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </BoDropdown>
-            </label>
-          </div>
+          <EventFilterFields
+            events={content.events}
+            value={libraryFilter}
+            onChange={setLibraryFilter}
+            shown={library.length}
+          />
           <ul className="bo-flow-library-list">
             {library.map((event) => {
               const placed = placedEventIds.has(event.id)

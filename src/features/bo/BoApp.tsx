@@ -40,7 +40,14 @@ import {
   syncEventChange,
 } from './flowEditing'
 import { neighboringStoryIndex, orderedStoryEntries } from './storyVisibility'
-import { matchesStoryQuery } from './timelineFilters'
+import {
+  allEvents,
+  matchesEventFilter,
+  matchesStoryQuery,
+  usedEventIds,
+  type EventFilter,
+} from './timelineFilters'
+import { EventFilterFields } from './EventFilterFields'
 import { DataEditor, type DataSection } from './DataEditor'
 import { CatalogEditor, type CatalogSection } from './CatalogEditor'
 import { issueTarget, type IssueTarget } from './issueTarget'
@@ -157,6 +164,7 @@ export function BoApp() {
   const [editEventId, setEditEventId] = useState<string | null>(null)
   const [simulation, setSimulation] = useState<Simulation | null>(null)
   const [eventQuery, setEventQuery] = useState('')
+  const [eventFilter, setEventFilter] = useState<EventFilter>(allEvents)
   const [endingQuery, setEndingQuery] = useState('')
   const [storedEventIndex, setEventIndex] = useState(0)
   const [storedEndingIndex, setEndingIndex] = useState(0)
@@ -526,9 +534,23 @@ export function BoApp() {
     draft.endings.map((item) => ({ value: item.id, label: item.title })),
     endingQuery,
   )
+  const usedEvents = usedEventIds(draft.flow, draft.events)
+  const eventVisible = (item: V2Event, query: string, filter: EventFilter) =>
+    matchesStoryQuery(item, query) &&
+    matchesEventFilter(item, filter, usedEvents)
   const visibleEventEntries = orderedStoryEntries(draft.events).filter(
-    ({ event: item }) => matchesStoryQuery(item, eventQuery),
+    ({ event: item }) => eventVisible(item, eventQuery, eventFilter),
   )
+  /** Keeps a shown event selected when the search or filters change. */
+  function showEvents(query: string, filter: EventFilter) {
+    setEventQuery(query)
+    setEventFilter(filter)
+    if (!currentDraft || (event && eventVisible(event, query, filter))) return
+    const first = orderedStoryEntries(currentDraft.events).find(
+      ({ event: item }) => eventVisible(item, query, filter),
+    )
+    if (first) setEventIndex(first.index)
+  }
 
   function updateEventAt(target: number, next: V2Event) {
     setDraft(
@@ -1159,20 +1181,21 @@ export function BoApp() {
                   label="ค้นหาเหตุการณ์"
                   value={eventQuery}
                   placeholder="ชื่อ, ID, ข้อความ"
-                  onChange={(next) => {
-                    setEventQuery(next)
-                    if (!event || matchesStoryQuery(event, next)) return
-                    const first = orderedStoryEntries(draft.events).find(
-                      ({ event: item }) => matchesStoryQuery(item, next),
-                    )
-                    if (first) setEventIndex(first.index)
-                  }}
+                  onChange={(next) => showEvents(next, eventFilter)}
                 />
               ) : (
                 <ListSearch
                   label="ค้นหาตอนจบ"
                   value={endingQuery}
                   onChange={setEndingQuery}
+                />
+              )}
+              {section === 'events' && (
+                <EventFilterFields
+                  events={draft.events}
+                  value={eventFilter}
+                  onChange={(next) => showEvents(eventQuery, next)}
+                  shown={visibleEventEntries.length}
                 />
               )}
               <div className="bo-item-list">
@@ -1189,6 +1212,7 @@ export function BoApp() {
                         <small>
                           {item.id} · ปี {item.time.year}{' '}
                           {periodLabels[item.time.period]}
+                          {item.pool ? ` · Pool ${item.pool}` : ''}
                           {item.active === false ? ' · ปิดใช้' : ''}
                         </small>
                       </button>

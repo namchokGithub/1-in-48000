@@ -23,8 +23,8 @@
     {
       "id": "n_first_class",
       "position": {
-        "x": 1512,
-        "y": 264
+        "x": 1704,
+        "y": 96
       },
       "type": "event",
       "eventId": "first_class"
@@ -32,8 +32,8 @@
     {
       "id": "n_dorm_evening",
       "position": {
-        "x": 2064,
-        "y": 360
+        "x": 1704,
+        "y": 504
       },
       "type": "event",
       "eventId": "dorm_evening"
@@ -104,8 +104,8 @@
     {
       "id": "n_mali_checkin",
       "position": {
-        "x": 4752,
-        "y": 1008
+        "x": 4416,
+        "y": 1320
       },
       "type": "event",
       "eventId": "mali_checkin"
@@ -113,8 +113,8 @@
     {
       "id": "n_club_invitation",
       "position": {
-        "x": 5088,
-        "y": 1104
+        "x": 5184,
+        "y": 1344
       },
       "type": "event",
       "eventId": "club_invitation"
@@ -122,7 +122,7 @@
     {
       "id": "random_y1_term1_life",
       "position": {
-        "x": 5424,
+        "x": 4968,
         "y": 912
       },
       "type": "random",
@@ -553,20 +553,22 @@
     {
       "id": "n_new_event",
       "position": {
-        "x": 696,
-        "y": 480
+        "x": 96,
+        "y": 360
       },
       "type": "event",
-      "eventId": "explore_library_and_find_food"
+      "eventId": "explore_library_and_find_food",
+      "parentId": "group_2"
     },
     {
       "id": "n_new_event_2",
       "position": {
-        "x": 1080,
-        "y": 480
+        "x": 432,
+        "y": 360
       },
       "type": "event",
-      "eventId": "new_event_2"
+      "eventId": "new_event_2",
+      "parentId": "group_2"
     },
     {
       "id": "group",
@@ -583,11 +585,24 @@
     {
       "id": "n_new_event_3",
       "position": {
-        "x": 888,
-        "y": 96
+        "x": 240,
+        "y": 48
       },
       "type": "event",
-      "eventId": "meet_new_friend"
+      "eventId": "meet_new_friend",
+      "parentId": "group_2"
+    },
+    {
+      "id": "group_2",
+      "type": "group",
+      "title": "ทักทายเพื่อนใหม่",
+      "color": "blue",
+      "width": 752,
+      "height": 732,
+      "position": {
+        "x": 720,
+        "y": 48
+      }
     }
   ],
   "edges": [
@@ -924,25 +939,7 @@
         "type": "flag",
         "flagId": "met_mali",
         "value": true
-      },
-      "route": [
-        {
-          "x": 4656,
-          "y": 1148
-        },
-        {
-          "x": 4704,
-          "y": 1148
-        },
-        {
-          "x": 4704,
-          "y": 1136
-        },
-        {
-          "x": 4752,
-          "y": 1136
-        }
-      ]
+      }
     },
     {
       "id": "e_n_midterm_exam_trust_preparation_n_club_invitation",
@@ -953,57 +950,13 @@
         "type": "flag",
         "flagId": "joined_club",
         "value": true
-      },
-      "route": [
-        {
-          "x": 4656,
-          "y": 1148
-        },
-        {
-          "x": 4674,
-          "y": 1148
-        },
-        {
-          "x": 4674,
-          "y": 983
-        },
-        {
-          "x": 5010,
-          "y": 983
-        },
-        {
-          "x": 5010,
-          "y": 1232
-        },
-        {
-          "x": 5088,
-          "y": 1232
-        }
-      ]
+      }
     },
     {
       "id": "e_n_midterm_exam_trust_preparation_random_y1_term1_life",
       "from": "n_midterm_exam",
       "port": "trust_preparation",
-      "to": "random_y1_term1_life",
-      "route": [
-        {
-          "x": 4656,
-          "y": 1148
-        },
-        {
-          "x": 4674,
-          "y": 1148
-        },
-        {
-          "x": 4674,
-          "y": 990
-        },
-        {
-          "x": 5424,
-          "y": 990
-        }
-      ]
+      "to": "random_y1_term1_life"
     },
     {
       "id": "e_n_midterm_exam_last_minute_n_mali_checkin",
@@ -1014,25 +967,7 @@
         "type": "flag",
         "flagId": "met_mali",
         "value": true
-      },
-      "route": [
-        {
-          "x": 4656,
-          "y": 1171
-        },
-        {
-          "x": 4674,
-          "y": 1171
-        },
-        {
-          "x": 4674,
-          "y": 1136
-        },
-        {
-          "x": 4752,
-          "y": 1136
-        }
-      ]
+      }
     },
     {
       "id": "e_n_midterm_exam_last_minute_n_club_invitation",
@@ -1043,65 +978,13 @@
         "type": "flag",
         "flagId": "joined_club",
         "value": true
-      },
-      "route": [
-        {
-          "x": 4656,
-          "y": 1171
-        },
-        {
-          "x": 4674,
-          "y": 1171
-        },
-        {
-          "x": 4674,
-          "y": 1372
-        },
-        {
-          "x": 5010,
-          "y": 1372
-        },
-        {
-          "x": 5010,
-          "y": 1232
-        },
-        {
-          "x": 5088,
-          "y": 1232
-        }
-      ]
+      }
     },
     {
       "id": "e_n_midterm_exam_last_minute_random_y1_term1_life",
       "from": "n_midterm_exam",
       "port": "last_minute",
-      "to": "random_y1_term1_life",
-      "route": [
-        {
-          "x": 4656,
-          "y": 1171
-        },
-        {
-          "x": 4674,
-          "y": 1171
-        },
-        {
-          "x": 4674,
-          "y": 1372
-        },
-        {
-          "x": 5346,
-          "y": 1372
-        },
-        {
-          "x": 5346,
-          "y": 990
-        },
-        {
-          "x": 5424,
-          "y": 990
-        }
-      ]
+      "to": "random_y1_term1_life"
     },
     {
       "id": "e_n_mali_checkin_share_worry_n_club_invitation",
@@ -1112,49 +995,13 @@
         "type": "flag",
         "flagId": "joined_club",
         "value": true
-      },
-      "route": [
-        {
-          "x": 4992,
-          "y": 1220
-        },
-        {
-          "x": 5040,
-          "y": 1220
-        },
-        {
-          "x": 5040,
-          "y": 1232
-        },
-        {
-          "x": 5088,
-          "y": 1232
-        }
-      ]
+      }
     },
     {
       "id": "e_n_mali_checkin_share_worry_random_y1_term1_life",
       "from": "n_mali_checkin",
       "port": "share_worry",
-      "to": "random_y1_term1_life",
-      "route": [
-        {
-          "x": 4992,
-          "y": 1220
-        },
-        {
-          "x": 5010,
-          "y": 1220
-        },
-        {
-          "x": 5010,
-          "y": 990
-        },
-        {
-          "x": 5424,
-          "y": 990
-        }
-      ]
+      "to": "random_y1_term1_life"
     },
     {
       "id": "e_n_mali_checkin_keep_to_self_n_club_invitation",
@@ -1165,153 +1012,37 @@
         "type": "flag",
         "flagId": "joined_club",
         "value": true
-      },
-      "route": [
-        {
-          "x": 4992,
-          "y": 1243
-        },
-        {
-          "x": 5010,
-          "y": 1243
-        },
-        {
-          "x": 5010,
-          "y": 1232
-        },
-        {
-          "x": 5088,
-          "y": 1232
-        }
-      ]
+      }
     },
     {
       "id": "e_n_mali_checkin_keep_to_self_random_y1_term1_life",
       "from": "n_mali_checkin",
       "port": "keep_to_self",
-      "to": "random_y1_term1_life",
-      "route": [
-        {
-          "x": 4992,
-          "y": 1243
-        },
-        {
-          "x": 5010,
-          "y": 1243
-        },
-        {
-          "x": 5010,
-          "y": 1372
-        },
-        {
-          "x": 5346,
-          "y": 1372
-        },
-        {
-          "x": 5346,
-          "y": 990
-        },
-        {
-          "x": 5424,
-          "y": 990
-        }
-      ]
+      "to": "random_y1_term1_life"
     },
     {
       "id": "e_n_club_invitation_join_activity",
       "from": "n_club_invitation",
       "port": "join_activity",
-      "to": "random_y1_term1_life",
-      "route": [
-        {
-          "x": 5328,
-          "y": 1316
-        },
-        {
-          "x": 5346,
-          "y": 1316
-        },
-        {
-          "x": 5346,
-          "y": 990
-        },
-        {
-          "x": 5424,
-          "y": 990
-        }
-      ]
+      "to": "random_y1_term1_life"
     },
     {
       "id": "e_n_club_invitation_skip_activity",
       "from": "n_club_invitation",
       "port": "skip_activity",
-      "to": "random_y1_term1_life",
-      "route": [
-        {
-          "x": 5328,
-          "y": 1339
-        },
-        {
-          "x": 5346,
-          "y": 1339
-        },
-        {
-          "x": 5346,
-          "y": 990
-        },
-        {
-          "x": 5424,
-          "y": 990
-        }
-      ]
+      "to": "random_y1_term1_life"
     },
     {
       "id": "e_random_y1_term1_life_after",
       "from": "random_y1_term1_life",
       "port": "after",
-      "to": "next_y1_term1",
-      "route": [
-        {
-          "x": 5664,
-          "y": 1023
-        },
-        {
-          "x": 5712,
-          "y": 1023
-        },
-        {
-          "x": 5712,
-          "y": 1025
-        },
-        {
-          "x": 5760,
-          "y": 1025
-        }
-      ]
+      "to": "next_y1_term1"
     },
     {
       "id": "e_random_y1_term1_life_fallback",
       "from": "random_y1_term1_life",
       "port": "fallback",
-      "to": "next_y1_term1",
-      "route": [
-        {
-          "x": 5664,
-          "y": 1047
-        },
-        {
-          "x": 5682,
-          "y": 1047
-        },
-        {
-          "x": 5682,
-          "y": 1025
-        },
-        {
-          "x": 5760,
-          "y": 1025
-        }
-      ]
+      "to": "next_y1_term1"
     },
     {
       "id": "e_next_y1_term1_next",
@@ -3312,6 +3043,12 @@
       "from": "n_new_event_3",
       "port": "continue",
       "to": "n_first_class"
+    },
+    {
+      "id": "e_n_first_class_choice_612503f7",
+      "from": "n_first_class",
+      "port": "choice_612503f7",
+      "to": "n_dorm_evening"
     }
   ]
 }
