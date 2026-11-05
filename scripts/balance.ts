@@ -74,70 +74,72 @@ const generatedAt = new Date().toISOString()
 const folder = join(values.out, generatedAt.replace(/[:.]/g, '-'))
 mkdirSync(folder, { recursive: true })
 
-const columns = [
-  'seed',
-  'policy',
-  'background',
-  'faculty',
-  'major',
-  'program_years',
-  'ending',
-  'final_year',
-  'grade',
-  'study',
-  'money',
-  'health',
-  'stress',
-  'relationships',
-  'debt',
-  'lucky',
-  'final_money',
-  'decisions',
-  'error',
-]
-const csv = [
-  columns.join(','),
-  ...runs.map((run) =>
-    [
-      run.seed,
-      run.policy,
-      run.backgroundId,
-      run.facultyId ?? '',
-      run.majorId ?? '',
-      run.programYears ?? '',
-      run.endingId ?? '',
-      run.finalYear,
-      run.grade ?? '',
-      run.stats.study,
-      run.stats.money,
-      run.stats.health,
-      run.stats.stress,
-      run.stats.relationships,
-      run.stats.debt,
-      run.stats.lucky,
-      run.finalMoney,
-      run.path.length,
-      run.error ? `"${run.error.replaceAll('"', '""')}"` : '',
-    ].join(','),
-  ),
-].join('\n')
-writeFileSync(join(folder, 'runs.csv'), `${csv}\n`)
-writeFileSync(
-  join(folder, 'paths.jsonl'),
-  runs
-    .map((run) =>
-      JSON.stringify({
-        seed: run.seed,
-        policy: run.policy,
-        major: run.majorId,
-        ending: run.endingId,
-        path: run.path.map(
-          (step) => `${step.eventId}:${step.choiceIds.join('+')}`,
-        ),
-      }),
-    )
-    .join('\n') + '\n',
-)
+// const columns = [
+//   'seed',
+//   'policy',
+//   'background',
+//   'faculty',
+//   'major',
+//   'program_years',
+//   'ending',
+//   'final_year',
+//   'grade',
+//   'study',
+//   'money',
+//   'health',
+//   'stress',
+//   'relationships',
+//   'debt',
+//   'lucky',
+//   'final_money',
+//   'loan_left',
+//   'decisions',
+//   'error',
+// ]
+// const csv = [
+//   columns.join(','),
+//   ...runs.map((run) =>
+//     [
+//       run.seed,
+//       run.policy,
+//       run.backgroundId,
+//       run.facultyId ?? '',
+//       run.majorId ?? '',
+//       run.programYears ?? '',
+//       run.endingId ?? '',
+//       run.finalYear,
+//       run.grade ?? '',
+//       run.stats.study,
+//       run.stats.money,
+//       run.stats.health,
+//       run.stats.stress,
+//       run.stats.relationships,
+//       run.stats.debt,
+//       run.stats.lucky,
+//       run.finalMoney,
+//       Math.max(0, -run.finalMoney),
+//       run.path.length,
+//       run.error ? `"${run.error.replaceAll('"', '""')}"` : '',
+//     ].join(','),
+//   ),
+// ].join('\n')
+// writeFileSync(join(folder, 'runs.csv'), `${csv}\n`)
+// writeFileSync(
+//   join(folder, 'paths.jsonl'),
+//   runs
+//     .map((run) =>
+//       JSON.stringify({
+//         seed: run.seed,
+//         policy: run.policy,
+//         major: run.majorId,
+//         ending: run.endingId,
+//         path: run.path.map(
+//           (step) => `${step.eventId}:${step.choiceIds.join('+')}`,
+//         ),
+//       }),
+//     )
+//     .join('\n') + '\n',
+// )
 const command = `pnpm balance ${process.argv.slice(2).join(' ')}`.trim()
 writeFileSync(
   join(folder, 'summary.md'),

@@ -35,8 +35,8 @@ Program, elective, and multi-select events follow the same policy. The backgroun
 
 Each run writes a folder named after its time:
 
-- `summary.md`: endings and runs that went beyond the program length, by policy and program length; final stats as median with p10–p90; a watch list of saturated or extreme stats; the choices whose pick moves final stats most (random runs only); the largest stat changes written on any choice; and events no run reached or few runs reached.
-- `runs.csv`: one row per run with seed, policy, background, major, ending, final year, grade, final stats, and the number of decisions.
+- `summary.md`: endings and runs that went beyond the program length, by policy and program length; final stats as median with p10–p90, including the automatic loan still owed at the ending and the share of runs that owe one; a watch list of saturated or extreme stats; the choices whose pick moves final stats most (random runs only); the largest stat changes written on any choice; and events no run reached or few runs reached.
+- `runs.csv`: one row per run with seed, policy, background, major, ending, final year, grade, final stats, money after debt (`final_money`), the automatic loan still owed (`loan_left`), and the number of decisions.
 - `paths.jsonl`: one line per run with every `eventId:choiceId` in order.
 
 Re-run with the same options after editing content to compare reports.

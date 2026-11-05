@@ -35,6 +35,11 @@
     "path": "/assets/scene/medical-faculty-building.png"
   },
   {
+    "id": "informatics_faculty_building",
+    "kind": "scene",
+    "path": "/assets/scene/informatics-faculty-building.png"
+  },
+  {
     "id": "classroom",
     "kind": "scene",
     "path": "/assets/scene/classroom.png"

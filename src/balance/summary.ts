@@ -45,6 +45,8 @@ export type GroupSummary = {
   finalYears: Record<number, number>
   stats: Record<Stat, Spread>
   finalMoney: Spread
+  /** Automatic loan still owed at the ending: negative money after debt. */
+  loanLeft: Spread
   grade: Spread
 }
 
@@ -76,6 +78,7 @@ export function summarizeGroups(runs: RunResult[]): GroupSummary[] {
         ]),
       ) as Record<Stat, Spread>,
       finalMoney: spread(group.map((run) => run.finalMoney)),
+      loanLeft: spread(group.map((run) => Math.max(0, -run.finalMoney))),
       grade: spread(
         group.flatMap((run) => (run.grade === null ? [] : [run.grade])),
       ),
@@ -257,7 +260,7 @@ export function renderSummary(
   lines.push(
     '## Final stats',
     '',
-    'Median (p10–p90). Money is after the ending settles debt.',
+    'Median (p10–p90). Money is after the ending settles debt; a negative balance is an automatic loan, shown again as Loan left.',
     '',
   )
   const range = (value: Spread) =>
@@ -274,6 +277,7 @@ export function renderSummary(
         'Relations',
         'Lucky',
         'Money',
+        'Loan left',
         'Debt',
       ],
       groups.map((group) => [
@@ -286,6 +290,15 @@ export function renderSummary(
         range(group.stats.relationships),
         range(group.stats.lucky),
         range(group.finalMoney),
+        `${range(group.loanLeft)} · ${percent(
+          runs.filter(
+            (run) =>
+              run.policy === group.policy &&
+              run.programYears === group.programYears &&
+              run.finalMoney < 0,
+          ).length,
+          group.runs,
+        )} owe`,
         range(group.stats.debt),
       ]),
     ),

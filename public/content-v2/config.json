@@ -249,36 +249,31 @@
       "stat": "study",
       "amount": -5,
       "periods": [
-        "break",
-        "term2",
-        "summer"
+        "term1",
+        "term2"
       ],
       "when": {
         "type": "stat",
         "stat": "study",
         "operator": "gt",
-        "value": 50
+        "value": 40
       }
     },
     {
       "stat": "money",
       "amount": -50,
       "periods": [
+        "term1",
         "break",
         "term2",
         "summer"
-      ],
-      "when": {
-        "type": "stat",
-        "stat": "money",
-        "operator": "gt",
-        "value": 3000
-      }
+      ]
     },
     {
       "stat": "health",
-      "amount": -1,
+      "amount": -3,
       "periods": [
+        "term1",
         "break",
         "term2",
         "summer"
@@ -294,6 +289,7 @@
       "stat": "stress",
       "amount": 1,
       "periods": [
+        "term1",
         "break",
         "term2"
       ],
@@ -303,6 +299,14 @@
         "operator": "gte",
         "value": 70
       }
+    },
+    {
+      "stat": "study",
+      "amount": -8,
+      "periods": [
+        "break",
+        "summer"
+      ]
     }
   ]
 }
