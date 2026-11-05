@@ -139,6 +139,20 @@ export const v2StatEndingSchema = z.strictObject({
   endingId: v2IdSchema,
 })
 
+/**
+ * Changes a stat each time a Next Period ends one of `periods`, optionally only
+ * while `when` holds. Stat modifiers do not apply to it.
+ */
+export const v2PeriodChangeSchema = z.strictObject({
+  stat: v2StatKeySchema,
+  amount: z.int(),
+  periods: z
+    .array(periodSchema)
+    .min(1)
+    .default(['term1', 'break', 'term2', 'summer']),
+  when: v2StatRuleConditionSchema.optional(),
+})
+
 export const v2GameConfigSchema = z.object({
   contentVersion: textSchema,
   title: textSchema,
@@ -178,6 +192,7 @@ export const v2GameConfigSchema = z.object({
   }),
   statModifiers: z.array(v2StatModifierSchema).default([]),
   statEndings: z.array(v2StatEndingSchema).default([]),
+  periodChanges: z.array(v2PeriodChangeSchema).default([]),
 })
 
 export const v2OutfitSchema = z.enum(['casual', 'student'])

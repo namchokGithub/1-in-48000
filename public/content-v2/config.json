@@ -243,5 +243,66 @@
       },
       "endingId": "burnout"
     }
+  ],
+  "periodChanges": [
+    {
+      "stat": "study",
+      "amount": -5,
+      "periods": [
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "study",
+        "operator": "gt",
+        "value": 50
+      }
+    },
+    {
+      "stat": "money",
+      "amount": -50,
+      "periods": [
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "money",
+        "operator": "gt",
+        "value": 3000
+      }
+    },
+    {
+      "stat": "health",
+      "amount": -1,
+      "periods": [
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "gt",
+        "value": 20
+      }
+    },
+    {
+      "stat": "stress",
+      "amount": 1,
+      "periods": [
+        "break",
+        "term2"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "gte",
+        "value": 70
+      }
+    }
   ]
 }

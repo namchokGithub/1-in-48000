@@ -45,9 +45,10 @@ Money can go below 0, from any money decrease; the negative balance is the autom
 
 ## Stat rules
 
-`config.statModifiers` and `config.statEndings` are set in the BO "ตั้งค่าเกม" tab. Both are empty by default.
+`config.statModifiers`, `config.periodChanges`, and `config.statEndings` are set in the BO "ตั้งค่าเกม" tab. All are empty by default.
 
 - A stat modifier scales changes to one stat while a stat condition holds: for example, while `health < 60`, gains to `study` are −20%, so +10 becomes +8. `applies` limits it to gains, losses, or both. Percents of every rule that holds add up, the total stops at −100%, and the result rounds to a whole number before the usual stat bounds apply. The condition is judged on the stats before the choice, so the amounts shown under a choice match what it gives; chance outcomes, delayed effects (judged when they apply), and elective effects use the same rules.
+- A per-period change (`config.periodChanges`) adds a fixed amount to a stat each time a Next Period ends one of its periods, optionally only while a stat condition holds, for example study −2 every period. It runs after loan interest and before the new period's delayed effects, ignores stat modifiers, and keeps the usual stat bounds. The Player shows its result in the stat panel and the year summary, not in the notice after a choice.
 - A stat ending ends the run on its ending as soon as its condition holds, checked after each resolved choice and after each Next Period, before the study review. When several hold, the first in the list wins. Its ending must exist in `endings.json`.
 
 ## Effects

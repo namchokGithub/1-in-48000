@@ -52,9 +52,15 @@ describe('year-four authored story', () => {
   })
 
   it('plays research, community, and skipped-side routes through the year-four review', async () => {
-    const content = await loadV2Content(
+    const loaded = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
     )
+    // This checks the study review routes, so stat endings that would end a
+    // low-study run earlier are left out.
+    const content = {
+      ...loaded,
+      config: { ...loaded.config, statEndings: [] },
+    }
     const play = (route: 'research' | 'community' | 'none') => {
       let save = createV2Game(content, 42)
       save = {

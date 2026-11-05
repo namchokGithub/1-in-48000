@@ -65,9 +65,15 @@ describe('extended-years authored story', () => {
   })
 
   it('lets study effort graduate at Year 6, recover at Year 8, or reach dismissal', async () => {
-    const content = await loadV2Content(
+    const loaded = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
     )
+    // This checks the study review routes, so stat endings that would end a
+    // low-study run earlier are left out.
+    const content = {
+      ...loaded,
+      config: { ...loaded.config, statEndings: [] },
+    }
     const play = (
       activeYears: readonly number[],
       majorId: string | null = null,

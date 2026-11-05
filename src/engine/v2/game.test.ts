@@ -445,6 +445,104 @@ describe('V4 flow engine', () => {
     expect(ended.endingId).toBe('dismissal')
   })
 
+  it('applies per-period changes for the period that just ended', () => {
+    const content = game(
+      [event('opening'), event('after_term')],
+      [
+        eventNode('opening'),
+        { id: 'next_term', type: 'nextPeriod', position: at },
+        eventNode('after_term'),
+        ending('study_complete'),
+      ],
+      [
+        edge('opening', 'continue_story', 'next_term'),
+        edge('next_term', 'next', 'after_term'),
+        edge('after_term', 'continue_story', 'end_study_complete'),
+      ],
+      { stats: { study: 50, health: 40, stress: 10, debt: 1 } },
+    )
+    content.config.periodChanges = [
+      { stat: 'study', amount: -2, periods: ['term1'] },
+      { stat: 'relationships', amount: -1, periods: ['break'] },
+      {
+        stat: 'stress',
+        amount: 5,
+        periods: ['term1', 'term2'],
+        when: { type: 'stat', stat: 'health', operator: 'lt', value: 50 },
+      },
+      {
+        stat: 'health',
+        amount: -5,
+        periods: ['term1'],
+        when: { type: 'stat', stat: 'health', operator: 'gte', value: 50 },
+      },
+      { stat: 'debt', amount: -10, periods: ['term1'] },
+    ]
+    // Modifiers do not scale per-period changes.
+    content.config.statModifiers = [
+      {
+        when: { type: 'stat', stat: 'health', operator: 'lt', value: 60 },
+        target: 'study',
+        percent: -50,
+        applies: 'both',
+      },
+    ]
+    const start = createV2Game(content, 3)
+    const next = chooseV2(content, start, 'continue_story')
+    expect(next.currentTime).toEqual({ year: 1, period: 'break' })
+    expect(next.stats).toMatchObject({
+      study: start.stats.study - 2,
+      relationships: start.stats.relationships,
+      stress: start.stats.stress + 5,
+      health: start.stats.health,
+      debt: 0,
+    })
+    // Choice stat changes stay the choice's own.
+    expect(next.history[0].statChanges).toEqual({})
+  })
+
+  it('can end the run through a per-period change', () => {
+    const content = game(
+      [event('opening'), event('after_term')],
+      [
+        eventNode('opening'),
+        { id: 'next_term', type: 'nextPeriod', position: at },
+        eventNode('after_term'),
+        ending('study_complete'),
+      ],
+      [
+        edge('opening', 'continue_story', 'next_term'),
+        edge('next_term', 'next', 'after_term'),
+        edge('after_term', 'continue_story', 'end_study_complete'),
+      ],
+      { stats: { health: 3 } },
+    )
+    content.config.periodChanges = [
+      { stat: 'health', amount: -5, periods: ['term1'] },
+    ]
+    content.config.statEndings = [
+      {
+        when: { type: 'stat', stat: 'health', operator: 'lt', value: 1 },
+        endingId: 'dismissal',
+      },
+    ]
+    expect(
+      chooseV2(content, createV2Game(content, 3), 'continue_story').endingId,
+    ).toBe('dismissal')
+    expect(
+      v2GameConfigSchema.safeParse({
+        ...sample.config,
+        periodChanges: [{ stat: 'study', amount: -2, periods: [] }],
+      }).success,
+    ).toBe(false)
+    expect(
+      v2GameConfigSchema.parse({
+        ...sample.config,
+        periodChanges: [{ stat: 'study', amount: -2 }],
+      }).periodChanges[0].periods,
+    ).toEqual(['term1', 'break', 'term2', 'summer'])
+  })
+
   it('rejects a stat ending that names an unknown ending', () => {
     const result = v2ContentSchema.safeParse({
       ...sample,

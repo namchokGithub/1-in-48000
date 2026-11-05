@@ -1,5 +1,6 @@
 import type { V2Content } from '../../content/v2/schema'
 import { NumberInput } from './NumberInput'
+import { periodLabels } from './periodLabels'
 import { BoDropdown } from './Select'
 import { conditionSummary } from './storySummary'
 import { statLabel, v2StatOptions } from './v2StatOptions'
@@ -7,6 +8,10 @@ import { statLabel, v2StatOptions } from './v2StatOptions'
 type Config = V2Content['config']
 type Modifier = Config['statModifiers'][number]
 type StatEnding = Config['statEndings'][number]
+type PeriodChange = Config['periodChanges'][number]
+type Period = PeriodChange['periods'][number]
+
+const allPeriods = Object.keys(periodLabels) as Period[]
 type When = Modifier['when']
 
 const operators: { id: When['operator']; label: string }[] = [
@@ -85,6 +90,13 @@ export function StatRulesEditor({
 }) {
   const modifiers = config.statModifiers
   const statEndings = config.statEndings
+  const periodChanges = config.periodChanges
+  const setPeriodChanges = (next: PeriodChange[]) =>
+    onChange({ ...config, periodChanges: next })
+  const updatePeriodChange = (index: number, next: PeriodChange) =>
+    setPeriodChanges(
+      periodChanges.map((item, at) => (at === index ? next : item)),
+    )
   const setModifiers = (next: Modifier[]) =>
     onChange({ ...config, statModifiers: next })
   const setEndings = (next: StatEnding[]) =>
@@ -102,6 +114,125 @@ export function StatRulesEditor({
 
   return (
     <>
+      <div className="bo-editor-section bo-stack mb-2">
+        <h3>เปลี่ยนทุกช่วงเวลา</h3>
+        <p className="muted text-sm">
+          ทุกครั้งที่ผ่าน Next Period ระบบเปลี่ยนค่าตามกฎของช่วงที่เพิ่งจบ
+          หลังหักดอกเบี้ยและก่อนผลภายหลังของช่วงใหม่ เช่น การเรียน −2 ทุกช่วง
+          ("ลืม") ค่านี้ไม่ผ่านกฎปรับผล % ผู้เล่นเห็นผลในแถบสถานะและสรุปรายปี
+          แต่ไม่ขึ้นในข้อความหลังเลือก
+        </p>
+        {periodChanges.map((rule, index) => (
+          <div key={index} className="bo-condition-row bo-stat-rule">
+            <div className="bo-condition-sentence">
+              <BoDropdown
+                label="ค่าสถานะที่เปลี่ยน"
+                value={rule.stat}
+                onChange={(event) =>
+                  updatePeriodChange(index, {
+                    ...rule,
+                    stat: event.target.value as PeriodChange['stat'],
+                  })
+                }
+              >
+                {v2StatOptions.map((stat) => (
+                  <option key={stat.id} value={stat.id}>
+                    {stat.label}
+                  </option>
+                ))}
+              </BoDropdown>
+              <NumberInput
+                className="field bo-short-field"
+                integer
+                aria-label="เปลี่ยนเท่าไร"
+                value={rule.amount}
+                onValueChange={(amount) =>
+                  updatePeriodChange(index, { ...rule, amount })
+                }
+              />
+              <span className="muted">เมื่อจบ</span>
+              {allPeriods.map((period) => (
+                <label key={period} className="bo-checkbox-field">
+                  <input
+                    type="checkbox"
+                    checked={rule.periods.includes(period)}
+                    disabled={
+                      rule.periods.length === 1 && rule.periods[0] === period
+                    }
+                    onChange={(event) =>
+                      updatePeriodChange(index, {
+                        ...rule,
+                        periods: allPeriods.filter((item) =>
+                          item === period
+                            ? event.target.checked
+                            : rule.periods.includes(item),
+                        ),
+                      })
+                    }
+                  />
+                  <span>{periodLabels[period]}</span>
+                </label>
+              ))}
+              <label className="bo-checkbox-field">
+                <input
+                  type="checkbox"
+                  checked={!!rule.when}
+                  onChange={(event) => {
+                    const { when: _when, ...always } = rule
+                    void _when
+                    updatePeriodChange(
+                      index,
+                      event.target.checked
+                        ? {
+                            ...rule,
+                            when: {
+                              type: 'stat',
+                              stat: 'stress',
+                              operator: 'gte',
+                              value: 70,
+                            },
+                          }
+                        : always,
+                    )
+                  }}
+                />
+                <span>มีเงื่อนไข</span>
+              </label>
+              {rule.when && (
+                <WhenFields
+                  value={rule.when}
+                  onChange={(when) =>
+                    updatePeriodChange(index, { ...rule, when })
+                  }
+                />
+              )}
+            </div>
+            <button
+              type="button"
+              className="bo-text-button bo-danger"
+              aria-label={`ลบกฎ ${statLabel(rule.stat)} ${rule.amount}`}
+              onClick={() =>
+                setPeriodChanges(periodChanges.filter((_, at) => at !== index))
+              }
+            >
+              ลบ
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          className="button button-secondary bo-add-at-end"
+          onClick={() =>
+            setPeriodChanges([
+              ...periodChanges,
+              { stat: 'study', amount: -2, periods: [...allPeriods] },
+            ])
+          }
+        >
+          + เพิ่มกฎเปลี่ยนทุกช่วง
+        </button>
+      </div>
+
       <div className="bo-editor-section bo-stack mb-2">
         <h3>กฎปรับผลตามค่าสถานะ</h3>
         <p className="muted text-sm">

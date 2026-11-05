@@ -30,6 +30,11 @@
     "path": "/assets/scene/engineering-building.png"
   },
   {
+    "id": "medical_faculty_building",
+    "kind": "scene",
+    "path": "/assets/scene/medical-faculty-building.png"
+  },
+  {
     "id": "classroom",
     "kind": "scene",
     "path": "/assets/scene/classroom.png"

@@ -445,10 +445,33 @@ function chargeLoanInterest(content: V2GameContent, save: V2PlayerSave): void {
   save.stats.money -= interest
 }
 
+/**
+ * Applies the content's per-period changes for the period that just ended,
+ * after loan interest and before the new period's delayed effects. These
+ * amounts are not scaled by stat modifiers.
+ */
+function applyPeriodChanges(content: V2GameContent, save: V2PlayerSave): void {
+  const ended = save.currentTime.period
+  for (const rule of content.config.periodChanges ?? []) {
+    if (!rule.periods.includes(ended)) continue
+    if (
+      rule.when &&
+      !compare(save.stats[rule.when.stat], rule.when.operator, rule.when.value)
+    )
+      continue
+    if (rule.stat === 'money') trackMoney(save, rule.amount)
+    save.stats[rule.stat] = bounded(
+      rule.stat,
+      save.stats[rule.stat] + rule.amount,
+    )
+  }
+}
+
 function advancePeriod(content: V2GameContent, save: V2PlayerSave): void {
   const next = nextTime(save.currentTime)
   if (!next) throw new Error('Cannot move past year 8')
   chargeLoanInterest(content, save)
+  applyPeriodChanges(content, save)
   if (next.year !== save.currentTime.year) {
     save.finishedYear = { ...save.yearProgress, endStats: { ...save.stats } }
     save.yearProgress = {
