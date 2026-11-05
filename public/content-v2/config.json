@@ -211,9 +211,29 @@
       "target": "study",
       "percent": -20,
       "applies": "gains"
+    },
+    {
+      "when": {
+        "type": "stat",
+        "stat": "lucky",
+        "operator": "gt",
+        "value": 70
+      },
+      "target": "money",
+      "percent": 30,
+      "applies": "both"
     }
   ],
   "statEndings": [
+    {
+      "when": {
+        "type": "stat",
+        "stat": "study",
+        "operator": "lt",
+        "value": 20
+      },
+      "endingId": "dismissal"
+    },
     {
       "when": {
         "type": "stat",

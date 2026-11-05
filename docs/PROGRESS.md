@@ -12,7 +12,14 @@ V4 (Steps 27–36) was accepted by the author on 2026-10-29.
 
 Steps 37–41 were accepted by the author on 2026-10-30, and Steps 42–43 on 2026-11-02. No steps are open.
 
-Years 5–8 story content is complete across all four periods of each year, including the Year 6 and Year 8 reviews. The production release is still deferred while the author makes further adjustments (see `README.md`).
+Years 5–8 story content is complete across all four periods of each year, including the Year 6 and Year 8 reviews. Six-year programs have their own Years 5–6 story with faculty scenes for medicine, pharmacy, dentistry, and nautical science; its scenes still use `campus_orientation` until faculty images are ready. The production release is still deferred while the author makes further adjustments (see `README.md`).
+
+| Item                                        | Status      | Notes                                                                                                                                                                                                                                      |
+| ------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pre-release stat balance                    | In progress | `pnpm balance` (see `docs/BALANCE.md`) shows study reaching 100 in almost every run and no run reaching the extended years. Stat modifiers and stat endings are available in the BO game settings; the author is tuning content and rules. |
+| Faculty scene images for the six-year story | Todo        | Eight faculty scenes (`six_y5_term1_*`, `six_y6_term2_*` with `_med_`, `_pharm_`, `_dent_`, `_naut_`) need their own images.                                                                                                               |
+
+Added on 2026-11-04 and 2026-11-05, all `Done`: grade point average at the ending, debt floored at 0, hiding stat changes under choices (per event and per player), the six-year Years 5–6 story, the balance simulation tool, stat modifiers and stat endings, and BO Story Flow tools (event filters, Simulation shortcuts, card counts, Sub Flow menu and locking, helper lines, equal spacing guides, faster dragging).
 
 ## Open decisions
 

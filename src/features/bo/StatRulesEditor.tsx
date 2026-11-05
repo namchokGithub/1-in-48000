@@ -102,7 +102,7 @@ export function StatRulesEditor({
 
   return (
     <>
-      <div className="bo-editor-section bo-stack">
+      <div className="bo-editor-section bo-stack mb-2">
         <h3>กฎปรับผลตามค่าสถานะ</h3>
         <p className="muted text-sm">
           ขณะที่เงื่อนไขเป็นจริง ผลต่อค่าสถานะเป้าหมายจะเพิ่มหรือลดตาม % เช่น

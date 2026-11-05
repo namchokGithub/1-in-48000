@@ -794,9 +794,15 @@ describe('live V2 content', () => {
       electives,
       flow,
     }
-    const content = await loadV2Content(
+    const loaded = await loadV2Content(
       async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
     )
+    // This checks the Year 6 review route, so stat endings that would end a
+    // low-study run earlier are left out.
+    const content = {
+      ...loaded,
+      config: { ...loaded.config, statEndings: [] },
+    }
     const play = (majorId: string, study: number) => {
       const major = content.majors.find((item) => item.id === majorId)!
       let save = createV2Game(content, 42)

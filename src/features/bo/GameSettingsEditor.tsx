@@ -30,7 +30,7 @@ export function GameSettingsEditor({
       <div className="bo-section-heading">
         <h2 className="font-extrabold">ตั้งค่าเกม</h2>
       </div>
-      <div className="bo-editor-section bo-stack">
+      <div className="bo-editor-section bo-stack mb-2">
         <h3>การกู้อัตโนมัติ</h3>
         <p className="muted text-sm">
           เงินติดลบได้ ยอดที่ติดลบคือยอดกู้
