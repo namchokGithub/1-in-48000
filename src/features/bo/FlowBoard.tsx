@@ -1,4 +1,5 @@
 import {
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -36,6 +37,7 @@ import {
   type Node,
   type NodeChange,
   type NodeProps,
+  type ReactFlowProps,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import type {
@@ -47,6 +49,7 @@ import type {
 } from '../../content/v2/schema'
 import { validateV2Flow } from '../../content/v2/flowValidator'
 import { BoDropdown } from './Select'
+import { useStableCallback } from './useStableCallback'
 import { CopyIdButton } from './CopyIdButton'
 import { V2ConditionList } from './V2ConditionList'
 import { conditionSummary } from './storySummary'
@@ -488,6 +491,22 @@ function FlowLineEdge({
   )
 }
 
+// Fixed React Flow options, kept outside render so their identity is stable.
+const PAN_ON_DRAG = [1, 2]
+const MULTI_SELECT_KEYS = ['Meta', 'Control']
+const DELETE_KEYS = ['Backspace', 'Delete']
+
+type FlowProps = ReactFlowProps<BoardNode, FlowLine>
+
+/** A React Flow handler with a stable identity; see useStableCallback. */
+function useFlowHandler<K extends keyof FlowProps>(
+  fn: NonNullable<FlowProps[K]>,
+): NonNullable<FlowProps[K]> {
+  return useStableCallback(
+    fn as unknown as (...args: unknown[]) => unknown,
+  ) as unknown as NonNullable<FlowProps[K]>
+}
+
 const nodeTypes = { card: FlowCard, group: FlowGroup }
 const edgeTypes = { flow: FlowLineEdge }
 
@@ -504,6 +523,109 @@ type BoardProps = {
   simulation: Simulation | null
   onSimulationChange: (simulation: Simulation | null) => void
 }
+
+/** Event library beside the board. Memoized so dragging cards skips it. */
+const FlowLibrary = memo(function FlowLibrary({
+  events,
+  library,
+  placedEventIds,
+  query,
+  onQueryChange,
+  filter,
+  onFilterChange,
+  onCreate,
+  onShow,
+  onPlace,
+}: {
+  events: V2Content['events']
+  library: V2Content['events']
+  placedEventIds: Set<string>
+  query: string
+  onQueryChange: (query: string) => void
+  filter: EventFilter
+  onFilterChange: (filter: EventFilter) => void
+  onCreate: () => void
+  onShow: (eventId: string) => void
+  onPlace: (eventId: string) => void
+}) {
+  return (
+    <aside
+      id="bo-flow-library"
+      className="panel bo-flow-library"
+      aria-label="คลังเหตุการณ์"
+    >
+      <div className="bo-section-heading">
+        <h2 className="font-extrabold">คลังเหตุการณ์</h2>
+        <button type="button" className="bo-text-button" onClick={onCreate}>
+          + เหตุการณ์ใหม่
+        </button>
+      </div>
+      <label className="bo-field">
+        <span>ค้นหา</span>
+        <input
+          className="field"
+          type="search"
+          value={query}
+          placeholder="ชื่อ, ID หรือข้อความ"
+          onChange={(input) => onQueryChange(input.target.value)}
+        />
+      </label>
+      <EventFilterFields
+        events={events}
+        value={filter}
+        onChange={onFilterChange}
+        shown={library.length}
+      />
+      <ul className="bo-flow-library-list">
+        {library.map((event) => {
+          const placed = placedEventIds.has(event.id)
+          const placeable = !placed && !event.pool && event.active !== false
+          return (
+            <li
+              key={event.id}
+              draggable={placeable}
+              data-placeable={placeable}
+              onDragStart={(drag) => {
+                drag.dataTransfer.setData(EVENT_DRAG_TYPE, event.id)
+                drag.dataTransfer.effectAllowed = 'copy'
+              }}
+            >
+              <div>
+                <strong>{event.title}</strong>
+                <small>
+                  {event.id} · ปี {event.time.year}{' '}
+                  {periodLabels[event.time.period]}
+                  {event.pool ? ` · Pool ${event.pool}` : ''}
+                  {event.active === false ? ' · Inactive' : ''}
+                </small>
+              </div>
+              {placed ? (
+                <button
+                  type="button"
+                  className="bo-text-button"
+                  onClick={() => onShow(event.id)}
+                >
+                  ดูบนกระดาน
+                </button>
+              ) : placeable ? (
+                <button
+                  type="button"
+                  className="bo-text-button"
+                  onClick={() => onPlace(event.id)}
+                >
+                  วาง
+                </button>
+              ) : null}
+            </li>
+          )
+        })}
+      </ul>
+      {!library.length && (
+        <p className="muted text-sm">ไม่พบเหตุการณ์ที่ค้นหา</p>
+      )}
+    </aside>
+  )
+})
 
 export function FlowBoard(props: BoardProps) {
   return (
@@ -776,33 +898,79 @@ function Board({
     selected?.kind === 'edge'
       ? flow.edges.find((edge) => edge.id === selected.id)
       : undefined
-  const placedEventIds = new Set(
-    flow.nodes.flatMap((node) => (node.type === 'event' ? [node.eventId] : [])),
-  )
-  const usedEvents = usedEventIds(flow, content.events)
-  const cardCounts = (Object.keys(typeLabels) as V2FlowNode['type'][])
-    .filter((type) => type !== 'start')
-    .map((type) => ({
-      type,
-      count: flow.nodes.filter((node) => node.type === type).length,
-    }))
-    .filter(({ count }) => count > 0)
-  const unusedEventCount = content.events.filter(
-    (event) => event.active !== false && !usedEvents.has(event.id),
-  ).length
-  const library = content.events.filter(
-    (event) =>
-      matchesStoryQuery(event, query) &&
-      matchesEventFilter(event, libraryFilter, usedEvents),
-  )
-  const pools = [
-    ...new Set(
-      content.events.flatMap((event) =>
-        event.pool && event.active !== false ? [event.pool] : [],
+  const derived = useMemo(() => {
+    const usedEvents = usedEventIds(flow, content.events)
+    return {
+      placedEventIds: new Set(
+        flow.nodes.flatMap((node) =>
+          node.type === 'event' ? [node.eventId] : [],
+        ),
       ),
-    ),
-  ]
-  const eventIds = content.events.map((event) => event.id)
+      usedEvents,
+      cardCounts: (Object.keys(typeLabels) as V2FlowNode['type'][])
+        .filter((type) => type !== 'start')
+        .map((type) => ({
+          type,
+          count: flow.nodes.filter((node) => node.type === type).length,
+        }))
+        .filter(({ count }) => count > 0),
+      unusedEventCount: content.events.filter(
+        (event) => event.active !== false && !usedEvents.has(event.id),
+      ).length,
+      pools: [
+        ...new Set(
+          content.events.flatMap((event) =>
+            event.pool && event.active !== false ? [event.pool] : [],
+          ),
+        ),
+      ],
+      eventIds: content.events.map((event) => event.id),
+      groups: flow.nodes.filter(
+        (item): item is GroupNode => item.type === 'group',
+      ),
+      subFlows: subFlowList(flow.nodes),
+    }
+  }, [flow, content.events])
+  const {
+    placedEventIds,
+    usedEvents,
+    cardCounts,
+    unusedEventCount,
+    pools,
+    eventIds,
+    groups,
+    subFlows,
+  } = derived
+  const library = useMemo(
+    () =>
+      content.events.filter(
+        (event) =>
+          matchesStoryQuery(event, query) &&
+          matchesEventFilter(event, libraryFilter, usedEvents),
+      ),
+    [content.events, query, libraryFilter, usedEvents],
+  )
+  const createEventAtCenter = useStableCallback(() =>
+    onCreateEvent(boardCenter()),
+  )
+  const showPlacedEvent = useStableCallback((eventId: string) => {
+    const node = flow.nodes.find(
+      (item) => item.type === 'event' && item.eventId === eventId,
+    )
+    if (node) focus(node.id)
+  })
+  const placeFromLibrary = useStableCallback((eventId: string) =>
+    place(eventId),
+  )
+  const reparentSelected = useStableCallback((parentId?: string) => {
+    if (selectedNode) change(reparentFlowNode(flow, selectedNode.id, parentId))
+  })
+  const removeSelected = useStableCallback(() => {
+    if (!selectedNode) return
+    change(removeFlowNodes(flow, [selectedNode.id]))
+    select(null)
+  })
+  const exitSimulation = useStableCallback(() => onSimulationChange(null))
   const contextNode =
     contextMenu?.kind === 'node'
       ? flow.nodes.find((node) => node.id === contextMenu.id)
@@ -936,8 +1104,6 @@ function Board({
       fitView({ nodes: ids.map((id) => ({ id })), duration: 300, maxZoom: 1 })
   }
 
-  const subFlows = subFlowList(flow.nodes)
-
   function toggleGroupLock(id: string) {
     const group = flow.nodes.find((node) => node.id === id)
     if (group?.type === 'group') updateNode(toggledLock(group))
@@ -950,17 +1116,21 @@ function Board({
   }
 
   const goToQuery = goTo.trim().toLowerCase()
-  const goToMatches = goToQuery
-    ? flow.nodes
-        .filter((node) =>
-          [
-            node.id,
-            node.type === 'event' ? node.eventId : '',
-            cardTitle(node, content),
-          ].some((text) => text.toLowerCase().includes(goToQuery)),
-        )
-        .slice(0, 8)
-    : []
+  const goToMatches = useMemo(
+    () =>
+      goToQuery
+        ? flow.nodes
+            .filter((node) =>
+              [
+                node.id,
+                node.type === 'event' ? node.eventId : '',
+                cardTitle(node, content),
+              ].some((text) => text.toLowerCase().includes(goToQuery)),
+            )
+            .slice(0, 8)
+        : [],
+    [goToQuery, flow.nodes, content],
+  )
 
   function jumpTo(id: string) {
     focus(id)
@@ -1115,99 +1285,162 @@ function Board({
     })
   }
 
+  const fitViewOptions = useMemo(
+    () => ({
+      nodes: openingNodes,
+      maxZoom: 1,
+      padding: 0.2,
+    }),
+    [openingNodes],
+  )
+  // Stable handlers keep React Flow from re-rendering every card and edge
+  // on each drag frame; it passes them to all node and edge components.
+  const boardOnNodesChange = useFlowHandler<'onNodesChange'>(onNodesChange)
+  const boardOnConnect = useFlowHandler<'onConnect'>(onConnect)
+  const boardOnReconnectStart = useFlowHandler<'onReconnectStart'>(
+    (_, edge) => {
+      reconnectingEdgeId.current = edge.id
+      reconnectSucceeded.current = false
+    },
+  )
+  const boardOnReconnect = useFlowHandler<'onReconnect'>((edge, connection) => {
+    reconnectSucceeded.current = true
+    if (!connection.sourceHandle) return
+    const next = reconnectEdge(
+      flow,
+      edge.id,
+      connection.source,
+      portFromHandle(connection.sourceHandle),
+      connection.target,
+    )
+    if (next === flow) toast.error('ต่อเส้นไปที่นั่นไม่ได้')
+    else change(next)
+  })
+  const boardOnReconnectEnd = useFlowHandler<'onReconnectEnd'>((_, edge) => {
+    const next = finishReconnectEdge(
+      flow,
+      reconnectingEdgeId.current ?? edge.id,
+      reconnectSucceeded.current,
+    )
+    reconnectingEdgeId.current = null
+    if (next !== flow) change(next)
+  })
+  const boardOnNodesDelete = useFlowHandler<'onNodesDelete'>((deleted) =>
+    change(
+      removeFlowNodes(
+        flow,
+        deleted.map((node) => node.id),
+      ),
+    ),
+  )
+  const boardOnNodeDragStart = useFlowHandler<'onNodeDragStart'>(() => {
+    pointerDragRef.current = true
+  })
+  const boardOnNodeDragStop = useFlowHandler<'onNodeDragStop'>((_, dragged) => {
+    pointerDragRef.current = false
+    const node = flow.nodes.find((item) => item.id === dragged.id)
+    if (!node || node.type === 'group') return
+    const group = getIntersectingNodes(dragged).find(
+      (candidate) => candidate.type === 'group',
+    )
+    if (group?.id !== node.parentId)
+      change(
+        reparentFlowNode(
+          moveFlowNodes(flow, {
+            [node.id]: snapPoint(dragged.position),
+          }),
+          node.id,
+          group?.id,
+        ),
+      )
+  })
+  const boardOnEdgesDelete = useFlowHandler<'onEdgesDelete'>((deleted) =>
+    change(
+      removeFlowEdges(
+        flow,
+        deleted.map((edge) => edge.id),
+      ),
+    ),
+  )
+  const boardOnNodeClick = useFlowHandler<'onNodeClick'>((_, node) =>
+    select({ kind: 'node', id: node.id }),
+  )
+  const boardOnNodeContextMenu = useFlowHandler<'onNodeContextMenu'>(
+    (event, node) => {
+      if (event.shiftKey) return
+      event.preventDefault()
+      select({ kind: 'node', id: node.id })
+      setContextMenu({
+        kind: 'node',
+        id: node.id,
+        ...menuPosition(event),
+      })
+    },
+  )
+  const boardOnNodeDoubleClick = useFlowHandler<'onNodeDoubleClick'>(
+    (_, node) => {
+      if (node.data.node.type === 'event') onEditEvent(node.data.node.eventId)
+    },
+  )
+  const boardOnEdgeClick = useFlowHandler<'onEdgeClick'>((_, edge) =>
+    select({ kind: 'edge', id: edge.id }),
+  )
+  const boardOnEdgeContextMenu = useFlowHandler<'onEdgeContextMenu'>(
+    (event, edge) => {
+      if (event.shiftKey) return
+      event.preventDefault()
+      select({ kind: 'edge', id: edge.id })
+      setContextMenu({
+        kind: 'edge',
+        id: edge.id,
+        ...menuPosition(event),
+      })
+    },
+  )
+  const boardOnEdgeMouseEnter = useFlowHandler<'onEdgeMouseEnter'>((_, edge) =>
+    setHoveredEdge(edge.id),
+  )
+  const boardOnEdgeMouseLeave = useFlowHandler<'onEdgeMouseLeave'>(() =>
+    setHoveredEdge(null),
+  )
+  const boardOnPaneClick = useFlowHandler<'onPaneClick'>(() => {
+    setContextMenu(null)
+    select(null)
+  })
+  const boardOnPaneContextMenu = useFlowHandler<'onPaneContextMenu'>(
+    (event) => {
+      if (event.shiftKey) return
+      event.preventDefault()
+      const client = 'nativeEvent' in event ? event.nativeEvent : event
+      setContextMenu({
+        kind: 'pane',
+        ...menuPosition(client),
+        position: screenToFlowPosition({
+          x: client.clientX,
+          y: client.clientY,
+        }),
+      })
+    },
+  )
+
   return (
     <div
       className="bo-flow-layout"
       data-library={libraryOpen ? 'open' : 'closed'}
     >
       {libraryOpen && (
-        <aside
-          id="bo-flow-library"
-          className="panel bo-flow-library"
-          aria-label="คลังเหตุการณ์"
-        >
-          <div className="bo-section-heading">
-            <h2 className="font-extrabold">คลังเหตุการณ์</h2>
-            <button
-              type="button"
-              className="bo-text-button"
-              onClick={() => onCreateEvent(boardCenter())}
-            >
-              + เหตุการณ์ใหม่
-            </button>
-          </div>
-          <label className="bo-field">
-            <span>ค้นหา</span>
-            <input
-              className="field"
-              type="search"
-              value={query}
-              placeholder="ชื่อ, ID หรือข้อความ"
-              onChange={(input) => setQuery(input.target.value)}
-            />
-          </label>
-          <EventFilterFields
-            events={content.events}
-            value={libraryFilter}
-            onChange={setLibraryFilter}
-            shown={library.length}
-          />
-          <ul className="bo-flow-library-list">
-            {library.map((event) => {
-              const placed = placedEventIds.has(event.id)
-              const placeable = !placed && !event.pool && event.active !== false
-              return (
-                <li
-                  key={event.id}
-                  draggable={placeable}
-                  data-placeable={placeable}
-                  onDragStart={(drag) => {
-                    drag.dataTransfer.setData(EVENT_DRAG_TYPE, event.id)
-                    drag.dataTransfer.effectAllowed = 'copy'
-                  }}
-                >
-                  <div>
-                    <strong>{event.title}</strong>
-                    <small>
-                      {event.id} · ปี {event.time.year}{' '}
-                      {periodLabels[event.time.period]}
-                      {event.pool ? ` · Pool ${event.pool}` : ''}
-                      {event.active === false ? ' · Inactive' : ''}
-                    </small>
-                  </div>
-                  {placed ? (
-                    <button
-                      type="button"
-                      className="bo-text-button"
-                      onClick={() =>
-                        focus(
-                          flow.nodes.find(
-                            (node) =>
-                              node.type === 'event' &&
-                              node.eventId === event.id,
-                          )!.id,
-                        )
-                      }
-                    >
-                      ดูบนกระดาน
-                    </button>
-                  ) : placeable ? (
-                    <button
-                      type="button"
-                      className="bo-text-button"
-                      onClick={() => place(event.id)}
-                    >
-                      วาง
-                    </button>
-                  ) : null}
-                </li>
-              )
-            })}
-          </ul>
-          {!library.length && (
-            <p className="muted text-sm">ไม่พบเหตุการณ์ที่ค้นหา</p>
-          )}
-        </aside>
+        <FlowLibrary
+          events={content.events}
+          library={library}
+          placedEventIds={placedEventIds}
+          query={query}
+          onQueryChange={setQuery}
+          filter={libraryFilter}
+          onFilterChange={setLibraryFilter}
+          onCreate={createEventAtCenter}
+          onShow={showPlacedEvent}
+          onPlace={placeFromLibrary}
+        />
       )}
 
       <section className="panel bo-flow-main" aria-label="กระดาน Flow">
@@ -1480,131 +1713,34 @@ function Board({
                 edges={edges}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
-                onNodesChange={onNodesChange}
-                onConnect={onConnect}
-                onReconnectStart={(_, edge) => {
-                  reconnectingEdgeId.current = edge.id
-                  reconnectSucceeded.current = false
-                }}
-                onReconnect={(edge, connection) => {
-                  reconnectSucceeded.current = true
-                  if (!connection.sourceHandle) return
-                  const next = reconnectEdge(
-                    flow,
-                    edge.id,
-                    connection.source,
-                    portFromHandle(connection.sourceHandle),
-                    connection.target,
-                  )
-                  if (next === flow) toast.error('ต่อเส้นไปที่นั่นไม่ได้')
-                  else change(next)
-                }}
-                onReconnectEnd={(_, edge) => {
-                  const next = finishReconnectEdge(
-                    flow,
-                    reconnectingEdgeId.current ?? edge.id,
-                    reconnectSucceeded.current,
-                  )
-                  reconnectingEdgeId.current = null
-                  if (next !== flow) change(next)
-                }}
-                onNodesDelete={(deleted) =>
-                  change(
-                    removeFlowNodes(
-                      flow,
-                      deleted.map((node) => node.id),
-                    ),
-                  )
-                }
-                onNodeDragStart={() => {
-                  pointerDragRef.current = true
-                }}
-                onNodeDragStop={(_, dragged) => {
-                  pointerDragRef.current = false
-                  const node = flow.nodes.find((item) => item.id === dragged.id)
-                  if (!node || node.type === 'group') return
-                  const group = getIntersectingNodes(dragged).find(
-                    (candidate) => candidate.type === 'group',
-                  )
-                  if (group?.id !== node.parentId)
-                    change(
-                      reparentFlowNode(
-                        moveFlowNodes(flow, {
-                          [node.id]: snapPoint(dragged.position),
-                        }),
-                        node.id,
-                        group?.id,
-                      ),
-                    )
-                }}
-                onEdgesDelete={(deleted) =>
-                  change(
-                    removeFlowEdges(
-                      flow,
-                      deleted.map((edge) => edge.id),
-                    ),
-                  )
-                }
-                onNodeClick={(_, node) => select({ kind: 'node', id: node.id })}
-                onNodeContextMenu={(event, node) => {
-                  if (event.shiftKey) return
-                  event.preventDefault()
-                  select({ kind: 'node', id: node.id })
-                  setContextMenu({
-                    kind: 'node',
-                    id: node.id,
-                    ...menuPosition(event),
-                  })
-                }}
-                onNodeDoubleClick={(_, node) => {
-                  if (node.data.node.type === 'event')
-                    onEditEvent(node.data.node.eventId)
-                }}
+                onNodesChange={boardOnNodesChange}
+                onConnect={boardOnConnect}
+                onReconnectStart={boardOnReconnectStart}
+                onReconnect={boardOnReconnect}
+                onReconnectEnd={boardOnReconnectEnd}
+                onNodesDelete={boardOnNodesDelete}
+                onNodeDragStart={boardOnNodeDragStart}
+                onNodeDragStop={boardOnNodeDragStop}
+                onEdgesDelete={boardOnEdgesDelete}
+                onNodeClick={boardOnNodeClick}
+                onNodeContextMenu={boardOnNodeContextMenu}
+                onNodeDoubleClick={boardOnNodeDoubleClick}
                 zoomOnDoubleClick={false}
-                onEdgeClick={(_, edge) => select({ kind: 'edge', id: edge.id })}
-                onEdgeContextMenu={(event, edge) => {
-                  if (event.shiftKey) return
-                  event.preventDefault()
-                  select({ kind: 'edge', id: edge.id })
-                  setContextMenu({
-                    kind: 'edge',
-                    id: edge.id,
-                    ...menuPosition(event),
-                  })
-                }}
-                onEdgeMouseEnter={(_, edge) => setHoveredEdge(edge.id)}
-                onEdgeMouseLeave={() => setHoveredEdge(null)}
-                onPaneClick={() => {
-                  setContextMenu(null)
-                  select(null)
-                }}
-                onPaneContextMenu={(event) => {
-                  if (event.shiftKey) return
-                  event.preventDefault()
-                  const client =
-                    'nativeEvent' in event ? event.nativeEvent : event
-                  setContextMenu({
-                    kind: 'pane',
-                    ...menuPosition(client),
-                    position: screenToFlowPosition({
-                      x: client.clientX,
-                      y: client.clientY,
-                    }),
-                  })
-                }}
+                onEdgeClick={boardOnEdgeClick}
+                onEdgeContextMenu={boardOnEdgeContextMenu}
+                onEdgeMouseEnter={boardOnEdgeMouseEnter}
+                onEdgeMouseLeave={boardOnEdgeMouseLeave}
+                onPaneClick={boardOnPaneClick}
+                onPaneContextMenu={boardOnPaneContextMenu}
                 selectionOnDrag={true}
                 selectionMode={SelectionMode.Partial}
-                panOnDrag={[1, 2]}
+                panOnDrag={PAN_ON_DRAG}
                 panOnScroll={true}
-                multiSelectionKeyCode={['Meta', 'Control']}
-                deleteKeyCode={['Backspace', 'Delete']}
+                multiSelectionKeyCode={MULTI_SELECT_KEYS}
+                deleteKeyCode={DELETE_KEYS}
                 minZoom={0.15}
                 fitView
-                fitViewOptions={{
-                  nodes: openingNodes,
-                  maxZoom: 1,
-                  padding: 0.2,
-                }}
+                fitViewOptions={fitViewOptions}
               >
                 <Background
                   color="var(--bo-flow-grid)"
@@ -1664,19 +1800,11 @@ function Board({
                     content={content}
                     pools={pools}
                     eventIds={eventIds}
-                    groups={flow.nodes.filter(
-                      (item): item is Extract<V2FlowNode, { type: 'group' }> =>
-                        item.type === 'group',
-                    )}
+                    groups={groups}
                     issues={issues.get(selectedNode.id)}
                     onChange={updateNode}
-                    onReparent={(parentId) =>
-                      change(reparentFlowNode(flow, selectedNode.id, parentId))
-                    }
-                    onRemove={() => {
-                      change(removeFlowNodes(flow, [selectedNode.id]))
-                      select(null)
-                    }}
+                    onReparent={reparentSelected}
+                    onRemove={removeSelected}
                     onEditEvent={onEditEvent}
                     onPreview={onPreview}
                   />
@@ -1812,7 +1940,7 @@ function Board({
               simulation={simulation}
               draft={content}
               onChange={onSimulationChange}
-              onExit={() => onSimulationChange(null)}
+              onExit={exitSimulation}
             />
           )}
         </div>
@@ -2019,7 +2147,7 @@ function Board({
   )
 }
 
-function NodeDetail({
+const NodeDetail = memo(function NodeDetail({
   node,
   content,
   pools,
@@ -2268,4 +2396,4 @@ function NodeDetail({
       )}
     </div>
   )
-}
+})

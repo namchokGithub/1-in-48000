@@ -13,7 +13,7 @@
     {
       "id": "n_orientation",
       "position": {
-        "x": 360,
+        "x": 336,
         "y": 96
       },
       "parentId": "group",
@@ -140,7 +140,7 @@
     {
       "id": "n_term_reflection",
       "position": {
-        "x": 456,
+        "x": 480,
         "y": 864
       },
       "parentId": "group_2",
@@ -150,7 +150,7 @@
     {
       "id": "n_break_first_week",
       "position": {
-        "x": 840,
+        "x": 816,
         "y": 864
       },
       "parentId": "group_2",

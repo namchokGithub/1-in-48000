@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { toast } from 'sonner'
 import type { V2Content } from '../../content/v2/schema'
 import { getV2LastRecaps, summarizeV2Life } from '../../engine/v2/game'
@@ -21,7 +22,8 @@ function randomSeed(): number {
   return crypto.getRandomValues(new Uint32Array(1))[0] || 1
 }
 
-export function SimulationPanel({
+/** Memoized so dragging cards on the board does not re-render the scene. */
+export const SimulationPanel = memo(function SimulationPanel({
   simulation,
   draft,
   onChange,
@@ -219,4 +221,4 @@ export function SimulationPanel({
       </p>
     </aside>
   )
-}
+})
