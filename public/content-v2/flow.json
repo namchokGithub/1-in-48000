@@ -23,110 +23,99 @@
     {
       "id": "n_first_class",
       "position": {
-        "x": 72,
-        "y": 192
+        "x": -4752,
+        "y": -216
       },
-      "parentId": "group_3",
       "type": "event",
       "eventId": "first_class"
     },
     {
       "id": "n_dorm_evening",
       "position": {
-        "x": 408,
-        "y": 480
+        "x": -4416,
+        "y": 72
       },
-      "parentId": "group_3",
       "type": "event",
       "eventId": "dorm_evening"
     },
     {
       "id": "n_cafeteria_budget",
       "position": {
-        "x": 408,
-        "y": 48
+        "x": -4416,
+        "y": -360
       },
-      "parentId": "group_3",
       "type": "event",
       "eventId": "cafeteria_budget"
     },
     {
       "id": "n_club_fair",
       "position": {
-        "x": 96,
-        "y": 96
+        "x": -3840,
+        "y": -144
       },
-      "parentId": "group_4",
       "type": "event",
       "eventId": "club_fair"
     },
     {
       "id": "n_library_study",
       "position": {
-        "x": 72,
-        "y": 72
+        "x": -3360,
+        "y": -336
       },
-      "parentId": "group_5",
       "type": "event",
       "eventId": "library_study"
     },
     {
       "id": "n_group_project",
       "position": {
-        "x": 288,
-        "y": 432
+        "x": -3144,
+        "y": 24
       },
-      "parentId": "group_5",
       "type": "event",
       "eventId": "group_project"
     },
     {
       "id": "n_rainy_commute",
       "position": {
-        "x": 504,
-        "y": 72
+        "x": -2928,
+        "y": -336
       },
-      "parentId": "group_5",
       "type": "event",
       "eventId": "rainy_commute"
     },
     {
       "id": "n_midterm_prep",
       "position": {
-        "x": 72,
-        "y": 72
+        "x": -2424,
+        "y": -336
       },
-      "parentId": "group_6",
       "type": "event",
       "eventId": "midterm_prep"
     },
     {
       "id": "n_midterm_exam",
       "position": {
-        "x": 456,
-        "y": 72
+        "x": -2040,
+        "y": -336
       },
-      "parentId": "group_6",
       "type": "event",
       "eventId": "midterm_exam"
     },
     {
       "id": "n_mali_checkin",
       "position": {
-        "x": 72,
-        "y": 432
+        "x": -2424,
+        "y": 24
       },
-      "parentId": "group_6",
       "type": "event",
       "eventId": "mali_checkin"
     },
     {
       "id": "n_club_invitation",
       "position": {
-        "x": 456,
-        "y": 432
+        "x": -2040,
+        "y": 24
       },
-      "parentId": "group_6",
       "type": "event",
       "eventId": "club_invitation"
     },
@@ -142,9 +131,10 @@
     {
       "id": "next_y1_term1",
       "position": {
-        "x": -1128,
-        "y": -96
+        "x": 120,
+        "y": 816
       },
+      "parentId": "group_2",
       "type": "nextPeriod"
     },
     {
@@ -253,7 +243,7 @@
     {
       "id": "n_break_next_term",
       "position": {
-        "x": 480,
+        "x": 448,
         "y": 192
       },
       "type": "event",
@@ -3192,7 +3182,8 @@
       "title": "เริ่มต้น",
       "color": "green",
       "width": 624,
-      "height": 480
+      "height": 480,
+      "locked": true
     },
     {
       "id": "n_new_event_3",
@@ -3211,58 +3202,10 @@
         "y": -408
       },
       "type": "group",
-      "title": "ทักทายเพื่อนใหม่",
+      "title": "ปี 1 เทอม 1",
       "color": "green",
-      "width": 752,
-      "height": 732
-    },
-    {
-      "id": "group_3",
-      "position": {
-        "x": -4824,
-        "y": -408
-      },
-      "type": "group",
-      "title": "วันแรกของชีวิต",
-      "color": "green",
-      "width": 800,
-      "height": 780
-    },
-    {
-      "id": "group_4",
-      "position": {
-        "x": -3936,
-        "y": -240
-      },
-      "type": "group",
-      "title": "การตัดสินใจที่ส่งผล",
-      "color": "purple",
-      "width": 440,
-      "height": 420
-    },
-    {
-      "id": "group_5",
-      "position": {
-        "x": -3432,
-        "y": -408
-      },
-      "type": "group",
-      "title": "ชีวิตมหาฯลัย",
-      "color": "green",
-      "width": 848,
-      "height": 756
-    },
-    {
-      "id": "group_6",
-      "position": {
-        "x": -2496,
-        "y": -408
-      },
-      "type": "group",
-      "title": "สอบกลางภาค",
-      "color": "green",
-      "width": 800,
-      "height": 756
+      "width": 16160,
+      "height": 2844
     },
     {
       "id": "group_six_year",

@@ -638,10 +638,23 @@
   max-height: 20rem;
   overflow-y: auto;
 }
-.bo-subflow-list button {
+.bo-subflow-row {
   display: flex;
   align-items: center;
+  gap: 0.15rem;
+}
+.bo-subflow-list .bo-subflow-row > button:first-child {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
   gap: 0.5rem;
+}
+.bo-subflow-list .bo-subflow-row-lock {
+  width: auto;
+  flex-shrink: 0;
+  padding: 0.45rem;
+  color: var(--color-muted);
 }
 .bo-subflow-list p {
   padding: 0.45rem 0.6rem;
@@ -850,6 +863,31 @@
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+.bo-flow-subflow-lock {
+  display: inline-grid;
+  place-items: center;
+  margin-left: auto;
+  border: 0;
+  border-radius: 0.375rem;
+  padding: 0.2rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  align-self: center;
+}
+.bo-flow-subflow-lock:hover {
+  background: color-mix(in srgb, var(--bo-subflow-color) 18%, transparent);
+}
+/* A locked frame lets clicks and drags reach the board behind it; only its
+   lock button stays clickable. */
+.react-flow__node.bo-flow-subflow-locked,
+.bo-flow-subflow-locked .bo-flow-subflow {
+  pointer-events: none !important;
+}
+.bo-flow-subflow-locked .bo-flow-subflow-lock {
+  pointer-events: auto;
 }
 .bo-flow-subflow-resize-handle {
   width: 10px;

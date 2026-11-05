@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { names, sample } from '../../content/v2/testSample'
 import sampleFlow from '../../content/v2/sample-flow.json'
-import { v2ContentSchema } from '../../content/v2/schema'
+import { v2ContentSchema, v2FlowNodeSchema } from '../../content/v2/schema'
 import {
   addFlowNode,
   connectPorts,
@@ -101,6 +101,23 @@ describe('BO flow board editing', () => {
     expect(
       removed.nodes.find((node) => node.id === childId),
     ).not.toHaveProperty('parentId')
+    const locked = {
+      ...reparented,
+      nodes: reparented.nodes.map((node) =>
+        node.id === group.id ? { ...node, locked: true } : node,
+      ),
+    }
+    expect(v2FlowNodeSchema.safeParse({ ...group, locked: true }).success).toBe(
+      true,
+    )
+    expect(
+      v2FlowNodeSchema.safeParse({ ...group, locked: 'yes' }).success,
+    ).toBe(false)
+    const kept = removeFlowNodes(locked, [group.id])
+    expect(kept.nodes.find((node) => node.id === group.id)).toBeDefined()
+    expect(kept.nodes.find((node) => node.id === childId)).toMatchObject({
+      parentId: group.id,
+    })
   })
 
   it('adds Condition, Random, Next Period, and Ending cards with unique IDs', () => {

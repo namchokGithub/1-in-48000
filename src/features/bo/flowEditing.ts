@@ -191,10 +191,16 @@ export function reconnectEdge(
   }
 }
 
+/** Start and locked Sub Flows stay on the board. */
 export function removeFlowNodes(flow: V2Flow, ids: string[]): V2Flow {
   const removed = new Set(
     flow.nodes
-      .filter((node) => ids.includes(node.id) && node.type !== 'start')
+      .filter(
+        (node) =>
+          ids.includes(node.id) &&
+          node.type !== 'start' &&
+          !(node.type === 'group' && node.locked),
+      )
       .map((node) => node.id),
   )
   return {

@@ -8,6 +8,7 @@ import {
   type DragEvent,
 } from 'react'
 import { toast } from 'sonner'
+import { Lock, LockOpen } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import {
   Background,
@@ -111,6 +112,7 @@ type Group = Node<
   {
     node: Extract<V2FlowNode, { type: 'group' }>
     onResize: (width: number, height: number) => void
+    onToggleLock: () => void
   },
   'group'
 >
@@ -333,6 +335,11 @@ function subFlowList(
   return list
 }
 
+function toggledLock(group: GroupNode): GroupNode {
+  const { locked, ...unlocked } = group
+  return locked ? unlocked : { ...group, locked: true }
+}
+
 function FlowGroup({ data, selected }: NodeProps<Group>) {
   const color = groupColor(data.node.color)
   return (
@@ -342,7 +349,7 @@ function FlowGroup({ data, selected }: NodeProps<Group>) {
       style={{ '--bo-subflow-color': color } as CSSProperties}
     >
       <NodeResizer
-        isVisible={selected}
+        isVisible={selected && !data.node.locked}
         minWidth={160}
         minHeight={120}
         handleClassName="bo-flow-subflow-resize-handle"
@@ -352,6 +359,27 @@ function FlowGroup({ data, selected }: NodeProps<Group>) {
       <div className="bo-flow-subflow-head">
         <span>Sub Flow</span>
         <strong>{data.node.title}</strong>
+        <button
+          type="button"
+          className="bo-flow-subflow-lock nodrag nopan"
+          aria-pressed={data.node.locked === true}
+          aria-label={data.node.locked ? 'ปลดล็อก Sub Flow' : 'ล็อก Sub Flow'}
+          title={
+            data.node.locked
+              ? 'ปลดล็อกเพื่อย้าย ปรับขนาด หรือลบกรอบ'
+              : 'ล็อกกรอบไว้ เพื่อย้ายการ์ดข้างในได้โดยไม่โดนกรอบ'
+          }
+          onClick={(event) => {
+            event.stopPropagation()
+            data.onToggleLock()
+          }}
+        >
+          {data.node.locked ? (
+            <Lock size={14} aria-hidden="true" />
+          ) : (
+            <LockOpen size={14} aria-hidden="true" />
+          )}
+        </button>
       </div>
     </div>
   )
@@ -575,8 +603,12 @@ function Board({
               type: 'group' as const,
               position: node.position,
               dragHandle: '.bo-drag-handle',
-              deletable: true,
-              className: 'bo-flow-subflow-node',
+              deletable: !node.locked,
+              draggable: !node.locked,
+              selectable: !node.locked,
+              className: node.locked
+                ? 'bo-flow-subflow-node bo-flow-subflow-locked'
+                : 'bo-flow-subflow-node',
               style: { width: node.width, height: node.height },
               data: {
                 node,
@@ -586,6 +618,7 @@ function Board({
                     width: Math.round(width),
                     height: Math.round(height),
                   }),
+                onToggleLock: () => updateNode(toggledLock(node)),
               },
             }
           const event =
@@ -875,6 +908,11 @@ function Board({
   }
 
   const subFlows = subFlowList(flow.nodes)
+
+  function toggleGroupLock(id: string) {
+    const group = flow.nodes.find((node) => node.id === id)
+    if (group?.type === 'group') updateNode(toggledLock(group))
+  }
 
   function jumpToSubFlow(id: string) {
     subFlowMenuRef.current?.removeAttribute('open')
@@ -1187,22 +1225,37 @@ function Board({
             <div className="bo-flow-menu-list bo-subflow-list">
               {subFlows.length ? (
                 subFlows.map(({ group, depth, cards }) => (
-                  <button
-                    key={group.id}
-                    type="button"
-                    style={{ paddingLeft: `${0.6 + depth}rem` }}
-                    onClick={() => jumpToSubFlow(group.id)}
-                  >
-                    <span
-                      className="bo-subflow-dot"
-                      style={{ background: groupColor(group.color) }}
-                      aria-hidden="true"
-                    />
-                    <span className="bo-subflow-title">{group.title}</span>
-                    <Badge variant="secondary" title="จำนวนการ์ดข้างใน">
-                      {cards}
-                    </Badge>
-                  </button>
+                  <div key={group.id} className="bo-subflow-row">
+                    <button
+                      type="button"
+                      style={{ paddingLeft: `${0.6 + depth}rem` }}
+                      onClick={() => jumpToSubFlow(group.id)}
+                    >
+                      <span
+                        className="bo-subflow-dot"
+                        style={{ background: groupColor(group.color) }}
+                        aria-hidden="true"
+                      />
+                      <span className="bo-subflow-title">{group.title}</span>
+                      <Badge variant="secondary" title="จำนวนการ์ดข้างใน">
+                        {cards}
+                      </Badge>
+                    </button>
+                    <button
+                      type="button"
+                      className="bo-subflow-row-lock"
+                      aria-pressed={group.locked === true}
+                      aria-label={`${group.locked ? 'ปลดล็อก' : 'ล็อก'} ${group.title}`}
+                      title={group.locked ? 'ปลดล็อก' : 'ล็อก'}
+                      onClick={() => toggleGroupLock(group.id)}
+                    >
+                      {group.locked ? (
+                        <Lock size={14} aria-hidden="true" />
+                      ) : (
+                        <LockOpen size={14} aria-hidden="true" />
+                      )}
+                    </button>
+                  </div>
                 ))
               ) : (
                 <p className="muted text-xs">ยังไม่มี Sub Flow</p>

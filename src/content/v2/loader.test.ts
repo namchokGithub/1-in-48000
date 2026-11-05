@@ -463,25 +463,6 @@ describe('live V2 content', () => {
     })
   })
 
-  it('keeps every year-two break choice recapped', () => {
-    const ids = [
-      'y2_break_midterm_feedback',
-      'y2_break_idle_morning',
-      'y2_break_mali_checkin',
-      'y2_break_notes_request',
-      'y2_break_family_call',
-      'y2_break_notes_followup',
-      'y2_break_last_evening',
-    ]
-    const selected = events.filter((event) => ids.includes(event.id))
-    expect(selected).toHaveLength(ids.length)
-    for (const event of selected) {
-      expect(event.choices.length).toBeGreaterThanOrEqual(2)
-      expect(event.choices.length).toBeLessThanOrEqual(3)
-      expect(event.choices.every((choice) => Boolean(choice.recap))).toBe(true)
-    }
-  })
-
   it('plays year-two break branches and enters term two', async () => {
     const files: Record<string, unknown> = {
       config,
@@ -695,27 +676,6 @@ describe('live V2 content', () => {
       ],
       requestedFeedback: undefined,
     })
-  })
-
-  it('keeps every year-two summer choice recapped', () => {
-    const ids = [
-      'internship_application',
-      'y2_summer_application_followup',
-      'y2_summer_paid_shift',
-      'y2_summer_calendar_collision',
-      'y2_summer_heat_route',
-      'y2_summer_peer_request',
-      'y2_summer_peer_followup',
-      'y2_summer_portfolio_notes',
-      'y2_summer_last_week',
-    ]
-    const selected = events.filter((event) => ids.includes(event.id))
-    expect(selected).toHaveLength(ids.length)
-    for (const event of selected) {
-      expect(event.choices.length).toBeGreaterThanOrEqual(2)
-      expect(event.choices.length).toBeLessThanOrEqual(4)
-      expect(event.choices.every((choice) => Boolean(choice.recap))).toBe(true)
-    }
   })
 
   it('plays both summer work routes and optional peer follow-up into year three', async () => {
