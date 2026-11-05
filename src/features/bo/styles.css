@@ -836,7 +836,11 @@
   height: 100%;
   border: 2px solid color-mix(in srgb, var(--bo-subflow-color) 48%, transparent);
   border-radius: 16px;
-  background: color-mix(in srgb, var(--bo-subflow-color) 8%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--bo-subflow-color) var(--bo-subflow-fill, 8%),
+    transparent
+  );
 }
 .react-flow__node-group.bo-flow-subflow-node,
 .react-flow__node-group.bo-flow-subflow-node.selectable.selected {
@@ -863,6 +867,12 @@
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+.bo-flow-lock-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 .bo-flow-subflow-lock {
   display: inline-grid;

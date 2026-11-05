@@ -330,6 +330,8 @@ export const v2FlowNodeSchema = z.discriminatedUnion('type', [
     height: z.number().positive(),
     /** BO-only: the frame cannot be moved, resized, selected, or deleted. */
     locked: z.boolean().optional(),
+    /** BO-only: frame fill opacity in percent; absent means 8. */
+    fillOpacity: z.int().min(0).max(40).optional(),
   }),
 ])
 

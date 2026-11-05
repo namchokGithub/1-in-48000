@@ -335,6 +335,29 @@ function subFlowList(
   return list
 }
 
+function snapPoint(point: { x: number; y: number }) {
+  return {
+    x: Math.round(point.x / FLOW_GRID) * FLOW_GRID,
+    y: Math.round(point.y / FLOW_GRID) * FLOW_GRID,
+  }
+}
+
+/** One grid cell from `from` toward `to` on each axis that moved. */
+function stepPoint(
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+) {
+  const step = (a: number, b: number) =>
+    b === a
+      ? a
+      : (b > a ? Math.floor(a / FLOW_GRID) + 1 : Math.ceil(a / FLOW_GRID) - 1) *
+        FLOW_GRID
+  return { x: step(from.x, to.x), y: step(from.y, to.y) }
+}
+
+const DEFAULT_GROUP_FILL = 8
+const MAX_GROUP_FILL = 40
+
 function toggledLock(group: GroupNode): GroupNode {
   const { locked, ...unlocked } = group
   return locked ? unlocked : { ...group, locked: true }
@@ -346,7 +369,12 @@ function FlowGroup({ data, selected }: NodeProps<Group>) {
     <div
       className="bo-flow-subflow bo-drag-handle"
       data-selected={selected}
-      style={{ '--bo-subflow-color': color } as CSSProperties}
+      style={
+        {
+          '--bo-subflow-color': color,
+          '--bo-subflow-fill': `${data.node.fillOpacity ?? DEFAULT_GROUP_FILL}%`,
+        } as CSSProperties
+      }
     >
       <NodeResizer
         isVisible={selected && !data.node.locked}
@@ -506,6 +534,7 @@ function Board({
     ? simulationSave(simulation).currentNodeId
     : null
   const boardRef = useRef<HTMLDivElement>(null)
+  const pointerDragRef = useRef(false)
   const stageRef = useRef<HTMLDivElement>(null)
   // Simulation panel width in px; null keeps the default half of the stage.
   const [simulationWidth, setSimulationWidth] = useState<number | null>(null)
@@ -1009,10 +1038,26 @@ function Board({
     }
   })
 
+  // Cards follow the pointer freely while dragged and settle on the grid when
+  // released. Arrow-key moves step one grid cell in their direction.
   function onNodesChange(changes: NodeChange<BoardNode>[]) {
-    setNodes((current) => applyNodeChanges(changes, current))
+    const pointerDrag = pointerDragRef.current
+    const settled = changes.map((item) => {
+      if (item.type !== 'position' || item.dragging !== false || !item.position)
+        return item
+      pointerDragRef.current = false
+      const from = nodes.find((node) => node.id === item.id)?.position
+      return {
+        ...item,
+        position:
+          pointerDrag || !from
+            ? snapPoint(item.position)
+            : stepPoint(from, item.position),
+      }
+    })
+    setNodes((current) => applyNodeChanges(settled, current))
     const moved: Record<string, V2FlowNode['position']> = {}
-    for (const item of changes) {
+    for (const item of settled) {
       if (item.type === 'position' && item.dragging === false && item.position)
         moved[item.id] = item.position
     }
@@ -1436,8 +1481,6 @@ function Board({
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
                 onNodesChange={onNodesChange}
-                snapToGrid
-                snapGrid={[FLOW_GRID, FLOW_GRID]}
                 onConnect={onConnect}
                 onReconnectStart={(_, edge) => {
                   reconnectingEdgeId.current = edge.id
@@ -1473,7 +1516,11 @@ function Board({
                     ),
                   )
                 }
+                onNodeDragStart={() => {
+                  pointerDragRef.current = true
+                }}
                 onNodeDragStop={(_, dragged) => {
+                  pointerDragRef.current = false
                   const node = flow.nodes.find((item) => item.id === dragged.id)
                   if (!node || node.type === 'group') return
                   const group = getIntersectingNodes(dragged).find(
@@ -1482,7 +1529,9 @@ function Board({
                   if (group?.id !== node.parentId)
                     change(
                       reparentFlowNode(
-                        moveFlowNodes(flow, { [node.id]: dragged.position }),
+                        moveFlowNodes(flow, {
+                          [node.id]: snapPoint(dragged.position),
+                        }),
                         node.id,
                         group?.id,
                       ),
@@ -2143,38 +2192,44 @@ function NodeDetail({
               ))}
             </div>
           </div>
-          <div className="bo-form-grid">
-            <label className="bo-field">
-              <span>กว้าง</span>
-              <input
-                className="field"
-                type="number"
-                min="160"
-                value={node.width}
-                onChange={(input) =>
-                  onChange({
-                    ...node,
-                    width: Math.max(160, Number(input.target.value) || 160),
-                  })
-                }
-              />
-            </label>
-            <label className="bo-field">
-              <span>สูง</span>
-              <input
-                className="field"
-                type="number"
-                min="120"
-                value={node.height}
-                onChange={(input) =>
-                  onChange({
-                    ...node,
-                    height: Math.max(120, Number(input.target.value) || 120),
-                  })
-                }
-              />
-            </label>
-          </div>
+          <label className="bo-field">
+            <span>
+              ความทึบพื้นหลัง{' '}
+              <span className="muted tabular-nums">
+                {node.fillOpacity ?? DEFAULT_GROUP_FILL}%
+              </span>
+            </span>
+            <input
+              type="range"
+              min="0"
+              max={MAX_GROUP_FILL}
+              step="2"
+              value={node.fillOpacity ?? DEFAULT_GROUP_FILL}
+              onChange={(input) => {
+                const { fillOpacity: _fill, ...rest } = node
+                void _fill
+                const value = Number(input.target.value)
+                onChange(
+                  value === DEFAULT_GROUP_FILL
+                    ? rest
+                    : { ...node, fillOpacity: value },
+                )
+              }}
+            />
+          </label>
+          <button
+            type="button"
+            className="button button-secondary bo-flow-lock-toggle"
+            aria-pressed={node.locked === true}
+            onClick={() => onChange(toggledLock(node))}
+          >
+            {node.locked ? (
+              <Lock size={16} aria-hidden="true" />
+            ) : (
+              <LockOpen size={16} aria-hidden="true" />
+            )}
+            {node.locked ? 'ล็อกกรอบอยู่ · กดเพื่อปลดล็อก' : 'ล็อกกรอบ'}
+          </button>
           <p className="muted text-sm">
             กลุ่มนี้ไม่เปลี่ยนเส้นทางที่ผู้เล่นเล่น
           </p>
@@ -2200,6 +2255,12 @@ function NodeDetail({
         <button
           type="button"
           className="button button-danger"
+          disabled={node.type === 'group' && node.locked}
+          title={
+            node.type === 'group' && node.locked
+              ? 'ปลดล็อกกรอบก่อนนำออก'
+              : undefined
+          }
           onClick={onRemove}
         >
           นำออกจากกระดาน

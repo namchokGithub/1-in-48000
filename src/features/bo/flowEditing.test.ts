@@ -113,6 +113,16 @@ describe('BO flow board editing', () => {
     expect(
       v2FlowNodeSchema.safeParse({ ...group, locked: 'yes' }).success,
     ).toBe(false)
+    for (const [fillOpacity, valid] of [
+      [0, true],
+      [40, true],
+      [41, false],
+      [-2, false],
+      [8.5, false],
+    ] as const)
+      expect(
+        v2FlowNodeSchema.safeParse({ ...group, fillOpacity }).success,
+      ).toBe(valid)
     const kept = removeFlowNodes(locked, [group.id])
     expect(kept.nodes.find((node) => node.id === group.id)).toBeDefined()
     expect(kept.nodes.find((node) => node.id === childId)).toMatchObject({
