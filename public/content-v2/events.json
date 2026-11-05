@@ -1188,6 +1188,1916 @@
     ]
   },
   {
+    "id": "night_out_meeting_point",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_night_out",
+    "title": "นัดกันหน้าร้าน",
+    "sceneAssetId": "h2m_bang_saen",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังส่งงานกลุ่ม เพื่อนชวนกันมาหาอะไรกินที่ร้านเปิดดึกแถวบางแสน แต่พอคุณถึงหน้าร้าน อีกสองคนยังติดอยู่บนรถ"
+      },
+      {
+        "text": "ไฟร้านสว่างดี ส่วนขาคุณเริ่มล้าจากการยืนรอ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "night_out_meeting_point_wait_together",
+        "text": "ส่งข้อความบอกว่าจะรอแล้วหามุมยืน",
+        "conditions": [],
+        "recap": "คุณส่งข้อความบอกเพื่อนว่ารออยู่หน้าร้านและยืนดูรถจนพวกเขาหาทางมาถูก แม้ขาจะล้ากว่าเดิม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "night_out_meeting_point_save_table",
+        "text": "เข้าไปนั่งพักแล้วส่งเลขโต๊ะให้เพื่อน",
+        "conditions": [],
+        "recap": "คุณได้โต๊ะว่าง นั่งพักขา และส่งรูปตำแหน่งโต๊ะให้เพื่อนตามเข้ามา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "night_out_meeting_point_go_back",
+        "text": "บอกเพื่อนว่ารอไม่ไหวแล้วกลับหอ",
+        "conditions": [],
+        "recap": "คุณส่งข้อความว่าขอกลับก่อนและขึ้นรถกลับหอ เพื่อนตอบมาสั้น ๆ ว่าเสียดายที่ไม่ได้เจอกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "night_out_music_volume",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_night_out",
+    "title": "เพลงดังเกินบทสนทนา",
+    "sceneAssetId": "h2m_bang_saen",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพลงจากในร้านดังจนคุณต้องอ่านปากเพื่อนที่นั่งฝั่งตรงข้าม"
+      },
+      {
+        "text": "โต๊ะด้านในยังว่างอยู่หนึ่งโต๊ะ แต่เพื่อนอีกคนกำลังสนุกกับเพลงนี้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "night_out_music_volume_move_inside",
+        "text": "ชวนเพื่อนย้ายไปโต๊ะด้านใน",
+        "conditions": [],
+        "recap": "คุณถามทุกคนก่อนย้ายไปโต๊ะที่ได้ยินกันชัดขึ้น เพื่อนที่ชอบเพลงก็ยังมองเห็นเวทีจากตรงนั้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "night_out_music_volume_stay_near_music",
+        "text": "อยู่โต๊ะเดิมและร้องตามกับเพื่อน",
+        "conditions": [],
+        "recap": "คุณร้องท่อนฮุกกับเพื่อนจนจบเพลง บรรยากาศคึกคักขึ้นแต่กลับมาคุยแล้วรู้สึกหูอื้อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "night_out_music_volume_step_out",
+        "text": "ออกไปพักหูโดยไม่บอกใคร",
+        "conditions": [],
+        "recap": "คุณออกมายืนหน้าร้านให้หูได้พัก พอกลับเข้าไปเพื่อนถามว่าหายไปไหนเพราะมองหาอยู่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "night_out_shared_plate",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_night_out",
+    "title": "จานที่แบ่งกันได้",
+    "sceneAssetId": "h2m_bang_saen",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนคนหนึ่งบอกว่ายังไม่ได้กินข้าว แต่เปิดแอปธนาคารแล้วทำหน้าเจื่อน"
+      },
+      {
+        "text": "คุณเองก็หิวและเห็นเมนูจานใหญ่ที่แบ่งกันได้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "night_out_shared_plate_split_dish",
+        "text": "ชวนสั่งจานใหญ่แล้วหารกันตามที่ไหว",
+        "conditions": [],
+        "recap": "คุณชวนเพื่อนแบ่งอาหารจานใหญ่ ทุกคนได้กิน และตกลงค่าอาหารกันตรงโต๊ะโดยไม่ปล่อยให้ใครเก้อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -120
+          }
+        ]
+      },
+      {
+        "id": "night_out_shared_plate_eat_alone",
+        "text": "สั่งจานของตัวเองแล้วปล่อยให้เพื่อนเลือกเอง",
+        "conditions": [],
+        "recap": "คุณกินอาหารจานของตัวเองจนอิ่ม ส่วนเพื่อนที่ยังลังเลเรื่องราคาเงียบไปพักหนึ่ง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -120
+          }
+        ]
+      },
+      {
+        "id": "night_out_shared_plate_skip_food",
+        "text": "ดื่มน้ำแล้วบอกว่ายังไม่หิว",
+        "conditions": [],
+        "recap": "คุณดื่มน้ำแทนมื้อดึกและนั่งคุยต่อ แต่ท้องร้องจนเพื่อนข้าง ๆ ได้ยิน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "night_out_quiet_friend",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_night_out",
+    "title": "เพื่อนที่เงียบไป",
+    "sceneAssetId": "h2m_bang_saen",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างเพื่อนคนอื่นคุยกัน คนที่นั่งข้างคุณอ่านแจ้งเตือนในโทรศัพท์แล้วเงียบลง"
+      },
+      {
+        "text": "เขาคว่ำหน้าจอและบอกว่าไม่มีอะไร ทั้งที่เมื่อครู่ยังหัวเราะอยู่"
+      }
+    ],
+    "choices": [
+      {
+        "id": "night_out_quiet_friend_listen_outside",
+        "text": "ชวนออกมาคุยตรงมุมเงียบ ๆ",
+        "conditions": [],
+        "recap": "คุณชวนเพื่อนออกมาหน้าร้านและฟังเรื่องที่เขาอยากเล่าโดยไม่เร่งให้ตอบ เสียงร้านเบาลงแต่คุณอยู่ดึกกว่าเดิม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "night_out_quiet_friend_check_tomorrow",
+        "text": "บอกว่าพรุ่งนี้ยังคุยกันได้ถ้าเขาอยากเล่า",
+        "conditions": [],
+        "recap": "คุณบอกเพื่อนว่าไม่ต้องเล่าตอนนี้ก็ได้และส่งข้อความไว้ให้ทักมาเมื่อพร้อม ก่อนขอตัวกลับไปพัก",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "night_out_quiet_friend_make_joke",
+        "text": "แซวเรื่องหน้าบึ้งให้ทุกคนได้ยิน",
+        "conditions": [],
+        "recap": "คุณแซวเสียงดังเพื่อให้บรรยากาศกลับมาคึกคัก แต่เพื่อนยิ้มบาง ๆ แล้วหันกลับไปมองโต๊ะ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "night_out_last_ride",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_night_out",
+    "title": "รถเที่ยวกลับ",
+    "sceneAssetId": "h2m_bang_saen",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ใกล้เที่ยงคืนแล้ว เพื่อนเริ่มเช็กรถกลับหอ บางคนง่วงจนอ่านหน้าจอแทบไม่รู้เรื่อง"
+      },
+      {
+        "text": "คุณยังพอมีแรงคุย แต่รู้ว่าพรุ่งนี้ต้องตื่นเช้า"
+      }
+    ],
+    "choices": [
+      {
+        "id": "night_out_last_ride_share_ride",
+        "text": "ชวนกันเรียกรถและเช็กว่าทุกคนขึ้นครบ",
+        "conditions": [],
+        "recap": "คุณช่วยเพื่อนหารรถกลับทางเดียวกัน เช็กคนขึ้นรถครบก่อนนั่งพักบนเบาะจนถึงหอ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -100
+          }
+        ]
+      },
+      {
+        "id": "night_out_last_ride_stay_longer",
+        "text": "ชวนอยู่ต่ออีกชั่วโมงทั้งที่เริ่มง่วง",
+        "conditions": [],
+        "recap": "คุณชวนเพื่อนอยู่ต่อและคุยกันอีกนาน คืนนี้สนุกขึ้น แต่ตอนเดินออกมาคุณแทบลืมว่าพรุ่งนี้มีคาบเช้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "night_out_last_ride_leave_unannounced",
+        "text": "เดินกลับคนเดียวโดยไม่บอกกลุ่ม",
+        "conditions": [],
+        "recap": "คุณเดินกลับทั้งที่ง่วง พอถึงหอจึงเห็นข้อความเพื่อนถามหาหลายสายและต้องตอบว่าอยู่หอแล้ว",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bridge_octopus_photo",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_bridge_friends",
+    "title": "รูปกับปลาหมึกแดง",
+    "sceneAssetId": "bang_saen_rachanawi_bridge",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนต้องส่งรูปประกอบงานชมรม เขาชวนคุณไปช่วยถ่ายตรงรูปปลาหมึกแดงกลางสะพาน และบอกว่ามีค่าขนมให้ถ้าช่วยตอนนี้"
+      },
+      {
+        "text": "แดดกำลังแรงจนคุณต้องหรี่ตามองจอ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "bridge_octopus_photo_shoot_now",
+        "text": "ช่วยถ่ายให้เสร็จตอนแดดยังแรง",
+        "conditions": [],
+        "recap": "คุณถ่ายหลายมุมจนเพื่อนได้ภาพสำหรับงาน เขาจ่ายค่าขนมตามที่บอก ส่วนคุณต้องพักเพราะร้อนจัด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 120
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "bridge_octopus_photo_wait_in_shade",
+        "text": "ชวนเพื่อนพักในศาลาก่อนแล้วค่อยถ่าย",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนนั่งหลบแดดจนหายเหนื่อยแล้วค่อยถ่ายรูปโดยไม่รับค่าขนม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "bridge_octopus_photo_buy_hat",
+        "text": "ซื้อหมวกจากทางเข้าแล้วช่วยถ่าย",
+        "conditions": [],
+        "recap": "คุณเสียเงินซื้อหมวกก่อนเดินกลับไปช่วยถ่าย เพื่อนได้รูปและคุณไม่ต้องยืนตากแดดหัวเปล่า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -80
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bridge_water_share",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_bridge_friends",
+    "title": "น้ำขวดสุดท้าย",
+    "sceneAssetId": "bang_saen_rachanawi_bridge",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เดินมาถึงราวสะพาน เพื่อนเพิ่งนึกได้ว่าลืมซื้อน้ำ ขวดในกระเป๋าคุณก็เหลือไม่ถึงครึ่ง"
+      },
+      {
+        "text": "ลมทะเลเย็นนิดเดียว แต่แดดบนทางเดินยังร้อน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "bridge_water_share_buy_two_bottles",
+        "text": "เดินกลับไปซื้อน้ำให้ทั้งคู่",
+        "conditions": [],
+        "recap": "คุณเดินกลับไปซื้อน้ำสองขวดแล้วแบ่งให้เพื่อนดื่ม ทั้งคู่ได้หยุดพักก่อนเดินต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -50
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "bridge_water_share_share_remaining",
+        "text": "ยกน้ำที่เหลือให้เพื่อนก่อน",
+        "conditions": [],
+        "recap": "คุณส่งน้ำที่เหลือให้เพื่อนดื่ม เพื่อนขอบคุณ แต่คุณยังคอแห้งระหว่างเดินกลับ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "bridge_water_share_keep_walking",
+        "text": "บอกว่าใกล้ถึงแล้ว เดินต่อเลย",
+        "conditions": [],
+        "recap": "คุณเร่งเดินต่อทั้งที่ร้อนและคอแห้ง เพื่อนเงียบลงแล้วหยุดพักเองที่ศาลาถัดไป",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bridge_postcard_shift",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_bridge_friends",
+    "title": "โปสต์การ์ดของเพื่อน",
+    "sceneAssetId": "bang_saen_rachanawi_bridge",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนที่ทำกิจกรรมชมรมตั้งโต๊ะโปสต์การ์ดเล็ก ๆ ใกล้ทางเข้าสะพาน เขาขอให้ช่วยเฝ้าโต๊ะและบอกว่าจะแบ่งค่าขนมให้ตอนอีกคนกลับมา"
+      },
+      {
+        "text": "ตรงนั้นมีร่มเงา แต่ต้องยืนจัดของและทักคนผ่านไปมา"
+      }
+    ],
+    "choices": [
+      {
+        "id": "bridge_postcard_shift_help_shift",
+        "text": "ช่วยเฝ้าโต๊ะจนเพื่อนกลับมา",
+        "conditions": [],
+        "recap": "คุณช่วยจัดโปสต์การ์ดและทอนเงินอยู่พักใหญ่ เพื่อนแบ่งค่าขนมจากยอดขายให้ตามที่ตกลง แต่ขาคุณล้าจากการยืน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 100
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "bridge_postcard_shift_buy_card_and_rest",
+        "text": "ซื้อโปสต์การ์ดหนึ่งใบแล้วนั่งพักข้างโต๊ะ",
+        "conditions": [],
+        "recap": "คุณซื้อโปสต์การ์ดจากเพื่อน เขาขอบคุณและให้คุณนั่งพักในร่มระหว่างรอคนมาแทน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -40
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "bridge_postcard_shift_decline_shift",
+        "text": "บอกว่าปวดขาและขอนั่งพักก่อน",
+        "conditions": [],
+        "recap": "คุณบอกเพื่อนตามตรงว่าปวดขา เขาพยักหน้าแล้วหาคนอื่นช่วย ส่วนคุณได้นั่งพักจนหายเมื่อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bridge_lunch_split",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_bridge_friends",
+    "title": "มื้อเที่ยงก่อนกลับ",
+    "sceneAssetId": "bang_saen_rachanawi_bridge",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังเดินดูเรือที่แล่นผ่าน เพื่อนชวนกินข้าวก่อนกลับ แต่ราคาหน้าร้านสูงกว่าที่ทั้งคู่คิด"
+      },
+      {
+        "text": "คุณหิวแล้วและมีขนมปังติดกระเป๋ามาหนึ่งชิ้น"
+      }
+    ],
+    "choices": [
+      {
+        "id": "bridge_lunch_split_share_meal",
+        "text": "หารข้าวจานใหญ่กับเพื่อน",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนตกลงหารค่าข้าวจานใหญ่ กินอิ่มพอดีแล้วนั่งพักก่อนเดินออกจากร้าน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -80
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "bridge_lunch_split_eat_bread",
+        "text": "แบ่งขนมปังที่พกมาแล้วนั่งพัก",
+        "conditions": [],
+        "recap": "คุณแบ่งขนมปังกับเพื่อนใต้ศาลา ถึงไม่อิ่มมากแต่ทั้งคู่ได้พักขาก่อนกลับ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "bridge_lunch_split_skip_lunch",
+        "text": "บอกว่ายังไม่หิวแล้วรีบเดินกลับ",
+        "conditions": [],
+        "recap": "คุณบอกเพื่อนว่าไม่ต้องรอและเดินกลับทั้งที่ท้องว่าง สุดท้ายต้องหยุดพักกลางทาง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bridge_return_route",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_bridge_friends",
+    "title": "ขากลับจากปลายสะพาน",
+    "sceneAssetId": "bang_saen_rachanawi_bridge",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "พอเดินกลับถึงศาลา เพื่อนเปิดแผนที่ดูทางไปป้ายรถ แดดช่วงบ่ายยังสะท้อนพื้นสะพานจนแสบตา"
+      },
+      {
+        "text": "มีรถรับส่งผ่านทางเข้า แต่ต้องจ่ายเพิ่ม"
+      }
+    ],
+    "choices": [
+      {
+        "id": "bridge_return_route_share_ride",
+        "text": "ชวนเพื่อนหารค่ารถรับส่งกลับ",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนหารค่ารถและได้นั่งพักระหว่างทาง ถึงป้ายรถโดยไม่ต้องเดินฝ่าแดดต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -70
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "bridge_return_route_walk_together",
+        "text": "เดินกลับด้วยกันและผลัดกันถือของ",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนผลัดกันถือกระเป๋าและคุยไปเรื่อย ๆ จนถึงป้ายรถ แต่ทั้งคู่เหนื่อยจากแดด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "bridge_return_route_rest_then_go",
+        "text": "นั่งพักในศาลาก่อนแล้วค่อยตามไป",
+        "conditions": [],
+        "recap": "คุณบอกเพื่อนว่าจะนั่งพักอีกหน่อย เขาทำหน้าผิดหวังนิดหนึ่งก่อนเดินไปป้ายรถ ส่วนคุณได้พักหายเหนื่อยแล้วค่อยออกเดิน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ghost_hunt_moving_shadow",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "wat_saen_suk_ghost_hunt",
+    "title": "เงาระหว่างรูปปั้น",
+    "sceneAssetId": "wat_saen_suk_night",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คืนที่ลานรูปปั้นเปิดให้เข้าชม คุณกับเพื่อนนัดกันมาล่าท้าผี เพื่อนชี้ไปที่เงาระหว่างรูปปั้นสูงสององค์แล้วบอกว่าเมื่อกี้มันขยับ"
+      },
+      {
+        "text": "ไฟอาคารส่องมาเป็นหย่อม ๆ ส่วนทางเดินตรงนั้นยังเปิดให้เดินได้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ghost_hunt_moving_shadow_watch_from_light",
+        "text": "ยืนดูจากใต้ไฟก่อน",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนยืนเพ่งเงาอยู่พักใหญ่จนขาเริ่มล้า ก่อนเห็นกิ่งไม้ไหวผ่านแสงไฟอีกครั้ง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_moving_shadow_walk_around",
+        "text": "เดินอ้อมไปดูจากอีกมุม",
+        "conditions": [],
+        "recap": "คุณพาเพื่อนเดินอ้อมลานจนเห็นเงาเปลี่ยนตามมุมไฟ เดินกลับมาแล้วเมื่อยขาทั้งคู่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_moving_shadow_sprint_across",
+        "text": "วิ่งข้ามลานไปดูให้ชัด",
+        "conditions": [],
+        "recap": "คุณวิ่งพรวดไปอีกฝั่งและสะดุดขอบทาง ต้องหยุดจับเข่าท่ามกลางเสียงเพื่อนหัวเราะปนตกใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ghost_hunt_tree_noise",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "wat_saen_suk_ghost_hunt",
+    "title": "เสียงใต้ต้นไม้",
+    "sceneAssetId": "wat_saen_suk_night",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างเดินผ่านต้นไม้ใหญ่ เพื่อนสะกิดแขนคุณเมื่อได้ยินเสียงกรอบแกรบจากพุ่มข้างลาน"
+      },
+      {
+        "text": "เขาท้าให้คุณช่วยดูว่าเสียงนั้นมาจากอะไร แต่แสงไฟตรงพุ่มค่อนข้างน้อย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ghost_hunt_tree_noise_listen_together",
+        "text": "ยืนฟังอยู่ตรงทางเดินกับเพื่อน",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนยืนฟังจนรู้ว่าเสียงดังเป็นช่วงตามลม ก่อนเดินต่อด้วยขาที่เริ่มเมื่อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_tree_noise_check_from_path",
+        "text": "ฉายไฟจากทางเดินแล้วค่อย ๆ ดู",
+        "conditions": [],
+        "recap": "คุณฉายไฟจากขอบทางเดิน เห็นใบไม้แห้งไหวอยู่ใต้พุ่ม แต่ต้องยืนนานจนปวดหลัง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_tree_noise_rush_to_sound",
+        "text": "รีบพุ่งไปใกล้พุ่มเพื่อพิสูจน์",
+        "conditions": [],
+        "recap": "คุณรีบเข้าไปใกล้จนกิ่งไม้เกี่ยวแขน เพื่อนต้องช่วยดึงชายเสื้อออกก่อนพากันกลับทางเดิน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ghost_hunt_statue_photo",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "wat_saen_suk_ghost_hunt",
+    "title": "รูปที่เพื่อนบอกว่าติดอะไรมา",
+    "sceneAssetId": "wat_saen_suk_night",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนยกโทรศัพท์ถ่ายรูปคู่รูปปั้นในแสงจันทร์แล้วร้องว่าในภาพมีอะไรอยู่ข้างหลัง"
+      },
+      {
+        "text": "พอซูมดู คุณเห็นเงาดำตรงขอบภาพ แต่เพื่อนอีกคนบอกว่าน่าจะเป็นนิ้วคนถ่าย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ghost_hunt_statue_photo_take_one_more",
+        "text": "ถ่ายใหม่อีกภาพจากจุดเดิม",
+        "conditions": [],
+        "recap": "คุณยืนให้นิ่งแล้วถ่ายใหม่หนึ่งภาพ คราวนี้เห็นนิ้วเพื่อนโผล่ขอบรูปชัด ๆ ก่อนพากันเดินต่อแบบง่วง ๆ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_statue_photo_retake_angles",
+        "text": "ลองถ่ายหลายมุมให้หายสงสัย",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนผลัดกันถ่ายหลายมุมจนพบว่าเงาดำย้ายตามนิ้วที่บังเลนส์ แต่ยืนนานจนเมื่อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_statue_photo_run_for_proof",
+        "text": "วิ่งอ้อมลานไปถ่ายจากด้านหลัง",
+        "conditions": [],
+        "recap": "คุณวิ่งอ้อมไปถ่ายอีกฝั่ง ได้รูปใหม่แต่หอบจนต้องนั่งพัก เพื่อนหัวเราะว่าไม่ต้องพิสูจน์จริงจังขนาดนั้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ghost_hunt_dim_flashlight",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "wat_saen_suk_ghost_hunt",
+    "title": "ไฟฉายเหลือขีดเดียว",
+    "sceneAssetId": "wat_saen_suk_night",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "โทรศัพท์ที่ใช้เป็นไฟฉายเตือนแบตเตอรี่ใกล้หมด ขณะที่คุณกับเพื่อนยังอยู่กลางลาน"
+      },
+      {
+        "text": "ไฟจากอาคารด้านหน้าเห็นได้ไกล ๆ แต่ทางเดินมีขั้นเตี้ย ๆ หลายจุด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ghost_hunt_dim_flashlight_share_friend_light",
+        "text": "เดินช้า ๆ ใต้ไฟฉายของเพื่อน",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนเดินชิดกันและคอยบอกตำแหน่งขั้นทางเดิน ถึงจุดสว่างช้าหน่อยจนขาเมื่อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_dim_flashlight_use_dim_screen",
+        "text": "เปิดหน้าจอหรี่แสงแล้วเดินต่อ",
+        "conditions": [],
+        "recap": "คุณใช้แสงหน้าจอช่วยมองทาง แต่ก้าวพลาดขั้นเตี้ยจนหน้าแข้งกระแทก ต้องหยุดพักก่อนเดินต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_dim_flashlight_dash_to_building",
+        "text": "รีบวิ่งไปหาไฟอาคาร",
+        "conditions": [],
+        "recap": "คุณรีบวิ่งในแสงสลัวแล้วสะดุดขั้นทางเดิน ล้มจนเข่าถลอก เพื่อนต้องช่วยพยุงไปนั่งใต้ไฟ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ghost_hunt_rainy_exit",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "wat_saen_suk_ghost_hunt",
+    "title": "ฝนก่อนกลับ",
+    "sceneAssetId": "wat_saen_suk_night",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างคุณกับเพื่อนจะกลับ ฝนเริ่มลงเม็ดบนพื้นลานรูปปั้น เพื่อนชี้ไปที่ชายคาใกล้ทางออก"
+      },
+      {
+        "text": "เสียงฝนทำให้บรรยากาศเหมือนฉากเปิดรายการล่าท้าผี แต่พื้นหินเริ่มลื่นจริง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "ghost_hunt_rainy_exit_wait_under_roof",
+        "text": "ชวนเพื่อนไปรอฝนใต้ชายคา",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนรอจนฝนเบาลงแล้วค่อยกลับหอ ดึกกว่าที่ตั้งใจจนเช้าวันต่อมารู้สึกเพลีย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_rainy_exit_walk_carefully",
+        "text": "เดินจับแขนกันช้า ๆ ไปทางออก",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนค่อย ๆ เดินข้ามลานโดยไม่ลื่น แต่เสื้อเปียกฝนและหนาวไปตลอดทางกลับ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "ghost_hunt_rainy_exit_race_through",
+        "text": "วิ่งฝ่าฝนไปที่ทางออก",
+        "conditions": [],
+        "recap": "คุณออกวิ่งก่อนเพื่อนแล้วลื่นบนพื้นหินจนข้อเท้าเจ็บ ต้องนั่งพักให้หายปวดก่อนกลับ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "market_grill_queue",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_walking_street_market",
+    "title": "คิวปลาหมึกย่าง",
+    "sceneAssetId": "bang_saen_walking_street_dusk",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "แสงเย็นตกบนทางเดินตลาด เพื่อนชี้แผงปลาหมึกย่างที่ควันหอมลอยมาถึงกลางซอย"
+      },
+      {
+        "text": "คิวไม่ยาวนัก แต่ป้ายราคามีทั้งไม้เล็กและถาดใหญ่"
+      }
+    ],
+    "choices": [
+      {
+        "id": "market_grill_queue_share_small",
+        "text": "ซื้อไม้เล็กมาแบ่งกัน",
+        "conditions": [],
+        "recap": "คุณซื้อปลาหมึกไม้เล็กแล้วแบ่งกับเพื่อนระหว่างเดินต่อ ได้ชิมของที่อยากกินโดยยังเหลือเงินไว้ดูร้านอื่น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -90
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "market_grill_queue_buy_platter",
+        "text": "สั่งถาดใหญ่เพราะกลัวไม่พอ",
+        "conditions": [],
+        "recap": "คุณจ่ายค่าถาดใหญ่ กินไปครึ่งหนึ่งก็เริ่มอิ่ม เพื่อนช่วยถือกล่องที่เหลือ ส่วนคุณมองยอดเงินในโทรศัพท์แล้วหนักใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -220
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "market_grill_queue_pick_cheaper",
+        "text": "ซื้อขนมแผงข้าง ๆ แทน",
+        "conditions": [],
+        "recap": "คุณซื้อขนมราคาถูกกว่า แต่พอเดินผ่านกลิ่นปลาหมึกอีกครั้งก็ยังเสียดายที่ไม่ได้ลอง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -35
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "market_secondhand_shirt",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_walking_street_market",
+    "title": "เสื้อบนราวตัวสุดท้าย",
+    "sceneAssetId": "bang_saen_walking_street_dusk",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนลากคุณเข้าร้านเสื้อมือสอง ราวด้านหน้ามีเสื้อลายที่คุณชอบอยู่ตัวเดียว"
+      },
+      {
+        "text": "ไฟร้านสีส้มทำให้ดูสวยมาก แต่ป้ายราคาแต่ละตัวต่างกันเยอะ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "market_secondhand_shirt_check_size",
+        "text": "ลองไซซ์และดูตำหนิก่อนซื้อ",
+        "conditions": [],
+        "recap": "คุณลองเสื้อใต้ไฟร้าน ตรวจตะเข็บแล้วจ่ายในราคาที่ตั้งใจไว้ ใส่ออกมาให้เพื่อนดูจนทั้งคู่หัวเราะ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -120
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "market_secondhand_shirt_grab_expensive",
+        "text": "รีบหยิบตัวแพงเพราะกลัวคนอื่นเอาไป",
+        "conditions": [],
+        "recap": "คุณจ่ายค่าตัวที่แพงกว่าโดยไม่ลอง พอทาบกับตัวจึงเห็นว่าแขนเสื้อสั้นไปและเริ่มเสียดายเงิน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -320
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "id": "market_secondhand_shirt_buy_accessory",
+        "text": "ซื้อเข็มกลัดเล็ก ๆ แล้วรอเพื่อนลองเสื้อ",
+        "conditions": [],
+        "recap": "คุณซื้อเข็มกลัดแทนเสื้อ แต่ต้องรอเพื่อนลองอีกหลายตัวจนเริ่มหงุดหงิดกับเพลงร้านที่วนซ้ำ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -40
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "market_ring_toss",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_walking_street_market",
+    "title": "โยนห่วงหน้าร้านเกม",
+    "sceneAssetId": "bang_saen_walking_street_dusk",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "แผงโยนห่วงเปิดเพลงดังแข่งกับร้านข้าง ๆ เพื่อนชวนคุณลองหนึ่งรอบก่อนเดินต่อ"
+      },
+      {
+        "text": "ของรางวัลเรียงอยู่หลังขวดแก้ว ดูใกล้กว่าระยะจริงนิดหน่อย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "market_ring_toss_play_once",
+        "text": "เล่นรอบเดียวแล้วขำกับผล",
+        "conditions": [],
+        "recap": "คุณจ่ายค่ารอบเดียว โยนพลาดจนห่วงเด้งกลับมาใกล้เท้า เพื่อนหัวเราะและคุณก็ขำตาม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -40
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "market_ring_toss_keep_trying",
+        "text": "จ่ายเพิ่มอีกสามรอบเพื่อเอาคืน",
+        "conditions": [],
+        "recap": "คุณลองซ้ำสามรอบแต่ยังไม่ได้รางวัล พอเดินออกมาก็ยังบ่นเรื่องห่วงที่เด้งหนี",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -120
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "market_ring_toss_watch_with_drink",
+        "text": "ซื้อน้ำแล้วนั่งดูเพื่อนเล่น",
+        "conditions": [],
+        "recap": "คุณซื้อน้ำเย็นมานั่งดูเพื่อนโยนห่วง ได้พักและแซวกันเบา ๆ โดยไม่ต้องลุ้นเอง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -50
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "market_small_gift",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_walking_street_market",
+    "title": "ของฝากในถุงกระดาษ",
+    "sceneAssetId": "bang_saen_walking_street_dusk",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ร้านของทำมือมีโปสต์การ์ด พวงกุญแจ และสติกเกอร์ คุณนึกถึงเพื่อนอีกคนที่ไม่ได้มาตลาดวันนี้"
+      },
+      {
+        "text": "แม่ค้าบอกว่าร้านจะเก็บของในอีกสิบนาที"
+      }
+    ],
+    "choices": [
+      {
+        "id": "market_small_gift_choose_postcard",
+        "text": "เลือกโปสต์การ์ดที่เขาน่าจะชอบ",
+        "conditions": [],
+        "recap": "คุณซื้อโปสต์การ์ดลายทะเล เขียนข้อความสั้น ๆ หลังร้านและใส่ถุงไว้ให้เพื่อนที่ไม่ได้มา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -45
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "market_small_gift_choose_expensive",
+        "text": "หยิบพวงกุญแจชิ้นใหญ่แบบไม่ดูราคา",
+        "conditions": [],
+        "recap": "คุณจ่ายค่าพวงกุญแจชิ้นใหญ่ พอเห็นยอดจริงก็คิดวนว่าของฝากชิ้นเดียวแพงเกินไปไหม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -240
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "market_small_gift_choose_sticker",
+        "text": "รีบซื้อสติกเกอร์แผ่นเล็กก่อนร้านปิด",
+        "conditions": [],
+        "recap": "คุณซื้อสติกเกอร์ทันก่อนร้านเก็บของ แต่ยังลังเลว่าลายนี้ตรงใจเพื่อนหรือเปล่า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -25
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "market_last_ride",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "bang_saen_walking_street_market",
+    "title": "กลับจากตลาดก่อนร้านดับไฟ",
+    "sceneAssetId": "bang_saen_walking_street_dusk",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ร้านค้าทยอยปิดไฟ เพื่อนเปิดแผนที่ดูทางกลับหอหลังเดินซื้อของจนเต็มถุง"
+      },
+      {
+        "text": "รถสองแถวรอบที่คนขึ้นเยอะกำลังจะมาถึง ส่วนรถเรียกผ่านแอปแพงกว่าแต่รอได้หน้าตลาด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "market_last_ride_take_songthaew",
+        "text": "เดินกับเพื่อนไปขึ้นรถสองแถว",
+        "conditions": [],
+        "recap": "คุณจ่ายค่าโดยสารแล้วขึ้นรถพร้อมเพื่อน ถึงจะต้องยืนช่วงแรก แต่ระหว่างทางก็ได้คุยเรื่องของที่ซื้อมา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -35
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "market_last_ride_book_car",
+        "text": "หารรถเรียกผ่านแอปกลับด้วยกัน",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนหารค่ารถที่แพงกว่า ได้นั่งพักและวางถุงของไว้ข้างตัว ความวุ่นวายของตลาดค่อย ๆ ห่างออกไป",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -160
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "market_last_ride_wait_next",
+        "text": "ซื้อขนมถุงเล็กแล้วรอรถรอบถัดไป",
+        "conditions": [],
+        "recap": "คุณซื้อขนมระหว่างรอรถรอบถัดไป แต่ป้ายรถเงียบลงเรื่อย ๆ จนเริ่มกังวลว่าจะกลับดึก",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -20
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "medical_flu_result",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "medical_faculty_health_visits",
+    "title": "ผลตรวจในวันที่มีไข้",
+    "sceneAssetId": "medical_faculty_building",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คุณมีไข้และปวดเมื่อยมาตั้งแต่เช้า จึงมาที่จุดตรวจสุขภาพในอาคารคณะแพทย์ ผลตรวจบอกว่าเป็นไข้หวัดใหญ่"
+      },
+      {
+        "text": "ยังมีงานกลุ่มกับคาบบ่ายในปฏิทิน แต่ตอนนี้แค่เดินมานั่งรอฟังก็เหนื่อยแล้ว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "medical_flu_result_tell_instructor",
+        "text": "ถามขั้นตอนจากเจ้าหน้าที่แล้วแจ้งอาจารย์",
+        "conditions": [],
+        "recap": "คุณรับคำแนะนำสำหรับการดูแลตัวเองจากเจ้าหน้าที่ ส่งข้อความแจ้งอาจารย์และกลับไปพัก แม้อาการยังเพลียแต่ไม่ต้องคอยกังวลเรื่องขาดคาบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "medical_flu_result_ask_friend_for_notes",
+        "text": "ขอให้เพื่อนช่วยส่งโน้ตคาบบ่าย",
+        "conditions": [],
+        "recap": "คุณโทรบอกเพื่อนเรื่องผลตรวจ เขารับปากว่าจะส่งโน้ตให้ คุณกลับหอช้าเพราะต้องนั่งพักระหว่างทางแต่สบายใจขึ้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "medical_flu_result_pause_everything",
+        "text": "ปิดแจ้งเตือนแล้วกลับหอทันที",
+        "conditions": [],
+        "recap": "คุณปิดแจ้งเตือนและกลับหอโดยยังไม่ได้บอกเรื่องงาน ระหว่างทางต้องหยุดพักหลายครั้ง แต่พอถึงเตียงก็เลิกฝืนทำอะไรสักพัก",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "medical_routine_checkup",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "medical_faculty_health_visits",
+    "title": "คิวตรวจสุขภาพประจำปี",
+    "sceneAssetId": "medical_faculty_building",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เช้านี้คุณเดินข้ามมหาวิทยาลัยมาตรวจสุขภาพประจำปีที่อาคารคณะแพทย์ หลังรีบออกจากหอโดยแทบไม่ได้พัก"
+      },
+      {
+        "text": "ห้องรอมีหลายคิว คุณเริ่มเมื่อยขาแต่ก็อยากจัดการเรื่องนี้ให้เรียบร้อย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "medical_routine_checkup_finish_basic",
+        "text": "รอให้ตรวจเบื้องต้นครบตามคิว",
+        "conditions": [],
+        "recap": "คุณรอจนตรวจเบื้องต้นเสร็จและเก็บใบนัดไว้ เดินกลับด้วยขาที่เมื่อยเล็กน้อยแต่โล่งใจว่าไม่ต้องกลับมาทำขั้นตอนนี้ใหม่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "medical_routine_checkup_ask_about_report",
+        "text": "รอถามเจ้าหน้าที่เรื่องรายงานผลให้ชัด",
+        "conditions": [],
+        "recap": "คุณอยู่ต่อเพื่อถามว่ารายงานผลจะรับได้เมื่อไร ได้คำตอบและจดวันไว้ แม้เหนื่อยจากการรอนานขึ้นแต่ไม่ต้องคาดเดาเอง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "medical_routine_checkup_reschedule",
+        "text": "ขอเปลี่ยนคิวแล้วนั่งพักก่อนกลับ",
+        "conditions": [],
+        "recap": "คุณแจ้งเปลี่ยนคิวและได้วันใหม่มาแทน วันนี้ยังไม่ได้ตรวจ แต่พอได้นั่งพักก็ไม่ต้องรีบฝืนเดินต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "medical_stomach_cramp",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "medical_faculty_health_visits",
+    "title": "ปวดท้องก่อนเข้าเรียน",
+    "sceneAssetId": "medical_faculty_building",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ก่อนคาบเช้า คุณปวดท้องและคลื่นไส้จนต้องแวะอาคารคณะแพทย์แทนการตรงเข้าห้อง"
+      },
+      {
+        "text": "เพื่อนส่งข้อความถามว่าอยู่ไหน คุณยังไม่แน่ใจว่าจะไหวเมื่อไร"
+      }
+    ],
+    "choices": [
+      {
+        "id": "medical_stomach_cramp_describe_symptoms",
+        "text": "เล่าอาการให้เจ้าหน้าที่ฟังตามจริง",
+        "conditions": [],
+        "recap": "คุณบอกอาการและเวลาที่เริ่มปวดให้เจ้าหน้าที่ฟังครบ ได้คิวให้ตรวจต่อ ระหว่างรอยังปวดอยู่แต่รู้แล้วว่าต้องไปจุดไหน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "medical_stomach_cramp_call_friend",
+        "text": "ขอให้เพื่อนมานั่งเป็นเพื่อนระหว่างรอ",
+        "conditions": [],
+        "recap": "คุณบอกเพื่อนว่ามารอรับบริการ เขามานั่งข้าง ๆ จนถึงคิว แม้ต้องรอนานและอ่อนแรงลง แต่คุณไม่ต้องรับมือคนเดียว",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "medical_stomach_cramp_rest_then_check",
+        "text": "นั่งพักก่อนแล้วค่อยไปลงชื่อรับบริการ",
+        "conditions": [],
+        "recap": "คุณนั่งพักให้หายเวียนหัวก่อนเดินไปลงชื่อรับบริการ อาการปวดท้องยังอยู่แต่จังหวะหายใจเริ่มช้าลง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "medical_heat_dizziness",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "medical_faculty_health_visits",
+    "title": "หน้ามืดหลังซ้อมกลางแดด",
+    "sceneAssetId": "medical_faculty_building",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังซ้อมกิจกรรมกลางแดด คุณเริ่มหน้ามืดตรงทางเดินข้างอาคารคณะแพทย์และต้องหยุดจับราว"
+      },
+      {
+        "text": "เพื่อนที่เดินมาด้วยถามว่าจะให้ช่วยอะไร คุณยังมีของต้องเก็บแต่ยืนไม่ค่อยนิ่ง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "medical_heat_dizziness_ask_for_help",
+        "text": "ให้เพื่อนพาไปแจ้งเจ้าหน้าที่",
+        "conditions": [],
+        "recap": "คุณให้เพื่อนพาเข้าไปบอกอาการกับเจ้าหน้าที่และนั่งรอในที่ร่ม ยังอ่อนแรงจากแดดแต่โล่งใจที่มีคนช่วยดูแล",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "medical_heat_dizziness_sit_with_water",
+        "text": "ขอให้เพื่อนช่วยหาน้ำแล้วนั่งพัก",
+        "conditions": [],
+        "recap": "คุณนั่งในที่ร่มและให้เพื่อนช่วยหาน้ำ ระหว่างพักยังมึนหัวอยู่บ้างแต่ไม่ต้องยืนฝืนกลางแดด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "medical_heat_dizziness_stop_practice",
+        "text": "บอกกลุ่มว่าขอหยุดซ้อมแล้วกลับไปพัก",
+        "conditions": [],
+        "recap": "คุณส่งข้อความขอหยุดซ้อมและให้เพื่อนช่วยเก็บของแทน ก่อนค่อย ๆ กลับหอพร้อมอาการอ่อนเพลียเล็กน้อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "medical_dust_sneezing",
+    "kind": "random",
+    "randomizeChoices": true,
+    "time": {
+      "year": 1,
+      "period": "term1"
+    },
+    "pool": "medical_faculty_health_visits",
+    "title": "ฝุ่นจากห้องเก็บของ",
+    "sceneAssetId": "medical_faculty_building",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "หลังช่วยจัดห้องเก็บเอกสาร คุณจามไม่หยุดและแสบตา จึงแวะจุดรับบริการในอาคารคณะแพทย์"
+      },
+      {
+        "text": "งานยังเหลืออีกกล่อง แต่เพื่อนบอกว่ารับช่วงต่อได้"
+      }
+    ],
+    "choices": [
+      {
+        "id": "medical_dust_sneezing_ask_assessment",
+        "text": "บอกอาการแล้วรอให้เจ้าหน้าที่ประเมิน",
+        "conditions": [],
+        "recap": "คุณแจ้งว่าจามและแสบตาหลังอยู่ในห้องเก็บของ เจ้าหน้าที่รับเรื่องและให้รอประเมิน อาการยังรบกวนอยู่แต่คุณไม่ต้องเดาสาเหตุคนเดียว",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "medical_dust_sneezing_let_friend_finish",
+        "text": "ฝากเพื่อนจัดกล่องสุดท้ายแล้วนั่งพัก",
+        "conditions": [],
+        "recap": "คุณบอกเพื่อนว่าเข้าไปทำต่อไม่ไหว เขารับช่วงจัดของ ส่วนคุณนั่งพักจนจามห่างลงแต่ยังเพลียอยู่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "medical_dust_sneezing_finish_box",
+        "text": "กลับไปช่วยเก็บกล่องให้เสร็จก่อนค่อยพัก",
+        "conditions": [],
+        "recap": "คุณกลับไปจัดกล่องสุดท้ายจนเสร็จแล้วจึงนั่งพัก จามถี่กว่าเดิมแต่ไม่ต้องกังวลว่างานจะค้าง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "term_reflection",
     "kind": "main",
     "randomizeChoices": true,
