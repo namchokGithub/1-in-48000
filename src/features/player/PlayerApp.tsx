@@ -329,18 +329,25 @@ function PlayerShell({
               <span aria-hidden="true">{theme === 'dark' ? '☾' : '☀'}</span>
               ธีม{theme === 'dark' ? 'มืด' : 'สว่าง'}
             </button>
-            <button
-              type="button"
-              className="button button-secondary player-header-button"
-              aria-pressed={showStatChanges}
-              title="แสดงค่าสถานะที่จะเปลี่ยนใต้ตัวเลือก"
-              onClick={() =>
-                statPreview.getState().setShowStatChanges(!showStatChanges)
-              }
-            >
-              <span aria-hidden="true">{showStatChanges ? '◉' : '○'}</span>
-              {showStatChanges ? 'แสดงผลสถานะ' : 'ซ่อนผลสถานะ'}
-            </button>
+            <div className="player-stat-preview-control">
+              <button
+                type="button"
+                className="button button-secondary player-header-button"
+                aria-pressed={showStatChanges}
+                title="แสดงค่าสถานะที่จะเปลี่ยนใต้ตัวเลือก"
+                onClick={() =>
+                  statPreview.getState().setShowStatChanges(!showStatChanges)
+                }
+              >
+                <span aria-hidden="true">{showStatChanges ? '◉' : '○'}</span>
+                {showStatChanges ? 'แสดงผลสถานะ' : 'ซ่อนผลสถานะ'}
+              </button>
+              {view === 'home' && (
+                <div className="player-stat-preview-hint" role="status">
+                  สามารถซ่อน/แสดงผลสถานะได้
+                </div>
+              )}
+            </div>
             <AudioControls
               enabled={musicSettings.musicEnabled}
               onToggle={() => {

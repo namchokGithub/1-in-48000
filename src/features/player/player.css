@@ -69,6 +69,40 @@
 .player-header-button {
   min-width: 7.5rem;
 }
+.player-stat-preview-control {
+  position: relative;
+}
+.player-stat-preview-hint {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 2rem));
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: 0 0.5rem 1.5rem #0003;
+  font-size: 0.8rem;
+  pointer-events: none;
+  animation: player-stat-preview-hint 3.3s forwards;
+}
+@keyframes player-stat-preview-hint {
+  0%,
+  90.9% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .player-stat-preview-hint {
+    animation: player-stat-preview-hint 3.3s steps(1, end) forwards;
+  }
+}
 .player-dialogue {
   position: relative;
   z-index: 1;

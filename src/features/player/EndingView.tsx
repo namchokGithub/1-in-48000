@@ -130,9 +130,9 @@ export function EndingView({
                       ? 'ช่วงเวลาก่อนหน้า'
                       : `ปี ${group.year}`}
                   </span>
-                  <span className="muted text-sm">
+                  {/* <span className="muted text-sm">
                     {group.entries.length} เหตุการณ์
-                  </span>
+                  </span> */}
                 </summary>
                 <ol className="player-timeline">
                   {group.entries.map((entry, index) => (
