@@ -808,6 +808,92 @@ describe('live V2 content', () => {
     })
   })
 
+  it('keeps every six-year program choice recapped', () => {
+    const sixYear = (events as { id: string }[]).filter((event) =>
+      event.id.startsWith('six_'),
+    ) as unknown as {
+      id: string
+      choices: { id: string; recap?: string }[]
+    }[]
+    expect(sixYear).toHaveLength(40)
+    for (const event of sixYear)
+      for (const choice of event.choices)
+        expect(choice.recap, `${event.id}/${choice.id}`).toBeTruthy()
+  })
+
+  it('gives six-year students their own Years 5-6 and reviews them at Year 6', async () => {
+    const files: Record<string, unknown> = {
+      config,
+      events,
+      characters,
+      assets,
+      endings,
+      names,
+      faculties,
+      majors,
+      electives,
+      flow,
+    }
+    const content = await loadV2Content(
+      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    )
+    const play = (majorId: string, study: number) => {
+      const major = content.majors.find((item) => item.id === majorId)!
+      let save = createV2Game(content, 42)
+      save = {
+        ...save,
+        facultyId: major.facultyId,
+        majorId: major.id,
+        currentTime: { year: 4, period: 'summer' },
+        currentNodeId: 'n_graduation_day',
+        currentEventId: 'graduation_day',
+        stats: { ...save.stats, study, stress: 0 },
+        flags: {},
+      }
+      save = chooseV2(content, save, 'look_ahead')
+      const seen: string[] = []
+      for (let step = 0; step < 60; step += 1) {
+        const event = getV2CurrentEvent(content, save)
+        if (!event || !event.id.startsWith('six_')) break
+        seen.push(event.id)
+        save = chooseV2(content, save, getV2AvailableChoices(event, save)[0].id)
+      }
+      return { seen, save }
+    }
+
+    const facultyScenes: Record<string, string[]> = {
+      medicine: ['six_y5_term1_med_ward', 'six_y6_term2_med_night_call'],
+      clinical_medicine: [
+        'six_y5_term1_med_ward',
+        'six_y6_term2_med_night_call',
+      ],
+      pharmacy: [
+        'six_y5_term1_pharm_counter',
+        'six_y6_term2_pharm_interaction',
+      ],
+      dentistry: ['six_y5_term1_dent_chair', 'six_y6_term2_dent_requirement'],
+      nautical_science: ['six_y5_term1_naut_deck', 'six_y6_term2_naut_storm'],
+    }
+    for (const [majorId, scenes] of Object.entries(facultyScenes)) {
+      const passed = play(majorId, 100)
+      expect(passed.seen[0]).toBe('six_y5_term1_white_coat')
+      expect(passed.seen).toEqual(expect.arrayContaining(scenes))
+      expect(
+        passed.seen.filter(
+          (id) => /_(med|pharm|dent|naut)_/.test(id) && !scenes.includes(id),
+        ),
+      ).toEqual([])
+      expect(passed.seen.at(-1)).toBe('six_y6_summer_result_eve')
+      expect(passed.save.endingId).not.toBeNull()
+      expect(passed.save.endingId).not.toBe('dismissal')
+    }
+
+    const failed = play('medicine', 0)
+    expect(failed.save.endingId).toBeNull()
+    expect(failed.save.currentEventId).toBe('extra_y7_term1_new_cohort')
+    expect(failed.save.currentTime).toEqual({ year: 7, period: 'term1' })
+  })
+
   it('loads the authored story with the shared V2 schema', async () => {
     const files: Record<string, unknown> = {
       config,

@@ -13910,5 +13910,2255 @@
         ]
       }
     ]
+  },
+  {
+    "id": "six_y5_term1_white_coat",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "ชุดฝึกปฏิบัติชุดแรก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ปีห้าเริ่มต้นด้วยตารางฝึกปฏิบัติจริง ชุดที่สั่งตัดไว้แขวนอยู่หลังประตูพร้อมคู่มือเล่มหนาที่ยังไม่ได้เปิด"
+      },
+      {
+        "text": "พรุ่งนี้เช้าคุณต้องไปรายงานตัวกับทีมแรกตั้งแต่เจ็ดโมง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_white_coat_read_handbook",
+        "text": "นั่งอ่านคู่มือขั้นตอนให้จบคืนนี้",
+        "conditions": [],
+        "recap": "คุณอ่านคู่มือจนจบและพับมุมหน้าที่ต้องใช้บ่อย แต่เข้านอนช้ากว่าที่ตั้งใจ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_white_coat_ask_senior",
+        "text": "ทักรุ่นพี่ที่เพิ่งผ่านช่วงนี้ไปถามว่าวันแรกเป็นอย่างไร",
+        "conditions": [],
+        "recap": "รุ่นพี่ส่งรายการของที่ควรพกมาให้ และบอกว่าถ้าติดอะไรให้ทักมาได้ตลอด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "setFlag",
+            "flagId": "six_asked_senior",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_white_coat_sleep_early",
+        "text": "จัดกระเป๋าให้เสร็จแล้วนอนเร็ว",
+        "conditions": [],
+        "recap": "คุณจัดกระเป๋าเสร็จก่อนสี่ทุ่มและได้นอนเต็มอิ่มก่อนวันแรก",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_med_ward",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "ราวด์วอร์ดครั้งแรก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "อาจารย์หยุดที่เตียงที่สามแล้วหันมาถามคุณถึงผลเลือดของคนไข้ ทุกคนในกลุ่มเงียบรอคำตอบ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_med_ward_answer_honestly",
+        "text": "ตอบเท่าที่รู้และบอกตรงๆ ว่าส่วนไหนยังไม่ได้ดู",
+        "conditions": [],
+        "recap": "อาจารย์พยักหน้าแล้วให้คุณไปดูผลที่ขาดมาตอบใหม่ก่อนเที่ยง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_med_ward_guess_answer",
+        "text": "เดาจากเคสที่เคยอ่านมา",
+        "conditions": [],
+        "recap": "คุณตอบผิดไปครึ่งหนึ่ง อาจารย์แก้ให้ต่อหน้ากลุ่มและคุณจดคำแก้ไว้ทันที",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_pharm_counter",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "หน้าเคาน์เตอร์จ่ายยา",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ลุงคนหนึ่งยื่นถุงยาเดิมมาให้ดูและถามว่ายาตัวใหม่กินพร้อมกันได้ไหม เภสัชกรพี่เลี้ยงยืนดูคุณอยู่ข้างๆ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_pharm_counter_check_with_mentor",
+        "text": "เปิดฐานข้อมูลยาแล้วทวนคำตอบกับพี่เลี้ยงก่อนตอบลุง",
+        "conditions": [],
+        "recap": "คุณใช้เวลานานกว่าที่คิด แต่ลุงได้คำอธิบายที่ถูกต้องพร้อมตารางเวลากินยา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_pharm_counter_answer_fast",
+        "text": "ตอบจากที่จำได้เพราะคิวด้านหลังยาว",
+        "conditions": [],
+        "recap": "พี่เลี้ยงเสริมคำตอบให้อีกสองข้อ และบอกให้คุณจดยาคู่นั้นไว้ทบทวน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_dent_chair",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "คนไข้คนแรกบนเก้าอี้ทำฟัน",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คนไข้คนแรกของคุณกำมือแน่นตั้งแต่ยังไม่เริ่ม อาจารย์ผู้ควบคุมกำลังตรวจงานอีกยูนิตหนึ่ง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_dent_chair_explain_steps",
+        "text": "อธิบายทุกขั้นตอนก่อนลงมือและให้คนไข้ยกมือได้ถ้าเจ็บ",
+        "conditions": [],
+        "recap": "คนไข้คลายมือลงทีละนิด งานเสร็จช้ากว่าเวลาที่จองไว้แต่ไม่มีใครต้องรีบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_dent_chair_wait_for_teacher",
+        "text": "รอให้อาจารย์มาดูก่อนแล้วค่อยเริ่ม",
+        "conditions": [],
+        "recap": "อาจารย์มาถึงหลังสิบนาที ช่วยจัดท่าทางให้คุณใหม่แล้วให้คุณทำต่อจนเสร็จ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_naut_deck",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "เวรยามบนเรือฝึก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เวรยามตีสี่ของคุณมาพร้อมหมอกบาง ๆ เหนือทะเล ต้นเรือฝากให้คุณจดตำแหน่งเรือทุกครึ่งชั่วโมง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_naut_deck_log_carefully",
+        "text": "จดตำแหน่งและสภาพอากาศทุกช่องตามแบบฟอร์ม",
+        "conditions": [],
+        "recap": "ต้นเรือตรวจสมุดตอนเช้าและชี้ให้ดูว่าข้อมูลของคุณช่วยปรับเส้นทางได้ทัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_naut_deck_ask_officer",
+        "text": "ถามนายยามว่าควรสังเกตอะไรเป็นพิเศษในหมอก",
+        "conditions": [],
+        "recap": "นายยามสอนวิธีฟังเสียงหวูดเรือลำอื่น และให้คุณยืนดูเรดาร์ด้วยกันจนหมดเวร",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_case_log",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "สมุดบันทึกเคส",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "สมุดบันทึกเคสต้องส่งทุกวันศุกร์ คืนวันพฤหัสคุณยังเหลืออีกสามหน้าที่ว่างอยู่"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_case_log_finish_tonight",
+        "text": "เขียนให้ครบคืนนี้แม้ต้องนอนดึก",
+        "conditions": [],
+        "recap": "คุณเขียนครบทุกหน้าและส่งทันเวลา แต่เช้าวันศุกร์ลืมตาแทบไม่ขึ้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_case_log_ask_extension",
+        "text": "ขอเลื่อนส่งอีกหนึ่งวันพร้อมบอกเหตุผล",
+        "conditions": [],
+        "recap": "อาจารย์ให้เลื่อนได้หนึ่งวันแต่ขอให้ครั้งต่อไปส่งตามกำหนด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_mali_lunch",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "ข้าวกล่องจากมะลิ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "speakerId": "mali",
+        "text": "ได้ยินว่าเธอกินข้าวไม่เป็นเวลาเลยนี่ ฉันแวะผ่านพอดี เลยซื้อมาเผื่อ"
+      },
+      {
+        "text": "มะลิยื่นข้าวกล่องให้ตรงหน้าตึกฝึกปฏิบัติ เหลือเวลาพักอีกยี่สิบนาที"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_mali_lunch_eat_together",
+        "text": "นั่งกินด้วยกันที่ม้านั่งหน้าตึก",
+        "conditions": [],
+        "recap": "คุณกับมะลินั่งกินข้าวกันจนหมดเวลาพัก และได้หัวเราะเรื่องสมัยปีหนึ่ง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_mali_lunch_take_away",
+        "text": "ขอบคุณแล้วรีบเอาขึ้นไปกินระหว่างอ่านเคส",
+        "conditions": [],
+        "recap": "คุณกินข้าวระหว่างอ่านเคสจนหมดกล่อง และส่งข้อความขอบคุณมะลิตอนเย็น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term1_first_eval",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term1"
+    },
+    "title": "ผลประเมินครึ่งเทอม",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ใบประเมินครึ่งเทอมเขียนว่าคุณรู้เนื้อหาดี แต่ยังสื่อสารกับคนรับบริการไม่ชัด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term1_first_eval_practice_talking",
+        "text": "ขอเพื่อนช่วยซ้อมอธิบายเหมือนคุยกับคนที่ไม่รู้ศัพท์",
+        "conditions": [],
+        "recap": "คุณซ้อมกับเพื่อนสามรอบ และเริ่มเลือกคำที่คนทั่วไปฟังเข้าใจได้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term1_first_eval_focus_content",
+        "text": "กลับไปทบทวนเนื้อหาให้แน่นกว่าเดิม",
+        "conditions": [],
+        "recap": "คุณทบทวนเนื้อหาส่วนที่ยังไม่มั่นใจ แต่เรื่องการสื่อสารยังค้างไว้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_break_sleep_debt",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "break"
+    },
+    "title": "นอนชดเชย",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "วันแรกของการปิดเทอม คุณตื่นมาตอนบ่ายสองโดยไม่ได้ตั้งนาฬิกาปลุก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_break_sleep_debt_rest_fully",
+        "text": "ปล่อยให้วันนี้เป็นวันพักจริงๆ",
+        "conditions": [],
+        "recap": "คุณไม่เปิดเอกสารฝึกปฏิบัติเลยทั้งวัน และรู้สึกตัวเบาขึ้นตอนเข้านอน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "six_y5_break_sleep_debt_light_review",
+        "text": "พักครึ่งวันแล้วทบทวนเคสที่ค้างตอนเย็น",
+        "conditions": [],
+        "recap": "คุณได้พักช่วงบ่าย และทบทวนเคสที่ค้างไว้ได้สองเรื่องตอนเย็น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_break_home_question",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "break"
+    },
+    "title": "ญาติถามว่าจบเมื่อไร",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ในวงข้าวที่บ้าน ญาติคนหนึ่งถามว่าเพื่อนรุ่นเดียวกันทำงานกันหมดแล้ว ทำไมคุณยังไม่จบ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_break_home_question_explain_program",
+        "text": "อธิบายว่าหลักสูตรนี้เรียนหกปีตั้งแต่แรก",
+        "conditions": [],
+        "recap": "ญาติฟังแล้วพยักหน้า และหันไปเล่าให้คนอื่นในวงฟังต่อว่าหลักสูตรนี้เรียนหกปี",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y5_break_home_question_laugh_it_off",
+        "text": "หัวเราะแล้วเปลี่ยนเรื่อง",
+        "conditions": [],
+        "recap": "คุณเปลี่ยนเรื่องได้ แต่คำถามนั้นยังวนอยู่ในหัวตอนนั่งรถกลับ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_break_senior_notes",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "break"
+    },
+    "title": "โน้ตจากรุ่นพี่",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "รุ่นพี่ที่คุณเคยทักไปส่งลิงก์โฟลเดอร์มาให้ พร้อมข้อความว่า “เก็บไว้ใช้ปีหน้า อย่าส่งต่อทั้งก้อนนะ”"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_break_senior_notes_study_notes",
+        "text": "เปิดอ่านและทำสรุปฉบับของตัวเอง",
+        "conditions": [],
+        "recap": "คุณสรุปโน้ตของรุ่นพี่ใหม่ด้วยคำของตัวเอง และจดหัวข้อที่ยังไม่เข้าใจไว้ถาม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "id": "six_y5_break_senior_notes_thank_senior",
+        "text": "ขอบคุณแล้วชวนรุ่นพี่ไปกินข้าวเป็นการตอบแทน",
+        "conditions": [],
+        "recap": "คุณเลี้ยงข้าวรุ่นพี่หนึ่งมื้อ และได้ฟังเรื่องปีสุดท้ายที่ไม่มีในโน้ต",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -250
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_break_skill_lab",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "break"
+    },
+    "title": "ห้องฝึกทักษะช่วงปิดเทอม",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ห้องฝึกทักษะเปิดให้จองช่วงปิดเทอม เหลือคิวว่างวันพรุ่งนี้เช้าเพียงช่องเดียว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_break_skill_lab_book_slot",
+        "text": "จองคิวแล้วไปฝึกทักษะที่ยังช้า",
+        "conditions": [],
+        "recap": "คุณฝึกทักษะเดิมซ้ำจนจับเวลาได้เร็วขึ้นเกือบหนึ่งนาที",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_break_skill_lab_give_slot",
+        "text": "ปล่อยคิวให้เพื่อนที่ยังไม่ได้ฝึก",
+        "conditions": [],
+        "recap": "เพื่อนได้คิวนั้นไปและส่งคลิปการฝึกกลับมาให้คุณดูด้วย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term2_night_shift",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term2"
+    },
+    "title": "เวรดึกครั้งแรก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เวรดึกครั้งแรกของเทอมสองเริ่มตอนสี่ทุ่ม คุณยังไม่ได้กินข้าวเย็นเพราะเคสบ่ายเลิกช้า"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term2_night_shift_eat_first",
+        "text": "แวะกินข้าวให้อิ่มก่อนเข้าเวรแม้จะไปถึงเฉียดเวลา",
+        "conditions": [],
+        "recap": "คุณเข้าเวรทันพอดี และมีแรงอยู่ได้จนถึงเช้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -80
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term2_night_shift_snack_only",
+        "text": "กินขนมจากตู้แล้วรีบเข้าเวร",
+        "conditions": [],
+        "recap": "คุณเข้าเวรก่อนเวลาแต่หิวจนมือสั่นตอนตีสาม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term2_mistake",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term2"
+    },
+    "title": "ความพลาดที่ไม่มีใครเห็น",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างทวนบันทึก คุณพบว่าตัวเองจดตัวเลขผิดไปหนึ่งหลักตั้งแต่เมื่อวาน ยังไม่มีใครสังเกตเห็น"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term2_mistake_report_it",
+        "text": "แจ้งพี่เลี้ยงทันทีและแก้บันทึกให้ถูก",
+        "conditions": [],
+        "recap": "พี่เลี้ยงช่วยตรวจว่าไม่มีผลต่อการดูแล แล้วบอกว่าการแจ้งเองคือสิ่งที่ถูกต้อง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          },
+          {
+            "type": "setFlag",
+            "flagId": "six_owned_mistake",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term2_mistake_fix_quietly",
+        "text": "แก้ตัวเลขเงียบๆ แล้วไม่พูดถึง",
+        "conditions": [],
+        "recap": "ตัวเลขในบันทึกถูกต้องแล้ว แต่คุณนอนไม่หลับทั้งคืน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term2_club_reunion",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term2"
+    },
+    "title": "ชมรมชวนกลับไปช่วย",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "น้องในชมรมเก่าทักมาชวนไปช่วยงานเปิดบ้านวันเสาร์ บอกว่ารุ่นพี่ที่ยังอยู่เหลือคุณคนเดียว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term2_club_reunion_help_half_day",
+        "text": "ไปช่วยครึ่งวันแล้วกลับมาพัก",
+        "conditions": [],
+        "recap": "คุณช่วยน้องจัดบูธช่วงเช้า และได้เห็นว่าชมรมยังทำกิจกรรมเดิมที่คุณเคยเริ่มไว้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term2_club_reunion_send_tips",
+        "text": "ส่งไฟล์วิธีจัดงานให้แทนการไป",
+        "conditions": [],
+        "recap": "น้องเอาไฟล์ของคุณไปใช้ต่อ และส่งรูปบูธที่จัดเสร็จมาให้ดูตอนเย็น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_term2_case_presentation",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "term2"
+    },
+    "title": "นำเสนอเคส",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คุณได้รับมอบหมายให้นำเสนอเคสในการประชุมประจำสัปดาห์ หน้าห้องมีอาจารย์นั่งอยู่สามคน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_term2_case_presentation_rehearse",
+        "text": "ซ้อมกับกลุ่มสองรอบก่อนวันจริง",
+        "conditions": [],
+        "recap": "การซ้อมช่วยให้คุณตอบคำถามแรกได้ทันที และนำเสนอจบตรงเวลา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_term2_case_presentation_wing_it",
+        "text": "ทำสไลด์ให้ครบแล้วไปพูดตามสไลด์",
+        "conditions": [],
+        "recap": "คุณนำเสนอได้ครบทุกหัวข้อ แต่ตอบคำถามสุดท้ายได้ไม่ตรงประเด็น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_summer_rural_trip",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "summer"
+    },
+    "title": "ออกหน่วยต่างจังหวัด",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ช่วงซัมเมอร์คุณถูกส่งไปฝึกที่หน่วยงานในอำเภอห่างไกล ห้องพักที่จัดไว้ไม่มีแอร์และสัญญาณโทรศัพท์ขาดๆ หายๆ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_summer_rural_trip_adapt",
+        "text": "ปรับตัวตามเวลาของคนในพื้นที่ ตื่นเช้านอนเร็ว",
+        "conditions": [],
+        "recap": "คุณเริ่มงานพร้อมเจ้าหน้าที่ตั้งแต่เช้า และได้รู้จักคนในพื้นที่มากกว่าที่คิด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y5_summer_rural_trip_stay_online",
+        "text": "ไปนั่งหาสัญญาณหน้าร้านค้าทุกคืนเพื่ออ่านหนังสือต่อ",
+        "conditions": [],
+        "recap": "คุณดาวน์โหลดเอกสารได้ครบ แต่โดนยุงกัดทุกคืนจนนอนไม่ค่อยหลับ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_summer_budget",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "summer"
+    },
+    "title": "ค่าใช้จ่ายช่วงฝึก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ค่าเดินทางและค่าอาหารช่วงออกหน่วยเกินงบที่ตั้งไว้ เงินในบัญชีเหลือน้อยกว่าที่คิด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_summer_budget_cook_shared",
+        "text": "ลงขันกับเพื่อนซื้อของมาทำอาหารกินเอง",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนผลัดกันทำอาหาร ใช้เงินน้อยลงและได้กินข้าวพร้อมกันทุกเย็น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -150
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_summer_budget_ask_home",
+        "text": "โทรขอเงินที่บ้านเพิ่ม",
+        "conditions": [],
+        "recap": "ที่บ้านโอนเงินมาให้พร้อมกำชับให้กินข้าวให้ตรงเวลา",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": 800
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_summer_budget_cut_meals",
+        "text": "งดมื้อเย็นบางวันเพื่อประหยัด",
+        "conditions": [],
+        "recap": "คุณประหยัดเงินได้ แต่ช่วงบ่ายเริ่มหมดแรงบ่อยขึ้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -50
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_summer_mentor_trust",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "summer"
+    },
+    "title": "งานที่พี่เลี้ยงไว้ใจให้ทำ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "พี่เลี้ยงคนเดิมจากเทอมสองมาเป็นผู้ดูแลหน่วยนี้ และยื่นแฟ้มให้คุณดูแลเองตั้งแต่ต้นจนจบ"
+      },
+      {
+        "text": "พี่เลี้ยงบอกว่าจำได้ว่าคุณเป็นคนที่แจ้งความผิดพลาดของตัวเองเมื่อเทอมก่อน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_summer_mentor_trust_take_lead",
+        "text": "รับไว้และวางแผนงานทั้งหมดเอง",
+        "conditions": [],
+        "recap": "คุณดูแลงานในแฟ้มนั้นจนจบ และพี่เลี้ยงเซ็นรับรองให้โดยแก้เพียงสองจุด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y5_summer_mentor_trust_ask_pair",
+        "text": "ขอทำคู่กับเพื่อนอีกคนเพื่อแบ่งงาน",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนแบ่งงานกันคนละครึ่ง งานเสร็จเร็วและทั้งคู่ได้เรียนรู้จากกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y5_summer_year5_close",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 5,
+      "period": "summer"
+    },
+    "title": "ก่อนขึ้นปีหก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คืนสุดท้ายของการออกหน่วย คุณเปิดสมุดบันทึกปีห้าแล้วเห็นว่าลายมือเริ่มเร็วขึ้นกว่าตอนต้นปี"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y5_summer_year5_close_write_goals",
+        "text": "เขียนสิ่งที่อยากทำให้ได้ก่อนจบปีหก",
+        "conditions": [],
+        "recap": "คุณเขียนเป้าหมายสามข้อไว้ที่ปกหลังสมุด และพับเก็บใส่กระเป๋าเดินทาง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y5_summer_year5_close_call_family",
+        "text": "โทรเล่าให้ที่บ้านฟังว่าปีนี้ผ่านอะไรมาบ้าง",
+        "conditions": [],
+        "recap": "ที่บ้านฟังจนจบและบอกว่าอีกปีเดียวเท่านั้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term1_rotation_list",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term1"
+    },
+    "title": "ตารางหมุนเวียนปีสุดท้าย",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ตารางหมุนเวียนปีหกออกมาแล้ว ช่วงแรกของคุณตรงกับหน่วยที่ขึ้นชื่อว่างานหนักที่สุด"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term1_rotation_list_prepare_early",
+        "text": "ขอเอกสารจากเพื่อนที่เพิ่งออกจากหน่วยนั้นมาอ่านก่อน",
+        "conditions": [],
+        "recap": "คุณรู้ล่วงหน้าว่าแต่ละวันต้องทำอะไร และเข้าหน่วยแรกได้โดยไม่ตื่นเต้นเกินไป",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term1_rotation_list_swap_slot",
+        "text": "ลองขอสลับช่วงกับเพื่อนที่อยากไปหน่วยนั้น",
+        "conditions": [],
+        "recap": "เพื่อนยอมสลับให้ คุณได้เริ่มจากหน่วยที่เบากว่าแต่ต้องไปเจอหน่วยหนักตอนท้ายเทอม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          },
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term1_tired_friend",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term1"
+    },
+    "title": "เพื่อนร่วมเวรที่ไม่ไหว",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนร่วมเวรนั่งหลับคาโต๊ะตอนตีสอง เขาบอกว่าไม่ได้นอนมาสองวันเพราะต้องดูแลแม่ที่ป่วย"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term1_tired_friend_cover_shift",
+        "text": "บอกให้เพื่อนไปนอนพักแล้วดูงานแทนสองชั่วโมง",
+        "conditions": [],
+        "recap": "เพื่อนได้นอนพักสองชั่วโมง ส่วนคุณดูแลงานของทั้งสองคนจนเช้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -2
+          },
+          {
+            "type": "setFlag",
+            "flagId": "six_covered_friend",
+            "value": true
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term1_tired_friend_tell_supervisor",
+        "text": "แจ้งหัวหน้าเวรให้ช่วยจัดคนเพิ่ม",
+        "conditions": [],
+        "recap": "หัวหน้าเวรเรียกคนมาช่วยอีกคน และบอกให้เพื่อนลาไปดูแลแม่ได้ในวันถัดไป",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term1_research_case",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term1"
+    },
+    "title": "เคสที่น่าเขียนเป็นงานวิจัย",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "อาจารย์ที่รู้ว่าคุณเคยทำวิจัยเรียกไปคุย บอกว่าเคสที่คุณเจอสัปดาห์นี้น่าเขียนเป็นรายงานสั้น"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term1_research_case_write_report",
+        "text": "รับเขียนรายงานกับอาจารย์",
+        "conditions": [],
+        "recap": "คุณเริ่มร่างรายงานกับอาจารย์ และได้นัดส่งฉบับแรกก่อนปิดเทอม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term1_research_case_decline_politely",
+        "text": "ขอบคุณแต่ขอโฟกัสการฝึกก่อน",
+        "conditions": [],
+        "recap": "อาจารย์เข้าใจ และบอกว่าถ้าเปลี่ยนใจหลังสอบก็ยังทำได้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term1_license_prep",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term1"
+    },
+    "title": "เริ่มอ่านสอบใบประกอบ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนในกลุ่มตั้งตารางอ่านสอบใบประกอบวิชาชีพทุกคืนวันอังคารและพฤหัส ทั้งที่เวรของแต่ละคนไม่ตรงกัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term1_license_prep_join_group",
+        "text": "เข้ากลุ่มอ่านแม้บางคืนต้องมาหลังเลิกเวร",
+        "conditions": [],
+        "recap": "คุณเข้ากลุ่มได้เกือบทุกครั้ง และเริ่มเห็นหัวข้อที่ตัวเองอ่อนชัดขึ้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term1_license_prep_read_alone",
+        "text": "อ่านตามจังหวะของตัวเองตอนเช้าวันหยุด",
+        "conditions": [],
+        "recap": "คุณอ่านได้สม่ำเสมอโดยไม่ต้องอดนอน แต่บางหัวข้อยังไม่มีใครให้ถาม",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_break_short_rest",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "break"
+    },
+    "title": "สองวันที่ไม่ตั้งนาฬิกา",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ปิดเทอมสุดท้ายสั้นกว่าทุกครั้ง คุณมีวันว่างจริงๆ เพียงสองวันก่อนช่วงอ่านสอบ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_break_short_rest_go_outside",
+        "text": "ออกไปเดินริมทะเลกับเพื่อนหนึ่งวัน",
+        "conditions": [],
+        "recap": "คุณได้เดินริมทะเลกับเพื่อนจนตะวันตก และกลับมานอนหลับสนิท",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -200
+          }
+        ]
+      },
+      {
+        "id": "six_y6_break_short_rest_stay_home",
+        "text": "อยู่ห้อง ทำความสะอาด และนอนให้พอ",
+        "conditions": [],
+        "recap": "ห้องสะอาดขึ้นและคุณได้นอนเต็มสองคืน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_break_job_talk",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "break"
+    },
+    "title": "คุยเรื่องที่ทำงานแรก",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "รุ่นพี่ที่ทำงานแล้วถามคุณว่าจะเลือกไปทำงานที่ไหนหลังจบ เพราะใกล้ถึงช่วงยื่นเลือกพื้นที่แล้ว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_break_job_talk_near_home",
+        "text": "บอกว่าอยากกลับไปทำงานใกล้บ้าน",
+        "conditions": [],
+        "recap": "รุ่นพี่เล่าข้อดีข้อเสียของการทำงานใกล้บ้าน และส่งเบอร์คนรู้จักในพื้นที่มาให้",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_break_job_talk_big_city",
+        "text": "บอกว่าอยากลองทำงานในเมืองใหญ่ก่อน",
+        "conditions": [],
+        "recap": "รุ่นพี่ส่งรายชื่อที่ทำงานในเมืองที่รับคนจบใหม่ให้คุณไว้ดูต่อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_break_community_clinic",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "break"
+    },
+    "title": "อาสาที่ชุมชนเดิม",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ชุมชนที่คุณเคยไปลงพื้นที่สมัยปีสามชวนให้มาช่วยงานอาสาตรวจสุขภาพวันอาทิตย์"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_break_community_clinic_volunteer",
+        "text": "ไปช่วยทั้งวันและพาเพื่อนไปด้วย",
+        "conditions": [],
+        "recap": "ป้าที่เคยเลี้ยงข้าวคุณเมื่อหลายปีก่อนจำคุณได้ และชวนให้กลับมาอีกหลังจบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_break_community_clinic_send_supplies",
+        "text": "ส่งของใช้ไปช่วยแทนเพราะต้องอ่านหนังสือ",
+        "conditions": [],
+        "recap": "ชุมชนส่งรูปของที่ได้รับกลับมาพร้อมคำขอบคุณ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -300
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_break_mock_exam",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "break"
+    },
+    "title": "สอบเสมือนจริง",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ผลสอบเสมือนจริงออกมาแล้ว คะแนนของคุณผ่านเกณฑ์แบบเฉียดฉิว"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_break_mock_exam_review_mistakes",
+        "text": "ไล่ดูทุกข้อที่ผิดและจดเหตุผลไว้",
+        "conditions": [],
+        "recap": "คุณพบว่าข้อที่ผิดส่วนใหญ่มาจากหัวข้อเดียว และวางแผนอ่านหัวข้อนั้นใหม่",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_break_mock_exam_take_break",
+        "text": "พักหนึ่งคืนก่อนค่อยกลับมาดู",
+        "conditions": [],
+        "recap": "คุณได้พักใจหนึ่งคืน และกลับมาดูข้อที่ผิดในวันถัดไปด้วยหัวที่โล่งขึ้น",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_last_rotation",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "ช่วงฝึกสุดท้าย",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ช่วงฝึกสุดท้ายของหลักสูตรเริ่มขึ้น พี่เลี้ยงบอกว่าเทอมนี้คุณต้องทำงานได้เกือบเท่าคนที่ทำงานจริง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_last_rotation_ask_feedback",
+        "text": "ขอให้พี่เลี้ยงบอกข้อควรแก้ทุกสัปดาห์",
+        "conditions": [],
+        "recap": "พี่เลี้ยงนัดคุยกับคุณทุกวันศุกร์ และให้ข้อควรแก้ที่ทำตามได้จริง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_last_rotation_work_quietly",
+        "text": "ตั้งใจทำงานให้ดีโดยไม่รบกวนพี่เลี้ยง",
+        "conditions": [],
+        "recap": "คุณทำงานได้เรียบร้อย แต่ไม่รู้ว่าพี่เลี้ยงมองงานของคุณอย่างไร",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 1
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_med_night_call",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "คืนที่ต้องโทรตาม",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ตีสองคืนหนึ่ง อาการของคนไข้ในความดูแลของคุณเปลี่ยนไป แพทย์ประจำบ้านกำลังติดเคสอีกตึก"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_med_night_call_call_now",
+        "text": "โทรตามทันทีพร้อมสรุปอาการให้สั้นและชัด",
+        "conditions": [],
+        "recap": "แพทย์ประจำบ้านสั่งการทางโทรศัพท์ได้ทันที และมาดูซ้ำในอีกยี่สิบนาที",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_med_night_call_watch_first",
+        "text": "เฝ้าดูอาการอีกสิบห้านาทีก่อนตัดสินใจ",
+        "conditions": [],
+        "recap": "อาการไม่แย่ลง แต่แพทย์ประจำบ้านบอกว่าครั้งหน้าให้โทรตามได้เลย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_pharm_interaction",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "ยาตีกันในใบสั่ง",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ใบสั่งยาใบหนึ่งมียาสองตัวที่ไม่ควรให้พร้อมกัน และแพทย์ผู้สั่งกำลังจะออกเวร"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_pharm_interaction_call_doctor",
+        "text": "โทรหาแพทย์ผู้สั่งพร้อมเสนอยาทางเลือก",
+        "conditions": [],
+        "recap": "แพทย์เปลี่ยนยาตามที่คุณเสนอ และขอบคุณที่โทรมาก่อนออกเวร",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_pharm_interaction_flag_note",
+        "text": "เขียนบันทึกแนบใบสั่งให้เภสัชกรเวรถัดไป",
+        "conditions": [],
+        "recap": "เภสัชกรเวรถัดไปแก้ไขให้ทัน แต่คนไข้ต้องรอรับยานานขึ้นสองชั่วโมง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_dent_requirement",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "เคสสุดท้ายที่ต้องครบ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คุณยังขาดเคสอีกหนึ่งชนิดเพื่อให้ครบเกณฑ์จบ คนไข้ที่นัดไว้โทรมาเลื่อนเป็นครั้งที่สอง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_dent_requirement_find_new",
+        "text": "ขอรายชื่อคนไข้รอคิวจากคลินิกบริการแล้วโทรนัดเอง",
+        "conditions": [],
+        "recap": "คุณโทรไปเจ็ดสายและได้คนไข้ใหม่ที่มาตามนัดในสัปดาห์ถัดไป",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_dent_requirement_wait_patient",
+        "text": "รอคนไข้คนเดิมตามวันนัดใหม่",
+        "conditions": [],
+        "recap": "คนไข้คนเดิมมาตามนัดใหม่ เคสครบเกณฑ์ทันแบบเฉียดฉิว",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_naut_storm",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "คลื่นลมก่อนเข้าฝั่ง",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "ระหว่างฝึกภาคทะเลครั้งสุดท้าย พยากรณ์อากาศเปลี่ยน ต้นเรือถามความเห็นคุณเรื่องเส้นทางเข้าฝั่ง"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_naut_storm_safe_route",
+        "text": "เสนอให้อ้อมเส้นทางที่คลื่นต่ำแม้จะช้ากว่า",
+        "conditions": [],
+        "recap": "เรือเข้าฝั่งช้ากว่ากำหนดสามชั่วโมงแต่ไม่มีอะไรเสียหาย ต้นเรือจดเหตุผลของคุณลงสมุด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_naut_storm_fast_route",
+        "text": "เสนอเส้นทางเดิมเพื่อให้เข้าฝั่งทันเวลา",
+        "conditions": [],
+        "recap": "เรือโคลงหนักช่วงหนึ่ง ต้นเรือให้ปรับเส้นทางกลางคันและให้คุณทบทวนการอ่านพยากรณ์",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_thanks_note",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "คำขอบคุณที่ไม่คาดคิด",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คนรับบริการคนหนึ่งฝากกระดาษโน้ตไว้ที่หัวหน้าหน่วย เขียนขอบคุณคุณที่อธิบายช้าๆ จนเขาเข้าใจ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_thanks_note_keep_note",
+        "text": "เก็บโน้ตไว้ในกระเป๋าเงิน",
+        "conditions": [],
+        "recap": "คุณเก็บโน้ตไว้ในกระเป๋าเงิน และหยิบมาอ่านในวันที่เหนื่อย",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_thanks_note_share_team",
+        "text": "เอาไปให้ทีมดูเพราะทุกคนช่วยกันดูแล",
+        "conditions": [],
+        "recap": "ทีมผลัดกันอ่านโน้ตแล้วยิ้ม หัวหน้าหน่วยเอาไปติดไว้ที่บอร์ด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_friend_returns",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "เพื่อนตอบแทนเวร",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เพื่อนที่คุณเคยดูงานแทนเมื่อเทอมก่อนทักมาบอกว่าแม่หายดีแล้ว และขอรับเวรวันเสาร์แทนคุณหนึ่งวัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_friend_returns_accept",
+        "text": "รับน้ำใจและใช้วันนั้นนอนพัก",
+        "conditions": [],
+        "recap": "คุณได้วันเสาร์ว่างเต็มวัน และส่งรูปข้าวกล่องไปขอบคุณเพื่อน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_friend_returns_decline",
+        "text": "บอกว่าไม่เป็นไร ให้เพื่อนเก็บวันพักไว้ใช้เอง",
+        "conditions": [],
+        "recap": "เพื่อนยืนยันว่าจะเลี้ยงข้าวแทน และนัดกันหลังสอบรวบยอด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_term2_final_exam",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "term2"
+    },
+    "title": "สอบรวบยอด",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "สอบรวบยอดของหลักสูตรเหลืออีกสามวัน คุณยังทบทวนไม่ครบทุกหัวข้อ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_term2_final_exam_weak_topics",
+        "text": "ทุ่มเวลาให้หัวข้อที่อ่อนที่สุด",
+        "conditions": [],
+        "recap": "คุณทบทวนหัวข้อที่อ่อนได้ครบ และเข้าห้องสอบโดยรู้ว่าตัวเองพลาดตรงไหนได้บ้าง",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 4
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_term2_final_exam_steady_review",
+        "text": "ทบทวนทุกหัวข้อเท่าๆ กันและนอนให้พอ",
+        "conditions": [],
+        "recap": "คุณทบทวนได้ครบแต่ไม่ลึก และได้นอนเต็มคืนก่อนสอบ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_summer_license_day",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "summer"
+    },
+    "title": "วันสอบใบประกอบ",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "เช้าวันสอบใบประกอบวิชาชีพ หน้าห้องสอบเต็มไปด้วยคนที่ถือสรุปเล่มเดียวกัน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_summer_license_day_last_look",
+        "text": "เปิดสรุปทวนหัวข้อสุดท้ายหน้าห้อง",
+        "conditions": [],
+        "recap": "คุณทวนหัวข้อสุดท้ายทัน และเจอข้อสอบเรื่องนั้นพอดีหนึ่งข้อ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "study",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_summer_license_day_breathe",
+        "text": "เก็บสรุปเข้ากระเป๋าแล้วหายใจช้าๆ",
+        "conditions": [],
+        "recap": "คุณเข้าห้องสอบด้วยใจที่นิ่งกว่าที่คิด",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_summer_locker",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "summer"
+    },
+    "title": "เก็บของออกจากล็อกเกอร์",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "วันสุดท้ายของการฝึก คุณเปิดล็อกเกอร์ที่ใช้มาสองปี เจอของเก่าที่ลืมไปแล้ววางซ้อนกันอยู่"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_summer_locker_pass_down",
+        "text": "แยกของที่ยังใช้ได้ไว้ให้น้องปีห้า",
+        "conditions": [],
+        "recap": "น้องปีห้ารับของไปพร้อมรอยยิ้ม และถามคำแนะนำเรื่องหน่วยแรก",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "id": "six_y6_summer_locker_keep_all",
+        "text": "เก็บทุกอย่างกลับบ้านไว้เป็นที่ระลึก",
+        "conditions": [],
+        "recap": "คุณแบกกล่องใหญ่กลับห้อง และวางสมุดเล่มแรกไว้บนชั้นหนังสือ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_summer_nap_dow_message",
+    "kind": "conditional",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "summer"
+    },
+    "title": "ข้อความจากนับดาว",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "speakerId": "nap-dow",
+        "text": "ได้ข่าวว่าเธอสอบเสร็จแล้ว ไว้ว่างๆ มาเล่าให้ฟังหน่อยว่าหกปีเป็นยังไง"
+      },
+      {
+        "text": "นับดาวส่งข้อความมาหลังจากไม่ได้คุยกันหลายเดือน"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_summer_nap_dow_message_meet_up",
+        "text": "นัดเจอกันที่ร้านเดิมสมัยปีหนึ่ง",
+        "conditions": [],
+        "recap": "คุณกับนับดาวนั่งคุยที่ร้านเดิมจนร้านปิด และสัญญาว่าจะไปงานรับปริญญาของกันและกัน",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 3
+          },
+          {
+            "type": "statDelta",
+            "stat": "money",
+            "amount": -150
+          }
+        ]
+      },
+      {
+        "id": "six_y6_summer_nap_dow_message_reply_later",
+        "text": "ตอบสั้นๆ ว่าไว้หลังประกาศผลจะเล่าให้ฟัง",
+        "conditions": [],
+        "recap": "นับดาวส่งสติกเกอร์ให้กำลังใจกลับมา และบอกว่ารอฟังเสมอ",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "six_y6_summer_result_eve",
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 6,
+      "period": "summer"
+    },
+    "title": "คืนก่อนประกาศผล",
+    "sceneAssetId": "campus_orientation",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คืนก่อนประกาศผลการจบหลักสูตร โทรศัพท์ของคุณเงียบผิดปกติ"
+      }
+    ],
+    "choices": [
+      {
+        "id": "six_y6_summer_result_eve_sleep_early",
+        "text": "ปิดโทรศัพท์แล้วนอนเร็ว",
+        "conditions": [],
+        "recap": "คุณนอนหลับได้เกือบทั้งคืน และตื่นมาเปิดผลด้วยตัวเองตอนเช้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -1
+          }
+        ]
+      },
+      {
+        "id": "six_y6_summer_result_eve_wait_with_friends",
+        "text": "นั่งรอผลกับเพื่อนร่วมรุ่นที่หอ",
+        "conditions": [],
+        "recap": "คุณกับเพื่อนนั่งเล่าเรื่องหกปีที่ผ่านมาจนเกือบเช้า",
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "relationships",
+            "amount": 2
+          },
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          }
+        ]
+      }
+    ]
   }
 ]

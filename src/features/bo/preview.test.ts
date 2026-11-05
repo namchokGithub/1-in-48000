@@ -33,7 +33,9 @@ const content = v2ContentSchema.parse({
 describe('BO V2 preview session', () => {
   it('plays a choice through the shared engine without changing content', () => {
     const session = createV2PreviewSession(content, 'orientation')
-    const next = chooseV2(session.content, session.save, 'join_group')
+    const joined = chooseV2(session.content, session.save, 'join_group')
+    expect(joined.currentEventId).toBe('meet_new_friend')
+    const next = chooseV2(session.content, joined, 'continue')
     expect(next.flags.met_mali).toBe(true)
     expect(next.currentEventId).toBe('first_class')
     expect(content.events[0].active).toBeUndefined()

@@ -32,8 +32,12 @@ const files: Record<string, unknown> = {
 
 describe('extended-years authored story', () => {
   it('has four main and two side events with recaps in every Year 5–8 period', () => {
+    // Six-year programs have their own Years 5-6 (`six_` events).
     const extra = events.filter(
-      (event) => event.time.year >= 5 && event.time.year <= 8,
+      (event) =>
+        event.id.startsWith('extra_') &&
+        event.time.year >= 5 &&
+        event.time.year <= 8,
     )
     expect(extra).toHaveLength(96)
     for (const year of [5, 6, 7, 8]) {
@@ -107,15 +111,25 @@ describe('extended-years authored story', () => {
       review: 'graduate',
     })
 
-    const sixYearMajor = play([5, 6], 'medicine')
-    expect(sixYearMajor.seen).toHaveLength(48)
-    expect(sixYearMajor.startTrace).toContainEqual(
+    // A six-year major is not reviewed at Year 4 and leaves the shared extra
+    // years for its own story.
+    const sixYearTrace: V2FlowStep[] = []
+    const sixYearStart = chooseV2(
+      content,
+      {
+        ...createV2Game(content, 42),
+        majorId: 'medicine',
+        currentTime: { year: 4, period: 'summer' },
+        currentNodeId: 'n_graduation_day',
+        currentEventId: 'graduation_day',
+      },
+      'look_ahead',
+      sixYearTrace,
+    )
+    expect(sixYearTrace).toContainEqual(
       expect.objectContaining({ nodeId: 'next_y4_summer', review: null }),
     )
-    expect(sixYearMajor.reviews).toContainEqual({
-      nodeId: 'next_y6_summer',
-      review: 'graduate',
-    })
+    expect(sixYearStart.currentEventId).toBe('six_y5_term1_white_coat')
 
     const late = play([7, 8])
     expect(late.seen).toHaveLength(80)

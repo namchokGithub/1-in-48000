@@ -3263,6 +3263,754 @@
       "color": "green",
       "width": 800,
       "height": 756
+    },
+    {
+      "id": "group_six_year",
+      "position": {
+        "x": 38232,
+        "y": 7680
+      },
+      "type": "group",
+      "title": "สาย 6 ปี (ปี 5–6)",
+      "color": "teal",
+      "width": 2400,
+      "height": 5328
+    },
+    {
+      "id": "n_six_y5_term1_white_coat",
+      "position": {
+        "x": 48,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_white_coat"
+    },
+    {
+      "id": "condition_six_y5_term1_medicine",
+      "position": {
+        "x": 384,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "medicine"
+        }
+      ]
+    },
+    {
+      "id": "condition_six_y5_term1_pharmacy",
+      "position": {
+        "x": 384,
+        "y": 336
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "pharmacy"
+        }
+      ]
+    },
+    {
+      "id": "condition_six_y5_term1_dentistry",
+      "position": {
+        "x": 384,
+        "y": 576
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "dentistry"
+        }
+      ]
+    },
+    {
+      "id": "condition_six_y5_term1_logistics",
+      "position": {
+        "x": 384,
+        "y": 816
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "logistics"
+        }
+      ]
+    },
+    {
+      "id": "n_six_y5_term1_med_ward",
+      "position": {
+        "x": 720,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_med_ward"
+    },
+    {
+      "id": "n_six_y5_term1_pharm_counter",
+      "position": {
+        "x": 720,
+        "y": 336
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_pharm_counter"
+    },
+    {
+      "id": "n_six_y5_term1_dent_chair",
+      "position": {
+        "x": 720,
+        "y": 576
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_dent_chair"
+    },
+    {
+      "id": "n_six_y5_term1_naut_deck",
+      "position": {
+        "x": 720,
+        "y": 816
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_naut_deck"
+    },
+    {
+      "id": "n_six_y5_term1_case_log",
+      "position": {
+        "x": 1056,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_case_log"
+    },
+    {
+      "id": "condition_six_y5_term1_side",
+      "position": {
+        "x": 1392,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "met_mali",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y5_term1_mali_lunch",
+      "position": {
+        "x": 1392,
+        "y": 336
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_mali_lunch"
+    },
+    {
+      "id": "n_six_y5_term1_first_eval",
+      "position": {
+        "x": 1728,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term1_first_eval"
+    },
+    {
+      "id": "next_six_y5_term1",
+      "position": {
+        "x": 2064,
+        "y": 96
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y5_break_sleep_debt",
+      "position": {
+        "x": 48,
+        "y": 1104
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_break_sleep_debt"
+    },
+    {
+      "id": "n_six_y5_break_home_question",
+      "position": {
+        "x": 384,
+        "y": 1104
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_break_home_question"
+    },
+    {
+      "id": "condition_six_y5_break_side",
+      "position": {
+        "x": 720,
+        "y": 1104
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "six_asked_senior",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y5_break_senior_notes",
+      "position": {
+        "x": 720,
+        "y": 1344
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_break_senior_notes"
+    },
+    {
+      "id": "n_six_y5_break_skill_lab",
+      "position": {
+        "x": 1056,
+        "y": 1104
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_break_skill_lab"
+    },
+    {
+      "id": "next_six_y5_break",
+      "position": {
+        "x": 1392,
+        "y": 1104
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y5_term2_night_shift",
+      "position": {
+        "x": 48,
+        "y": 1632
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term2_night_shift"
+    },
+    {
+      "id": "n_six_y5_term2_mistake",
+      "position": {
+        "x": 384,
+        "y": 1632
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term2_mistake"
+    },
+    {
+      "id": "condition_six_y5_term2_side",
+      "position": {
+        "x": 720,
+        "y": 1632
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "joined_club",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y5_term2_club_reunion",
+      "position": {
+        "x": 720,
+        "y": 1872
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term2_club_reunion"
+    },
+    {
+      "id": "n_six_y5_term2_case_presentation",
+      "position": {
+        "x": 1056,
+        "y": 1632
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_term2_case_presentation"
+    },
+    {
+      "id": "next_six_y5_term2",
+      "position": {
+        "x": 1392,
+        "y": 1632
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y5_summer_rural_trip",
+      "position": {
+        "x": 48,
+        "y": 2160
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_summer_rural_trip"
+    },
+    {
+      "id": "n_six_y5_summer_budget",
+      "position": {
+        "x": 384,
+        "y": 2160
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_summer_budget"
+    },
+    {
+      "id": "condition_six_y5_summer_side",
+      "position": {
+        "x": 720,
+        "y": 2160
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "six_owned_mistake",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y5_summer_mentor_trust",
+      "position": {
+        "x": 720,
+        "y": 2400
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_summer_mentor_trust"
+    },
+    {
+      "id": "n_six_y5_summer_year5_close",
+      "position": {
+        "x": 1056,
+        "y": 2160
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y5_summer_year5_close"
+    },
+    {
+      "id": "next_six_y5_summer",
+      "position": {
+        "x": 1392,
+        "y": 2160
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y6_term1_rotation_list",
+      "position": {
+        "x": 48,
+        "y": 2688
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term1_rotation_list"
+    },
+    {
+      "id": "n_six_y6_term1_tired_friend",
+      "position": {
+        "x": 384,
+        "y": 2688
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term1_tired_friend"
+    },
+    {
+      "id": "condition_six_y6_term1_side",
+      "position": {
+        "x": 720,
+        "y": 2688
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "research_focus",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y6_term1_research_case",
+      "position": {
+        "x": 720,
+        "y": 2928
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term1_research_case"
+    },
+    {
+      "id": "n_six_y6_term1_license_prep",
+      "position": {
+        "x": 1056,
+        "y": 2688
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term1_license_prep"
+    },
+    {
+      "id": "next_six_y6_term1",
+      "position": {
+        "x": 1392,
+        "y": 2688
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y6_break_short_rest",
+      "position": {
+        "x": 48,
+        "y": 3216
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_break_short_rest"
+    },
+    {
+      "id": "n_six_y6_break_job_talk",
+      "position": {
+        "x": 384,
+        "y": 3216
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_break_job_talk"
+    },
+    {
+      "id": "condition_six_y6_break_side",
+      "position": {
+        "x": 720,
+        "y": 3216
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "community_focus",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y6_break_community_clinic",
+      "position": {
+        "x": 720,
+        "y": 3456
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_break_community_clinic"
+    },
+    {
+      "id": "n_six_y6_break_mock_exam",
+      "position": {
+        "x": 1056,
+        "y": 3216
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_break_mock_exam"
+    },
+    {
+      "id": "next_six_y6_break",
+      "position": {
+        "x": 1392,
+        "y": 3216
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y6_term2_last_rotation",
+      "position": {
+        "x": 48,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_last_rotation"
+    },
+    {
+      "id": "condition_six_y6_term2_medicine",
+      "position": {
+        "x": 384,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "medicine"
+        }
+      ]
+    },
+    {
+      "id": "condition_six_y6_term2_pharmacy",
+      "position": {
+        "x": 384,
+        "y": 3984
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "pharmacy"
+        }
+      ]
+    },
+    {
+      "id": "condition_six_y6_term2_dentistry",
+      "position": {
+        "x": 384,
+        "y": 4224
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "dentistry"
+        }
+      ]
+    },
+    {
+      "id": "condition_six_y6_term2_logistics",
+      "position": {
+        "x": 384,
+        "y": 4464
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "faculty",
+          "facultyId": "logistics"
+        }
+      ]
+    },
+    {
+      "id": "n_six_y6_term2_med_night_call",
+      "position": {
+        "x": 720,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_med_night_call"
+    },
+    {
+      "id": "n_six_y6_term2_pharm_interaction",
+      "position": {
+        "x": 720,
+        "y": 3984
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_pharm_interaction"
+    },
+    {
+      "id": "n_six_y6_term2_dent_requirement",
+      "position": {
+        "x": 720,
+        "y": 4224
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_dent_requirement"
+    },
+    {
+      "id": "n_six_y6_term2_naut_storm",
+      "position": {
+        "x": 720,
+        "y": 4464
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_naut_storm"
+    },
+    {
+      "id": "n_six_y6_term2_thanks_note",
+      "position": {
+        "x": 1056,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_thanks_note"
+    },
+    {
+      "id": "condition_six_y6_term2_side",
+      "position": {
+        "x": 1392,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "six_covered_friend",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y6_term2_friend_returns",
+      "position": {
+        "x": 1392,
+        "y": 3984
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_friend_returns"
+    },
+    {
+      "id": "n_six_y6_term2_final_exam",
+      "position": {
+        "x": 1728,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_term2_final_exam"
+    },
+    {
+      "id": "next_six_y6_term2",
+      "position": {
+        "x": 2064,
+        "y": 3744
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
+    },
+    {
+      "id": "n_six_y6_summer_license_day",
+      "position": {
+        "x": 48,
+        "y": 4752
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_summer_license_day"
+    },
+    {
+      "id": "n_six_y6_summer_locker",
+      "position": {
+        "x": 384,
+        "y": 4752
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_summer_locker"
+    },
+    {
+      "id": "condition_six_y6_summer_side",
+      "position": {
+        "x": 720,
+        "y": 4752
+      },
+      "parentId": "group_six_year",
+      "type": "condition",
+      "join": "and",
+      "conditions": [
+        {
+          "type": "flag",
+          "flagId": "met_nap_dow",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "n_six_y6_summer_nap_dow_message",
+      "position": {
+        "x": 720,
+        "y": 4992
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_summer_nap_dow_message"
+    },
+    {
+      "id": "n_six_y6_summer_result_eve",
+      "position": {
+        "x": 1056,
+        "y": 4752
+      },
+      "parentId": "group_six_year",
+      "type": "event",
+      "eventId": "six_y6_summer_result_eve"
+    },
+    {
+      "id": "next_six_y6_summer",
+      "position": {
+        "x": 1392,
+        "y": 4752
+      },
+      "parentId": "group_six_year",
+      "type": "nextPeriod"
     }
   ],
   "edges": [
@@ -5348,7 +6096,7 @@
       "id": "e_next_y4_summer_next",
       "from": "next_y4_summer",
       "port": "next",
-      "to": "n_extra_y5_term1_study_map"
+      "to": "n_six_y5_term1_white_coat"
     },
     {
       "id": "e_next_extra_years_graduate",
@@ -7503,6 +8251,750 @@
       "from": "n_extra_y8_summer_final_eve",
       "port": "extra_y8_summer_final_eve_wait",
       "to": "next_extra_years"
+    },
+    {
+      "id": "e_n_six_y5_term1_white_coat_six_y5_term1_white_coat_read_handbook_condition_six_y5_term1_medicine",
+      "from": "n_six_y5_term1_white_coat",
+      "port": "six_y5_term1_white_coat_read_handbook",
+      "to": "condition_six_y5_term1_medicine"
+    },
+    {
+      "id": "e_n_six_y5_term1_white_coat_six_y5_term1_white_coat_ask_senior_condition_six_y5_term1_medicine",
+      "from": "n_six_y5_term1_white_coat",
+      "port": "six_y5_term1_white_coat_ask_senior",
+      "to": "condition_six_y5_term1_medicine"
+    },
+    {
+      "id": "e_n_six_y5_term1_white_coat_six_y5_term1_white_coat_sleep_early_condition_six_y5_term1_medicine",
+      "from": "n_six_y5_term1_white_coat",
+      "port": "six_y5_term1_white_coat_sleep_early",
+      "to": "condition_six_y5_term1_medicine"
+    },
+    {
+      "id": "e_condition_six_y5_term1_medicine_pass_n_six_y5_term1_med_ward",
+      "from": "condition_six_y5_term1_medicine",
+      "port": "pass",
+      "to": "n_six_y5_term1_med_ward"
+    },
+    {
+      "id": "e_condition_six_y5_term1_medicine_fail_condition_six_y5_term1_pharmacy",
+      "from": "condition_six_y5_term1_medicine",
+      "port": "fail",
+      "to": "condition_six_y5_term1_pharmacy"
+    },
+    {
+      "id": "e_n_six_y5_term1_med_ward_six_y5_term1_med_ward_answer_honestly_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_med_ward",
+      "port": "six_y5_term1_med_ward_answer_honestly",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_n_six_y5_term1_med_ward_six_y5_term1_med_ward_guess_answer_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_med_ward",
+      "port": "six_y5_term1_med_ward_guess_answer",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_condition_six_y5_term1_pharmacy_pass_n_six_y5_term1_pharm_counter",
+      "from": "condition_six_y5_term1_pharmacy",
+      "port": "pass",
+      "to": "n_six_y5_term1_pharm_counter"
+    },
+    {
+      "id": "e_condition_six_y5_term1_pharmacy_fail_condition_six_y5_term1_dentistry",
+      "from": "condition_six_y5_term1_pharmacy",
+      "port": "fail",
+      "to": "condition_six_y5_term1_dentistry"
+    },
+    {
+      "id": "e_n_six_y5_term1_pharm_counter_six_y5_term1_pharm_counter_check_with_mentor_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_pharm_counter",
+      "port": "six_y5_term1_pharm_counter_check_with_mentor",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_n_six_y5_term1_pharm_counter_six_y5_term1_pharm_counter_answer_fast_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_pharm_counter",
+      "port": "six_y5_term1_pharm_counter_answer_fast",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_condition_six_y5_term1_dentistry_pass_n_six_y5_term1_dent_chair",
+      "from": "condition_six_y5_term1_dentistry",
+      "port": "pass",
+      "to": "n_six_y5_term1_dent_chair"
+    },
+    {
+      "id": "e_condition_six_y5_term1_dentistry_fail_condition_six_y5_term1_logistics",
+      "from": "condition_six_y5_term1_dentistry",
+      "port": "fail",
+      "to": "condition_six_y5_term1_logistics"
+    },
+    {
+      "id": "e_n_six_y5_term1_dent_chair_six_y5_term1_dent_chair_explain_steps_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_dent_chair",
+      "port": "six_y5_term1_dent_chair_explain_steps",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_n_six_y5_term1_dent_chair_six_y5_term1_dent_chair_wait_for_teacher_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_dent_chair",
+      "port": "six_y5_term1_dent_chair_wait_for_teacher",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_condition_six_y5_term1_logistics_pass_n_six_y5_term1_naut_deck",
+      "from": "condition_six_y5_term1_logistics",
+      "port": "pass",
+      "to": "n_six_y5_term1_naut_deck"
+    },
+    {
+      "id": "e_condition_six_y5_term1_logistics_fail_n_six_y5_term1_case_log",
+      "from": "condition_six_y5_term1_logistics",
+      "port": "fail",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_n_six_y5_term1_naut_deck_six_y5_term1_naut_deck_log_carefully_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_naut_deck",
+      "port": "six_y5_term1_naut_deck_log_carefully",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_n_six_y5_term1_naut_deck_six_y5_term1_naut_deck_ask_officer_n_six_y5_term1_case_log",
+      "from": "n_six_y5_term1_naut_deck",
+      "port": "six_y5_term1_naut_deck_ask_officer",
+      "to": "n_six_y5_term1_case_log"
+    },
+    {
+      "id": "e_n_six_y5_term1_case_log_six_y5_term1_case_log_finish_tonight_condition_six_y5_term1_side",
+      "from": "n_six_y5_term1_case_log",
+      "port": "six_y5_term1_case_log_finish_tonight",
+      "to": "condition_six_y5_term1_side"
+    },
+    {
+      "id": "e_n_six_y5_term1_case_log_six_y5_term1_case_log_ask_extension_condition_six_y5_term1_side",
+      "from": "n_six_y5_term1_case_log",
+      "port": "six_y5_term1_case_log_ask_extension",
+      "to": "condition_six_y5_term1_side"
+    },
+    {
+      "id": "e_condition_six_y5_term1_side_pass_n_six_y5_term1_mali_lunch",
+      "from": "condition_six_y5_term1_side",
+      "port": "pass",
+      "to": "n_six_y5_term1_mali_lunch"
+    },
+    {
+      "id": "e_condition_six_y5_term1_side_fail_n_six_y5_term1_first_eval",
+      "from": "condition_six_y5_term1_side",
+      "port": "fail",
+      "to": "n_six_y5_term1_first_eval"
+    },
+    {
+      "id": "e_n_six_y5_term1_mali_lunch_six_y5_term1_mali_lunch_eat_together_n_six_y5_term1_first_eval",
+      "from": "n_six_y5_term1_mali_lunch",
+      "port": "six_y5_term1_mali_lunch_eat_together",
+      "to": "n_six_y5_term1_first_eval"
+    },
+    {
+      "id": "e_n_six_y5_term1_mali_lunch_six_y5_term1_mali_lunch_take_away_n_six_y5_term1_first_eval",
+      "from": "n_six_y5_term1_mali_lunch",
+      "port": "six_y5_term1_mali_lunch_take_away",
+      "to": "n_six_y5_term1_first_eval"
+    },
+    {
+      "id": "e_n_six_y5_term1_first_eval_six_y5_term1_first_eval_practice_talking_next_six_y5_term1",
+      "from": "n_six_y5_term1_first_eval",
+      "port": "six_y5_term1_first_eval_practice_talking",
+      "to": "next_six_y5_term1"
+    },
+    {
+      "id": "e_n_six_y5_term1_first_eval_six_y5_term1_first_eval_focus_content_next_six_y5_term1",
+      "from": "n_six_y5_term1_first_eval",
+      "port": "six_y5_term1_first_eval_focus_content",
+      "to": "next_six_y5_term1"
+    },
+    {
+      "id": "e_next_six_y5_term1_next_n_six_y5_break_sleep_debt",
+      "from": "next_six_y5_term1",
+      "port": "next",
+      "to": "n_six_y5_break_sleep_debt"
+    },
+    {
+      "id": "e_n_six_y5_break_sleep_debt_six_y5_break_sleep_debt_rest_fully_n_six_y5_break_home_question",
+      "from": "n_six_y5_break_sleep_debt",
+      "port": "six_y5_break_sleep_debt_rest_fully",
+      "to": "n_six_y5_break_home_question"
+    },
+    {
+      "id": "e_n_six_y5_break_sleep_debt_six_y5_break_sleep_debt_light_review_n_six_y5_break_home_question",
+      "from": "n_six_y5_break_sleep_debt",
+      "port": "six_y5_break_sleep_debt_light_review",
+      "to": "n_six_y5_break_home_question"
+    },
+    {
+      "id": "e_n_six_y5_break_home_question_six_y5_break_home_question_explain_program_condition_six_y5_break_side",
+      "from": "n_six_y5_break_home_question",
+      "port": "six_y5_break_home_question_explain_program",
+      "to": "condition_six_y5_break_side"
+    },
+    {
+      "id": "e_n_six_y5_break_home_question_six_y5_break_home_question_laugh_it_off_condition_six_y5_break_side",
+      "from": "n_six_y5_break_home_question",
+      "port": "six_y5_break_home_question_laugh_it_off",
+      "to": "condition_six_y5_break_side"
+    },
+    {
+      "id": "e_condition_six_y5_break_side_pass_n_six_y5_break_senior_notes",
+      "from": "condition_six_y5_break_side",
+      "port": "pass",
+      "to": "n_six_y5_break_senior_notes"
+    },
+    {
+      "id": "e_condition_six_y5_break_side_fail_n_six_y5_break_skill_lab",
+      "from": "condition_six_y5_break_side",
+      "port": "fail",
+      "to": "n_six_y5_break_skill_lab"
+    },
+    {
+      "id": "e_n_six_y5_break_senior_notes_six_y5_break_senior_notes_study_notes_n_six_y5_break_skill_lab",
+      "from": "n_six_y5_break_senior_notes",
+      "port": "six_y5_break_senior_notes_study_notes",
+      "to": "n_six_y5_break_skill_lab"
+    },
+    {
+      "id": "e_n_six_y5_break_senior_notes_six_y5_break_senior_notes_thank_senior_n_six_y5_break_skill_lab",
+      "from": "n_six_y5_break_senior_notes",
+      "port": "six_y5_break_senior_notes_thank_senior",
+      "to": "n_six_y5_break_skill_lab"
+    },
+    {
+      "id": "e_n_six_y5_break_skill_lab_six_y5_break_skill_lab_book_slot_next_six_y5_break",
+      "from": "n_six_y5_break_skill_lab",
+      "port": "six_y5_break_skill_lab_book_slot",
+      "to": "next_six_y5_break"
+    },
+    {
+      "id": "e_n_six_y5_break_skill_lab_six_y5_break_skill_lab_give_slot_next_six_y5_break",
+      "from": "n_six_y5_break_skill_lab",
+      "port": "six_y5_break_skill_lab_give_slot",
+      "to": "next_six_y5_break"
+    },
+    {
+      "id": "e_next_six_y5_break_next_n_six_y5_term2_night_shift",
+      "from": "next_six_y5_break",
+      "port": "next",
+      "to": "n_six_y5_term2_night_shift"
+    },
+    {
+      "id": "e_n_six_y5_term2_night_shift_six_y5_term2_night_shift_eat_first_n_six_y5_term2_mistake",
+      "from": "n_six_y5_term2_night_shift",
+      "port": "six_y5_term2_night_shift_eat_first",
+      "to": "n_six_y5_term2_mistake"
+    },
+    {
+      "id": "e_n_six_y5_term2_night_shift_six_y5_term2_night_shift_snack_only_n_six_y5_term2_mistake",
+      "from": "n_six_y5_term2_night_shift",
+      "port": "six_y5_term2_night_shift_snack_only",
+      "to": "n_six_y5_term2_mistake"
+    },
+    {
+      "id": "e_n_six_y5_term2_mistake_six_y5_term2_mistake_report_it_condition_six_y5_term2_side",
+      "from": "n_six_y5_term2_mistake",
+      "port": "six_y5_term2_mistake_report_it",
+      "to": "condition_six_y5_term2_side"
+    },
+    {
+      "id": "e_n_six_y5_term2_mistake_six_y5_term2_mistake_fix_quietly_condition_six_y5_term2_side",
+      "from": "n_six_y5_term2_mistake",
+      "port": "six_y5_term2_mistake_fix_quietly",
+      "to": "condition_six_y5_term2_side"
+    },
+    {
+      "id": "e_condition_six_y5_term2_side_pass_n_six_y5_term2_club_reunion",
+      "from": "condition_six_y5_term2_side",
+      "port": "pass",
+      "to": "n_six_y5_term2_club_reunion"
+    },
+    {
+      "id": "e_condition_six_y5_term2_side_fail_n_six_y5_term2_case_presentation",
+      "from": "condition_six_y5_term2_side",
+      "port": "fail",
+      "to": "n_six_y5_term2_case_presentation"
+    },
+    {
+      "id": "e_n_six_y5_term2_club_reunion_six_y5_term2_club_reunion_help_half_day_n_six_y5_term2_case_presentation",
+      "from": "n_six_y5_term2_club_reunion",
+      "port": "six_y5_term2_club_reunion_help_half_day",
+      "to": "n_six_y5_term2_case_presentation"
+    },
+    {
+      "id": "e_n_six_y5_term2_club_reunion_six_y5_term2_club_reunion_send_tips_n_six_y5_term2_case_presentation",
+      "from": "n_six_y5_term2_club_reunion",
+      "port": "six_y5_term2_club_reunion_send_tips",
+      "to": "n_six_y5_term2_case_presentation"
+    },
+    {
+      "id": "e_n_six_y5_term2_case_presentation_six_y5_term2_case_presentation_rehearse_next_six_y5_term2",
+      "from": "n_six_y5_term2_case_presentation",
+      "port": "six_y5_term2_case_presentation_rehearse",
+      "to": "next_six_y5_term2"
+    },
+    {
+      "id": "e_n_six_y5_term2_case_presentation_six_y5_term2_case_presentation_wing_it_next_six_y5_term2",
+      "from": "n_six_y5_term2_case_presentation",
+      "port": "six_y5_term2_case_presentation_wing_it",
+      "to": "next_six_y5_term2"
+    },
+    {
+      "id": "e_next_six_y5_term2_next_n_six_y5_summer_rural_trip",
+      "from": "next_six_y5_term2",
+      "port": "next",
+      "to": "n_six_y5_summer_rural_trip"
+    },
+    {
+      "id": "e_n_six_y5_summer_rural_trip_six_y5_summer_rural_trip_adapt_n_six_y5_summer_budget",
+      "from": "n_six_y5_summer_rural_trip",
+      "port": "six_y5_summer_rural_trip_adapt",
+      "to": "n_six_y5_summer_budget"
+    },
+    {
+      "id": "e_n_six_y5_summer_rural_trip_six_y5_summer_rural_trip_stay_online_n_six_y5_summer_budget",
+      "from": "n_six_y5_summer_rural_trip",
+      "port": "six_y5_summer_rural_trip_stay_online",
+      "to": "n_six_y5_summer_budget"
+    },
+    {
+      "id": "e_n_six_y5_summer_budget_six_y5_summer_budget_cook_shared_condition_six_y5_summer_side",
+      "from": "n_six_y5_summer_budget",
+      "port": "six_y5_summer_budget_cook_shared",
+      "to": "condition_six_y5_summer_side"
+    },
+    {
+      "id": "e_n_six_y5_summer_budget_six_y5_summer_budget_ask_home_condition_six_y5_summer_side",
+      "from": "n_six_y5_summer_budget",
+      "port": "six_y5_summer_budget_ask_home",
+      "to": "condition_six_y5_summer_side"
+    },
+    {
+      "id": "e_n_six_y5_summer_budget_six_y5_summer_budget_cut_meals_condition_six_y5_summer_side",
+      "from": "n_six_y5_summer_budget",
+      "port": "six_y5_summer_budget_cut_meals",
+      "to": "condition_six_y5_summer_side"
+    },
+    {
+      "id": "e_condition_six_y5_summer_side_pass_n_six_y5_summer_mentor_trust",
+      "from": "condition_six_y5_summer_side",
+      "port": "pass",
+      "to": "n_six_y5_summer_mentor_trust"
+    },
+    {
+      "id": "e_condition_six_y5_summer_side_fail_n_six_y5_summer_year5_close",
+      "from": "condition_six_y5_summer_side",
+      "port": "fail",
+      "to": "n_six_y5_summer_year5_close"
+    },
+    {
+      "id": "e_n_six_y5_summer_mentor_trust_six_y5_summer_mentor_trust_take_lead_n_six_y5_summer_year5_close",
+      "from": "n_six_y5_summer_mentor_trust",
+      "port": "six_y5_summer_mentor_trust_take_lead",
+      "to": "n_six_y5_summer_year5_close"
+    },
+    {
+      "id": "e_n_six_y5_summer_mentor_trust_six_y5_summer_mentor_trust_ask_pair_n_six_y5_summer_year5_close",
+      "from": "n_six_y5_summer_mentor_trust",
+      "port": "six_y5_summer_mentor_trust_ask_pair",
+      "to": "n_six_y5_summer_year5_close"
+    },
+    {
+      "id": "e_n_six_y5_summer_year5_close_six_y5_summer_year5_close_write_goals_next_six_y5_summer",
+      "from": "n_six_y5_summer_year5_close",
+      "port": "six_y5_summer_year5_close_write_goals",
+      "to": "next_six_y5_summer"
+    },
+    {
+      "id": "e_n_six_y5_summer_year5_close_six_y5_summer_year5_close_call_family_next_six_y5_summer",
+      "from": "n_six_y5_summer_year5_close",
+      "port": "six_y5_summer_year5_close_call_family",
+      "to": "next_six_y5_summer"
+    },
+    {
+      "id": "e_next_six_y5_summer_next_n_six_y6_term1_rotation_list",
+      "from": "next_six_y5_summer",
+      "port": "next",
+      "to": "n_six_y6_term1_rotation_list"
+    },
+    {
+      "id": "e_n_six_y6_term1_rotation_list_six_y6_term1_rotation_list_prepare_early_n_six_y6_term1_tired_friend",
+      "from": "n_six_y6_term1_rotation_list",
+      "port": "six_y6_term1_rotation_list_prepare_early",
+      "to": "n_six_y6_term1_tired_friend"
+    },
+    {
+      "id": "e_n_six_y6_term1_rotation_list_six_y6_term1_rotation_list_swap_slot_n_six_y6_term1_tired_friend",
+      "from": "n_six_y6_term1_rotation_list",
+      "port": "six_y6_term1_rotation_list_swap_slot",
+      "to": "n_six_y6_term1_tired_friend"
+    },
+    {
+      "id": "e_n_six_y6_term1_tired_friend_six_y6_term1_tired_friend_cover_shift_condition_six_y6_term1_side",
+      "from": "n_six_y6_term1_tired_friend",
+      "port": "six_y6_term1_tired_friend_cover_shift",
+      "to": "condition_six_y6_term1_side"
+    },
+    {
+      "id": "e_n_six_y6_term1_tired_friend_six_y6_term1_tired_friend_tell_supervisor_condition_six_y6_term1_side",
+      "from": "n_six_y6_term1_tired_friend",
+      "port": "six_y6_term1_tired_friend_tell_supervisor",
+      "to": "condition_six_y6_term1_side"
+    },
+    {
+      "id": "e_condition_six_y6_term1_side_pass_n_six_y6_term1_research_case",
+      "from": "condition_six_y6_term1_side",
+      "port": "pass",
+      "to": "n_six_y6_term1_research_case"
+    },
+    {
+      "id": "e_condition_six_y6_term1_side_fail_n_six_y6_term1_license_prep",
+      "from": "condition_six_y6_term1_side",
+      "port": "fail",
+      "to": "n_six_y6_term1_license_prep"
+    },
+    {
+      "id": "e_n_six_y6_term1_research_case_six_y6_term1_research_case_write_report_n_six_y6_term1_license_prep",
+      "from": "n_six_y6_term1_research_case",
+      "port": "six_y6_term1_research_case_write_report",
+      "to": "n_six_y6_term1_license_prep"
+    },
+    {
+      "id": "e_n_six_y6_term1_research_case_six_y6_term1_research_case_decline_politely_n_six_y6_term1_license_prep",
+      "from": "n_six_y6_term1_research_case",
+      "port": "six_y6_term1_research_case_decline_politely",
+      "to": "n_six_y6_term1_license_prep"
+    },
+    {
+      "id": "e_n_six_y6_term1_license_prep_six_y6_term1_license_prep_join_group_next_six_y6_term1",
+      "from": "n_six_y6_term1_license_prep",
+      "port": "six_y6_term1_license_prep_join_group",
+      "to": "next_six_y6_term1"
+    },
+    {
+      "id": "e_n_six_y6_term1_license_prep_six_y6_term1_license_prep_read_alone_next_six_y6_term1",
+      "from": "n_six_y6_term1_license_prep",
+      "port": "six_y6_term1_license_prep_read_alone",
+      "to": "next_six_y6_term1"
+    },
+    {
+      "id": "e_next_six_y6_term1_next_n_six_y6_break_short_rest",
+      "from": "next_six_y6_term1",
+      "port": "next",
+      "to": "n_six_y6_break_short_rest"
+    },
+    {
+      "id": "e_n_six_y6_break_short_rest_six_y6_break_short_rest_go_outside_n_six_y6_break_job_talk",
+      "from": "n_six_y6_break_short_rest",
+      "port": "six_y6_break_short_rest_go_outside",
+      "to": "n_six_y6_break_job_talk"
+    },
+    {
+      "id": "e_n_six_y6_break_short_rest_six_y6_break_short_rest_stay_home_n_six_y6_break_job_talk",
+      "from": "n_six_y6_break_short_rest",
+      "port": "six_y6_break_short_rest_stay_home",
+      "to": "n_six_y6_break_job_talk"
+    },
+    {
+      "id": "e_n_six_y6_break_job_talk_six_y6_break_job_talk_near_home_condition_six_y6_break_side",
+      "from": "n_six_y6_break_job_talk",
+      "port": "six_y6_break_job_talk_near_home",
+      "to": "condition_six_y6_break_side"
+    },
+    {
+      "id": "e_n_six_y6_break_job_talk_six_y6_break_job_talk_big_city_condition_six_y6_break_side",
+      "from": "n_six_y6_break_job_talk",
+      "port": "six_y6_break_job_talk_big_city",
+      "to": "condition_six_y6_break_side"
+    },
+    {
+      "id": "e_condition_six_y6_break_side_pass_n_six_y6_break_community_clinic",
+      "from": "condition_six_y6_break_side",
+      "port": "pass",
+      "to": "n_six_y6_break_community_clinic"
+    },
+    {
+      "id": "e_condition_six_y6_break_side_fail_n_six_y6_break_mock_exam",
+      "from": "condition_six_y6_break_side",
+      "port": "fail",
+      "to": "n_six_y6_break_mock_exam"
+    },
+    {
+      "id": "e_n_six_y6_break_community_clinic_six_y6_break_community_clinic_volunteer_n_six_y6_break_mock_exam",
+      "from": "n_six_y6_break_community_clinic",
+      "port": "six_y6_break_community_clinic_volunteer",
+      "to": "n_six_y6_break_mock_exam"
+    },
+    {
+      "id": "e_n_six_y6_break_community_clinic_six_y6_break_community_clinic_send_supplies_n_six_y6_break_mock_exam",
+      "from": "n_six_y6_break_community_clinic",
+      "port": "six_y6_break_community_clinic_send_supplies",
+      "to": "n_six_y6_break_mock_exam"
+    },
+    {
+      "id": "e_n_six_y6_break_mock_exam_six_y6_break_mock_exam_review_mistakes_next_six_y6_break",
+      "from": "n_six_y6_break_mock_exam",
+      "port": "six_y6_break_mock_exam_review_mistakes",
+      "to": "next_six_y6_break"
+    },
+    {
+      "id": "e_n_six_y6_break_mock_exam_six_y6_break_mock_exam_take_break_next_six_y6_break",
+      "from": "n_six_y6_break_mock_exam",
+      "port": "six_y6_break_mock_exam_take_break",
+      "to": "next_six_y6_break"
+    },
+    {
+      "id": "e_next_six_y6_break_next_n_six_y6_term2_last_rotation",
+      "from": "next_six_y6_break",
+      "port": "next",
+      "to": "n_six_y6_term2_last_rotation"
+    },
+    {
+      "id": "e_n_six_y6_term2_last_rotation_six_y6_term2_last_rotation_ask_feedback_condition_six_y6_term2_medicine",
+      "from": "n_six_y6_term2_last_rotation",
+      "port": "six_y6_term2_last_rotation_ask_feedback",
+      "to": "condition_six_y6_term2_medicine"
+    },
+    {
+      "id": "e_n_six_y6_term2_last_rotation_six_y6_term2_last_rotation_work_quietly_condition_six_y6_term2_medicine",
+      "from": "n_six_y6_term2_last_rotation",
+      "port": "six_y6_term2_last_rotation_work_quietly",
+      "to": "condition_six_y6_term2_medicine"
+    },
+    {
+      "id": "e_condition_six_y6_term2_medicine_pass_n_six_y6_term2_med_night_call",
+      "from": "condition_six_y6_term2_medicine",
+      "port": "pass",
+      "to": "n_six_y6_term2_med_night_call"
+    },
+    {
+      "id": "e_condition_six_y6_term2_medicine_fail_condition_six_y6_term2_pharmacy",
+      "from": "condition_six_y6_term2_medicine",
+      "port": "fail",
+      "to": "condition_six_y6_term2_pharmacy"
+    },
+    {
+      "id": "e_n_six_y6_term2_med_night_call_six_y6_term2_med_night_call_call_now_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_med_night_call",
+      "port": "six_y6_term2_med_night_call_call_now",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_n_six_y6_term2_med_night_call_six_y6_term2_med_night_call_watch_first_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_med_night_call",
+      "port": "six_y6_term2_med_night_call_watch_first",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_condition_six_y6_term2_pharmacy_pass_n_six_y6_term2_pharm_interaction",
+      "from": "condition_six_y6_term2_pharmacy",
+      "port": "pass",
+      "to": "n_six_y6_term2_pharm_interaction"
+    },
+    {
+      "id": "e_condition_six_y6_term2_pharmacy_fail_condition_six_y6_term2_dentistry",
+      "from": "condition_six_y6_term2_pharmacy",
+      "port": "fail",
+      "to": "condition_six_y6_term2_dentistry"
+    },
+    {
+      "id": "e_n_six_y6_term2_pharm_interaction_six_y6_term2_pharm_interaction_call_doctor_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_pharm_interaction",
+      "port": "six_y6_term2_pharm_interaction_call_doctor",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_n_six_y6_term2_pharm_interaction_six_y6_term2_pharm_interaction_flag_note_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_pharm_interaction",
+      "port": "six_y6_term2_pharm_interaction_flag_note",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_condition_six_y6_term2_dentistry_pass_n_six_y6_term2_dent_requirement",
+      "from": "condition_six_y6_term2_dentistry",
+      "port": "pass",
+      "to": "n_six_y6_term2_dent_requirement"
+    },
+    {
+      "id": "e_condition_six_y6_term2_dentistry_fail_condition_six_y6_term2_logistics",
+      "from": "condition_six_y6_term2_dentistry",
+      "port": "fail",
+      "to": "condition_six_y6_term2_logistics"
+    },
+    {
+      "id": "e_n_six_y6_term2_dent_requirement_six_y6_term2_dent_requirement_find_new_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_dent_requirement",
+      "port": "six_y6_term2_dent_requirement_find_new",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_n_six_y6_term2_dent_requirement_six_y6_term2_dent_requirement_wait_patient_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_dent_requirement",
+      "port": "six_y6_term2_dent_requirement_wait_patient",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_condition_six_y6_term2_logistics_pass_n_six_y6_term2_naut_storm",
+      "from": "condition_six_y6_term2_logistics",
+      "port": "pass",
+      "to": "n_six_y6_term2_naut_storm"
+    },
+    {
+      "id": "e_condition_six_y6_term2_logistics_fail_n_six_y6_term2_thanks_note",
+      "from": "condition_six_y6_term2_logistics",
+      "port": "fail",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_n_six_y6_term2_naut_storm_six_y6_term2_naut_storm_safe_route_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_naut_storm",
+      "port": "six_y6_term2_naut_storm_safe_route",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_n_six_y6_term2_naut_storm_six_y6_term2_naut_storm_fast_route_n_six_y6_term2_thanks_note",
+      "from": "n_six_y6_term2_naut_storm",
+      "port": "six_y6_term2_naut_storm_fast_route",
+      "to": "n_six_y6_term2_thanks_note"
+    },
+    {
+      "id": "e_n_six_y6_term2_thanks_note_six_y6_term2_thanks_note_keep_note_condition_six_y6_term2_side",
+      "from": "n_six_y6_term2_thanks_note",
+      "port": "six_y6_term2_thanks_note_keep_note",
+      "to": "condition_six_y6_term2_side"
+    },
+    {
+      "id": "e_n_six_y6_term2_thanks_note_six_y6_term2_thanks_note_share_team_condition_six_y6_term2_side",
+      "from": "n_six_y6_term2_thanks_note",
+      "port": "six_y6_term2_thanks_note_share_team",
+      "to": "condition_six_y6_term2_side"
+    },
+    {
+      "id": "e_condition_six_y6_term2_side_pass_n_six_y6_term2_friend_returns",
+      "from": "condition_six_y6_term2_side",
+      "port": "pass",
+      "to": "n_six_y6_term2_friend_returns"
+    },
+    {
+      "id": "e_condition_six_y6_term2_side_fail_n_six_y6_term2_final_exam",
+      "from": "condition_six_y6_term2_side",
+      "port": "fail",
+      "to": "n_six_y6_term2_final_exam"
+    },
+    {
+      "id": "e_n_six_y6_term2_friend_returns_six_y6_term2_friend_returns_accept_n_six_y6_term2_final_exam",
+      "from": "n_six_y6_term2_friend_returns",
+      "port": "six_y6_term2_friend_returns_accept",
+      "to": "n_six_y6_term2_final_exam"
+    },
+    {
+      "id": "e_n_six_y6_term2_friend_returns_six_y6_term2_friend_returns_decline_n_six_y6_term2_final_exam",
+      "from": "n_six_y6_term2_friend_returns",
+      "port": "six_y6_term2_friend_returns_decline",
+      "to": "n_six_y6_term2_final_exam"
+    },
+    {
+      "id": "e_n_six_y6_term2_final_exam_six_y6_term2_final_exam_weak_topics_next_six_y6_term2",
+      "from": "n_six_y6_term2_final_exam",
+      "port": "six_y6_term2_final_exam_weak_topics",
+      "to": "next_six_y6_term2"
+    },
+    {
+      "id": "e_n_six_y6_term2_final_exam_six_y6_term2_final_exam_steady_review_next_six_y6_term2",
+      "from": "n_six_y6_term2_final_exam",
+      "port": "six_y6_term2_final_exam_steady_review",
+      "to": "next_six_y6_term2"
+    },
+    {
+      "id": "e_next_six_y6_term2_next_n_six_y6_summer_license_day",
+      "from": "next_six_y6_term2",
+      "port": "next",
+      "to": "n_six_y6_summer_license_day"
+    },
+    {
+      "id": "e_n_six_y6_summer_license_day_six_y6_summer_license_day_last_look_n_six_y6_summer_locker",
+      "from": "n_six_y6_summer_license_day",
+      "port": "six_y6_summer_license_day_last_look",
+      "to": "n_six_y6_summer_locker"
+    },
+    {
+      "id": "e_n_six_y6_summer_license_day_six_y6_summer_license_day_breathe_n_six_y6_summer_locker",
+      "from": "n_six_y6_summer_license_day",
+      "port": "six_y6_summer_license_day_breathe",
+      "to": "n_six_y6_summer_locker"
+    },
+    {
+      "id": "e_n_six_y6_summer_locker_six_y6_summer_locker_pass_down_condition_six_y6_summer_side",
+      "from": "n_six_y6_summer_locker",
+      "port": "six_y6_summer_locker_pass_down",
+      "to": "condition_six_y6_summer_side"
+    },
+    {
+      "id": "e_n_six_y6_summer_locker_six_y6_summer_locker_keep_all_condition_six_y6_summer_side",
+      "from": "n_six_y6_summer_locker",
+      "port": "six_y6_summer_locker_keep_all",
+      "to": "condition_six_y6_summer_side"
+    },
+    {
+      "id": "e_condition_six_y6_summer_side_pass_n_six_y6_summer_nap_dow_message",
+      "from": "condition_six_y6_summer_side",
+      "port": "pass",
+      "to": "n_six_y6_summer_nap_dow_message"
+    },
+    {
+      "id": "e_condition_six_y6_summer_side_fail_n_six_y6_summer_result_eve",
+      "from": "condition_six_y6_summer_side",
+      "port": "fail",
+      "to": "n_six_y6_summer_result_eve"
+    },
+    {
+      "id": "e_n_six_y6_summer_nap_dow_message_six_y6_summer_nap_dow_message_meet_up_n_six_y6_summer_result_eve",
+      "from": "n_six_y6_summer_nap_dow_message",
+      "port": "six_y6_summer_nap_dow_message_meet_up",
+      "to": "n_six_y6_summer_result_eve"
+    },
+    {
+      "id": "e_n_six_y6_summer_nap_dow_message_six_y6_summer_nap_dow_message_reply_later_n_six_y6_summer_result_eve",
+      "from": "n_six_y6_summer_nap_dow_message",
+      "port": "six_y6_summer_nap_dow_message_reply_later",
+      "to": "n_six_y6_summer_result_eve"
+    },
+    {
+      "id": "e_n_six_y6_summer_result_eve_six_y6_summer_result_eve_sleep_early_next_six_y6_summer",
+      "from": "n_six_y6_summer_result_eve",
+      "port": "six_y6_summer_result_eve_sleep_early",
+      "to": "next_six_y6_summer"
+    },
+    {
+      "id": "e_n_six_y6_summer_result_eve_six_y6_summer_result_eve_wait_with_friends_next_six_y6_summer",
+      "from": "n_six_y6_summer_result_eve",
+      "port": "six_y6_summer_result_eve_wait_with_friends",
+      "to": "next_six_y6_summer"
+    },
+    {
+      "id": "e_next_six_y6_summer_graduate_check_academic_path",
+      "from": "next_six_y6_summer",
+      "port": "graduate",
+      "to": "check_academic_path"
+    },
+    {
+      "id": "e_next_six_y6_summer_extend_n_extra_y7_term1_new_cohort",
+      "from": "next_six_y6_summer",
+      "port": "extend",
+      "to": "n_extra_y7_term1_new_cohort"
+    },
+    {
+      "id": "e_next_six_y6_summer_next_n_extra_y7_term1_new_cohort",
+      "from": "next_six_y6_summer",
+      "port": "next",
+      "to": "n_extra_y7_term1_new_cohort"
     }
   ]
 }
