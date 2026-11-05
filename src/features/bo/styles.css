@@ -634,6 +634,22 @@
 .bo-flow-actions-gap {
   flex: 1;
 }
+.bo-helper-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 1px;
+  height: 1px;
+  overflow: visible;
+  pointer-events: none;
+}
+.bo-helper-lines line {
+  stroke: var(--color-primary);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+  vector-effect: non-scaling-stroke;
+}
 .bo-subflow-list {
   max-height: 20rem;
   overflow-y: auto;

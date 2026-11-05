@@ -9,10 +9,11 @@ import {
   type DragEvent,
 } from 'react'
 import { toast } from 'sonner'
-import { Lock, LockOpen } from 'lucide-react'
+import { ShieldOff, LockOpen } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import {
   Background,
+  ViewportPortal,
   BackgroundVariant,
   BaseEdge,
   Controls,
@@ -50,6 +51,7 @@ import type {
 import { validateV2Flow } from '../../content/v2/flowValidator'
 import { BoDropdown } from './Select'
 import { useStableCallback } from './useStableCallback'
+import { findHelperLines, type CardBox, type HelperLines } from './helperLines'
 import { CopyIdButton } from './CopyIdButton'
 import { V2ConditionList } from './V2ConditionList'
 import { conditionSummary } from './storySummary'
@@ -338,6 +340,9 @@ function subFlowList(
   return list
 }
 
+/** How close, in screen pixels, a card edge must come to snap to a helper line. */
+const HELPER_SNAP = 8
+
 function snapPoint(point: { x: number; y: number }) {
   return {
     x: Math.round(point.x / FLOW_GRID) * FLOW_GRID,
@@ -406,9 +411,9 @@ function FlowGroup({ data, selected }: NodeProps<Group>) {
           }}
         >
           {data.node.locked ? (
-            <Lock size={14} aria-hidden="true" />
+            <ShieldOff size={16} aria-hidden="true" />
           ) : (
-            <LockOpen size={14} aria-hidden="true" />
+            <LockOpen size={16} aria-hidden="true" />
           )}
         </button>
       </div>
@@ -657,6 +662,18 @@ function Board({
     : null
   const boardRef = useRef<HTMLDivElement>(null)
   const pointerDragRef = useRef(false)
+  // Helper lines for the card being dragged: other cards' frames are read once
+  // when the drag starts, and the current alignment is kept for the release.
+  const helperRef = useRef<{
+    grabbed: string
+    others: CardBox[]
+    free: boolean
+    offsetX: number
+    offsetY: number
+    alignedX: boolean
+    alignedY: boolean
+  } | null>(null)
+  const [helperLines, setHelperLines] = useState<HelperLines | null>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   // Simulation panel width in px; null keeps the default half of the stage.
   const [simulationWidth, setSimulationWidth] = useState<number | null>(null)
@@ -1207,7 +1224,8 @@ function Board({
   // card together; arrow-key moves step one grid cell and are saved here.
   function onNodesChange(changes: NodeChange<BoardNode>[]) {
     const pointerDrag = pointerDragRef.current
-    const settled = changes.map((item) => {
+    const aligned = alignToHelperLines(changes)
+    const settled = aligned.map((item) => {
       if (item.type !== 'position' || item.dragging !== false || !item.position)
         return item
       const from = nodes.find((node) => node.id === item.id)?.position
@@ -1215,7 +1233,7 @@ function Board({
         ...item,
         position:
           pointerDrag || !from
-            ? snapPoint(item.position)
+            ? settlePosition(item.position)
             : stepPoint(from, item.position),
       }
     })
@@ -1227,6 +1245,79 @@ function Board({
         moved[item.id] = item.position
     }
     if (Object.keys(moved).length) change(moveFlowNodes(flow, moved))
+  }
+
+  function cardBox(id: string): CardBox | undefined {
+    const card = getInternalNode(id)
+    if (!card) return undefined
+    return {
+      ...card.internals.positionAbsolute,
+      width: card.measured.width ?? 0,
+      height: card.measured.height ?? 0,
+    }
+  }
+
+  /** Shifts the dragged cards so the grabbed one lines up with another card. */
+  function alignToHelperLines(changes: NodeChange<BoardNode>[]) {
+    const helper = helperRef.current
+    if (!helper) return changes
+    const grabbed = changes.find(
+      (item) =>
+        item.type === 'position' &&
+        item.id === helper.grabbed &&
+        item.dragging &&
+        item.position,
+    )
+    if (grabbed?.type !== 'position' || !grabbed.position) return changes
+    const card = getInternalNode(helper.grabbed)
+    if (!card) return changes
+    // Positions inside a Sub Flow are relative to the frame.
+    const parent = {
+      x: card.internals.positionAbsolute.x - card.position.x,
+      y: card.internals.positionAbsolute.y - card.position.y,
+    }
+    const lines = helper.free
+      ? undefined
+      : findHelperLines(
+          {
+            x: grabbed.position.x + parent.x,
+            y: grabbed.position.y + parent.y,
+            width: card.measured.width ?? 0,
+            height: card.measured.height ?? 0,
+          },
+          helper.others,
+          HELPER_SNAP / getZoom(),
+        )
+    helper.offsetX = lines?.offsetX ?? 0
+    helper.offsetY = lines?.offsetY ?? 0
+    helper.alignedX = !!lines?.vertical
+    helper.alignedY = !!lines?.horizontal
+    setHelperLines(lines?.vertical || lines?.horizontal ? lines : null)
+    if (!helper.offsetX && !helper.offsetY) return changes
+    return changes.map((item) =>
+      item.type === 'position' && item.dragging && item.position
+        ? {
+            ...item,
+            position: {
+              x: item.position.x + helper.offsetX,
+              y: item.position.y + helper.offsetY,
+            },
+          }
+        : item,
+    )
+  }
+
+  /** Where a released card settles: on its helper line, else on the grid. */
+  function settlePosition(
+    position: { x: number; y: number },
+    helper = helperRef.current,
+  ) {
+    const grid = snapPoint(position)
+    if (!helper) return grid
+    return {
+      x: helper.alignedX ? position.x + helper.offsetX : grid.x,
+      y: helper.alignedY ? position.y + helper.offsetY : grid.y,
+    }
   }
 
   /** The innermost Sub Flow whose frame holds the card's centre. */
@@ -1350,8 +1441,32 @@ function Board({
       ),
     ),
   )
-  const boardOnNodeDragStart = useFlowHandler<'onNodeDragStart'>(() => {
-    pointerDragRef.current = true
+  const boardOnNodeDragStart = useFlowHandler<'onNodeDragStart'>(
+    (event, grabbed, dragged) => {
+      pointerDragRef.current = true
+      if (grabbed.type === 'group') {
+        helperRef.current = null
+        return
+      }
+      const moving = new Set(dragged.map((item) => item.id))
+      helperRef.current = {
+        grabbed: grabbed.id,
+        others: flow.nodes.flatMap((node) => {
+          if (node.type === 'group' || moving.has(node.id)) return []
+          const box = cardBox(node.id)
+          return box ? [box] : []
+        }),
+        free: event.altKey,
+        offsetX: 0,
+        offsetY: 0,
+        alignedX: false,
+        alignedY: false,
+      }
+    },
+  )
+  // Holding Alt (Option) drags freely without helper lines.
+  const boardOnNodeDrag = useFlowHandler<'onNodeDrag'>((event) => {
+    if (helperRef.current) helperRef.current.free = event.altKey
   })
   // Save every dragged card at once: their snapped positions, then any card
   // whose centre moved into or out of a Sub Flow. Saving cards one by one
@@ -1359,10 +1474,13 @@ function Board({
   const boardOnNodeDragStop = useFlowHandler<'onNodeDragStop'>(
     (_, _dragged, dragged) => {
       pointerDragRef.current = false
+      const helper = helperRef.current
+      helperRef.current = null
+      setHelperLines(null)
       const moved: Record<string, V2FlowNode['position']> = {}
       for (const item of dragged) {
         const node = flow.nodes.find((candidate) => candidate.id === item.id)
-        const position = snapPoint(item.position)
+        const position = settlePosition(item.position, helper)
         if (
           node &&
           (node.position.x !== position.x || node.position.y !== position.y)
@@ -1554,9 +1672,9 @@ function Board({
                       onClick={() => toggleGroupLock(group.id)}
                     >
                       {group.locked ? (
-                        <Lock size={14} aria-hidden="true" />
+                        <ShieldOff size={16} aria-hidden="true" />
                       ) : (
-                        <LockOpen size={14} aria-hidden="true" />
+                        <LockOpen size={16} aria-hidden="true" />
                       )}
                     </button>
                   </div>
@@ -1746,6 +1864,7 @@ function Board({
                 onReconnectEnd={boardOnReconnectEnd}
                 onNodesDelete={boardOnNodesDelete}
                 onNodeDragStart={boardOnNodeDragStart}
+                onNodeDrag={boardOnNodeDrag}
                 onNodeDragStop={boardOnNodeDragStop}
                 onEdgesDelete={boardOnEdgesDelete}
                 onNodeClick={boardOnNodeClick}
@@ -1768,6 +1887,28 @@ function Board({
                 fitView
                 fitViewOptions={fitViewOptions}
               >
+                {helperLines && (
+                  <ViewportPortal>
+                    <svg className="bo-helper-lines" aria-hidden="true">
+                      {helperLines.vertical && (
+                        <line
+                          x1={helperLines.vertical.position}
+                          x2={helperLines.vertical.position}
+                          y1={helperLines.vertical.from - 24}
+                          y2={helperLines.vertical.to + 24}
+                        />
+                      )}
+                      {helperLines.horizontal && (
+                        <line
+                          x1={helperLines.horizontal.from - 24}
+                          x2={helperLines.horizontal.to + 24}
+                          y1={helperLines.horizontal.position}
+                          y2={helperLines.horizontal.position}
+                        />
+                      )}
+                    </svg>
+                  </ViewportPortal>
+                )}
                 <Background
                   color="var(--bo-flow-grid)"
                   gap={FLOW_GRID}
@@ -2378,9 +2519,9 @@ const NodeDetail = memo(function NodeDetail({
             onClick={() => onChange(toggledLock(node))}
           >
             {node.locked ? (
-              <Lock size={16} aria-hidden="true" />
+              <ShieldOff size={18} aria-hidden="true" />
             ) : (
-              <LockOpen size={16} aria-hidden="true" />
+              <LockOpen size={18} aria-hidden="true" />
             )}
             {node.locked ? 'ล็อกกรอบอยู่ · กดเพื่อปลดล็อก' : 'ล็อกกรอบ'}
           </button>
