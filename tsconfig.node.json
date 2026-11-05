@@ -17,5 +17,10 @@
     "erasableSyntaxOnly": true,
     "types": ["node"]
   },
-  "include": ["vite.config.ts", "bo-server.ts", "bo-server.test.ts"]
+  "include": [
+    "vite.config.ts",
+    "bo-server.ts",
+    "bo-server.test.ts",
+    "scripts/balance.ts"
+  ]
 }

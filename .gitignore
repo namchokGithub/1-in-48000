@@ -158,3 +158,6 @@ docs/image/LOCAL/*
 # Mac
 .DS_Store
 */.DS_Store
+
+# Balance reports from `pnpm balance`
+reports/

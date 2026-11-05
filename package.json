@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "test": "vitest run --passWithNoTests",
     "lint": "eslint .",
-    "generate:flow": "node scripts/generate-flow-summary.mjs"
+    "generate:flow": "node scripts/generate-flow-summary.mjs",
+    "balance": "tsx scripts/balance.ts"
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.4.1",
@@ -42,6 +43,7 @@
     "globals": "^17.13.0",
     "prettier": "^3.9.10",
     "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1",
     "vite": "^8.3.5",
