@@ -20,6 +20,17 @@ import {
   getV2CurrentEvent,
 } from '../../engine/v2/game'
 
+/**
+ * Live content without its stat rules, for tests that check story routes:
+ * per-period changes and stat endings would otherwise end those runs early.
+ */
+function withoutStatRules<T extends { config: object }>(content: T): T {
+  return {
+    ...content,
+    config: { ...content.config, periodChanges: [], statEndings: [] },
+  }
+}
+
 describe('live V2 content', () => {
   it('keeps every first-break branch recapped and connected to term two', () => {
     const breakIds = [
@@ -72,8 +83,11 @@ describe('live V2 content', () => {
       electives,
       flow,
     }
-    const content = await loadV2Content(
-      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    const content = withoutStatRules(
+      await loadV2Content(
+        async (path) =>
+          files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+      ),
     )
     const play = (flags: Record<string, boolean>, money: number) => {
       let save = createV2Game(content, 42)
@@ -476,8 +490,11 @@ describe('live V2 content', () => {
       electives,
       flow,
     }
-    const content = await loadV2Content(
-      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    const content = withoutStatRules(
+      await loadV2Content(
+        async (path) =>
+          files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+      ),
     )
     const play = (
       flags: Record<string, boolean>,
@@ -972,8 +989,11 @@ describe('live V2 content', () => {
       electives,
       flow,
     }
-    const content = await loadV2Content(
-      async (path) => files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+    const content = withoutStatRules(
+      await loadV2Content(
+        async (path) =>
+          files[path.split('/').at(-1)?.replace('.json', '') ?? ''],
+      ),
     )
     let state = 1
     const pick = (count: number) => {

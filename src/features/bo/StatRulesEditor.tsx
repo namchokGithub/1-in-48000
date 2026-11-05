@@ -1,6 +1,8 @@
+import type { DragEvent } from 'react'
 import type { V2Content } from '../../content/v2/schema'
 import { NumberInput } from './NumberInput'
 import { periodLabels } from './periodLabels'
+import { reorder } from './reorder'
 import { BoDropdown } from './Select'
 import { conditionSummary } from './storySummary'
 import { statLabel, v2StatOptions } from './v2StatOptions'
@@ -97,6 +99,14 @@ export function StatRulesEditor({
     setPeriodChanges(
       periodChanges.map((item, at) => (at === index ? next : item)),
     )
+  const dropPeriodChange = (event: DragEvent, target: number) => {
+    event.preventDefault()
+    const data = event.dataTransfer.getData('text/plain')
+    if (!/^period-change:\d+$/.test(data)) return
+    const source = Number(data.slice('period-change:'.length))
+    if (source === target || source >= periodChanges.length) return
+    setPeriodChanges(reorder(periodChanges, source, target))
+  }
   const setModifiers = (next: Modifier[]) =>
     onChange({ ...config, statModifiers: next })
   const setEndings = (next: StatEnding[]) =>
@@ -123,7 +133,28 @@ export function StatRulesEditor({
           แต่ไม่ขึ้นในข้อความหลังเลือก
         </p>
         {periodChanges.map((rule, index) => (
-          <div key={index} className="bo-condition-row bo-stat-rule">
+          <div
+            key={index}
+            className="bo-condition-row bo-stat-rule"
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={(event) => dropPeriodChange(event, index)}
+          >
+            <span
+              className="bo-drag-handle"
+              aria-hidden="true"
+              draggable
+              onDragStart={(event) => {
+                event.dataTransfer.effectAllowed = 'move'
+                event.dataTransfer.setData(
+                  'text/plain',
+                  `period-change:${index}`,
+                )
+                const card = event.currentTarget.closest('.bo-stat-rule')
+                if (card) event.dataTransfer.setDragImage(card, 24, 24)
+              }}
+            >
+              ⠿
+            </span>
             <div className="bo-condition-sentence">
               <BoDropdown
                 label="ค่าสถานะที่เปลี่ยน"
@@ -207,16 +238,42 @@ export function StatRulesEditor({
                 />
               )}
             </div>
-            <button
-              type="button"
-              className="bo-text-button bo-danger"
-              aria-label={`ลบกฎ ${statLabel(rule.stat)} ${rule.amount}`}
-              onClick={() =>
-                setPeriodChanges(periodChanges.filter((_, at) => at !== index))
-              }
-            >
-              ลบ
-            </button>
+            <div className="bo-stat-rule-actions">
+              <button
+                type="button"
+                className="bo-text-button"
+                aria-label={`เลื่อนกฎ ${statLabel(rule.stat)} ${rule.amount} ขึ้น`}
+                disabled={index === 0}
+                onClick={() =>
+                  setPeriodChanges(reorder(periodChanges, index, index - 1))
+                }
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                className="bo-text-button"
+                aria-label={`เลื่อนกฎ ${statLabel(rule.stat)} ${rule.amount} ลง`}
+                disabled={index === periodChanges.length - 1}
+                onClick={() =>
+                  setPeriodChanges(reorder(periodChanges, index, index + 1))
+                }
+              >
+                ↓
+              </button>
+              <button
+                type="button"
+                className="bo-text-button bo-danger"
+                aria-label={`ลบกฎ ${statLabel(rule.stat)} ${rule.amount}`}
+                onClick={() =>
+                  setPeriodChanges(
+                    periodChanges.filter((_, at) => at !== index),
+                  )
+                }
+              >
+                ลบ
+              </button>
+            </div>
           </div>
         ))}
         <button

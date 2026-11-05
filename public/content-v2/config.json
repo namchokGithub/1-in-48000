@@ -206,7 +206,7 @@
         "type": "stat",
         "stat": "health",
         "operator": "lt",
-        "value": 60
+        "value": 50
       },
       "target": "study",
       "percent": -20,
@@ -217,11 +217,22 @@
         "type": "stat",
         "stat": "lucky",
         "operator": "gt",
-        "value": 70
+        "value": 60
       },
       "target": "money",
       "percent": 30,
       "applies": "both"
+    },
+    {
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "gt",
+        "value": 50
+      },
+      "target": "study",
+      "percent": -20,
+      "applies": "gains"
     }
   ],
   "statEndings": [
@@ -239,9 +250,18 @@
         "type": "stat",
         "stat": "health",
         "operator": "lt",
-        "value": 10
+        "value": 15
       },
       "endingId": "burnout"
+    },
+    {
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "gt",
+        "value": 70
+      },
+      "endingId": "overwhelmed_by_stress"
     }
   ],
   "periodChanges": [
@@ -256,7 +276,33 @@
         "type": "stat",
         "stat": "study",
         "operator": "gt",
-        "value": 40
+        "value": 70
+      }
+    },
+    {
+      "stat": "study",
+      "amount": -11,
+      "periods": [
+        "break"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "study",
+        "operator": "gt",
+        "value": 15
+      }
+    },
+    {
+      "stat": "study",
+      "amount": -10,
+      "periods": [
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "study",
+        "operator": "gt",
+        "value": 15
       }
     },
     {
@@ -268,6 +314,38 @@
         "term2",
         "summer"
       ]
+    },
+    {
+      "stat": "money",
+      "amount": -15,
+      "periods": [
+        "term1",
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "study",
+        "operator": "gt",
+        "value": 60
+      }
+    },
+    {
+      "stat": "health",
+      "amount": -2,
+      "periods": [
+        "term1",
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "study",
+        "operator": "gt",
+        "value": 80
+      }
     },
     {
       "stat": "health",
@@ -282,12 +360,22 @@
         "type": "stat",
         "stat": "stress",
         "operator": "gt",
-        "value": 20
+        "value": 40
       }
     },
     {
+      "stat": "health",
+      "amount": -1,
+      "periods": [
+        "term1",
+        "break",
+        "term2",
+        "summer"
+      ]
+    },
+    {
       "stat": "stress",
-      "amount": 1,
+      "amount": 3,
       "periods": [
         "term1",
         "break",
@@ -295,18 +383,34 @@
       ],
       "when": {
         "type": "stat",
-        "stat": "stress",
-        "operator": "gte",
-        "value": 70
+        "stat": "study",
+        "operator": "gt",
+        "value": 80
       }
     },
     {
-      "stat": "study",
-      "amount": -8,
+      "stat": "relationships",
+      "amount": -2,
       "periods": [
         "break",
         "summer"
       ]
+    },
+    {
+      "stat": "stress",
+      "amount": 1,
+      "periods": [
+        "term1",
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "lt",
+        "value": 0
+      }
     }
   ]
 }

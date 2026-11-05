@@ -503,8 +503,8 @@
         "x": 48,
         "y": 254
       },
-      "type": "nextPeriod",
-      "parentId": "group_6"
+      "parentId": "group_6",
+      "type": "nextPeriod"
     },
     {
       "id": "n_sophomore_welcome",
@@ -512,9 +512,9 @@
         "x": 408,
         "y": 254
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "sophomore_welcome",
-      "parentId": "group_6"
+      "eventId": "sophomore_welcome"
     },
     {
       "id": "n_year_two_plans",
@@ -522,9 +522,9 @@
         "x": 744,
         "y": 254
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "year_two_plans",
-      "parentId": "group_6"
+      "eventId": "year_two_plans"
     },
     {
       "id": "n_y2_term1_timetable_shuffle",
@@ -532,9 +532,9 @@
         "x": 1104,
         "y": 254
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_timetable_shuffle",
-      "parentId": "group_6"
+      "eventId": "y2_term1_timetable_shuffle"
     },
     {
       "id": "condition_y2_term1_club",
@@ -542,6 +542,7 @@
         "x": 1440,
         "y": 322
       },
+      "parentId": "group_6",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -550,8 +551,7 @@
           "flagId": "joined_club",
           "value": true
         }
-      ],
-      "parentId": "group_6"
+      ]
     },
     {
       "id": "n_y2_term1_club_booth",
@@ -559,9 +559,9 @@
         "x": 1752,
         "y": 62
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_club_booth",
-      "parentId": "group_6"
+      "eventId": "y2_term1_club_booth"
     },
     {
       "id": "n_y2_term1_group_roles",
@@ -569,9 +569,9 @@
         "x": 1776,
         "y": 463
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_group_roles",
-      "parentId": "group_6"
+      "eventId": "y2_term1_group_roles"
     },
     {
       "id": "condition_y2_term1_team",
@@ -579,6 +579,7 @@
         "x": 2088,
         "y": 331
       },
+      "parentId": "group_6",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -587,8 +588,7 @@
           "flagId": "y2_led_project",
           "value": true
         }
-      ],
-      "parentId": "group_6"
+      ]
     },
     {
       "id": "n_y2_term1_team_update",
@@ -596,9 +596,9 @@
         "x": 2376,
         "y": 62
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_team_update",
-      "parentId": "group_6"
+      "eventId": "y2_term1_team_update"
     },
     {
       "id": "n_y2_term1_budget_gap",
@@ -606,9 +606,9 @@
         "x": 2736,
         "y": 251
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_budget_gap",
-      "parentId": "group_6"
+      "eventId": "y2_term1_budget_gap"
     },
     {
       "id": "condition_y2_term1_mali",
@@ -616,6 +616,7 @@
         "x": 3072,
         "y": 254
       },
+      "parentId": "group_6",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -624,8 +625,7 @@
           "flagId": "met_mali",
           "value": true
         }
-      ],
-      "parentId": "group_6"
+      ]
     },
     {
       "id": "n_y2_term1_mali_practice",
@@ -633,9 +633,9 @@
         "x": 3456,
         "y": 254
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_mali_practice",
-      "parentId": "group_6"
+      "eventId": "y2_term1_mali_practice"
     },
     {
       "id": "n_y2_term1_midterm_week",
@@ -643,9 +643,9 @@
         "x": 3096,
         "y": 610
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_term1_midterm_week",
-      "parentId": "group_6"
+      "eventId": "y2_term1_midterm_week"
     },
     {
       "id": "n_course_choice",
@@ -653,9 +653,9 @@
         "x": 3456,
         "y": 726
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "course_choice",
-      "parentId": "group_6"
+      "eventId": "course_choice"
     },
     {
       "id": "next_y2_break",
@@ -663,8 +663,8 @@
         "x": 216,
         "y": 926
       },
-      "type": "nextPeriod",
-      "parentId": "group_6"
+      "parentId": "group_6",
+      "type": "nextPeriod"
     },
     {
       "id": "n_y2_break_midterm_feedback",
@@ -672,9 +672,9 @@
         "x": 504,
         "y": 1142
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_midterm_feedback",
-      "parentId": "group_6"
+      "eventId": "y2_break_midterm_feedback"
     },
     {
       "id": "n_y2_break_idle_morning",
@@ -682,9 +682,9 @@
         "x": 840,
         "y": 1142
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_idle_morning",
-      "parentId": "group_6"
+      "eventId": "y2_break_idle_morning"
     },
     {
       "id": "condition_y2_break_mali",
@@ -692,6 +692,7 @@
         "x": 1176,
         "y": 1142
       },
+      "parentId": "group_6",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -700,8 +701,7 @@
           "flagId": "met_mali",
           "value": true
         }
-      ],
-      "parentId": "group_6"
+      ]
     },
     {
       "id": "n_y2_break_mali_checkin",
@@ -709,9 +709,9 @@
         "x": 1176,
         "y": 1502
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_mali_checkin",
-      "parentId": "group_6"
+      "eventId": "y2_break_mali_checkin"
     },
     {
       "id": "n_y2_break_notes_request",
@@ -719,9 +719,9 @@
         "x": 1512,
         "y": 1142
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_notes_request",
-      "parentId": "group_6"
+      "eventId": "y2_break_notes_request"
     },
     {
       "id": "n_y2_break_family_call",
@@ -729,9 +729,9 @@
         "x": 1848,
         "y": 1142
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_family_call",
-      "parentId": "group_6"
+      "eventId": "y2_break_family_call"
     },
     {
       "id": "condition_y2_break_notes",
@@ -739,6 +739,7 @@
         "x": 2184,
         "y": 1142
       },
+      "parentId": "group_6",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -747,8 +748,7 @@
           "flagId": "y2_break_sent_notes",
           "value": true
         }
-      ],
-      "parentId": "group_6"
+      ]
     },
     {
       "id": "n_y2_break_notes_followup",
@@ -756,9 +756,9 @@
         "x": 2184,
         "y": 1454
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_notes_followup",
-      "parentId": "group_6"
+      "eventId": "y2_break_notes_followup"
     },
     {
       "id": "n_y2_break_last_evening",
@@ -766,9 +766,9 @@
         "x": 2592,
         "y": 1214
       },
+      "parentId": "group_6",
       "type": "event",
-      "eventId": "y2_break_last_evening",
-      "parentId": "group_6"
+      "eventId": "y2_break_last_evening"
     },
     {
       "id": "next_y2_break_to_term2",
@@ -776,8 +776,8 @@
         "x": 96,
         "y": 67
       },
-      "type": "nextPeriod",
-      "parentId": "group_7"
+      "parentId": "group_7",
+      "type": "nextPeriod"
     },
     {
       "id": "n_y2_term2_return_routine",
@@ -785,9 +785,9 @@
         "x": 96,
         "y": 336
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_return_routine",
-      "parentId": "group_7"
+      "eventId": "y2_term2_return_routine"
     },
     {
       "id": "n_group_research",
@@ -795,9 +795,9 @@
         "x": 456,
         "y": 336
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "group_research",
-      "parentId": "group_7"
+      "eventId": "group_research"
     },
     {
       "id": "n_club_project",
@@ -805,9 +805,9 @@
         "x": 456,
         "y": 698
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "club_project",
-      "parentId": "group_7"
+      "eventId": "club_project"
     },
     {
       "id": "n_y2_term2_field_notes",
@@ -815,9 +815,9 @@
         "x": 816,
         "y": 464
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_field_notes",
-      "parentId": "group_7"
+      "eventId": "y2_term2_field_notes"
     },
     {
       "id": "condition_y2_term2_workshop",
@@ -825,6 +825,7 @@
         "x": 1152,
         "y": 526
       },
+      "parentId": "group_7",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -833,8 +834,7 @@
           "flagId": "summer_joined_workshop",
           "value": true
         }
-      ],
-      "parentId": "group_7"
+      ]
     },
     {
       "id": "n_y2_term2_workshop_method",
@@ -842,9 +842,9 @@
         "x": 1440,
         "y": 246
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_workshop_method",
-      "parentId": "group_7"
+      "eventId": "y2_term2_workshop_method"
     },
     {
       "id": "n_y2_term2_presentation",
@@ -852,9 +852,9 @@
         "x": 1440,
         "y": 743
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_presentation",
-      "parentId": "group_7"
+      "eventId": "y2_term2_presentation"
     },
     {
       "id": "condition_y2_term2_feedback",
@@ -862,6 +862,7 @@
         "x": 1875,
         "y": 564
       },
+      "parentId": "group_7",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -870,8 +871,7 @@
           "flagId": "y2_term2_requested_feedback",
           "value": true
         }
-      ],
-      "parentId": "group_7"
+      ]
     },
     {
       "id": "n_y2_term2_feedback_reply",
@@ -879,9 +879,9 @@
         "x": 2184,
         "y": 247
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_feedback_reply",
-      "parentId": "group_7"
+      "eventId": "y2_term2_feedback_reply"
     },
     {
       "id": "n_y2_term2_exam_week",
@@ -889,9 +889,9 @@
         "x": 2184,
         "y": 831
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_exam_week",
-      "parentId": "group_7"
+      "eventId": "y2_term2_exam_week"
     },
     {
       "id": "n_y2_term2_term_review",
@@ -899,9 +899,9 @@
         "x": 2520,
         "y": 831
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_term2_term_review",
-      "parentId": "group_7"
+      "eventId": "y2_term2_term_review"
     },
     {
       "id": "next_y2_term2",
@@ -909,8 +909,8 @@
         "x": 96,
         "y": 1244
       },
-      "type": "nextPeriod",
-      "parentId": "group_7"
+      "parentId": "group_7",
+      "type": "nextPeriod"
     },
     {
       "id": "n_internship_application",
@@ -918,9 +918,9 @@
         "x": 96,
         "y": 1517
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "internship_application",
-      "parentId": "group_7"
+      "eventId": "internship_application"
     },
     {
       "id": "n_y2_summer_application_followup",
@@ -928,9 +928,9 @@
         "x": 432,
         "y": 1517
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_application_followup",
-      "parentId": "group_7"
+      "eventId": "y2_summer_application_followup"
     },
     {
       "id": "n_y2_summer_paid_shift",
@@ -938,9 +938,9 @@
         "x": 432,
         "y": 1873
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_paid_shift",
-      "parentId": "group_7"
+      "eventId": "y2_summer_paid_shift"
     },
     {
       "id": "n_y2_summer_calendar_collision",
@@ -948,9 +948,9 @@
         "x": 768,
         "y": 1516
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_calendar_collision",
-      "parentId": "group_7"
+      "eventId": "y2_summer_calendar_collision"
     },
     {
       "id": "n_y2_summer_heat_route",
@@ -958,9 +958,9 @@
         "x": 1104,
         "y": 1516
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_heat_route",
-      "parentId": "group_7"
+      "eventId": "y2_summer_heat_route"
     },
     {
       "id": "n_y2_summer_peer_request",
@@ -968,9 +968,9 @@
         "x": 1440,
         "y": 1517
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_peer_request",
-      "parentId": "group_7"
+      "eventId": "y2_summer_peer_request"
     },
     {
       "id": "condition_y2_summer_peer",
@@ -978,6 +978,7 @@
         "x": 1776,
         "y": 1567
       },
+      "parentId": "group_7",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -986,8 +987,7 @@
           "flagId": "y2_summer_helped_peer",
           "value": true
         }
-      ],
-      "parentId": "group_7"
+      ]
     },
     {
       "id": "n_y2_summer_peer_followup",
@@ -995,9 +995,9 @@
         "x": 2115,
         "y": 1516
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_peer_followup",
-      "parentId": "group_7"
+      "eventId": "y2_summer_peer_followup"
     },
     {
       "id": "n_y2_summer_portfolio_notes",
@@ -1005,9 +1005,9 @@
         "x": 1776,
         "y": 1857
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_portfolio_notes",
-      "parentId": "group_7"
+      "eventId": "y2_summer_portfolio_notes"
     },
     {
       "id": "n_y2_summer_last_week",
@@ -1015,9 +1015,9 @@
         "x": 2400,
         "y": 1857
       },
+      "parentId": "group_7",
       "type": "event",
-      "eventId": "y2_summer_last_week",
-      "parentId": "group_7"
+      "eventId": "y2_summer_last_week"
     },
     {
       "id": "next_y2_summer",
@@ -4082,34 +4082,36 @@
       "color": "green",
       "width": 3885,
       "height": 2083,
-      "fillOpacity": 2
+      "fillOpacity": 2,
+      "locked": true
     },
     {
       "id": "group_6",
+      "position": {
+        "x": -1536,
+        "y": -408
+      },
       "type": "group",
       "title": "ปี 2 เทอม 1",
       "color": "blue",
       "width": 3905,
       "height": 1771,
-      "position": {
-        "x": -1536,
-        "y": -408
-      },
-      "fillOpacity": 2,
-      "locked": true
+      "locked": true,
+      "fillOpacity": 2
     },
     {
       "id": "group_7",
+      "position": {
+        "x": -1392,
+        "y": 1392
+      },
       "type": "group",
       "title": "ปี 2 เทอม 2",
       "color": "blue",
       "width": 2913,
       "height": 2153,
-      "position": {
-        "x": -1392,
-        "y": 1392
-      },
-      "fillOpacity": 2
+      "fillOpacity": 2,
+      "locked": true
     }
   ],
   "edges": [
