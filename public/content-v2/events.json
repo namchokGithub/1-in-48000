@@ -882,7 +882,7 @@
           {
             "type": "statDelta",
             "stat": "lucky",
-            "amount": 2
+            "amount": 5
           },
           {
             "type": "statDelta",
@@ -949,7 +949,7 @@
           {
             "type": "statDelta",
             "stat": "lucky",
-            "amount": 1
+            "amount": 6
           },
           {
             "type": "statDelta",
@@ -1078,7 +1078,7 @@
           {
             "type": "statDelta",
             "stat": "lucky",
-            "amount": 2
+            "amount": 5
           },
           {
             "type": "statDelta",
@@ -1151,7 +1151,7 @@
           {
             "type": "statDelta",
             "stat": "lucky",
-            "amount": 2
+            "amount": 5
           },
           {
             "type": "statDelta",

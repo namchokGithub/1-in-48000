@@ -284,7 +284,7 @@
       "id": "n_return_to_campus",
       "position": {
         "x": 144,
-        "y": 384
+        "y": 627
       },
       "parentId": "group_5",
       "type": "event",
@@ -490,8 +490,8 @@
     {
       "id": "n_summer_year_two_notice",
       "position": {
-        "x": 2376,
-        "y": 1680
+        "x": 3096,
+        "y": 1644
       },
       "parentId": "group_5",
       "type": "event",
@@ -1002,8 +1002,8 @@
     {
       "id": "n_y2_summer_portfolio_notes",
       "position": {
-        "x": 1776,
-        "y": 1857
+        "x": 1584,
+        "y": 1854
       },
       "parentId": "group_7",
       "type": "event",
@@ -1048,8 +1048,8 @@
     {
       "id": "n_free_elective",
       "position": {
-        "x": 11664,
-        "y": 216
+        "x": 12648,
+        "y": 292
       },
       "type": "event",
       "eventId": "free_elective"
@@ -1108,8 +1108,8 @@
     {
       "id": "n_internship_result",
       "position": {
-        "x": 19992,
-        "y": 408
+        "x": 19608,
+        "y": 218
       },
       "type": "event",
       "eventId": "internship_result"
@@ -1125,8 +1125,8 @@
     {
       "id": "n_y3_term1_field_notes",
       "position": {
-        "x": 11088,
-        "y": 984
+        "x": 11016,
+        "y": 908
       },
       "type": "event",
       "eventId": "y3_term1_field_notes"
@@ -1297,8 +1297,8 @@
     {
       "id": "n_y3_break_return_plan",
       "position": {
-        "x": 15840,
-        "y": 1056
+        "x": 16296,
+        "y": 821
       },
       "type": "event",
       "eventId": "y3_break_return_plan"
@@ -1358,8 +1358,8 @@
     {
       "id": "n_y3_term2_final_check",
       "position": {
-        "x": 18024,
-        "y": 768
+        "x": 18240,
+        "y": 767
       },
       "type": "event",
       "eventId": "y3_term2_final_check"
@@ -1444,8 +1444,8 @@
     {
       "id": "n_y3_summer_next_year",
       "position": {
-        "x": 20016,
-        "y": 48
+        "x": 20256,
+        "y": 46
       },
       "type": "event",
       "eventId": "y3_summer_next_year"
@@ -1496,8 +1496,8 @@
     {
       "id": "n_farewell_dinner",
       "position": {
-        "x": 27264,
-        "y": 96
+        "x": 28704,
+        "y": 176
       },
       "type": "event",
       "eventId": "farewell_dinner"
@@ -1849,7 +1849,7 @@
       "id": "n_y4_term2_mentor_meeting",
       "position": {
         "x": 27336,
-        "y": 1056
+        "y": 1079
       },
       "type": "event",
       "eventId": "y4_term2_mentor_meeting"
@@ -1929,8 +1929,8 @@
     {
       "id": "n_y4_term2_submit_archive",
       "position": {
-        "x": 28344,
-        "y": 1392
+        "x": 28320,
+        "y": 683
       },
       "type": "event",
       "eventId": "y4_term2_submit_archive"
@@ -4082,8 +4082,8 @@
       "color": "green",
       "width": 3885,
       "height": 2083,
-      "fillOpacity": 2,
-      "locked": true
+      "locked": true,
+      "fillOpacity": 2
     },
     {
       "id": "group_6",
@@ -4110,8 +4110,129 @@
       "color": "blue",
       "width": 2913,
       "height": 2153,
-      "fillOpacity": 2,
-      "locked": true
+      "locked": true,
+      "fillOpacity": 2
+    },
+    {
+      "id": "random",
+      "type": "random",
+      "poolId": "khao_sam_muk_shrine_luck",
+      "position": {
+        "x": 2376,
+        "y": 1743
+      },
+      "parentId": "group_5"
+    },
+    {
+      "id": "random_2",
+      "type": "random",
+      "poolId": "bang_saen_walking_street_market",
+      "position": {
+        "x": 144,
+        "y": 378
+      },
+      "parentId": "group_5"
+    },
+    {
+      "id": "random_3",
+      "type": "random",
+      "poolId": "bang_saen_night_out",
+      "position": {
+        "x": 3000,
+        "y": 1220
+      },
+      "parentId": "group_6"
+    },
+    {
+      "id": "random_4",
+      "type": "random",
+      "poolId": "medical_faculty_health_visits",
+      "position": {
+        "x": 1995,
+        "y": 1896
+      },
+      "parentId": "group_7"
+    },
+    {
+      "id": "random_5",
+      "type": "random",
+      "poolId": "bang_saen_bridge_friends",
+      "position": {
+        "x": 13080,
+        "y": 356
+      }
+    },
+    {
+      "id": "random_6",
+      "type": "random",
+      "poolId": "wat_saen_suk_ghost_hunt",
+      "position": {
+        "x": 15888,
+        "y": 928
+      }
+    },
+    {
+      "id": "random_7",
+      "type": "random",
+      "poolId": "medical_faculty_health_visits",
+      "position": {
+        "x": 15888,
+        "y": 1323
+      }
+    },
+    {
+      "id": "random_8",
+      "type": "random",
+      "poolId": "bang_saen_night_out",
+      "position": {
+        "x": 19948.14422393718,
+        "y": 180.51868632183024
+      }
+    },
+    {
+      "id": "random_9",
+      "type": "random",
+      "poolId": "bang_saen_walking_street_market",
+      "position": {
+        "x": 17952,
+        "y": 557
+      }
+    },
+    {
+      "id": "random_10",
+      "type": "random",
+      "poolId": "khao_sam_muk_shrine_luck",
+      "position": {
+        "x": 22776,
+        "y": 1293
+      }
+    },
+    {
+      "id": "random_11",
+      "type": "random",
+      "poolId": "wat_saen_suk_ghost_hunt",
+      "position": {
+        "x": 26472,
+        "y": 1048
+      }
+    },
+    {
+      "id": "random_12",
+      "type": "random",
+      "poolId": "bang_saen_night_out",
+      "position": {
+        "x": 27024,
+        "y": 966
+      }
+    },
+    {
+      "id": "random_13",
+      "type": "random",
+      "poolId": "medical_faculty_health_visits",
+      "position": {
+        "x": 28920.460629965506,
+        "y": 758.861374238102
+      }
     }
   ],
   "edges": [
@@ -4446,12 +4567,6 @@
       "to": "next_y1_break"
     },
     {
-      "id": "e_next_y1_break_next",
-      "from": "next_y1_break",
-      "port": "next",
-      "to": "n_return_to_campus"
-    },
-    {
       "id": "e_n_return_to_campus_budget_semester",
       "from": "n_return_to_campus",
       "port": "budget_semester",
@@ -4714,12 +4829,6 @@
       "from": "condition_summer_workshop",
       "port": "pass",
       "to": "n_summer_workshop_followup"
-    },
-    {
-      "id": "e_condition_summer_workshop_fail_n_summer_year_two_notice",
-      "from": "condition_summer_workshop",
-      "port": "fail",
-      "to": "n_summer_year_two_notice"
     },
     {
       "id": "e_n_summer_workshop_followup_present_small_project_n_summer_year_two_notice",
@@ -5134,12 +5243,6 @@
       "to": "next_y2_break_to_term2"
     },
     {
-      "id": "e_n_y2_break_last_evening_meet_friend_next_y2_break_to_term2",
-      "from": "n_y2_break_last_evening",
-      "port": "meet_friend",
-      "to": "next_y2_break_to_term2"
-    },
-    {
       "id": "e_n_y2_break_last_evening_leave_for_morning_next_y2_break_to_term2",
       "from": "n_y2_break_last_evening",
       "port": "leave_for_morning",
@@ -5446,12 +5549,6 @@
       "to": "n_y2_summer_last_week"
     },
     {
-      "id": "e_n_y2_summer_portfolio_notes_sort_files_n_y2_summer_last_week",
-      "from": "n_y2_summer_portfolio_notes",
-      "port": "sort_files",
-      "to": "n_y2_summer_last_week"
-    },
-    {
       "id": "e_n_y2_summer_portfolio_notes_leave_blank_n_y2_summer_last_week",
       "from": "n_y2_summer_portfolio_notes",
       "port": "leave_blank",
@@ -5504,12 +5601,6 @@
       "from": "n_crowded_deadline",
       "port": "sleep_then_plan",
       "to": "n_y3_term1_team_edit"
-    },
-    {
-      "id": "e_n_free_elective_next",
-      "from": "n_free_elective",
-      "port": "next",
-      "to": "next_y3_term1"
     },
     {
       "id": "e_next_y3_term1_next",
@@ -5586,18 +5677,6 @@
       "from": "next_y3_term2",
       "port": "next",
       "to": "n_y3_summer_project_arrival"
-    },
-    {
-      "id": "e_n_internship_result_write_lessons",
-      "from": "n_internship_result",
-      "port": "write_lessons",
-      "to": "n_y3_summer_next_year"
-    },
-    {
-      "id": "e_n_internship_result_take_extra_shift",
-      "from": "n_internship_result",
-      "port": "take_extra_shift",
-      "to": "n_y3_summer_next_year"
     },
     {
       "id": "e_n_y3_term1_field_notes_sort_observations_n_y3_term1_source_check",
@@ -5822,24 +5901,6 @@
       "to": "n_y3_break_future_talk"
     },
     {
-      "id": "e_n_y3_break_future_talk_share_uncertainty_n_y3_break_return_plan",
-      "from": "n_y3_break_future_talk",
-      "port": "share_uncertainty",
-      "to": "n_y3_break_return_plan"
-    },
-    {
-      "id": "e_n_y3_break_future_talk_list_options_n_y3_break_return_plan",
-      "from": "n_y3_break_future_talk",
-      "port": "list_options",
-      "to": "n_y3_break_return_plan"
-    },
-    {
-      "id": "e_n_y3_break_future_talk_change_topic_n_y3_break_return_plan",
-      "from": "n_y3_break_future_talk",
-      "port": "change_topic",
-      "to": "n_y3_break_return_plan"
-    },
-    {
       "id": "e_n_y3_break_return_plan_read_project_brief_next_y3_break",
       "from": "n_y3_break_return_plan",
       "port": "read_project_brief",
@@ -5916,12 +5977,6 @@
       "from": "condition_y3_term2_partner",
       "port": "pass",
       "to": "n_y3_term2_trial_partner"
-    },
-    {
-      "id": "e_condition_y3_term2_partner_fail_n_y3_term2_final_check",
-      "from": "condition_y3_term2_partner",
-      "port": "fail",
-      "to": "n_y3_term2_final_check"
     },
     {
       "id": "e_n_y3_term2_trial_partner_ask_where_stuck_n_y3_term2_final_check",
@@ -6120,12 +6175,6 @@
       "from": "next_y4_term1",
       "port": "next",
       "to": "n_y4_break_first_day"
-    },
-    {
-      "id": "e_next_y4_break_next",
-      "from": "next_y4_break",
-      "port": "next",
-      "to": "n_y4_term2_mentor_meeting"
     },
     {
       "id": "e_n_thesis_defense_present_carefully",
@@ -6524,12 +6573,6 @@
       "to": "condition_y4_term1_outline"
     },
     {
-      "id": "e_condition_y4_term1_outline_pass_n_y4_term1_outline_reply",
-      "from": "condition_y4_term1_outline",
-      "port": "pass",
-      "to": "n_y4_term1_outline_reply"
-    },
-    {
       "id": "e_condition_y4_term1_outline_fail_n_career_fair",
       "from": "condition_y4_term1_outline",
       "port": "fail",
@@ -6740,18 +6783,6 @@
       "to": "n_y4_break_return_plan"
     },
     {
-      "id": "e_n_y4_break_return_plan_mark_milestones_next_y4_break",
-      "from": "n_y4_break_return_plan",
-      "port": "mark_milestones",
-      "to": "next_y4_break"
-    },
-    {
-      "id": "e_n_y4_break_return_plan_close_notifications_next_y4_break",
-      "from": "n_y4_break_return_plan",
-      "port": "close_notifications",
-      "to": "next_y4_break"
-    },
-    {
       "id": "e_n_y4_term2_mentor_meeting_show_schedule_condition_y4_term2_research",
       "from": "n_y4_term2_mentor_meeting",
       "port": "show_schedule",
@@ -6906,18 +6937,6 @@
       "from": "n_y4_term2_revision_list",
       "port": "fix_everything_tonight",
       "to": "n_y4_term2_submit_archive"
-    },
-    {
-      "id": "e_n_y4_term2_submit_archive_check_then_submit_n_farewell_dinner",
-      "from": "n_y4_term2_submit_archive",
-      "port": "check_then_submit",
-      "to": "n_farewell_dinner"
-    },
-    {
-      "id": "e_n_y4_term2_submit_archive_submit_fast_n_farewell_dinner",
-      "from": "n_y4_term2_submit_archive",
-      "port": "submit_fast",
-      "to": "n_farewell_dinner"
     },
     {
       "id": "e_n_y4_summer_clearance_check_check_requirements_condition_y4_summer_review",
@@ -9096,6 +9115,276 @@
       "from": "next_six_y6_summer",
       "port": "next",
       "to": "n_extra_y7_term1_new_cohort"
+    },
+    {
+      "id": "e_condition_summer_workshop_fail",
+      "from": "condition_summer_workshop",
+      "port": "fail",
+      "to": "random"
+    },
+    {
+      "id": "e_random_after",
+      "from": "random",
+      "port": "after",
+      "to": "n_summer_year_two_notice"
+    },
+    {
+      "id": "e_random_fallback",
+      "from": "random",
+      "port": "fallback",
+      "to": "n_summer_year_two_notice"
+    },
+    {
+      "id": "e_next_y1_break_graduate",
+      "from": "next_y1_break",
+      "port": "graduate",
+      "to": "random_2"
+    },
+    {
+      "id": "e_random_2_after",
+      "from": "random_2",
+      "port": "after",
+      "to": "n_return_to_campus"
+    },
+    {
+      "id": "e_random_2_fallback",
+      "from": "random_2",
+      "port": "fallback",
+      "to": "n_term2_first_assignment"
+    },
+    {
+      "id": "e_next_y1_break_next",
+      "from": "next_y1_break",
+      "port": "next",
+      "to": "random_2"
+    },
+    {
+      "id": "e_next_y1_break_extend",
+      "from": "next_y1_break",
+      "port": "extend",
+      "to": "random_2"
+    },
+    {
+      "id": "e_n_y2_break_last_evening_meet_friend",
+      "from": "n_y2_break_last_evening",
+      "port": "meet_friend",
+      "to": "random_3"
+    },
+    {
+      "id": "e_random_3_after",
+      "from": "random_3",
+      "port": "after",
+      "to": "next_y2_break_to_term2"
+    },
+    {
+      "id": "e_random_3_fallback",
+      "from": "random_3",
+      "port": "fallback",
+      "to": "next_y2_break_to_term2"
+    },
+    {
+      "id": "e_n_y2_summer_portfolio_notes_sort_files",
+      "from": "n_y2_summer_portfolio_notes",
+      "port": "sort_files",
+      "to": "random_4"
+    },
+    {
+      "id": "e_random_4_after",
+      "from": "random_4",
+      "port": "after",
+      "to": "n_y2_summer_last_week"
+    },
+    {
+      "id": "e_random_4_fallback",
+      "from": "random_4",
+      "port": "fallback",
+      "to": "n_y2_summer_last_week"
+    },
+    {
+      "id": "e_random_5_after",
+      "from": "random_5",
+      "port": "after",
+      "to": "next_y3_term1"
+    },
+    {
+      "id": "e_random_5_fallback",
+      "from": "random_5",
+      "port": "fallback",
+      "to": "next_y3_term1"
+    },
+    {
+      "id": "e_n_free_elective_next",
+      "from": "n_free_elective",
+      "port": "next",
+      "to": "random_5"
+    },
+    {
+      "id": "e_random_6_after",
+      "from": "random_6",
+      "port": "after",
+      "to": "n_y3_break_return_plan"
+    },
+    {
+      "id": "e_random_6_fallback",
+      "from": "random_6",
+      "port": "fallback",
+      "to": "n_y3_break_return_plan"
+    },
+    {
+      "id": "e_n_y3_break_future_talk_share_uncertainty",
+      "from": "n_y3_break_future_talk",
+      "port": "share_uncertainty",
+      "to": "random_6"
+    },
+    {
+      "id": "e_n_y3_break_future_talk_list_options",
+      "from": "n_y3_break_future_talk",
+      "port": "list_options",
+      "to": "random_6"
+    },
+    {
+      "id": "e_n_y3_break_future_talk_change_topic",
+      "from": "n_y3_break_future_talk",
+      "port": "change_topic",
+      "to": "random_7"
+    },
+    {
+      "id": "e_random_7_after",
+      "from": "random_7",
+      "port": "after",
+      "to": "n_y3_break_return_plan"
+    },
+    {
+      "id": "e_random_7_fallback",
+      "from": "random_7",
+      "port": "fallback",
+      "to": "random_6"
+    },
+    {
+      "id": "e_n_internship_result_write_lessons",
+      "from": "n_internship_result",
+      "port": "write_lessons",
+      "to": "random_8"
+    },
+    {
+      "id": "e_n_internship_result_take_extra_shift",
+      "from": "n_internship_result",
+      "port": "take_extra_shift",
+      "to": "random_8"
+    },
+    {
+      "id": "e_random_8_after",
+      "from": "random_8",
+      "port": "after",
+      "to": "n_y3_summer_next_year"
+    },
+    {
+      "id": "e_random_8_fallback",
+      "from": "random_8",
+      "port": "fallback",
+      "to": "n_y3_summer_next_year"
+    },
+    {
+      "id": "e_condition_y3_term2_partner_fail",
+      "from": "condition_y3_term2_partner",
+      "port": "fail",
+      "to": "random_9"
+    },
+    {
+      "id": "e_random_9_after",
+      "from": "random_9",
+      "port": "after",
+      "to": "n_y3_term2_final_check"
+    },
+    {
+      "id": "e_random_9_fallback",
+      "from": "random_9",
+      "port": "fallback",
+      "to": "n_y3_term2_final_check"
+    },
+    {
+      "id": "e_condition_y4_term1_outline_pass",
+      "from": "condition_y4_term1_outline",
+      "port": "pass",
+      "to": "random_10"
+    },
+    {
+      "id": "e_random_10_after",
+      "from": "random_10",
+      "port": "after",
+      "to": "n_y4_term1_outline_reply"
+    },
+    {
+      "id": "e_random_10_fallback",
+      "from": "random_10",
+      "port": "fallback",
+      "to": "n_y4_term1_outline_reply"
+    },
+    {
+      "id": "e_n_y4_break_return_plan_mark_milestones",
+      "from": "n_y4_break_return_plan",
+      "port": "mark_milestones",
+      "to": "random_11"
+    },
+    {
+      "id": "e_n_y4_break_return_plan_close_notifications",
+      "from": "n_y4_break_return_plan",
+      "port": "close_notifications",
+      "to": "next_y4_break"
+    },
+    {
+      "id": "e_random_11_after",
+      "from": "random_11",
+      "port": "after",
+      "to": "next_y4_break"
+    },
+    {
+      "id": "e_random_11_fallback",
+      "from": "random_11",
+      "port": "fallback",
+      "to": "next_y4_break"
+    },
+    {
+      "id": "e_next_y4_break_next",
+      "from": "next_y4_break",
+      "port": "next",
+      "to": "random_12"
+    },
+    {
+      "id": "e_random_12_after",
+      "from": "random_12",
+      "port": "after",
+      "to": "n_y4_term2_mentor_meeting"
+    },
+    {
+      "id": "e_random_12_fallback",
+      "from": "random_12",
+      "port": "fallback",
+      "to": "n_y4_term2_mentor_meeting"
+    },
+    {
+      "id": "e_n_y4_term2_submit_archive_submit_fast",
+      "from": "n_y4_term2_submit_archive",
+      "port": "submit_fast",
+      "to": "n_farewell_dinner"
+    },
+    {
+      "id": "e_n_y4_term2_submit_archive_check_then_submit",
+      "from": "n_y4_term2_submit_archive",
+      "port": "check_then_submit",
+      "to": "random_13"
+    },
+    {
+      "id": "e_random_13_after",
+      "from": "random_13",
+      "port": "after",
+      "to": "n_farewell_dinner"
+    },
+    {
+      "id": "e_random_13_fallback",
+      "from": "random_13",
+      "port": "fallback",
+      "to": "n_farewell_dinner"
     }
   ]
 }
