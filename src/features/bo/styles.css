@@ -644,11 +644,26 @@
   overflow: visible;
   pointer-events: none;
 }
-.bo-helper-lines line {
+.bo-helper-lines > line {
   stroke: var(--color-primary);
   stroke-width: 1.5;
   stroke-dasharray: 6 4;
   vector-effect: non-scaling-stroke;
+}
+.bo-spacing-guide line {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.bo-spacing-guide text {
+  fill: var(--color-accent);
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 3px;
+}
+.bo-helper-lines marker path {
+  fill: var(--color-accent);
 }
 .bo-subflow-list {
   max-height: 20rem;

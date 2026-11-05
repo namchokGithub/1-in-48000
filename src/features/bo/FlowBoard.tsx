@@ -51,7 +51,13 @@ import type {
 import { validateV2Flow } from '../../content/v2/flowValidator'
 import { BoDropdown } from './Select'
 import { useStableCallback } from './useStableCallback'
-import { findHelperLines, type CardBox, type HelperLines } from './helperLines'
+import {
+  findHelperLines,
+  findSpacingGuides,
+  type CardBox,
+  type HelperLines,
+  type SpacingGap,
+} from './helperLines'
 import { CopyIdButton } from './CopyIdButton'
 import { V2ConditionList } from './V2ConditionList'
 import { conditionSummary } from './storySummary'
@@ -673,7 +679,9 @@ function Board({
     alignedX: boolean
     alignedY: boolean
   } | null>(null)
-  const [helperLines, setHelperLines] = useState<HelperLines | null>(null)
+  const [helperLines, setHelperLines] = useState<
+    (Omit<HelperLines, 'offsetX' | 'offsetY'> & { gaps: SpacingGap[] }) | null
+  >(null)
   const stageRef = useRef<HTMLDivElement>(null)
   // Simulation panel width in px; null keeps the default half of the stage.
   const [simulationWidth, setSimulationWidth] = useState<number | null>(null)
@@ -1276,23 +1284,42 @@ function Board({
       x: card.internals.positionAbsolute.x - card.position.x,
       y: card.internals.positionAbsolute.y - card.position.y,
     }
+    const box = {
+      x: grabbed.position.x + parent.x,
+      y: grabbed.position.y + parent.y,
+      width: card.measured.width ?? 0,
+      height: card.measured.height ?? 0,
+    }
+    const limit = HELPER_SNAP / getZoom()
     const lines = helper.free
       ? undefined
-      : findHelperLines(
-          {
-            x: grabbed.position.x + parent.x,
-            y: grabbed.position.y + parent.y,
-            width: card.measured.width ?? 0,
-            height: card.measured.height ?? 0,
-          },
-          helper.others,
-          HELPER_SNAP / getZoom(),
-        )
-    helper.offsetX = lines?.offsetX ?? 0
-    helper.offsetY = lines?.offsetY ?? 0
-    helper.alignedX = !!lines?.vertical
-    helper.alignedY = !!lines?.horizontal
-    setHelperLines(lines?.vertical || lines?.horizontal ? lines : null)
+      : findHelperLines(box, helper.others, limit)
+    const spacing = helper.free
+      ? {}
+      : findSpacingGuides(box, helper.others, limit)
+    // Per axis, take whichever guide needs the smaller shift.
+    const useSpacingX =
+      !!spacing.x &&
+      (!lines?.vertical || Math.abs(spacing.x.offset) < Math.abs(lines.offsetX))
+    const useSpacingY =
+      !!spacing.y &&
+      (!lines?.horizontal ||
+        Math.abs(spacing.y.offset) < Math.abs(lines.offsetY))
+    const vertical = useSpacingX ? undefined : lines?.vertical
+    const horizontal = useSpacingY ? undefined : lines?.horizontal
+    const gaps = [
+      ...(useSpacingX ? spacing.x!.gaps : []),
+      ...(useSpacingY ? spacing.y!.gaps : []),
+    ]
+    helper.offsetX = useSpacingX ? spacing.x!.offset : (lines?.offsetX ?? 0)
+    helper.offsetY = useSpacingY ? spacing.y!.offset : (lines?.offsetY ?? 0)
+    helper.alignedX = useSpacingX || !!vertical
+    helper.alignedY = useSpacingY || !!horizontal
+    setHelperLines(
+      vertical || horizontal || gaps.length
+        ? { vertical, horizontal, gaps }
+        : null,
+    )
     if (!helper.offsetX && !helper.offsetY) return changes
     return changes.map((item) =>
       item.type === 'position' && item.dragging && item.position
@@ -1890,6 +1917,20 @@ function Board({
                 {helperLines && (
                   <ViewportPortal>
                     <svg className="bo-helper-lines" aria-hidden="true">
+                      <defs>
+                        <marker
+                          id="bo-spacing-arrow"
+                          viewBox="0 0 10 10"
+                          refX="5"
+                          refY="5"
+                          markerWidth="8"
+                          markerHeight="8"
+                          orient="auto-start-reverse"
+                          markerUnits="userSpaceOnUse"
+                        >
+                          <path d="M 0 0 L 10 5 L 0 10 z" />
+                        </marker>
+                      </defs>
                       {helperLines.vertical && (
                         <line
                           x1={helperLines.vertical.position}
@@ -1906,6 +1947,33 @@ function Board({
                           y2={helperLines.horizontal.position}
                         />
                       )}
+                      {helperLines.gaps.map((item, index) => {
+                        const horizontal = item.axis === 'x'
+                        const middle = (item.from + item.to) / 2
+                        const label = Math.round(item.to - item.from)
+                        const scale = 1 / getZoom()
+                        return (
+                          <g key={index} className="bo-spacing-guide">
+                            <line
+                              x1={horizontal ? item.from : item.at}
+                              x2={horizontal ? item.to : item.at}
+                              y1={horizontal ? item.at : item.from}
+                              y2={horizontal ? item.at : item.to}
+                              markerStart="url(#bo-spacing-arrow)"
+                              markerEnd="url(#bo-spacing-arrow)"
+                            />
+                            <text
+                              x={horizontal ? middle : item.at + 8 * scale}
+                              y={horizontal ? item.at - 8 * scale : middle}
+                              fontSize={12 * scale}
+                              textAnchor={horizontal ? 'middle' : 'start'}
+                              dominantBaseline={horizontal ? 'auto' : 'middle'}
+                            >
+                              {label}
+                            </text>
+                          </g>
+                        )
+                      })}
                     </svg>
                   </ViewportPortal>
                 )}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { findHelperLines, type CardBox } from './helperLines'
+import { findHelperLines, findSpacingGuides, type CardBox } from './helperLines'
 
 const card = (x: number, y: number, width = 240, height = 120): CardBox => ({
   x,
@@ -53,5 +53,49 @@ describe('Story Flow helper lines', () => {
       8,
     )
     expect(tie.vertical).toEqual({ position: 100, from: 200, to: 620 })
+  })
+})
+
+describe('Story Flow spacing guides', () => {
+  const row = [card(0, 0), card(336, 0)] // 96 between them
+
+  it('repeats the last space in a row after the last card', () => {
+    const guide = findSpacingGuides(card(678, 10), row, 8).x
+    expect(guide?.offset).toBe(-6)
+    expect(guide?.gaps).toEqual([
+      { axis: 'x', from: 240, to: 336, at: 60 },
+      { axis: 'x', from: 576, to: 672, at: 65 },
+    ])
+  })
+
+  it('repeats the first space before the first card', () => {
+    const guide = findSpacingGuides(card(-332, 0), row, 8).x
+    expect(guide?.offset).toBe(-4)
+    expect(guide?.gaps.map((item) => item.to - item.from)).toEqual([96, 96])
+  })
+
+  it('centres a card between two cards', () => {
+    const wide = [card(0, 0), card(720, 0)]
+    const guide = findSpacingGuides(card(355, 0), wide, 8).x
+    expect(guide?.offset).toBe(5)
+    expect(guide?.gaps.map((item) => [item.from, item.to])).toEqual([
+      [240, 360],
+      [600, 720],
+    ])
+  })
+
+  it('stacks cards in a column with equal space', () => {
+    const column = [card(0, 0), card(0, 200)] // 80 between them
+    const guide = findSpacingGuides(card(20, 405), column, 8).y
+    expect(guide?.offset).toBe(-5)
+    expect(guide?.gaps.map((item) => item.to - item.from)).toEqual([80, 80])
+  })
+
+  it('ignores cards in other rows and spots beyond the threshold', () => {
+    expect(findSpacingGuides(card(678, 400), row, 8)).toEqual({
+      x: undefined,
+      y: undefined,
+    })
+    expect(findSpacingGuides(card(700, 0), row, 8).x).toBeUndefined()
   })
 })

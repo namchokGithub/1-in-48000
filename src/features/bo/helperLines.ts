@@ -91,3 +91,118 @@ export function findHelperLines(
     horizontal: y ? line(box, y, 'y') : undefined,
   }
 }
+
+/** One space between two cards, drawn as a double arrow with its size. */
+export type SpacingGap = {
+  axis: Axis
+  /** Start and end of the space along `axis`. */
+  from: number
+  to: number
+  /** Where to draw it across the axis: the middle of the two cards' overlap. */
+  at: number
+}
+
+export type SpacingGuide = { offset: number; gaps: SpacingGap[] }
+
+const size = (box: CardBox, axis: Axis) =>
+  axis === 'x' ? box.width : box.height
+const end = (box: CardBox, axis: Axis) => box[axis] + size(box, axis)
+const other = (axis: Axis): Axis => (axis === 'x' ? 'y' : 'x')
+
+/** True when two cards share a row (for `x`) or a column (for `y`). */
+function sideBySide(a: CardBox, b: CardBox, axis: Axis) {
+  const cross = other(axis)
+  return a[cross] < end(b, cross) && b[cross] < end(a, cross)
+}
+
+function gap(a: CardBox, b: CardBox, axis: Axis): SpacingGap {
+  const cross = other(axis)
+  const top = Math.max(a[cross], b[cross])
+  const bottom = Math.min(end(a, cross), end(b, cross))
+  return { axis, from: end(a, axis), to: b[axis], at: (top + bottom) / 2 }
+}
+
+/** The nearest card in the same row or column before (-1) or after (1) `box`. */
+function neighbour(box: CardBox, cards: CardBox[], axis: Axis, side: -1 | 1) {
+  let best: CardBox | undefined
+  for (const card of cards) {
+    if (card === box || !sideBySide(box, card, axis)) continue
+    if (side < 0 ? end(card, axis) > box[axis] : card[axis] < end(box, axis))
+      continue
+    if (
+      !best ||
+      (side < 0 ? end(card, axis) > end(best, axis) : card[axis] < best[axis])
+    )
+      best = card
+  }
+  return best
+}
+
+function spacingOn(
+  box: CardBox,
+  others: CardBox[],
+  axis: Axis,
+  limit: number,
+): SpacingGuide | undefined {
+  const middle = box[axis] + size(box, axis) / 2
+  const row = others.filter((card) => sideBySide(box, card, axis))
+  // Nearest neighbours by centre, so a card overlapping the box still counts.
+  const before = row
+    .filter((card) => card[axis] + size(card, axis) / 2 < middle)
+    .sort((a, b) => end(b, axis) - end(a, axis))[0]
+  const after = row
+    .filter((card) => card[axis] + size(card, axis) / 2 >= middle)
+    .sort((a, b) => a[axis] - b[axis])[0]
+  const options: { start: number; gaps: (moved: CardBox) => SpacingGap[] }[] =
+    []
+  if (before) {
+    const outer = neighbour(before, others, axis, -1)
+    if (outer && before[axis] > end(outer, axis)) {
+      const space = before[axis] - end(outer, axis)
+      options.push({
+        start: end(before, axis) + space,
+        gaps: (moved) => [gap(outer, before, axis), gap(before, moved, axis)],
+      })
+    }
+  }
+  if (after) {
+    const outer = neighbour(after, others, axis, 1)
+    if (outer && outer[axis] > end(after, axis)) {
+      const space = outer[axis] - end(after, axis)
+      options.push({
+        start: after[axis] - space - size(box, axis),
+        gaps: (moved) => [gap(moved, after, axis), gap(after, outer, axis)],
+      })
+    }
+  }
+  if (before && after && after[axis] - end(before, axis) > size(box, axis))
+    options.push({
+      start: (end(before, axis) + after[axis] - size(box, axis)) / 2,
+      gaps: (moved) => [gap(before, moved, axis), gap(moved, after, axis)],
+    })
+  let best: SpacingGuide | undefined
+  for (const option of options) {
+    const offset = option.start - box[axis]
+    if (Math.abs(offset) > limit) continue
+    if (best && Math.abs(best.offset) <= Math.abs(offset)) continue
+    best = { offset, gaps: option.gaps({ ...box, [axis]: option.start }) }
+  }
+  return best
+}
+
+/**
+ * Finds a spot where the dragged card leaves the same space as its neighbours,
+ * at most `threshold` away: after the last space in its row or column, before
+ * the first, or centred between two cards. `x` spaces cards side by side, `y`
+ * stacks them.
+ */
+export function findSpacingGuides(
+  box: CardBox,
+  others: CardBox[],
+  threshold: number,
+): { x?: SpacingGuide; y?: SpacingGuide } {
+  return {
+    x: spacingOn(box, others, 'x', threshold),
+    y: spacingOn(box, others, 'y', threshold),
+  }
+}

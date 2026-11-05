@@ -508,7 +508,7 @@
     {
       "id": "n_sophomore_welcome",
       "position": {
-        "x": -1104,
+        "x": -1116,
         "y": -168
       },
       "type": "event",
@@ -526,8 +526,8 @@
     {
       "id": "n_y2_term1_timetable_shuffle",
       "position": {
-        "x": -432,
-        "y": -171
+        "x": -420,
+        "y": -168
       },
       "type": "event",
       "eventId": "y2_term1_timetable_shuffle"
@@ -535,8 +535,8 @@
     {
       "id": "condition_y2_term1_club",
       "position": {
-        "x": -96,
-        "y": -96
+        "x": -90,
+        "y": -100
       },
       "type": "condition",
       "join": "and",
@@ -560,8 +560,8 @@
     {
       "id": "n_y2_term1_group_roles",
       "position": {
-        "x": 240,
-        "y": 48
+        "x": 243,
+        "y": 41
       },
       "type": "event",
       "eventId": "y2_term1_group_roles"
@@ -570,7 +570,7 @@
       "id": "condition_y2_term1_team",
       "position": {
         "x": 576,
-        "y": -96
+        "y": -91
       },
       "type": "condition",
       "join": "and",
@@ -585,8 +585,8 @@
     {
       "id": "n_y2_term1_team_update",
       "position": {
-        "x": 888,
-        "y": -432
+        "x": 864,
+        "y": -423
       },
       "type": "event",
       "eventId": "y2_term1_team_update"
@@ -594,8 +594,8 @@
     {
       "id": "n_y2_term1_budget_gap",
       "position": {
-        "x": 1224,
-        "y": -240
+        "x": 1212,
+        "y": -171
       },
       "type": "event",
       "eventId": "y2_term1_budget_gap"
@@ -619,8 +619,8 @@
     {
       "id": "n_y2_term1_mali_practice",
       "position": {
-        "x": 1896,
-        "y": -240
+        "x": 1944,
+        "y": -168
       },
       "type": "event",
       "eventId": "y2_term1_mali_practice"
@@ -628,8 +628,8 @@
     {
       "id": "n_y2_term1_midterm_week",
       "position": {
-        "x": 1752,
-        "y": 168
+        "x": 1584,
+        "y": 188
       },
       "type": "event",
       "eventId": "y2_term1_midterm_week"
@@ -637,8 +637,8 @@
     {
       "id": "n_course_choice",
       "position": {
-        "x": 2112,
-        "y": 168
+        "x": 1944,
+        "y": 304
       },
       "type": "event",
       "eventId": "course_choice"
@@ -757,8 +757,8 @@
     {
       "id": "n_y2_term2_return_routine",
       "position": {
-        "x": -960,
-        "y": 2328
+        "x": -1296,
+        "y": 1709
       },
       "type": "event",
       "eventId": "y2_term2_return_routine"
@@ -766,8 +766,8 @@
     {
       "id": "n_group_research",
       "position": {
-        "x": -600,
-        "y": 2448
+        "x": -936,
+        "y": 1709
       },
       "type": "event",
       "eventId": "group_research"
@@ -775,8 +775,8 @@
     {
       "id": "n_club_project",
       "position": {
-        "x": -576,
-        "y": 1920
+        "x": -552,
+        "y": 1709
       },
       "type": "event",
       "eventId": "club_project"
