@@ -202,6 +202,7 @@ function PlayerShell({
           loanRatePercent={content.config.loan.annualRatePercent}
           recaps={getV2LastRecaps(content, save)}
           showStatChanges={showStatChanges}
+          statModifiers={content.config.statModifiers}
           fadeScene={fadeScene}
           notice={
             toast && (

@@ -9,6 +9,7 @@ import {
   getV2CurrentEvent,
   getV2EffectiveChancePercent,
   getV2Grade,
+  getV2ModifiedAmount,
 } from '../engine/v2/game'
 import type { V2PlayerSave } from '../save/v2/schema'
 
@@ -77,19 +78,22 @@ export function scoreEffects(
   effects: Effect[],
   policy: Policy,
   lucky: number,
+  amountOf: (stat: Stat, amount: number) => number = (_, amount) => amount,
 ): number {
   if (policy === 'random') return 0
   const weights = WEIGHTS[policy]
   let score = 0
   for (const effect of effects) {
     if (effect.type === 'statDelta')
-      score += (weights[effect.stat] ?? 0) * effect.amount
+      score +=
+        (weights[effect.stat] ?? 0) * amountOf(effect.stat, effect.amount)
     else if (effect.type === 'chance') {
       const chance =
         getV2EffectiveChancePercent(effect.successPercent, lucky) / 100
       score +=
-        chance * scoreEffects(effect.successEffects, policy, lucky) +
-        (1 - chance) * scoreEffects(effect.failureEffects, policy, lucky)
+        chance * scoreEffects(effect.successEffects, policy, lucky, amountOf) +
+        (1 - chance) *
+          scoreEffects(effect.failureEffects, policy, lucky, amountOf)
     }
     // Delayed effects and flags are hidden from the player before choosing.
   }
@@ -157,7 +161,18 @@ export function simulateRun(
     const score = (effects: Effect[]) =>
       hidden(event)
         ? 0
-        : scoreEffects(effects, options.policy, save.stats.lucky)
+        : scoreEffects(
+            effects,
+            options.policy,
+            save.stats.lucky,
+            (stat, amount) =>
+              getV2ModifiedAmount(
+                content.config.statModifiers,
+                save.stats,
+                stat,
+                amount,
+              ),
+          )
     try {
       if (event.selection?.type === 'program') {
         const majors = content.majors.filter((major) =>

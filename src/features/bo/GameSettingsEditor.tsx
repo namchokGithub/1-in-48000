@@ -1,6 +1,7 @@
 import type { V2Content } from '../../content/v2/schema'
 import { periodLabels } from './periodLabels'
 import { NumberInput } from './NumberInput'
+import { StatRulesEditor } from './StatRulesEditor'
 
 type Config = V2Content['config']
 type Period = keyof Config['loan']['periodDays']
@@ -9,9 +10,11 @@ const periods: Period[] = ['term1', 'break', 'term2', 'summer']
 
 export function GameSettingsEditor({
   config,
+  endings,
   onChange,
 }: {
   config: Config
+  endings: V2Content['endings']
   onChange: (next: Config) => void
 }) {
   const { loan } = config
@@ -85,6 +88,7 @@ export function GameSettingsEditor({
           </div>
         </fieldset>
       </div>
+      <StatRulesEditor config={config} endings={endings} onChange={onChange} />
     </section>
   )
 }

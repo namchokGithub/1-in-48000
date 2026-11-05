@@ -25,6 +25,11 @@
     "path": "/assets/scene/campus-orientation-v5.png"
   },
   {
+    "id": "engineering_building",
+    "kind": "scene",
+    "path": "/assets/scene/engineering-building.png"
+  },
+  {
     "id": "classroom",
     "kind": "scene",
     "path": "/assets/scene/classroom.png"

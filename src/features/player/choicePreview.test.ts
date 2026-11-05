@@ -91,4 +91,26 @@ describe('Player choice information', () => {
     expect(showsStatChanges({}, false)).toBe(false)
     expect(showsStatChanges({ hideStatChanges: true }, false)).toBe(false)
   })
+
+  it('shows amounts after the content stat modifiers', () => {
+    const modifiers = [
+      {
+        when: {
+          type: 'stat' as const,
+          stat: 'health' as const,
+          operator: 'lt' as const,
+          value: 90,
+        },
+        target: 'study' as const,
+        percent: -20,
+        applies: 'gains' as const,
+      },
+    ]
+    const lines = describeChoiceEffects(
+      choice([{ type: 'statDelta', stat: 'study', amount: 10 }]),
+      stats,
+      modifiers,
+    )
+    expect(lines).toEqual([{ stat: 'study', text: 'การเรียน +8' }])
+  })
 })

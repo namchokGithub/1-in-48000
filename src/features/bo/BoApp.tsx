@@ -1080,6 +1080,7 @@ export function BoApp() {
         ) : section === 'settings' ? (
           <GameSettingsEditor
             config={draft.config}
+            endings={draft.endings}
             onChange={(config) => {
               setDraft({ ...currentDraft, config })
               setServerIssues([])

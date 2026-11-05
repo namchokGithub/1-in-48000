@@ -282,14 +282,62 @@ function addStatChanges(
   return into
 }
 
-function applyStateEffect(save: V2PlayerSave, effect: V2StateEffect): void {
+type V2StatModifier = V2Content['config']['statModifiers'][number]
+
+/**
+ * A stat change after the content's stat modifiers: each rule whose condition
+ * holds on `stats` adds its percent, the total stops at −100%, and the result
+ * rounds to a whole number. Rules only touch gains, losses, or both, as set.
+ */
+export function getV2ModifiedAmount(
+  modifiers: readonly V2StatModifier[] | undefined,
+  stats: V2Stats,
+  stat: keyof V2Stats,
+  amount: number,
+): number {
+  if (!amount || !modifiers?.length) return amount
+  let percent = 0
+  for (const rule of modifiers) {
+    if (rule.target !== stat) continue
+    if (rule.applies === 'gains' && amount < 0) continue
+    if (rule.applies === 'losses' && amount > 0) continue
+    if (compare(stats[rule.when.stat], rule.when.operator, rule.when.value))
+      percent += rule.percent
+  }
+  if (!percent) return amount
+  return Math.round(amount * (1 + Math.max(-100, percent) / 100))
+}
+
+/** The ending of the first stat ending rule that holds, if any. */
+function statEnding(content: V2GameContent, save: V2PlayerSave) {
+  return content.config.statEndings?.find((rule) =>
+    compare(save.stats[rule.when.stat], rule.when.operator, rule.when.value),
+  )?.endingId
+}
+
+/**
+ * Applies a stat or flag change. Stat modifiers are judged on `basis`: the
+ * stats before the choice, so the result matches what the player was shown.
+ */
+function applyStateEffect(
+  content: V2GameContent,
+  save: V2PlayerSave,
+  effect: V2StateEffect,
+  basis: V2Stats = save.stats,
+): void {
   if (effect.type === 'setFlag') {
     save.flags[effect.flagId] = effect.value
   } else {
-    if (effect.stat === 'money') trackMoney(save, effect.amount)
+    const amount = getV2ModifiedAmount(
+      content.config.statModifiers,
+      basis,
+      effect.stat,
+      effect.amount,
+    )
+    if (effect.stat === 'money') trackMoney(save, amount)
     save.stats[effect.stat] = bounded(
       effect.stat,
-      save.stats[effect.stat] + effect.amount,
+      save.stats[effect.stat] + amount,
     )
   }
 }
@@ -300,12 +348,13 @@ function trackMoney(save: V2PlayerSave, amount: number): void {
 }
 
 function applyPending(
+  content: V2GameContent,
   save: V2PlayerSave,
   predicate: (pending: V2PlayerSave['pendingEffects'][number]) => boolean,
 ): void {
   const remaining: V2PlayerSave['pendingEffects'] = []
   for (const pending of save.pendingEffects) {
-    if (predicate(pending)) applyStateEffect(save, pending.effect)
+    if (predicate(pending)) applyStateEffect(content, save, pending.effect)
     else remaining.push(pending)
   }
   save.pendingEffects = remaining
@@ -411,6 +460,7 @@ function advancePeriod(content: V2GameContent, save: V2PlayerSave): void {
   }
   save.currentTime = next
   applyPending(
+    content,
     save,
     (pending) =>
       pending.trigger.type === 'atPeriod' &&
@@ -532,6 +582,14 @@ function enterNode(
           trace?.push({ type: 'ending', nodeId: null, endingId: 'dismissal' })
           return
         }
+        // Loan interest and delayed effects at the new period can end the run.
+        const ended =
+          review === 'graduate' ? undefined : statEnding(content, save)
+        if (ended) {
+          endRun(save, ended)
+          trace?.push({ type: 'ending', nodeId: null, endingId: ended })
+          return
+        }
         nodeId = follow(content, save, node.id, review ?? 'next', trace)
         break
       }
@@ -613,19 +671,26 @@ function resolveChoices(
         for (const result of succeeded
           ? effect.successEffects
           : effect.failureEffects) {
-          applyStateEffect(save, result)
+          applyStateEffect(content, save, result, previous.stats)
         }
       } else {
-        applyStateEffect(save, effect)
+        applyStateEffect(content, save, effect, previous.stats)
       }
     })
   entry.statChanges = addStatChanges({}, previous.stats, save.stats)
   applyPending(
+    content,
     save,
     (pending) =>
       pending.trigger.type === 'afterEvent' &&
       pending.trigger.eventId === event.id,
   )
+  const ended = statEnding(content, save)
+  if (ended) {
+    endRun(save, ended)
+    trace?.push({ type: 'ending', nodeId: null, endingId: ended })
+    return save
+  }
   const node = content.flow.nodes.find(
     (item) => item.id === previous.currentNodeId,
   )
@@ -736,7 +801,8 @@ export function chooseV2Elective(
     flags: { ...previous.flags },
     yearProgress: { ...previous.yearProgress },
   }
-  for (const effect of elective.effects) applyStateEffect(prepared, effect)
+  for (const effect of elective.effects)
+    applyStateEffect(content, prepared, effect, previous.stats)
   const next = resolveChoices(content, prepared, [choice], trace)
   const entry = next.history.at(-1)!
   entry.electiveId = electiveId

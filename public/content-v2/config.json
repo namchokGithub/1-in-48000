@@ -179,8 +179,17 @@
   "timeModel": {
     "standardYears": 4,
     "maximumYears": 8,
-    "reviewYears": [4, 6, 8],
-    "periods": ["term1", "break", "term2", "summer"]
+    "reviewYears": [
+      4,
+      6,
+      8
+    ],
+    "periods": [
+      "term1",
+      "break",
+      "term2",
+      "summer"
+    ]
   },
   "loan": {
     "annualRatePercent": 22,
@@ -190,5 +199,29 @@
       "term2": 120,
       "summer": 95
     }
-  }
+  },
+  "statModifiers": [
+    {
+      "when": {
+        "type": "stat",
+        "stat": "health",
+        "operator": "lt",
+        "value": 60
+      },
+      "target": "study",
+      "percent": -20,
+      "applies": "gains"
+    }
+  ],
+  "statEndings": [
+    {
+      "when": {
+        "type": "stat",
+        "stat": "health",
+        "operator": "lt",
+        "value": 10
+      },
+      "endingId": "burnout"
+    }
+  ]
 }

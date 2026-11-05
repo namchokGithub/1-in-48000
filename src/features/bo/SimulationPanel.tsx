@@ -135,6 +135,7 @@ export const SimulationPanel = memo(function SimulationPanel({
             names={content.names}
             loanRatePercent={content.config.loan.annualRatePercent}
             recaps={getV2LastRecaps(content, save)}
+            statModifiers={content.config.statModifiers}
             error={simulation.error}
             onChoose={(choiceId) => decide({ type: 'choice', choiceId })}
             onChooseMany={(choiceIds) => decide({ type: 'choices', choiceIds })}

@@ -1838,3 +1838,8 @@ dialog {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
 }
+.bo-stat-rule-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}

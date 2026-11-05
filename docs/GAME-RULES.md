@@ -43,6 +43,13 @@ Every event has at least one line and one choice. A choice may have no effects w
 
 Money can go below 0, from any money decrease; the negative balance is the automatic loan, and debt does not change. Each Next Period charges simple interest on that balance for the period that just ended: `round(|money| × annualRatePercent × periodDays[period] ÷ 36500)` is taken from money. `config.loan` holds the yearly rate (15%) and the days per period (term 1: 120, break: 30, term 2: 120, summer: 95). Debt that authors add, such as a student loan, has no interest. At every ending, including dismissal, the life summary settles the debt: money becomes money − debt and debt becomes 0, and the Ending screen shows the settlement.
 
+## Stat rules
+
+`config.statModifiers` and `config.statEndings` are set in the BO "ตั้งค่าเกม" tab. Both are empty by default.
+
+- A stat modifier scales changes to one stat while a stat condition holds: for example, while `health < 60`, gains to `study` are −20%, so +10 becomes +8. `applies` limits it to gains, losses, or both. Percents of every rule that holds add up, the total stops at −100%, and the result rounds to a whole number before the usual stat bounds apply. The condition is judged on the stats before the choice, so the amounts shown under a choice match what it gives; chance outcomes, delayed effects (judged when they apply), and elective effects use the same rules.
+- A stat ending ends the run on its ending as soon as its condition holds, checked after each resolved choice and after each Next Period, before the study review. When several hold, the first in the list wins. Its ending must exist in `endings.json`.
+
 ## Effects
 
 Choices contain an ordered list of effects:

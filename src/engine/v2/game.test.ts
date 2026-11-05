@@ -25,6 +25,7 @@ import {
   getV2CurrentEvent,
   summarizeV2Life,
   getV2Grade,
+  getV2ModifiedAmount,
   type V2FlowStep,
   type V2GameContent,
 } from './game'
@@ -300,6 +301,172 @@ describe('V4 flow engine', () => {
       finalMoney: -700,
     })
     expect(summary.stats).toMatchObject({ money: -700, debt: 0 })
+  })
+
+  it('scales stat changes by the stat modifiers that hold', () => {
+    const stats = { ...sample.config.initialStats, health: 50, stress: 80 }
+    const lowHealth = {
+      when: {
+        type: 'stat' as const,
+        stat: 'health' as const,
+        operator: 'lt' as const,
+        value: 60,
+      },
+      target: 'study' as const,
+      percent: -20,
+      applies: 'gains' as const,
+    }
+    expect(getV2ModifiedAmount([lowHealth], stats, 'study', 10)).toBe(8)
+    expect(getV2ModifiedAmount([lowHealth], stats, 'study', 3)).toBe(2)
+    // Gains-only rules leave losses and other stats alone.
+    expect(getV2ModifiedAmount([lowHealth], stats, 'study', -10)).toBe(-10)
+    expect(getV2ModifiedAmount([lowHealth], stats, 'money', 10)).toBe(10)
+    // The condition must hold.
+    expect(
+      getV2ModifiedAmount([lowHealth], { ...stats, health: 60 }, 'study', 10),
+    ).toBe(10)
+    // Percents add up and stop at −100%.
+    const stressed = {
+      ...lowHealth,
+      when: {
+        ...lowHealth.when,
+        stat: 'stress' as const,
+        operator: 'gte' as const,
+        value: 70,
+      },
+      percent: -90,
+      applies: 'both' as const,
+    }
+    expect(getV2ModifiedAmount([lowHealth, stressed], stats, 'study', 10)).toBe(
+      0,
+    )
+    expect(getV2ModifiedAmount([stressed], stats, 'study', -10)).toBe(-1)
+    expect(
+      getV2ModifiedAmount([{ ...lowHealth, percent: 50 }], stats, 'study', 10),
+    ).toBe(15)
+  })
+
+  it('applies stat modifiers judged on the stats before the choice', () => {
+    const content = single([
+      event('opening', [
+        { type: 'statDelta', stat: 'health', amount: -30 },
+        { type: 'statDelta', stat: 'study', amount: 10 },
+      ]),
+      event('next', [{ type: 'statDelta', stat: 'study', amount: 10 }]),
+    ])
+    content.config.initialStats = {
+      ...content.config.initialStats,
+      health: 80,
+      study: 30,
+    }
+    content.config.statModifiers = [
+      {
+        when: { type: 'stat', stat: 'health', operator: 'lt', value: 60 },
+        target: 'study',
+        percent: -20,
+        applies: 'gains',
+      },
+    ]
+    let save = createV2Game(content, 3)
+    save = chooseV2(content, save, 'continue_story')
+    // Health was 80 before the choice, so the first +10 is not reduced.
+    expect(save.stats).toMatchObject({ health: 50, study: 40 })
+    save = chooseV2(content, save, 'continue_story')
+    expect(save.stats.study).toBe(48)
+    expect(save.history[1].statChanges).toEqual({ study: 8 })
+  })
+
+  it('ends the run when a stat ending rule holds after a choice', () => {
+    const content = single([
+      event('opening', [{ type: 'statDelta', stat: 'health', amount: -100 }]),
+      event('never'),
+    ])
+    content.endings = [
+      ...content.endings,
+      { id: 'burnout', title: 'ร่างกายไม่ไหว', summary: 'พักก่อน' },
+    ]
+    content.config.statEndings = [
+      {
+        when: { type: 'stat', stat: 'stress', operator: 'gte', value: 100 },
+        endingId: 'dismissal',
+      },
+      {
+        when: { type: 'stat', stat: 'health', operator: 'lt', value: 1 },
+        endingId: 'burnout',
+      },
+    ]
+    const trace: V2FlowStep[] = []
+    const ended = chooseV2(
+      content,
+      createV2Game(content, 3),
+      'continue_story',
+      trace,
+    )
+    expect(ended.endingId).toBe('burnout')
+    expect(ended.currentEventId).toBeNull()
+    expect(trace).toEqual([
+      { type: 'ending', nodeId: null, endingId: 'burnout' },
+    ])
+    expect(summarizeV2Life(content, ended).title).toBe('ร่างกายไม่ไหว')
+  })
+
+  it('ends the run when a delayed change at the next period meets a rule', () => {
+    const content = game(
+      [
+        event('opening', [
+          {
+            type: 'schedule',
+            trigger: { type: 'atPeriod', time: { year: 1, period: 'break' } },
+            effect: { type: 'statDelta', stat: 'health', amount: -200 },
+          },
+        ]),
+        event('after_break'),
+      ],
+      [
+        eventNode('opening'),
+        { id: 'next_term', type: 'nextPeriod', position: at },
+        eventNode('after_break'),
+        ending('study_complete'),
+      ],
+      [
+        edge('opening', 'continue_story', 'next_term'),
+        edge('next_term', 'next', 'after_break'),
+        edge('after_break', 'continue_story', 'end_study_complete'),
+      ],
+    )
+    content.config.statEndings = [
+      {
+        when: { type: 'stat', stat: 'health', operator: 'lt', value: 1 },
+        endingId: 'dismissal',
+      },
+    ]
+    const ended = chooseV2(content, createV2Game(content, 3), 'continue_story')
+    expect(ended.currentTime).toEqual({ year: 1, period: 'break' })
+    expect(ended.endingId).toBe('dismissal')
+  })
+
+  it('rejects a stat ending that names an unknown ending', () => {
+    const result = v2ContentSchema.safeParse({
+      ...sample,
+      names,
+      flow: sampleFlow,
+      config: {
+        ...sample.config,
+        statEndings: [
+          {
+            when: { type: 'stat', stat: 'health', operator: 'lt', value: 1 },
+            endingId: 'missing',
+          },
+        ],
+      },
+    })
+    expect(result.success).toBe(false)
+    expect(result.error?.issues[0].path).toEqual([
+      'config',
+      'statEndings',
+      0,
+      'endingId',
+    ])
   })
 
   it('grades the final study stat by band with seeded hundredths', () => {

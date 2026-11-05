@@ -115,6 +115,30 @@ export const v2EffectSchema = z.union([
   chanceSchema,
 ])
 
+const v2StatRuleConditionSchema = z.strictObject({
+  type: z.literal('stat'),
+  stat: v2StatKeySchema,
+  operator: z.enum(['eq', 'gt', 'gte', 'lt', 'lte']),
+  value: z.int(),
+})
+
+/**
+ * While `when` holds, stat changes to `target` grow or shrink by `percent`
+ * (−20 turns +10 into +8). `applies` picks gains, losses, or both.
+ */
+export const v2StatModifierSchema = z.strictObject({
+  when: v2StatRuleConditionSchema,
+  target: v2StatKeySchema,
+  percent: z.int().min(-100).max(500),
+  applies: z.enum(['gains', 'losses', 'both']).default('gains'),
+})
+
+/** Ends the run at once on `endingId` when `when` holds. */
+export const v2StatEndingSchema = z.strictObject({
+  when: v2StatRuleConditionSchema,
+  endingId: v2IdSchema,
+})
+
 export const v2GameConfigSchema = z.object({
   contentVersion: textSchema,
   title: textSchema,
@@ -152,6 +176,8 @@ export const v2GameConfigSchema = z.object({
       summer: z.int().min(0),
     }),
   }),
+  statModifiers: z.array(v2StatModifierSchema).default([]),
+  statEndings: z.array(v2StatEndingSchema).default([]),
 })
 
 export const v2OutfitSchema = z.enum(['casual', 'student'])
@@ -534,6 +560,14 @@ export const v2ContentSchema = z
     uniqueIds(content.faculties, ['faculties'])
     uniqueIds(content.majors, ['majors'])
     uniqueIds(content.electives, ['electives'])
+    const knownEndings = new Set(content.endings.map((ending) => ending.id))
+    content.config.statEndings.forEach((rule, index) => {
+      if (!knownEndings.has(rule.endingId))
+        report(
+          ['config', 'statEndings', index, 'endingId'],
+          `Unknown ending: ${rule.endingId}`,
+        )
+    })
 
     const eventIds = new Set(content.events.map((event) => event.id))
     const inactiveEventIds = new Set(

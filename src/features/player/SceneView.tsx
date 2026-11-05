@@ -32,6 +32,8 @@ type Props = {
   recaps: string[]
   /** The player's own choice to see stat changes under choices. */
   showStatChanges?: boolean
+  /** Content stat modifiers, so shown amounts match what a choice gives. */
+  statModifiers?: V2Content['config']['statModifiers']
   fadeScene?: boolean
   // Shown in the top-right corner of the scene, such as the stat toast.
   notice?: ReactNode
@@ -56,6 +58,7 @@ export function SceneView({
   loanRatePercent,
   recaps,
   showStatChanges: playerShowsStats = true,
+  statModifiers,
   fadeScene = false,
   notice,
   error,
@@ -439,7 +442,11 @@ export function SceneView({
                       <EffectList
                         lines={
                           statsShown
-                            ? describeChoiceEffects(choice, save.stats)
+                            ? describeChoiceEffects(
+                                choice,
+                                save.stats,
+                                statModifiers,
+                              )
                             : []
                         }
                       />
@@ -468,7 +475,11 @@ export function SceneView({
                         <EffectList
                           lines={
                             statsShown
-                              ? describeChoiceEffects(choice, save.stats)
+                              ? describeChoiceEffects(
+                                  choice,
+                                  save.stats,
+                                  statModifiers,
+                                )
                               : []
                           }
                         />
