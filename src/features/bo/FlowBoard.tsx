@@ -660,14 +660,8 @@ function Board({
   const stageRef = useRef<HTMLDivElement>(null)
   // Simulation panel width in px; null keeps the default half of the stage.
   const [simulationWidth, setSimulationWidth] = useState<number | null>(null)
-  const {
-    screenToFlowPosition,
-    fitView,
-    getIntersectingNodes,
-    setCenter,
-    getInternalNode,
-    getZoom,
-  } = useReactFlow<BoardNode, FlowLine>()
+  const { screenToFlowPosition, fitView, setCenter, getInternalNode, getZoom } =
+    useReactFlow<BoardNode, FlowLine>()
   // The board opens on the start of the story at a readable zoom: the Start
   // card and the cards up to four steps after it.
   const [openingNodes] = useState(() => {
@@ -1209,13 +1203,13 @@ function Board({
   })
 
   // Cards follow the pointer freely while dragged and settle on the grid when
-  // released. Arrow-key moves step one grid cell in their direction.
+  // released. A pointer drag is saved once in onNodeDragStop, for every dragged
+  // card together; arrow-key moves step one grid cell and are saved here.
   function onNodesChange(changes: NodeChange<BoardNode>[]) {
     const pointerDrag = pointerDragRef.current
     const settled = changes.map((item) => {
       if (item.type !== 'position' || item.dragging !== false || !item.position)
         return item
-      pointerDragRef.current = false
       const from = nodes.find((node) => node.id === item.id)?.position
       return {
         ...item,
@@ -1226,12 +1220,35 @@ function Board({
       }
     })
     setNodes((current) => applyNodeChanges(settled, current))
+    if (pointerDrag) return
     const moved: Record<string, V2FlowNode['position']> = {}
     for (const item of settled) {
       if (item.type === 'position' && item.dragging === false && item.position)
         moved[item.id] = item.position
     }
     if (Object.keys(moved).length) change(moveFlowNodes(flow, moved))
+  }
+
+  /** The innermost Sub Flow whose frame holds the card's centre. */
+  function subFlowAt(id: string): string | undefined {
+    const card = getInternalNode(id)
+    if (!card) return undefined
+    const x = card.internals.positionAbsolute.x + (card.measured.width ?? 0) / 2
+    const y =
+      card.internals.positionAbsolute.y + (card.measured.height ?? 0) / 2
+    let best: { id: string; area: number } | undefined
+    for (const node of flow.nodes) {
+      if (node.type !== 'group' || node.id === id) continue
+      const frame = getInternalNode(node.id)
+      if (!frame) continue
+      const { x: left, y: top } = frame.internals.positionAbsolute
+      const width = frame.measured.width ?? node.width
+      const height = frame.measured.height ?? node.height
+      if (x < left || x > left + width || y < top || y > top + height) continue
+      const area = width * height
+      if (!best || area < best.area) best = { id: node.id, area }
+    }
+    return best?.id
   }
 
   function onConnect(connection: Connection) {
@@ -1336,24 +1353,33 @@ function Board({
   const boardOnNodeDragStart = useFlowHandler<'onNodeDragStart'>(() => {
     pointerDragRef.current = true
   })
-  const boardOnNodeDragStop = useFlowHandler<'onNodeDragStop'>((_, dragged) => {
-    pointerDragRef.current = false
-    const node = flow.nodes.find((item) => item.id === dragged.id)
-    if (!node || node.type === 'group') return
-    const group = getIntersectingNodes(dragged).find(
-      (candidate) => candidate.type === 'group',
-    )
-    if (group?.id !== node.parentId)
-      change(
-        reparentFlowNode(
-          moveFlowNodes(flow, {
-            [node.id]: snapPoint(dragged.position),
-          }),
-          node.id,
-          group?.id,
-        ),
-      )
-  })
+  // Save every dragged card at once: their snapped positions, then any card
+  // whose centre moved into or out of a Sub Flow. Saving cards one by one
+  // would let the last save overwrite the others.
+  const boardOnNodeDragStop = useFlowHandler<'onNodeDragStop'>(
+    (_, _dragged, dragged) => {
+      pointerDragRef.current = false
+      const moved: Record<string, V2FlowNode['position']> = {}
+      for (const item of dragged) {
+        const node = flow.nodes.find((candidate) => candidate.id === item.id)
+        const position = snapPoint(item.position)
+        if (
+          node &&
+          (node.position.x !== position.x || node.position.y !== position.y)
+        )
+          moved[item.id] = position
+      }
+      if (!Object.keys(moved).length) return
+      let next = moveFlowNodes(flow, moved)
+      for (const id of Object.keys(moved)) {
+        const node = next.nodes.find((candidate) => candidate.id === id)
+        if (!node || node.type === 'group' || node.type === 'start') continue
+        const group = subFlowAt(id)
+        if (group !== node.parentId) next = reparentFlowNode(next, id, group)
+      }
+      change(next)
+    },
+  )
   const boardOnEdgesDelete = useFlowHandler<'onEdgesDelete'>((deleted) =>
     change(
       removeFlowEdges(

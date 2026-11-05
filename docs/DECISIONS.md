@@ -252,3 +252,7 @@ A Sub Flow frame can be locked so authors can move the cards inside it without g
 ## 2026-11-05 — Stable React Flow handlers on the Story Flow board
 
 React Flow passes the board's event handlers (`onNodeClick`, `onEdgeClick`, `onNodesChange`, and the rest) to every node and edge component. Inline arrow functions got a new identity on each render, so every drag frame re-rendered all cards and edges: with 391 cards and 820 edges, one test drag rendered cards about 63,000 times and took about 100 ms per frame. `FlowBoard.tsx` now wraps every handler it passes to `<ReactFlow>` in `useFlowHandler` (a typed `useStableCallback`), and keeps fixed array options such as `panOnDrag` as module constants. The same drag then took about 7 ms per frame. New handlers on `<ReactFlow>` must follow this pattern. The library, inspector, and Simulation panels are memoized for the same reason.
+
+## 2026-11-05 — Saving a multi-card drag at once
+
+A pointer drag is saved once, when the drag stops, for every dragged card together: snapped positions first, then Sub Flow membership. Before, each released card was saved in `onNodesChange` and the grabbed card was then saved again with its new Sub Flow from the pre-drag flow; the board replaces the whole flow on each save, so the second save undid the others and only one card moved. A card now belongs to the innermost Sub Flow whose frame holds the card's centre, instead of any frame it touches, so cards near a frame edge no longer join it by accident. Arrow-key moves are still saved as they happen.

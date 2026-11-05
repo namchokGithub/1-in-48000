@@ -150,8 +150,8 @@
     {
       "id": "n_break_first_week",
       "position": {
-        "x": 816,
-        "y": 864
+        "x": 480,
+        "y": 1224
       },
       "parentId": "group_2",
       "type": "event",
@@ -160,8 +160,8 @@
     {
       "id": "condition_break_mali",
       "position": {
-        "x": 864,
-        "y": 1248
+        "x": 816,
+        "y": 888
       },
       "parentId": "group_2",
       "type": "condition",
@@ -177,27 +177,30 @@
     {
       "id": "n_break_message_from_mali",
       "position": {
-        "x": -3528,
-        "y": 768
+        "x": 1176,
+        "y": 1224
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "break_message_from_mali"
     },
     {
       "id": "n_break_budget",
       "position": {
-        "x": -3528,
-        "y": 408
+        "x": 1176,
+        "y": 816
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "break_budget"
     },
     {
       "id": "condition_break_club",
       "position": {
-        "x": -3168,
-        "y": 528
+        "x": 1584,
+        "y": 840
       },
+      "parentId": "group_2",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -211,18 +214,20 @@
     {
       "id": "n_break_club_request",
       "position": {
-        "x": -3528,
-        "y": 1296
+        "x": 1584,
+        "y": 1248
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "break_club_request"
     },
     {
       "id": "condition_break_money",
       "position": {
-        "x": -3240,
+        "x": 1944,
         "y": 1296
       },
+      "parentId": "group_2",
       "type": "condition",
       "join": "and",
       "conditions": [
@@ -237,44 +242,49 @@
     {
       "id": "n_break_low_balance",
       "position": {
-        "x": -2928,
-        "y": 1200
+        "x": 2328,
+        "y": 1272
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "break_low_balance"
     },
     {
       "id": "n_break_next_term",
       "position": {
-        "x": -2928,
-        "y": 696
+        "x": 2208,
+        "y": 816
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "break_next_term"
     },
     {
       "id": "next_y1_break",
       "position": {
-        "x": 984,
-        "y": 288
+        "x": 6120,
+        "y": 552
       },
+      "parentId": "group_2",
       "type": "nextPeriod"
     },
     {
       "id": "n_return_to_campus",
       "position": {
-        "x": 1320,
-        "y": 288
+        "x": 6648,
+        "y": 624
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "return_to_campus"
     },
     {
       "id": "n_term2_first_assignment",
       "position": {
-        "x": 1656,
-        "y": 288
+        "x": 7056,
+        "y": 600
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "term2_first_assignment"
     },
@@ -297,9 +307,10 @@
     {
       "id": "n_term2_club_open_house",
       "position": {
-        "x": 2232,
-        "y": 72
+        "x": 7368,
+        "y": 336
       },
+      "parentId": "group_2",
       "type": "event",
       "eventId": "term2_club_open_house"
     },
