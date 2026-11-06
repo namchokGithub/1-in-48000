@@ -233,6 +233,17 @@
       "target": "study",
       "percent": -20,
       "applies": "gains"
+    },
+    {
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "gt",
+        "value": 90
+      },
+      "target": "study",
+      "percent": 20,
+      "applies": "gains"
     }
   ],
   "statEndings": [
@@ -455,6 +466,22 @@
         "stat": "lucky",
         "operator": "lt",
         "value": 20
+      }
+    },
+    {
+      "stat": "relationships",
+      "amount": -2,
+      "periods": [
+        "term1",
+        "break",
+        "term2",
+        "summer"
+      ],
+      "when": {
+        "type": "stat",
+        "stat": "stress",
+        "operator": "gt",
+        "value": 90
       }
     }
   ]

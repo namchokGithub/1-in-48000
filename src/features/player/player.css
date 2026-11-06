@@ -388,6 +388,21 @@
   font-size: 0.72rem;
   line-height: 1.2;
 }
+.year-timeline-progress {
+  display: none;
+}
+/* Phones: the year stepper repeats the card heading, so it gives way to a
+   one-line "ปี N / goal" and the choices start higher on the screen. */
+@media (max-width: 639px) {
+  .year-stepper,
+  .year-timeline-goal {
+    display: none;
+  }
+  .year-timeline-progress {
+    display: inline;
+    font-weight: 700;
+  }
+}
 .background-card {
   display: block;
   width: 100%;

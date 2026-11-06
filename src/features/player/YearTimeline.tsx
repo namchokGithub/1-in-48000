@@ -47,7 +47,12 @@ export function YearTimeline({
     <section className="year-timeline" aria-label="เส้นทางการศึกษา">
       <div className="year-timeline-heading">
         <strong>เส้นทางชีวิตมหา'ลัย</strong>
-        <span className="muted">เป้าหมายปี {targetYear}</span>
+        <span className="muted year-timeline-goal">
+          เป้าหมายปี {targetYear}
+        </span>
+        <span className="year-timeline-progress tabular-nums">
+          ปี {currentYear} / {targetYear}
+        </span>
       </div>
       <ol className="year-stepper" ref={viewportRef}>
         {Array.from({ length: targetYear }, (_, index) => index + 1).map(
