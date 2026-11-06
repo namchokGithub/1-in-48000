@@ -72,6 +72,26 @@
 .player-header-button.button-sm {
   min-width: 2.5rem;
 }
+/* Phones: settings buttons show only their icon so the header fits one row.
+   Each button keeps an aria-label with its full name. */
+@media (max-width: 639px) {
+  .player-header-button {
+    min-width: 2.75rem;
+    padding-inline: 0.75rem;
+  }
+  .player-header-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .player-stat-preview-hint {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.7rem;
+  }
+}
 .player-stat-preview-control {
   position: relative;
 }
@@ -89,6 +109,7 @@
   color: var(--color-ink);
   box-shadow: 0 0.5rem 1.5rem #0003;
   font-size: 0.8rem;
+  line-height: 1.4;
   pointer-events: none;
   animation: player-stat-preview-hint 3.3s forwards;
 }
@@ -124,6 +145,15 @@
   .player-dialogue {
     margin-top: -2.5rem;
     margin-inline: 1rem;
+  }
+}
+/* Phones: a shorter box keeps the choices closer to the first screen.
+   Longer lines still expand the box (see data-expanded). */
+@media (max-width: 639px) {
+  .player-dialogue {
+    --dialogue-height: 8.5rem;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
   }
 }
 .player-key-guide {
@@ -820,14 +850,14 @@
 }
 .player-program-hint {
   display: grid;
-  gap: 0.25rem;
-  padding: 0.7rem 0.85rem;
+  gap: 0.1rem;
+  padding: 0.45rem 0.7rem;
   border: 1px solid var(--color-line);
   border-left: 3px solid var(--color-primary-dark);
   border-radius: var(--radius-control);
   background: var(--color-primary-soft);
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 1.4;
 }
 .player-select-trigger {
   display: flex;
@@ -1409,8 +1439,17 @@
 .player-toast li[data-direction='down'] {
   color: var(--color-danger);
 }
+/* The glyph stays small, but the tap area is 44px for touch screens. */
 .player-toast-close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -0.5rem -0.7rem -0.5rem 0;
   border: 0;
+  border-radius: var(--radius-control);
   background: none;
   color: var(--color-muted);
   font-size: 1.2rem;
@@ -1536,6 +1575,13 @@
   height: 100%;
   border-radius: inherit;
   background: var(--color-accent);
+}
+/* A decrease uses the danger color so it reads apart from a gain. */
+.player-year-track > span[data-negative] {
+  background: var(--color-danger);
+}
+.player-year-bars li > span[data-negative] {
+  color: var(--color-danger);
 }
 @media (max-width: 420px) {
   .player-year-bars li {

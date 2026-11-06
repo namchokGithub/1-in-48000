@@ -14,7 +14,9 @@ export function AudioControls({
       onClick={onToggle}
     >
       <span aria-hidden="true">{enabled ? '♫' : '♪'}</span>
-      เพลง{enabled ? 'เปิด' : 'ปิด'}
+      <span className="player-header-label">
+        เพลง{enabled ? 'เปิด' : 'ปิด'}
+      </span>
     </button>
   )
 }

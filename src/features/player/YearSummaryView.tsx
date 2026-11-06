@@ -123,12 +123,18 @@ export function YearSummaryView({
                       </span>
                       <span className="player-year-track" aria-hidden="true">
                         <span
+                          data-negative={amount < 0 || undefined}
                           style={{
                             width: `${(Math.abs(amount) / largest) * 100}%`,
                           }}
                         />
                       </span>
-                      <span className="tabular-nums">{signed(amount)}</span>
+                      <span
+                        className="tabular-nums"
+                        data-negative={amount < 0 || undefined}
+                      >
+                        {signed(amount)}
+                      </span>
                     </li>
                   ))}
                 </ul>

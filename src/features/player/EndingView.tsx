@@ -36,6 +36,11 @@ export function EndingView({
   onRestart,
 }: Props) {
   const years = groupByYear(summary.timeline)
+  // The last academic year the run reached, from the timeline.
+  const yearsStudied = Math.max(
+    0,
+    ...summary.timeline.map((entry) => entry.time?.year ?? 0),
+  )
   const [tooltipLayer, setTooltipLayer] = useState<HTMLDivElement | null>(null)
   return (
     <div
@@ -62,9 +67,11 @@ export function EndingView({
             <p>
               <strong>{summary.eventsVisited}</strong> เหตุการณ์ที่ผ่าน
             </p>
-            <p>
-              <strong>{summary.choicesMade}</strong> การตัดสินใจ
-            </p>
+            {yearsStudied > 0 && (
+              <p>
+                เรียน <strong>{yearsStudied}</strong> ปี
+              </p>
+            )}
           </div>
           {summary.settlement.debt > 0 && (
             <p className="player-settlement">
@@ -173,6 +180,7 @@ export function EndingView({
       <StatPanel
         stats={summary.stats}
         identity={{ name: summary.playerName, portraitPath, program }}
+        ended
       />
     </div>
   )

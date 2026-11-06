@@ -350,13 +350,16 @@ function PlayerShell({
                 type="button"
                 className="button button-secondary player-header-button"
                 aria-pressed={showStatChanges}
+                aria-label="แสดงผลสถานะใต้ตัวเลือก"
                 title="แสดงค่าสถานะที่จะเปลี่ยนใต้ตัวเลือก"
                 onClick={() =>
                   statPreview.getState().setShowStatChanges(!showStatChanges)
                 }
               >
                 <span aria-hidden="true">{showStatChanges ? '◉' : '○'}</span>
-                {showStatChanges ? 'แสดงผลสถานะ' : 'ซ่อนผลสถานะ'}
+                <span className="player-header-label">
+                  {showStatChanges ? 'แสดงผลสถานะ' : 'ซ่อนผลสถานะ'}
+                </span>
               </button>
               {view === 'home' && (
                 <div className="player-stat-preview-hint" role="status">

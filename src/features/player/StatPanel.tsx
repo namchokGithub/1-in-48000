@@ -27,12 +27,15 @@ export function StatPanel({
   previousStats,
   identity,
   loanRatePercent,
+  ended = false,
 }: {
   stats: V2Stats
   previousStats?: V2Stats | null
   identity?: { name: string; portraitPath?: string; program?: string }
   // Shown with negative money, which is an automatic loan.
   loanRatePercent?: number
+  // The Ending screen: final stats, and negative money as the loan still owed.
+  ended?: boolean
 }) {
   const [barStats, setBarStats] = useState(previousStats ?? stats)
 
@@ -78,7 +81,7 @@ export function StatPanel({
           </div>
         </div>
       )}
-      <p className="eyebrow">สถานะตอนนี้</p>
+      <p className="eyebrow">{ended ? 'สถานะตอนจบ' : 'สถานะตอนนี้'}</p>
       <div className="player-stat-list">
         {statLabels
           .filter(({ key }) => key !== 'money' && key !== 'debt')
@@ -129,7 +132,15 @@ export function StatPanel({
               </span>
             </div>
           ))}
-        {stats.money < 0 && loanRatePercent !== undefined && (
+        {ended && stats.money < 0 && (
+          <div className="player-stat-row">
+            <span className="player-stat-name">ยอดกู้ค้าง</span>
+            <span className="font-bold tabular-nums" data-negative>
+              {number.format(-stats.money)} ฿
+            </span>
+          </div>
+        )}
+        {!ended && stats.money < 0 && loanRatePercent !== undefined && (
           <p className="player-stat-loan">
             เงินติดลบคือยอดกู้อัตโนมัติ {number.format(-stats.money)} ฿ ดอกเบี้ย{' '}
             {number.format(loanRatePercent)}% ต่อปี

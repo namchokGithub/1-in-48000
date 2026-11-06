@@ -356,7 +356,7 @@ export function SceneView({
             )}
             {/* Focusable so a long line can be scrolled with the keyboard. */}
             <p
-              className="player-dialogue-text mt-2 text-lg leading-relaxed"
+              className="player-dialogue-text mt-2 text-base leading-relaxed sm:text-lg"
               tabIndex={0}
             >
               {line.text}
@@ -430,7 +430,6 @@ export function SceneView({
                 {sixYearProgram && (
                   <div className="player-program-hint" role="status">
                     <p>6 ปีแห่งการเอาชีวิตรอด (Hard Mode)</p>
-                    <br />
                     <p>
                       <i>
                         ต้องเรียนเพิ่มอีก 2 ปี!
@@ -455,7 +454,11 @@ export function SceneView({
             ) : event.selection?.type === 'multiple' ? (
               <div className="grid gap-3">
                 <h2 className="text-lg font-bold">
-                  เลือก {event.selection.min}–{event.selection.max} ข้อ
+                  เลือก{' '}
+                  {event.selection.min === event.selection.max
+                    ? event.selection.min
+                    : `${event.selection.min}–${event.selection.max}`}{' '}
+                  ข้อ
                   <span className="muted text-sm font-normal">
                     {' '}
                     (เลือกแล้ว {selectedIds.length} ข้อ)
