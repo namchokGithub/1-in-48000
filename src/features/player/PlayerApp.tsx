@@ -116,6 +116,7 @@ function PlayerShell({
 
   function goHome() {
     syncMusic(null)
+    store.getState().quitGame()
     setToast(null)
     setPreviousStats(null)
     setView('home')

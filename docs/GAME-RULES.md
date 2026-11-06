@@ -102,7 +102,7 @@ The fixed starting event has `selection: { type: 'program' }`. The Player picks 
 
 Program reviews use `study − max(stress, 0) ÷ 10 ≥ 60`. A four-year program is reviewed at Year 4, then Year 6 and Year 8 after failed reviews. A six-year program starts reviews at Year 6, then Year 8. Failure at Year 8 selects dismissal. Save v1 records the randomly assigned name ID, faculty, major, elective, all selected Choice IDs, decision history, chance outcomes, and RNG seed/state. The life summary uses those IDs to describe program, elective, and multi-select decisions.
 
-The store writes localStorage checkpoints after starting and resolving a decision. `sessionStorage` marks an unfinished run in the current tab. On a reload of that tab, the Player validates and restores the checkpoint only when content version and referenced IDs still match; a new visit or tab starts fresh, and an ending clears the resume marker. No save file import or download is offered. BO preview uses the same engine without writing a Player checkpoint.
+The store writes localStorage checkpoints after starting and resolving a decision. `sessionStorage` marks an unfinished run in the current tab. On a reload of that tab, the Player validates and restores the checkpoint only when content version and referenced IDs still match; a new visit or tab starts fresh, and an ending clears the resume marker. Confirming “กลับหน้าแรก” also clears the resume marker and the active in-memory run, so refreshing stays on the home page. No save file import or download is offered. BO preview uses the same engine without writing a Player checkpoint.
 
 ## Story flow contract (Step 27)
 

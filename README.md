@@ -95,7 +95,7 @@ Edit in BO → Save JSON → git push → Cloudflare Pages auto-deploys → Play
 
 ## Saves and Backups
 
-The Player writes checkpoints to localStorage after starting and resolving choices. Refreshing the same tab restores an unfinished run; a new visit or tab starts fresh. Completed runs do not resume. There is no save file import or download.
+The Player writes checkpoints to localStorage after starting and resolving choices. Refreshing the same tab restores an unfinished run; a new visit or tab starts fresh. Completed runs do not resume. Confirming a return to the home page also ends the run, so refreshing stays on the home page. There is no save file import or download.
 
 ## Getting Started
 

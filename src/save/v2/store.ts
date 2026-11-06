@@ -15,6 +15,7 @@ export type V2GameStore = {
   save: V2PlayerSave | null
   startGame(rngSeed: number, backgroundId?: string): V2PlayerSave
   restoreGame(): V2PlayerSave | null
+  quitGame(): void
   choose(choiceId: string): V2PlayerSave
   chooseMany(choiceIds: string[]): V2PlayerSave
   chooseProgram(facultyId: string, majorId: string): V2PlayerSave
@@ -46,6 +47,10 @@ export function createV2GameStore(
       save: null,
       startGame: begin,
       restartGame: begin,
+      quitGame: () => {
+        session.write(false)
+        set({ save: null })
+      },
       restoreGame: () => {
         try {
           if (!session.read()) return null
