@@ -8,9 +8,10 @@
 
 ## Overview
 
-Live one student's life at **ม.บารพู**, a fictional university inspired by Thai campus life, from enrollment to graduation. Balance study, money, health, stress, and relationships across four years of terms, breaks, and summer sessions.
+Live one student's life at **ม.บารพู**, a fictional university inspired by Thai campus life, from enrollment to graduation. Balance study, money, health, stress, and relationships across terms, breaks, and summer sessions. Four-year majors aim to finish in Year 4 and six-year majors in Year 6; a student who falls behind can stay until Year 8.
 
 - One life takes about **10–20 minutes** to play.
+- The game is in **Thai only**.
 - **Multiple endings** and high replay value.
 - "48,000" is the game's concept — you are one of many students. The game does not simulate 48,000 characters.
 - Story structure: **a shared main line with side branches that merge back**. Everyone faces exams, but who helps you and how it turns out depend on what you did before.
@@ -20,33 +21,35 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 ### Player
 
 - **New game** — receive a random name, pick or randomize a starting background, then choose a faculty and major.
-- **Progression** — Year 1–4, split by term and key events, with semester breaks and summer sessions.
-- **Stats** — study, money, health, stress, relationships.
+- **Progression** — Year 1–8, split by term and key events, with semester breaks and summer sessions. Academic reviews in Years 4, 6, and 8 decide whether you graduate.
+- **Stats** — study, money, health, stress, relationships, debt, and luck.
 - **Events** — main events, conditional events, Thai holiday events, and random events.
 - **Choices** — immediate effects, delayed effects (good or bad), or dialogue-only changes. Some locked choices show why they cannot be picked yet, and a choice can leave a short recap for the next scene.
 - **Money and loans** — money can go below 0 as an automatic loan with yearly interest; debt is settled from money at the ending.
+- **Life rules** — stats change a little each period, some stats make others grow faster or slower, and a stat pushed too far can end the run early (for example, burnout or dismissal).
 - **Feedback** — a toast lists stat changes after each choice, and each new year opens with a summary of the year before.
 - **Story memory** — the game remembers decisions such as helping a friend, joining a club, or taking a part-time job. They do not always pay off.
-- **Graphics** — 25 pixel-art scenes and 25 character portraits referenced by Asset ID.
+- **Graphics** — 40 pixel-art scenes and 25 character portraits referenced by Asset ID.
 - **Sound** — looping background music with a simple on/off control.
 - **Save** — checkpoint decisions and restore an unfinished run after refreshing the same tab.
-- **Ending** — a life summary covering grades, relationships, and your path after graduation.
+- **Ending** — a life summary covering your grade point average, relationships, and your path after graduation.
 - **Devices** — mobile and desktop.
 
 ### BO (Back Office)
 
 A content authoring and testing tool that runs **only on the author's machine**, separate from the public game.
 
-- Add, edit, and delete events, choices, and endings.
-- Build the story on a Flow board: place events, connect each choice to the next card, and add Condition, Random, Next Period, and Ending cards.
+- Add, edit, and delete events, choices, and endings. Event and Choice IDs use `snake_case` and can be generated in the editor.
+- Build the story on a Flow board: place events, connect each choice to the next card, and add Condition, Random, Next Period, and Ending cards. Group cards into lockable Sub Flows, and line cards up with helper lines and equal-spacing guides.
 - Conditions (e.g. academic year, money, past events) on Flow edges and Condition cards, and effects (change stats, set flags).
 - Bind images, music, and sounds by Asset ID.
 - Preview Player dialogue and try choices in a modal without writing a player save; the preview lists the path taken with pass/fail reasons and highlights it on the board.
 - Validate JSON: duplicate IDs, broken event links, missing assets, and Flow errors (unconnected choices) and warnings (unreachable cards, possible dead ends).
-- Save JSON directly to the content files — no manual import/export.
-- List every flag with where it is set and checked, and edit the loan rate and days per period in game settings.
+- Save JSON directly to the content files in `public/content-v2` — no manual import/export.
+- List every flag with where it is set and checked.
+- Game settings: loan rate and days per period, stat modifiers, stat endings, and per-period stat changes.
 
-The current BO edits `config.json` (loan settings), `events.json`, `endings.json`, `characters.json`, `assets.json`, and `flow.json` in `public/content-v2`. Data tabs manage speakers, scene images, and BGM/SFX by Asset ID. Asset files must be placed in `public/assets` before saving. Event and Choice IDs use `snake_case` and can be generated in the editor. The story form supports ordered dialogue and choices, delayed effects, chance, and inactive events. Search covers event IDs, titles, dialogue, and choice text. The Flow board decides story order: edges from the same choice are checked in file order, Random cards draw from an event pool, and Next Period cards advance time and run the study review. It supports focus on nearby paths, cards colored by kind, go-to search, keyboard shortcuts, Undo/Redo, and drag-to-reconnect edges. Preview starts from a sample game state at the selected event and shows dialogue with the Player view in a modal. Review `contentVersion` before publishing content changes.
+See [`docs/STORY-AUTHORING.md`](docs/STORY-AUTHORING.md) for how to write events and build the flow.
 
 ## Tech Stack
 
@@ -70,22 +73,34 @@ Game content and player saves are separate from day one.
 
 | Data        | Contents                                                    |
 | ----------- | ----------------------------------------------------------- |
-| Game config | Title, starting stats, progression rules                    |
-| Events      | Story text, choices, conditions, effects, next events       |
+| Game config | Title, starting stats, backgrounds, loans, stat rules       |
+| Events      | Story text, choices, conditions, effects                    |
+| Flow        | Story order: which card follows each choice                 |
 | Characters  | Characters, background info, images                         |
 | Assets      | Scenes, images, music, sounds                               |
-| Endings     | Ending conditions and summary text                          |
+| Endings     | Ending titles and summary text                              |
 | Player save | Current state, choice history, flags, content version, seed |
 
 Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Player restores an unfinished run after refreshing the same tab; a new visit starts fresh.
 
-The active V2 stat scales, extended-year progression, conditions, effects, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
+The stat scales, progression, conditions, effects, stat rules, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The Player and BO use the shared content in `public/content-v2`. It carries 249 events, including program selection, a Year 2 multi-select event, a Year 3 elective, and authored story through Years 5–8; 25 pixel scenes, 25 portraits for players and NPCs, 6 endings including a Year 8 dismissal, and debt/lucky stats are also included. The active engine supports four- and six-year majors, elective effects, and multi-select decisions. Content version is `0.3.0`. The Player starts music after a user action and keeps it playing across its pages until switched off.
+The content in `public/content-v2` has 319 events, 40 pixel scenes, 25 portraits for players and NPCs, and 6 endings. It supports four- and six-year majors, elective effects, and multi-select decisions.
 
-## Audio Credits
+## Versions
 
-- **Kanto Daydream** — [Turning_Pages](https://pixabay.com/users/turning_pages-50915814/) (Pixabay), used as the sample background music.
+- App version: `0.8.0` (`package.json`).
+- Content version: `0.3.0` (`public/content-v2/config.json`). Review it before publishing content changes.
+
+## Privacy
+
+The game has no accounts and no server. The save, theme, and music settings are kept only in your browser's localStorage. The page loads the Noto Sans Thai font from Google Fonts.
+
+## Credits
+
+- **Music:** Kanto Daydream by [Turning_Pages](https://pixabay.com/users/turning_pages-50915814/) (Pixabay), used as the sample background music.
+- **Art:** pixel-art scenes and portraits were generated with AI, then edited and animated by the author.
+- **Font:** [Noto Sans Thai](https://fonts.google.com/noto/specimen/Noto+Sans+Thai), SIL Open Font License 1.1.
 
 ## Content Publishing
 
@@ -99,6 +114,8 @@ The Player writes checkpoints to localStorage after starting and resolving choic
 
 ## Getting Started
 
+Requirements: Node.js `^20.19.0` or `>=22.12.0`, and pnpm 11 (pinned in `packageManager`).
+
 Install dependencies and start the local dev server:
 
 ```bash
@@ -108,7 +125,7 @@ pnpm dev
 
 Open the Player at `http://127.0.0.1:5173/` and BO at `http://127.0.0.1:5173/content-manage`. BO is available only in development; the production build includes only the Player. In BO, edit a draft, use the sticky toolbar to undo, redo, preview, or save, and inspect validation messages before writing the matching JSON file.
 
-Check the scaffold with:
+Check the project with:
 
 ```bash
 pnpm lint
@@ -118,6 +135,14 @@ pnpm build
 
 Vitest includes focused tests for content, engine, saves, audio settings, BO validation, and local file saving.
 
+To check stat balance, run the simulation and read the report in `reports/balance/`:
+
+```bash
+pnpm balance --runs 500 --seed 100
+```
+
+See [`docs/BALANCE.md`](docs/BALANCE.md) for policies, options, and how to read the report.
+
 ## Roadmap
 
 | Phase                 | Work                                                | Outcome                                        |
@@ -126,12 +151,10 @@ Vitest includes focused tests for content, engine, saves, audio settings, BO val
 | 2 — One slice of life | Year 1, first term, about 10–15 events              | Short playable slice with images, sound, saves |
 | 3 — BO                | Content editing forms and preview                   | New story content added through BO             |
 | 4 — Expand to MVP     | Cover Year 1–4 with shared events and side branches | Complete: 35 events and 3 reachable endings    |
-| 5 — Test and release  | Check story paths, effects, mobile, and audio       | Ready to deploy                                |
 | V4 — Story flow       | Graph-driven story on a BO Flow board               | Complete: story order lives in `flow.json`     |
+| 5 — Test and release  | Check story paths, effects, balance, mobile, audio  | In progress: stat balance before release       |
 
-**MVP scope:** 1 study path, 30–40 events, 3–5 endings, 5–8 scenes, and one auto-save slot. Faculty and major selection is active; clubs and relationship routes come later.
-
-**Current progress:** BO and Player share the updated content and engine. Steps 21–24 cover program and elective selection, a playable multi-select event, seeded player names and portraits, BO authoring, and same-tab refresh recovery. Player and BO use Noto Sans Thai Light 300. V4 moved story order to a graph in `flow.json` edited on the BO Flow board (Steps 27–36, complete). The author accepted the BO Flow edge styles (Step 37) and Player UX/UI pass, including the responsive check (Step 38), on 2026-10-30, followed by local feedback: Player fixes, flags, locked choices, automatic loans, recaps, scene portraits, and the year summary (Steps 39–41). Years 5–8 now have authored events across every period and flow through the Year 6 and Year 8 academic reviews. Six-year programs have their own Years 5–6 story. Before release, stat balance is being tuned with the `pnpm balance` simulation and the BO stat rules. Production release remains deferred while further adjustments are made. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
+**Current progress:** the story covers Years 1–8, including a separate Years 5–6 story for six-year majors. Stat balance is being tuned with `pnpm balance` and the BO stat rules before the first release. See [`docs/PROGRESS.md`](docs/PROGRESS.md).
 
 ### Future
 
