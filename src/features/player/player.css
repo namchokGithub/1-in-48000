@@ -1166,7 +1166,9 @@
   background: var(--color-surface);
   color: var(--color-ink);
   box-shadow: 0 0.5rem 1.5rem #0003;
-  animation: player-toast-in 0.2s ease-out;
+  animation:
+    player-toast-in 0.5s ease-out,
+    player-toast-out 0.5s ease-in 2.45s forwards;
 }
 .player-toast ul {
   display: grid;
@@ -1433,6 +1435,11 @@
   from {
     opacity: 0;
     transform: translateY(-0.4rem);
+  }
+}
+@keyframes player-toast-out {
+  to {
+    opacity: 0;
   }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -347,7 +347,7 @@ export function SceneView({
             )}
           </div>
         </div>
-        <p className="player-key-guide">
+        <p className="player-key-guide p-2 ml-1">
           <kbd>Space</kbd> อ่านต่อ / เลือก · <kbd>↑</kbd>
           <kbd>↓</kbd> เลือกตัวเลือก
         </p>
