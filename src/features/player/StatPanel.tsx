@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import type { V2Stats } from '../../content/v2/schema'
 import { StatIcon } from './ui/StatIcon'
 
@@ -23,14 +24,30 @@ function barParts(value: number): { fill: number; deficit: number } {
 
 export function StatPanel({
   stats,
+  previousStats,
   identity,
   loanRatePercent,
 }: {
   stats: V2Stats
+  previousStats?: V2Stats | null
   identity?: { name: string; portraitPath?: string; program?: string }
   // Shown with negative money, which is an automatic loan.
   loanRatePercent?: number
 }) {
+  const [barStats, setBarStats] = useState(previousStats ?? stats)
+
+  useEffect(() => {
+    // Let the previous widths paint before transitioning to the new values.
+    let nextFrame = 0
+    const frame = requestAnimationFrame(() => {
+      nextFrame = requestAnimationFrame(() => setBarStats(stats))
+    })
+    return () => {
+      cancelAnimationFrame(frame)
+      cancelAnimationFrame(nextFrame)
+    }
+  }, [stats])
+
   const number = new Intl.NumberFormat('th-TH')
   return (
     <section className="panel player-stat-panel" aria-label="ค่าสถานะ">
@@ -84,15 +101,13 @@ export function StatPanel({
               >
                 <div
                   className="stat-fill"
-                  data-negative={stats[key] < 0 || undefined}
-                  style={{ width: `${barParts(stats[key]).fill}%` }}
+                  data-negative={barStats[key] < 0 || undefined}
+                  style={{ width: `${barParts(barStats[key]).fill}%` }}
                 />
-                {stats[key] < 0 && (
-                  <div
-                    className="stat-deficit"
-                    style={{ width: `${barParts(stats[key]).deficit}%` }}
-                  />
-                )}
+                <div
+                  className="stat-deficit"
+                  style={{ width: `${barParts(barStats[key]).deficit}%` }}
+                />
               </div>
             </div>
           ))}

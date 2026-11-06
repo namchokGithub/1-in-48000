@@ -520,6 +520,7 @@
   height: 100%;
   border-radius: inherit;
   background: var(--color-primary);
+  transition: width 0.5s ease-out;
 }
 .stat-fill[data-negative] {
   background: var(--color-track);
@@ -529,6 +530,7 @@
   height: 100%;
   border-radius: inherit;
   background: var(--color-stat-deficit);
+  transition: width 0.5s ease-out;
 }
 
 /* Home */

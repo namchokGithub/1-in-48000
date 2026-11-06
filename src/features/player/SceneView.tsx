@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import type { V2Content, V2Event } from '../../content/v2/schema'
+import type { V2Content, V2Event, V2Stats } from '../../content/v2/schema'
 import { getV2ChoiceOptions, orderV2ChoiceOptions } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
 import { formatGameTime } from './labels'
@@ -21,6 +21,7 @@ import { PlayerSelect } from './ui/PlayerSelect'
 type Props = {
   event: V2Event
   save: V2PlayerSave
+  previousStats?: V2Stats | null
   assets: V2Content['assets']
   characters: V2Content['characters']
   faculties: V2Content['faculties']
@@ -49,6 +50,7 @@ type Props = {
 export function SceneView({
   event,
   save,
+  previousStats,
   assets,
   characters,
   faculties,
@@ -552,6 +554,7 @@ export function SceneView({
       <aside className="player-scene-stats">
         <StatPanel
           stats={save.stats}
+          previousStats={previousStats}
           loanRatePercent={loanRatePercent}
           identity={{
             name: save.playerName,

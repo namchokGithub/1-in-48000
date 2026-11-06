@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useStore } from 'zustand'
 import { loadV2Content } from '../../content/v2/loader'
-import type { V2Content } from '../../content/v2/schema'
+import type { V2Content, V2Stats } from '../../content/v2/schema'
 import {
   getV2CurrentEvent,
   getV2LastRecaps,
@@ -87,6 +87,7 @@ function PlayerShell({
   const clearToast = useCallback(() => setToast(null), [])
   // Fade the scene image in only when the next event shows a different scene.
   const [fadeScene, setFadeScene] = useState(true)
+  const [previousStats, setPreviousStats] = useState<V2Stats | null>(null)
   // The year whose summary the player already closed in this tab.
   const [seenYear, setSeenYear] = useState<number | null>(null)
 
@@ -116,6 +117,7 @@ function PlayerShell({
   function goHome() {
     syncMusic(null)
     setToast(null)
+    setPreviousStats(null)
     setView('home')
   }
 
@@ -126,6 +128,7 @@ function PlayerShell({
     action(seed, backgroundId)
     setSeenYear(null)
     setToast(null)
+    setPreviousStats(null)
     setFadeScene(true)
     const started = store.getState().save
     if (started) syncMusic(started)
@@ -136,6 +139,7 @@ function PlayerShell({
   function resolve(action: () => V2PlayerSave) {
     try {
       const before = store.getState().save
+      setPreviousStats(before?.stats ?? null)
       const next = action()
       const changes = before ? statChanges(before.stats, next.stats) : []
       // A new year opens its summary, which already lists the changes.
@@ -193,6 +197,7 @@ function PlayerShell({
           key={event.id}
           event={event}
           save={save}
+          previousStats={previousStats}
           assets={content.assets}
           characters={content.characters}
           faculties={content.faculties}
