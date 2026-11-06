@@ -59,13 +59,15 @@ export function PlayerGuideDialog({
               </p>
             </div>
             {mascotPath && (
-              <img
-                className="player-guide-mascot"
-                src={mascotPath}
-                alt="มาสคอตลิงของ ม.บารพู"
-                width="96"
-                height="171"
-              />
+              <div className="player-guide-mascot-frame">
+                <img
+                  className="player-guide-mascot"
+                  src={mascotPath}
+                  alt="มาสคอตลิงของ ม.บารพู"
+                  width="96"
+                  height="171"
+                />
+              </div>
             )}
           </div>
           <div className="player-guide-steps" aria-hidden="true">

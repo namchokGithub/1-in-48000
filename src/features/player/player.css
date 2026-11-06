@@ -1260,12 +1260,18 @@
   margin-top: 0.7rem;
   line-height: 1.65;
 }
+.player-guide-mascot-frame {
+  margin-left: auto;
+  margin-right: 4.5rem;
+  margin-bottom: -0.5rem;
+  width: 12rem;
+  height: 14rem;
+  overflow: hidden;
+}
 .player-guide-mascot {
-  width: clamp(5.5rem, 14vw, 7.25rem);
+  display: block;
+  width: 100%;
   height: auto;
-  max-height: 12rem;
-  object-fit: contain;
-  object-position: bottom;
   image-rendering: pixelated;
 }
 .player-guide-steps {
@@ -1352,8 +1358,9 @@
   .player-guide-intro {
     gap: 0.5rem;
   }
-  .player-guide-mascot {
-    width: 4.5rem;
+  .player-guide-mascot-frame {
+    width: 6.25rem;
+    height: 6.75rem;
   }
   .player-guide-grid {
     grid-template-columns: 1fr;
