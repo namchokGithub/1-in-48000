@@ -110,6 +110,8 @@ export function SceneView({
   )
   const catalogs = { faculties, majors, electives }
   const matchingMajors = majors.filter((major) => major.facultyId === facultyId)
+  const sixYearProgram =
+    majors.find((major) => major.id === majorId)?.programYears === 6
   const maxSelections =
     event.selection?.type === 'multiple' ? event.selection.max : 0
   const lastLine = lineIndex === event.lines.length - 1
@@ -395,6 +397,19 @@ export function SceneView({
                   }))}
                   onChange={setMajorId}
                 />
+                {sixYearProgram && (
+                  <div className="player-program-hint" role="status">
+                    <p>6 ปีแห่งการเอาชีวิตรอด (Hard Mode)</p>
+                    <br />
+                    <p>
+                      <i>
+                        ต้องเรียนเพิ่มอีก 2 ปี!
+                        ทั้งค่าใช้จ่ายและความเครียดก็เพิ่มตามไปด้วย
+                        วางแผนชีวิตให้ดี แล้วเอาตัวรอดไปจนถึงวันเรียนจบให้ได้!
+                      </i>
+                    </p>
+                  </div>
+                )}
               </div>
             ) : event.selection?.type === 'elective' ? (
               <PlayerSelect
