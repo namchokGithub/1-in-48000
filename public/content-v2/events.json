@@ -36,7 +36,7 @@
             "effect": {
               "type": "statDelta",
               "stat": "relationships",
-              "amount": 5
+              "amount": 3
             }
           }
         ]

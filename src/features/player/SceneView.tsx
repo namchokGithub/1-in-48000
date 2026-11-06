@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react'
 import type { V2Content, V2Event, V2Stats } from '../../content/v2/schema'
 import { getV2ChoiceOptions, orderV2ChoiceOptions } from '../../engine/v2/game'
 import type { V2PlayerSave } from '../../save/v2/schema'
@@ -118,10 +124,31 @@ export function SceneView({
     event.selection?.type === 'multiple' ? event.selection.max : 0
   const lastLine = lineIndex === event.lines.length - 1
   const scrollRef = useRef<HTMLDivElement>(null)
+  const dialogueRef = useRef<HTMLDivElement>(null)
   const confirmManyRef = useRef<HTMLButtonElement>(null)
   // Set when the keyboard reads the last line, so the first choice gets focus.
   const focusFirstChoice = useRef(false)
   const [more, setMore] = useState({ above: false, below: false })
+
+  useLayoutEffect(() => {
+    const dialogue = dialogueRef.current
+    const text = dialogue?.querySelector<HTMLElement>('.player-dialogue-text')
+    if (!dialogue || !text) return
+
+    const fitContent = () => {
+      dialogue.removeAttribute('data-expanded')
+      if (
+        dialogue.scrollHeight > dialogue.clientHeight + 1 ||
+        text.scrollHeight > text.clientHeight + 1
+      ) {
+        dialogue.dataset.expanded = 'true'
+      }
+    }
+
+    fitContent()
+    window.addEventListener('resize', fitContent)
+    return () => window.removeEventListener('resize', fitContent)
+  }, [lineIndex, line.text, recaps])
 
   function choiceElements() {
     return [
@@ -302,6 +329,7 @@ export function SceneView({
           </div>
         </div>
         <div
+          ref={dialogueRef}
           className="player-dialogue rounded-2xl border border-[var(--color-line)]"
           aria-live="polite"
         >

@@ -104,12 +104,13 @@
   }
 }
 .player-dialogue {
+  --dialogue-height: 12rem;
   position: relative;
   z-index: 1;
   background: var(--color-dialogue);
   display: flex;
   gap: 1rem;
-  height: 12rem;
+  height: var(--dialogue-height);
   /* Overlap the bottom of the scene a little, like a visual novel. */
   margin-top: -1.5rem;
   margin-inline: 0.5rem;
@@ -222,6 +223,14 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+.player-dialogue[data-expanded='true'] {
+  height: auto;
+  min-height: var(--dialogue-height);
+}
+.player-dialogue[data-expanded='true'] .player-dialogue-text {
+  flex: 1 0 auto;
+  overflow-y: visible;
 }
 .player-scene-layout {
   display: grid;
@@ -964,14 +973,24 @@
     padding-block: 1rem;
   }
   .player-shell[data-view='play'] > .app-wrap {
-    display: flex;
-    height: min(
+    --player-fit-height: min(
       100svh - 2rem,
       1110px - 2rem,
       (min(100vw - 2 * clamp(1rem, 3vw, 2.25rem), 96rem) - 370px) * 9 / 16 +
         456px
     );
+    display: flex;
+    height: var(--player-fit-height);
     flex-direction: column;
+  }
+  .player-shell[data-view='play']:has(.player-dialogue[data-expanded='true'])
+    > .app-wrap {
+    height: auto;
+    min-height: var(--player-fit-height);
+  }
+  .player-shell[data-view='play']:has(.player-dialogue[data-expanded='true'])
+    .player-scene-layout {
+    height: auto;
   }
   .player-shell[data-view='play'] .player-header {
     margin-bottom: 0.75rem;
@@ -1033,7 +1052,7 @@
     max-width: none;
   }
   .player-shell[data-view='play'] .player-dialogue {
-    height: clamp(8rem, 24vh, 12rem);
+    --dialogue-height: clamp(8rem, 24vh, 12rem);
     margin-top: -2.5rem;
     padding: 1rem 1.25rem;
   }
@@ -1138,7 +1157,7 @@
     min-height: 2.3rem;
   }
   .player-shell[data-view='play'] .player-dialogue {
-    height: clamp(8rem, 25vh, 10rem);
+    --dialogue-height: clamp(8rem, 25vh, 10rem);
   }
 }
 .player-dialog {
