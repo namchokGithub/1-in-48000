@@ -28,7 +28,7 @@ export function V2EventEditor({
   onChange: (next: V2Event) => void
   onDelete: () => void
 }) {
-  const [expandedChoice, setExpandedChoice] = useState<number | null>(0)
+  const [expandedChoice, setExpandedChoice] = useState<number | null>(null)
   const [activeLine, setActiveLine] = useState<number | null>(0)
   const narrator = characters.find((item) => item.isNarrator)
   const sceneAsset = assets.find(
