@@ -203,6 +203,9 @@ export function YearSummaryView({
           type="button"
           className="button button-primary"
           autoFocus
+          onKeyDown={(event) => {
+            if (event.key === ' ') event.preventDefault()
+          }}
           onClick={onNext}
         >
           ต่อไป
