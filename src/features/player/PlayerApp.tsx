@@ -22,6 +22,7 @@ import { statChanges, type StatChange } from '../../engine/v2/statChanges'
 import { yearSummary } from './yearSummary'
 import { YearSummaryView } from './YearSummaryView'
 import { PlayerConfirmDialog } from './ui/PlayerConfirmDialog'
+import { PlayerGuideDialog } from './ui/PlayerGuideDialog'
 import { StatToast } from './ui/StatToast'
 import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
@@ -80,6 +81,7 @@ function PlayerShell({
   )
   const [actionError, setActionError] = useState<string | null>(null)
   const [confirmHome, setConfirmHome] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
   const [toast, setToast] = useState<{
     key: number
     changes: StatChange[]
@@ -261,14 +263,14 @@ function PlayerShell({
               1 ใน 48,000
             </h1>
             <p className="mt-5 max-w-lg text-lg leading-relaxed">
-              &nbsp; เพื่อนใหม่ เรื่องวุ่น ๆ และความทรงจำอีกมากมาย ชีวิตใน
-              ม.บารพู ของคุณกำลังจะเริ่มต้น
+              เพื่อนใหม่ เรื่องวุ่น ๆ และความทรงจำอีกมากมาย ชีวิตใน ม.บารพู
+              ของคุณกำลังจะเริ่มต้น
             </p>
             <br />
             <p>
               <i>
                 “มหาวิทยาลัยไม่ได้สอนแค่วิชาที่เรียน
-                แต่สอนให้เรารู้ว่าอยากเป็นใคร”
+                แต่สอนให้เรารู้ว่าอยากเป็นอะไร”
               </i>
             </p>
             {actionError && (
@@ -280,6 +282,13 @@ function PlayerShell({
               </p>
             )}
             <div className="mt-8 flex flex-wrap justify-end gap-3">
+              <button
+                type="button"
+                className="button button-secondary"
+                onClick={() => setShowGuide(true)}
+              >
+                วิธีเล่น
+              </button>
               <button
                 type="button"
                 className="button button-primary"
@@ -321,7 +330,7 @@ function PlayerShell({
           <div className="player-header-actions flex flex-wrap gap-2">
             <button
               type="button"
-              className="button button-secondary player-header-button"
+              className="button button-secondary button-sm player-header-button"
               aria-pressed={theme === 'dark'}
               aria-label={
                 theme === 'dark' ? 'เปลี่ยนเป็นธีมสว่าง' : 'เปลี่ยนเป็นธีมมืด'
@@ -334,7 +343,7 @@ function PlayerShell({
               }}
             >
               <span aria-hidden="true">{theme === 'dark' ? '☾' : '☀'}</span>
-              ธีม{theme === 'dark' ? 'มืด' : 'สว่าง'}
+              {/* ธีม{theme === 'dark' ? 'มืด' : 'สว่าง'} */}
             </button>
             <div className="player-stat-preview-control">
               <button
@@ -366,6 +375,16 @@ function PlayerShell({
           </div>
         </header>
         <main id="player-content">{body}</main>
+        {showGuide && (
+          <PlayerGuideDialog
+            mascotPath={
+              content.assets.find(
+                (asset) => asset.id === 'narrator' && asset.kind === 'portrait',
+              )?.path
+            }
+            onClose={() => setShowGuide(false)}
+          />
+        )}
         {confirmHome && (
           <PlayerConfirmDialog
             title="กลับหน้าแรก?"
