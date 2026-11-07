@@ -13,11 +13,16 @@ import { ListSearch } from './ListSearch'
 import { NumberInput } from './NumberInput'
 import { periodLabels } from './periodLabels'
 import { createV2PreviewSave } from './preview'
+import { randomId } from './randomId'
 import {
+  addChoice,
+  addStatDelta,
   editableStatDeltas,
   neighborIndex,
   otherEffectCount,
   proofreadEntries,
+  removeChoice,
+  removeEffect,
   updateStatDelta,
   withSelectionMode,
   type ProofreadSort,
@@ -559,14 +564,27 @@ export function ProofreadPanel({
                 }))
               return (
                 <div key={choice.id} className="bo-proofread-choice bo-nested">
-                  <label className="bo-field">
-                    <span>
+                  <div className="bo-proofread-line-head">
+                    <span className="text-sm">
                       ตัวเลือกที่ {choiceIndex + 1}{' '}
                       <span className="muted">· {choice.id}</span>
                     </span>
+                    <button
+                      type="button"
+                      className="bo-text-button bo-danger"
+                      disabled={event.choices.length === 1}
+                      onClick={() =>
+                        update((current) => removeChoice(current, choiceIndex))
+                      }
+                    >
+                      ลบตัวเลือก
+                    </button>
+                  </div>
+                  <label className="bo-field">
                     <textarea
                       className="field"
                       rows={2}
+                      aria-label={`ข้อความตัวเลือกที่ ${choiceIndex + 1}`}
                       value={choice.text}
                       onFocus={() => setLineIndex(event.lines.length - 1)}
                       onChange={(input) =>
@@ -610,11 +628,33 @@ export function ProofreadPanel({
                           )
                         }
                       />
-                      {delta.delayed && (
+                      {delta.delayed ? (
                         <span className="muted text-xs">ภายหลัง</span>
+                      ) : (
+                        <span />
                       )}
+                      <button
+                        type="button"
+                        className="bo-text-button bo-danger"
+                        aria-label="ลบค่าสถานะนี้"
+                        title="ลบค่าสถานะนี้"
+                        onClick={() =>
+                          setChoice((current) =>
+                            removeEffect(current, delta.effectIndex),
+                          )
+                        }
+                      >
+                        ×
+                      </button>
                     </div>
                   ))}
+                  <button
+                    type="button"
+                    className="bo-text-button justify-self-start"
+                    onClick={() => setChoice(addStatDelta)}
+                  >
+                    + เพิ่มค่าสถานะ
+                  </button>
                   {others > 0 && (
                     <p className="muted text-xs">
                       ผลอื่นอีก {others} รายการ (โอกาสหรือ Flag)
@@ -627,6 +667,26 @@ export function ProofreadPanel({
                 </div>
               )
             })}
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={() =>
+                update((current) =>
+                  addChoice(
+                    current,
+                    randomId(
+                      'choice',
+                      current.choices.map((item) => item.id),
+                    ),
+                  ),
+                )
+              }
+            >
+              + เพิ่มตัวเลือก
+            </button>
+            <p className="muted text-xs">
+              ตัวเลือกที่เพิ่มหรือลบ ต้องต่อเส้นใน Story Flow ใหม่
+            </p>
           </section>
         </>
       ) : (

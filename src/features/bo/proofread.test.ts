@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import type { V2Event } from '../../content/v2/schema'
 import {
+  addChoice,
+  addStatDelta,
   editableStatDeltas,
   neighborIndex,
   otherEffectCount,
   proofreadEntries,
+  removeChoice,
+  removeEffect,
   updateStatDelta,
   withSelectionMode,
 } from './proofread'
@@ -139,5 +143,34 @@ describe('proofread selection mode', () => {
     expect(withSelectionMode(program, 'multiple')).toBe(program)
     const elective = event({ type: 'elective' })
     expect(withSelectionMode(elective, 'single')).toBe(elective)
+  })
+})
+
+describe('proofread add and remove', () => {
+  it('adds a stat change for a stat the choice does not change yet', () => {
+    const next = addStatDelta(choice)
+    expect(next.effects.at(-1)).toEqual({
+      type: 'statDelta',
+      stat: 'stress',
+      amount: 1,
+    })
+    expect(removeEffect(next, next.effects.length - 1)).toEqual(choice)
+  })
+
+  it('adds a choice and keeps at least one', () => {
+    const added = addChoice(event(), 'choice_new')
+    expect(added.choices.at(-1)).toEqual({
+      id: 'choice_new',
+      text: 'ตัวเลือกใหม่',
+      conditions: [],
+      effects: [],
+    })
+    expect(removeChoice(added, 3).choices.map(({ id }) => id)).toEqual([
+      'pick',
+      'other',
+      'third',
+    ])
+    const single = { ...event(), choices: [choice] }
+    expect(removeChoice(single, 0)).toBe(single)
   })
 })

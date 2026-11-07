@@ -135,3 +135,62 @@ export function withSelectionMode(
     },
   }
 }
+
+/**
+ * Adds an immediate stat change to a choice, using the first stat the choice
+ * does not change yet (study when it changes them all), amount 1 like the
+ * event form.
+ */
+export function addStatDelta(choice: Choice): Choice {
+  const used = new Set(editableStatDeltas(choice).map(({ stat }) => stat))
+  const stat =
+    statOrder.find((key) => !used.has(key)) ?? ('study' as keyof V2Stats)
+  return {
+    ...choice,
+    effects: [...choice.effects, { type: 'statDelta', stat, amount: 1 }],
+  }
+}
+
+/** Removes one effect of a choice by its index. */
+export function removeEffect(choice: Choice, effectIndex: number): Choice {
+  return {
+    ...choice,
+    effects: choice.effects.filter((_, index) => index !== effectIndex),
+  }
+}
+
+const statOrder: (keyof V2Stats)[] = [
+  'study',
+  'health',
+  'stress',
+  'relationships',
+  'money',
+  'lucky',
+  'debt',
+]
+
+/**
+ * Appends a new choice with a fresh ID. Like the event form, it is not yet
+ * connected on the Flow board.
+ */
+export function addChoice(event: V2Event, id: string): V2Event {
+  return {
+    ...event,
+    choices: [
+      ...event.choices,
+      { id, text: 'ตัวเลือกใหม่', conditions: [], effects: [] },
+    ],
+  }
+}
+
+/**
+ * Removes a choice, keeping at least one. Like the event form, Flow edges from
+ * the removed choice are left for the board's validation to point out.
+ */
+export function removeChoice(event: V2Event, choiceIndex: number): V2Event {
+  if (event.choices.length <= 1) return event
+  return {
+    ...event,
+    choices: event.choices.filter((_, index) => index !== choiceIndex),
+  }
+}

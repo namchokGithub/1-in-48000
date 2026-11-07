@@ -4115,124 +4115,134 @@
     },
     {
       "id": "random",
-      "type": "random",
-      "poolId": "khao_sam_muk_shrine_luck",
       "position": {
         "x": 2376,
         "y": 1743
       },
-      "parentId": "group_5"
+      "parentId": "group_5",
+      "type": "random",
+      "poolId": "khao_sam_muk_shrine_luck"
     },
     {
       "id": "random_2",
-      "type": "random",
-      "poolId": "bang_saen_walking_street_market",
       "position": {
         "x": 144,
         "y": 378
       },
-      "parentId": "group_5"
+      "parentId": "group_5",
+      "type": "random",
+      "poolId": "bang_saen_walking_street_market"
     },
     {
       "id": "random_3",
-      "type": "random",
-      "poolId": "bang_saen_night_out",
       "position": {
         "x": 3000,
         "y": 1220
       },
-      "parentId": "group_6"
+      "parentId": "group_6",
+      "type": "random",
+      "poolId": "bang_saen_night_out"
     },
     {
       "id": "random_4",
-      "type": "random",
-      "poolId": "medical_faculty_health_visits",
       "position": {
         "x": 1995,
         "y": 1896
       },
-      "parentId": "group_7"
+      "parentId": "group_7",
+      "type": "random",
+      "poolId": "medical_faculty_health_visits"
     },
     {
       "id": "random_5",
-      "type": "random",
-      "poolId": "bang_saen_bridge_friends",
       "position": {
         "x": 13080,
         "y": 356
-      }
+      },
+      "type": "random",
+      "poolId": "bang_saen_bridge_friends"
     },
     {
       "id": "random_6",
-      "type": "random",
-      "poolId": "wat_saen_suk_ghost_hunt",
       "position": {
         "x": 15888,
         "y": 928
-      }
+      },
+      "type": "random",
+      "poolId": "wat_saen_suk_ghost_hunt"
     },
     {
       "id": "random_7",
-      "type": "random",
-      "poolId": "medical_faculty_health_visits",
       "position": {
         "x": 15888,
         "y": 1323
-      }
+      },
+      "type": "random",
+      "poolId": "medical_faculty_health_visits"
     },
     {
       "id": "random_8",
-      "type": "random",
-      "poolId": "bang_saen_night_out",
       "position": {
         "x": 19948.14422393718,
         "y": 180.51868632183024
-      }
+      },
+      "type": "random",
+      "poolId": "bang_saen_night_out"
     },
     {
       "id": "random_9",
-      "type": "random",
-      "poolId": "bang_saen_walking_street_market",
       "position": {
         "x": 17952,
         "y": 557
-      }
+      },
+      "type": "random",
+      "poolId": "bang_saen_walking_street_market"
     },
     {
       "id": "random_10",
-      "type": "random",
-      "poolId": "khao_sam_muk_shrine_luck",
       "position": {
         "x": 22776,
         "y": 1293
-      }
+      },
+      "type": "random",
+      "poolId": "khao_sam_muk_shrine_luck"
     },
     {
       "id": "random_11",
-      "type": "random",
-      "poolId": "wat_saen_suk_ghost_hunt",
       "position": {
         "x": 26472,
         "y": 1048
-      }
+      },
+      "type": "random",
+      "poolId": "wat_saen_suk_ghost_hunt"
     },
     {
       "id": "random_12",
-      "type": "random",
-      "poolId": "bang_saen_night_out",
       "position": {
         "x": 27024,
         "y": 966
-      }
+      },
+      "type": "random",
+      "poolId": "bang_saen_night_out"
     },
     {
       "id": "random_13",
-      "type": "random",
-      "poolId": "medical_faculty_health_visits",
       "position": {
         "x": 28920.460629965506,
         "y": 758.861374238102
-      }
+      },
+      "type": "random",
+      "poolId": "medical_faculty_health_visits"
+    },
+    {
+      "id": "n_new_event_4",
+      "type": "event",
+      "eventId": "event_6c2b0026",
+      "position": {
+        "x": 744,
+        "y": 558
+      },
+      "parentId": "group_6"
     }
   ],
   "edges": [
@@ -4883,12 +4893,6 @@
       "from": "n_sophomore_welcome",
       "port": "prepare_classes",
       "to": "n_year_two_plans"
-    },
-    {
-      "id": "e_n_year_two_plans_next",
-      "from": "n_year_two_plans",
-      "port": "next",
-      "to": "n_y2_term1_timetable_shuffle"
     },
     {
       "id": "e_n_y2_term1_timetable_shuffle_check_room_changes_condition_y2_term1_club",
@@ -9385,6 +9389,42 @@
       "from": "random_13",
       "port": "fallback",
       "to": "n_farewell_dinner"
+    },
+    {
+      "id": "e_n_festival_visit_choice_5de6d97c",
+      "from": "n_festival_visit",
+      "port": "choice_5de6d97c",
+      "to": "n_y3_break_first_week"
+    },
+    {
+      "id": "e_n_y3_break_club_storage_choice_ddb74322",
+      "from": "n_y3_break_club_storage",
+      "port": "choice_ddb74322",
+      "to": "n_y3_break_coast_walk"
+    },
+    {
+      "id": "e_n_year_two_plans_next_2",
+      "from": "n_year_two_plans",
+      "port": "next",
+      "to": "n_new_event_4"
+    },
+    {
+      "id": "e_n_new_event_4_choice_98eb3b3f",
+      "from": "n_new_event_4",
+      "port": "choice_98eb3b3f",
+      "to": "n_y2_term1_timetable_shuffle"
+    },
+    {
+      "id": "e_n_new_event_4_choice_2514af14",
+      "from": "n_new_event_4",
+      "port": "choice_2514af14",
+      "to": "n_y2_term1_timetable_shuffle"
+    },
+    {
+      "id": "e_n_new_event_4_choice_a9a9defe",
+      "from": "n_new_event_4",
+      "port": "choice_a9a9defe",
+      "to": "n_y2_term1_timetable_shuffle"
     }
   ]
 }

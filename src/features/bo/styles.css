@@ -1936,7 +1936,7 @@ dialog {
 }
 .bo-proofread-delta {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 6rem auto;
+  grid-template-columns: minmax(0, 1fr) 6rem auto auto;
   align-items: center;
   gap: 0.5rem;
 }
