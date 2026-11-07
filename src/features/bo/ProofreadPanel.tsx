@@ -108,6 +108,21 @@ export function ProofreadPanel({
   function update(change: (current: V2Event) => V2Event) {
     if (event) onUpdateEvent(shownIndex, change(event))
   }
+  function updateLine(
+    index: number,
+    change: Partial<V2Event['lines'][number]>,
+  ) {
+    update((current) => ({
+      ...current,
+      lines: current.lines.map((item, itemIndex) =>
+        itemIndex === index ? { ...item, ...change } : item,
+      ),
+    }))
+  }
+  const sceneAssets = draft.assets.filter((asset) => asset.kind === 'scene')
+  const portraitAssets = draft.assets.filter(
+    (asset) => asset.kind === 'portrait',
+  )
 
   // The preview treats an inactive event as active so it can still be read.
   const preview = useMemo(() => {
@@ -320,6 +335,25 @@ export function ProofreadPanel({
                 }
               />
             </label>
+            <label className="bo-field">
+              <span>ภาพฉาก</span>
+              <BoDropdown
+                value={event.sceneAssetId ?? ''}
+                onChange={(input) =>
+                  update((current) => ({
+                    ...current,
+                    sceneAssetId: input.target.value || undefined,
+                  }))
+                }
+              >
+                <option value="">ไม่ใช้</option>
+                {sceneAssets.map((asset) => (
+                  <option key={asset.id} value={asset.id}>
+                    {asset.id}
+                  </option>
+                ))}
+              </BoDropdown>
+            </label>
 
             <h4 className="font-bold">บทพูด</h4>
             {event.lines.map((line, index) => (
@@ -339,6 +373,46 @@ export function ProofreadPanel({
                   >
                     ดูบรรทัดนี้
                   </button>
+                </div>
+                <div className="bo-proofread-speaker">
+                  <BoDropdown
+                    label={`ผู้พูดบรรทัดที่ ${index + 1}`}
+                    value={line.speakerId ?? ''}
+                    onChange={(input) => {
+                      setLineIndex(index)
+                      updateLine(index, {
+                        speakerId: input.target.value || undefined,
+                        // A new speaker shows their own portrait again.
+                        portraitAssetId: undefined,
+                      })
+                    }}
+                  >
+                    <option value="">ผู้บรรยาย ({speakerName()})</option>
+                    {draft.characters
+                      .filter((item) => !item.isNarrator)
+                      .map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                  </BoDropdown>
+                  <BoDropdown
+                    label={`ภาพผู้พูดบรรทัดที่ ${index + 1}`}
+                    value={line.portraitAssetId ?? ''}
+                    onChange={(input) => {
+                      setLineIndex(index)
+                      updateLine(index, {
+                        portraitAssetId: input.target.value || undefined,
+                      })
+                    }}
+                  >
+                    <option value="">ใช้ภาพของผู้พูด</option>
+                    {portraitAssets.map((asset) => (
+                      <option key={asset.id} value={asset.id}>
+                        {asset.id}
+                      </option>
+                    ))}
+                  </BoDropdown>
                 </div>
                 <textarea
                   className="field"

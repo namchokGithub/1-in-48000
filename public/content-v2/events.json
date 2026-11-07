@@ -319,7 +319,7 @@
           {
             "type": "statDelta",
             "stat": "relationships",
-            "amount": 3
+            "amount": 1
           }
         ]
       },
@@ -755,7 +755,7 @@
     },
     "pool": "y1_term1_life",
     "title": "บัตรนักศึกษาหาย",
-    "sceneAssetId": "campus_orientation",
+    "sceneAssetId": "campus_orientation_v4",
     "bgmAssetId": "kanto_daydream",
     "conditions": [],
     "lines": [
