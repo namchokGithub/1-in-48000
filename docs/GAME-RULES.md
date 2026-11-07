@@ -4,21 +4,23 @@ This document records historical rules and the active data contract for "1 ใ�
 
 ## Stats
 
-| Stat            | Meaning                 | Valid value   |
-| --------------- | ----------------------- | ------------- |
-| `study`         | Academic progress       | Integer 0–100 |
-| `money`         | Money available in baht | Integer ≥ 0   |
-| `health`        | Physical well-being     | Integer 0–100 |
-| `stress`        | Pressure on the student | Integer 0–100 |
-| `relationships` | Strength of social ties | Integer 0–100 |
+| Stat            | Meaning                       | Valid value          |
+| --------------- | ----------------------------- | -------------------- |
+| `study`         | Academic progress             | Integer, at most 100 |
+| `health`        | Physical well-being           | Integer, at most 100 |
+| `stress`        | Pressure on the student       | Integer, at most 100 |
+| `relationships` | Strength of social ties       | Integer, at most 100 |
+| `lucky`         | Luck; raises chance successes | Integer, at most 100 |
+| `money`         | Money available in baht       | Integer, no bounds   |
+| `debt`          | Debt in baht                  | Integer, at least 0  |
 
-The engine will clamp bounded stats to 0–100 after applying effects. Money and debt have no bounds: money below 0 is an automatic loan (see Loans). Negative `statDelta` values are allowed so choices can reduce a stat. The schema validates stored values; it does not apply effects.
+The engine caps study, health, stress, relationships, and lucky at 100 after applying effects; they may go below 0. Debt is floored at 0. Money has no bounds: money below 0 is an automatic loan (see Loans). Negative `statDelta` values are allowed so choices can reduce a stat. The schema validates stored values; it does not apply effects.
 
 Starting backgrounds are authored in `config.json`. Each preset names a family situation, personality, and skill, and supplies integer deltas for all five starting stats. Content must include the `balanced` preset, and may include any number of others. The start screen offers three: `balanced` first, then two others drawn from the game seed, so reopening the same start screen offers the same set. The Player may pick one of the three or randomize among them. The engine applies its deltas to `initialStats`, then clamps the result using the same stat bounds. New saves reference the selected preset by ID.
 
 ## Time
 
-The game spans Years 1–4. Each year follows `term1 → break → term2 → summer`; the last phase leads to graduation. `break` is the semester break, while `summer` represents the summer period and may contain summer-session events. An event has one `{ year, period }` placement. The config declares the same four-year sequence.
+A run spans Years 1–8: four-year programs are first reviewed at the end of Year 4 and six-year programs at Year 6 (see the review rules below). Each year follows `term1 → break → term2 → summer`; a review runs at the end of the summer of a review year. `break` is the semester break, while `summer` represents the summer period and may contain summer-session events. An event has one `{ year, period }` placement. The config declares the four periods and the review years 4, 6, and 8.
 
 ## Conditions and choices
 
@@ -41,7 +43,7 @@ Every event has at least one line and one choice. A choice may have no effects w
 
 ## Loans
 
-Money can go below 0, from any money decrease; the negative balance is the automatic loan, and debt does not change. Each Next Period charges simple interest on that balance for the period that just ended: `round(|money| × annualRatePercent × periodDays[period] ÷ 36500)` is taken from money. `config.loan` holds the yearly rate (15%) and the days per period (term 1: 120, break: 30, term 2: 120, summer: 95). Debt that authors add, such as a student loan, has no interest. At every ending, including dismissal, the life summary settles the debt: money becomes money − debt and debt becomes 0, and the Ending screen shows the settlement.
+Money can go below 0, from any money decrease; the negative balance is the automatic loan, and debt does not change. Each Next Period charges simple interest on that balance for the period that just ended: `round(|money| × annualRatePercent × periodDays[period] ÷ 36500)` is taken from money. `config.loan` holds the yearly rate (22% in the current content) and the days per period (term 1: 120, break: 30, term 2: 120, summer: 95). Debt that authors add, such as a student loan, has no interest. At every ending, including dismissal, the life summary settles the debt: money becomes money − debt and debt becomes 0, and the Ending screen shows the settlement.
 
 ## Stat rules
 

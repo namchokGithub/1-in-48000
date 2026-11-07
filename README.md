@@ -86,7 +86,7 @@ Checkpoint JSON includes `saveVersion`, `contentVersion`, and RNG state. The Pla
 
 The stat scales, progression, conditions, effects, stat rules, event selection, and JSON shapes are defined in [`docs/GAME-RULES.md`](docs/GAME-RULES.md). The Player and BO share those rules.
 
-The content in `public/content-v2` has 319 events, 40 pixel scenes, 25 portraits for players and NPCs, and 6 endings. It supports four- and six-year majors, elective effects, and multi-select decisions.
+The content in `public/content-v2` has 321 events, 40 pixel scenes, 25 portraits for players and NPCs, and 6 endings. It supports four- and six-year majors, elective effects, and multi-select decisions.
 
 ## Versions
 

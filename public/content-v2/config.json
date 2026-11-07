@@ -292,7 +292,7 @@
     },
     {
       "stat": "study",
-      "amount": -11,
+      "amount": -10,
       "periods": [
         "break"
       ],
