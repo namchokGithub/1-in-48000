@@ -28,8 +28,9 @@ import { CharacterForm } from './CharacterForm'
 import { EndingView } from './EndingView'
 import { SceneView } from './SceneView'
 import { playerPortraitPath, playerProgram } from './playerIdentity'
-import homeArt from './assets/home-campus.png'
+import homeArt from './assets/home-campus.webp'
 import { publicUrl } from '../../shared/publicUrl'
+import { upcomingScenePaths } from './upcomingScenes'
 
 // GitHub's template chooser: bug and typo issue forms, plus a link to
 // Discussions for story suggestions (see .github/ISSUE_TEMPLATE).
@@ -104,6 +105,16 @@ function PlayerShell({
   }, [audio, musicSettings])
 
   useEffect(() => () => audio.stop(), [audio])
+
+  // Fetch the scenes the next events may show while this one is read, so a
+  // new scene appears without waiting for its image.
+  const currentNodeId = view === 'play' ? (save?.currentNodeId ?? null) : null
+  useEffect(() => {
+    for (const path of upcomingScenePaths(content, currentNodeId)) {
+      const image = new Image()
+      image.src = publicUrl(path)
+    }
+  }, [content, currentNodeId])
 
   function syncMusic(
     current: V2PlayerSave | null,

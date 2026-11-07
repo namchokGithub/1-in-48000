@@ -18583,7 +18583,7 @@
               {
                 "type": "statDelta",
                 "stat": "stress",
-                "amount": -10
+                "amount": 10
               },
               {
                 "type": "statDelta",
@@ -18594,6 +18594,11 @@
                 "type": "statDelta",
                 "stat": "relationships",
                 "amount": -10
+              },
+              {
+                "type": "statDelta",
+                "stat": "debt",
+                "amount": 10
               }
             ]
           }
@@ -18707,6 +18712,11 @@
                 "type": "statDelta",
                 "stat": "relationships",
                 "amount": -10
+              },
+              {
+                "type": "statDelta",
+                "stat": "debt",
+                "amount": 10
               }
             ]
           }
