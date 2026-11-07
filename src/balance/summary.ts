@@ -198,6 +198,148 @@ const percent = (part: number, whole: number) =>
 const number = (value: number) =>
   Number.isInteger(value) ? String(value) : value.toFixed(1)
 
+/** Graduated and not graduated shares for one policy and program length. */
+export type GraduationRate = {
+  policy: Policy
+  /** Program length in years, or null for all runs of the policy. */
+  programYears: number | null
+  runs: number
+  graduated: number
+}
+
+/**
+ * A run graduates when its ending is neither the review's dismissal nor an
+ * ending from the content's stat rules (burnout and the like).
+ */
+export function graduated(content: V2Content, endingId: string | null) {
+  if (!endingId || endingId === 'dismissal') return false
+  return !content.config.statEndings.some((rule) => rule.endingId === endingId)
+}
+
+/**
+ * Graduation per policy: one row per program length, then one for all runs.
+ * Runs that stopped early count as not graduated.
+ */
+export function graduationRates(
+  content: V2Content,
+  runs: RunResult[],
+): GraduationRate[] {
+  const policies = [...new Set(runs.map((run) => run.policy))]
+  return policies.flatMap((policy) => {
+    const ofPolicy = runs.filter((run) => run.policy === policy)
+    const lengths = [
+      ...new Set(ofPolicy.map((run) => run.programYears ?? 4)),
+    ].sort((a, b) => a - b)
+    const rate = (group: RunResult[], programYears: number | null) => ({
+      policy,
+      programYears,
+      runs: group.length,
+      graduated: group.filter((run) => graduated(content, run.endingId)).length,
+    })
+    return [
+      ...lengths.map((years) =>
+        rate(
+          ofPolicy.filter((run) => (run.programYears ?? 4) === years),
+          years,
+        ),
+      ),
+      rate(ofPolicy, null),
+    ]
+  })
+}
+
+/**
+ * Graduation rates rebuilt from the Endings table of an older `summary.md`
+ * that has no `graduation.json`. Counts come back from the rounded
+ * percentages, so they can be off by one run.
+ */
+export function ratesFromSummary(
+  content: V2Content,
+  markdown: string,
+): GraduationRate[] {
+  const section = markdown.split('## Endings')[1]?.split('\n## ')[0] ?? ''
+  const rows = section
+    .split('\n')
+    .filter((line) => line.startsWith('|'))
+    .map((line) =>
+      line
+        .slice(1, -1)
+        .split('|')
+        .map((cell) => cell.trim()),
+    )
+  const [header, , ...body] = rows
+  if (!header || header[0] !== 'Policy') return []
+  const rates = body.map((cells) => {
+    const runs = Number(cells[2])
+    const share = header.reduce(
+      (sum, id, index) =>
+        index > 2 && id !== 'Beyond program' && graduated(content, id)
+          ? sum + (Number.parseFloat(cells[index]) || 0)
+          : sum,
+      0,
+    )
+    return {
+      policy: cells[0] as Policy,
+      programYears: Number.parseInt(cells[1]) || null,
+      runs,
+      graduated: Math.round((share / 100) * runs),
+    }
+  })
+  const policies = [...new Set(rates.map((rate) => rate.policy))]
+  return policies.flatMap((policy) => {
+    const ofPolicy = rates
+      .filter((rate) => rate.policy === policy)
+      .sort((a, b) => (a.programYears ?? 0) - (b.programYears ?? 0))
+    return [
+      ...ofPolicy,
+      {
+        policy,
+        programYears: null,
+        runs: ofPolicy.reduce((sum, rate) => sum + rate.runs, 0),
+        graduated: ofPolicy.reduce((sum, rate) => sum + rate.graduated, 0),
+      },
+    ]
+  })
+}
+
+const share = (part: number, whole: number) =>
+  whole ? ((part / whole) * 100).toFixed(1) : '0.0'
+
+function graduationTable(
+  rates: GraduationRate[],
+  baseline?: GraduationRate[],
+): string {
+  const before = (rate: GraduationRate) => {
+    const match = baseline?.find(
+      (item) =>
+        item.policy === rate.policy && item.programYears === rate.programYears,
+    )
+    if (!match) return '—'
+    const was = share(match.graduated, match.runs)
+    const now = share(rate.graduated, rate.runs)
+    const notGraduated = share(match.runs - match.graduated, match.runs)
+    return `${was} / ${notGraduated}${was === now ? ' (same)' : ''}`
+  }
+  return table(
+    [
+      'Policy',
+      'Program',
+      'Runs',
+      'Graduated',
+      'Not graduated',
+      ...(baseline ? ['Before (graduated / not)'] : []),
+    ],
+    rates.map((rate) => [
+      rate.policy,
+      rate.programYears ? `${rate.programYears} yr` : '**All**',
+      rate.runs,
+      `${share(rate.graduated, rate.runs)}%`,
+      `${share(rate.runs - rate.graduated, rate.runs)}%`,
+      ...(baseline ? [before(rate)] : []),
+    ]),
+  )
+}
+
 function table(header: string[], rows: (string | number)[][]) {
   return [
     `| ${header.join(' | ')} |`,
@@ -209,7 +351,13 @@ function table(header: string[], rows: (string | number)[][]) {
 export function renderSummary(
   content: V2Content,
   runs: RunResult[],
-  options: { command: string; generatedAt: string },
+  options: {
+    command: string
+    generatedAt: string
+    /** Graduation rates of an earlier report, for the "Before" column. */
+    baseline?: GraduationRate[]
+    baselineLabel?: string
+  },
 ): string {
   const groups = summarizeGroups(runs)
   const random = runs.filter((run) => run.policy === 'random')
@@ -233,6 +381,16 @@ export function renderSummary(
       '',
     )
   }
+
+  lines.push(
+    '## Graduation',
+    '',
+    'Graduated: any ending except dismissal and the stat-rule endings.' +
+      (options.baselineLabel ? ` Before: \`${options.baselineLabel}\`.` : ''),
+    '',
+    graduationTable(graduationRates(content, runs), options.baseline),
+    '',
+  )
 
   lines.push('## Endings', '')
   const endingIds = [

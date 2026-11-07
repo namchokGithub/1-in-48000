@@ -11,7 +11,14 @@ import electives from '../../public/content-v2/electives.json'
 import flow from '../../public/content-v2/flow.json'
 import { v2ContentSchema } from '../content/v2/schema'
 import { POLICIES, scoreEffects, simulateRun } from './simulate'
-import { choiceImpacts, renderSummary, spread } from './summary'
+import {
+  choiceImpacts,
+  graduated,
+  graduationRates,
+  ratesFromSummary,
+  renderSummary,
+  spread,
+} from './summary'
 
 const content = v2ContentSchema.parse({
   config,
@@ -121,5 +128,73 @@ describe('balance summary', () => {
     expect(report).toContain('## Endings')
     expect(report).toContain('## Final stats')
     expect(report).toContain('## Events no run reached')
+  })
+})
+
+describe('balance graduation', () => {
+  const base = simulateRun(content, { seed: 7, policy: 'random' })
+  const run = (
+    policy: 'random' | 'study',
+    programYears: number,
+    endingId: string | null,
+  ) => ({ ...base, policy, programYears, endingId })
+
+  it('counts every ending except dismissal and stat endings', () => {
+    const statEnding = content.config.statEndings[0]?.endingId
+    expect(graduated(content, 'graduation')).toBe(true)
+    expect(graduated(content, 'dismissal')).toBe(false)
+    expect(graduated(content, null)).toBe(false)
+    if (statEnding) expect(graduated(content, statEnding)).toBe(false)
+  })
+
+  it('gives one row per program length and one for all runs', () => {
+    const rates = graduationRates(content, [
+      run('random', 4, 'graduation'),
+      run('random', 4, 'dismissal'),
+      run('random', 6, 'graduation'),
+      run('study', 4, 'graduation'),
+    ])
+    expect(rates).toEqual([
+      { policy: 'random', programYears: 4, runs: 2, graduated: 1 },
+      { policy: 'random', programYears: 6, runs: 1, graduated: 1 },
+      { policy: 'random', programYears: null, runs: 3, graduated: 2 },
+      { policy: 'study', programYears: 4, runs: 1, graduated: 1 },
+      { policy: 'study', programYears: null, runs: 1, graduated: 1 },
+    ])
+  })
+
+  it('adds a Before column from an earlier report', () => {
+    const runs = [run('random', 4, 'graduation'), run('random', 4, 'dismissal')]
+    const report = renderSummary(content, runs, {
+      command: 'test',
+      generatedAt: 'now',
+      baseline: [{ policy: 'random', programYears: 4, runs: 4, graduated: 3 }],
+      baselineLabel: 'reports/balance/old',
+    })
+    expect(report).toContain('## Graduation')
+    expect(report).toContain(
+      '| random | 4 yr | 2 | 50.0% | 50.0% | 75.0 / 25.0 |',
+    )
+    expect(report).toContain('| random | **All** | 2 | 50.0% | 50.0% | — |')
+  })
+
+  it('rebuilds rates from the Endings table of an older report', () => {
+    const statEnding = content.config.statEndings[0]?.endingId ?? 'burnout'
+    const markdown = [
+      '## Endings',
+      '',
+      `| Policy | Program | Runs | ${statEnding} | dismissal | graduation | Beyond program |`,
+      '| --- | --- | --- | --- | --- | --- | --- |',
+      '| random | 6 yr | 54 | 11.1% | 48.1% | 40.7% | 42.6% |',
+      '| random | 4 yr | 446 | 5.4% | 36.5% | 58.1% | 22.0% |',
+      '',
+      '## Final stats',
+    ].join('\n')
+    expect(ratesFromSummary(content, markdown)).toEqual([
+      { policy: 'random', programYears: 4, runs: 446, graduated: 259 },
+      { policy: 'random', programYears: 6, runs: 54, graduated: 22 },
+      { policy: 'random', programYears: null, runs: 500, graduated: 281 },
+    ])
+    expect(ratesFromSummary(content, '# nothing')).toEqual([])
   })
 })

@@ -6,15 +6,17 @@
 pnpm balance                                # 2,000 runs for each policy
 pnpm balance --runs 500 --policy random,study
 pnpm balance --major medicine --seed 100
+pnpm balance --runs 500 --seed 100 --compare reports/balance/<earlier report>
 ```
 
-| Option     | Default           | Meaning                                                            |
-| ---------- | ----------------- | ------------------------------------------------------------------ |
-| `--runs`   | `2000`            | Runs per policy.                                                   |
-| `--policy` | all               | Comma-separated policies to play.                                  |
-| `--major`  | every major       | Play only one major. Otherwise runs rotate through every major.    |
-| `--seed`   | `1`               | First run seed. The same options and content give the same report. |
-| `--out`    | `reports/balance` | Output folder. Reports are not committed.                          |
+| Option      | Default           | Meaning                                                                    |
+| ----------- | ----------------- | -------------------------------------------------------------------------- |
+| `--runs`    | `2000`            | Runs per policy.                                                           |
+| `--policy`  | all               | Comma-separated policies to play.                                          |
+| `--major`   | every major       | Play only one major. Otherwise runs rotate through every major.            |
+| `--seed`    | `1`               | First run seed. The same options and content give the same report.         |
+| `--out`     | `reports/balance` | Output folder. Reports are not committed.                                  |
+| `--compare` | none              | An earlier report folder. Its `graduation.json` fills the "Before" column. |
 
 ## Policies
 
@@ -35,8 +37,8 @@ Program, elective, and multi-select events follow the same policy. The backgroun
 
 Each run writes a folder named after its time:
 
-- `summary.md`: endings and runs that went beyond the program length, by policy and program length; final stats as median with p10–p90, including the automatic loan still owed at the ending and the share of runs that owe one; a watch list of saturated or extreme stats; the choices whose pick moves final stats most (random runs only); the largest stat changes written on any choice; and events no run reached or few runs reached.
-- `runs.csv`: one row per run with seed, policy, background, major, ending, final year, grade, final stats, money after debt (`final_money`), the automatic loan still owed (`loan_left`), and the number of decisions.
-- `paths.jsonl`: one line per run with every `eventId:choiceId` in order.
+- `summary.md`: graduation by policy and program length, plus all runs of each policy (graduated means any ending except `dismissal` and the stat-rule endings; with `--compare`, a "Before" column shows the earlier report's rates); endings and runs that went beyond the program length, by policy and program length; final stats as median with p10–p90, including the automatic loan still owed at the ending and the share of runs that owe one; a watch list of saturated or extreme stats; the choices whose pick moves final stats most (random runs only); the largest stat changes written on any choice; and events no run reached or few runs reached.
+- `graduation.json`: the graduation rates of `summary.md`, read by a later `--compare`. For an older report without it, `--compare` rebuilds the rates from the Endings table of its `summary.md`; counts come from rounded percentages, so they can be off by one run.
+- `runs.csv` (one row per run) and `paths.jsonl` (every `eventId:choiceId` of each run) are turned off in `scripts/balance.ts`; uncomment that block to write them again.
 
 Re-run with the same options after editing content to compare reports.
