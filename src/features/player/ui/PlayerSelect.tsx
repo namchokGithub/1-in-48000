@@ -71,26 +71,43 @@ export function PlayerSelect({
       )
         setOpen(false)
     }
+    // Scrolling the page moves the trigger, so the list follows it. Scrolling
+    // the list itself must not: that would re-run the scroll-into-view below
+    // and snap a touch scroll back to the active option.
+    const onScroll = (event: Event) => {
+      if (listRef.current?.contains(event.target as Node)) return
+      update()
+    }
     document.addEventListener('pointerdown', onPointerDown)
-    document.addEventListener('scroll', update, true)
+    document.addEventListener('scroll', onScroll, true)
     window.addEventListener('resize', update)
     return () => {
       document.removeEventListener('pointerdown', onPointerDown)
-      document.removeEventListener('scroll', update, true)
+      document.removeEventListener('scroll', onScroll, true)
       window.removeEventListener('resize', update)
     }
   }, [open])
 
+  // Only whether the list is placed matters here, not each new position.
+  const placed = position !== null
   useEffect(() => {
-    if (!open || !position) return
+    if (!open || !placed) return
     listRef.current
       ?.querySelector<HTMLElement>(`[data-option-index="${active}"]`)
       ?.scrollIntoView({ block: 'nearest' })
-  }, [open, active, position, query])
+  }, [open, active, placed, query])
 
+  // Touch screens would open the keyboard over the list, so only devices
+  // with a hovering pointer focus the search field on open.
   useEffect(() => {
-    if (open && position && searchable) searchRef.current?.focus()
-  }, [open, position, searchable])
+    if (
+      open &&
+      placed &&
+      searchable &&
+      window.matchMedia('(hover: hover)').matches
+    )
+      searchRef.current?.focus()
+  }, [open, placed, searchable])
 
   function openList() {
     setQuery('')

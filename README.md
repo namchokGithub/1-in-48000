@@ -7,6 +7,8 @@
 ![logo](public/images/Kawaii-tropical-study.ico)
 **"1 ใน 48,000"** — a choice-based university life simulation set in Thailand. Every choice shapes your story. Built with React, TypeScript, and Vite.
 
+![A scene in play: dialogue, choices with stat changes, and the stat panel](docs/screenshots/play-desktop.png)
+
 ## Overview
 
 Live one student's life at **ม.บารพู**, a fictional university inspired by Thai campus life, from enrollment to graduation. Balance study, money, health, stress, and relationships across terms, breaks, and summer sessions. Four-year majors aim to finish in Year 4 and six-year majors in Year 6; a student who falls behind can stay until Year 8.
@@ -36,6 +38,12 @@ Live one student's life at **ม.บารพู**, a fictional university inspi
 - **Ending** — a life summary covering your grade point average, relationships, and your path after graduation.
 - **Devices** — mobile and desktop.
 
+<p>
+  <img src="docs/screenshots/create.png" alt="Character creation with three backgrounds" width="24%" />
+  <img src="docs/screenshots/year-summary.png" alt="Summary of the year before" width="24%" />
+  <img src="docs/screenshots/ending.png" alt="Ending with grade point average and life timeline" width="24%" />
+</p>
+
 ### BO (Back Office)
 
 A content authoring and testing tool that runs **only on the author's machine**, separate from the public game.
@@ -52,6 +60,11 @@ A content authoring and testing tool that runs **only on the author's machine**,
 - Game settings: loan rate and days per period, stat modifiers, stat endings, and per-period stat changes.
 
 See [`docs/STORY-AUTHORING.md`](docs/STORY-AUTHORING.md) for how to write events and build the flow.
+
+<p>
+  <img src="docs/screenshots/bo-proofread.png" alt="Proofread tab with the Player scene and the edit panel" width="49%" />
+  <img src="docs/screenshots/bo-simulation.png" alt="Simulation beside the Flow board" width="49%" />
+</p>
 
 ## Tech Stack
 

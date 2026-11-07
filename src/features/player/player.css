@@ -910,8 +910,10 @@
 .player-select-list {
   position: fixed;
   z-index: var(--z-dropdown);
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
+  /* A flex column, so the options shrink to the list's max-height and
+     scroll inside it (a grid 1fr row grew to fit every option instead). */
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   padding: 0.3rem;
   border: 1px solid var(--color-line);
@@ -922,6 +924,7 @@
 }
 .player-select-search {
   position: relative;
+  flex: none;
   padding: 0.25rem;
 }
 .player-select-search-input {
@@ -955,8 +958,10 @@
   color: var(--color-ink);
 }
 .player-select-options {
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .player-select-option {
   padding: 0.65rem 0.8rem;
