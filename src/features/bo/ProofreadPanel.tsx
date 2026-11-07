@@ -355,6 +355,39 @@ export function ProofreadPanel({
               </BoDropdown>
             </label>
 
+            <label className="bo-field">
+              <span>ชุดผู้เล่น</span>
+              <BoDropdown
+                value={event.outfit ?? ''}
+                onChange={(input) =>
+                  update((current) => ({
+                    ...current,
+                    outfit: (input.target.value || undefined) as
+                      V2Event['outfit'] | undefined,
+                  }))
+                }
+              >
+                <option value="">ค่าเริ่มต้น (ชุดนักศึกษา)</option>
+                <option value="casual">ชุดปกติ</option>
+                <option value="student">ชุดนักศึกษา</option>
+              </BoDropdown>
+            </label>
+            {/* <label className="bo-checkbox-field">
+              <input
+                type="checkbox"
+                checked={event.hidePlayer === true}
+                onChange={(input) =>
+                  update((current) => {
+                    const next = { ...current }
+                    if (input.target.checked) next.hidePlayer = true
+                    else delete next.hidePlayer
+                    return next
+                  })
+                }
+              />
+              <span>ซ่อนภาพผู้เล่นในฉากนี้</span>
+            </label> */}
+
             <h4 className="font-bold">บทพูด</h4>
             {event.lines.map((line, index) => (
               <div

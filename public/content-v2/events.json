@@ -704,6 +704,7 @@
     "title": "ข้อความจากชมรม",
     "sceneAssetId": "campus_orientation_v5",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -863,6 +864,7 @@
     "title": "ใบเซียมซีที่พับอยู่",
     "sceneAssetId": "khao_sam_muk_shrine",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -930,6 +932,7 @@
     "title": "คิวหน้าระฆัง",
     "sceneAssetId": "khao_sam_muk_shrine",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -997,6 +1000,7 @@
     "title": "ถุงเหรียญตรงบันได",
     "sceneAssetId": "khao_sam_muk_shrine",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1059,6 +1063,7 @@
     "title": "ฝนบนขั้นบันได",
     "sceneAssetId": "khao_sam_muk_shrine",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1132,6 +1137,7 @@
     "title": "รูปหน้าสิงโตหิน",
     "sceneAssetId": "khao_sam_muk_shrine",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1199,6 +1205,7 @@
     "title": "นัดกันหน้าร้าน",
     "sceneAssetId": "h2m_bang_saen",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1277,6 +1284,7 @@
     "title": "เพลงดังเกินบทสนทนา",
     "sceneAssetId": "h2m_bang_saen",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1355,6 +1363,7 @@
     "title": "จานที่แบ่งกันได้",
     "sceneAssetId": "h2m_bang_saen",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1438,13 +1447,19 @@
     "title": "เพื่อนที่เงียบไป",
     "sceneAssetId": "h2m_bang_saen",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
         "text": "ระหว่างเพื่อนคนอื่นคุยกัน คนที่นั่งข้างคุณอ่านแจ้งเตือนในโทรศัพท์แล้วเงียบลง"
       },
       {
-        "text": "เขาคว่ำหน้าจอและบอกว่าไม่มีอะไร ทั้งที่เมื่อครู่ยังหัวเราะอยู่"
+        "speakerId": "nap-dow",
+        "text": "ไม่มีอะไร ฉันเริ่มมึนนิดหน่อย...",
+        "portraitAssetId": "nap_dow_private"
+      },
+      {
+        "text": "เธอคว่ำหน้าจอและบอกว่าไม่มีอะไร ทั้งที่เมื่อครู่ยังหัวเราะอยู่"
       }
     ],
     "choices": [
@@ -1511,6 +1526,7 @@
     "title": "รถเที่ยวสุดท้ายเพื่อกลับหอ",
     "sceneAssetId": "h2m_bang_saen",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1591,9 +1607,10 @@
       "period": "term1"
     },
     "pool": "bang_saen_bridge_friends",
-    "title": "รูปกับปลาหมึกแดง",
+    "title": "ถ่ายรูปกับปลาหมึกแดง",
     "sceneAssetId": "bang_saen_rachanawi_bridge",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1682,6 +1699,7 @@
     "title": "น้ำขวดสุดท้าย",
     "sceneAssetId": "bang_saen_rachanawi_bridge",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1765,6 +1783,7 @@
     "title": "โปสต์การ์ดของเพื่อน",
     "sceneAssetId": "bang_saen_rachanawi_bridge",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -1794,7 +1813,7 @@
           {
             "type": "statDelta",
             "stat": "relationships",
-            "amount": 2
+            "amount": 1
           }
         ]
       },
@@ -1917,7 +1936,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "bridge_return_route",
@@ -2000,7 +2020,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "ghost_hunt_moving_shadow",
@@ -2063,7 +2084,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "ghost_hunt_tree_noise",
@@ -2126,7 +2148,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "ghost_hunt_statue_photo",
@@ -2189,7 +2212,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "ghost_hunt_dim_flashlight",
@@ -2241,7 +2265,7 @@
       },
       {
         "id": "ghost_hunt_dim_flashlight_dash_to_building",
-        "text": "รีบวิ่งไปหาไฟอาคาร",
+        "text": "รีบวิ่งไปหาไฟตามอาคาร",
         "conditions": [],
         "recap": "คุณรีบวิ่งในแสงสลัวแล้วสะดุดขั้นทางเดิน ล้มจนเข่าถลอก เพื่อนต้องช่วยพยุงไปนั่งใต้ไฟ",
         "effects": [
@@ -2252,7 +2276,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "ghost_hunt_rainy_exit",
@@ -2286,6 +2311,11 @@
             "type": "statDelta",
             "stat": "health",
             "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -5
           }
         ]
       },
@@ -2315,7 +2345,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "market_grill_queue",
@@ -2471,7 +2502,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "market_ring_toss",
@@ -2549,7 +2581,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "market_small_gift",
@@ -2783,7 +2816,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "medical_routine_checkup",
@@ -3017,7 +3051,8 @@
           }
         ]
       }
-    ]
+    ],
+    "outfit": "casual"
   },
   {
     "id": "medical_dust_sneezing",
