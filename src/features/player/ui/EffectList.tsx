@@ -1,4 +1,4 @@
-import type { ChoiceEffectLine } from '../choicePreview'
+import { statLabels, type ChoiceEffectLine } from '../choicePreview'
 import { StatIcon } from './StatIcon'
 
 export function EffectList({
@@ -15,6 +15,17 @@ export function EffectList({
         <span key={`${line.text}-${index}`} className="player-effect">
           {line.stat && <StatIcon stat={line.stat} />}
           {line.text}
+          {line.icons?.map((stat) => (
+            <span
+              key={stat}
+              className="player-effect-icon"
+              role="img"
+              aria-label={statLabels[stat]}
+              title={statLabels[stat]}
+            >
+              <StatIcon stat={stat} />
+            </span>
+          ))}
         </span>
       ))}
     </span>

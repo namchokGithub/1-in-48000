@@ -722,6 +722,11 @@
   align-items: center;
   gap: 0.4rem;
 }
+/* statsOnly chance outcomes show each stat as an icon only. */
+.player-effect-icon {
+  display: inline-flex;
+  align-items: center;
+}
 
 /* Choices */
 .player-choice-panel {

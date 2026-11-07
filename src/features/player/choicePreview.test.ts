@@ -38,7 +38,7 @@ describe('Player choice information', () => {
     ).toEqual([{ stat: 'study', text: 'การเรียน +5' }])
   })
 
-  it('shows effective chance and masks amounts for statsOnly', () => {
+  it('shows only stat icons for statsOnly, without chance or names', () => {
     expect(
       describeChoiceEffects(
         choice([
@@ -55,9 +55,8 @@ describe('Player choice information', () => {
         stats,
       ),
     ).toEqual([
-      { stat: null, text: 'โอกาสสำเร็จ 4%' },
-      { stat: null, text: 'สำเร็จ: เงินเพิ่ม' },
-      { stat: null, text: 'ไม่สำเร็จ: สุขภาพลด' },
+      { stat: null, text: 'สำเร็จ', icons: ['money'] },
+      { stat: null, text: 'ไม่สำเร็จ', icons: ['health'] },
     ])
   })
 
@@ -112,5 +111,31 @@ describe('Player choice information', () => {
       modifiers,
     )
     expect(lines).toEqual([{ stat: 'study', text: 'การเรียน +8' }])
+  })
+
+  it('lists each statsOnly stat once and notes an outcome with none', () => {
+    expect(
+      describeChoiceEffects(
+        choice([
+          {
+            type: 'chance',
+            successPercent: 50,
+            displayMode: 'statsOnly',
+            successEffects: [
+              { type: 'statDelta', stat: 'money', amount: 100 },
+              { type: 'statDelta', stat: 'study', amount: 2 },
+              { type: 'statDelta', stat: 'money', amount: 50 },
+            ],
+            failureEffects: [
+              { type: 'setFlag', flagId: 'missed', value: true },
+            ],
+          },
+        ]),
+        stats,
+      ),
+    ).toEqual([
+      { stat: null, text: 'สำเร็จ', icons: ['money', 'study'] },
+      { stat: null, text: 'ไม่สำเร็จ: ไม่มีผลต่อค่าสถานะ' },
+    ])
   })
 })

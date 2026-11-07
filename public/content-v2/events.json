@@ -4123,6 +4123,7 @@
     "title": "หน้าร้อนครั้งแรก",
     "sceneAssetId": "canteen",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -4179,8 +4180,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "summer_canteen_rush",
@@ -4193,6 +4193,7 @@
     "title": "เที่ยงวัน ณ ร้านลับ",
     "sceneAssetId": "canteen_v2",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [
       {
         "type": "flag",
@@ -4252,8 +4253,7 @@
         "recap": "คุณบอกคนดูแลร้านว่าพรุ่งนี้ค่อยกลับมาช่วยอีก วันนี้ขอพักตามเวลาที่ตกลงไว้ เขาพยักหน้าแล้วให้คนอื่นรับช่วงต่อ",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "summer_quiet_campus",
@@ -4266,6 +4266,7 @@
     "title": "วันที่มหาวิทยาลัยเงียบลง",
     "sceneAssetId": "recreation_park",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -4325,8 +4326,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "summer_skill_trial",
@@ -4339,6 +4339,7 @@
     "title": "ลองอะไรใหม่ระหว่างปิดเทอม",
     "sceneAssetId": "campus_library_exterior",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -4392,8 +4393,7 @@
         "recap": "คุณจดสามเรื่องที่อยากเรียนรู้ลงในมือถือ แล้ววางแผนค่อยเลือกเมื่อรู้ตารางปีสองชัดขึ้น",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "summer_workshop_followup",
@@ -4625,7 +4625,6 @@
         "id": "join_friends",
         "text": "ใช้เวลากับเพื่อนมากขึ้น",
         "conditions": [],
-        "recap": "คุณเว้นช่วงว่างในตารางไว้เจอเพื่อนและตอบรับนัดกินข้าวมื้อแรกของเทอม",
         "effects": [
           {
             "type": "statDelta",
@@ -4638,7 +4637,6 @@
         "id": "rest_well",
         "text": "จัดเวลาพักให้พอดี",
         "conditions": [],
-        "recap": "คุณกันคืนที่ไม่รับงานเพิ่มไว้ในตารางและเข้านอนตามเวลาที่ตั้งใจหนึ่งคืนเต็ม",
         "effects": [
           {
             "type": "statDelta",
@@ -4874,6 +4872,7 @@
     "title": "ข้อความทวงงานในกลุ่ม",
     "sceneAssetId": "dorm_room_v2",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [
       {
         "type": "flag",
@@ -4933,8 +4932,7 @@
         "recap": "คุณย้ำวันส่งและแนบตารางเดิมไว้ในแชท ทุกคนเห็นข้อความแล้ว แต่หัวข้อที่ค้างยังต้องรอคนทำ",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y2_term1_budget_gap",
@@ -6239,6 +6237,7 @@
     "title": "หลังส่งข้อสอบปีสอง",
     "sceneAssetId": "recreation_park",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -6292,8 +6291,7 @@
         "recap": "คุณวางกระเป๋าข้างโต๊ะที่ยังมีชีตกองอยู่ แล้วปล่อยให้เรื่องเก็บห้องเป็นของวันพรุ่งนี้",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "internship_application",
@@ -6832,6 +6830,7 @@
     "title": "สัปดาห์สุดท้ายก่อนปีสาม",
     "sceneAssetId": "recreation_park",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -6885,8 +6884,7 @@
         "recap": "คุณกลับหอ ปิดแจ้งเตือนที่ไม่ด่วน และปล่อยให้คืนสุดท้ายของหน้าร้อนจบลงเงียบ ๆ",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "fieldwork_start",
@@ -6899,6 +6897,7 @@
     "title": "ออกไปทำงานภาคสนาม",
     "sceneAssetId": "bus_stop",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -6945,8 +6944,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "crowded_deadline",
@@ -7217,6 +7215,7 @@
     "title": "บทเรียนจากหน้าร้อน",
     "sceneAssetId": "bus_stop",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -7263,8 +7262,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y3_term1_field_notes",
@@ -7791,6 +7789,7 @@
     "title": "ทางเดินเลียบหาดวันธรรมดา",
     "sceneAssetId": "bang_saen_beach",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -7839,8 +7838,7 @@
         "recap": "คุณนั่งบนขอบทางเดินและปล่อยให้คลื่นซัดเข้าฝั่งหลายรอบ ก่อนลุกกลับโดยยังไม่ต้องหาคำตอบให้ทุกอย่าง",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y3_break_result_mail",
@@ -8039,6 +8037,7 @@
     "title": "ก่อนเปิดเทอมสอง",
     "sceneAssetId": "dorm_room_v2",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -8087,8 +8086,7 @@
         "recap": "คุณเปิดแท็บประกาศไว้บนจอแล้วเข้านอน ยังไม่ได้จัดแผน แต่พรุ่งนี้รู้ว่าจะเปิดดูจากตรงไหน",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y3_term2_topic_seed",
@@ -8504,6 +8502,7 @@
     "title": "ข้อความจากอาจารย์ที่ปรึกษา",
     "sceneAssetId": "campus_library_v2",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [
       {
         "type": "flag",
@@ -8545,8 +8544,7 @@
         "recap": "คุณตอบความคืบหน้าเท่าที่แน่ใจ อาจารย์รับทราบและบอกให้ส่งรายละเอียดเมื่อพร้อม",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y3_summer_role_shift",
@@ -8630,6 +8628,7 @@
     "title": "ลมบนจุดชมวิว",
     "sceneAssetId": "khao_sam_muk_viewpoint",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -8678,8 +8677,7 @@
         "recap": "คุณมองสีฟ้าค่อย ๆ เปลี่ยนแล้วเดินกลับเมื่อไฟทางเริ่มเปิด ยังไม่ต้องสรุปวันนี้ให้เป็นบทเรียน",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y3_summer_peer_promise",
@@ -8692,6 +8690,7 @@
     "title": "คนที่เคยช่วยลองงาน",
     "sceneAssetId": "recreation_park",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [
       {
         "type": "flag",
@@ -8733,8 +8732,7 @@
         "recap": "คุณบอกเพื่อนว่ายังเก็บข้อมูลไม่ครบ เขาตอบว่ารอได้และจะกลับมาถามอีกทีเมื่อว่าง",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y3_summer_next_year",
@@ -9250,6 +9248,7 @@
     "title": "คนในพื้นที่ตอบกลับ",
     "sceneAssetId": "bus_stop_v2",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [
       {
         "type": "flag",
@@ -9288,8 +9287,7 @@
         "recap": "คุณส่งคำขอบคุณและไม่รบกวนเวลาของเขา ข้อมูลที่มีอยู่ยังต้องกลับไปตรวจเอง",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_term1_data_access",
@@ -9800,6 +9798,7 @@
     "title": "ห้องอ่านหนังสือเปิดครึ่งวัน",
     "sceneAssetId": "campus_library_exterior",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -9832,8 +9831,7 @@
         "recap": "คุณหย่อนหนังสือลงช่องคืนและกลับไปพัก งานส่วนที่เหลือค่อยเปิดที่หอ",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_break_community_update",
@@ -9993,6 +9991,7 @@
     "title": "คำถามที่รุ่นน้องส่งกลับ",
     "sceneAssetId": "campus_library",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [
       {
         "type": "flag",
@@ -10031,8 +10030,7 @@
         "recap": "คุณบอกจุดที่ควรถามอาจารย์ รุ่นน้องจดไว้ก่อนกลับไปเตรียมร่าง",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_break_rainy_commute",
@@ -10045,6 +10043,7 @@
     "title": "ฝนกลางทางกลับหอ",
     "sceneAssetId": "bus_stop_v3",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -10083,8 +10082,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_break_folder_backup",
@@ -10148,6 +10146,7 @@
     "title": "คืนก่อนกลับเข้าห้องเรียน",
     "sceneAssetId": "recreation_park",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -10180,8 +10179,7 @@
         "recap": "คุณตั้งนาฬิกาปลุกและวางมือถือ เรื่องกำหนดส่งยังอยู่ให้เช็กตอนเช้า",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_term2_mentor_meeting",
@@ -10928,6 +10926,7 @@
     "title": "ประกาศที่เขียนว่ารับเด็กจบใหม่",
     "sceneAssetId": "dorm_room_v2",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -10971,8 +10970,7 @@
           }
         ]
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_summer_junior_message",
@@ -11173,6 +11171,7 @@
     "title": "บันทึกถึงตัวเองเมื่อเข้ามาใหม่",
     "sceneAssetId": "recreation_park",
     "bgmAssetId": "kanto_daydream",
+    "outfit": "casual",
     "conditions": [],
     "lines": [
       {
@@ -11205,8 +11204,7 @@
         "recap": "คุณบันทึกรูปไว้ในอัลบั้มเดิม ความทรงจำยังอยู่โดยไม่ต้องสรุปเป็นคำสวย ๆ",
         "effects": []
       }
-    ],
-    "outfit": "casual"
+    ]
   },
   {
     "id": "y4_summer_last_evening",
@@ -18521,6 +18519,7 @@
   },
   {
     "id": "event_6c2b0026",
+    "active": true,
     "kind": "main",
     "randomizeChoices": true,
     "time": {
@@ -18556,7 +18555,7 @@
         "effects": [
           {
             "type": "chance",
-            "successPercent": 88,
+            "successPercent": 8,
             "displayMode": "statsOnly",
             "successEffects": [
               {
@@ -18612,7 +18611,107 @@
           }
         ]
       }
+    ]
+  },
+  {
+    "id": "event_6c2b0027",
+    "active": true,
+    "kind": "main",
+    "randomizeChoices": true,
+    "time": {
+      "year": 3,
+      "period": "term1"
+    },
+    "title": "ไปเรียนทันหรือไม่?",
+    "sceneAssetId": "bang_saen_coffee_truck",
+    "bgmAssetId": "kanto_daydream",
+    "conditions": [],
+    "lines": [
+      {
+        "text": "คุณรู้สึกว่าอยากดื่มอะไรสักอย่างในตอนเช้า"
+      }
     ],
-    "active": true
+    "choices": [
+      {
+        "id": "choice_98eb3b3f",
+        "text": "Thai Style Iced Coffee",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -10
+          }
+        ]
+      },
+      {
+        "id": "choice_a9a9defe",
+        "text": "Espresso",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "statDelta",
+            "stat": "health",
+            "amount": -1
+          },
+          {
+            "type": "statDelta",
+            "stat": "stress",
+            "amount": -3
+          }
+        ]
+      },
+      {
+        "id": "choice_2514af14",
+        "text": "Lucky Shot Boost",
+        "conditions": [],
+        "effects": [
+          {
+            "type": "chance",
+            "successPercent": 8,
+            "displayMode": "statsOnly",
+            "successEffects": [
+              {
+                "type": "statDelta",
+                "stat": "money",
+                "amount": 200
+              },
+              {
+                "type": "statDelta",
+                "stat": "study",
+                "amount": 10
+              },
+              {
+                "type": "statDelta",
+                "stat": "health",
+                "amount": 10
+              },
+              {
+                "type": "statDelta",
+                "stat": "lucky",
+                "amount": 10
+              }
+            ],
+            "failureEffects": [
+              {
+                "type": "statDelta",
+                "stat": "stress",
+                "amount": -10
+              },
+              {
+                "type": "statDelta",
+                "stat": "health",
+                "amount": -5
+              },
+              {
+                "type": "statDelta",
+                "stat": "relationships",
+                "amount": -10
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

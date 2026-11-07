@@ -62,7 +62,7 @@ Count the more-than-ten-main-event warning from all active events in a year/peri
 
 ## 2026-10-27 — Player gameplay information
 
-Sample a new player's name from the versioned names file and keep the field editable. Sampling a background hides its selection in the creation form while retaining its ID for the new save. Show stat deltas and the engine's effective chance percentage before a choice; `statsOnly` reveals direction without amount. Extend the visible study timeline from four to six or eight years according to the current year, and render the saved choice history in the ending summary. A new game replaces the single save slot immediately after the player submits the creation form; the separate overwrite warning is removed.
+Sample a new player's name from the versioned names file and keep the field editable. Sampling a background hides its selection in the creation form while retaining its ID for the new save. Show stat deltas and the engine's effective chance percentage before a choice; `statsOnly` shows only icons of the affected stats (changed 2026-11-07: no percentage, names, direction, or amounts). Extend the visible study timeline from four to six or eight years according to the current year, and render the saved choice history in the ending summary. A new game replaces the single save slot immediately after the player submits the creation form; the separate overwrite warning is removed.
 
 ## 2026-10-27 — Scoped Player themes and continuous music
 
@@ -218,7 +218,6 @@ The BO server checked each saved file against the other files on disk. Saving th
 
 The BO also keeps the unsaved draft in browser storage through `src/save/boDraft.ts`, written 0.5 seconds after the last edit and when the page is hidden, and removed once nothing is unsaved. When the BO opens and a kept draft differs from the content files, a notice offers to restore or drop it; keeping is paused until the author chooses, so the old draft is not overwritten. The kept draft is not checked against the content schema, because unsaved work may still have errors; it only needs the shape the editor can open. It stores a fingerprint of the files it was edited from, and the notice warns when the files changed since, because restoring and saving would overwrite those changes. Undo history is not kept.
 
-
 ## 2026-11-04 — shadcn/ui in the BO only
 
 The BO uses shadcn/ui components, starting with `Badge` (`src/components/ui/badge.tsx`), for counts and status chips. The setup was written by hand instead of with `shadcn init`, because `init` adds shadcn's own color variables and a base layer to `src/shared/styles.css`, which the Player also loads, and would change Player styles. Components are added with `pnpm dlx shadcn@latest add <name>`; `components.json` points `utils` at `@/lib/utils`, and new files must import `cn` from there (the CLI once installed the unrelated npm package `cn` instead).
@@ -237,7 +236,6 @@ When hidden, nothing replaces the preview, and chance effects hide their success
 ## 2026-11-04 — Debt never goes below zero
 
 Debt stops at 0. A negative debt would mean the bank owes the player, which reads as a balance in their favor and belongs in money instead. The engine limits debt to 0 whenever a stat changes, including when a background starts the game, and the stats schema rejects a negative debt in content and saves. Paying 500 against a debt of 300 leaves 0, and the change shown to the player is the 300 actually paid. Every other stat keeps its earlier rule: study, health, stress, relationships, and lucky may go below 0 and stop at 100, and money has no limit.
-
 
 ## 2026-11-04 — Grade point average at the ending
 
@@ -272,4 +270,3 @@ Authors can scale stat changes by the player's current stats and end a run on a 
 ## 2026-11-05 — Per-period stat changes
 
 Content can change stats at every Next Period (`config.periodChanges`), such as study −2 each period, so stats drift instead of only climbing. Balance reports showed choices push study up 273 points in total and down only 11, so tuning individual choices alone could not stop study reaching 100 by Year 3. A rule names the periods it applies to and is judged on the period that just ended, like loan interest; it may also require a stat condition. It runs after interest and before delayed effects at the new period, and stat endings are checked after it. Its amounts are not scaled by stat modifiers, so a rule of −2 always takes 2. The change is not added to the choice's own stat changes, so the notice after a choice still shows only that choice; the year summary includes it.
-

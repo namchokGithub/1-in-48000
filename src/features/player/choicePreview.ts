@@ -32,7 +32,6 @@ type Modifiers = V2Content['config']['statModifiers']
 
 function describeOutcome(
   effects: StateEffect[],
-  showAmounts: boolean,
   amountOf: (stat: Stat, amount: number) => number,
 ): string {
   const stats = effects.filter(
@@ -41,12 +40,9 @@ function describeOutcome(
   )
   if (!stats.length) return 'ไม่มีผลต่อค่าสถานะ'
   return stats
-    .map((effect) => {
-      const amount = amountOf(effect.stat, effect.amount)
-      return showAmounts
-        ? formatStatChange(effect.stat, amount)
-        : `${statLabels[effect.stat]}${amount > 0 ? 'เพิ่ม' : amount < 0 ? 'ลด' : 'ไม่เปลี่ยน'}`
-    })
+    .map((effect) =>
+      formatStatChange(effect.stat, amountOf(effect.stat, effect.amount)),
+    )
     .join(' · ')
 }
 
@@ -62,7 +58,23 @@ export function showsStatChanges(
 }
 
 // `stat` is set for a single stat change so the Player can show its icon.
-export type ChoiceEffectLine = { stat: Stat | null; text: string }
+// `icons` lists stats shown only as icons, for a statsOnly chance outcome.
+export type ChoiceEffectLine = {
+  stat: Stat | null
+  text: string
+  icons?: Stat[]
+}
+
+/** The stats a chance outcome changes, in order, each once. */
+function outcomeStats(effects: StateEffect[]): Stat[] {
+  return [
+    ...new Set(
+      effects.flatMap((effect) =>
+        effect.type === 'statDelta' && effect.amount !== 0 ? [effect.stat] : [],
+      ),
+    ),
+  ]
+}
 
 /**
  * The stat changes a choice will make, as the player sees them before choosing.
@@ -85,6 +97,19 @@ export function describeChoiceEffects(
         text: formatStatChange(effect.stat, amount),
       })
       if (effect.stat === 'lucky') lucky = Math.min(100, lucky + amount)
+    } else if (effect.type === 'chance' && effect.displayMode === 'statsOnly') {
+      // Only which stats may change, as icons: no chance, names, or amounts.
+      for (const [label, effects] of [
+        ['สำเร็จ', effect.successEffects],
+        ['ไม่สำเร็จ', effect.failureEffects],
+      ] as const) {
+        const icons = outcomeStats(effects)
+        descriptions.push(
+          icons.length
+            ? { stat: null, text: label, icons }
+            : { stat: null, text: `${label}: ไม่มีผลต่อค่าสถานะ` },
+        )
+      }
     } else if (effect.type === 'chance') {
       const percent = getV2EffectiveChancePercent(effect.successPercent, lucky)
       descriptions.push({
@@ -93,11 +118,11 @@ export function describeChoiceEffects(
       })
       descriptions.push({
         stat: null,
-        text: `สำเร็จ: ${describeOutcome(effect.successEffects, effect.displayMode === 'amounts', amountOf)}`,
+        text: `สำเร็จ: ${describeOutcome(effect.successEffects, amountOf)}`,
       })
       descriptions.push({
         stat: null,
-        text: `ไม่สำเร็จ: ${describeOutcome(effect.failureEffects, effect.displayMode === 'amounts', amountOf)}`,
+        text: `ไม่สำเร็จ: ${describeOutcome(effect.failureEffects, amountOf)}`,
       })
     }
   }

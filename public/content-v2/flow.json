@@ -1022,16 +1022,16 @@
     {
       "id": "next_y2_summer",
       "position": {
-        "x": 10656,
-        "y": 48
+        "x": 3720,
+        "y": -384
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_fieldwork_start",
       "position": {
-        "x": 10992,
-        "y": 24
+        "x": 4056,
+        "y": -408
       },
       "type": "event",
       "eventId": "fieldwork_start"
@@ -1039,8 +1039,8 @@
     {
       "id": "n_crowded_deadline",
       "position": {
-        "x": 11328,
-        "y": 120
+        "x": 4512,
+        "y": -312
       },
       "type": "event",
       "eventId": "crowded_deadline"
@@ -1048,8 +1048,8 @@
     {
       "id": "n_free_elective",
       "position": {
-        "x": 12648,
-        "y": 292
+        "x": 5712,
+        "y": -144
       },
       "type": "event",
       "eventId": "free_elective"
@@ -1057,16 +1057,16 @@
     {
       "id": "next_y3_term1",
       "position": {
-        "x": 13512,
-        "y": 384
+        "x": 6576,
+        "y": -48
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_festival_visit",
       "position": {
-        "x": 13848,
-        "y": 360
+        "x": 6912,
+        "y": -72
       },
       "type": "event",
       "eventId": "festival_visit"
@@ -1074,16 +1074,16 @@
     {
       "id": "next_y3_break",
       "position": {
-        "x": 16152,
-        "y": 504
+        "x": 9216,
+        "y": 72
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_project_pitch",
       "position": {
-        "x": 16824,
-        "y": 312
+        "x": 9888,
+        "y": -120
       },
       "type": "event",
       "eventId": "project_pitch"
@@ -1091,8 +1091,8 @@
     {
       "id": "n_mentor_feedback",
       "position": {
-        "x": 17232,
-        "y": 288
+        "x": 10296,
+        "y": -144
       },
       "type": "event",
       "eventId": "mentor_feedback"
@@ -1100,16 +1100,16 @@
     {
       "id": "next_y3_term2",
       "position": {
-        "x": 18504,
-        "y": 576
+        "x": 11568,
+        "y": 144
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_internship_result",
       "position": {
-        "x": 19608,
-        "y": 218
+        "x": 12672,
+        "y": -216
       },
       "type": "event",
       "eventId": "internship_result"
@@ -1117,16 +1117,16 @@
     {
       "id": "next_y3_summer",
       "position": {
-        "x": 21528,
-        "y": 72
+        "x": 3624,
+        "y": 2424
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_y3_term1_field_notes",
       "position": {
-        "x": 11016,
-        "y": 908
+        "x": 4080,
+        "y": 480
       },
       "type": "event",
       "eventId": "y3_term1_field_notes"
@@ -1134,8 +1134,8 @@
     {
       "id": "n_y3_term1_source_check",
       "position": {
-        "x": 11424,
-        "y": 984
+        "x": 4488,
+        "y": 552
       },
       "type": "event",
       "eventId": "y3_term1_source_check"
@@ -1143,8 +1143,8 @@
     {
       "id": "condition_y3_term1_mali",
       "position": {
-        "x": 11760,
-        "y": 984
+        "x": 4824,
+        "y": 552
       },
       "type": "condition",
       "join": "and",
@@ -1159,8 +1159,8 @@
     {
       "id": "n_y3_term1_mali_route",
       "position": {
-        "x": 11760,
-        "y": 624
+        "x": 4824,
+        "y": 192
       },
       "type": "event",
       "eventId": "y3_term1_mali_route"
@@ -1168,8 +1168,8 @@
     {
       "id": "n_y3_term1_team_edit",
       "position": {
-        "x": 12096,
-        "y": 984
+        "x": 5160,
+        "y": 552
       },
       "type": "event",
       "eventId": "y3_term1_team_edit"
@@ -1177,8 +1177,8 @@
     {
       "id": "condition_y3_term1_peer",
       "position": {
-        "x": 12432,
-        "y": 984
+        "x": 5496,
+        "y": 552
       },
       "type": "condition",
       "join": "and",
@@ -1193,8 +1193,8 @@
     {
       "id": "n_y3_term1_peer_return",
       "position": {
-        "x": 12432,
-        "y": 624
+        "x": 5496,
+        "y": 192
       },
       "type": "event",
       "eventId": "y3_term1_peer_return"
@@ -1202,8 +1202,8 @@
     {
       "id": "n_y3_term1_exam_review",
       "position": {
-        "x": 12768,
-        "y": 984
+        "x": 5832,
+        "y": 552
       },
       "type": "event",
       "eventId": "y3_term1_exam_review"
@@ -1211,8 +1211,8 @@
     {
       "id": "n_y3_break_first_week",
       "position": {
-        "x": 13824,
-        "y": 1056
+        "x": 6888,
+        "y": 624
       },
       "type": "event",
       "eventId": "y3_break_first_week"
@@ -1220,8 +1220,8 @@
     {
       "id": "condition_y3_break_club",
       "position": {
-        "x": 14160,
-        "y": 1056
+        "x": 7224,
+        "y": 624
       },
       "type": "condition",
       "join": "and",
@@ -1236,8 +1236,8 @@
     {
       "id": "n_y3_break_club_storage",
       "position": {
-        "x": 14160,
-        "y": 1416
+        "x": 7224,
+        "y": 984
       },
       "type": "event",
       "eventId": "y3_break_club_storage"
@@ -1245,8 +1245,8 @@
     {
       "id": "n_y3_break_coast_walk",
       "position": {
-        "x": 14496,
-        "y": 1056
+        "x": 7560,
+        "y": 624
       },
       "type": "event",
       "eventId": "y3_break_coast_walk"
@@ -1254,8 +1254,8 @@
     {
       "id": "n_y3_break_result_mail",
       "position": {
-        "x": 14832,
-        "y": 1056
+        "x": 7896,
+        "y": 624
       },
       "type": "event",
       "eventId": "y3_break_result_mail"
@@ -1263,8 +1263,8 @@
     {
       "id": "condition_y3_break_source",
       "position": {
-        "x": 15168,
-        "y": 1056
+        "x": 8232,
+        "y": 624
       },
       "type": "condition",
       "join": "and",
@@ -1279,8 +1279,8 @@
     {
       "id": "n_y3_break_source_reply",
       "position": {
-        "x": 15168,
-        "y": 1416
+        "x": 8232,
+        "y": 984
       },
       "type": "event",
       "eventId": "y3_break_source_reply"
@@ -1288,8 +1288,8 @@
     {
       "id": "n_y3_break_future_talk",
       "position": {
-        "x": 15504,
-        "y": 1056
+        "x": 8568,
+        "y": 624
       },
       "type": "event",
       "eventId": "y3_break_future_talk"
@@ -1297,8 +1297,8 @@
     {
       "id": "n_y3_break_return_plan",
       "position": {
-        "x": 16296,
-        "y": 821
+        "x": 9360,
+        "y": 384
       },
       "type": "event",
       "eventId": "y3_break_return_plan"
@@ -1306,8 +1306,8 @@
     {
       "id": "n_y3_term2_topic_seed",
       "position": {
-        "x": 16680,
-        "y": 768
+        "x": 9744,
+        "y": 336
       },
       "type": "event",
       "eventId": "y3_term2_topic_seed"
@@ -1315,8 +1315,8 @@
     {
       "id": "n_y3_term2_scope_cut",
       "position": {
-        "x": 17016,
-        "y": 768
+        "x": 10080,
+        "y": 336
       },
       "type": "event",
       "eventId": "y3_term2_scope_cut"
@@ -1324,8 +1324,8 @@
     {
       "id": "n_y3_term2_trial_run",
       "position": {
-        "x": 17352,
-        "y": 768
+        "x": 10416,
+        "y": 336
       },
       "type": "event",
       "eventId": "y3_term2_trial_run"
@@ -1333,8 +1333,8 @@
     {
       "id": "condition_y3_term2_partner",
       "position": {
-        "x": 17688,
-        "y": 768
+        "x": 10752,
+        "y": 336
       },
       "type": "condition",
       "join": "and",
@@ -1349,8 +1349,8 @@
     {
       "id": "n_y3_term2_trial_partner",
       "position": {
-        "x": 17688,
-        "y": 1128
+        "x": 10752,
+        "y": 696
       },
       "type": "event",
       "eventId": "y3_term2_trial_partner"
@@ -1358,8 +1358,8 @@
     {
       "id": "n_y3_term2_final_check",
       "position": {
-        "x": 18240,
-        "y": 767
+        "x": 11304,
+        "y": 336
       },
       "type": "event",
       "eventId": "y3_term2_final_check"
@@ -1367,8 +1367,8 @@
     {
       "id": "n_y3_summer_project_arrival",
       "position": {
-        "x": 19224,
-        "y": 216
+        "x": 12288,
+        "y": -216
       },
       "type": "event",
       "eventId": "y3_summer_project_arrival"
@@ -1376,8 +1376,8 @@
     {
       "id": "condition_y3_summer_mentor",
       "position": {
-        "x": 19224,
-        "y": 792
+        "x": 12288,
+        "y": 360
       },
       "type": "condition",
       "join": "and",
@@ -1392,8 +1392,8 @@
     {
       "id": "n_y3_summer_mentor_message",
       "position": {
-        "x": 19272,
-        "y": 1080
+        "x": 12336,
+        "y": 648
       },
       "type": "event",
       "eventId": "y3_summer_mentor_message"
@@ -1401,8 +1401,8 @@
     {
       "id": "n_y3_summer_role_shift",
       "position": {
-        "x": 19248,
-        "y": 1464
+        "x": 12312,
+        "y": 1032
       },
       "type": "event",
       "eventId": "y3_summer_role_shift"
@@ -1410,8 +1410,8 @@
     {
       "id": "n_y3_summer_viewpoint_pause",
       "position": {
-        "x": 19872,
-        "y": 1440
+        "x": 12936,
+        "y": 1008
       },
       "type": "event",
       "eventId": "y3_summer_viewpoint_pause"
@@ -1419,8 +1419,8 @@
     {
       "id": "condition_y3_summer_peer",
       "position": {
-        "x": 20040,
-        "y": 1080
+        "x": 13104,
+        "y": 648
       },
       "type": "condition",
       "join": "and",
@@ -1435,8 +1435,8 @@
     {
       "id": "n_y3_summer_peer_promise",
       "position": {
-        "x": 19944,
-        "y": 720
+        "x": 13008,
+        "y": 288
       },
       "type": "event",
       "eventId": "y3_summer_peer_promise"
@@ -1444,8 +1444,8 @@
     {
       "id": "n_y3_summer_next_year",
       "position": {
-        "x": 20256,
-        "y": 46
+        "x": 13320,
+        "y": -384
       },
       "type": "event",
       "eventId": "y3_summer_next_year"
@@ -1453,8 +1453,8 @@
     {
       "id": "n_thesis_topic",
       "position": {
-        "x": 22056,
-        "y": -48
+        "x": 4152,
+        "y": 2304
       },
       "type": "event",
       "eventId": "thesis_topic"
@@ -1462,8 +1462,8 @@
     {
       "id": "n_career_fair",
       "position": {
-        "x": 22392,
-        "y": 48
+        "x": 4488,
+        "y": 2400
       },
       "type": "event",
       "eventId": "career_fair"
@@ -1471,24 +1471,24 @@
     {
       "id": "next_y4_term1",
       "position": {
-        "x": 24240,
-        "y": 96
+        "x": 6336,
+        "y": 2448
       },
       "type": "nextPeriod"
     },
     {
       "id": "next_y4_break",
       "position": {
-        "x": 26592,
-        "y": 48
+        "x": 8688,
+        "y": 2400
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_thesis_defense",
       "position": {
-        "x": 26928,
-        "y": 0
+        "x": 9024,
+        "y": 2352
       },
       "type": "event",
       "eventId": "thesis_defense"
@@ -1496,8 +1496,8 @@
     {
       "id": "n_farewell_dinner",
       "position": {
-        "x": 28704,
-        "y": 176
+        "x": 10800,
+        "y": 2520
       },
       "type": "event",
       "eventId": "farewell_dinner"
@@ -1505,16 +1505,16 @@
     {
       "id": "next_y4_term2",
       "position": {
-        "x": 29568,
-        "y": 24
+        "x": 11664,
+        "y": 2376
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_graduation_day",
       "position": {
-        "x": 31176,
-        "y": 96
+        "x": 13272,
+        "y": 2448
       },
       "type": "event",
       "eventId": "graduation_day"
@@ -1522,8 +1522,8 @@
     {
       "id": "n_y4_term1_outline",
       "position": {
-        "x": 22104,
-        "y": 624
+        "x": 4200,
+        "y": 2976
       },
       "type": "event",
       "eventId": "y4_term1_outline"
@@ -1531,8 +1531,8 @@
     {
       "id": "n_y4_term1_research_archive",
       "position": {
-        "x": 22440,
-        "y": 624
+        "x": 4536,
+        "y": 2976
       },
       "type": "event",
       "eventId": "y4_term1_research_archive"
@@ -1540,8 +1540,8 @@
     {
       "id": "n_y4_term1_advisor_slot",
       "position": {
-        "x": 22776,
-        "y": 624
+        "x": 4872,
+        "y": 2976
       },
       "type": "event",
       "eventId": "y4_term1_advisor_slot"
@@ -1549,8 +1549,8 @@
     {
       "id": "n_y4_term1_community_contact",
       "position": {
-        "x": 23112,
-        "y": 624
+        "x": 5208,
+        "y": 2976
       },
       "type": "event",
       "eventId": "y4_term1_community_contact"
@@ -1558,8 +1558,8 @@
     {
       "id": "n_y4_term1_data_access",
       "position": {
-        "x": 23448,
-        "y": 624
+        "x": 5544,
+        "y": 2976
       },
       "type": "event",
       "eventId": "y4_term1_data_access"
@@ -1567,8 +1567,8 @@
     {
       "id": "n_y4_term1_group_boundary",
       "position": {
-        "x": 23784,
-        "y": 624
+        "x": 5880,
+        "y": 2976
       },
       "type": "event",
       "eventId": "y4_term1_group_boundary"
@@ -1576,8 +1576,8 @@
     {
       "id": "n_y4_term1_mali_schedule",
       "position": {
-        "x": 22104,
-        "y": 960
+        "x": 4200,
+        "y": 3312
       },
       "type": "event",
       "eventId": "y4_term1_mali_schedule"
@@ -1585,8 +1585,8 @@
     {
       "id": "n_y4_term1_first_draft",
       "position": {
-        "x": 22440,
-        "y": 960
+        "x": 4536,
+        "y": 3312
       },
       "type": "event",
       "eventId": "y4_term1_first_draft"
@@ -1594,8 +1594,8 @@
     {
       "id": "n_y4_term1_outline_reply",
       "position": {
-        "x": 22776,
-        "y": 960
+        "x": 4872,
+        "y": 3312
       },
       "type": "event",
       "eventId": "y4_term1_outline_reply"
@@ -1603,8 +1603,8 @@
     {
       "id": "n_y4_term1_term_check",
       "position": {
-        "x": 23112,
-        "y": 960
+        "x": 5208,
+        "y": 3312
       },
       "type": "event",
       "eventId": "y4_term1_term_check"
@@ -1612,8 +1612,8 @@
     {
       "id": "condition_y4_term1_research",
       "position": {
-        "x": 23448,
-        "y": 960
+        "x": 5544,
+        "y": 3312
       },
       "type": "condition",
       "join": "and",
@@ -1628,8 +1628,8 @@
     {
       "id": "condition_y4_term1_community",
       "position": {
-        "x": 23784,
-        "y": 960
+        "x": 5880,
+        "y": 3312
       },
       "type": "condition",
       "join": "and",
@@ -1644,8 +1644,8 @@
     {
       "id": "condition_y4_term1_mali",
       "position": {
-        "x": 22104,
-        "y": 1296
+        "x": 4200,
+        "y": 3648
       },
       "type": "condition",
       "join": "and",
@@ -1660,8 +1660,8 @@
     {
       "id": "condition_y4_term1_outline",
       "position": {
-        "x": 22440,
-        "y": 1296
+        "x": 4536,
+        "y": 3648
       },
       "type": "condition",
       "join": "and",
@@ -1676,8 +1676,8 @@
     {
       "id": "n_y4_break_first_day",
       "position": {
-        "x": 24408,
-        "y": 696
+        "x": 6504,
+        "y": 3048
       },
       "type": "event",
       "eventId": "y4_break_first_day"
@@ -1685,8 +1685,8 @@
     {
       "id": "n_y4_break_club_request",
       "position": {
-        "x": 24744,
-        "y": 696
+        "x": 6840,
+        "y": 3048
       },
       "type": "event",
       "eventId": "y4_break_club_request"
@@ -1694,8 +1694,8 @@
     {
       "id": "n_y4_break_job_offer",
       "position": {
-        "x": 25080,
-        "y": 696
+        "x": 7176,
+        "y": 3048
       },
       "type": "event",
       "eventId": "y4_break_job_offer"
@@ -1703,8 +1703,8 @@
     {
       "id": "n_y4_break_research_reply",
       "position": {
-        "x": 25416,
-        "y": 696
+        "x": 7512,
+        "y": 3048
       },
       "type": "event",
       "eventId": "y4_break_research_reply"
@@ -1712,8 +1712,8 @@
     {
       "id": "n_y4_break_library_notice",
       "position": {
-        "x": 25752,
-        "y": 696
+        "x": 7848,
+        "y": 3048
       },
       "type": "event",
       "eventId": "y4_break_library_notice"
@@ -1721,8 +1721,8 @@
     {
       "id": "n_y4_break_community_update",
       "position": {
-        "x": 26088,
-        "y": 696
+        "x": 8184,
+        "y": 3048
       },
       "type": "event",
       "eventId": "y4_break_community_update"
@@ -1730,8 +1730,8 @@
     {
       "id": "n_y4_break_home_message",
       "position": {
-        "x": 24408,
-        "y": 1032
+        "x": 6504,
+        "y": 3384
       },
       "type": "event",
       "eventId": "y4_break_home_message"
@@ -1739,8 +1739,8 @@
     {
       "id": "n_y4_break_junior_question",
       "position": {
-        "x": 24744,
-        "y": 1032
+        "x": 6840,
+        "y": 3384
       },
       "type": "event",
       "eventId": "y4_break_junior_question"
@@ -1748,8 +1748,8 @@
     {
       "id": "n_y4_break_junior_followup",
       "position": {
-        "x": 25080,
-        "y": 1032
+        "x": 7176,
+        "y": 3384
       },
       "type": "event",
       "eventId": "y4_break_junior_followup"
@@ -1757,8 +1757,8 @@
     {
       "id": "n_y4_break_rainy_commute",
       "position": {
-        "x": 25416,
-        "y": 1032
+        "x": 7512,
+        "y": 3384
       },
       "type": "event",
       "eventId": "y4_break_rainy_commute"
@@ -1766,8 +1766,8 @@
     {
       "id": "n_y4_break_folder_backup",
       "position": {
-        "x": 25752,
-        "y": 1032
+        "x": 7848,
+        "y": 3384
       },
       "type": "event",
       "eventId": "y4_break_folder_backup"
@@ -1775,8 +1775,8 @@
     {
       "id": "n_y4_break_return_plan",
       "position": {
-        "x": 26088,
-        "y": 1032
+        "x": 8184,
+        "y": 3384
       },
       "type": "event",
       "eventId": "y4_break_return_plan"
@@ -1784,8 +1784,8 @@
     {
       "id": "condition_y4_break_club",
       "position": {
-        "x": 24408,
-        "y": 1368
+        "x": 6504,
+        "y": 3720
       },
       "type": "condition",
       "join": "and",
@@ -1800,8 +1800,8 @@
     {
       "id": "condition_y4_break_research",
       "position": {
-        "x": 24744,
-        "y": 1368
+        "x": 6840,
+        "y": 3720
       },
       "type": "condition",
       "join": "and",
@@ -1816,8 +1816,8 @@
     {
       "id": "condition_y4_break_community",
       "position": {
-        "x": 25080,
-        "y": 1368
+        "x": 7176,
+        "y": 3720
       },
       "type": "condition",
       "join": "and",
@@ -1832,8 +1832,8 @@
     {
       "id": "condition_y4_break_junior",
       "position": {
-        "x": 25416,
-        "y": 1368
+        "x": 7512,
+        "y": 3720
       },
       "type": "condition",
       "join": "and",
@@ -1848,8 +1848,8 @@
     {
       "id": "n_y4_term2_mentor_meeting",
       "position": {
-        "x": 27336,
-        "y": 1079
+        "x": 9432,
+        "y": 3408
       },
       "type": "event",
       "eventId": "y4_term2_mentor_meeting"
@@ -1857,8 +1857,8 @@
     {
       "id": "n_y4_term2_research_source",
       "position": {
-        "x": 27672,
-        "y": 1056
+        "x": 9768,
+        "y": 3408
       },
       "type": "event",
       "eventId": "y4_term2_research_source"
@@ -1866,8 +1866,8 @@
     {
       "id": "n_y4_term2_method_rework",
       "position": {
-        "x": 28008,
-        "y": 1056
+        "x": 10104,
+        "y": 3408
       },
       "type": "event",
       "eventId": "y4_term2_method_rework"
@@ -1875,8 +1875,8 @@
     {
       "id": "n_y4_term2_community_visit",
       "position": {
-        "x": 28344,
-        "y": 1056
+        "x": 10440,
+        "y": 3408
       },
       "type": "event",
       "eventId": "y4_term2_community_visit"
@@ -1884,8 +1884,8 @@
     {
       "id": "n_y4_term2_draft_review",
       "position": {
-        "x": 28680,
-        "y": 1056
+        "x": 10776,
+        "y": 3408
       },
       "type": "event",
       "eventId": "y4_term2_draft_review"
@@ -1893,8 +1893,8 @@
     {
       "id": "n_y4_term2_review_reply",
       "position": {
-        "x": 29016,
-        "y": 1056
+        "x": 11112,
+        "y": 3408
       },
       "type": "event",
       "eventId": "y4_term2_review_reply"
@@ -1902,8 +1902,8 @@
     {
       "id": "n_y4_term2_rehearsal",
       "position": {
-        "x": 27336,
-        "y": 1392
+        "x": 9432,
+        "y": 3744
       },
       "type": "event",
       "eventId": "y4_term2_rehearsal"
@@ -1911,8 +1911,8 @@
     {
       "id": "n_y4_term2_mali_rehearsal",
       "position": {
-        "x": 27672,
-        "y": 1392
+        "x": 9768,
+        "y": 3744
       },
       "type": "event",
       "eventId": "y4_term2_mali_rehearsal"
@@ -1920,8 +1920,8 @@
     {
       "id": "n_y4_term2_revision_list",
       "position": {
-        "x": 28008,
-        "y": 1392
+        "x": 10104,
+        "y": 3744
       },
       "type": "event",
       "eventId": "y4_term2_revision_list"
@@ -1929,8 +1929,8 @@
     {
       "id": "n_y4_term2_submit_archive",
       "position": {
-        "x": 28320,
-        "y": 683
+        "x": 10416,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_term2_submit_archive"
@@ -1938,8 +1938,8 @@
     {
       "id": "condition_y4_term2_research",
       "position": {
-        "x": 28680,
-        "y": 1392
+        "x": 10776,
+        "y": 3744
       },
       "type": "condition",
       "join": "and",
@@ -1954,8 +1954,8 @@
     {
       "id": "condition_y4_term2_community",
       "position": {
-        "x": 29016,
-        "y": 1392
+        "x": 11112,
+        "y": 3744
       },
       "type": "condition",
       "join": "and",
@@ -1970,8 +1970,8 @@
     {
       "id": "condition_y4_term2_review",
       "position": {
-        "x": 27336,
-        "y": 1728
+        "x": 9432,
+        "y": 4080
       },
       "type": "condition",
       "join": "and",
@@ -1986,8 +1986,8 @@
     {
       "id": "condition_y4_term2_mali",
       "position": {
-        "x": 27672,
-        "y": 1728
+        "x": 9768,
+        "y": 4080
       },
       "type": "condition",
       "join": "and",
@@ -2002,8 +2002,8 @@
     {
       "id": "n_y4_summer_clearance_check",
       "position": {
-        "x": 29808,
-        "y": 672
+        "x": 11904,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_summer_clearance_check"
@@ -2011,8 +2011,8 @@
     {
       "id": "n_y4_summer_review_reply",
       "position": {
-        "x": 30144,
-        "y": 672
+        "x": 12240,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_summer_review_reply"
@@ -2020,8 +2020,8 @@
     {
       "id": "n_y4_summer_portfolio_export",
       "position": {
-        "x": 30480,
-        "y": 672
+        "x": 12576,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_summer_portfolio_export"
@@ -2029,8 +2029,8 @@
     {
       "id": "n_y4_summer_portfolio_feedback",
       "position": {
-        "x": 30816,
-        "y": 672
+        "x": 12912,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_summer_portfolio_feedback"
@@ -2038,8 +2038,8 @@
     {
       "id": "n_y4_summer_job_search",
       "position": {
-        "x": 31152,
-        "y": 672
+        "x": 13248,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_summer_job_search"
@@ -2047,8 +2047,8 @@
     {
       "id": "n_y4_summer_junior_message",
       "position": {
-        "x": 31488,
-        "y": 672
+        "x": 13584,
+        "y": 3024
       },
       "type": "event",
       "eventId": "y4_summer_junior_message"
@@ -2056,8 +2056,8 @@
     {
       "id": "n_y4_summer_reunion_plan",
       "position": {
-        "x": 29808,
-        "y": 1008
+        "x": 11904,
+        "y": 3360
       },
       "type": "event",
       "eventId": "y4_summer_reunion_plan"
@@ -2065,8 +2065,8 @@
     {
       "id": "n_y4_summer_community_contact",
       "position": {
-        "x": 30144,
-        "y": 1008
+        "x": 12240,
+        "y": 3360
       },
       "type": "event",
       "eventId": "y4_summer_community_contact"
@@ -2074,8 +2074,8 @@
     {
       "id": "n_y4_summer_result_wait",
       "position": {
-        "x": 30480,
-        "y": 1008
+        "x": 12576,
+        "y": 3360
       },
       "type": "event",
       "eventId": "y4_summer_result_wait"
@@ -2083,8 +2083,8 @@
     {
       "id": "n_y4_summer_letter_to_self",
       "position": {
-        "x": 30816,
-        "y": 1008
+        "x": 12912,
+        "y": 3360
       },
       "type": "event",
       "eventId": "y4_summer_letter_to_self"
@@ -2092,8 +2092,8 @@
     {
       "id": "n_y4_summer_last_evening",
       "position": {
-        "x": 31152,
-        "y": 1008
+        "x": 13248,
+        "y": 3360
       },
       "type": "event",
       "eventId": "y4_summer_last_evening"
@@ -2101,8 +2101,8 @@
     {
       "id": "condition_y4_summer_review",
       "position": {
-        "x": 31488,
-        "y": 1008
+        "x": 13584,
+        "y": 3360
       },
       "type": "condition",
       "join": "and",
@@ -2117,8 +2117,8 @@
     {
       "id": "condition_y4_summer_portfolio",
       "position": {
-        "x": 29808,
-        "y": 1344
+        "x": 11904,
+        "y": 3696
       },
       "type": "condition",
       "join": "and",
@@ -2133,8 +2133,8 @@
     {
       "id": "condition_y4_summer_junior",
       "position": {
-        "x": 30144,
-        "y": 1344
+        "x": 12240,
+        "y": 3696
       },
       "type": "condition",
       "join": "and",
@@ -2149,8 +2149,8 @@
     {
       "id": "condition_y4_summer_community",
       "position": {
-        "x": 30480,
-        "y": 1344
+        "x": 12576,
+        "y": 3696
       },
       "type": "condition",
       "join": "and",
@@ -2165,8 +2165,8 @@
     {
       "id": "next_y4_summer",
       "position": {
-        "x": 32424,
-        "y": 768
+        "x": 15168,
+        "y": -528
       },
       "type": "nextPeriod"
     },
@@ -2181,8 +2181,8 @@
     {
       "id": "n_extra_y5_term1_study_map",
       "position": {
-        "x": 39936,
-        "y": 4500
+        "x": 18552,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y5_term1_study_map"
@@ -2190,8 +2190,8 @@
     {
       "id": "n_extra_y5_term1_advisor_note",
       "position": {
-        "x": 40272,
-        "y": 4500
+        "x": 18888,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y5_term1_advisor_note"
@@ -2199,8 +2199,8 @@
     {
       "id": "n_extra_y5_term1_old_exam",
       "position": {
-        "x": 40608,
-        "y": 4500
+        "x": 19224,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y5_term1_old_exam"
@@ -2208,8 +2208,8 @@
     {
       "id": "n_extra_y5_term1_study_group",
       "position": {
-        "x": 40944,
-        "y": 4500
+        "x": 19560,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y5_term1_study_group"
@@ -2217,8 +2217,8 @@
     {
       "id": "n_extra_y5_term1_peer_correction",
       "position": {
-        "x": 41280,
-        "y": 4500
+        "x": 19896,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y5_term1_peer_correction"
@@ -2226,8 +2226,8 @@
     {
       "id": "n_extra_y5_term1_first_checkpoint",
       "position": {
-        "x": 41616,
-        "y": 4500
+        "x": 20232,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y5_term1_first_checkpoint"
@@ -2235,16 +2235,16 @@
     {
       "id": "next_y5_term1",
       "position": {
-        "x": 41952,
-        "y": 4500
+        "x": 20568,
+        "y": 2990
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y5_break_result_sheet",
       "position": {
-        "x": 39936,
-        "y": 5400
+        "x": 18552,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y5_break_result_sheet"
@@ -2252,8 +2252,8 @@
     {
       "id": "n_extra_y5_break_teacher_reply",
       "position": {
-        "x": 40272,
-        "y": 5400
+        "x": 18888,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y5_break_teacher_reply"
@@ -2261,8 +2261,8 @@
     {
       "id": "n_extra_y5_break_quiet_library",
       "position": {
-        "x": 40608,
-        "y": 5400
+        "x": 19224,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y5_break_quiet_library"
@@ -2270,8 +2270,8 @@
     {
       "id": "n_extra_y5_break_shared_cheatsheet",
       "position": {
-        "x": 40944,
-        "y": 5400
+        "x": 19560,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y5_break_shared_cheatsheet"
@@ -2279,8 +2279,8 @@
     {
       "id": "n_extra_y5_break_sheet_followup",
       "position": {
-        "x": 41280,
-        "y": 5400
+        "x": 19896,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y5_break_sheet_followup"
@@ -2288,8 +2288,8 @@
     {
       "id": "n_extra_y5_break_break_return",
       "position": {
-        "x": 41616,
-        "y": 5400
+        "x": 20232,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y5_break_break_return"
@@ -2297,16 +2297,16 @@
     {
       "id": "next_y5_break",
       "position": {
-        "x": 41952,
-        "y": 5400
+        "x": 20568,
+        "y": 3890
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y5_term2_course_restart",
       "position": {
-        "x": 39936,
-        "y": 6300
+        "x": 18552,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y5_term2_course_restart"
@@ -2314,8 +2314,8 @@
     {
       "id": "n_extra_y5_term2_class_note",
       "position": {
-        "x": 40272,
-        "y": 6300
+        "x": 18888,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y5_term2_class_note"
@@ -2323,8 +2323,8 @@
     {
       "id": "n_extra_y5_term2_problem_set",
       "position": {
-        "x": 40608,
-        "y": 6300
+        "x": 19224,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y5_term2_problem_set"
@@ -2332,8 +2332,8 @@
     {
       "id": "n_extra_y5_term2_practice_pair",
       "position": {
-        "x": 40944,
-        "y": 6300
+        "x": 19560,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y5_term2_practice_pair"
@@ -2341,8 +2341,8 @@
     {
       "id": "n_extra_y5_term2_pair_question",
       "position": {
-        "x": 41280,
-        "y": 6300
+        "x": 19896,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y5_term2_pair_question"
@@ -2350,8 +2350,8 @@
     {
       "id": "n_extra_y5_term2_term2_review",
       "position": {
-        "x": 41616,
-        "y": 6300
+        "x": 20232,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y5_term2_term2_review"
@@ -2359,16 +2359,16 @@
     {
       "id": "next_y5_term2",
       "position": {
-        "x": 41952,
-        "y": 6300
+        "x": 20568,
+        "y": 4790
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y5_summer_summer_plan",
       "position": {
-        "x": 39936,
-        "y": 7200
+        "x": 18552,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y5_summer_summer_plan"
@@ -2376,8 +2376,8 @@
     {
       "id": "n_extra_y5_summer_resource_tip",
       "position": {
-        "x": 40272,
-        "y": 7200
+        "x": 18888,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y5_summer_resource_tip"
@@ -2385,8 +2385,8 @@
     {
       "id": "n_extra_y5_summer_short_project",
       "position": {
-        "x": 40608,
-        "y": 7200
+        "x": 19224,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y5_summer_short_project"
@@ -2394,8 +2394,8 @@
     {
       "id": "n_extra_y5_summer_show_progress",
       "position": {
-        "x": 40944,
-        "y": 7200
+        "x": 19560,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y5_summer_show_progress"
@@ -2403,8 +2403,8 @@
     {
       "id": "n_extra_y5_summer_progress_reply",
       "position": {
-        "x": 41280,
-        "y": 7200
+        "x": 19896,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y5_summer_progress_reply"
@@ -2412,8 +2412,8 @@
     {
       "id": "n_extra_y5_summer_year5_close",
       "position": {
-        "x": 41616,
-        "y": 7200
+        "x": 20232,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y5_summer_year5_close"
@@ -2421,16 +2421,16 @@
     {
       "id": "next_y5_summer",
       "position": {
-        "x": 41952,
-        "y": 7200
+        "x": 20568,
+        "y": 5690
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y6_term1_review_calendar",
       "position": {
-        "x": 42936,
-        "y": 4500
+        "x": 21552,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y6_term1_review_calendar"
@@ -2438,8 +2438,8 @@
     {
       "id": "n_extra_y6_term1_office_answer",
       "position": {
-        "x": 43272,
-        "y": 4500
+        "x": 21888,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y6_term1_office_answer"
@@ -2447,8 +2447,8 @@
     {
       "id": "n_extra_y6_term1_core_concept",
       "position": {
-        "x": 43608,
-        "y": 4500
+        "x": 22224,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y6_term1_core_concept"
@@ -2456,8 +2456,8 @@
     {
       "id": "n_extra_y6_term1_study_exchange",
       "position": {
-        "x": 43944,
-        "y": 4500
+        "x": 22560,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y6_term1_study_exchange"
@@ -2465,8 +2465,8 @@
     {
       "id": "n_extra_y6_term1_diagram_reply",
       "position": {
-        "x": 44280,
-        "y": 4500
+        "x": 22896,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y6_term1_diagram_reply"
@@ -2474,8 +2474,8 @@
     {
       "id": "n_extra_y6_term1_term1_marker",
       "position": {
-        "x": 44616,
-        "y": 4500
+        "x": 23232,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y6_term1_term1_marker"
@@ -2483,16 +2483,16 @@
     {
       "id": "next_y6_term1",
       "position": {
-        "x": 44952,
-        "y": 4500
+        "x": 23568,
+        "y": 2990
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y6_break_break_feedback",
       "position": {
-        "x": 42936,
-        "y": 5400
+        "x": 21552,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y6_break_break_feedback"
@@ -2500,8 +2500,8 @@
     {
       "id": "n_extra_y6_break_teacher_example",
       "position": {
-        "x": 43272,
-        "y": 5400
+        "x": 21888,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y6_break_teacher_example"
@@ -2509,8 +2509,8 @@
     {
       "id": "n_extra_y6_break_quiet_morning",
       "position": {
-        "x": 43608,
-        "y": 5400
+        "x": 22224,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y6_break_quiet_morning"
@@ -2518,8 +2518,8 @@
     {
       "id": "n_extra_y6_break_peer_chart",
       "position": {
-        "x": 43944,
-        "y": 5400
+        "x": 22560,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y6_break_peer_chart"
@@ -2527,8 +2527,8 @@
     {
       "id": "n_extra_y6_break_chart_followup",
       "position": {
-        "x": 44280,
-        "y": 5400
+        "x": 22896,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y6_break_chart_followup"
@@ -2536,8 +2536,8 @@
     {
       "id": "n_extra_y6_break_break_summary",
       "position": {
-        "x": 44616,
-        "y": 5400
+        "x": 23232,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y6_break_break_summary"
@@ -2545,16 +2545,16 @@
     {
       "id": "next_y6_break",
       "position": {
-        "x": 44952,
-        "y": 5400
+        "x": 23568,
+        "y": 3890
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y6_term2_final_course",
       "position": {
-        "x": 42936,
-        "y": 6300
+        "x": 21552,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y6_term2_final_course"
@@ -2562,8 +2562,8 @@
     {
       "id": "n_extra_y6_term2_rubric_reply",
       "position": {
-        "x": 43272,
-        "y": 6300
+        "x": 21888,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y6_term2_rubric_reply"
@@ -2571,8 +2571,8 @@
     {
       "id": "n_extra_y6_term2_evidence_table",
       "position": {
-        "x": 43608,
-        "y": 6300
+        "x": 22224,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y6_term2_evidence_table"
@@ -2580,8 +2580,8 @@
     {
       "id": "n_extra_y6_term2_peer_trial",
       "position": {
-        "x": 43944,
-        "y": 6300
+        "x": 22560,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y6_term2_peer_trial"
@@ -2589,8 +2589,8 @@
     {
       "id": "n_extra_y6_term2_trial_reply",
       "position": {
-        "x": 44280,
-        "y": 6300
+        "x": 22896,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y6_term2_trial_reply"
@@ -2598,8 +2598,8 @@
     {
       "id": "n_extra_y6_term2_submit_term",
       "position": {
-        "x": 44616,
-        "y": 6300
+        "x": 23232,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y6_term2_submit_term"
@@ -2607,16 +2607,16 @@
     {
       "id": "next_y6_term2",
       "position": {
-        "x": 44952,
-        "y": 6300
+        "x": 23568,
+        "y": 4790
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y6_summer_review_notice",
       "position": {
-        "x": 42936,
-        "y": 7200
+        "x": 21552,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y6_summer_review_notice"
@@ -2624,8 +2624,8 @@
     {
       "id": "n_extra_y6_summer_record_check",
       "position": {
-        "x": 43272,
-        "y": 7200
+        "x": 21888,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y6_summer_record_check"
@@ -2633,8 +2633,8 @@
     {
       "id": "n_extra_y6_summer_portfolio_audit",
       "position": {
-        "x": 43608,
-        "y": 7200
+        "x": 22224,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y6_summer_portfolio_audit"
@@ -2642,8 +2642,8 @@
     {
       "id": "n_extra_y6_summer_share_lessons",
       "position": {
-        "x": 43944,
-        "y": 7200
+        "x": 22560,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y6_summer_share_lessons"
@@ -2651,8 +2651,8 @@
     {
       "id": "n_extra_y6_summer_lesson_reply",
       "position": {
-        "x": 44280,
-        "y": 7200
+        "x": 22896,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y6_summer_lesson_reply"
@@ -2660,8 +2660,8 @@
     {
       "id": "n_extra_y6_summer_review_eve",
       "position": {
-        "x": 44616,
-        "y": 7200
+        "x": 23232,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y6_summer_review_eve"
@@ -2669,16 +2669,16 @@
     {
       "id": "next_y6_summer",
       "position": {
-        "x": 44952,
-        "y": 7200
+        "x": 23568,
+        "y": 5690
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y7_term1_new_cohort",
       "position": {
-        "x": 45936,
-        "y": 4500
+        "x": 24552,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y7_term1_new_cohort"
@@ -2686,8 +2686,8 @@
     {
       "id": "n_extra_y7_term1_lecturer_plan",
       "position": {
-        "x": 46272,
-        "y": 4500
+        "x": 24888,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y7_term1_lecturer_plan"
@@ -2695,8 +2695,8 @@
     {
       "id": "n_extra_y7_term1_changed_material",
       "position": {
-        "x": 46608,
-        "y": 4500
+        "x": 25224,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y7_term1_changed_material"
@@ -2704,8 +2704,8 @@
     {
       "id": "n_extra_y7_term1_junior_discussion",
       "position": {
-        "x": 46944,
-        "y": 4500
+        "x": 25560,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y7_term1_junior_discussion"
@@ -2713,8 +2713,8 @@
     {
       "id": "n_extra_y7_term1_method_reply",
       "position": {
-        "x": 47280,
-        "y": 4500
+        "x": 25896,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y7_term1_method_reply"
@@ -2722,8 +2722,8 @@
     {
       "id": "n_extra_y7_term1_first_week_seven",
       "position": {
-        "x": 47616,
-        "y": 4500
+        "x": 26232,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y7_term1_first_week_seven"
@@ -2731,16 +2731,16 @@
     {
       "id": "next_y7_term1",
       "position": {
-        "x": 47952,
-        "y": 4500
+        "x": 26568,
+        "y": 2990
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y7_break_midyear_note",
       "position": {
-        "x": 45936,
-        "y": 5400
+        "x": 24552,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y7_break_midyear_note"
@@ -2748,8 +2748,8 @@
     {
       "id": "n_extra_y7_break_practice_link",
       "position": {
-        "x": 46272,
-        "y": 5400
+        "x": 24888,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y7_break_practice_link"
@@ -2757,8 +2757,8 @@
     {
       "id": "n_extra_y7_break_campus_empty",
       "position": {
-        "x": 46608,
-        "y": 5400
+        "x": 25224,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y7_break_campus_empty"
@@ -2766,8 +2766,8 @@
     {
       "id": "n_extra_y7_break_shared_outline",
       "position": {
-        "x": 46944,
-        "y": 5400
+        "x": 25560,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y7_break_shared_outline"
@@ -2775,8 +2775,8 @@
     {
       "id": "n_extra_y7_break_outline_reply",
       "position": {
-        "x": 47280,
-        "y": 5400
+        "x": 25896,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y7_break_outline_reply"
@@ -2784,8 +2784,8 @@
     {
       "id": "n_extra_y7_break_return_seven",
       "position": {
-        "x": 47616,
-        "y": 5400
+        "x": 26232,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y7_break_return_seven"
@@ -2793,16 +2793,16 @@
     {
       "id": "next_y7_break",
       "position": {
-        "x": 47952,
-        "y": 5400
+        "x": 26568,
+        "y": 3890
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y7_term2_course_goal",
       "position": {
-        "x": 45936,
-        "y": 6300
+        "x": 24552,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y7_term2_course_goal"
@@ -2810,8 +2810,8 @@
     {
       "id": "n_extra_y7_term2_sample_rubric",
       "position": {
-        "x": 46272,
-        "y": 6300
+        "x": 24888,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y7_term2_sample_rubric"
@@ -2819,8 +2819,8 @@
     {
       "id": "n_extra_y7_term2_rework_report",
       "position": {
-        "x": 46608,
-        "y": 6300
+        "x": 25224,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y7_term2_rework_report"
@@ -2828,8 +2828,8 @@
     {
       "id": "n_extra_y7_term2_small_group",
       "position": {
-        "x": 46944,
-        "y": 6300
+        "x": 25560,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y7_term2_small_group"
@@ -2837,8 +2837,8 @@
     {
       "id": "n_extra_y7_term2_reader_reply",
       "position": {
-        "x": 47280,
-        "y": 6300
+        "x": 25896,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y7_term2_reader_reply"
@@ -2846,8 +2846,8 @@
     {
       "id": "n_extra_y7_term2_term_seven_end",
       "position": {
-        "x": 47616,
-        "y": 6300
+        "x": 26232,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y7_term2_term_seven_end"
@@ -2855,16 +2855,16 @@
     {
       "id": "next_y7_term2",
       "position": {
-        "x": 47952,
-        "y": 6300
+        "x": 26568,
+        "y": 4790
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y7_summer_summer_seven_plan",
       "position": {
-        "x": 45936,
-        "y": 7200
+        "x": 24552,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y7_summer_summer_seven_plan"
@@ -2872,8 +2872,8 @@
     {
       "id": "n_extra_y7_summer_office_list",
       "position": {
-        "x": 46272,
-        "y": 7200
+        "x": 24888,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y7_summer_office_list"
@@ -2881,8 +2881,8 @@
     {
       "id": "n_extra_y7_summer_skill_trace",
       "position": {
-        "x": 46608,
-        "y": 7200
+        "x": 25224,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y7_summer_skill_trace"
@@ -2890,8 +2890,8 @@
     {
       "id": "n_extra_y7_summer_peer_message",
       "position": {
-        "x": 46944,
-        "y": 7200
+        "x": 25560,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y7_summer_peer_message"
@@ -2899,8 +2899,8 @@
     {
       "id": "n_extra_y7_summer_friend_reply",
       "position": {
-        "x": 47280,
-        "y": 7200
+        "x": 25896,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y7_summer_friend_reply"
@@ -2908,8 +2908,8 @@
     {
       "id": "n_extra_y7_summer_year7_close",
       "position": {
-        "x": 47616,
-        "y": 7200
+        "x": 26232,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y7_summer_year7_close"
@@ -2917,16 +2917,16 @@
     {
       "id": "next_y7_summer",
       "position": {
-        "x": 47952,
-        "y": 7200
+        "x": 26568,
+        "y": 5690
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y8_term1_last_plan",
       "position": {
-        "x": 48936,
-        "y": 4500
+        "x": 27552,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y8_term1_last_plan"
@@ -2934,8 +2934,8 @@
     {
       "id": "n_extra_y8_term1_advisor_minutes",
       "position": {
-        "x": 49272,
-        "y": 4500
+        "x": 27888,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y8_term1_advisor_minutes"
@@ -2943,8 +2943,8 @@
     {
       "id": "n_extra_y8_term1_first_assignment",
       "position": {
-        "x": 49608,
-        "y": 4500
+        "x": 28224,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y8_term1_first_assignment"
@@ -2952,8 +2952,8 @@
     {
       "id": "n_extra_y8_term1_study_partner",
       "position": {
-        "x": 49944,
-        "y": 4500
+        "x": 28560,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y8_term1_study_partner"
@@ -2961,8 +2961,8 @@
     {
       "id": "n_extra_y8_term1_partner_reply",
       "position": {
-        "x": 50280,
-        "y": 4500
+        "x": 28896,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y8_term1_partner_reply"
@@ -2970,8 +2970,8 @@
     {
       "id": "n_extra_y8_term1_term1_eight_close",
       "position": {
-        "x": 50616,
-        "y": 4500
+        "x": 29232,
+        "y": 2990
       },
       "type": "event",
       "eventId": "extra_y8_term1_term1_eight_close"
@@ -2979,16 +2979,16 @@
     {
       "id": "next_y8_term1",
       "position": {
-        "x": 50952,
-        "y": 4500
+        "x": 29568,
+        "y": 2990
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y8_break_interim_notice",
       "position": {
-        "x": 48936,
-        "y": 5400
+        "x": 27552,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y8_break_interim_notice"
@@ -2996,8 +2996,8 @@
     {
       "id": "n_extra_y8_break_office_hint",
       "position": {
-        "x": 49272,
-        "y": 5400
+        "x": 27888,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y8_break_office_hint"
@@ -3005,8 +3005,8 @@
     {
       "id": "n_extra_y8_break_quiet_rewrite",
       "position": {
-        "x": 49608,
-        "y": 5400
+        "x": 28224,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y8_break_quiet_rewrite"
@@ -3014,8 +3014,8 @@
     {
       "id": "n_extra_y8_break_read_together",
       "position": {
-        "x": 49944,
-        "y": 5400
+        "x": 28560,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y8_break_read_together"
@@ -3023,8 +3023,8 @@
     {
       "id": "n_extra_y8_break_exchange_reply",
       "position": {
-        "x": 50280,
-        "y": 5400
+        "x": 28896,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y8_break_exchange_reply"
@@ -3032,8 +3032,8 @@
     {
       "id": "n_extra_y8_break_break_eight_close",
       "position": {
-        "x": 50616,
-        "y": 5400
+        "x": 29232,
+        "y": 3890
       },
       "type": "event",
       "eventId": "extra_y8_break_break_eight_close"
@@ -3041,16 +3041,16 @@
     {
       "id": "next_y8_break",
       "position": {
-        "x": 50952,
-        "y": 5400
+        "x": 29568,
+        "y": 3890
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y8_term2_final_rubric",
       "position": {
-        "x": 48936,
-        "y": 6300
+        "x": 27552,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y8_term2_final_rubric"
@@ -3058,8 +3058,8 @@
     {
       "id": "n_extra_y8_term2_rubric_detail",
       "position": {
-        "x": 49272,
-        "y": 6300
+        "x": 27888,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y8_term2_rubric_detail"
@@ -3067,8 +3067,8 @@
     {
       "id": "n_extra_y8_term2_last_report",
       "position": {
-        "x": 49608,
-        "y": 6300
+        "x": 28224,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y8_term2_last_report"
@@ -3076,8 +3076,8 @@
     {
       "id": "n_extra_y8_term2_peer_read",
       "position": {
-        "x": 49944,
-        "y": 6300
+        "x": 28560,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y8_term2_peer_read"
@@ -3085,8 +3085,8 @@
     {
       "id": "n_extra_y8_term2_last_comment",
       "position": {
-        "x": 50280,
-        "y": 6300
+        "x": 28896,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y8_term2_last_comment"
@@ -3094,8 +3094,8 @@
     {
       "id": "n_extra_y8_term2_final_submission",
       "position": {
-        "x": 50616,
-        "y": 6300
+        "x": 29232,
+        "y": 4790
       },
       "type": "event",
       "eventId": "extra_y8_term2_final_submission"
@@ -3103,16 +3103,16 @@
     {
       "id": "next_y8_term2",
       "position": {
-        "x": 50952,
-        "y": 6300
+        "x": 29568,
+        "y": 4790
       },
       "type": "nextPeriod"
     },
     {
       "id": "n_extra_y8_summer_last_review_notice",
       "position": {
-        "x": 48936,
-        "y": 7200
+        "x": 27552,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y8_summer_last_review_notice"
@@ -3120,8 +3120,8 @@
     {
       "id": "n_extra_y8_summer_document_reply",
       "position": {
-        "x": 49272,
-        "y": 7200
+        "x": 27888,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y8_summer_document_reply"
@@ -3129,8 +3129,8 @@
     {
       "id": "n_extra_y8_summer_work_archive",
       "position": {
-        "x": 49608,
-        "y": 7200
+        "x": 28224,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y8_summer_work_archive"
@@ -3138,8 +3138,8 @@
     {
       "id": "n_extra_y8_summer_tell_friend",
       "position": {
-        "x": 49944,
-        "y": 7200
+        "x": 28560,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y8_summer_tell_friend"
@@ -3147,8 +3147,8 @@
     {
       "id": "n_extra_y8_summer_friend_check",
       "position": {
-        "x": 50280,
-        "y": 7200
+        "x": 28896,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y8_summer_friend_check"
@@ -3156,8 +3156,8 @@
     {
       "id": "n_extra_y8_summer_final_eve",
       "position": {
-        "x": 50616,
-        "y": 7200
+        "x": 29232,
+        "y": 5690
       },
       "type": "event",
       "eventId": "extra_y8_summer_final_eve"
@@ -3165,16 +3165,16 @@
     {
       "id": "next_extra_years",
       "position": {
-        "x": 45024,
-        "y": 2088
+        "x": 23640,
+        "y": 578
       },
       "type": "nextPeriod"
     },
     {
       "id": "check_academic_path",
       "position": {
-        "x": 45024,
-        "y": 2400
+        "x": 23640,
+        "y": 890
       },
       "type": "condition",
       "join": "and",
@@ -3195,8 +3195,8 @@
     {
       "id": "check_community_path",
       "position": {
-        "x": 45360,
-        "y": 2760
+        "x": 23976,
+        "y": 1250
       },
       "type": "condition",
       "join": "and",
@@ -3217,8 +3217,8 @@
     {
       "id": "end_academic_path",
       "position": {
-        "x": 45360,
-        "y": 2472
+        "x": 23976,
+        "y": 962
       },
       "type": "ending",
       "endingId": "academic_path"
@@ -3226,8 +3226,8 @@
     {
       "id": "end_community_path",
       "position": {
-        "x": 45696,
-        "y": 2784
+        "x": 24312,
+        "y": 1274
       },
       "type": "ending",
       "endingId": "community_path"
@@ -3235,8 +3235,8 @@
     {
       "id": "end_graduation",
       "position": {
-        "x": 45696,
-        "y": 2952
+        "x": 24312,
+        "y": 1442
       },
       "type": "ending",
       "endingId": "graduation"
@@ -3301,15 +3301,14 @@
     {
       "id": "group_six_year",
       "position": {
-        "x": 31560,
-        "y": 1536
+        "x": 15240,
+        "y": 240
       },
       "type": "group",
       "title": "สาย 6 ปี (ปี 5–6)",
       "color": "teal",
       "width": 2400,
-      "height": 5328,
-      "locked": true
+      "height": 5328
     },
     {
       "id": "n_six_y5_term1_white_coat",
@@ -4050,8 +4049,8 @@
     {
       "id": "group_3",
       "position": {
-        "x": 9720,
-        "y": 96
+        "x": 2784,
+        "y": -336
       },
       "type": "group",
       "title": "กลุ่มย่อย",
@@ -4062,8 +4061,8 @@
     {
       "id": "group_4",
       "position": {
-        "x": 20568,
-        "y": 0
+        "x": 2664,
+        "y": 2352
       },
       "type": "group",
       "title": "กลุ่มย่อย",
@@ -4156,8 +4155,8 @@
     {
       "id": "random_5",
       "position": {
-        "x": 13080,
-        "y": 356
+        "x": 6144,
+        "y": -72
       },
       "type": "random",
       "poolId": "bang_saen_bridge_friends"
@@ -4165,8 +4164,8 @@
     {
       "id": "random_6",
       "position": {
-        "x": 15888,
-        "y": 928
+        "x": 8952,
+        "y": 504
       },
       "type": "random",
       "poolId": "wat_saen_suk_ghost_hunt"
@@ -4174,8 +4173,8 @@
     {
       "id": "random_7",
       "position": {
-        "x": 15888,
-        "y": 1323
+        "x": 8952,
+        "y": 888
       },
       "type": "random",
       "poolId": "medical_faculty_health_visits"
@@ -4183,8 +4182,8 @@
     {
       "id": "random_8",
       "position": {
-        "x": 19948.14422393718,
-        "y": 180.51868632183024
+        "x": 13008,
+        "y": -264
       },
       "type": "random",
       "poolId": "bang_saen_night_out"
@@ -4192,8 +4191,8 @@
     {
       "id": "random_9",
       "position": {
-        "x": 17952,
-        "y": 557
+        "x": 11016,
+        "y": 120
       },
       "type": "random",
       "poolId": "bang_saen_walking_street_market"
@@ -4201,8 +4200,8 @@
     {
       "id": "random_10",
       "position": {
-        "x": 22776,
-        "y": 1293
+        "x": 4872,
+        "y": 3624
       },
       "type": "random",
       "poolId": "khao_sam_muk_shrine_luck"
@@ -4210,8 +4209,8 @@
     {
       "id": "random_11",
       "position": {
-        "x": 26472,
-        "y": 1048
+        "x": 8568,
+        "y": 3384
       },
       "type": "random",
       "poolId": "wat_saen_suk_ghost_hunt"
@@ -4219,8 +4218,8 @@
     {
       "id": "random_12",
       "position": {
-        "x": 27024,
-        "y": 966
+        "x": 9120,
+        "y": 3312
       },
       "type": "random",
       "poolId": "bang_saen_night_out"
@@ -4228,21 +4227,30 @@
     {
       "id": "random_13",
       "position": {
-        "x": 28920.460629965506,
-        "y": 758.861374238102
+        "x": 11016,
+        "y": 3096
       },
       "type": "random",
       "poolId": "medical_faculty_health_visits"
     },
     {
       "id": "n_new_event_4",
-      "type": "event",
-      "eventId": "event_6c2b0026",
       "position": {
         "x": 744,
         "y": 558
       },
-      "parentId": "group_6"
+      "parentId": "group_6",
+      "type": "event",
+      "eventId": "event_6c2b0026"
+    },
+    {
+      "id": "n_event_6c2b0027",
+      "type": "event",
+      "eventId": "event_6c2b0027",
+      "position": {
+        "x": 4296,
+        "y": 30
+      }
     }
   ],
   "edges": [
@@ -5586,12 +5594,6 @@
       "id": "e_n_fieldwork_start_ask_questions",
       "from": "n_fieldwork_start",
       "port": "ask_questions",
-      "to": "n_y3_term1_field_notes"
-    },
-    {
-      "id": "e_n_fieldwork_start_listen_to_people",
-      "from": "n_fieldwork_start",
-      "port": "listen_to_people",
       "to": "n_y3_term1_field_notes"
     },
     {
@@ -9425,6 +9427,30 @@
       "from": "n_new_event_4",
       "port": "choice_a9a9defe",
       "to": "n_y2_term1_timetable_shuffle"
+    },
+    {
+      "id": "e_n_fieldwork_start_listen_to_people",
+      "from": "n_fieldwork_start",
+      "port": "listen_to_people",
+      "to": "n_event_6c2b0027"
+    },
+    {
+      "id": "e_n_event_6c2b0027_choice_2514af14",
+      "from": "n_event_6c2b0027",
+      "port": "choice_2514af14",
+      "to": "n_y3_term1_field_notes"
+    },
+    {
+      "id": "e_n_event_6c2b0027_choice_98eb3b3f",
+      "from": "n_event_6c2b0027",
+      "port": "choice_98eb3b3f",
+      "to": "n_y3_term1_field_notes"
+    },
+    {
+      "id": "e_n_event_6c2b0027_choice_a9a9defe",
+      "from": "n_event_6c2b0027",
+      "port": "choice_a9a9defe",
+      "to": "n_y3_term1_field_notes"
     }
   ]
 }
