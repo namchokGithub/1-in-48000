@@ -2,202 +2,202 @@
   {
     "id": "campus_orientation",
     "kind": "scene",
-    "path": "/assets/scene/campus-orientation.png"
+    "path": "/assets/scene/campus-orientation.webp"
   },
   {
     "id": "campus_orientation_v2",
     "kind": "scene",
-    "path": "/assets/scene/campus-orientation-v2.png"
+    "path": "/assets/scene/campus-orientation-v2.webp"
   },
   {
     "id": "campus_orientation_v3",
     "kind": "scene",
-    "path": "/assets/scene/campus-orientation-v3.png"
+    "path": "/assets/scene/campus-orientation-v3.webp"
   },
   {
     "id": "campus_orientation_v4",
     "kind": "scene",
-    "path": "/assets/scene/campus-orientation-v4.png"
+    "path": "/assets/scene/campus-orientation-v4.webp"
   },
   {
     "id": "campus_orientation_v5",
     "kind": "scene",
-    "path": "/assets/scene/campus-orientation-v5.png"
+    "path": "/assets/scene/campus-orientation-v5.webp"
   },
   {
     "id": "engineering_building",
     "kind": "scene",
-    "path": "/assets/scene/engineering-building.png"
+    "path": "/assets/scene/engineering-building.webp"
   },
   {
     "id": "medical_faculty_building",
     "kind": "scene",
-    "path": "/assets/scene/medical-faculty-building.png"
+    "path": "/assets/scene/medical-faculty-building.webp"
   },
   {
     "id": "informatics_faculty_building",
     "kind": "scene",
-    "path": "/assets/scene/informatics-faculty-building.png"
+    "path": "/assets/scene/informatics-faculty-building.webp"
   },
   {
     "id": "classroom",
     "kind": "scene",
-    "path": "/assets/scene/classroom.png"
+    "path": "/assets/scene/classroom.webp"
   },
   {
     "id": "classroom_v2",
     "kind": "scene",
-    "path": "/assets/scene/classroom-v2.png"
+    "path": "/assets/scene/classroom-v2.webp"
   },
   {
     "id": "dorm_room",
     "kind": "scene",
-    "path": "/assets/scene/dorm-room.png"
+    "path": "/assets/scene/dorm-room.webp"
   },
   {
     "id": "dorm_room_v2",
     "kind": "scene",
-    "path": "/assets/scene/dorm-room-v2.png"
+    "path": "/assets/scene/dorm-room-v2.webp"
   },
   {
     "id": "campus_library",
     "kind": "scene",
-    "path": "/assets/scene/campus-library.png"
+    "path": "/assets/scene/campus-library.webp"
   },
   {
     "id": "campus_library_v2",
     "kind": "scene",
-    "path": "/assets/scene/campus-library-v2.png"
+    "path": "/assets/scene/campus-library-v2.webp"
   },
   {
     "id": "canteen",
     "kind": "scene",
-    "path": "/assets/scene/canteen.png"
+    "path": "/assets/scene/canteen.webp"
   },
   {
     "id": "canteen_v2",
     "kind": "scene",
-    "path": "/assets/scene/canteen-v2.png"
+    "path": "/assets/scene/canteen-v2.webp"
   },
   {
     "id": "canteen_v3",
     "kind": "scene",
-    "path": "/assets/scene/canteen-v3.png"
+    "path": "/assets/scene/canteen-v3.webp"
   },
   {
     "id": "bus_stop",
     "kind": "scene",
-    "path": "/assets/scene/bus-stop.png"
+    "path": "/assets/scene/bus-stop.webp"
   },
   {
     "id": "bus_stop_v2",
     "kind": "scene",
-    "path": "/assets/scene/bus-stop-v2.png"
+    "path": "/assets/scene/bus-stop-v2.webp"
   },
   {
     "id": "bus_stop_v3",
     "kind": "scene",
-    "path": "/assets/scene/bus-stop-v3.png"
+    "path": "/assets/scene/bus-stop-v3.webp"
   },
   {
     "id": "graduation_stage",
     "kind": "scene",
-    "path": "/assets/scene/graduation-stage.png"
+    "path": "/assets/scene/graduation-stage.webp"
   },
   {
     "id": "graduation_stage_v2",
     "kind": "scene",
-    "path": "/assets/scene/graduation-stage-v2.png"
+    "path": "/assets/scene/graduation-stage-v2.webp"
   },
   {
     "id": "h2m_bang_saen",
     "kind": "scene",
-    "path": "/assets/scene/h2m-bang-saen.png"
+    "path": "/assets/scene/h2m-bang-saen.webp"
   },
   {
     "id": "bang_phra_reservoir",
     "kind": "scene",
-    "path": "/assets/scene/bang-phra-reservoir.png"
+    "path": "/assets/scene/bang-phra-reservoir.webp"
   },
   {
     "id": "bang_saen_aquarium",
     "kind": "scene",
-    "path": "/assets/scene/bang-saen-aquarium.png"
+    "path": "/assets/scene/bang-saen-aquarium.webp"
   },
   {
     "id": "bang_saen_beach",
     "kind": "scene",
-    "path": "/assets/scene/bang-saen-beach.png"
+    "path": "/assets/scene/bang-saen-beach.webp"
   },
   {
     "id": "bang_saen_beach_loy_krathong",
     "kind": "scene",
-    "path": "/assets/scene/bang-saen-beach-loy-krathong.png"
+    "path": "/assets/scene/bang-saen-beach-loy-krathong.webp"
   },
   {
     "id": "bang_saen_coffee_truck",
     "kind": "scene",
-    "path": "/assets/scene/bang-saen-coffee-truck.png"
+    "path": "/assets/scene/bang-saen-coffee-truck.webp"
   },
   {
     "id": "bang_saen_rachanawi_bridge",
     "kind": "scene",
-    "path": "/assets/scene/bang-saen-rachanawi-bridge.png"
+    "path": "/assets/scene/bang-saen-rachanawi-bridge.webp"
   },
   {
     "id": "bang_saen_walking_street_dusk",
     "kind": "scene",
-    "path": "/assets/scene/bang-saen-walking-street-dusk.png"
+    "path": "/assets/scene/bang-saen-walking-street-dusk.webp"
   },
   {
     "id": "campus_library_exterior",
     "kind": "scene",
-    "path": "/assets/scene/campus-library-exterior.png"
+    "path": "/assets/scene/campus-library-exterior.webp"
   },
   {
     "id": "campus_stadium",
     "kind": "scene",
-    "path": "/assets/scene/campus-stadium.png"
+    "path": "/assets/scene/campus-stadium.webp"
   },
   {
     "id": "khao_sam_muk_shrine",
     "kind": "scene",
-    "path": "/assets/scene/khao-sam-muk-shrine.png"
+    "path": "/assets/scene/khao-sam-muk-shrine.webp"
   },
   {
     "id": "khao_sam_muk_viewpoint",
     "kind": "scene",
-    "path": "/assets/scene/khao-sam-muk-viewpoint.png"
+    "path": "/assets/scene/khao-sam-muk-viewpoint.webp"
   },
   {
     "id": "recreation_park",
     "kind": "scene",
-    "path": "/assets/scene/recreation-park.png"
+    "path": "/assets/scene/recreation-park.webp"
   },
   {
     "id": "scene_university",
     "kind": "scene",
-    "path": "/assets/scene/scene-university.png"
+    "path": "/assets/scene/scene-university.webp"
   },
   {
     "id": "soi_sodsai_night",
     "kind": "scene",
-    "path": "/assets/scene/soi-sodsai-night.png"
+    "path": "/assets/scene/soi-sodsai-night.webp"
   },
   {
     "id": "wat_saen_suk_night",
     "kind": "scene",
-    "path": "/assets/scene/wat-saen-suk-night.png"
+    "path": "/assets/scene/wat-saen-suk-night.webp"
   },
   {
     "id": "wat_saen_suk",
     "kind": "scene",
-    "path": "/assets/scene/wat-saen-suk.png"
+    "path": "/assets/scene/wat-saen-suk.webp"
   },
   {
     "id": "won_napha_beach",
     "kind": "scene",
-    "path": "/assets/scene/won-napha-beach.png"
+    "path": "/assets/scene/won-napha-beach.webp"
   },
   {
     "id": "narrator",
