@@ -50,6 +50,7 @@ import {
   type EventFilter,
 } from './timelineFilters'
 import { EventFilterFields } from './EventFilterFields'
+import { ProofreadPanel } from './ProofreadPanel'
 import { DataEditor, type DataSection } from './DataEditor'
 import { CatalogEditor, type CatalogSection } from './CatalogEditor'
 import { issueTarget, type IssueTarget } from './issueTarget'
@@ -64,6 +65,7 @@ import { flagUsage } from './flagUsage'
 
 type Section =
   | 'events'
+  | 'proofread'
   | 'flow'
   | 'endings'
   | 'flags'
@@ -85,6 +87,7 @@ function sectionFromUrl(): Section {
   const tab = new URLSearchParams(window.location.search).get('tab')
   if (
     tab === 'events' ||
+    tab === 'proofread' ||
     tab === 'endings' ||
     tab === 'flags' ||
     tab === 'settings' ||
@@ -105,6 +108,7 @@ function sectionFromUrl(): Section {
 
 function sectionFile(section: Section): EditableFile | null {
   if (section === 'flags') return null
+  if (section === 'proofread') return 'events'
   if (section === 'settings' || section === 'origins') return 'config'
   if (section === 'speakers') return 'characters'
   if (
@@ -441,6 +445,7 @@ export function BoApp() {
   const dirtyAny = Object.values(dirtyFiles).some(Boolean)
   const sectionLabels: Record<Section, string> = {
     events: 'เหตุการณ์',
+    proofread: 'ตรวจข้อความ',
     flow: 'Story Flow',
     endings: 'ตอนจบ',
     flags: 'ตัวแปร (Flag)',
@@ -466,6 +471,11 @@ export function BoApp() {
       tabs: [
         { section: 'flow', count: draft.flow.nodes.length, dirty: dirtyFlow },
         { section: 'events', count: draft.events.length, dirty: dirtyEvents },
+        {
+          section: 'proofread',
+          count: draft.events.length,
+          dirty: dirtyEvents,
+        },
         {
           section: 'endings',
           count: draft.endings.length,
@@ -1153,6 +1163,15 @@ export function BoApp() {
                 action,
               })
             }
+          />
+        ) : section === 'proofread' ? (
+          <ProofreadPanel
+            draft={draft}
+            onUpdateEvent={updateEventAt}
+            onOpenInForm={(index) => {
+              setEventIndex(index)
+              selectSection('events')
+            }}
           />
         ) : section === 'flow' ? (
           <FlowBoard

@@ -51,6 +51,8 @@ type Props = {
   onChooseElective: (electiveId: string) => void
   onHome: () => void
   homeLabel?: string
+  /** BO proofreading opens the scene at a chosen line; the Player starts at 0. */
+  initialLineIndex?: number
 }
 
 export function SceneView({
@@ -76,8 +78,11 @@ export function SceneView({
   onChooseElective,
   onHome,
   homeLabel = 'หน้าแรก',
+  initialLineIndex = 0,
 }: Props) {
-  const [lineIndex, setLineIndex] = useState(0)
+  const [lineIndex, setLineIndex] = useState(() =>
+    Math.min(Math.max(0, initialLineIndex), event.lines.length - 1),
+  )
   const availableFaculties = faculties.filter((faculty) =>
     majors.some((major) => major.facultyId === faculty.id),
   )

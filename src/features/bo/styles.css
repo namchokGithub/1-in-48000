@@ -1843,3 +1843,100 @@ dialog {
   align-items: center;
   gap: 0.25rem;
 }
+
+/* Proofread: event list, Player scene, and the edit panel. The scene takes
+   the middle column; the editor moves below it on narrower screens. */
+.bo-proofread {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'list'
+    'nav'
+    'scene'
+    'editor';
+  align-items: start;
+  gap: 1rem;
+}
+.bo-proofread > .bo-sidebar {
+  grid-area: list;
+}
+.bo-proofread-nav {
+  grid-area: nav;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+}
+.bo-proofread-scene {
+  grid-area: scene;
+  min-width: 0;
+}
+.bo-proofread-editor {
+  grid-area: editor;
+  min-width: 0;
+  padding: 1rem;
+}
+@media (min-width: 900px) {
+  .bo-proofread {
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    grid-template-areas:
+      'list nav'
+      'list scene'
+      'list editor';
+  }
+  .bo-proofread > .bo-sidebar {
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+}
+@media (min-width: 1500px) {
+  .bo-proofread {
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1.7fr) minmax(
+        20rem,
+        1fr
+      );
+    grid-template-areas:
+      'list nav nav'
+      'list scene editor';
+  }
+  .bo-proofread-editor {
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow: auto;
+  }
+}
+.bo-proofread-line {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+}
+.bo-proofread-line[data-current] {
+  border-color: var(--color-line);
+  background: var(--color-primary-soft);
+}
+.bo-proofread-line-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.bo-proofread-range {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.bo-proofread-choice {
+  display: grid;
+  gap: 0.5rem;
+}
+.bo-proofread-delta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 6rem auto;
+  align-items: center;
+  gap: 0.5rem;
+}

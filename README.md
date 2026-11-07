@@ -47,6 +47,7 @@ A content authoring and testing tool that runs **only on the author's machine**,
 - Validate JSON: duplicate IDs, broken event links, missing assets, and Flow errors (unconnected choices) and warnings (unreachable cards, possible dead ends).
 - Save JSON directly to the content files in `public/content-v2` — no manual import/export.
 - List every flag with where it is set and checked.
+- Proofread events in the Player scene: step through them by time, ID, or file order, and edit titles, lines, choice text, stat changes, and the selection mode beside the scene.
 - Game settings: loan rate and days per period, stat modifiers, stat endings, and per-period stat changes.
 
 See [`docs/STORY-AUTHORING.md`](docs/STORY-AUTHORING.md) for how to write events and build the flow.
