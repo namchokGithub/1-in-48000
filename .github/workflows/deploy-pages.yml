@@ -1,0 +1,60 @@
+# Deploys the Player to GitHub Pages when `production` changes, for example
+# when a pull request is merged into it. Protect `production` so it only takes
+# merged pull requests, and limit the `github-pages` environment to it.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [production]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm test
+
+      - name: Build the Player
+        run: pnpm build
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+
+      # Reference images and macOS files are not part of the game.
+      - name: Drop files the site does not use
+        run: |
+          rm -rf dist/assets/templates
+          find dist -name '.DS_Store' -delete
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

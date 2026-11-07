@@ -67,7 +67,7 @@ See [`docs/STORY-AUTHORING.md`](docs/STORY-AUTHORING.md) for how to write events
 | BO                 | React, sharing schemas and logic with the game |
 | Tests              | Vitest                                         |
 | Package manager    | pnpm                                           |
-| Hosting            | Cloudflare Pages                               |
+| Hosting            | GitHub Pages (deploys from `production`)       |
 
 ## Data Model
 
@@ -117,8 +117,10 @@ The home page footer links to GitHub, where players with a GitHub account can re
 ## Content Publishing
 
 ```
-Edit in BO → Save JSON → git push → Cloudflare Pages auto-deploys → Player loads the new JSON
+Edit in BO → Save JSON → commit to main → merge into production → GitHub Actions deploys → Player loads the new JSON
 ```
+
+`.github/workflows/deploy-pages.yml` runs lint, tests, and a build with base `/1-in-48000/`, then publishes to `https://namchokgithub.github.io/1-in-48000/`. It runs only when `production` changes. In the repository settings, set Pages → Source to GitHub Actions, limit the `github-pages` environment to `production`, and protect `production` so it only takes merged pull requests. Content and asset paths such as `/assets/scene/x.png` stay root-relative in JSON; the Player resolves them against the deploy base (`src/shared/publicUrl.ts`).
 
 ## Saves and Backups
 

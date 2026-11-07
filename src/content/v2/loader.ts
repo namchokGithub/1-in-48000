@@ -1,9 +1,10 @@
 import { v2ContentSchema, type V2Content } from './schema'
+import { publicUrl } from '../../shared/publicUrl'
 
 type ReadJson = (path: string) => Promise<unknown>
 
 async function fetchJson(path: string): Promise<unknown> {
-  const response = await fetch(path)
+  const response = await fetch(publicUrl(path))
   if (!response.ok) throw new Error(`Cannot load content: ${path}`)
   return response.json()
 }

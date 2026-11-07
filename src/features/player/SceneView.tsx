@@ -23,6 +23,7 @@ import { lineSpeaker } from '../../content/v2/lineSpeaker'
 import { EffectList } from './ui/EffectList'
 import { PlayerCheckbox } from './ui/PlayerCheckbox'
 import { PlayerSelect } from './ui/PlayerSelect'
+import { publicUrl } from '../../shared/publicUrl'
 
 type Props = {
   event: V2Event
@@ -110,7 +111,7 @@ export function SceneView({
     event.outfit,
   )
   const portraits = scenePortraits({
-    speakerPath: portraitAsset?.path,
+    speakerPath: portraitAsset && publicUrl(portraitAsset.path),
     speakerIsNarrator: speaker?.isNarrator === true,
     playerPath: playerPortrait,
     hidePlayer: event.hidePlayer === true,
@@ -313,7 +314,7 @@ export function SceneView({
               <img
                 className="scene-image"
                 data-fade={fadeScene || undefined}
-                src={sceneAsset.path}
+                src={publicUrl(sceneAsset.path)}
                 alt=""
               />
             )}

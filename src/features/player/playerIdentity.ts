@@ -1,4 +1,5 @@
 import { V2_DEFAULT_OUTFIT, type V2Outfit } from '../../content/v2/schema'
+import { publicUrl } from '../../shared/publicUrl'
 
 type NamedPortrait = {
   id: string
@@ -15,9 +16,10 @@ export function playerPortraitPath(
   const portraitId = names.find((name) => name.id === nameId)?.portraits?.[
     outfit
   ]
-  return assets.find(
+  const path = assets.find(
     (asset) => asset.id === portraitId && asset.kind === 'portrait',
   )?.path
+  return path && publicUrl(path)
 }
 
 type Named = { id: string; name: string }

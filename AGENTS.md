@@ -4,30 +4,30 @@ Instructions for AI coding agents working in the 1-in-48000 ("1 ใน 48,000") 
 
 ## Project Summary
 
-"1 ใน 48,000" is a choice-based university life simulation set in Thailand. The player lives one student's life from enrollment to graduation (Year 1–4, by term, with semester breaks and summer sessions) at a fictional university, **ม.บารพู**, inspired by Thai campus life.
+"1 ใน 48,000" is a choice-based university life simulation set in Thailand. The player lives one student's life from enrollment to graduation (Year 1–8, by term, with semester breaks and summer sessions) at a fictional university, **ม.บารพู**, inspired by Thai campus life.
 
 - One playthrough takes about 10–20 minutes. Multiple endings; replayable.
 - Story structure: **shared main line + side branches that merge back**. Every player meets the same key events (e.g. exams), but who helps and the outcome differ based on earlier choices.
 - Two pages:
-  - **Player** — the public game, deployed to Cloudflare Pages.
+  - **Player** — the public game, deployed to GitHub Pages from the `production` branch.
   - **BO (Back Office)** — a content authoring and testing tool that runs only on the author's machine. It is not part of the public site.
 - Requirements source: `docs/REQUIREMENT.md`.
 
 ## Tech Stack (quick reference)
 
-| Area               | Choice                                               |
-| ------------------ | ---------------------------------------------------- |
-| Frontend           | React + Vite + TypeScript                            |
-| Styling            | Tailwind CSS                                         |
-| State / Save       | Zustand + localStorage (save slot and settings)      |
-| Game logic         | Plain TypeScript, separate from UI                   |
-| Content validation | Zod (shared schema for Player and BO)                |
-| Graphics           | Pixel art as WebP/PNG + CSS animation                |
-| Audio              | Howler.js (looping BGM, fade, music on/off settings) |
-| BO Flow board      | @xyflow/react (React Flow)                           |
-| Tests              | Vitest                                               |
-| Package manager    | pnpm                                                 |
-| Hosting            | Cloudflare Pages (auto-deploy from GitHub on push)   |
+| Area               | Choice                                                |
+| ------------------ | ----------------------------------------------------- |
+| Frontend           | React + Vite + TypeScript                             |
+| Styling            | Tailwind CSS                                          |
+| State / Save       | Zustand + localStorage (save slot and settings)       |
+| Game logic         | Plain TypeScript, separate from UI                    |
+| Content validation | Zod (shared schema for Player and BO)                 |
+| Graphics           | Pixel art as WebP/PNG + CSS animation                 |
+| Audio              | Howler.js (looping BGM, fade, music on/off settings)  |
+| BO Flow board      | @xyflow/react (React Flow)                            |
+| Tests              | Vitest                                                |
+| Package manager    | pnpm                                                  |
+| Hosting            | GitHub Pages (GitHub Actions on push to `production`) |
 
 No game engine. React is enough for scene images that change per event.
 

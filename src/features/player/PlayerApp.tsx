@@ -29,6 +29,7 @@ import { EndingView } from './EndingView'
 import { SceneView } from './SceneView'
 import { playerPortraitPath, playerProgram } from './playerIdentity'
 import homeArt from './assets/home-campus.png'
+import { publicUrl } from '../../shared/publicUrl'
 
 // GitHub's template chooser: bug and typo issue forms, plus a link to
 // Discussions for story suggestions (see .github/ISSUE_TEMPLATE).
@@ -385,11 +386,12 @@ function PlayerShell({
         <main id="player-content">{body}</main>
         {showGuide && (
           <PlayerGuideDialog
-            mascotPath={
-              content.assets.find(
+            mascotPath={(() => {
+              const path = content.assets.find(
                 (asset) => asset.id === 'narrator' && asset.kind === 'portrait',
               )?.path
-            }
+              return path && publicUrl(path)
+            })()}
             onClose={() => setShowGuide(false)}
           />
         )}

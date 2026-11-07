@@ -1,5 +1,6 @@
 import { Howl } from 'howler'
 import type { V2Content } from '../content/v2/schema'
+import { publicUrl } from './publicUrl'
 
 type SoundOptions = { src: string[]; loop: boolean; volume: number }
 type Sound = {
@@ -39,7 +40,11 @@ export function createAudioController(
     if (track?.id === asset?.id) return
     fadeOut()
     if (!asset) return
-    const sound = createSound({ src: [asset.path], loop: true, volume: 0 })
+    const sound = createSound({
+      src: [publicUrl(asset.path)],
+      loop: true,
+      volume: 0,
+    })
     track = { id: asset.id, sound }
     sound.play()
     sound.fade(0, volume, FADE_MS)
