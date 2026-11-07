@@ -30,6 +30,11 @@ import { SceneView } from './SceneView'
 import { playerPortraitPath, playerProgram } from './playerIdentity'
 import homeArt from './assets/home-campus.png'
 
+// GitHub's template chooser: bug and typo issue forms, plus a link to
+// Discussions for story suggestions (see .github/ISSUE_TEMPLATE).
+const feedbackUrl =
+  'https://github.com/namchokGithub/1-in-48000/issues/new/choose'
+
 type View = 'home' | 'create' | 'play' | 'ending'
 
 function currentEventOrNull(content: V2Content, save: V2PlayerSave) {
@@ -405,6 +410,19 @@ function PlayerShell({
           สร้างขึ้นเพื่อความบันเทิงเท่านั้น · เนื้อหาเป็นเรื่องสมมติ
           <br />
           ไม่ได้มีเจตนาพาดพิงหรือทำให้เข้าใจผิดเกี่ยวกับบุคคลและสถานที่จริง
+          {view === 'home' && (
+            <>
+              <br />
+              <a
+                className="player-footer-link"
+                href={feedbackUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                แจ้งปัญหา / เสนอเรื่องราว (GitHub)
+              </a>
+            </>
+          )}
         </footer>
       </div>
     </div>

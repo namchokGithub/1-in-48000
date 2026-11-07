@@ -1,0 +1,51 @@
+name: แจ้งบั๊ก (Bug Report)
+description: เกมทำงานผิดปกติ เช่น กดตัวเลือกแล้วเกมค้าง หรือหน้าจอแสดงผลผิด
+title: '[Bug] '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ขอบคุณที่ช่วยแจ้งปัญหา ข้อความนี้เป็นสาธารณะ กรุณาอย่าใส่ข้อมูลส่วนตัว
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: เกิดอะไรขึ้น
+      description: เล่าสิ่งที่เห็น และสิ่งที่ควรจะเป็น
+      placeholder: กดตัวเลือก "ไปห้องสมุด" แล้วหน้าจอค้าง กดอะไรต่อไม่ได้
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: ขั้นตอนที่ทำให้เกิดปัญหา
+      placeholder: |
+        1. เริ่มเกมใหม่ เลือกคณะ...
+        2. เล่นจนถึง...
+        3. กด...
+  - type: input
+    id: where
+    attributes:
+      label: เจอที่ไหนในเกม
+      description: ชื่อเหตุการณ์ หรือปีและเทอมที่เจอ
+      placeholder: ปี 1 · เทอม 1 เหตุการณ์ "คาบเรียนแรก"
+  - type: dropdown
+    id: device
+    attributes:
+      label: อุปกรณ์
+      options:
+        - มือถือ
+        - แท็บเล็ต
+        - คอมพิวเตอร์
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: เบราว์เซอร์
+      placeholder: Chrome, Safari, Edge...
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: ภาพหน้าจอ
+      description: ลากรูปมาวางในช่องนี้ได้

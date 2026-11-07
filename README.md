@@ -96,6 +96,16 @@ The content in `public/content-v2` has 319 events, 40 pixel scenes, 25 portraits
 
 The game has no accounts and no server. The save, theme, and music settings are kept only in your browser's localStorage. The page loads the Noto Sans Thai font from Google Fonts.
 
+## Feedback
+
+The home page footer links to GitHub, where players with a GitHub account can report problems or suggest stories. The game sends nothing with the link. Issues and Discussions are public.
+
+| Type             | Example                                 | Channel                                  |
+| ---------------- | --------------------------------------- | ---------------------------------------- |
+| Bug Report       | The game freezes after picking a choice | Issues (`bug_report.yml`)                |
+| Typo / Wording   | A line reads oddly or has a typo        | Issues (`typo_report.yml`)               |
+| Story Suggestion | Add an event about failing a course     | Discussions (Story Suggestions category) |
+
 ## Credits
 
 - **Music:** Kanto Daydream by [Turning_Pages](https://pixabay.com/users/turning_pages-50915814/) (Pixabay), used as the sample background music.

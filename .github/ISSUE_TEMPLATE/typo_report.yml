@@ -1,0 +1,27 @@
+name: แจ้งคำผิด / ถ้อยคำ (Typo / Wording)
+description: ประโยคอ่านแล้วแปลก หรือมีคำผิด
+title: '[Typo] '
+labels: ['typo']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ขอบคุณที่ช่วยเกลาเนื้อเรื่อง ข้อความนี้เป็นสาธารณะ กรุณาอย่าใส่ข้อมูลส่วนตัว
+  - type: textarea
+    id: current-text
+    attributes:
+      label: ข้อความที่เห็นในเกม
+      description: คัดลอกประโยคที่ผิดหรืออ่านแล้วแปลก
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: ควรเป็นแบบไหน
+      description: ถ้ามีคำที่อยากเสนอ ใส่ได้เลย
+  - type: input
+    id: where
+    attributes:
+      label: เจอที่ไหนในเกม
+      description: ชื่อเหตุการณ์ หรือปีและเทอมที่เจอ
+      placeholder: ปี 2 · ปิดเทอม เหตุการณ์ "ไฟล์สรุปที่มีคนช่วยเติม"

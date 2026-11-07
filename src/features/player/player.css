@@ -1728,3 +1728,14 @@
     animation: none;
   }
 }
+.player-footer-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding-block: 0.35rem;
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.player-footer-link:hover {
+  color: var(--color-ink);
+}
