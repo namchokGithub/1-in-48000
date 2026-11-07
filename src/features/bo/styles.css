@@ -1863,7 +1863,7 @@ dialog {
 .bo-proofread-nav {
   grid-area: nav;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.75rem;
   padding: 0.6rem 0.75rem;
@@ -1939,4 +1939,48 @@ dialog {
   grid-template-columns: minmax(0, 1fr) 6rem auto;
   align-items: center;
   gap: 0.5rem;
+}
+/* The edit panel can be hidden so the scene takes the full width. */
+.bo-proofread-editor[hidden] {
+  display: none;
+}
+.bo-proofread-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+@media (min-width: 1500px) {
+  .bo-proofread[data-editor='closed'] {
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    grid-template-areas:
+      'list nav'
+      'list scene';
+  }
+}
+/* The event list can be hidden too; previous and next still work. */
+.bo-proofread > .bo-sidebar[hidden] {
+  display: none;
+}
+@media (min-width: 900px) {
+  .bo-proofread[data-list='closed'] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'nav'
+      'scene'
+      'editor';
+  }
+}
+@media (min-width: 1500px) {
+  .bo-proofread[data-list='closed'][data-editor='open'] {
+    grid-template-columns: minmax(0, 1.7fr) minmax(20rem, 1fr);
+    grid-template-areas:
+      'nav nav'
+      'scene editor';
+  }
+  .bo-proofread[data-list='closed'][data-editor='closed'] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'nav'
+      'scene';
+  }
 }

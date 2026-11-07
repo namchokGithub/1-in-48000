@@ -1,3 +1,9 @@
+import {
+  PanelLeftClose,
+  PanelLeftOpen,
+  PanelRightClose,
+  PanelRightOpen,
+} from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import type { V2Content, V2Event } from '../../content/v2/schema'
 import { getV2LastRecaps } from '../../engine/v2/game'
@@ -53,6 +59,8 @@ export function ProofreadPanel({
   const [sort, setSort] = useState<ProofreadSort>('time')
   const [selected, setSelected] = useState(-1)
   const [lineIndex, setLineIndex] = useState(0)
+  const [editorOpen, setEditorOpen] = useState(true)
+  const [listOpen, setListOpen] = useState(true)
 
   const usedEvents = useMemo(
     () => usedEventIds(draft.flow, draft.events),
@@ -83,7 +91,7 @@ export function ProofreadPanel({
       const target = keyEvent.target as HTMLElement | null
       if (
         target?.closest(
-          'input, textarea, select, [contenteditable], [role="listbox"]',
+          'input, textarea, select, [contenteditable], [role="listbox"], [role="combobox"]',
         )
       )
         return
@@ -131,8 +139,17 @@ export function ProofreadPanel({
   const fixedSelection = selection === 'program' || selection === 'elective'
 
   return (
-    <div className="bo-proofread mt-3">
-      <aside className="panel bo-sidebar" aria-label="รายการเหตุการณ์">
+    <div
+      className="bo-proofread mt-3"
+      data-editor={editorOpen ? 'open' : 'closed'}
+      data-list={listOpen || !event ? 'open' : 'closed'}
+    >
+      <aside
+        id="bo-proofread-list"
+        className="panel bo-sidebar"
+        aria-label="รายการเหตุการณ์"
+        hidden={!listOpen && Boolean(event)}
+      >
         <div className="bo-section-heading">
           <h2 className="font-extrabold">ตรวจข้อความ</h2>
         </div>
@@ -188,12 +205,27 @@ export function ProofreadPanel({
           <div className="bo-proofread-nav panel">
             <button
               type="button"
+              className="button button-secondary bo-proofread-toggle"
+              aria-pressed={listOpen}
+              aria-controls="bo-proofread-list"
+              onClick={() => setListOpen((open) => !open)}
+              title={listOpen ? 'ซ่อนแผงค้นหา' : 'แสดงแผงค้นหา'}
+            >
+              {listOpen ? (
+                <PanelLeftClose aria-hidden="true" size={18} />
+              ) : (
+                <PanelLeftOpen aria-hidden="true" size={18} />
+              )}
+              {listOpen ? 'ซ่อนแผงค้นหา' : 'แสดงแผงค้นหา'}
+            </button>
+            <button
+              type="button"
               className="button button-secondary"
               disabled={previous < 0}
               onClick={() => select(previous)}
               title="กด ← เพื่อไปก่อนหน้า"
             >
-              ← ก่อนหน้า
+              <kbd className="bo-simulation-kbd">←</kbd> ก่อนหน้า
             </button>
             <div className="min-w-0 text-center">
               <p className="truncate font-extrabold">{event.title}</p>
@@ -208,7 +240,22 @@ export function ProofreadPanel({
               onClick={() => select(next)}
               title="กด → เพื่อไปถัดไป"
             >
-              ถัดไป →
+              ถัดไป <kbd className="bo-simulation-kbd">→</kbd>
+            </button>
+            <button
+              type="button"
+              className="button button-secondary bo-proofread-toggle"
+              aria-pressed={editorOpen}
+              aria-controls="bo-proofread-editor"
+              onClick={() => setEditorOpen((open) => !open)}
+              title={editorOpen ? 'ซ่อนแผงแก้ไข' : 'แสดงแผงแก้ไข'}
+            >
+              {editorOpen ? (
+                <PanelRightClose aria-hidden="true" size={18} />
+              ) : (
+                <PanelRightOpen aria-hidden="true" size={18} />
+              )}
+              {editorOpen ? 'ซ่อนแผงแก้ไข' : 'แสดงแผงแก้ไข'}
             </button>
           </div>
 
@@ -244,8 +291,10 @@ export function ProofreadPanel({
           </div>
 
           <section
+            id="bo-proofread-editor"
             className="panel bo-proofread-editor bo-stack"
             aria-label="แก้ข้อความและค่าสถานะ"
+            hidden={!editorOpen}
           >
             <div className="bo-section-heading">
               <h3 className="font-extrabold">แก้ไข</h3>
